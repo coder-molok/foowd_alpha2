@@ -1,13 +1,13 @@
 # Tutorial Per sviluppatori
 
-
-# Installazione Ambiente per sviluppo api_offerte 
-
 ## Prerquisiti
 
 * php 5.4
 * git command line client  ([Windows Link](http://git-scm.com/download/win) )
 * apache server
+* mysql server
+
+# Installazione Ambiente per sviluppo api_offerte 
 
 
 ## Clone dle repository 
@@ -43,8 +43,21 @@ Dovrebbe partire un programma di installazione che crea nella cartella una carte
 
 A questo punto dovrebbe essere sufficiente copiare la cartella `api_offerte` nell'apache `htdocs`
 
+Per verificare il funzionamento di SLIM andare al link 
+
+	http://localhost/api_offerte/hello/pippo
+
+Dovrebbe apparire una pagina con scritto solo `Hello, pippo`
+
 
 # Installazione Elgg
+
+
+Seguire le indicazioni del tutorial [ufficiale](http://learn.elgg.org/en/latest/intro/install.html) creando prima il database vuoto per elgg in mysql
+
+
+
+
 
 
 # installazione Ambiente per sviluppo Elgg
