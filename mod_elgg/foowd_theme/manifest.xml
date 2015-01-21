@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin_manifest xmlns="http://www.elgg.org/plugin_manifest/1.8">
+    <name>Foowd Theme</name>
+    <id>foowd_theme</id>
+    <author>Marco Predari</author>
+    <version>1.0</version>
+    <description>Prova del tema foowd</description>
+
+    <requires>
+        <type>elgg_release</type>
+        <version>1.9</version>
+    </requires>
+</plugin_manifest>
