@@ -39,15 +39,76 @@ Entrare nella cartella `<workspace>/foowd_alpha2/api_offerte/` e lancuiare il co
 
 Dovrebbe partire un programma di installazione che crea nella cartella una cartella `vendor/` con tutte le dipendenze.
 
-## Prova su apache 
+## Installazione e Configurazione Propel
+
+Per gestire le operazioni di scrittura e lettura dal database in PHP ho deciso di utilizzare l'ORM `Propel`.
+Questo framework permette di scrivere velocemente tutto il codice PHP per relazionarsi con il database.
+
+In particolare propone anche una serie di tool per creare automaticamente a partire da una descrizione delle tue tabelle 
+sia l'sql per creare le tabelle nel DB sia il codice PHP corrispondente per maneggiarle.
+
+Vedi [Tutorial](http://propelorm.org/documentation/02-buildtime.html)
+
+Nella cartella versionata ho gia inserito i due file per la connessione e lo `schema.xml` che chiaramente andra aggiornandosi.
+
+Per prima cosa è necessario quando si lavora poter richiamare lo scrip `propel` da qualsiasi directory quindi è comodo mettere nella variabile di ambiente  PATH
+
+ `<workspace>/foowd_alpha2/api_offerte/vendor/propel/propel/bin/`
+
+Questa cartella dovrebbe esistere se finito correttamente passo precedente. 
+
+
+Poi è necessario creare su Mysql un database  `foowd_api` dando tutti i permessi a `foowd` con psw `mangioBENE`
+
+	create database foowd_api
+	GRANT ALL ON foowd_api TO 'foowd'@'localhost' IDENTIFIED BY 'mangioBENE'
+
+A questo punto possiamo prima di tutto creare gli script `sql` lanciando da  `<workspace>/foowd_alpha2/api_offerte/`
+
+	propel sql:build
+
+questo dovrebbe creare una cartella `created-sql\ ` con all interno gli script per generare il database.
+con 	
+	propel sql:insert
+
+se tutto è ok dovrebbero generarsi le tabelle.
+
+
+Poi è possibile creare le classi vere e proprie.
+	
+	propel model:build
+
+che crea la cartella `generated-classes`
+
+
+Infine è necessare creare lo script di configurazione
+
+	propel config:convert
+
+che crea la cartella `generated-config`
+
+
+Il file `index.php` richiama per funzionare il codice cosi generato.
+
+
+
+## Testare funzionamento 
 
 A questo punto dovrebbe essere sufficiente copiare la cartella `api_offerte` nell'apache `htdocs`
 
 Per verificare il funzionamento di SLIM andare al link 
 
-	http://localhost/api_offerte/hello/pippo
+	http://localhost/api_offerte/
 
-Dovrebbe apparire una pagina con scritto solo `Hello, pippo`
+Dovrebbe apparire una pagina di test con un pulsante per creare delle offerte random, e un link per vedere il json di tutte le offerte. 
+
+## Ricapitolando
+
+Al momento per il modulo api_offerte ho scelto di usare
+
+* SLIM per la gestione delle chiamate REST
+* Propel come ORM
+* Composer per il build e il caricamento delle librerie
 
 
 # Installazione Elgg
