@@ -13,6 +13,7 @@
 
 require 'vendor/autoload.php';
 
+require_once  'generated-conf/config.php'
 /**
  * Step 2: Instantiate a Slim application
  *

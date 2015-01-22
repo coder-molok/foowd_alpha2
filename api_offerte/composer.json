@@ -3,5 +3,8 @@
         	"propel/propel": "~2.0@dev",
         	"slim/slim": "2.*"
     	}
+	"autoload": {
+	    "classmap": ["generated-classes/"]
+	}
 
 }	

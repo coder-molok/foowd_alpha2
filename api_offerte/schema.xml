@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="foowd_api" defaultIdMethod="native">	
+	  <table name="offer" phpName="Offer">
+  		<column name="id" phpName="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+    		<column name="name" phpName="name" type="VARCHAR" size="255" required="true" />
+		<column name="description" phpName="description" type="VARCHAR" size="255" required="false" />
+    		<column name="publisher" phpName="publisher" type="INTEGER" required="true"/>
+    		<column name="price" phpName="price" type="DECIMAL" phpType="double" required="false"/>
+    		<column name="minqt" phpName="minqt" type="DECIMAL" phpType="double" required="false"/>
+    		<column name="maxqt" phpName="maxqt" type="DECIMAL" phpType="double" required="false"/>
+    		<column name="created" phpName="created" type="TIMESTAMP"  required="false"/>
+    		<column name="modified" phpName="modified" type="TIMESTAMP"  required="false"/>
+	  </table>
+
+</database>
