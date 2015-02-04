@@ -46,6 +46,7 @@ $app->get('/offers', function () {
 
 	foreach ($offers as $off){
 		echo $off->toJson();
+	
 	}
 
 });
