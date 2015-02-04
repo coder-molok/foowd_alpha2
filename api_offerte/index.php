@@ -57,16 +57,15 @@ $app->get('/offers', function () {
 
 //Crea offerta 
 //Per ora 
-$app->post('/offers', function () {
+$app->post('/offers', function () use ($app) {
     //Create book
 	$offer = new Offer();
-	$num = rand(0, 1000);
-	$offer->setName('test'+$num);
-	$offer->setPrice($num);
+	$offer->setName($app->request->post('name'));
+	$offer->setPrice(floatval($app->request->post('price')));
 	$offer->setPublisher(0);
 	$offer->save();
 
-	echo "Creata";
+	echo "Creata ".$app->request->post('name');
 });
 
 
@@ -128,10 +127,17 @@ $app->get(
                        </header>
             <h1>Api offerte test page</h1>
 			<form action="/api_offerte/offers" method="POST">
-			<input type="submit" value="Crea offerta random" >
+
+			<label for="name">Name</label>
+			<input id="name" type="text" name="name" />
+						
+			<label for="price">Prezzo</label>
+			<input id="price"  name="price" pattern="(\d{3})(\,)(\d{2})"/>
+
+			<input type="submit" value="Crea Offerta" >
 		</input> 
-			<a href="/api_offerte/offers" >Mostra Tutte</a>
 		</form>
+			<a href="/api_offerte/offers" >Mostra Tutte</a>
 
         </body>
     </html>
