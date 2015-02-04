@@ -22,7 +22,7 @@ a questo punto avrai  nella cartella `foowd_alpha2` un clone del repository.
 
 ## Configurazione Apache
 
-Per il funzionameno di Slim è necessario attivare il module Rewrite. 
+Per il funzionameno di Slim Ã¨ necessario attivare il module Rewrite. 
 
 Vedi [tutorial](http://www.webdevdoor.com/php/mod_rewrite-windows-apache-url-rewriting/)
 
@@ -51,14 +51,14 @@ Vedi [Tutorial](http://propelorm.org/documentation/02-buildtime.html)
 
 Nella cartella versionata ho gia inserito i due file per la connessione e lo `schema.xml` che chiaramente andra aggiornandosi.
 
-Per prima cosa è necessario quando si lavora poter richiamare lo scrip `propel` da qualsiasi directory quindi è comodo mettere nella variabile di ambiente  PATH
+Per prima cosa Ã¨ necessario quando si lavora poter richiamare lo scrip `propel` da qualsiasi directory quindi Ã¨ comodo mettere nella variabile di ambiente  PATH
 
  `<workspace>/foowd_alpha2/api_offerte/vendor/propel/propel/bin/`
 
 Questa cartella dovrebbe esistere se finito correttamente passo precedente. 
 
 
-Poi è necessario creare su Mysql un database  `foowd_api` dando tutti i permessi a `foowd` con psw `mangioBENE`
+Poi Ã¨ necessario creare su Mysql un database  `foowd_api` dando tutti i permessi a `foowd` con psw `mangioBENE`
 
 	create database foowd_api
 	GRANT ALL ON foowd_api TO 'foowd'@'localhost' IDENTIFIED BY 'mangioBENE'
@@ -71,17 +71,17 @@ questo dovrebbe creare una cartella `created-sql\ ` con all interno gli script p
 con 	
 	propel sql:insert
 
-se tutto è ok dovrebbero generarsi le tabelle.
+se tutto Ã¨ ok dovrebbero generarsi le tabelle.
 
 
-Poi è possibile creare le classi vere e proprie.
+Poi Ã¨ possibile creare le classi vere e proprie.
 	
 	propel model:build
 
 che crea la cartella `generated-classes`
 
 
-Infine è necessare creare lo script di configurazione
+Infine Ã¨ necessare creare lo script di configurazione
 
 	propel config:convert
 
@@ -118,7 +118,13 @@ Seguire le indicazioni del tutorial [ufficiale](http://learn.elgg.org/en/latest/
 
 
 
-
-
-
 # installazione Ambiente per sviluppo Elgg
+
+
+# Installazione Aptana
+
+Per lo sviluppo sia della parte offerte sia della parte elgg consiglio [Aptana](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&uact=8&ved=0CCYQjBAwAQ&url=http%3A%2F%2Fwww.aptana.com%2Fproducts%2Fstudio3%2Fdownload.html&ei=F2zRVLeFFM_gao7pgtAP&usg=AFQjCNFwqD4EHGmRf4gh1vER5GUE-aO4mg&sig2=sw2OZbG1KhhYA8Krrbck6A&bvm=bv.85142067,bs.1,d.bGQ)
+
+## Installare Aptana
+## Scaricare repository
+## Settare project transfer
