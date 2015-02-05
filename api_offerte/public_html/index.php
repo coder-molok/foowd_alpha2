@@ -11,10 +11,10 @@
 
 #\Slim\Slim::registerAutoloader();
 
-require 'vendor/autoload.php';
+require '../app/vendor/autoload.php';
 
 
-require_once  'generated-conf/config.php';
+require_once  '../app/generated-conf/config.php';
 /**
  * Step 2: Instantiate a Slim application
  *
