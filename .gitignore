@@ -1,1 +1,9 @@
 .project
+api_offerte/app/generated-classes/Base
+api_offerte/app/generated-classes/Map
+api_offerte/app/generated-classes/Offer.php
+api_offerte/app/generated-classes/OfferQuery.php
+api_offerte/app/generated-conf
+api_offerte/app/generated-sql
+api_offerte/app/composer.lock
+api_offerte/app/generated-classes

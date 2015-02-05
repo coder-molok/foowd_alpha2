@@ -31,11 +31,16 @@ Vedi [tutorial](http://www.webdevdoor.com/php/mod_rewrite-windows-apache-url-rew
 
 per gestire le dipendenze ho usato [composer](https://getcomposer.org/).
 
-Scaricare ed installare [Composer-Setup.exe](https://getcomposer.org/Composer-Setup.exe) 
+E' necessario installare un piccolo script queste le [info complete](https://getcomposer.org/doc/00-intro.md)
+
+In breve su windows scaricare ed installare [Composer-Setup.exe](https://getcomposer.org/Composer-Setup.exe) 
 
 
-Entrare nella cartella `<workspace>/foowd_alpha2/api_offerte/` e lancuiare il comando 
-`composer install`
+Entrare nella cartella `<workspace>/foowd_alpha2/api_offerte/app/` e lancuiare su linux il comando 
+
+	 composer install
+
+
 
 Dovrebbe partire un programma di installazione che crea nella cartella una cartella `vendor/` con tutte le dipendenze.
 
@@ -53,7 +58,7 @@ Nella cartella versionata ho gia inserito i due file per la connessione e lo `sc
 
 Per prima cosa è necessario quando si lavora poter richiamare lo scrip `propel` da qualsiasi directory quindi è comodo mettere nella variabile di ambiente  PATH
 
- `<workspace>/foowd_alpha2/api_offerte/vendor/propel/propel/bin/`
+ `<workspace>/foowd_alpha2/api_offerte/app/vendor/propel/propel/bin/`
 
 Questa cartella dovrebbe esistere se finito correttamente passo precedente. 
 
@@ -98,7 +103,7 @@ A questo punto dovrebbe essere sufficiente copiare la cartella `api_offerte` nel
 
 Per verificare il funzionamento di SLIM andare al link 
 
-	http://localhost/api_offerte/
+	http://localhost/api_offerte/public_html/
 
 Dovrebbe apparire una pagina di test con un pulsante per creare delle offerte random, e un link per vedere il json di tutte le offerte. 
 
