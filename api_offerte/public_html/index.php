@@ -127,7 +127,7 @@ $app->get(
             <header>
                        </header>
             <h1>Api offerte test page</h1>
-			<form action="/api_offerte/offers" method="POST">
+			<form action="/api_offerte/public_html/offers" method="POST">
 
 			<label for="name">Name</label>
 			<input id="name" type="text" name="name" />
@@ -138,7 +138,7 @@ $app->get(
 			<input type="submit" value="Crea Offerta" >
 		</input> 
 		</form>
-			<a href="/api_offerte/offers" >Mostra Tutte</a>
+			<a href="/api_offerte/public_html/offers" >Mostra Tutte</a>
 
         </body>
     </html>
