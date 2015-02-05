@@ -1,5 +1,4 @@
 test/
-.project
 api_offerte/app/generated-classes/Base
 api_offerte/app/generated-classes/Map
 api_offerte/app/generated-classes/Offer.php
