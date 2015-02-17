@@ -6,10 +6,12 @@ $app->get('/offers', function () {
  		->orderByName()
   		->find();
 
-	foreach ($offers as $off){
-		echo $off->toJson();
 	
-	}
+    $offerArray = array();
+    foreach($offers as $offer){
+      array_push($offerArray, $offer->toArray());
+    }
+    echo json_encode($offerArray);
 
 });
 
