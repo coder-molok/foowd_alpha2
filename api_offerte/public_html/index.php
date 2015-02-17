@@ -104,10 +104,12 @@ $app->get(
 			<form action="/api_offerte/public_html/offers" method="POST">
 
 			<label for="name">Name</label>
+			<br/>
 			<input id="name" type="text" name="name" />
+			<br/>
 						
-			<label for="price">Prezzo</label>
-			<input id="price"  name="price" pattern="(\d{3})(\,)(\d{2})"/>
+			<label for="price">Prezzo aggiungere sempre  i centesimi es 10,00</label>
+			<input id="price"  name="price" pattern="(\d{1,3})(\,)(\d{2})"/>
 
 			<input type="submit" value="Crea Offerta" >
 		</input> 
