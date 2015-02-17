@@ -1,0 +1,1 @@
+Plug in per visualizzazione e ricerca offerte da elgg 

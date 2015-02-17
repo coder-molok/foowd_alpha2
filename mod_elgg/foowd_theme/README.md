@@ -1,0 +1,1 @@
+Plug in per la personalizzazione grafica
