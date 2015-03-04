@@ -10,7 +10,7 @@
 # Installazione Ambiente per sviluppo api_offerte 
 
 
-## Clone dle repository 
+## Clone del repository 
 
 Dalla tua  cartella di lavoro (una qualsiasi di vostra scelta d'ora in poi chiamo `<workspace>` ) copia  il progetto dal repository con 
 
