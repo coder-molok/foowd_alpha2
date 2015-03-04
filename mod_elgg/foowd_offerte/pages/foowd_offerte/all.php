@@ -9,16 +9,18 @@ $title = "Offerte Disponibili";
 // start building the main column of the page
 $content = elgg_view_title($title);
 
-$response = json_decode(file_get_contents('http://localhost/foowd_project/foowd_alpha2/api_offerte/public_html/offers'));
+$response = json_decode(file_get_contents('http://localhost/api_offerte/public_html/offers'),true);
 
-var_dump( $response);
+//var_dump( $response);
 
+//error_log($response);
 
 // add the form to this section
-$content .= $response;
+$content .= elgg_view('custom/offersList',array('offersList' => $response));
+
 
 // optionally, add the content for the sidebar
-$sidebar = "";
+$sidebar = "side bar";
 
 // layout the page
 $body = elgg_view_layout('one_sidebar', array(
