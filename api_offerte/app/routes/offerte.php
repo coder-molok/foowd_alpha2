@@ -1,6 +1,45 @@
 <?php
 
-$app->get('/offers', function () {
+/*
+ * API root
+ */
+$app->group('/api', function() use ($app){
+	
+	/*
+	 * This group is for version the API
+	 */
+	$app->group('/v1', function() use ($app){
+
+		/*
+ 		 * Basic CRUD for the offers
+		 */
+		$app->group('/offers',function() use ($app){
+
+			$app->get('/', function() use ($app){
+				echo 'all';
+			});
+
+			$app->get('/:id', function($id) use ($app){
+				echo $id;
+			});
+
+		});
+	
+	});
+
+});
+
+
+
+
+
+
+
+
+
+
+
+/*$app->get('/offers', function () {
 
 	$offers = OfferQuery::create()
  		->orderByName()
@@ -13,7 +52,7 @@ $app->get('/offers', function () {
     }
     echo json_encode($offerArray);
 
-});
+});*/
 
 
 
@@ -22,7 +61,7 @@ $app->get('/offers', function () {
 
 //Crea offerta 
 //Per ora 
-$app->post('/offers', function () use ($app) {
+/*$app->post('/offers', function () use ($app) {
     //Create book
 	$offer = new Offer();
 	$offer->setName($app->request->post('name'));
@@ -32,4 +71,4 @@ $app->post('/offers', function () use ($app) {
 
 	echo "Creata ".$app->request->post('name');
 });
-
+*/

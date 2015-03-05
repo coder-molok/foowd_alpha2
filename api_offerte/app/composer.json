@@ -1,7 +1,11 @@
 {
 	"require": {
+        	"slim/slim": "2.*",
+        	"slim/extras": "*",
+        	"slim/middleware": "*",
         	"propel/propel": "2.0.*@dev",
-        	"slim/slim": "2.*"
+        	"monolog/monolog": "*",
+        	"flynsarmy/slim-monolog": "*"
     	},
 	"autoload": {
 	    "classmap": ["generated-classes/"]
