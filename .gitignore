@@ -8,3 +8,7 @@ api_offerte/app/generated-sql
 api_offerte/app/composer.lock
 api_offerte/app/generated-classes
 api_offerte/app/vendor/
+
+# linee aggiunte da Simone Scardoni
+# ignoro tutte le directory dentro a /data/
+api_offerte/app/data/**/
