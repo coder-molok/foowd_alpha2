@@ -1,7 +1,10 @@
 <?php
-
+// // After instantiation
+// $log = $app->getLog();
+// $log->warning('Foo'); 
 /*
  * API root
+ * function without name and use: php closure
  */
 $app->group('/api', function() use ($app){
 	
@@ -12,15 +15,37 @@ $app->group('/api', function() use ($app){
 
 		/*
  		 * Basic CRUD for the offers
+ 		 *
+ 		 *
+ 		 * Ogni richiesta '/' richiama una specifica classe php presente in actions/.
+ 		 * Ciascuna di queste classi provvede a svolgere le operazioni opportune
+ 		 * 
 		 */
 		$app->group('/offers',function() use ($app){
 
+			// all GET routes - Read
 			$app->get('/', function() use ($app){
 				echo 'all';
 			});
 
-			$app->get('/:id', function($id) use ($app){
-				echo $id;
+			// $app->get('/:id', function($id) use ($app){
+			// 	echo $id;
+			// });
+
+			// all POST routes - Update
+			$app->post('/', function() use ($app){
+				echo 'Update';
+			});
+
+			// all PUT routes - Create
+			$app->put('/', function() use ($app){
+				$returned = new Put($app);
+			});
+
+
+			// all DELETE routes - Delete
+			$app->delete('/', function() use ($app){
+				echo 'delete';
 			});
 
 		});

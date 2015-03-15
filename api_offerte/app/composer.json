@@ -8,7 +8,9 @@
         	"flynsarmy/slim-monolog": "*"
     	},
 	"autoload": {
-	    "classmap": ["generated-classes/"]
-	}
-
+        "classmap": ["./data/generated-classes/"],
+        "psr-4" : {
+             "" : "routes/actions/"
+         }
+ 	}
 }	

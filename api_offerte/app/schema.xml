@@ -1,15 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database name="foowd_api" defaultIdMethod="native">	
-	  <table name="offer" phpName="Offer">
-  		<column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
-    		<column name="name" phpName="Name" type="VARCHAR" size="255" required="true" />
-		<column name="description" phpName="Description" type="VARCHAR" size="255" required="false" />
-    		<column name="publisher" phpName="Publisher" type="INTEGER" required="true"/>
-    		<column name="price" phpName="Price" type="DECIMAL" phpType="double" required="false"/>
-    		<column name="minqt" phpName="Minqt" type="DECIMAL" phpType="double" required="false"/>
-    		<column name="maxqt" phpName="Maxqt" type="DECIMAL" phpType="double" required="false"/>
-    		<column name="created" phpName="Created" type="TIMESTAMP"  required="false"/>
-    		<column name="modified" phpName="Modified" type="TIMESTAMP"  required="false"/>
-	  </table>
-
+	<table name="offer" phpName="Offer">
+        <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="name" phpName="Name" type="VARCHAR" size="255" required="true" />
+        <column name="description" phpName="Description" type="VARCHAR" size="255" required="false" />
+        <column name="publisher" phpName="Publisher" type="INTEGER" required="true"/>
+        <column name="price" phpName="Price" type="DECIMAL" phpType="double" required="false"/>
+        <column name="minqt" phpName="Minqt" type="DECIMAL" phpType="double" required="false"/>
+        <column name="maxqt" phpName="Maxqt" type="DECIMAL" phpType="double" required="false"/>
+        <column name="created" phpName="Created" type="TIMESTAMP"  required="false"/>
+        <column name="modified" phpName="Modified" type="TIMESTAMP"  required="false"/>
+        <!-- aggiunto -->
+        <column name="state" phpName="State" type="VARCHAR" size="1" required="false"/>
+    </table>
+    <table name="prefer" phpName="Prefer">
+        <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="userid" phpName="UserId" type="INTEGER"/>
+        <column name="offerid" phpName="OfferId" type="INTEGER"/>
+        <column name="created" phpName="Created" type="TIMESTAMP"/>
+        <column name="qt" phpName="Qt" type="INTEGER" phpType="double" required="false"/>
+        <!-- lego le chiavi -->
+        <foreign-key foreignTable="offer">
+            <reference local="offerid" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="tags" phpName="Tags">
+        <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="name" phpName="Name" type="VARCHAR" size="255" required="true" />
+    </table>
+    <!-- relazione molti a molti -->
+    <table name="offer_tags" isCrossRef="true">
+        <column name="offerid" phpName="OfferId" type="integer" primaryKey="true"/>
+        <column name="tagid" phpName="TagId" type="integer" primaryKey="true"/>
+        <foreign-key foreignTable="offer">
+            <reference local="offerid" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="tags">
+            <reference local="tagid" foreign="id"/>
+        </foreign-key>
+    </table>
 </database>
