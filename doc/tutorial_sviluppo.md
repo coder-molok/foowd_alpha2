@@ -60,6 +60,7 @@ Per prima cosa è necessario quando si lavora poter richiamare lo scrip `propel`
 
  `<workspace>/foowd_alpha2/api_offerte/app/vendor/propel/propel/bin/`
 
+
 Questa cartella dovrebbe esistere se finito correttamente passo precedente. 
 
 
@@ -68,7 +69,7 @@ Poi è necessario creare su Mysql un database  `foowd_api` dando tutti i permess
 	create database foowd_api
 	GRANT ALL ON foowd_api TO 'foowd'@'localhost' IDENTIFIED BY 'mangioBENE'
 
-A questo punto possiamo prima di tutto creare gli script `sql` lanciando da  `<workspace>/foowd_alpha2/api_offerte/`
+A questo punto possiamo prima di tutto creare gli script `sql` lanciando da  `<workspace>/foowd_alpha2/api_offerte/data/`
 
 	propel sql:build
 
