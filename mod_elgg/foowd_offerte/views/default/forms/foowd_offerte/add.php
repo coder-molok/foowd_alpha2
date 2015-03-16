@@ -5,13 +5,33 @@ $form = 'foowd_offerte/add';
 
 // utilizzo questa classe per maneggiare le variabili e lo sticky_form
 // gli Error servono per generare il messaggio di errore dentro al form
-$fadd = new \Foowd\FormAdd($vars);
+$fadd = new \Foowd\Action\FormAdd($vars);
 
+// for rapid testing
+// $api = new \Foowd\API();
+// $ar['publisher']=elgg_get_logged_in_user_guid();
+// $ar['name']="cassa di mana";
+// $ar['description']="Questo e' un prodotto da veri nerd...";
+// $ar['tags']="fantasy, adventure";
+// $ar['price']='100,59';
+// if($api){
+// 	$api->Create('offer', $ar);
+// 	$r = $api->stop();
+// 	if($r->response) var_dump($r);
+// }
+
+// var_dump($_SESSION['sticky_forms']);
+var_dump($_SESSION['my']);
+
+$fadd->createField('name', 'Offerta', 'input/text');
+$fadd->createField('description', 'Descrivi il tuo prodotto', 'input/longtext');
+$fadd->createField('price','Importo (cifre con virgola)', 'input/text');
+$fadd->createField('tags', 'Tags (singole parole separate da una virgola)', 'input/text');
 ?>
 
-<div>
-    <label><?php echo elgg_echo("titolo"); ?></label><div style="color:red"><?php echo elgg_echo($fadd->titleError);?></div><br />
-    <?php echo elgg_view('input/text',array('name' => 'title', 'value' => elgg_echo($fadd->title)) ); ?>
+<!-- <div>
+    <label><?php echo elgg_echo("Offerta"); ?></label><div style="color:red"><?php echo elgg_echo($fadd->nameError);?></div><br />
+    <?php echo elgg_view('input/text',array('name' => 'name', 'value' => elgg_echo($fadd->name)) ); ?>
 </div>
 
 <div>
@@ -20,16 +40,16 @@ $fadd = new \Foowd\FormAdd($vars);
 </div>
 
 <div>
-    <label><?php echo elgg_echo("importo"); ?></label><div style="color:red"><?php echo elgg_echo($fadd->importError);?></div><br />
-    <?php echo elgg_view('input/text',array('name' => 'import',  'maxlength' => 20, 'value' => elgg_echo($fadd->import)) ); ?>
+    <label><?php echo elgg_echo("importo"); ?></label><div style="color:red"><?php echo elgg_echo($fadd->priceError);?></div><br />
+    <?php echo elgg_view('input/text',array('name' => 'price',  'maxlength' => 20, 'value' => elgg_echo($fadd->price)) ); ?>
 </div>
 
 <div>
     <label><?php echo elgg_echo("tags"); ?></label><br />
     <?php echo elgg_view('input/tags',array('name' => 'tags', 'value' => elgg_echo($fadd->tags)) ); ?>
 </div>
+ -->
 <div>
     <?php echo elgg_view('input/submit', array('value' => elgg_echo('save'))); ?>
 </div>
-
 <?php

@@ -1,6 +1,27 @@
 <?php
-// make sure only logged in users can see this page
+// probabilmente questa dovrebbe essere pubblica...
 gatekeeper();
+
+$api = new \Foowd\API();
+if($api){
+
+	$data['publisher'] = elgg_get_logged_in_user_guid();
+	$api->Read('offer', $data);
+	$r = $api->stop();
+	//var_dump($r);
+	
+	// se sono qui la validazione lato elgg e' andata bene
+	// ma ora controllo quella lato API remote
+	$str = '';
+	if($r->response){
+		foreach($r->body as $key ){
+			$str.= 'Titolo: '.$key->name. ' Tags: '.$key->tags."\n\r<br/>";
+			$str.= '    '.$key->description. "\n\r<br/>";
+			$str.= '    '.$key->id. "\n\r<br/>";
+		}
+	}
+}
+
 
 // set the title
 // for distributed plugins, be sure to use elgg_echo() for internationalization
@@ -24,7 +45,7 @@ $sidebar = "side bar";
 
 // layout the page
 $body = elgg_view_layout('one_sidebar', array(
-   'content' => $content,
+   'content' => $content.$str,
    'sidebar' => $sidebar
 ));
 

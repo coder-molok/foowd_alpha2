@@ -3,7 +3,7 @@
 elgg_register_event_handler('init', 'system', 'offerte_init');
 
 
-$p = \Foowd\Param::apiDom();
+//$p = \Foowd\Param::apiDom();
 
 $api = get_config('ApiDom');
 

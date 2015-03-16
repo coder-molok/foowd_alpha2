@@ -9,10 +9,11 @@ $title = "Aggiungi la tua Offerta";
 // start building the main column of the page
 $content = elgg_view_title($title);
 
+//var_dump($_SESSION['sticky_forms']['foowd_offerte/add']['apiError']);
 
-$f = new \Foowd\FormAdd();
+$f = new \Foowd\Action\FormAdd();
 
-$vars = $f->prepare_form_vars();
+$vars = $f->prepare_form_vars('foowd_offerte/add');
 //$vars['titleError'] = date('Y-m-d H:i:s');
 
 $content .= elgg_view_form('foowd_offerte/add', array(), $vars);
