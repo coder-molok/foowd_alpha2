@@ -25,7 +25,7 @@ $app->group('/api', function() use ($app){
 
 			// all GET routes - Read
 			$app->get('/', function() use ($app){
-				echo 'all';
+				$returned = new Get($app);
 			});
 
 			// $app->get('/:id', function($id) use ($app){
@@ -45,7 +45,7 @@ $app->group('/api', function() use ($app){
 
 			// all DELETE routes - Delete
 			$app->delete('/', function() use ($app){
-				echo 'delete';
+				$returned = new Delete($app);
 			});
 
 		});

@@ -4,37 +4,32 @@
 namespace Foowd;
 
 
-	class FormAdd {
+abstract class Action {
 		
 		/**
 		 * variabile per associare a ogni input il messaggio predefinito
-		 * @var array
+		 *
+		 * DEVONO essere inserite nell'ordine con cui si vogliono presentare nel form
+		 * 
+		 * @var array in form $table_field => $mesage_default
 		 */
-		private $par = array(
-			'title' 		=> 'immetti titolo...',
-			'description'	=> 'inserire descrizione',
-			'tags'			=> '',
-			'import'		=> 'cifre decimali separate dalla virgola...'
-		);
+		private $par = array();
 
 		/**
 		 * variabile per associare a ogni input il messaggio di errore
 		 * @var array
 		 */
-		private $errors = array(
-			'title' 		=> 'errore nell\' immisione del titolo',
-			'description'	=> 'errore nell\' immisione della descrizione',
-			'tags'			=> '',
-			'import'		=> 'ricorda: due cifre decimali separate dalla virgola...'
-		);
+		private $errors = array();
 
 		/**
 		 * variabile per associare a ogni input la corrispettiva funzione di check
 		 * @var array
 		 */
-		private $check = array(
-			'import'		=> 'isCash'
-		);
+		private $check = array();
+
+		/**
+		 * NB: check and error should be similare in $key
+		 */
 
 		/**
 		 * variabile di stoccaccio per contenere tutti gli input e i loro valori
@@ -48,10 +43,15 @@ namespace Foowd;
 		 * costruttore
 		 * @param array $ar array del form contenente input e valori
 		 */
-		public function __construct(array $ar = null){
-			if(is_null($ar)) return;
+		public function __construct(array $childPar, array $ar = null){
+
+			// imposto i valori predefiniti della classe figlio
+			foreach ($childPar as $key => $value) {
+				$this->{$key} = $value;
+			}
 			$this->vars = $ar;
 		}
+
 
 
 		/**
@@ -60,23 +60,31 @@ namespace Foowd;
 		 * 
 		 * @return array array con tutti i valori del form
 		 */
-		public function prepare_form_vars() {
-			
+		public function prepare_form_vars(string $action) {
 			// controllo se e' uno sticky form
-			if (elgg_is_sticky_form('foowd_offerte/add')) {
+			if (elgg_is_sticky_form($action)) {
 				// ottengo tutti gli stricky value precedentemente salvati
-				$sticky_values = elgg_get_sticky_values('foowd_offerte/add');
+				$sticky_values = elgg_get_sticky_values($action);
 				foreach ($sticky_values as $key => $value) {
 					$values[$key] = $value;
 				}
 			}
 
 			// dico al sistema di scartare gli input di questo form
-			elgg_clear_sticky_form('foowd_offerte/add');
+			elgg_clear_sticky_form($action);
 
 			return $values;
 		}
 
+
+		public function createField($field, $label, $type){
+			?>
+			<div>
+			    <label><?php echo elgg_echo($label); ?></label><div style="color:red"><?php echo elgg_echo($this->{$field.'Error'});?></div><br />
+			    <?php echo elgg_view($type,array('name' => $field, 'value' => elgg_echo($this->{$field})) ); ?>
+			</div>
+			<?php
+		}
 
 		/**
 		 * creo automaticamente i membri della classe grazie all'array pubblico $var
@@ -84,7 +92,7 @@ namespace Foowd;
 		 * @param  string $name il nome del campio 
 		 * @return void       
 		 */
-		public function __get($name){
+		public function __get(string $name){
 			if(array_key_exists($name, $this->par)){
 				return elgg_extract($name, $this->vars, $this->par[$name]);
 			}else{
@@ -102,12 +110,18 @@ namespace Foowd;
 		 * @param  [type] $val [description]
 		 * @return [type]      [description]
 		 */
-		public function checkError($er, $val){
+		public function checkError($er, $val, $action){
 			if(array_key_exists($er, $this->check)){
 				$method = $this->check[$er];
 				if(!$this->$method($val))
-				$_SESSION['sticky_forms']['foowd_offerte/add'][$er.'Error']=$this->errors[$er];
+				$_SESSION['sticky_forms'][$action][$er.'Error']=$this->errors[$er];
 				return $this->$method($val);
+			}
+		}
+
+		public function addError(array $ar, $action){
+			foreach ($ar as $key ) {
+				$_SESSION['sticky_forms'][$action][$key.'Error']=$this->errors[$key];
 			}
 		}
 

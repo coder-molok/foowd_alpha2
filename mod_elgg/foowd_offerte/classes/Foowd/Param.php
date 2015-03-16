@@ -7,7 +7,7 @@ namespace Foowd;
 	class Param{
 	
 		private static $par = array(
-			'apiDom'	=> 'http://localhost/api_offerte/public_html/'
+			'apiDom'	=> 'http://localhost/api_offerte/public_html/api/v1/offers'
 		);
 	
 		public static function __callStatic($name, $arguments){
