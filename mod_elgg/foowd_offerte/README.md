@@ -55,3 +55,8 @@ Qui dentro ho configurato i page_handler.
 ### classes/
 
 Directory delle classi, in particolare per evitare conflitti ho impostato il un namespace in stile PSR.
+
+
+# Importante
+
+ogni volta che vengono create delle view e' necessario fare un **UPGRADE della cache** di Elgg, altrimenti queste non vengono registrate!!!

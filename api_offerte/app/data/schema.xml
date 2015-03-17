@@ -20,7 +20,7 @@
         <column name="created" phpName="Created" type="TIMESTAMP"/>
         <column name="qt" phpName="Qt" type="INTEGER" phpType="double" required="false"/>
         <!-- lego le chiavi -->
-        <foreign-key foreignTable="offer">
+        <foreign-key foreignTable="offer" onDelete="cascade">
             <reference local="offerid" foreign="id"/>
         </foreign-key>
     </table>
@@ -32,10 +32,11 @@
     <table name="offer_tags" isCrossRef="true">
         <column name="offerid" phpName="OfferId" type="integer" primaryKey="true"/>
         <column name="tagid" phpName="TagId" type="integer" primaryKey="true"/>
-        <foreign-key foreignTable="offer">
+        <!-- onDelete necessario per sfruttare le potenzialita' di propel  -->
+        <foreign-key foreignTable="offer" onDelete="cascade">
             <reference local="offerid" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="tags">
+        <foreign-key foreignTable="tags" onDelete="cascade">
             <reference local="tagid" foreign="id"/>
         </foreign-key>
     </table>

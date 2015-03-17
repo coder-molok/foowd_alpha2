@@ -65,6 +65,7 @@ abstract class Action {
 			if (elgg_is_sticky_form($action)) {
 				// ottengo tutti gli stricky value precedentemente salvati
 				$sticky_values = elgg_get_sticky_values($action);
+				//var_dump($sticky_values);
 				foreach ($sticky_values as $key => $value) {
 					$values[$key] = $value;
 				}
@@ -119,12 +120,29 @@ abstract class Action {
 			}
 		}
 
+		/**
+		 * Aggiungo automaticamente gli errori ritornati dalla pagina esterna API
+		 * @param array  $ar     [description]
+		 * @param [type] $action [description]
+		 */
 		public function addError(array $ar, $action){
 			foreach ($ar as $key ) {
 				$_SESSION['sticky_forms'][$action][$key.'Error']=$this->errors[$key];
 			}
 		}
 
+		/**
+		 * per modificare a mio piacimento i parametri sticky del form
+		 * @param  array  $ar     associative, $field => $value
+		 * @param  [type] $action [description]
+		 * @return [type]         [description]
+		 */
+		public function manageSticky(array $ar, $action){
+			if(!isset($_SESSION['sticky_forms'][$action])) $_SESSION['sticky_forms'][$action] = array();
+			foreach ($ar as $key => $value) {
+				$_SESSION['sticky_forms'][$action][$key]=$value;
+			}
+		}
 
 		/**
 		 * controllo che ci siano solo due cifre decimali precedute dalla virgola

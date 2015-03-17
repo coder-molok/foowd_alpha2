@@ -25,6 +25,8 @@ $app->group('/api', function() use ($app){
 
 			// all GET routes - Read
 			$app->get('/', function() use ($app){
+				//file_put_contents('test.txt', time());
+				//$returned = new Delete($app);
 				$returned = new Get($app);
 			});
 
@@ -34,7 +36,8 @@ $app->group('/api', function() use ($app){
 
 			// all POST routes - Update
 			$app->post('/', function() use ($app){
-				echo 'Update';
+				//file_put_contents('test.txt', date());
+				$returned = new Update($app);
 			});
 
 			// all PUT routes - Create

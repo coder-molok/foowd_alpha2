@@ -1,5 +1,7 @@
 <?php
 
+gatekeeper();
+
 
 // set sticky: avviso il sistema che gli inpu di questo form sono sticky
 elgg_make_sticky_form('foowd_offerte/add');
@@ -23,7 +25,7 @@ $import = $f->checkError('price', $data['price'], 'foowd_offerte/add');
 //$tags = string_to_tag_array(get_input('tags'));
 
 // attualmente testo solo il formato del prezzo
-$success = (true && $import );
+$success = ( $import );
 
 if ($success) {
 	
@@ -39,7 +41,7 @@ if ($success) {
 			// dico al sistema di scartare gli input di questo form
 			elgg_clear_sticky_form('foowd_offerte/add');
 
-			//system_message(elgg_echo('success'));
+			system_message(elgg_echo('success'));
 			// rimando alla pagina di successo
 			forward('foowd_offerte/success');			
 		}else{
@@ -48,13 +50,15 @@ if ($success) {
 			$errors = array_keys(get_object_vars($r->errors));
 			$f->addError(array_values($errors), 'foowd_offerte/add');
 
-			$_SESSION['sticky_forms']['foowd_offerte/add']['apiError']=$r;
+			register_error(elgg_echo("Uno o piu campi sono errati"));
+
+			//$_SESSION['sticky_forms']['foowd_offerte/add']['apiError']=$r;
 		}
 	}
 
 } else {
 
 	// scrivo un errore, e in automatico ritorna alla pagina del form
-  	register_error(elgg_echo('Error'));
+  
 }
 

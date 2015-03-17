@@ -9,7 +9,8 @@
  *
  * I contenuti vengono ottenuti in formato json e restituiti in tale formato.
  */
-class Get{
+
+class Delete{
 
 	public $app=null;
 
@@ -31,29 +32,22 @@ class Get{
 	protected function offer(){
 
 		$data = $this->getData;
-
 		$offer = OfferQuery::create()
-				->filterByPublisher($data->publisher)
-				->find();
-		
-		
-		$return = array();
-		
-		//$ar['tags'] = $of->getTags();
-		foreach ($offer as $single) {
-			$ar['id']	= $single->getId();
-			$ar['name']	= $single->getName();
-			$ar['description']	= $single->getDescription();
-			$tgs = $single->getTagss();// doppia s!
-			$ar['tags'] ='';
-			foreach ($tgs as $value) {
-				foreach(TagsQuery::create()->filterById($value->getId())->find() as $t){
-					$ar['tags'] .= $t->getName().', ';
-				}
-			}
-			array_push($return, $ar);
-		}
-		echo json_encode(array('body'=>$return, 'response'=>true));
+		  ->filterById($data->id)
+		  ->filterByPublisher($data->publisher)
+		 // ->delete();
+		 ->find();
+
+		 $status = false;
+
+		 // in teoria la query dovrebbe restituire un solo valore, ma meglio controllare
+		 if( $offer->count = 1){
+		 	$offer->delete();
+		 	$status = true;
+		 }
+		 
+		//echo json_encode($count);
+		echo json_encode(array(/*'body'=>$var,*/ 'response' => $status )  );
 		
 	}
 

@@ -86,4 +86,47 @@ class API{
 		$this->return = $output;
 	}
 
+	public function Delete(string $route, array $params){
+	
+		foreach($params as $field => $value){
+			$ar[$field] = $value;
+		}
+
+		$query = "call=".$route."&body=".json_encode($ar);
+		curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, "DELETE"); 
+		curl_setopt($this->ch, CURLOPT_POSTFIELDS, $query);
+		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+
+		// dovrebbe ritornare un formato json
+		$output=curl_exec($this->ch);
+		//var_dump($otuput);
+		$this->return = $output;
+	}
+
+	public function Update(string $route, array $params){
+	
+		foreach($params as $field => $value){
+			$ar[$field] = $value;
+		}
+		$ar['call'] = $route;
+
+		curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+	    // curl_setopt($this->ch, CURLOPT_URL, $URL);
+	    // curl_setopt($this->ch, CURLOPT_USERAGENT, $this->_agent);
+	    curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);
+	    curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, false);
+	    curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, 0);
+	    // curl_setopt($this->ch, CURLOPT_COOKIEFILE, $this->_cookie_file_path);
+	    // curl_setopt($this->ch, CURLOPT_COOKIEJAR, $this->_cookie_file_path);
+	    curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, TRUE);
+	    curl_setopt($this->ch, CURLOPT_VERBOSE, TRUE);
+	    curl_setopt($this->ch, CURLOPT_POSTFIELDS, json_encode($ar));
+	    curl_setopt($this->ch, CURLOPT_POST, 1);
+
+		// dovrebbe ritornare un formato json
+		$output=curl_exec($this->ch);
+		//$_SESSION['myy']=$output;
+		$this->return = $output;
+	}
+
 }

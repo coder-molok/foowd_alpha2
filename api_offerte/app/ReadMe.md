@@ -62,4 +62,13 @@ Importante comando da dare ogni volta che si creano o modificano classi:
 
 Per ovviare a questo, in seguito alla modifica di *schema.xml* posso dare il comando *$ propel sql:build* per fare generare la sql, poi modificare il file cosi' generato per evitare il DROP, e infine far eseguire questo file via *$ propel sql:insert*.
 
+#### Extra su Propel
 
+errori come **ModelCriteria::delete** possono essere dovuti a errori di impostazioni nello schema.xml, specialmente nella sezione delle foreign-keys.
+
+Devo pertanto aggiornare lo schema.xml, e per evitare di DUMPARE tutti i dati salvati, posso volgere semplicemente i due seguenti comandi:
+
+    - $ propel diff
+    - $ propel migrate
+
+Vedi http://propelorm.org/documentation/09-migrations.html

@@ -7,12 +7,24 @@ $form = 'foowd_offerte/add';
 // gli Error servono per generare il messaggio di errore dentro al form
 $fadd = new \Foowd\Action\FormAdd($vars);
 
-// for rapid testing
+//for rapid testing
 // $api = new \Foowd\API();
 // $ar['publisher']=elgg_get_logged_in_user_guid();
 // $ar['name']="cassa di mana";
 // $ar['description']="Questo e' un prodotto da veri nerd...";
-// $ar['tags']="fantasy, adventure";
+// $ar['tags']="fantasy, adventure, latte, miele";
+// $ar['price']='100,59';
+// if($api){
+// 	$api->Create('offer', $ar);
+// 	$r = $api->stop();
+// 	if($r->response) var_dump($r);
+// }
+
+// $api = new \Foowd\API();
+// $ar['publisher']=elgg_get_logged_in_user_guid();
+// $ar['name']="Formaggi!";
+// $ar['description']="roba buona!";
+// $ar['tags']="latte, adventure, cibo, vita";
 // $ar['price']='100,59';
 // if($api){
 // 	$api->Create('offer', $ar);
@@ -21,7 +33,7 @@ $fadd = new \Foowd\Action\FormAdd($vars);
 // }
 
 // var_dump($_SESSION['sticky_forms']);
-var_dump($_SESSION['my']);
+//var_dump($_SESSION['my']);
 
 $fadd->createField('name', 'Offerta', 'input/text');
 $fadd->createField('description', 'Descrivi il tuo prodotto', 'input/longtext');

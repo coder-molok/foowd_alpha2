@@ -58,4 +58,35 @@ class Get{
 	}
 
 
+	protected function single(){
+
+		$data = $this->getData;
+
+		$offer = OfferQuery::create()
+				->filterByPublisher($data->publisher)
+				->filterById($data->id)
+				->find();
+		
+		
+		$return = array();
+		
+		//$ar['tags'] = $of->getTags();
+		foreach ($offer as $single) {
+			$ar['id']	= $single->getId();
+			$ar['name']	= $single->getName();
+			$ar['description']	= $single->getDescription();
+			$ar['price'] = $single->getPrice();
+			$tgs = $single->getTagss();// doppia s!
+			$ar['tags'] ='';
+			foreach ($tgs as $value) {
+				foreach(TagsQuery::create()->filterById($value->getId())->find() as $t){
+					$ar['tags'] .= $t->getName().', ';
+				}
+			}
+			array_push($return, $ar);
+		}
+		echo json_encode(array('body'=>$return, 'response'=>true));
+		
+	}
+
 }

@@ -9,6 +9,8 @@
  *
  * I contenuti vengono ottenuti in formato json e restituiti in tale formato.
  */
+
+// NB: da rivedere il problema dei tag duplicati nella tabella dei Tags
 class Put{
 
 	public $app=null;
@@ -48,11 +50,15 @@ class Put{
 		$offer->setDescription($data->description);
 		$offer->setName($data->name);
 
-		// operazioni sui tags
-		$tags = explode(',', $data->tags);
+		// NB: da rivedere la strategia su come aggiungere e rimuovere i tags
+		// 
+		// prendo i tag inseriti dal form
+		$actualTags = explode(',', $data->tags);
 		$checkTags = true;
 		$errors['tags'] = array();
-		foreach ($tags as $single) {
+
+		// valido i tag (posso anche impostarlo lato propel)
+		foreach ($actualTags as $single) {
 			// prima di salvare, controllo che il tag sia di una sola parola
 			$single = trim($single);
 			if(preg_match('@ +@i', $single)){
@@ -62,16 +68,19 @@ class Put{
 			}
 		}
 		if($checkTags){
-			unset($errors['tags']);
-			
-			foreach($tags as $tag){
+			// NB: questo processo sarebbe meglio svolgerlo dentro al proceed TRUE
+			unset($errors['tags']);	
+
+			// ora sviluppo la relazione many-to-many
+			foreach($actualTags as $tgs){
 				// dato che l'offerta viene creata una sola volta
 				// non ho bisogno di controllare la presenza dei record nella tabella offer_tags
 				$tag = new Tags();
-				$tag->setName($single);
+				$tag->setName($tgs);
 				$offer->addTags($tag);
 			}
 		}
+
 
 		// operazioni sul prezzo
 		if (preg_match('/^\d+\,\d{2,2}$/', $data->price)){

@@ -19,6 +19,13 @@ function offerte_init() {
 	// altrimenti con un return false la callback blocca azioni associate a quella action.
 	elgg_register_action("foowd_offerte/add", elgg_get_plugins_path() . 'foowd_offerte/actions/foowd_offerte/add.php');
 
+	// azione per la rimozione delle offerte
+	elgg_register_action("foowd_offerte/delete", elgg_get_plugins_path() . 'foowd_offerte/actions/foowd_offerte/delete.php');
+
+	// azione per il salvataggio delle modifiche
+	elgg_register_action("foowd_offerte/update", elgg_get_plugins_path() . 'foowd_offerte/actions/foowd_offerte/update.php');
+
+
 
 	//Add a menu item to the site menu
 	// elgg_register_menu_item('site', ElggMenuItem::factory(array(
@@ -41,6 +48,9 @@ function offerte_page_handler($segments) {
 			break;
 		case 'success':
 			include elgg_get_plugins_path() . 'foowd_offerte/pages/foowd_offerte/success.php';
+			break;
+		case 'single':
+			include elgg_get_plugins_path() . 'foowd_offerte/pages/foowd_offerte/single.php';
 			break;
 		default:
 			$check = false;
