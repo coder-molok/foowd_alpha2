@@ -1,4 +1,5 @@
 <?php
+
 // // After instantiation
 // $log = $app->getLog();
 // $log->warning('Foo'); 
@@ -8,51 +9,29 @@
  */
 $app->group('/api', function() use ($app){
 	
-	/*
-	 * This group is for version the API
-	 */
-	$app->group('/v1', function() use ($app){
-
-		/*
+		/**
  		 * Basic CRUD for the offers
  		 *
  		 *
- 		 * Ogni richiesta '/' richiama una specifica classe php presente in actions/.
- 		 * Ciascuna di queste classi provvede a svolgere le operazioni opportune
+ 		 * la richiesta viene "dirottata" per argomento.
+ 		 *
+ 		 * Il body della richiesta sara' in formato json e conterra' almeno le chiavi:
+ 		 *
+ 		 * 		type: che rappresenta il metodo della classe da invocare
+ 		 * 		body: un oggetto che conterra' tutti i parametri da passare ai metodi invocati
+ 		 *
+ 		 * Dato che il parametro type tiene conto dell'azione da svolgere, 
+ 		 * credo che la suddivisione tra get e post possa essere lasciata in disparte:
+ 		 *
+ 		 * pertanto tutto opera secondo una REQUEST GENERICA
  		 * 
-		 */
-		$app->group('/offers',function() use ($app){
+ 		 * 
+		 **/
+		$app->post('/offers',function() use ($app){
 
-			// all GET routes - Read
-			$app->get('/', function() use ($app){
-				//file_put_contents('test.txt', time());
-				//$returned = new Delete($app);
-				$returned = new Get($app);
-			});
-
-			// $app->get('/:id', function($id) use ($app){
-			// 	echo $id;
-			// });
-
-			// all POST routes - Update
-			$app->post('/', function() use ($app){
-				//file_put_contents('test.txt', date());
-				$returned = new Update($app);
-			});
-
-			// all PUT routes - Create
-			$app->put('/', function() use ($app){
-				$returned = new Put($app);
-			});
-
-
-			// all DELETE routes - Delete
-			$app->delete('/', function() use ($app){
-				$returned = new Delete($app);
-			});
-
-		});
-	
+			// attenzione ai nomi: Offer da solo viene sovrascritto dal metodo Offer di propel!
+			// eventualmente impiegare degli adeguati namespace
+			$returned = new ApiOffer($app);
 	});
 
 });

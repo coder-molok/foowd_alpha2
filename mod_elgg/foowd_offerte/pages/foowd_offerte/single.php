@@ -22,26 +22,19 @@ if(!elgg_is_sticky_form($form) ){
 	$_SESSION['my']=$data;
 	
 	// prendo i valori del vecchio post e li carico nel form
-	$api = new \Foowd\API();
-	if($api){
-		$api->Read('single', $data);
-		$r = $api->stop();
-		// se sono qui la validazione lato elgg e' andata bene
-		// ma ora controllo quella lato API remote
-		if($r->response){
-			// dico al sistema di scartare gli input di questo form
-			// elgg_clear_sticky_form('foowd_offerte/add');
-			$input = (array) $r->body[0];
-			$input['id'] = get_input('id');
-
-			// salvo nello sticky form tutti i dati ritornati dalla API
-			$f->manageSticky($input, $form);
-	
-		}else{
-	
-			$_SESSION['sticky_forms'][$form]['apiError']=$r;
-			register_error(elgg_echo('Non riesco a caricare l\'offerta'));
-		}
+	$r = \Foowd\API::Request('offers','single',$data);
+	// se sono qui la validazione lato elgg e' andata bene
+	// ma ora controllo quella lato API remote
+	if($r->response){
+		// dico al sistema di scartare gli input di questo form
+		// elgg_clear_sticky_form('foowd_offerte/add');
+		$input = (array) $r->body[0];
+		$input['id'] = get_input('id');
+		// salvo nello sticky form tutti i dati ritornati dalla API
+		$f->manageSticky($input, $form);
+	}else{
+		$_SESSION['sticky_forms'][$form]['apiError']=$r;
+		register_error(elgg_echo('Non riesco a caricare l\'offerta'));
 	}
 }
 

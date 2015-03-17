@@ -2,41 +2,36 @@
 // probabilmente questa dovrebbe essere pubblica...
 gatekeeper();
 
-$api = new \Foowd\API();
-if($api){
 
-	$data['publisher'] = elgg_get_logged_in_user_guid();
-	$api->Read('offer', $data);
-	$r = $api->stop();
-	//var_dump($r);
-	
-	// se sono qui la validazione lato elgg e' andata bene
-	// ma ora controllo quella lato API remote
-	$str = '';
-	if($r->response){
-		foreach($r->body as $key ){
-			$str.= 'Titolo: '.$key->name. ' Tags: '.$key->tags."\n\r<br/>";
-			$str.= '    '.$key->description. "\n\r<br/>";
-			//$str.= '    '.$key->id. "\n\r<br/>";
-			$str.= elgg_view('output/url', array(
-					// associate to the action
-					'href' => elgg_get_site_url() . "action/foowd_offerte/delete?id=" . $key->id,
-				    'text' => elgg_echo('elimina: '.$key->id),
-				    'is_action' => true,
-				    'is_trusted' => true,
-				    //'confirm' => elgg_echo('deleteconfirm'),
-				    'class' => 'elgg-button elgg-button-delete',
-			    ));//."\n\r<br/><br/><br/>";
-			$str.= elgg_view('output/url', array(
-					// associate to the action
-					'href' => elgg_get_site_url() . "foowd_offerte/single?id=" . $key->id,
-				    'text' => elgg_echo('modifica: '.$key->id),
-				    //'is_action' => true,
-				    //'is_trusted' => true,
-				    //'confirm' => elgg_echo('deleteconfirm'),
-				    'class' => 'elgg-button elgg-button-delete',
-			    ))."\n\r<br/><br/><br/>";
-		}
+$data['publisher'] = elgg_get_logged_in_user_guid();
+$r = \Foowd\API::Request('offers', 'offerList', $data);
+//var_dump($r);
+
+
+$str = '';
+if($r->response){
+	foreach($r->body as $key ){
+		$str.= 'Titolo: '.$key->name. ' Tags: '.$key->tags."\n\r<br/>";
+		$str.= '    '.$key->description. "\n\r<br/>";
+		//$str.= '    '.$key->id. "\n\r<br/>";
+		$str.= elgg_view('output/url', array(
+				// associate to the action
+				'href' => elgg_get_site_url() . "action/foowd_offerte/delete?id=" . $key->id,
+			    'text' => elgg_echo('elimina: '.$key->id),
+			    'is_action' => true,
+			    'is_trusted' => true,
+			    //'confirm' => elgg_echo('deleteconfirm'),
+			    'class' => 'elgg-button elgg-button-delete',
+		    ));//."\n\r<br/><br/><br/>";
+		$str.= elgg_view('output/url', array(
+				// associate to the action
+				'href' => elgg_get_site_url() . "foowd_offerte/single?id=" . $key->id,
+			    'text' => elgg_echo('modifica: '.$key->id),
+			    //'is_action' => true,
+			    //'is_trusted' => true,
+			    //'confirm' => elgg_echo('deleteconfirm'),
+			    'class' => 'elgg-button elgg-button-delete',
+		    ))."\n\r<br/><br/><br/>";
 	}
 }
 
@@ -58,11 +53,6 @@ $str.= elgg_view('output/url', array(
 	    'class' => 'elgg-button elgg-button-delete',
     ))."\n\r<br/><br/><br/>";
 
-//$response = json_decode(file_get_contents('http://localhost/api_offerte/public_html/offers'),true);
-
-//var_dump( $response);
-
-//error_log($response);
 
 // add the form to this section
 $content .= elgg_view('custom/offersList',array('offersList' => $response));
