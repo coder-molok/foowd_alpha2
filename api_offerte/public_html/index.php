@@ -12,7 +12,7 @@
 #\Slim\Slim::registerAutoloader();
 
 
-require '/../app/vendor/autoload.php';
+require '../app/vendor/autoload.php';
 
 // richiedo il file di configurazione per poter svolgere le connessioni
 require_once  '../app/data/generated-conf/config.php';
@@ -23,7 +23,7 @@ date_default_timezone_set('Europe/Rome');
 $logger = new \Flynsarmy\SlimMonolog\Log\MonologWriter(array(
 	'name' => 'FoowdLogger',
     'handlers' => array(
-        new \Monolog\Handler\StreamHandler('../logs/'.date('Y-m-d').'.log'),
+        new \Monolog\Handler\RotatingFileHandler('../log/api.log'),
     ),
     'processors' => array(
      	        	function ($record) {
