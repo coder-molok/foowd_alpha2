@@ -49,6 +49,20 @@ $app->group('/api', function() use ($app){
 			// all DELETE routes - Delete
 			$app->delete('/', function() use ($app){
 				$returned = new Delete($app);
+
+			
+			/*Get all the offers*/
+			
+			$app->get('/', function() use ($app){
+				header("Content-Type: application/json");
+				echo json_encode(array('offers'=>['one','two']));
+			});
+			
+			/*Get a specific offer*/
+			
+			$app->get('/:id', function($id) use ($app){
+				echo $id;
+
 			});
 
 		});
