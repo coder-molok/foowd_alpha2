@@ -69,7 +69,8 @@ class ApiOffer{
 
 		// operazioni sul prezzo
 		if (preg_match('/^\d+\,\d{2,2}$/', $data->price)){
-			$offer->setPrice($data->price);
+			$price = preg_replace('@,@', '.', $data->price);
+			$offer->setPrice($price);
 		}else{
 			$errors['price'] = "errore nel prezzo";
 			$proceed=false;
@@ -109,6 +110,7 @@ class ApiOffer{
 			$ar['id']	= $single->getId();
 			$ar['name']	= $single->getName();
 			$ar['description']	= $single->getDescription();
+			$ar['price']	= $single->getPrice();
 			$tgs = $single->getTagss();// doppia s!
 			$ar['tags'] ='';
 			foreach ($tgs as $value) {
@@ -152,9 +154,11 @@ class ApiOffer{
 	 */
 	protected function update($data){
 		// raccolgo i parametri della richiesta
+		// al limite per il prezzo potrei creare un prefiltro in propel
+		$price = preg_replace('@,@', '.', $data->price);
 		$updates = array(
 				'Name' => $data->name,
-				'Price' => $data->price,
+				'Price' => $price,
 				'Description' => $data->description,
 			);
 

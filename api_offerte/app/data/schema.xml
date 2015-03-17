@@ -5,9 +5,10 @@
         <column name="name" phpName="Name" type="VARCHAR" size="255" required="true" />
         <column name="description" phpName="Description" type="VARCHAR" size="255" required="false" />
         <column name="publisher" phpName="Publisher" type="INTEGER" required="true"/>
-        <column name="price" phpName="Price" type="DECIMAL" phpType="double" required="false"/>
-        <column name="minqt" phpName="Minqt" type="DECIMAL" phpType="double" required="false"/>
-        <column name="maxqt" phpName="Maxqt" type="DECIMAL" phpType="double" required="false"/>
+        <!-- con size 10 vuol dire 10 numeri in totale, pertanto fino a 8 cifre per la parte intera + 2 cifre per la decimale -->
+        <column name="price" phpName="Price" type="DECIMAL" size="10" scale="2" phpType="double" required="false"/>
+        <column name="minqt" phpName="Minqt" type="DECIMAL" size="10" scale="2" phpType="double" required="false"/>
+        <column name="maxqt" phpName="Maxqt" type="DECIMAL" size="10" scale="2" phpType="double" required="false"/>
         <column name="created" phpName="Created" type="TIMESTAMP"  required="false"/>
         <column name="modified" phpName="Modified" type="TIMESTAMP"  required="false"/>
         <!-- aggiunto -->

@@ -12,8 +12,8 @@ $str = '';
 if($r->response){
 	foreach($r->body as $key ){
 		$str.= 'Titolo: '.$key->name. ' Tags: '.$key->tags."\n\r<br/>";
-		$str.= '    '.$key->description. "\n\r<br/>";
-		//$str.= '    '.$key->id. "\n\r<br/>";
+		$str.= 'Contenuto: '.$key->description. "\n\r<br/>";
+		$str.= 'Prezzo: '.$key->price. "\n\r<br/>";
 		$str.= elgg_view('output/url', array(
 				// associate to the action
 				'href' => elgg_get_site_url() . "action/foowd_offerte/delete?id=" . $key->id,
