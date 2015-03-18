@@ -68,7 +68,9 @@ class ApiOffer{
 
 
 		// operazioni sul prezzo
-		if (preg_match('/^\d+\,\d{2,2}$/', $data->price)){
+		// i prezzi possono essere passati sia con la virgola che col punto
+		// ci penso io a metterli nel formato giusto :-)
+		if (preg_match('/^\d+(\,|\.)\d{2,2}$/', $data->price)){
 			$price = preg_replace('@,@', '.', $data->price);
 			$offer->setPrice($price);
 		}else{
