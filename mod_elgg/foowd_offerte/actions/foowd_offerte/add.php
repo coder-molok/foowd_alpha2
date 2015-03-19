@@ -29,31 +29,22 @@ $success = ( $import );
 
 if ($success) {
 	
-	$api = new \Foowd\API();
-	if($api){
-		$_SESSION['my']=$data;
-		$api->Create('offer', $data);
-		$r = $api->stop();
-		
-		// se sono qui la validazione lato elgg e' andata bene
-		// ma ora controllo quella lato API remote
-		if($r->response){
-			// dico al sistema di scartare gli input di questo form
-			elgg_clear_sticky_form('foowd_offerte/add');
-
-			system_message(elgg_echo('success'));
-			// rimando alla pagina di successo
-			forward('foowd_offerte/success');			
-		}else{
-
-			// aggiungo gli errori ritornati dalle API esterne
-			$errors = array_keys(get_object_vars($r->errors));
-			$f->addError(array_values($errors), 'foowd_offerte/add');
-
-			register_error(elgg_echo("Uno o piu campi sono errati"));
-
-			//$_SESSION['sticky_forms']['foowd_offerte/add']['apiError']=$r;
-		}
+	//$_SESSION['my']=$data;
+	$r = \Foowd\API::Request('offers','create',$data);
+			// se sono qui la validazione lato elgg e' andata bene
+	// ma ora controllo quella lato API remote
+	if($r->response){
+		// dico al sistema di scartare gli input di questo form
+		elgg_clear_sticky_form('foowd_offerte/add');
+		system_message(elgg_echo('success'));
+		// rimando alla pagina di successo
+		forward('foowd_offerte/success');			
+	}else{
+		// aggiungo gli errori ritornati dalle API esterne
+		$errors = array_keys(get_object_vars($r->errors));
+		$f->addError(array_values($errors), 'foowd_offerte/add');
+		register_error(elgg_echo("Uno o piu campi sono errati"));
+		//$_SESSION['sticky_forms']['foowd_offerte/add']['apiError']=$r;
 	}
 
 } else {
