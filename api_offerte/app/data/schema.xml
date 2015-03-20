@@ -7,8 +7,8 @@
         <column name="publisher" phpName="Publisher" type="INTEGER" required="true"/>
         <!-- con size 10 vuol dire 10 numeri in totale, pertanto fino a 8 cifre per la parte intera + 2 cifre per la decimale -->
         <column name="price" phpName="Price" type="DECIMAL" size="10" scale="2" phpType="double" required="false"/>
-        <column name="minqt" phpName="Minqt" type="DECIMAL" size="10" scale="2" phpType="double" required="false"/>
-        <column name="maxqt" phpName="Maxqt" type="DECIMAL" size="10" scale="2" phpType="double" required="false"/>
+        <column name="minqt" phpName="Minqt" type="DECIMAL" size="8" scale="3" phpType="double" required="false"/>
+        <column name="maxqt" phpName="Maxqt" type="DECIMAL" size="8" scale="3" phpType="double" required="false"/>
         <column name="created" phpName="Created" type="TIMESTAMP"  required="false"/>
         <column name="modified" phpName="Modified" type="TIMESTAMP"  required="false"/>
         <!-- aggiunto -->
@@ -25,19 +25,19 @@
             <reference local="offerid" foreign="id"/>
         </foreign-key>
     </table>
-    <table name="tags" phpName="Tags">
+    <table name="tag" phpName="Tag">
         <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
         <column name="name" phpName="Name" type="VARCHAR" size="255" required="true" />
     </table>
     <!-- relazione molti a molti -->
-    <table name="offer_tags" isCrossRef="true">
+    <table name="offer_tag" isCrossRef="true">
         <column name="offerid" phpName="OfferId" type="integer" primaryKey="true"/>
         <column name="tagid" phpName="TagId" type="integer" primaryKey="true"/>
         <!-- onDelete necessario per sfruttare le potenzialita' di propel  -->
         <foreign-key foreignTable="offer" onDelete="cascade">
             <reference local="offerid" foreign="id"/>
         </foreign-key>
-        <foreign-key foreignTable="tags" onDelete="cascade">
+        <foreign-key foreignTable="tag" onDelete="cascade">
             <reference local="tagid" foreign="id"/>
         </foreign-key>
     </table>

@@ -9,7 +9,7 @@ $check = get_config('ApiDom');
 
 if(is_null($check) || empty($check)){
 	// Utilizzo momentaneo della classe Param: se inutile lo cancellero'
-	elgg_save_config( 'ApiDom' ,Foowd\Param::apiDom());
+	elgg_save_config( 'ApiDom' , 'http://localhost/api_offerte/public_html/api/');
 	elgg.system_message('plugin attivato con successo');
 }else{
 	elgg.register_error(elgg_echo('Non posso attivare il plugin'));
