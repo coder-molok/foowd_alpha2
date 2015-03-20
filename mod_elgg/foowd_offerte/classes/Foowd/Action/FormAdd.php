@@ -5,14 +5,28 @@ namespace Foowd\Action;
 	class FormAdd extends \Foowd\Action{
 		
 		/**
-		 * variabile per associare a ogni input il messaggio predefinito
+		 * variabile per associare a ogni input il messaggio predefinito e 
+		 * riprodurre la struttura dello schema
+		 *
+		 * I nomi dei campi DEVONO essere i metodi utilizzati via propel
+		 * 
 		 * @var array
 		 */
 		private $par = array(
-			'name' 		=> 'immetti titolo...',
-			'description'	=> 'inserire descrizione',
-			'price'		=> 'cifre decimali separate dalla virgola...',
-			'tags'			=> '',
+			'Id'			=> '',		
+			'Name' 			=> 'immetti titolo...',
+			'Description'	=> 'inserire descrizione',
+			'Publisher'		=> '',		
+			'Price'			=> 'cifre decimali separate dalla virgola...',
+			'Minqt'			=> '',
+			'Maxqt'			=> '',
+			'Created'		=> '',
+			'Modified'		=> '',
+			'State'			=> '',
+
+			'Tag'			=> '', 	// extra non appartenente alla tabella sql,
+									// ma in ogni caso necessario nella compilazione del form
+
 		);
 
 		/**
@@ -20,10 +34,10 @@ namespace Foowd\Action;
 		 * @var array
 		 */
 		private $errors = array(
-			'name' 		=> 'errore nell\' immisione del titolo',
-			'description'	=> 'errore nell\' immisione della descrizione',
-			'price'		=> 'ricorda: due cifre decimali separate dalla virgola...',
-			'tags'			=> 'i tags possono essere solo singole parole separate da virgola...',
+			'Name' 		=> 'errore nell\' immisione del titolo',
+			'Description'	=> 'errore nell\' immisione della descrizione',
+			'Price'		=> 'ricorda: due cifre decimali separate dalla virgola...',
+			'Tag'			=> 'i tags possono essere solo singole parole separate da virgola...',
 		);
 
 		/**
@@ -31,7 +45,8 @@ namespace Foowd\Action;
 		 * @var array
 		 */
 		private $check = array(
-			'price'		=> 'isCash'
+			'Price'		=> 'isCash',
+			'Tag'		=> 'isTag'
 		);
 
 		/**

@@ -11,25 +11,29 @@ $f = new \Foowd\Action\FormAdd();
 // la prima volta che chiamo la pagina il form non e' sticky, 
 // pertanto lo rendo tale e inizializzo i parametri per il form
 if(!elgg_is_sticky_form($form) ){
-
 	elgg_make_sticky_form($form);
 
-	//da RIVEDERE: in fondo il modello e' definito tutto nella classe FormAdd
 	// sarebbe meglio implementare tutto da lui, magari mediante una classe astratta con parametri fissi che vengono estesi!
-	$data['publisher']=elgg_get_logged_in_user_guid();
-	$data['id'] = get_input('id');
-	//$input['id']=$_GET['id'];
-	$_SESSION['my']=$data;
+	$data['Publisher']=elgg_get_logged_in_user_guid();
+	$data['Id'] = get_input('Id');
+	$data['type']='single';
+	
+	// trasformo l'array associativo in una stringa da passare come URI
+	$url=preg_replace('/^(.*)$/e', '"$1=". $data["$1"].""',array_flip($data));
+	$url=implode('&' , $url);
 	
 	// prendo i valori del vecchio post e li carico nel form
-	$r = \Foowd\API::Request('offers','single',$data);
+	$r = \Foowd\API::Request('offers?'.$url,'GET');
+
 	// se sono qui la validazione lato elgg e' andata bene
 	// ma ora controllo quella lato API remote
+
+	
 	if($r->response){
 		// dico al sistema di scartare gli input di questo form
 		// elgg_clear_sticky_form('foowd_offerte/add');
 		$input = (array) $r->body[0];
-		$input['id'] = get_input('id');
+		$input['Id'] = get_input('Id');
 		// salvo nello sticky form tutti i dati ritornati dalla API
 		$f->manageSticky($input, $form);
 	}else{
@@ -37,9 +41,6 @@ if(!elgg_is_sticky_form($form) ){
 		register_error(elgg_echo('Non riesco a caricare l\'offerta'));
 	}
 }
-
-// var_dump($_SESSION['myy']);
-// var_dump(elgg_get_sticky_values($form));
 
 
 $title = "Modifica la tua Offerta";

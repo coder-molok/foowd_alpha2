@@ -16,14 +16,13 @@ class API{
 	//  * @return [type] [description]
 	//  */
 
-	public static function Request(string $route, string $method, array $params){
-
+	public static function Request(string $url, string $method , array $params){
+		
 		if(is_callable('curl_init')){
 			// inizializzo la chiamata
-			//$url="http://localhost/api_offerte/public_html/api/v1/offers";
-			$url = get_config('ApiDom') . $route;
+			//$url="http://localhost/api_offerte/public_html/api/offers";
+			$url = get_config('ApiDom') . $url;
 			$ch = curl_init($url);
-			//return true;
 		}else{
 			register_error(elgg_echo("Impossibile eseguire l'azione"));
 			// qui eventualmente generare il log per avvisare che curl non funziona
@@ -35,15 +34,21 @@ class API{
 			
 			// modifico automaticamente le virgole in punti, 
 			// in modo da passare il corretto formato per salvataggio mysql.
-			if($field === 'price') $value = preg_replace('@,@', '.', $value);
-			
+			if(is_numeric($value)) $value = preg_replace('@,@', '.', $value);			
 			$ar[$field] = $value;
-
 		}
-		
-		$ar['type'] = $method;
-		// debug: cosi' ottengo velocemente i dati da testare con postman service
-		//register_error(json_encode($ar));
+
+
+		// se non e' impostato type, allora non vado avanti
+		$testPost = (isset($ar['type']) && $method==="POST" );
+		$testGet = (preg_match('@type@i', $url) && $method==="GET");
+		if(!$testPost && !$testGet){
+			register_error(elgg_echo('Error: undefined type'));
+			return false;
+		}
+
+		// utile per debug tramite POSTMAN
+		//register_error(json_encode($url));
 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
 	    // curl_setopt($ch, CURLOPT_URL, $URL);
@@ -56,18 +61,25 @@ class API{
 	    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 	    curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
 	    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($ar));
-	    curl_setopt($ch, CURLOPT_POST, 1);
+	    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+
+	    // utile per debug tramite POSTMAN
+	    //register_error(json_encode($ar));
 
 		// dovrebbe ritornare un formato json
 		$output=curl_exec($ch);
 		//$_SESSION['my']=json_encode($url);
-		
 		$returned = json_decode($output);
 
 
 		// i prezzi li visualizzo con la virgola
 		foreach ($returned->body as $key => $value) {
-			if(isset($value->price)) $returned->body[$key]->price = preg_replace('@\.@', ',', $value->price);
+			foreach($value as $field => $var){
+				// i valori numerici per convenzione hanno la virgola come separatore decimale
+				if(is_numeric($var)){
+					$returned->body[$key]->{$field} = preg_replace('@\.@', ',', $var);
+				}	
+			}
 		}
 
 		return $returned;

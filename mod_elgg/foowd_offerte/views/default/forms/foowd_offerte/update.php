@@ -12,14 +12,17 @@ $fadd = new \Foowd\Action\FormAdd($vars);
 
 // var_dump($_SESSION['sticky_forms']);
 
-$fadd->createField('name', 'Offerta', 'input/text');
-$fadd->createField('description', 'Descrivi il tuo prodotto', 'input/longtext');
-$fadd->createField('price','Importo (cifre con virgola)', 'input/text');
-$fadd->createField('tags', 'Tags (singole parole separate da una virgola)', 'input/text');
+$fadd->createField('Name', 'Offerta', 'input/text');
+$fadd->createField('Description', 'Descrivi il tuo prodotto', 'input/longtext');
+$fadd->createField('Price','Importo (cifre con virgola)', 'input/text', array('maxlength'=>"11"));
+$fadd->createField('Tag', 'Tags (singole parole separate da una virgola)', 'input/text');
+$fadd->createField('Minqt', 'Quantita\' minima', 'input/text', array('maxlength'=>"9"));
+$fadd->createField('Maxqt', 'Quantita\' massima', 'input/text', array('maxlength'=>"9"));
+
 ?>
 
 <div>
-    <input type="hidden" name="id" value="<?php echo $vars['id']; ?>" />
+    <input type="hidden" name="Id" value="<?php echo $vars['Id']; ?>" />
 </div>
 <div>
     <?php echo elgg_view('input/submit', array('value' => elgg_echo('save'))); ?>

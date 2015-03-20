@@ -2,36 +2,36 @@
 // probabilmente questa dovrebbe essere pubblica...
 gatekeeper();
 
-
-$data['publisher'] = elgg_get_logged_in_user_guid();
-$r = \Foowd\API::Request('offers', 'offerList', $data);
-//var_dump($r);
-
+$appendUrl ="type=offerList&Publisher=".elgg_get_logged_in_user_guid();
+$r = \Foowd\API::Request('offers?'.$appendUrl, 'GET');
 
 $str = '';
 if($r->response){
 	foreach($r->body as $key ){
-		$str.= 'Titolo: '.$key->name. ' Tags: '.$key->tags."\n\r<br/>";
-		$str.= 'Contenuto: '.$key->description. "\n\r<br/>";
-		$str.= 'Prezzo: '.$key->price. "\n\r<br/>";
+		$str.= 'Titolo: '.$key->Name. ' Tags: '.$key->Tag."\n\r<br/>";
+		$str.= 'Contenuto: '.$key->Description. "\n\r<br/>";
+		$str.= 'Prezzo: '.$key->Price. "\n\r<br/>";
+		$str.= 'li: '.$key->Created. "\n\r<br/>";
+		$str.= 'Modified: '.$key->Modified. "\n\r<br/>";
 		$str.= elgg_view('output/url', array(
 				// associate to the action
-				'href' => elgg_get_site_url() . "action/foowd_offerte/delete?id=" . $key->id,
-			    'text' => elgg_echo('elimina: '.$key->id),
+				'href' => elgg_get_site_url() . "action/foowd_offerte/delete?Id=" . $key->Id,
+			    'text' => elgg_echo('elimina: '.$key->Id),
 			    'is_action' => true,
 			    'is_trusted' => true,
-			    //'confirm' => elgg_echo('deleteconfirm'),
+			    'confirm' => elgg_echo('Sei sicuro di voler eliminare questa offerta: '.$key->Id),
 			    'class' => 'elgg-button elgg-button-delete',
 		    ));//."\n\r<br/><br/><br/>";
 		$str.= elgg_view('output/url', array(
 				// associate to the action
-				'href' => elgg_get_site_url() . "foowd_offerte/single?id=" . $key->id,
-			    'text' => elgg_echo('modifica: '.$key->id),
+				'href' => elgg_get_site_url() . "foowd_offerte/single?Id=" . $key->Id,
+			    'text' => elgg_echo('modifica: '.$key->Id),
 			    //'is_action' => true,
 			    //'is_trusted' => true,
 			    //'confirm' => elgg_echo('deleteconfirm'),
 			    'class' => 'elgg-button elgg-button-delete',
 		    ))."\n\r<br/><br/><br/>";
+	//var_dump($key);
 	}
 }
 

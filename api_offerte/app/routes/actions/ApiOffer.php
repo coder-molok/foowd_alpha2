@@ -8,14 +8,16 @@
 class ApiOffer{
 
 
-	public function __construct($app, $request = null){
+	public function __construct($app, $method = null){
 
 		$this->app = $app;
 
 		// in base al parametro type associo una specifica azione.
 		// il parametro verra' impostato nei plugin Elgg.
+		// Le richieste GET recuperano i dati esclusivamente dall'url
+		// Le richieste POST recuperano i dati esclusivamente dal body, e in formato json
 		
-		switch($request){
+		switch($method){
 			case null: 
 				echo  json_encode(array('msg'=>'richiesta non specificata', 'response'=>false));
 				return;
@@ -25,11 +27,12 @@ class ApiOffer{
 				break;
 
 			case "get": // il metodo get acquisisce i parametri via url.
-				$data = $app->request()->Params();
+				$data = (object) $app->request()->Params();
 				break;
 		}
-		$app->log->warning($app->request()->Params());
-		$app->log->warning($app->request()->getBody());
+
+		// ai dati aggiungo il dipo di richiesta
+		$data->method = $method; 
 
 		if(isset($data->type)){
 			$this->{$data->type}($data);
@@ -54,13 +57,13 @@ class ApiOffer{
 
 		// recupero il post originale
 		$offer = OfferQuery::create()
-		  		->filterById($data->id)
-		  		->filterByPublisher($data->publisher)
+		  		->filterById($data->Id)
+		  		->filterByPublisher($data->Publisher)
 		  		->findOne();
 
 		// cancello tutti i tag per riscrivere quelli aggiornati
 		OfferTagQuery::create()
-				->filterByOfferId($data->id)
+				->filterByOfferId($data->Id)
 				->delete();
 
 		$this->offerManager($data, $offer);
@@ -75,23 +78,20 @@ class ApiOffer{
 		//$data = $this->getData;
 
 		$offer = OfferQuery::create()
-				->filterByPublisher($data->publisher)
+				->filterByPublisher($data->Publisher)
 				->find();
 		
 		
 		$return = array();
 		
-		//$ar['tags'] = $of->getTags();
 		foreach ($offer as $single) {
-			$ar['id']	= $single->getId();
-			$ar['name']	= $single->getName();
-			$ar['description']	= $single->getDescription();
-			$ar['price']	= $single->getPrice();
-			$tgs = $single->getTags();// doppia s!
-			$ar['tags'] ='';
+
+			$ar = $single->toArray();
+			$tgs = $single->getTags();
+			$ar['Tag'] ='';
 			foreach ($tgs as $value) {
 				foreach(TagQuery::create()->filterById($value->getId())->find() as $t){
-					$ar['tags'] .= $t->getName().', ';
+					$ar['Tag'] .= $t->getName().', ';
 				}
 			}
 			array_push($return, $ar);
@@ -107,8 +107,8 @@ class ApiOffer{
 	protected function delete($data){
 
 		$offer = OfferQuery::create()
-		  	->filterById($data->id)
-		  	->filterByPublisher($data->publisher)
+		  	->filterById($data->Id)
+		  	->filterByPublisher($data->Publisher)
 		 	// ->delete();
 		 	->find();
 
@@ -128,30 +128,30 @@ class ApiOffer{
 	protected function single($data){
 
 		$offer = OfferQuery::create()
-				->filterByPublisher($data->publisher)
-				->filterById($data->id)
+				->filterByPublisher($data->Publisher)
+				->filterById($data->Id)
 				->find();
 		
 		
 		$return = array();
 		
-		//$ar['tags'] = $of->getTags();
 		foreach ($offer as $single) {
-			$ar['id']	= $single->getId();
-			$ar['name']	= $single->getName();
-			$ar['description']	= $single->getDescription();
-			$ar['price'] = $single->getPrice();
+			
+			// raccolgo tutta la riga della tabella
+			$ar = $single->toArray();
+
+			// aggiungo la lista dei tag
 			$tgs = $single->getTags();// doppia s!
-			$ar['tags'] ='';
+			$ar['Tag'] ='';
 			foreach ($tgs as $value) {
 				foreach(TagQuery::create()->filterById($value->getId())->find() as $t){
-					$ar['tags'] .= $t->getName().', ';
+					$ar['Tag'] .= $t->getName().', ';
 				}
 			}
-			array_push($return, $ar);
+			array_push($return,  $ar);
 		}
+
 		echo json_encode(array('body'=>$return, 'response'=>true));
-		
 	}
 
 
@@ -165,6 +165,10 @@ class ApiOffer{
 	 * @return [type]        [description]
 	 */
 	protected function offerManager($data, $offer){
+			// rimuovo i parametri superflui dall'array:
+			// mi servira' per i cicli successivi
+			unset($data->type);
+			unset($data->method);
 
 			// memorizzo i singoli errori
 			$errors = array();
@@ -173,10 +177,9 @@ class ApiOffer{
 			// NB: da rivedere la strategia su come aggiungere e rimuovere i tags
 			// 
 			// prendo i tag inseriti dal form
-			$actualTags = explode(',', $data->tags);
+			$actualTags = explode(',', $data->Tag);
 			$actualTags = array_unique($actualTags);	// evito eventuali ripetizioni
-			$checkTags = true;
-			$errors['tags'] = array();
+			$errors['Tag'] = array();
 
 			// valido i tag (posso anche impostarlo lato propel)
 			foreach ($actualTags as $single) {
@@ -184,28 +187,14 @@ class ApiOffer{
 				// da vedere: aggiungere controllo sulla presenza di caratteri speciali
 				$single = trim($single);
 				if(preg_match('@ +@i', $single)){
-					array_push($errors['tags'], "errorone nel tag: ".$single);
-					$checkTags = false;
+					array_push($errors['Tag'], "errorone nel tag: ".$single);
 					$proceed = false;
 				}
 			}
 
-			// operazioni sul prezzo
-			// i prezzi possono essere passati sia con la virgola che col punto
-			// ci penso io a metterli nel formato giusto :-)
-			if (preg_match('/^\d+(\,|\.)\d{2,2}$/', $data->price)){
-				$price = preg_replace('@,@', '.', $data->price);
-				$offer->setPrice($price);
-			}else{
-				$errors['price'] = "errore nel prezzo";
-				$proceed=false;
-			}
-
-
 			// i settaggi li faccio solamente se tutti i controlli precedenti sono andati a buon fine 
 			if($proceed){
-				// NB: questo processo sarebbe meglio svolgerlo dentro al proceed TRUE
-				unset($errors['tags']);	
+				unset($errors['Tag']);	
 				
 				//$tagManager = OfferTagQuery::create()->find();
 				//$tags = TagQuery::create()->find();
@@ -217,16 +206,22 @@ class ApiOffer{
 			    }
 			}
 
-			// prima di fare il presente settaggio dovrei controllare che l'id 
-			// sia gia' associato ad un utente, altrimenti non avrebbe senso.
-			// 
-			// Provvedere una volta creata l'API per l'inserimento di un nuovo utente.
-			// 
-			$offer->setPublisher($data->publisher);
-			$offer->setDescription($data->description);
-			$offer->setName($data->name);
+			unset($data->Tag);
+
 
 			// imposto le azioni e il ritorno
+			// in questo loop potrei incorporare una validazione automatica
+			foreach( $data  as $key => $value) {
+			    if($value == ''){
+			     unset($data->{$key});
+			     continue;
+			 	}
+
+			 	// trasformo il separatore dei decimali
+			 	if(preg_match('/^\d+\,\d*$/', $value))	$value = preg_replace('@,@', '.', $value);
+			 	
+			 	$offer->{'set'.$key}($value); ;
+			}
 
 			if($proceed){
 				$offer->save();
@@ -242,85 +237,3 @@ class ApiOffer{
 
 }
 
-	
-	// PARTE DI PROMEMORIA PERSONALE
-
-	//NB: per utilizzare un processo piu' performante dovrei vedere le transiction di propel
-
-	/****
-	// memorizzo i singoli errori
-	$errors = array();
-	$proceed = true;
-
-	// NB: da rivedere la strategia su come aggiungere e rimuovere i tags
-	// 
-	// prendo i tag inseriti dal form
-	$actualTags = explode(',', $data->tags);
-	$actualTags = array_unique($actualTags);	// evito eventuali ripetizioni
-	$checkTags = true;
-	$errors['tags'] = array();
-
-	// valido i tag (posso anche impostarlo lato propel)
-	foreach ($actualTags as $single) {
-		// prima di salvare, controllo che il tag sia di una sola parola
-		// da vedere: aggiungere controllo sulla presenza di caratteri speciali
-		$single = trim($single);
-		if(preg_match('@ +@i', $single)){
-			array_push($errors['tags'], "errorone nel tag: ".$single);
-			$checkTags = false;
-			$proceed = false;
-		}
-	}
-
-	// operazioni sul prezzo
-	// i prezzi possono essere passati sia con la virgola che col punto
-	// ci penso io a metterli nel formato giusto :-)
-	if (preg_match('/^\d+(\,|\.)\d{2,2}$/', $data->price)){
-		$price = preg_replace('@,@', '.', $data->price);
-		$offer->setPrice($price);
-	}else{
-		$errors['price'] = "errore nel prezzo";
-		$proceed=false;
-	}
-
-
-	// i settaggi li faccio solamente se tutti i controlli precedenti sono andati a buon fine 
-	if($proceed){
-		// NB: questo processo sarebbe meglio svolgerlo dentro al proceed TRUE
-		unset($errors['tags']);	
-
-		// voglio evitare che nella tabella dei tags vi siano duplicati, 
-		// pertanto faccio prima a togliere tutti i tag dell'utente e inserisco quelli nuovi
-		
-		//$tagManager = OfferTagQuery::create()->find();
-		$tags = TagQuery::create()->find();
-		foreach ($actualTags as $tag) {
-			// salvo solo i tag nuovi, altrimenti la tabella dei TAG sarebbe piena di duplicati
-            $newTag = TagQuery::create()->filterByName($tag)->findOneOrCreate();
-            $tags->append($newTag);
-			$offer->addTag($newTag);
-	    }
-	}
-
-	// prima di fare il presente settaggio dovrei controllare che l'id 
-	// sia gia' associato ad un utente, altrimenti non avrebbe senso.
-	// 
-	// Provvedere una volta creata l'API per l'inserimento di un nuovo utente.
-	// 
-	$offer->setPublisher($data->publisher);
-	$offer->setDescription($data->description);
-	$offer->setName($data->name);
-
-	// imposto le azioni e il ritorno
-
-	if($proceed){
-		$offer->save();
-		//echo "salvato!\n";
-		$return =json_encode(array('response'=>$proceed));
-	}else{
-		//echo "non puoi salvare";
-		$return = json_encode(array('errors'=>$errors, 'response'=>$proceed));
-	}
-
-	echo $return;
-	****/

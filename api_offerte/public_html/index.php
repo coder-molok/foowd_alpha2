@@ -39,8 +39,28 @@ $logger = new \Flynsarmy\SlimMonolog\Log\MonologWriter(array(
 
 // avvio slim con le dovute configurazioni niziali
 $app = new \Slim\Slim(array(
-    'log.writer' => $logger,
+    'log.writer'    => $logger,
+    'debug'         => false,   // disabilitato per poter usare il mio personale error handler
 ));
+
+// ritorno gli errori in formato json
+$app->error(function (\Exception $e) use ($app) {
+    // http://www.xml.com/pub/a/2004/12/01/restful-web.html
+    switch ($app->request->getMethod()) {
+        case 'GET':
+            $code = 200;
+            break;
+        case 'POST':
+            $code = 201;
+            break;
+        default:
+            $code = 'Not Found Method';
+            break;
+    }
+    $errors['status'] = $code;
+    $errors['msg'] = $e->getMessage();
+    echo json_encode(array('errors'=>$errors));   
+});
 
 
 require '../app/routes/offerte.php';

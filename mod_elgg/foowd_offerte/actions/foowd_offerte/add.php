@@ -2,44 +2,38 @@
 
 gatekeeper();
 
+ $form = 'foowd_offerte/add';
 
 // set sticky: avviso il sistema che gli inpu di questo form sono sticky
-elgg_make_sticky_form('foowd_offerte/add');
+elgg_make_sticky_form($form);
 
 // richiamo la classe che gestisce il form
 $f = new \Foowd\Action\FormAdd();
 
-//da RIVEDERE: in fondo il modello e' definito tutto nella classe FormAdd
-// sarebbe meglio implementare tutto da lui, magari mediante una classe astratta con parametri fissi che vengono estesi!
-$data['tags'] = get_input('tags');
-$data['description'] = get_input('description');
-$data['publisher']=elgg_get_logged_in_user_guid();
+$data = $f->manageForm($form);
 
-// eseguo i check dei vari input
-$data['name'] = get_input('name');
-$f->checkError('name', $data['name'], 'foowd_offerte/add');
+// imposto la data
+$data['Created']=date('Y-m-d H:i:s');
+$data['Publisher']=elgg_get_logged_in_user_guid();
 
-$data['price'] = get_input('price');
-$import = $f->checkError('price', $data['price'], 'foowd_offerte/add');
-
-//$tags = string_to_tag_array(get_input('tags'));
-
-// attualmente testo solo il formato del prezzo
-$success = ( $import );
-
-if ($success) {
+if ($f->status) {
 	
 	//$_SESSION['my']=$data;
-	$r = \Foowd\API::Request('offers','create',$data);
+	$data['type']='create';
+	$r = \Foowd\API::Request('offers', 'POST', $data);
 			// se sono qui la validazione lato elgg e' andata bene
 	// ma ora controllo quella lato API remote
 	if($r->response){
+		
 		// dico al sistema di scartare gli input di questo form
 		elgg_clear_sticky_form('foowd_offerte/add');
 		system_message(elgg_echo('success'));
+		
 		// rimando alla pagina di successo
-		forward('foowd_offerte/success');			
+		forward('foowd_offerte/success');	
+
 	}else{
+		
 		// aggiungo gli errori ritornati dalle API esterne
 		$errors = array_keys(get_object_vars($r->errors));
 		$f->addError(array_values($errors), 'foowd_offerte/add');
@@ -52,4 +46,3 @@ if ($success) {
 	// scrivo un errore, e in automatico ritorna alla pagina del form
   
 }
-

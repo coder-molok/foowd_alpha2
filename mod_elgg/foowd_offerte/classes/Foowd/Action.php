@@ -77,12 +77,23 @@ abstract class Action {
 			return $values;
 		}
 
-
-		public function createField($field, $label, $type){
+		/**
+		 * metodo utile per creare i form velocemente
+		 * 
+		 * @param  [type] $field [description]
+		 * @param  [type] $label [description]
+		 * @param  [type] $type  [description]
+		 * @param  array  $extra [description]
+		 * @return [type]        [description]
+		 */
+		public function createField($field, $label, $type, array $extra){
+			$settings = array('name' => $field, 'value' => elgg_echo($this->{$field}) );
+			if(isset($extra)) $settings = array_merge($settings,$extra);
+			//var_dump($settings);
 			?>
 			<div>
 			    <label><?php echo elgg_echo($label); ?></label><div style="color:red"><?php echo elgg_echo($this->{$field.'Error'});?></div><br />
-			    <?php echo elgg_view($type,array('name' => $field, 'value' => elgg_echo($this->{$field})) ); ?>
+			    <?php echo elgg_view($type,$settings); ?>
 			</div>
 			<?php
 		}
@@ -102,6 +113,25 @@ abstract class Action {
 
 		}
 
+		/**
+		 * metodo per estrarre automaticamente i dati da servire come metodo POST
+		 * 
+		 * @param  string $sticky_form [description]
+		 * @return [type]              [description]
+		 */
+		public function manageForm(string $sticky_form){
+			$this->status = true;
+			foreach($this->par as $field => $value){
+				$var = get_input($field);
+				if(isset($var)){
+				 	$data[$field] = $var;
+
+					if(!$this->checkError($field, $data[$field], $sticky_form))	$this->status = false; 
+				 }
+			}
+			return $data;
+		}
+
 		
 		/**
 		 * se ci sono errori, li aggiungo all'insieme degli input del mio sticky_forms,
@@ -117,6 +147,8 @@ abstract class Action {
 				if(!$this->$method($val))
 				$_SESSION['sticky_forms'][$action][$er.'Error']=$this->errors[$er];
 				return $this->$method($val);
+			}else{
+				return true; //perche' su di essa non devo fare controlli
 			}
 		}
 
@@ -157,7 +189,28 @@ abstract class Action {
 			}
 		}
 
+		/**
+		 * check base sui tag
+		 * 
+		 * @param  [type]  $var [description]
+		 * @return boolean      [description]
+		 */
+		public function isTag($var){
+			// prendo i tag inseriti dal form
+			$actualTags = explode(',', $var);
+			$actualTags = array_unique($actualTags);	// evito eventuali ripetizioni
 
+			// valido i tag (posso anche impostarlo lato propel)
+			foreach ($actualTags as $single) {
+				// prima di salvare, controllo che il tag sia di una sola parola
+				// da vedere: aggiungere controllo sulla presenza di caratteri speciali
+				$single = trim($single);
+				if(preg_match('@ +@i', $single)){
+					return false;
+				}
+			}
+			return true;
+		}
 	}
 
 
