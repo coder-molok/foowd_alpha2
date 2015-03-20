@@ -25,14 +25,12 @@ function offerte_init() {
 	// azione per il salvataggio delle modifiche
 	elgg_register_action("foowd_offerte/update", elgg_get_plugins_path() . 'foowd_offerte/actions/foowd_offerte/update.php');
 
-
-
 	//Add a menu item to the site menu
-	// elgg_register_menu_item('site', ElggMenuItem::factory(array(
-	// 	'name' => 'offerte',
-	// 	'href' => '/foowd_offerte/all',
-	// 	'text' => elgg_echo('Offerte'),
-	// )));
+	elgg_register_menu_item('site', ElggMenuItem::factory(array(
+	 	'name' => 'offerte',
+	 	'href' => '/foowd_offerte/all',
+	 	'text' => elgg_echo('Offerte'),
+    )));
 
 }
 
