@@ -59,7 +59,7 @@ $content .= elgg_view('custom/offersList',array('offersList' => $response));
 
 
 // optionally, add the content for the sidebar
-$sidebar = "side bar";
+$sidebar = "";
 
 // layout the page
 $body = elgg_view_layout('one_sidebar', array(
