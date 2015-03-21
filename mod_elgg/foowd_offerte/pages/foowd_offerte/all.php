@@ -5,6 +5,8 @@ gatekeeper();
 $appendUrl ="type=offerList&Publisher=".elgg_get_logged_in_user_guid();
 $r = \Foowd\API::Request('offers?'.$appendUrl, 'GET');
 
+$Pid = \Foowd\Param::pid(); //plugin id
+
 $str = '';
 if($r->response){
 	foreach($r->body as $key ){
@@ -15,7 +17,7 @@ if($r->response){
 		$str.= 'Modified: '.$key->Modified. "\n\r<br/>";
 		$str.= elgg_view('output/url', array(
 				// associate to the action
-				'href' => elgg_get_site_url() . "action/foowd_offerte/delete?Id=" . $key->Id,
+				'href' => elgg_get_site_url() . "action/".$Pid."/delete?Id=" . $key->Id,
 			    'text' => elgg_echo('elimina: '.$key->Id),
 			    'is_action' => true,
 			    'is_trusted' => true,
@@ -24,7 +26,7 @@ if($r->response){
 		    ));//."\n\r<br/><br/><br/>";
 		$str.= elgg_view('output/url', array(
 				// associate to the action
-				'href' => elgg_get_site_url() . "foowd_offerte/single?Id=" . $key->Id,
+				'href' => elgg_get_site_url() . $Pid ."/single?Id=" . $key->Id,
 			    'text' => elgg_echo('modifica: '.$key->Id),
 			    //'is_action' => true,
 			    //'is_trusted' => true,
@@ -46,9 +48,11 @@ $title = $user->name.", <br/>ecco le offerte che hai pubblicato";
 // start building the main column of the page
 $content = elgg_view_title($title);
 
+//$content .= get_config('limit').'test';
+
 $str.= elgg_view('output/url', array(
 		// associate to the action
-		'href' => elgg_get_site_url() . "foowd_offerte/add",
+		'href' => elgg_get_site_url() . $Pid ."/add",
 	    'text' => elgg_echo('Crea'),
 	    'class' => 'elgg-button elgg-button-delete',
     ))."\n\r<br/><br/><br/>";

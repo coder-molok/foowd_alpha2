@@ -2,7 +2,7 @@
 
 gatekeeper();
 
- $form = 'foowd_offerte/add';
+ $form = \Foowd\Param::pid().'/add';
 
 // set sticky: avviso il sistema che gli inpu di questo form sono sticky
 elgg_make_sticky_form($form);
@@ -26,17 +26,17 @@ if ($f->status) {
 	if($r->response){
 		
 		// dico al sistema di scartare gli input di questo form
-		elgg_clear_sticky_form('foowd_offerte/add');
+		elgg_clear_sticky_form($form);
 		system_message(elgg_echo('success'));
 		
 		// rimando alla pagina di successo
-		forward('foowd_offerte/success');	
+		forward(\Foowd\Param::pid().'/success');	
 
 	}else{
 		
 		// aggiungo gli errori ritornati dalle API esterne
 		$errors = array_keys(get_object_vars($r->errors));
-		$f->addError(array_values($errors), 'foowd_offerte/add');
+		$f->addError(array_values($errors), $form);
 		register_error(elgg_echo("Uno o piu campi sono errati"));
 		//$_SESSION['sticky_forms']['foowd_offerte/add']['apiError']=$r;
 	}

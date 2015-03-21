@@ -2,6 +2,8 @@
 // make sure only logged in users can see this page
 gatekeeper();
 
+$Pid = \Foowd\Param::pid();
+
 // set the title
 // for distributed plugins, be sure to use elgg_echo() for internationalization
 $title = "Aggiungi la tua Offerta";
@@ -13,10 +15,10 @@ $content = elgg_view_title($title);
 
 $f = new \Foowd\Action\FormAdd();
 
-$vars = $f->prepare_form_vars('foowd_offerte/add');
+$vars = $f->prepare_form_vars($Pid.'/add');
 //$vars['titleError'] = date('Y-m-d H:i:s');
 
-$content .= elgg_view_form('foowd_offerte/add', array(), $vars);
+$content .= elgg_view_form($Pid.'/add', array(), $vars);
 
 
 // add the form stored in /views/default/forms/foowd_offerte/add.php

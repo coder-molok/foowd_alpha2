@@ -1,7 +1,7 @@
 <?php
 gatekeeper();
 
-$form = 'foowd_offerte/update';
+$form = \Foowd\Param::pid().'/update';
 
 // set sticky: avviso il sistema che gli input di questo form sono sticky
 elgg_make_sticky_form($form);

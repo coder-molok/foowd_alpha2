@@ -1,6 +1,10 @@
 <?php
 
-// libero la variabile 
-unset_config('ApiDom'); 		
+// Considerare eventuali settaggi da elminiare.
+// ad esempio i settings dell'utente o dell'amministratore sarebbe saggio NON resettarli.
 
-elgg.system_message('disattivato');
+// Questa parte rimane solo come promemoria
+
+// libero la variabile 
+// unset_config('ApiDom'); 		
+// elgg.system_message('disattivato');

@@ -2,7 +2,7 @@
 
 gatekeeper();
 
-$form = 'foowd_offerte/update';
+$form = \Foowd\Param::pid().'/update';
 
 // richiamo la classe che gestisce il form
 $f = new \Foowd\Action\FormAdd();

@@ -1,5 +1,5 @@
 <?php
-$form = 'foowd_offerte/update';
+$form = \Foowd\Param::pid().'/update';
 //elgg_make_sticky_form($form);
 ?>
 

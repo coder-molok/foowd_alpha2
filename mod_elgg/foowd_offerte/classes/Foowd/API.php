@@ -21,7 +21,7 @@ class API{
 		if(is_callable('curl_init')){
 			// inizializzo la chiamata
 			//$url="http://localhost/api_offerte/public_html/api/offers";
-			$url = get_config('ApiDom') . $url;
+			$url = elgg_get_plugin_setting('api', \Foowd\Param::pid() ) . $url;
 			$ch = curl_init($url);
 		}else{
 			register_error(elgg_echo("Impossibile eseguire l'azione"));

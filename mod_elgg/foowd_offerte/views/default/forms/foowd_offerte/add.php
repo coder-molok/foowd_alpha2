@@ -1,7 +1,7 @@
 <?php
 // /views/default/input/
 
-$form = 'foowd_offerte/add';
+$form = \Foowd\Param::pid().'/add';
 
 // utilizzo questa classe per maneggiare le variabili e lo sticky_form
 // gli Error servono per generare il messaggio di errore dentro al form
