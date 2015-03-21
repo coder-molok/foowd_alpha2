@@ -71,7 +71,7 @@ la chiave `body` contiene un oggetto json, che rappresenta i dati utili ritornat
 
 ## Plugin Foowd_Offerte
 
-tutte le richieste al servizio API vengono affidate alla classe `API`, in `classes/Foowd/`.
+tutte le richieste al servizio API vengono affidate alla classe `API`, in `classes/Foowd/`. Tale classe si basa sull'impiego di **Curl**, pertanto è necessario che il SERVER supporti tale modulo. Qualora cosi' non fosse, la classe e' stata progettata per essere facilmente riadattabile all'impiego di altri moduli (come ad esempio *HttpRequest*).
 
 L'implementazione di `API` e' basilare, e attualmente in essa e' presente il solo metodo **Request**, da invocare secondo il comando
 
