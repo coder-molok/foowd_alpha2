@@ -4,6 +4,10 @@
 // ciascuno lo stato dell'operazione e' sotto la chiave (o attributo decodificato) response
 // type specifica quale metodo richiamare
 
+namespace Foowd;
+//use \Offer as Offer;
+// use Base\OfferQuery as OfferQuery;
+// use Base\TagQuery as TagQuery;
 
 class ApiOffer{
 
@@ -44,7 +48,7 @@ class ApiOffer{
 	// equivalente a PUT
 	public function create($data){
 
-		$offer = new Offer();
+		$offer = new \Offer();
 		$this->offerManager($data, $offer);
 		
 	}
@@ -56,13 +60,13 @@ class ApiOffer{
 	protected function update($data){
 
 		// recupero il post originale
-		$offer = OfferQuery::create()
+		$offer = \OfferQuery::create()
 		  		->filterById($data->Id)
 		  		->filterByPublisher($data->Publisher)
 		  		->findOne();
 
 		// cancello tutti i tag per riscrivere quelli aggiornati
-		OfferTagQuery::create()
+		\OfferTagQuery::create()
 				->filterByOfferId($data->Id)
 				->delete();
 
@@ -75,12 +79,14 @@ class ApiOffer{
 	 */
 	protected function offerList($data){
 
-		//$data = $this->getData;
-
-		$offer = OfferQuery::create()
+		
+		$offer = \OfferQuery::create()
 				->filterByPublisher($data->Publisher)
 				->find();
 		
+		$Json = array();
+		
+		if(!$offer->count()) $Json['errors'] = "Publisher doesn't exists or hasn't offers.";
 		
 		$return = array();
 		
@@ -90,13 +96,16 @@ class ApiOffer{
 			$tgs = $single->getTags();
 			$ar['Tag'] ='';
 			foreach ($tgs as $value) {
-				foreach(TagQuery::create()->filterById($value->getId())->find() as $t){
+				foreach(\TagQuery::create()->filterById($value->getId())->find() as $t){
 					$ar['Tag'] .= $t->getName().', ';
 				}
 			}
 			array_push($return, $ar);
 		}
-		echo json_encode(array('body'=>$return, 'response'=>true));
+
+		$Json['response'] = true;
+		$Json['body'] = $return;
+		echo json_encode($Json);
 		
 	}
 
@@ -106,7 +115,7 @@ class ApiOffer{
 	 */
 	protected function delete($data){
 
-		$offer = OfferQuery::create()
+		$offer = \OfferQuery::create()
 		  	->filterById($data->Id)
 		  	->filterByPublisher($data->Publisher)
 		 	// ->delete();
@@ -127,7 +136,7 @@ class ApiOffer{
 
 	protected function single($data){
 
-		$offer = OfferQuery::create()
+		$offer = \OfferQuery::create()
 				->filterByPublisher($data->Publisher)
 				->filterById($data->Id)
 				->find();
@@ -200,7 +209,7 @@ class ApiOffer{
 				//$tags = TagQuery::create()->find();
 				foreach ($actualTags as $tag) {
 					// salvo solo i tag nuovi, altrimenti la tabella dei TAG sarebbe piena di duplicati
-		            $newTag = TagQuery::create()->filterByName($tag)->findOneOrCreate();
+		            $newTag = \TagQuery::create()->filterByName($tag)->findOneOrCreate();
 		            //$tags->append($newTag);
 					$offer->addTag($newTag);
 			    }

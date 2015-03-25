@@ -68,7 +68,10 @@ class API{
 
 		// dovrebbe ritornare un formato json
 		$output=curl_exec($ch);
+		
 		//$_SESSION['my']=json_encode($url);
+		register_error($output);
+		
 		$returned = json_decode($output);
 
 

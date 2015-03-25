@@ -23,13 +23,13 @@ date_default_timezone_set('Europe/Rome');
 $logger = new \Flynsarmy\SlimMonolog\Log\MonologWriter(array(
 	'name' => 'FoowdLogger',
     'handlers' => array(
-        new \Monolog\Handler\RotatingFileHandler('../log/api.log'),
+        new \Monolog\Handler\RotatingFileHandler(__DIR__.'/../log/api.log'),
     ),
     'processors' => array(
      	        	function ($record) {
      	        		
      				    $record['extra']['extra'] = 'Debug';
-     				    $record['context']['API'] = 'Foowe';
+     				    $record['context']['API'] = 'Foowd';
      					
      				    return $record;
      				},
@@ -43,10 +43,15 @@ $app = new \Slim\Slim(array(
     'debug'         => false,   // disabilitato per poter usare il mio personale error handler
 ));
 
-// ritorno gli errori in formato json
+
+//------------------------------------------------------------------ inizio gestione LOG ERRORI
+// evito di visualizzare gli errori
+ini_set('display_errors', '0');
+
+// ritorno e salvo in formato json gli errori dovuti alle eccezioni 
 $app->error(function (\Exception $e) use ($app) {
     // http://www.xml.com/pub/a/2004/12/01/restful-web.html
-    switch ($app->request->getMethod()) {
+    switch ($app->request()->getMethod()) {
         case 'GET':
             $code = 200;
             break;
@@ -59,8 +64,41 @@ $app->error(function (\Exception $e) use ($app) {
     }
     $errors['status'] = $code;
     $errors['msg'] = $e->getMessage();
+    $app->getLog()->error(json_encode($errors));
     echo json_encode(array('errors'=>$errors));   
 });
+
+// ritorno e salvo in formato json i Fatal Error
+register_shutdown_function(function() use($app){
+
+    if (null === $lastError = error_get_last()) {
+        return;
+    }
+
+    $errors = array(E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_STRICT);
+    if (in_array($lastError['type'], $errors)) {
+        // $e = new \ErrorException(
+        //     @$lastError['message'], @$lastError['type'], @$lastError['type'],
+        //     @$lastError['file'], @$lastError['line']
+        // );
+        //$msg = 'Fatal error at line '.$e->getLine();
+        
+        $lastError['request'] = $app->request()->getMethod();
+
+        $app->getLog()->error(json_encode($lastError));
+        echo json_encode(array("errors"=>$lastError));
+    }
+
+});
+
+$app->notFound(function () use ($app) {
+    $lastError['request'] = $app->request()->getMethod();
+    $lastError['msg'] = 'Route '.$app->request()->getResourceUri().' not Found';
+    //var_dump($app->request());
+    $app->getLog()->error(json_encode($lastError));
+    echo json_encode(array("errors"=>$lastError));
+});
+//------------------------------------------------------------------ fine gestione LOG ERRORI
 
 
 require '../app/routes/offerte.php';

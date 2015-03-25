@@ -10,7 +10,7 @@
 	"autoload": {
         "classmap": ["./data/generated-classes/"],
         "psr-4" : {
-             "" : "routes/actions/"
+             "Foowd\\" : "routes/actions/"
          }
  	}
 }	
