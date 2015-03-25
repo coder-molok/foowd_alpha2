@@ -25,12 +25,11 @@ function offerte_init() {
 	// azione per il salvataggio delle modifiche
 	elgg_register_action("foowd_offerte/update", elgg_get_plugins_path() . 'foowd_offerte/actions/foowd_offerte/update.php');
 
-	//Add a menu item to the site menu
-	elgg_register_menu_item('site', ElggMenuItem::factory(array(
-	 	'name' => 'offerte',
-	 	'href' => '/foowd_offerte/all',
-	 	'text' => elgg_echo('Offerte'),
-    )));
+
+	// elimino il "more"
+	elgg_unregister_plugin_hook_handler('prepare', 'menu:site', '_elgg_site_menu_setup');
+
+	elgg_register_plugin_hook_handler('register', 'menu:site', 'foowd_menu');
 
 }
 
@@ -56,4 +55,26 @@ function offerte_page_handler($segments) {
 	}
 
 	return $check;
+}
+
+
+function foowd_menu($hook, $type, $return, $params){
+
+
+	    elgg_unregister_menu_item('menu:site', 'file');
+	    // Remove menu elements
+	    elgg_unregister_menu_item('site', 'activity');
+	    elgg_unregister_menu_item('site', 'blog');
+	    elgg_unregister_menu_item('site', 'more');
+
+		//Add a menu item to the site menu
+		elgg_register_menu_item('menu:site', ElggMenuItem::factory(array(
+		 	'name' => 'offerte',
+		 	'href' => '/foowd_offerte/all',
+		 	'text' => elgg_echo('Offerte'),
+		 )));
+
+	// var_dump($params);
+	// var_dump($hook);
+	//return false;
 }

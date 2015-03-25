@@ -19,13 +19,13 @@ $app->group('/api', function() use ($app){
 
 			// attenzione ai nomi: Offer da solo viene sovrascritto dal metodo Offer di propel!
 			// eventualmente impiegare degli adeguati namespace
-			$returned = new ApiOffer($app, 'post');
+			$returned = new Foowd\ApiOffer($app, 'post');
 
 		});
 
 		$app->get('/offers',function() use ($app){
 
-			$returned = new ApiOffer($app, 'get');
+			$returned = new Foowd\ApiOffer($app, 'get');
 		
 		});
 
