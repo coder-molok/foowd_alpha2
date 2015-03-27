@@ -2,7 +2,7 @@
 
 gatekeeper();
 
- $form = \Foowd\Param::pid().'/add';
+$form = \Foowd\Param::pid().'/add';
 
 // set sticky: avviso il sistema che gli inpu di questo form sono sticky
 elgg_make_sticky_form($form);
@@ -38,6 +38,7 @@ if ($f->status) {
 		$errors = array_keys(get_object_vars($r->errors));
 		$f->addError(array_values($errors), $form);
 		register_error(elgg_echo("Uno o piu campi sono errati"));
+		//register_error(elgg_echo($errors));
 		//$_SESSION['sticky_forms']['foowd_offerte/add']['apiError']=$r;
 	}
 
