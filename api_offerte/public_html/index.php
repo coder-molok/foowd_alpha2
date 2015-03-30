@@ -101,6 +101,6 @@ $app->notFound(function () use ($app) {
 //------------------------------------------------------------------ fine gestione LOG ERRORI
 
 
-require '../app/routes/offerte.php';
+require '../app/routes/routes.php';
 
 $app->run();

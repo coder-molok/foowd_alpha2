@@ -4,45 +4,76 @@
 // ciascuno lo stato dell'operazione e' sotto la chiave (o attributo decodificato) response
 // type specifica quale metodo richiamare
 
-namespace Foowd;
+namespace Foowd\FApi;
 //use \Offer as Offer;
 // use Base\OfferQuery as OfferQuery;
 // use Base\TagQuery as TagQuery;
 
-class ApiOffer{
+/**
+ * @api {get} /user/:id Request User information
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id Users unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "firstname": "John",
+ *       "lastname": "Doe"
+ *     }
+ *
+ * @apiError UserNotFound The id of the User was not found.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "UserNotFound"
+ *     }
+ */
+
+
+class ApiOffer extends \Foowd\FApi{
 
 
 	public function __construct($app, $method = null){
 
-		$this->app = $app;
+		echo 'lol';
 
-		// in base al parametro type associo una specifica azione.
-		// il parametro verra' impostato nei plugin Elgg.
-		// Le richieste GET recuperano i dati esclusivamente dall'url
-		// Le richieste POST recuperano i dati esclusivamente dal body, e in formato json
+		parent::__construct($app, $method);
+
+		// $this->app = $app;
+
+		// // in base al parametro type associo una specifica azione.
+		// // il parametro verra' impostato nei plugin Elgg.
+		// // Le richieste GET recuperano i dati esclusivamente dall'url
+		// // Le richieste POST recuperano i dati esclusivamente dal body, e in formato json
 		
-		switch($method){
-			case null: 
-				echo  json_encode(array('msg'=>'richiesta non specificata', 'response'=>false));
-				return;
+		// switch($method){
+		// 	case null: 
+		// 		echo  json_encode(array('msg'=>'richiesta non specificata', 'response'=>false));
+		// 		return;
 
-			case "post": // se il metodo e' post, allora i parametri vengono passati come body
-				$data = json_decode($app->request()->getBody());//std class		
-				break;
+		// 	case "post": // se il metodo e' post, allora i parametri vengono passati come body
+		// 		$data = json_decode($app->request()->getBody());//std class		
+		// 		break;
 
-			case "get": // il metodo get acquisisce i parametri via url.
-				$data = (object) $app->request()->Params();
-				break;
-		}
+		// 	case "get": // il metodo get acquisisce i parametri via url.
+		// 		$data = (object) $app->request()->Params();
+		// 		break;
+		// }
 
-		// ai dati aggiungo il dipo di richiesta
-		$data->method = $method; 
+		// // ai dati aggiungo il dipo di richiesta
+		// $data->method = $method; 
 
-		if(isset($data->type)){
-			$this->{$data->type}($data);
-		}else{
-			echo  json_encode(array('msg'=>'metodo non specificato', 'response'=>false));
-		}
+		// if(isset($data->type)){
+		// 	$this->{$data->type}($data);
+		// }else{
+		// 	echo  json_encode(array('msg'=>'metodo non specificato', 'response'=>false));
+		// }
 	}
 
 	// equivalente a PUT
