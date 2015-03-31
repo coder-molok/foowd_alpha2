@@ -1,3 +1,0 @@
-HOST: sql.foowd.eu
-USERID e DBNAME: foowdeu62017
-PASSWORD: foow04152
