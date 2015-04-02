@@ -62,15 +62,15 @@ $app->error(function (\Exception $e) use ($app) {
             $code = 'Not Found Method';
             break;
     }
+    //var_dump($e);
     $errors['status'] = $code;
     $errors['msg'] = $e->getMessage();
     $app->getLog()->error(json_encode($errors));
-    echo json_encode(array('errors'=>$errors));   
+    echo json_encode(array('errors'=>$errors, "response"=>false));   
 });
 
 // ritorno e salvo in formato json i Fatal Error
 register_shutdown_function(function() use($app){
-
     if (null === $lastError = error_get_last()) {
         return;
     }
@@ -84,9 +84,11 @@ register_shutdown_function(function() use($app){
         //$msg = 'Fatal error at line '.$e->getLine();
         
         $lastError['request'] = $app->request()->getMethod();
+        $lastError['msg'] = 'Fatal Error (system): '.$lastError['message'];
+        unset($lastError['message']);
 
         $app->getLog()->error(json_encode($lastError));
-        echo json_encode(array("errors"=>$lastError));
+        echo json_encode(array("errors"=>$lastError, "response"=>false));
     }
 
 });
@@ -94,9 +96,10 @@ register_shutdown_function(function() use($app){
 $app->notFound(function () use ($app) {
     $lastError['request'] = $app->request()->getMethod();
     $lastError['msg'] = 'Route '.$app->request()->getResourceUri().' not Found';
+    $lastError['response'] = false;
     //var_dump($app->request());
     $app->getLog()->error(json_encode($lastError));
-    echo json_encode(array("errors"=>$lastError));
+    echo json_encode(array("errors"=>$lastError, "response"=>false));
 });
 //------------------------------------------------------------------ fine gestione LOG ERRORI
 

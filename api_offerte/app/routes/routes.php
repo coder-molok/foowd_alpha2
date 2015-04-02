@@ -8,17 +8,11 @@
  * function without name and use: php closure
  */
 $app->group('/api', function() use ($app){
+
 	
-		/**
- 		 * Basic CRUD for the offers
- 		 *
- 		 * la richiesta viene "dirottata" per argomento.
- 		 * 
-		 **/
+		// gestione offerte
 		$app->post('/offers',function() use ($app){
 
-			// attenzione ai nomi: Offer da solo viene sovrascritto dal metodo Offer di propel!
-			// eventualmente impiegare degli adeguati namespace
 			$returned = new Foowd\FApi\ApiOffer($app, 'post');
 
 		});
@@ -27,6 +21,14 @@ $app->group('/api', function() use ($app){
 
 			$returned = new Foowd\FApi\ApiOffer($app, 'get');
 		
+		});
+
+
+		// gestione utente
+		$app->post('/user',function() use ($app){
+
+			$returned = new Foowd\FApi\ApiUser($app, 'post');
+
 		});
 
 });

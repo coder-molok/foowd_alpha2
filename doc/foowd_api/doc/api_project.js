@@ -1,12 +1,14 @@
 define({
   "name": "Foowd",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Documentazione API Foowd lato Server",
+  "title": "Foowd API",
+  "url": "http://localhost/ElggProject/foowd_alpha2/doc/foowd_api/doc",
   "sampleUrl": false,
   "apidoc": "0.2.0",
   "generator": {
     "name": "apidoc",
-    "time": "2015-03-29T16:48:30.264Z",
+    "time": "2015-04-01T17:00:25.420Z",
     "url": "http://apidocjs.com",
     "version": "0.12.1"
   }

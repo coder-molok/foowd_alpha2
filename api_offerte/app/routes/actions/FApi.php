@@ -16,7 +16,7 @@ abstract class FApi{
 		
 		switch($method){
 			case null: 
-				echo  json_encode(array('msg'=>'richiesta non specificata', 'response'=>false));
+				echo  json_encode(array('msg'=>get_class($this).': richiesta non specificata', 'response'=>false));
 				return;
 
 			case "post": // se il metodo e' post, allora i parametri vengono passati come body
@@ -34,9 +34,26 @@ abstract class FApi{
 		if(isset($data->type)){
 			$this->{$data->type}($data);
 		}else{
-			echo  json_encode(array('msg'=>'metodo non specificato', 'response'=>false));
+			echo  json_encode(array('msg'=>get_class($this).': metodo non specificato', 'response'=>false));
 		}
-	echo 'fapi!';
+	}
+
+	public function FSave($obj){
+
+		//return $obg->validate();
+		if (!$obj->validate()) {
+		    foreach ($obj->getValidationFailures() as $failure) {
+		        //echo "Property ".$failure->getPropertyPath().": ".$failure->getMessage()."\n";
+		        $r['errors'][$failure->getPropertyPath()] = $failure->getMessage();
+		    }
+		    $r['response'] = false;
+		}
+		else {
+		   $r['response'] = true;
+		}
+
+		return $r;
+
 	}
 
 

@@ -11,6 +11,9 @@
         "classmap": ["./data/generated-classes/"],
         "psr-4" : {
              "Foowd\\" : "routes/actions/"
-         }
+        },
+        "psr-0": {
+            "Propel\\Runtime\\Validator\\Constraints": "data/myConstraints/"
+        }
  	}
 }	

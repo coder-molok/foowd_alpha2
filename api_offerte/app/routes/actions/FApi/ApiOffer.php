@@ -10,29 +10,13 @@ namespace Foowd\FApi;
 // use Base\TagQuery as TagQuery;
 
 /**
- * @api {get} /user/:id Request User information
- * @apiName GetUser
- * @apiGroup User
+ * @apiDefine MyResponse
  *
- * @apiParam {Number} id Users unique ID.
- *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
- *
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
- *     {
- *       "firstname": "John",
- *       "lastname": "Doe"
- *     }
- *
- * @apiError UserNotFound The id of the User was not found.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
- *     {
- *       "error": "UserNotFound"
- *     }
+ * @apiParam (Response) {Bool}				response 	false, in caso di errore
+ * @apiParam (Response) {String/json}		[errors] 	json contenente i messaggi di errore
+ * @apiParam (Response) {String/json}		[body] 		json contenente i parametri da ritornare in funzione della richiesta
+ * @apiParam (Response) {String} 			[msg] 		messaggi ritornati
+ * 
  */
 
 
@@ -41,42 +25,44 @@ class ApiOffer extends \Foowd\FApi{
 
 	public function __construct($app, $method = null){
 
-		echo 'lol';
-
 		parent::__construct($app, $method);
 
-		// $this->app = $app;
-
-		// // in base al parametro type associo una specifica azione.
-		// // il parametro verra' impostato nei plugin Elgg.
-		// // Le richieste GET recuperano i dati esclusivamente dall'url
-		// // Le richieste POST recuperano i dati esclusivamente dal body, e in formato json
-		
-		// switch($method){
-		// 	case null: 
-		// 		echo  json_encode(array('msg'=>'richiesta non specificata', 'response'=>false));
-		// 		return;
-
-		// 	case "post": // se il metodo e' post, allora i parametri vengono passati come body
-		// 		$data = json_decode($app->request()->getBody());//std class		
-		// 		break;
-
-		// 	case "get": // il metodo get acquisisce i parametri via url.
-		// 		$data = (object) $app->request()->Params();
-		// 		break;
-		// }
-
-		// // ai dati aggiungo il dipo di richiesta
-		// $data->method = $method; 
-
-		// if(isset($data->type)){
-		// 	$this->{$data->type}($data);
-		// }else{
-		// 	echo  json_encode(array('msg'=>'metodo non specificato', 'response'=>false));
-		// }
 	}
 
-	// equivalente a PUT
+	/**
+	 *
+	 * @api {post} /offers create
+	 * @apiName create
+	 * @apiGroup Offers
+	 * 
+ 	 * @apiDescription Crea una nuova offerta. 
+	 * 
+	 * @apiParam {String} 		type 		metodo da chiamare
+	 * @apiParam {String} 		Name 		nome offerta, ovvero il titolo
+	 * @apiParam {String/html} 	Description descrizione offerta, 
+	 * @apiParam {Numeric} 		Price 		prezzo
+	 * @apiParam {Numeric} 		Minqt 		quantita' minima
+	 * @apiParam {Numeric} 		[Maxqt] 	quantita' massima
+	 * @apiParam {String} 		[Tag] 		lista dei tag
+	 * @apiParam {Integer}  	Publisher 	id dell'offerente
+ 	 * 
+	 * @apiParamExample {json} Request-Example:
+	 *     {
+	 *       "Name":"Salumi a Go Go!",
+	 *       "Description":"una bella cassa di salumi, buona buona",
+	 *       "Price":"7,25",
+	 *       "Minqt":"5",
+	 *       "Maxqt":"20",
+	 *       "Tag":"cibo, mangiare, salumi, affettati",
+	 *       "Created":"2015-03-20 19:07:55",
+	 *       "Publisher":"37",
+	 *       "type":"create"
+	 *     }
+	 *
+	 * @apiUse MyResponse
+	 *     
+	 */
+	
 	public function create($data){
 
 		$offer = new \Offer();

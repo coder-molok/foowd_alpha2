@@ -13,6 +13,9 @@
         <column name="modified" phpName="Modified" type="TIMESTAMP"  required="false"/>
         <!-- aggiunto -->
         <column name="state" phpName="State" type="VARCHAR" size="1" required="false"/>
+        <foreign-key foreignTable="user">
+            <reference local="publisher" foreign="id"/>
+        </foreign-key>
     </table>
     <table name="prefer" phpName="Prefer">
         <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
@@ -40,5 +43,18 @@
         <foreign-key foreignTable="tag" onDelete="cascade">
             <reference local="tagid" foreign="id"/>
         </foreign-key>
+    </table>
+    <table name="user" phpName="User">
+        <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="name" phpName="Name" type="VARCHAR" size="255" required="true" />
+        <column name="genre" phpName="Genre" type="ENUM" valueSet="offerente, standard" required="true" />
+        <column name="location" phpName="Location" type="VARCHAR" size="255" required="false" />
+        <column name="externalid" phpName="ExternalId" type="INTEGER" required="true"/>
+
+        <behavior name="validate">
+            <parameter name="rule1" value="{column: externalid, validator: PropelFoowd, options: {type: integer}}" />
+            <!-- <parameter name="rule1" value="{column: externalid, validator: Integer}" /> -->
+            <parameter name="rule2" value="{column: name, validator: NotBlank}" />
+        </behavior>
     </table>
 </database>
