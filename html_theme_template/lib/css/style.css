@@ -45,11 +45,10 @@ textarea {
     color:#666666;
 }
 .panel .panel-heading {
-    background-color:#ffffff;
-    font-weight:700;
-    font-size:16px;
-    color:#262626;
-    border-color:#ffffff;
+    background-color:transparent;
+    border-color:transparent;
+    position: absolute;
+    padding: 4px 5px 4px 5px;
 }
 .panel .panel-heading a {
     font-weight:400;
@@ -110,4 +109,28 @@ h3,h4,h5 {
     *display:inline; /* ie7 fix */
     *zoom:1; /* hasLayout ie7 trigger */
     vertical-align: top;
+}
+
+.panel-thumbnail .product-menu{
+    position: relative;
+    bottom: 25px;
+    background: transparent;
+    border: transparent;
+    z-index: 10;
+}
+.product-menu-options{
+    position: absolute;
+    float: left;
+    padding: 0;
+
+}
+.product-menu-options li {
+    list-style-type: none;
+    display: inline-block;
+    margin-left: 5px;
+}
+.panel .panel-heading,
+.product-menu-options li i{
+    color: #ffffff;
+    font-size: 20px;
 }

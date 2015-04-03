@@ -12,3 +12,7 @@ api_offerte/app/vendor/
 # linee aggiunte da Simone Scardoni
 # ignoro tutte le directory dentro a /data/
 api_offerte/app/data/**/
+
+# linee aggiunte da Marco Predari
+# io uso webstorm e aggiungo la cartella del progetto che crea il programma
+html_theme_template/.idea/
