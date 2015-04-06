@@ -14,3 +14,7 @@ api_offerte/app/vendor/
 #api_offerte/app/data/**/
 api_offerte/app/data/generated-*/
 
+# linee aggiunte da Marco Predari
+# io uso webstorm e aggiungo la cartella del progetto che crea il programma
+html_theme_template/.idea/
+
