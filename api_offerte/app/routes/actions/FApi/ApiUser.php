@@ -18,6 +18,7 @@ namespace Foowd\FApi;
 
 class ApiUser extends \Foowd\FApi{
 
+	public $needle = array();
 
 	public function __construct($app, $method = null){
 
@@ -30,7 +31,7 @@ class ApiUser extends \Foowd\FApi{
 		$user = new \User();
 		
 		$user->setExternalId("5");
-		//$user->setName('lol');
+		$user->setName('lol');
 		//
 
 		var_dump($user->validate());

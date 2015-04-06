@@ -22,6 +22,19 @@ namespace Foowd\FApi;
 
 class ApiOffer extends \Foowd\FApi{
 
+	// la chiave e' il nome del metodo, i valori sono i dati obbligatori separati da virgola
+	// i dati associati ai campi del DB devono essere indicati secondo il nome php specificato nello schema xml.
+	public $needle  = array(
+			//"create"	=> "type, Name, Description, Price, Minqt, Publisher",
+			"update"	=> "type, Name, Description, Price, Minqt, Publisher",
+			"offerList" => "type, Publisher",
+			"delete"	=> "type, Publisher, Id",
+			"single"	=> "type, Publisher, Id"
+
+		);
+
+	// da rivedere> automatizzare foreign constraint
+
 
 	public function __construct($app, $method = null){
 
@@ -61,18 +74,46 @@ class ApiOffer extends \Foowd\FApi{
 	 *
 	 * @apiUse MyResponse
 	 *     
-	 */
-	
+	 */	
 	public function create($data){
 
 		$offer = new \Offer();
 		$this->offerManager($data, $offer);
-		
+
 	}
 
 	/**
-	 * per aggiornare un' offerta.
-	 * E' meglio implementare la validazione direttamente tramite propel
+	 *
+	 * @api {post} /offers update
+	 * @apiName update
+	 * @apiGroup Offers
+	 * 
+ 	 * @apiDescription Per aggiornare un' offerta. Sostanzialmente esegue le stesse operazioni di crea().
+	 * 
+	 * @apiParam {String} 		type 		metodo da chiamare
+	 * @apiParam {String} 		Name 		nome offerta, ovvero il titolo
+	 * @apiParam {String/html} 	Description descrizione offerta, 
+	 * @apiParam {Numeric} 		Price 		prezzo
+	 * @apiParam {Numeric} 		Minqt 		quantita' minima
+	 * @apiParam {Numeric} 		[Maxqt] 	quantita' massima
+	 * @apiParam {String} 		[Tag] 		lista dei tag
+	 * @apiParam {Integer}  	Publisher 	id dell'offerente
+ 	 * 
+	 * @apiParamExample {json} Request-Example:
+	 *     {
+	 *      "Id":"38",
+	 *      "Name":"Salumi a Go Go!",
+	 *      "Description":"una bella cassa di salumi, ecceziunali veramente!",
+	 *      "Price":"7,56",
+	 *      "Minqt":"3",
+	 *      "Maxqt":"10",
+	 *      "Tag":"cibo, mangiare, latticini",
+	 *      "Modified":"2015-03-20 19:14:17",
+	 *      "Publisher":"37","type":"update"
+	 *     }
+	 *
+	 * @apiUse MyResponse
+	 *     
 	 */
 	protected function update($data){
 
@@ -90,9 +131,23 @@ class ApiOffer extends \Foowd\FApi{
 		$this->offerManager($data, $offer);
 	}
 
+	
 	/**
-	 * per creare una nuova offerta.
-	 * E' meglio implementare la validazione direttamente tramite propel
+	 *
+	 * @api {get} /offers offerList
+	 * @apiName offerList
+	 * @apiGroup Offers
+	 * 
+ 	 * @apiDescription Per ottenere la lista delle offerte di un dato Publisher.
+	 * 
+	 * @apiParam {String} 		type 		metodo da chiamare
+	 * @apiParam {Integer}  	Publisher 	id dell'offerente
+	 *
+	 * @apiParamExample {url} URL-Example:
+	 * http://localhost/api_offerte/public_html/api/offers?type=offerList&Publisher=37
+	 *
+	 * @apiUse MyResponse
+	 * 
 	 */
 	protected function offerList($data){
 
@@ -126,9 +181,28 @@ class ApiOffer extends \Foowd\FApi{
 		
 	}
 
+
 	/**
-	 * per eliminare una nuova offerta.
-	 * E' meglio implementare la validazione direttamente tramite propel
+	 *
+	 * @api {post} /offers delete
+	 * @apiName delete
+	 * @apiGroup Offers
+	 * 
+ 	 * @apiDescription Per eliminare un' offerta. 
+	 * 
+	 * @apiParam {String} 		type 		metodo da chiamare
+	 * @apiParam {Integer}  	Publisher 	id dell'offerente
+	 * @apiParam {Integer}  	Id 			id dell'offerta
+	 *
+	 * @apiParamExample {json} Request-Example:
+	 * {
+	 * 	"Publisher":"37",
+	 * 	"Id":"30",
+	 * 	"type":"delete"
+	 * }
+	 *
+	 * @apiUse MyResponse
+	 * 
 	 */
 	protected function delete($data){
 
@@ -150,7 +224,24 @@ class ApiOffer extends \Foowd\FApi{
 		echo json_encode(array(/*'body'=>$var,*/ 'response' => $status )  );	
 	}
 
-
+	/**
+	 *
+	 * @api {get} /offers single
+	 * @apiName single
+	 * @apiGroup Offers
+	 * 
+ 	 * @apiDescription Per ottenere l'offerta specifica di un utente. 
+	 * 
+	 * @apiParam {String} 		type 		metodo da chiamare
+	 * @apiParam {Integer}  	Publisher 	id dell'offerente
+	 * @apiParam {Integer}  	Id 			id dell'offerta
+	 *
+	 * @apiParamExample {url} Request-Example:
+	 * http://localhost/api_offerte/public_html/api/offers?Publisher=37&Id=31&type=single
+	 *
+	 * @apiUse MyResponse
+	 * 
+	 */
 	protected function single($data){
 
 		$offer = \OfferQuery::create()
@@ -170,7 +261,7 @@ class ApiOffer extends \Foowd\FApi{
 			$tgs = $single->getTags();// doppia s!
 			$ar['Tag'] ='';
 			foreach ($tgs as $value) {
-				foreach(TagQuery::create()->filterById($value->getId())->find() as $t){
+				foreach(\TagQuery::create()->filterById($value->getId())->find() as $t){
 					$ar['Tag'] .= $t->getName().', ';
 				}
 			}
@@ -200,6 +291,14 @@ class ApiOffer extends \Foowd\FApi{
 			$errors = array();
 			$proceed = true;
 
+
+			// check foreign constraint
+			$fkId = \UserQuery::create()->findOneById($data->Publisher);
+			if(!$fkId){
+				$proceed = false;
+				$errors['Foreign']['Id'] = "Errore: il Publisher non risulta nella tabella Utenti";
+			}
+
 			// NB: da rivedere la strategia su come aggiungere e rimuovere i tags
 			// 
 			// prendo i tag inseriti dal form
@@ -213,7 +312,7 @@ class ApiOffer extends \Foowd\FApi{
 				// da vedere: aggiungere controllo sulla presenza di caratteri speciali
 				$single = trim($single);
 				if(preg_match('@ +@i', $single)){
-					array_push($errors['Tag'], "errorone nel tag: ".$single);
+					$errors['Tag'][$single] = "errore nel tag: ".$single;
 					$proceed = false;
 				}
 			}
@@ -246,12 +345,13 @@ class ApiOffer extends \Foowd\FApi{
 			 	// trasformo il separatore dei decimali
 			 	if(preg_match('/^\d+\,\d*$/', $value))	$value = preg_replace('@,@', '.', $value);
 			 	
-			 	$offer->{'set'.$key}($value); ;
+			 	//var_dump("{'set'.$key}($value)");
+			 	$offer->{'set'.$key}($value); 
 			}
 
 			if($proceed){
-				$offer->save();
 				//echo "salvato!\n";
+				$offer->save();
 				$return =json_encode(array('response'=>$proceed));
 			}else{
 				//echo "non puoi salvare";
