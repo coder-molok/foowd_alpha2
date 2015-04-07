@@ -72,3 +72,12 @@ Devo pertanto aggiornare lo schema.xml, e per evitare di DUMPARE tutti i dati sa
     - $ propel migrate
 
 Vedi http://propelorm.org/documentation/09-migrations.html
+
+
+### MySql
+
+comandi diretti da eseguire in mysql:
+
+- accedere da terminale `mysql -u <user> -p`
+- cambiare la tipologia di una colonna: ` use foowd_api; ALTER TABLE offer MODIFY COLUMN state ENUM('open','close');`
+

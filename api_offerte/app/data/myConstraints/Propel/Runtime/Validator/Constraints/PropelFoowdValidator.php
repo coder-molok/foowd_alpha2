@@ -18,7 +18,8 @@
 	 *  @var array
 	 */
      public $msg = array(
-     		"integer"	=>	"Data must be integer greater than zero"
+     		"integer"	=>	"Data must be integer greater than zero",
+        "enum"    =>  "Il valore '%string%' non e' tra le opzioni"
      		);
 
 
@@ -30,7 +31,9 @@
       */
      public function validate($value, Constraint $constraint) {
 
-       	if(! $this->{$constraint->type}($value)){
+        //var_dump($constraint);
+
+       	if(! $this->{$constraint->type}($value, $constraint)){
 
         		$this->context->buildViolation($this->msg[$constraint->type])
         		    ->setParameter('%string%', $value)
@@ -47,10 +50,26 @@
      * @param  String 	$value 	valore istanziato
      * @return Bool     		true or false
      */
-    public function integer($value){
+    public function integer($value, $constraint){
 	
        	return (is_int($value) && $value > 0);
         
+    }
+
+    public function enum($value, $constraint){
+
+      // se non l'ho segnato, vuol dire che non e' obbligatorio
+      if(is_null($value)) return true;
+
+      // se invece l'ho esplicitato, allora devo verificare che sia presente nella lista dello schema.xml
+      if(!isset($constraint->list)) return false;
+      $need = array_map('trim', explode( ',' , $constraint->list)  );
+      if(in_array($value, $need)){
+        return true;
+      }else{
+        return false;
+      }
+    
     }
  
 

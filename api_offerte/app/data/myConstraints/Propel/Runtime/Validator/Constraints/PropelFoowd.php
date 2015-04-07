@@ -10,5 +10,6 @@ class PropelFoowd extends Constraint{
     public $message = '';
     public $column = '';
     public $type = null;
+    public $list = null;
 
 }

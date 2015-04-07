@@ -25,11 +25,12 @@ class ApiOffer extends \Foowd\FApi{
 	// la chiave e' il nome del metodo, i valori sono i dati obbligatori separati da virgola
 	// i dati associati ai campi del DB devono essere indicati secondo il nome php specificato nello schema xml.
 	public $needle  = array(
-			//"create"	=> "type, Name, Description, Price, Minqt, Publisher",
-			"update"	=> "type, Name, Description, Price, Minqt, Publisher",
-			"offerList" => "type, Publisher",
-			"delete"	=> "type, Publisher, Id",
-			"single"	=> "type, Publisher, Id"
+			"create"	=> "Name, Description, Price, Minqt, Publisher",
+			"update"	=> "Name, Description, Price, Minqt, Publisher",
+			"setState"	=> "Publisher, Id, State",
+			"offerList" => "Publisher",
+			"delete"	=> "Publisher, Id",
+			"single"	=> "Publisher, Id"
 
 		);
 
@@ -123,12 +124,50 @@ class ApiOffer extends \Foowd\FApi{
 		  		->filterByPublisher($data->Publisher)
 		  		->findOne();
 
+		if(!$offer) {
+			echo json_encode(array("errors"=>"Id e Publisher non sono associati a un'offerta esistente.", "response" => false));
+			return;
+		}
+
 		// cancello tutti i tag per riscrivere quelli aggiornati
 		\OfferTagQuery::create()
 				->filterByOfferId($data->Id)
 				->delete();
 
 		$this->offerManager($data, $offer);
+	}
+
+	/**
+	 *
+	 * @api {post} /offers setState
+	 * @apiName setState
+	 * @apiGroup Offers
+	 * 
+ 	 * @apiDescription Modifica lo stato di un'offerta. 
+	 * 
+	 * @apiParam {String} 		type 		metodo da chiamare
+	 * @apiParam {Integer}  	Id 			id dell'offerta
+	 * @apiParam {Integer}  	Publisher 	id dell'offerente
+	 * @apiParam {Enum}  		State 		{open,close}: stato dell'offerta
+ 	 * 
+	 * @apiParamExample {json} Request-Example:
+	 *    {
+	 *     "Id":"88",
+	 *     "Publisher":"5",
+	 *     "State": "close",
+	 *     "type":"setState"
+	 *    }
+	 *
+	 * @apiUse MyResponse
+	 *     
+	 */
+	protected function setState($data){
+		foreach($data as $key => $value){
+			if(!preg_match('@'.$key.'@', $this->needle['setState'])){
+				unset($data->{$key});
+			}
+		}
+		$this->update($data);
 	}
 
 	
@@ -158,7 +197,10 @@ class ApiOffer extends \Foowd\FApi{
 		
 		$Json = array();
 		
-		if(!$offer->count()) $Json['errors'] = "Publisher doesn't exists or hasn't offers.";
+		if(!$offer->count()){
+			 $Json['errors'] = "Publisher doesn't exists or hasn't offers.";
+			 $Json['response'] = false;
+		}
 		
 		$return = array();
 		
@@ -175,7 +217,106 @@ class ApiOffer extends \Foowd\FApi{
 			array_push($return, $ar);
 		}
 
-		$Json['response'] = true;
+		if(!isset($Json['response'])) $Json['response'] = true;
+		$Json['body'] = $return;
+		echo json_encode($Json);
+		
+	}
+
+
+	/**
+	 *
+	 * @api {get} /offers search
+	 * @apiName search
+	 * @apiGroup Offers
+	 * 
+ 	 * @apiDescription Per ottenere la lista delle offerte di un dato Publisher.
+ 	 *
+ 	 * Strutturato in questo modo, cerca solo le intersezioni dei filtri.
+	 * 
+	 * @apiParam {String} 		type 			metodo da chiamare
+	 * @apiParam {Mixed}	  	[qualunque] 	qualunque colonna. Il valore puo' essere una STRINGA o un ARRAY come stringa-JSON con chiavi "max" e/o "min" (lettere minuscole).
+	 * @apiParam {String} 		[tag] 			elenco di tags separati da virgola
+	 *
+	 * @apiParamExample {json} Request-Example:
+	 * {
+	 * "Publisher":"4",
+	 * "Id": {"min":2 ,"max":67},
+	 * "type":"search"
+	 * }
+	 *
+	 * 
+	 * @apiUse MyResponse
+	 * 
+	 */
+	protected function search($data){
+		
+		$msg = "Nessun risultato trovato: prova a ripetere la ricerca escludendo qualche opzione.";
+
+		unset($data->type);
+		unset($data->method);
+		if(isset($data->Tag)){
+			//var_dump($data->Tag);
+			$Tag = array_map('trim', explode(',', $data->Tag));
+			unset($data->Tag);
+			//var_dump($Tag);
+		}
+
+		// NB: se ritorna qualche errore sul Model Criteria e' perche' probabilmente sto' usando un dato di ricerca che non esiste!
+		//var_dump($data);
+
+		$obj = \OfferQuery::create();
+		foreach($data as $key => $value){
+			//echo "$key";
+			if(preg_match('@{.+}@',$value)) $value = (array) json_decode($value);
+			//var_dump($value);
+			$obj = $obj->{'filterBy'.$key}($value);
+		}
+		$offer = $obj->find();
+
+		//var_dump($offer);
+		//$Json = array();
+		
+		if(!$offer->count()){
+			 $Json['response'] = false;
+		}
+		
+		$return = array();
+		
+		foreach ($offer as $single) {
+
+			$ar = $single->toArray();
+			$tgs = $single->getTags();
+			$ar['Tag'] ='';
+			$tmp = array();
+			foreach ($tgs as $value) {
+				//var_dump($value->getName());
+				//$ar['Tag'] .= $value->getName().', ';
+				array_push($tmp, trim($value->getName()));
+			}
+			$ar['Tag'] = implode($tmp,', ');
+
+			// nel caso la ricerca contempli i tag
+			if(isset($Tag)){
+				// in questo modo aggiungo solo le offerte che contengono TUTTI i tag elencati
+				$i = 0;
+				foreach($Tag as $value){
+					if(preg_match('@'.$value.'@', $ar['Tag'])) $i++;	
+				}
+				if($i == count($Tag)){array_push($return, $ar);}
+
+				// Aggiungo tutti i post che contengono ALMENO uno dei tag
+				// foreach($Tag as $value){
+				// 	if(preg_match('@'.$value.'@', $ar['Tag'])) array_push($return, $ar);
+				// }
+
+			}
+
+		}
+
+		if(count($return ) == 0) $Json['response'] =false;
+		if(!isset($Json['response'])){ $Json['response'] = true;}
+		else {$Json['errors'] = $msg; }
 		$Json['body'] = $return;
 		echo json_encode($Json);
 		
@@ -299,21 +440,21 @@ class ApiOffer extends \Foowd\FApi{
 				$errors['Foreign']['Id'] = "Errore: il Publisher non risulta nella tabella Utenti";
 			}
 
-			// NB: da rivedere la strategia su come aggiungere e rimuovere i tags
-			// 
-			// prendo i tag inseriti dal form
-			$actualTags = explode(',', $data->Tag);
-			$actualTags = array_unique($actualTags);	// evito eventuali ripetizioni
-			$errors['Tag'] = array();
-
-			// valido i tag (posso anche impostarlo lato propel)
-			foreach ($actualTags as $single) {
-				// prima di salvare, controllo che il tag sia di una sola parola
-				// da vedere: aggiungere controllo sulla presenza di caratteri speciali
-				$single = trim($single);
-				if(preg_match('@ +@i', $single)){
-					$errors['Tag'][$single] = "errore nel tag: ".$single;
-					$proceed = false;
+			if(isset($data->Tag)){
+				// prendo i tag inseriti dal form
+				$actualTags = explode(',', $data->Tag);
+				$actualTags = array_unique($actualTags);	// evito eventuali ripetizioni
+				$errors['Tag'] = array();
+	
+				// valido i tag (posso anche impostarlo lato propel)
+				foreach ($actualTags as $single) {
+					// prima di salvare, controllo che il tag sia di una sola parola
+					// da vedere: aggiungere controllo sulla presenza di caratteri speciali
+					$single = trim($single);
+					if(preg_match('@ +@i', $single)){
+						$errors['Tag'][$single] = "errore nel tag: ".$single;
+						$proceed = false;
+					}
 				}
 			}
 
@@ -323,12 +464,14 @@ class ApiOffer extends \Foowd\FApi{
 				
 				//$tagManager = OfferTagQuery::create()->find();
 				//$tags = TagQuery::create()->find();
-				foreach ($actualTags as $tag) {
-					// salvo solo i tag nuovi, altrimenti la tabella dei TAG sarebbe piena di duplicati
-		            $newTag = \TagQuery::create()->filterByName($tag)->findOneOrCreate();
-		            //$tags->append($newTag);
-					$offer->addTag($newTag);
-			    }
+				if(isset($actualTags)){
+					foreach ($actualTags as $tag) {
+						// salvo solo i tag nuovi, altrimenti la tabella dei TAG sarebbe piena di duplicati
+			            $newTag = \TagQuery::create()->filterByName($tag)->findOneOrCreate();
+			            //$tags->append($newTag);
+						$offer->addTag($newTag);
+				    }
+				}
 			}
 
 			unset($data->Tag);
@@ -344,15 +487,12 @@ class ApiOffer extends \Foowd\FApi{
 
 			 	// trasformo il separatore dei decimali
 			 	if(preg_match('/^\d+\,\d*$/', $value))	$value = preg_replace('@,@', '.', $value);
-			 	
 			 	//var_dump("{'set'.$key}($value)");
 			 	$offer->{'set'.$key}($value); 
 			}
 
 			if($proceed){
-				//echo "salvato!\n";
-				$offer->save();
-				$return =json_encode(array('response'=>$proceed));
+				$return = json_encode($this->FSave($offer));
 			}else{
 				//echo "non puoi salvare";
 				$return = json_encode(array('errors'=>$errors, 'response'=>$proceed));

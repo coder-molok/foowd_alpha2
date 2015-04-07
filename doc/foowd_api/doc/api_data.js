@@ -255,6 +255,163 @@ define({ "api": [
   {
     "type": "get",
     "url": "/offers",
+    "title": "search",
+    "name": "search",
+    "group": "Offers",
+    "description": "<p>Per ottenere la lista delle offerte di un dato Publisher.</p> <p>Strutturato in questo modo, cerca solo le intersezioni dei filtri.</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>metodo da chiamare</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "mixed",
+            "optional": true,
+            "field": "qualunque",
+            "description": "<p>qualunque colonna. Il valore puo&#39; essere una STRINGA o un ARRAY con chiami &quot;max&quot; e/o &quot;min&quot; (lettere minuscole).</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "tag",
+            "description": "<p>elenco di tags separati da virgola</p> "
+          }
+        ],
+        "Response": [
+          {
+            "group": "Response",
+            "type": "Bool",
+            "optional": false,
+            "field": "response",
+            "description": "<p>false, in caso di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "errors",
+            "description": "<p>json contenente i messaggi di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "body",
+            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "msg",
+            "description": "<p>messaggi ritornati</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n\"Publisher\":\"4\",\n\"Id\": {\"min\":2 ,\"max\":67},\n\"type\":\"search\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "foowd_alpha2/api_offerte/app/routes/actions/FApi/ApiOffer.php",
+    "groupTitle": "Offers"
+  },
+  {
+    "type": "post",
+    "url": "/offers",
+    "title": "setState",
+    "name": "setState",
+    "group": "Offers",
+    "description": "<p>Modifica lo stato di un&#39;offerta.</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>metodo da chiamare</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "Id",
+            "description": "<p>id dell&#39;offerta</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "Publisher",
+            "description": "<p>id dell&#39;offerente</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Enum",
+            "optional": false,
+            "field": "State",
+            "description": "<p>{open,close}: stato dell&#39;offerta</p> "
+          }
+        ],
+        "Response": [
+          {
+            "group": "Response",
+            "type": "Bool",
+            "optional": false,
+            "field": "response",
+            "description": "<p>false, in caso di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "errors",
+            "description": "<p>json contenente i messaggi di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "body",
+            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "msg",
+            "description": "<p>messaggi ritornati</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n \"Id\":\"88\",\n \"Publisher\":\"5\",\n \"State\": \"close\",\n \"type\":\"setState\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "foowd_alpha2/api_offerte/app/routes/actions/FApi/ApiOffer.php",
+    "groupTitle": "Offers"
+  },
+  {
+    "type": "get",
+    "url": "/offers",
     "title": "single",
     "name": "single",
     "group": "Offers",

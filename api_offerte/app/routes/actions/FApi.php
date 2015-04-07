@@ -24,7 +24,7 @@ abstract class FApi{
 				break;
 
 			case "get": // il metodo get acquisisce i parametri via url.
-				$data = (object) $app->request()->Params();
+				$data = (object) array_map('trim', $app->request()->Params());
 				break;
 		}
 
@@ -54,6 +54,7 @@ abstract class FApi{
 		    $r['response'] = false;
 		}
 		else {
+			$obj->save();
 		   $r['response'] = true;
 		}
 

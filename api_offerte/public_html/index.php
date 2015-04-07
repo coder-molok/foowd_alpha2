@@ -65,6 +65,8 @@ $app->error(function (\Exception $e) use ($app) {
     //var_dump($e);
     $errors['status'] = $code;
     $errors['msg'] = $e->getMessage();
+    $errors['line'] = $e->getLine();
+    $errors['file'] = $e->getFile();
     $app->getLog()->error(json_encode($errors));
     echo json_encode(array('errors'=>$errors, "response"=>false));   
 });
