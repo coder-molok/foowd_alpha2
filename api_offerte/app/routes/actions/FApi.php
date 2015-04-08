@@ -36,7 +36,9 @@ abstract class FApi{
 			if(is_array( $verify = $this->checkNeedle($data) )){
 				echo  json_encode(array('errors'=>$verify, 'response'=>false));
 			}else{
-				$this->{$data->type}($data);
+				$ret = $this->{$data->type}($data);
+				//var_dump($ret);
+				echo json_encode($this->parse($ret) );
 			}
 		}else{
 			echo  json_encode(array('msg'=>get_class($this).': metodo non specificato', 'response'=>false));
@@ -86,6 +88,27 @@ abstract class FApi{
 		if(isset($error) && count($error) > 0) return $error;
 		return true;
 
+	}
+
+
+	/**
+	 * Per svolgere operazioni di default sugli oggetti ritornati, ovvero le risposte delle api.
+	 * 
+	 * @param  [type] $obj API ritornata, in formato array (non ancora json);
+	 * @return [type]      l'oggetto passato, al netto delle operazioni di parser.
+	 */
+	public function parse($obj){
+
+		if(!isset($obj['body'])) return $obj;
+
+		foreach($obj['body'] as $key => $single){
+			// Converto le date ZULU in orario locale
+			// solo per quanto riguarda la visualizzazione
+			//date_default_timezone_set("Europe/Rome");
+			if(isset($single['Modified']))	$obj['body'][$key]['Modified'] =  date("Y-m-d H:i:s", strtotime($single['Modified']) );
+			if(isset($single['Created']))	$obj['body'][$key]['Created'] =  date("Y-m-d H:i:s", strtotime($single['Created']) );
+		}
+		return $obj;
 	}
 
 

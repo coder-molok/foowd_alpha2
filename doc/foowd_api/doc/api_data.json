@@ -271,17 +271,24 @@
           },
           {
             "group": "Parameter",
-            "type": "mixed",
+            "type": "Mixed",
             "optional": true,
             "field": "qualunque",
-            "description": "<p>qualunque colonna. Il valore puo&#39; essere una STRINGA o un ARRAY con chiami &quot;max&quot; e/o &quot;min&quot; (lettere minuscole).</p> "
+            "description": "<p>qualunque colonna. Il valore puo&#39; essere una STRINGA o un ARRAY come stringa-JSON con chiavi &quot;max&quot; e/o &quot;min&quot; (lettere minuscole).</p> "
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": true,
-            "field": "tag",
+            "field": "Tag",
             "description": "<p>elenco di tags separati da virgola</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "order",
+            "description": "<p>stringa per specificare l&#39;ordinamento. Il primo elemento e&#39; la colonna php. Si puo&#39; specificare se &#39;asc&#39; o &#39;desc&#39; inserendo uno di questi dopo una virgola. Generalmente saranno Name, Price, Created, Modified</p> "
           }
         ],
         "Response": [
@@ -318,8 +325,8 @@
       "examples": [
         {
           "title": "Request-Example:",
-          "content": "{\n\"Publisher\":\"4\",\n\"Id\": {\"min\":2 ,\"max\":67},\n\"type\":\"search\"\n}",
-          "type": "json"
+          "content": "\nhttp://localhost/api_offerte/public_html/api/offers?Publisher={{Publisher}}&type=search&Id={\"min\":2 ,\"max\":109}&Tag=mangiare, cibo&order=Modified, desc",
+          "type": "url"
         }
       ]
     },
@@ -490,7 +497,7 @@
     "title": "update",
     "name": "update",
     "group": "Offers",
-    "description": "<p>Per aggiornare un&#39; offerta. Sostanzialmente esegue le stesse operazioni di crea().</p> ",
+    "description": "<p>Per aggiornare un&#39; offerta. Sostanzialmente esegue le stesse operazioni di crea().</p> <p>Se non e&#39; specificata la data di modifica, allora viene impostata all&#39;ora attuale.</p> ",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -500,6 +507,13 @@
             "optional": false,
             "field": "type",
             "description": "<p>metodo da chiamare</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "Publisher",
+            "description": "<p>id dell&#39;offerente</p> "
           },
           {
             "group": "Parameter",
@@ -545,10 +559,10 @@
           },
           {
             "group": "Parameter",
-            "type": "Integer",
-            "optional": false,
-            "field": "Publisher",
-            "description": "<p>id dell&#39;offerente</p> "
+            "type": "Date",
+            "optional": true,
+            "field": "Created",
+            "description": "<p>funzione php: date(&#39;Y-m-d H:i:s&#39;);</p> "
           }
         ],
         "Response": [

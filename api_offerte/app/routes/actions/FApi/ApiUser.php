@@ -36,16 +36,6 @@ class ApiUser extends \Foowd\FApi{
 
 		var_dump($user->validate());
 
-		//$user->save();
-
-		// if (!$user->validate()) {
-		//     foreach ($user->getValidationFailures() as $failure) {
-		//         echo "Property ".$failure->getPropertyPath().": ".$failure->getMessage()."\n";
-		//     }
-		// }
-		// else {
-		//    echo "Everything's all right!";
-		// }
 		var_dump($this->FSave($user));
 	}
 

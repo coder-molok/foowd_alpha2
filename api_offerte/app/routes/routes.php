@@ -9,7 +9,6 @@
  */
 $app->group('/api', function() use ($app){
 
-	
 		// gestione offerte
 		$app->post('/offers',function() use ($app){
 

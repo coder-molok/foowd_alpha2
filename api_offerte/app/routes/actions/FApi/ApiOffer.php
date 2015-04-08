@@ -79,7 +79,8 @@ class ApiOffer extends \Foowd\FApi{
 	public function create($data){
 
 		$offer = new \Offer();
-		$this->offerManager($data, $offer);
+		if(!isset($data->Created)) $data->Created = date('Y-m-d H:i:s');
+		return $this->offerManager($data, $offer);
 
 	}
 
@@ -90,15 +91,18 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiGroup Offers
 	 * 
  	 * @apiDescription Per aggiornare un' offerta. Sostanzialmente esegue le stesse operazioni di crea().
+ 	 *
+ 	 * Se non e' specificata la data di modifica, allora viene impostata all'ora attuale.
 	 * 
 	 * @apiParam {String} 		type 		metodo da chiamare
+	 * @apiParam {Integer}  	Publisher 	id dell'offerente
 	 * @apiParam {String} 		Name 		nome offerta, ovvero il titolo
 	 * @apiParam {String/html} 	Description descrizione offerta, 
 	 * @apiParam {Numeric} 		Price 		prezzo
 	 * @apiParam {Numeric} 		Minqt 		quantita' minima
 	 * @apiParam {Numeric} 		[Maxqt] 	quantita' massima
 	 * @apiParam {String} 		[Tag] 		lista dei tag
-	 * @apiParam {Integer}  	Publisher 	id dell'offerente
+	 * @apiParam {Date} 		[Created] 	funzione php: date('Y-m-d H:i:s');
  	 * 
 	 * @apiParamExample {json} Request-Example:
 	 *     {
@@ -125,8 +129,7 @@ class ApiOffer extends \Foowd\FApi{
 		  		->findOne();
 
 		if(!$offer) {
-			echo json_encode(array("errors"=>"Id e Publisher non sono associati a un'offerta esistente.", "response" => false));
-			return;
+			return array("errors"=>"Id e Publisher non sono associati a un'offerta esistente.", "response" => false);
 		}
 
 		// cancello tutti i tag per riscrivere quelli aggiornati
@@ -134,7 +137,10 @@ class ApiOffer extends \Foowd\FApi{
 				->filterByOfferId($data->Id)
 				->delete();
 
-		$this->offerManager($data, $offer);
+		//date_timezone_set('Europe/Rome');
+		if(!isset($data->Modified)) $data->Modified = date('Y-m-d H:i:s');
+
+		return $this->offerManager($data, $offer);
 	}
 
 	/**
@@ -167,7 +173,7 @@ class ApiOffer extends \Foowd\FApi{
 				unset($data->{$key});
 			}
 		}
-		$this->update($data);
+		return $this->update($data);
 	}
 
 	
@@ -178,6 +184,8 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiGroup Offers
 	 * 
  	 * @apiDescription Per ottenere la lista delle offerte di un dato Publisher.
+ 	 *
+ 	 * NB: allo stato attuale e' sufficiente utilizzare il metodo SEARCH, secondo l'url http://localhost/api_offerte/public_html/api/offers?Publisher={{Publisher}}&type=search
 	 * 
 	 * @apiParam {String} 		type 		metodo da chiamare
 	 * @apiParam {Integer}  	Publisher 	id dell'offerente
@@ -219,7 +227,7 @@ class ApiOffer extends \Foowd\FApi{
 
 		if(!isset($Json['response'])) $Json['response'] = true;
 		$Json['body'] = $return;
-		echo json_encode($Json);
+		return $Json;
 		
 	}
 
@@ -236,15 +244,12 @@ class ApiOffer extends \Foowd\FApi{
 	 * 
 	 * @apiParam {String} 		type 			metodo da chiamare
 	 * @apiParam {Mixed}	  	[qualunque] 	qualunque colonna. Il valore puo' essere una STRINGA o un ARRAY come stringa-JSON con chiavi "max" e/o "min" (lettere minuscole).
-	 * @apiParam {String} 		[tag] 			elenco di tags separati da virgola
+	 * @apiParam {String} 		[Tag] 			elenco di tags separati da virgola
+	 * @apiParam {String} 		[order] 		stringa per specificare l'ordinamento. Il primo elemento e' la colonna php. Si puo' specificare se 'asc' o 'desc' inserendo uno di questi dopo una virgola. Generalmente saranno Name, Price, Created, Modified
 	 *
-	 * @apiParamExample {json} Request-Example:
-	 * {
-	 * "Publisher":"4",
-	 * "Id": {"min":2 ,"max":67},
-	 * "type":"search"
-	 * }
-	 *
+	 * @apiParamExample {url} URL-Example:
+	 * 
+	 * http://localhost/api_offerte/public_html/api/offers?Publisher={{Publisher}}&type=search&Id={"min":2 ,"max":109}&Tag=mangiare, cibo&order=Modified, desc
 	 * 
 	 * @apiUse MyResponse
 	 * 
@@ -262,6 +267,14 @@ class ApiOffer extends \Foowd\FApi{
 			//var_dump($Tag);
 		}
 
+		if(isset($data->order)){
+			$order = array_map('trim' , explode( ',', $data->order) );
+			// imposto asc come default
+			if(!isset($order[1])) $order[1]= 'asc';
+			//var_dump($order);
+			unset($data->order);
+		}
+
 		// NB: se ritorna qualche errore sul Model Criteria e' perche' probabilmente sto' usando un dato di ricerca che non esiste!
 		//var_dump($data);
 
@@ -272,7 +285,11 @@ class ApiOffer extends \Foowd\FApi{
 			//var_dump($value);
 			$obj = $obj->{'filterBy'.$key}($value);
 		}
+		
+		if(isset($order)) $obj = $obj->{'orderBy'.$order[0]}($order['1']);
+		
 		$offer = $obj->find();
+
 
 		//var_dump($offer);
 		//$Json = array();
@@ -304,13 +321,15 @@ class ApiOffer extends \Foowd\FApi{
 					if(preg_match('@'.$value.'@', $ar['Tag'])) $i++;	
 				}
 				if($i == count($Tag)){array_push($return, $ar);}
-
-				// Aggiungo tutti i post che contengono ALMENO uno dei tag
-				// foreach($Tag as $value){
-				// 	if(preg_match('@'.$value.'@', $ar['Tag'])) array_push($return, $ar);
-				// }
-
+			}else{
+				array_push($return, $ar);
 			}
+
+			// Aggiungo tutti i post che contengono ALMENO uno dei tag
+			// foreach($Tag as $value){
+			// 	if(preg_match('@'.$value.'@', $ar['Tag'])) array_push($return, $ar);
+			// }
+
 
 		}
 
@@ -318,7 +337,7 @@ class ApiOffer extends \Foowd\FApi{
 		if(!isset($Json['response'])){ $Json['response'] = true;}
 		else {$Json['errors'] = $msg; }
 		$Json['body'] = $return;
-		echo json_encode($Json);
+		return $Json;
 		
 	}
 
@@ -350,19 +369,22 @@ class ApiOffer extends \Foowd\FApi{
 		$offer = \OfferQuery::create()
 		  	->filterById($data->Id)
 		  	->filterByPublisher($data->Publisher)
-		 	// ->delete();
 		 	->find();
 
 		 $status = false;
 
 		 // in teoria la query dovrebbe restituire un solo valore, ma meglio controllare
-		 if( $offer->count = 1){
+		 if( $offer->count() == 1){
 		 	$offer->delete();
 		 	$status = true;
+		 }else{
+		 	$Json['errors'] = "Si sta tentando di cancellare un post che non esiste.";
 		 }
+
+		 $Json['response'] = $status;
 		 
 		//echo json_encode($count);
-		echo json_encode(array(/*'body'=>$var,*/ 'response' => $status )  );	
+		return $Json;	
 	}
 
 	/**
@@ -372,6 +394,8 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiGroup Offers
 	 * 
  	 * @apiDescription Per ottenere l'offerta specifica di un utente. 
+ 	 *
+ 	 * NB: allo stato attuale e' sufficiente utilizzare il metodo SEARCH, secondo l'url http://localhost/api_offerte/public_html/api/offers?Publisher={{Publisher}}&type=search&Id=88
 	 * 
 	 * @apiParam {String} 		type 		metodo da chiamare
 	 * @apiParam {Integer}  	Publisher 	id dell'offerente
@@ -409,7 +433,7 @@ class ApiOffer extends \Foowd\FApi{
 			array_push($return,  $ar);
 		}
 
-		echo json_encode(array('body'=>$return, 'response'=>true));
+		return array('body'=>$return, 'response'=>true);
 	}
 
 
@@ -492,13 +516,13 @@ class ApiOffer extends \Foowd\FApi{
 			}
 
 			if($proceed){
-				$return = json_encode($this->FSave($offer));
+				$return = $this->FSave($offer);
 			}else{
 				//echo "non puoi salvare";
-				$return = json_encode(array('errors'=>$errors, 'response'=>$proceed));
+				$return = array('errors'=>$errors, 'response'=>$proceed);
 			}
 
-			echo $return;
+			return $return;
 	}
 
 }
