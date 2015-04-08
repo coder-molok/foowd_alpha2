@@ -1,0 +1,96 @@
+/*
+A custom Bootstrap 3.2 'Google Plus style' theme
+from http://bootply.com
+
+This CSS code should follow the 'bootstrap.css'
+in your HTML file.
+
+license: MIT
+author: bootply.com
+*/
+
+@import url(http://fonts.googleapis.com/css?family=Roboto:400);
+body {
+    background-color:#e0e0e0;
+    -webkit-font-smoothing: antialiased;
+    font: normal 14px Roboto,arial,sans-serif;
+}
+
+.header {
+    background-color:#ffffff;
+    border-width:0;
+    opacity: 0.96}
+.header .navbar-collapse {
+    background-color:#ffffff;
+}
+.navbar-menu,
+.navbar-brand{
+    font-size: 10px;
+    height: 15px;
+}
+
+
+.panel .btn i,.btn span{
+    color:#666666;
+}
+.panel .panel-heading {
+    background-color:transparent;
+    border-color:transparent;
+    position: absolute;
+    padding: 4px 5px 4px 5px;
+}
+.panel .panel-heading a {
+    font-weight:400;
+    font-size:11px;
+}
+.panel .panel-default {
+    border-color:#cccccc;
+}
+.panel .panel-thumbnail {
+    padding:0;
+}
+.panel .img-circle {
+    width:50px;
+    height:50px;
+}
+.list-group-item:first-child,
+.list-group-item:last-child {
+    border-radius:0;
+}
+
+h3,h4,h5 {
+    border:0 solid #efefef;
+    border-bottom-width:1px;
+    padding-bottom:10px;
+}
+
+#main {
+    padding-top:120px;
+}
+.wall{
+    margin-left: -70px;
+    margin-right: -70px;
+}
+.panel-thumbnail .product-menu{
+    position: relative;
+    bottom: 25px;
+    background: transparent;
+    border: transparent;
+    z-index: 10;
+}
+.product-menu-options{
+    position: absolute;
+    float: left;
+    padding: 0;
+
+}
+.product-menu-options li {
+    list-style-type: none;
+    display: inline-block;
+    margin-left: 5px;
+}
+.panel .panel-heading,
+.product-menu-options li i{
+    color: #ffffff;
+    font-size: 20px;
+}
