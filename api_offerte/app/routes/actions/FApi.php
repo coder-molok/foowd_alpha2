@@ -29,14 +29,18 @@ abstract class FApi{
 		}
 
 		// ai dati aggiungo il dipo di richiesta
-		$data->method = $method; 
+		// $data->method = $method; 
 
 		if(isset($data->type)){
+			
 			// controllo che siano inseriti i dati obbligatori, altrimenti ritorno l'errore
 			if(is_array( $verify = $this->checkNeedle($data) )){
 				echo  json_encode(array('errors'=>$verify, 'response'=>false));
 			}else{
-				$ret = $this->{$data->type}($data);
+				// evito di portarmi dietro dati inutili
+				$type = $data->type;
+				unset($data->type);
+				$ret = $this->{$type}($data);
 				//var_dump($ret);
 				echo json_encode($this->parse($ret) );
 			}

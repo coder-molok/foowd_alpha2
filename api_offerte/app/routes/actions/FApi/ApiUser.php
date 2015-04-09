@@ -10,15 +10,17 @@ namespace Foowd\FApi;
  *
  * @apiParam (Response) {Bool}				response 	false, in caso di errore
  * @apiParam (Response) {String/json}		[errors] 	json contenente i messaggi di errore
- * @apiParam (Response) {String/json}		[body] 		json contenente i parametri da ritornare in funzione della richiesta
- * @apiParam (Response) {String} 			[msg] 		messaggi ritornati
  * 
  */
 
 
 class ApiUser extends \Foowd\FApi{
 
-	public $needle = array();
+	public $needle  = array(
+			"create"	=> "Name, Genre, ExternalId", // Location 
+			"delete"	=> "ExternalId"
+	);
+
 
 	public function __construct($app, $method = null){
 
@@ -26,17 +28,97 @@ class ApiUser extends \Foowd\FApi{
 
 	}
 
+	
+	/**
+	 *
+	 * @api {post} /user create
+	 * @apiName create
+	 * @apiGroup User
+	 * 
+ 	 * @apiDescription Crea una nuovo utente. 
+	 * 
+	 * @apiParam {String} 		type 		metodo da chiamare
+	 * @apiParam {String} 		Name 		nome offerta, ovvero il titolo
+	 * @apiParam {Integer}  	ExternalId 	id Elgg
+	 * @apiParam {Enum}  		Genre 		{standard, offerente}: tipologia utente
+	 * @apiParam {String} 		[Location] 	luogo
+	 * 
+ 	 * 
+	 * @apiParamExample {json} Request-Example:
+	 *  {
+	 *   "type":"create",
+	 *   "Name":"gigi",
+	 *   "Genre":"standard",
+	 *   "Location": "torino",
+	 *   "ExternalId":"54"
+	 *  }
+	 *
+	 *     
+	 */	
 	public function create($data){
 
-		$user = new \User();
 		
-		$user->setExternalId("5");
-		$user->setName('lol');
-		//
+		// unset($data->type);
+		// unset($data->method);
 
-		var_dump($user->validate());
+		$user = \UserQuery::Create()
+				->filterByExternalId($data->ExternalId)
+				->findOne();
 
-		var_dump($this->FSave($user));
+		if($user) return array('errors'=>'non puoi creare un utente gia\' presente', 'response' => false);
+		
+		$user = new \User();
+		foreach($data as $field => $value) $user->{'set'.$field}($value);
+		
+
+		//var_dump($user->validate());
+
+		return $this->FSave($user);
+	}
+
+
+	/**
+	 *
+	 * @api {post} /user delete
+	 * @apiName delete
+	 * @apiGroup User
+	 * 
+ 	 * @apiDescription Elimina utente.
+	 * 
+	 * @apiParam {String} 		type 		metodo da chiamare
+	 * @apiParam {String} 		Name 		nome offerta, ovvero il titolo
+	 * @apiParam {Integer}  	ExternalId 	id Elgg
+	 * @apiParam {Enum}  		Genre 		{standard, offerente}: tipologia utente
+	 * @apiParam {String} 		[Location] 	luogo
+	 * 
+ 	 * 
+	 * @apiParamExample {json} Request-Example:
+	 *  {
+	 *   "type":"delete",
+	 *   "ExternalId":"54"
+	 *  }
+	 *
+	 *     
+	 */	
+	protected function delete($data){
+
+		$user = \UserQuery::create()
+		  		->filterByExternalId($data->ExternalId)
+		 		->find();
+
+		$status = false;
+
+		 // in teoria la query dovrebbe restituire un solo valore, ma meglio controllare
+		 if( $user->count() == 1){
+		 	$user->delete();
+		 	$status = true;
+		 }else{
+		 	$Json['errors'] = "Si sta tentando di cancellare un utente che non esiste.";
+		 }
+
+		 $Json['response'] = $status;
+		 
+		return $Json;	
 	}
 
 }

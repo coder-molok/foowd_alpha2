@@ -30,6 +30,12 @@
         <foreign-key foreignTable="offer" onDelete="cascade">
             <reference local="offerid" foreign="id"/>
         </foreign-key>
+        <foreign-key foreignTable="user" onDelete="cascade">
+            <reference local="userid" foreign="id"/>
+        </foreign-key>
+        <behavior name="validate">
+            <parameter name="Qt" value="{column: qt, validator: NotBlank}" />
+        </behavior>
     </table>
     <table name="tag" phpName="Tag">
         <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>

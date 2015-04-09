@@ -244,8 +244,9 @@ class ApiOffer extends \Foowd\FApi{
 	 * 
 	 * @apiParam {String} 		type 			metodo da chiamare
 	 * @apiParam {Mixed}	  	[qualunque] 	qualunque colonna. Il valore puo' essere una STRINGA o un ARRAY come stringa-JSON con chiavi "max" e/o "min" (lettere minuscole).
-	 * @apiParam {String} 		[Tag] 			elenco di tags separati da virgola
 	 * @apiParam {String} 		[order] 		stringa per specificare l'ordinamento. Il primo elemento e' la colonna php. Si puo' specificare se 'asc' o 'desc' inserendo uno di questi dopo una virgola. Generalmente saranno Name, Price, Created, Modified
+	 * @apiParam {Mixed}	  	[offset] 		Il valore puo' essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi "page" e "maxPerPage" per sfruttare la paginazione di propel.
+	 * @apiParam {String} 		[Tag] 			elenco di tags separati da virgola
 	 *
 	 * @apiParamExample {url} URL-Example:
 	 * 
@@ -258,8 +259,8 @@ class ApiOffer extends \Foowd\FApi{
 		
 		$msg = "Nessun risultato trovato: prova a ripetere la ricerca escludendo qualche opzione.";
 
-		unset($data->type);
-		unset($data->method);
+		// unset($data->type);
+		// unset($data->method);
 		if(isset($data->Tag)){
 			//var_dump($data->Tag);
 			$Tag = array_map('trim', explode(',', $data->Tag));
@@ -275,6 +276,15 @@ class ApiOffer extends \Foowd\FApi{
 			unset($data->order);
 		}
 
+		if(isset($data->offset)){
+			if(preg_match('@{.+}@',$data->offset)){
+				$offset = (array) json_decode($data->offset);
+			}else{
+				$offset = $data->offset;
+			}
+			unset($data->offset);
+		}
+
 		// NB: se ritorna qualche errore sul Model Criteria e' perche' probabilmente sto' usando un dato di ricerca che non esiste!
 		//var_dump($data);
 
@@ -287,12 +297,28 @@ class ApiOffer extends \Foowd\FApi{
 		}
 		
 		if(isset($order)) $obj = $obj->{'orderBy'.$order[0]}($order['1']);
+
+		// offset e/o limit
+		if(isset($offset)){
+			if(is_array($offset)){
+				$obj = $obj->paginate($page = $offset['page'], $maxPerPage = $offset['maxPerPage']);
+
+				if($offset['page'] * $offset['maxPerPage'] > $offset['maxPerPage'] + $obj->getFirstIndex()){
+					$Json['response']=false;
+					$Json['errors']['offset']="Hai superato il limite massimo di offerte visualizzabili con questi filtri";
+					return($Json);
+				}
+
+			}else{
+				$obj = $obj->limit($offset)->find();				
+			}
+			$offer = $obj;
+
+		}else{
+
+			$offer = $obj->find();
 		
-		$offer = $obj->find();
-
-
-		//var_dump($offer);
-		//$Json = array();
+		}
 		
 		if(!$offer->count()){
 			 $Json['response'] = false;
@@ -449,8 +475,8 @@ class ApiOffer extends \Foowd\FApi{
 	protected function offerManager($data, $offer){
 			// rimuovo i parametri superflui dall'array:
 			// mi servira' per i cicli successivi
-			unset($data->type);
-			unset($data->method);
+			// unset($data->type);
+			// unset($data->method);
 
 			// memorizzo i singoli errori
 			$errors = array();
