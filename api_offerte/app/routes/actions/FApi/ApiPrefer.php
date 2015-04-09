@@ -136,7 +136,7 @@ class ApiPrefer extends \Foowd\FApi{
 		 	$prefer->delete();
 		 	$status = true;
 		 }else{
-		 	$Json['errors'] = "Si sta tentando di cancellare un utente che non esiste.";
+		 	$Json['errors'] = "Si sta tentando di cancellare una preferenza che non esiste.";
 		 }
 
 		 $Json['response'] = $status;
