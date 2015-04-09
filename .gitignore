@@ -1,4 +1,3 @@
-test/
 api_offerte/app/generated-classes/Base
 api_offerte/app/generated-classes/Map
 api_offerte/app/generated-classes/Offer.php
@@ -14,7 +13,6 @@ api_offerte/app/vendor/
 # ignoro tutte le directory dentro a /data/
 #api_offerte/app/data/**/
 api_offerte/app/data/generated-*/
-
 
 # linee aggiunte da Marco Predari
 # io uso webstorm e aggiungo la cartella del progetto che crea il programma
