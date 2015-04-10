@@ -16,11 +16,6 @@ namespace Foowd\FApi;
 
 class ApiUser extends \Foowd\FApi{
 
-	public $needle  = array(
-			"create"	=> "Name, Genre, ExternalId", // Location 
-			"delete"	=> "ExternalId"
-	);
-
 
 	public function __construct($app, $method = null){
 
@@ -55,6 +50,7 @@ class ApiUser extends \Foowd\FApi{
 	 *
 	 *     
 	 */	
+	public $needle_create = "Name, Genre, ExternalId";
 	public function create($data){
 
 		
@@ -100,6 +96,7 @@ class ApiUser extends \Foowd\FApi{
 	 *
 	 *     
 	 */	
+	public $needle_delete = "ExternalId";
 	protected function delete($data){
 
 		$user = \UserQuery::create()

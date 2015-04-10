@@ -24,7 +24,7 @@ if(!$f->status) forward(REFERER);
 
 // se tutto va a buon fine, proseguo con le API esterne
 $data['type']='update';
-$r = \Foowd\API::Request('offers', 'POST', $data);
+$r = \Foowd\API::Request('offer', 'POST', $data);
 
 if($r->response){
 	// dico al sistema di scartare gli input di questo form
@@ -38,6 +38,11 @@ if($r->response){
 	forward('foowd_offerte/success');
 }else{
 	$_SESSION['sticky_forms'][$form]['apiError']=$r;
-	register_error(elgg_echo('Non riesco a caricare l\'offerta'));
+
+	// nel caso non stia usando il debug impostato nel plugin, stampo un messaggio normale
+	if(! $str = \Foowd\Param::dbg()){ 
+		$str = 'Non riesco a caricare l\'offerta';
+	}
+	register_error(elgg_echo($str));
 }
 

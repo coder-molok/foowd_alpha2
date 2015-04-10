@@ -92,7 +92,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "foowd_alpha2/api_offerte/app/routes/actions/FApi/ApiOffer.php",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiOffer.php",
     "groupTitle": "Offers"
   },
   {
@@ -153,7 +153,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "foowd_alpha2/api_offerte/app/routes/actions/FApi/ApiOffer.php",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiOffer.php",
     "groupTitle": "Offers"
   },
   {
@@ -207,7 +207,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "foowd_alpha2/api_offerte/app/routes/actions/FApi/ApiOffer.php",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiOffer.php",
     "groupTitle": "Offers"
   },
   {
@@ -282,7 +282,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "foowd_alpha2/api_offerte/app/routes/actions/FApi/ApiOffer.php",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiOffer.php",
     "groupTitle": "Offers"
   },
   {
@@ -350,7 +350,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "foowd_alpha2/api_offerte/app/routes/actions/FApi/ApiOffer.php",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiOffer.php",
     "groupTitle": "Offers"
   },
   {
@@ -411,7 +411,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "foowd_alpha2/api_offerte/app/routes/actions/FApi/ApiOffer.php",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiOffer.php",
     "groupTitle": "Offers"
   },
   {
@@ -514,7 +514,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "foowd_alpha2/api_offerte/app/routes/actions/FApi/ApiOffer.php",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiOffer.php",
     "groupTitle": "Offers"
   },
   {
@@ -566,7 +566,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "foowd_alpha2/api_offerte/app/routes/actions/FApi/ApiPrefer.php",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiPrefer.php",
     "groupTitle": "Prefer"
   },
   {
@@ -611,7 +611,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "foowd_alpha2/api_offerte/app/routes/actions/FApi/ApiPrefer.php",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiPrefer.php",
     "groupTitle": "Prefer"
   },
   {
@@ -679,7 +679,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "foowd_alpha2/api_offerte/app/routes/actions/FApi/ApiPrefer.php",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiPrefer.php",
     "groupTitle": "Prefer"
   },
   {
@@ -738,7 +738,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "foowd_alpha2/api_offerte/app/routes/actions/FApi/ApiUser.php",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiUser.php",
     "groupTitle": "User"
   },
   {
@@ -797,7 +797,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "foowd_alpha2/api_offerte/app/routes/actions/FApi/ApiUser.php",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiUser.php",
     "groupTitle": "User"
   }
 ] });

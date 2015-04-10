@@ -2,8 +2,8 @@
 // probabilmente questa dovrebbe essere pubblica...
 gatekeeper();
 
-$appendUrl ="type=offerList&Publisher=".elgg_get_logged_in_user_guid();
-$r = \Foowd\API::Request('offers?'.$appendUrl, 'GET');
+$appendUrl ="type=search&Publisher=".elgg_get_logged_in_user_guid();
+$r = \Foowd\API::Request('offer?'.$appendUrl, 'GET');
 
 $Pid = \Foowd\Param::pid(); //plugin id
 

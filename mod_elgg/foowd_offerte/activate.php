@@ -3,8 +3,15 @@
 $value = elgg_get_plugin_setting('api', \Foowd\Param::pid() );
 
 if(!$value){
-	 elgg_set_plugin_setting('api', \Foowd\Param::pid() );
-	 elgg.system_message('caricati i parametri di default');
+	 elgg_set_plugin_setting('api', \Foowd\Param::apiDom(), \Foowd\Param::pid() );
+	 elgg.system_message('caricata url di default');
+}
+
+$value = elgg_get_plugin_setting('dbg', \Foowd\Param::pid() );
+
+if(!$value){
+	 elgg_set_plugin_setting('dbg', \Foowd\Param::$par['dbg'] ,\Foowd\Param::pid() );
+	 elgg.system_message('caricato valore di debug');
 }
 
 // Questa parte rimane solo come promemoria

@@ -9,7 +9,7 @@ $title = "Offerte Disponibili";
 // start building the main column of the page
 $content = elgg_view_title($title);
 
-$response = json_decode(file_get_contents('http://localhost/api_offerte/public_html/offers'),true);
+//$response = json_decode(file_get_contents('http://localhost/api_foowd/public_html/offer'),true);
 
 //var_dump( $response);
 

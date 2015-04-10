@@ -18,6 +18,9 @@
         </foreign-key>
         <behavior name="validate">
             <parameter name="state" value="{column: state, validator: PropelFoowd, options: {type: enum, list:'open, close'}}" />
+            <parameter name="price" value="{column: price, validator: PropelFoowd, options: {type: isCash}}" />
+            <parameter name="minqt" value="{column: minqt, validator: PropelFoowd, options: {type: isQt}}" />
+            <parameter name="maxqt" value="{column: maxqt, validator: PropelFoowd, options: {type: isQt}}" />
         </behavior>
     </table>
     <table name="prefer" phpName="Prefer">

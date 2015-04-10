@@ -18,13 +18,7 @@ namespace Foowd\FApi;
 
 class ApiPrefer extends \Foowd\FApi{
 
-	public $needle  = array(
-			"create"	=> "OfferId, UserId, Qt", 
-			"delete"	=> "OfferId, UserId"
-	);
-
-
-
+	
 	public function __construct($app, $method = null){
 
 		parent::__construct($app, $method);
@@ -57,6 +51,7 @@ class ApiPrefer extends \Foowd\FApi{
 	 *
 	 *     
 	 */	
+	public $needle_create = "OfferId, UserId, Qt";
 	public function create($data){
 		
 		$prefer = \PreferQuery::Create()
@@ -122,6 +117,7 @@ class ApiPrefer extends \Foowd\FApi{
 	 *
 	 *     
 	 */	
+	public $needle_delete = "OfferId, UserId";
 	protected function delete($data){
 
 		$prefer = \PreferQuery::create()

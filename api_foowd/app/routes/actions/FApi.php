@@ -30,6 +30,13 @@ abstract class FApi{
 
 		// ai dati aggiungo il dipo di richiesta
 		// $data->method = $method; 
+		if(isset($this->hookData))	call_user_func(array($this, 'hookData'), array($data,$this->hookData));
+		
+		// i parametri nulli e' molto meglio toglierli, per evitare incoerenze con la validazione
+		foreach($data as $key => $value){
+			if(is_null($value) || $value=='') unset($data->{$key});
+		}
+		//var_dump($data); return;
 
 		if(isset($data->type)){
 			
@@ -75,9 +82,12 @@ abstract class FApi{
 	 */
 	public function checkNeedle($obj){
 
-		if(array_key_exists($obj->type, $this->needle)){	// se il metodo ha dei parametri obbligatori (praticamente tutti)
-			//echo 'esist';
-			$need = array_map('trim', explode( ',' , $this->needle[$obj->type])  );
+		// recupero tutti i metodi publici di questa clase
+		$needle = get_class_vars( get_class($this) );  
+
+		if(array_key_exists('needle_'.$obj->type, $needle)){	// se il metodo ha dei parametri obbligatori (praticamente tutti)
+			//echo 'exist';
+			$need = array_map('trim', explode( ',' , $needle['needle_'.$obj->type])  );
 			// var_dump($need);
 			// if(count(array_intersect( array_flip((array) $obj), $need)) === count($need)){
 			// 	//echo "trovate chiavi obbligatorie";
@@ -113,6 +123,25 @@ abstract class FApi{
 			if(isset($single['Created']))	$obj['body'][$key]['Created'] =  date("Y-m-d H:i:s", strtotime($single['Created']) );
 		}
 		return $obj;
+	}
+
+
+	public function hookData($data){
+		//var_dump($data);
+		foreach($data[1] as $value){
+			if($value === 'Publisher' && isset($data[0]->Publisher)){
+				 $data[0]->Publisher = \UserQuery::Create()->filterByExternalId($data[0]->Publisher)->findOne();
+				 if(is_object($data[0]->Publisher)){
+				 	$data[0]->Publisher = $data[0]->Publisher->getId();
+				 }else{
+				 	$Json['response'] = false;
+				 	$Json['errors']['Foreign'] = "local ExternalId e Publisher passato non combaciano";
+				 	echo json_encode($Json);
+				 	exit(7);
+				 }
+			}
+		}
+		//var_dump($data);
 	}
 
 

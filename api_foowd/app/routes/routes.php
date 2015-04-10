@@ -12,17 +12,17 @@ $app->group('/api', function() use ($app){
 		// gestione offerte
 		// 
 		// NB: vorrei eliminare il path /offers lasciando solo /offer per rispecchiare correttamente il nome del metodo
-		$app->post('/offers', function() use ($app){
+		// $app->post('/offers', function() use ($app){
 
-			$returned = new Foowd\FApi\ApiOffer($app, 'post');
+		// 	$returned = new Foowd\FApi\ApiOffer($app, 'post');
 
-		});
+		// });
 
-		$app->get('/offers', function() use ($app){
+		// $app->get('/offers', function() use ($app){
 
-			$returned = new Foowd\FApi\ApiOffer($app, 'get');
+		// 	$returned = new Foowd\FApi\ApiOffer($app, 'get');
 		
-		});
+		// });
 
 		$app->post('/offer', function() use ($app){
 

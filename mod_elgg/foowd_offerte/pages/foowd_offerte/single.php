@@ -7,7 +7,6 @@ $form = \Foowd\Param::pid().'/update';
 // richiamo la classe che gestisce il form
 $f = new \Foowd\Action\FormAdd();
 
-
 // la prima volta che chiamo la pagina il form non e' sticky, 
 // pertanto lo rendo tale e inizializzo i parametri per il form
 if(!elgg_is_sticky_form($form) ){
@@ -16,14 +15,14 @@ if(!elgg_is_sticky_form($form) ){
 	// sarebbe meglio implementare tutto da lui, magari mediante una classe astratta con parametri fissi che vengono estesi!
 	$data['Publisher']=elgg_get_logged_in_user_guid();
 	$data['Id'] = get_input('Id');
-	$data['type']='single';
+	$data['type']='search';
 	
 	// trasformo l'array associativo in una stringa da passare come URI
 	$url=preg_replace('/^(.*)$/e', '"$1=". $data["$1"].""',array_flip($data));
 	$url=implode('&' , $url);
 	
 	// prendo i valori del vecchio post e li carico nel form
-	$r = \Foowd\API::Request('offers?'.$url,'GET');
+	$r = \Foowd\API::Request('offer?'.$url,'GET');
 
 	// se sono qui la validazione lato elgg e' andata bene
 	// ma ora controllo quella lato API remote

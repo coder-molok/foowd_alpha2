@@ -20,7 +20,7 @@ if ($f->status) {
 	
 	//$_SESSION['my']=$data;
 	$data['type']='create';
-	$r = \Foowd\API::Request('offers', 'POST', $data);
+	$r = \Foowd\API::Request('offer', 'POST', $data);
 			// se sono qui la validazione lato elgg e' andata bene
 	// ma ora controllo quella lato API remote
 	if($r->response){
@@ -37,8 +37,12 @@ if ($f->status) {
 		// aggiungo gli errori ritornati dalle API esterne
 		$errors = array_keys(get_object_vars($r->errors));
 		$f->addError(array_values($errors), $form);
-		register_error(elgg_echo("Uno o piu campi sono errati"));
-		//register_error(elgg_echo($errors));
+
+		// nel caso non stia usando il debug impostato nel plugin, stampo un messaggio normale
+		if(! $str = \Foowd\Param::dbg()){ 
+			$str = "Uno o piu campi sono errati";
+		}
+		register_error($str);
 		//$_SESSION['sticky_forms']['foowd_offerte/add']['apiError']=$r;
 	}
 

@@ -24,20 +24,25 @@ class ApiOffer extends \Foowd\FApi{
 
 	// la chiave e' il nome del metodo, i valori sono i dati obbligatori separati da virgola
 	// i dati associati ai campi del DB devono essere indicati secondo il nome php specificato nello schema xml.
-	public $needle  = array(
-			"create"	=> "Name, Description, Price, Minqt, Publisher",
-			"update"	=> "Name, Description, Price, Minqt, Publisher",
-			"setState"	=> "Publisher, Id, State",
-			"offerList" => "Publisher",
-			"delete"	=> "Publisher, Id",
-			"single"	=> "Publisher, Id"
+	// public $needle  = array(
+	// 		//"create"	=> "Name, Description, Price, Minqt, Publisher",
+	// 		//"update"	=> "Name, Description, Price, Minqt, Publisher",
+	// 		//"setState"	=> "Publisher, Id, State",
+	// 		//"offerList" => "Publisher",
+	// 		"delete"	=> "Publisher, Id",
+	// 		//"single"	=> "Publisher, Id"
 
-		);
+	// 	);
+
 
 	// da rivedere> automatizzare foreign constraint
 
 
 	public function __construct($app, $method = null){
+
+		// tutti i Publisher che arrivano da ELGG in realta' sono gli ExternalId,
+		// pertanto ridefinisco il Publisher in mase all' ID associato nella tabella User.
+		$this->hookData = array("Publisher");
 
 		parent::__construct($app, $method);
 
@@ -76,6 +81,7 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiUse MyResponse
 	 *     
 	 */	
+	public $needle_create = "Name, Description, Price, Minqt, Publisher, Tag";
 	public function create($data){
 
 		$offer = new \Offer();
@@ -120,6 +126,7 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiUse MyResponse
 	 *     
 	 */
+	public $needle_update = "Name, Description, Price, Minqt, Publisher, Tag";
 	protected function update($data){
 
 		// recupero il post originale
@@ -167,6 +174,7 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiUse MyResponse
 	 *     
 	 */
+	public $needle_setState = "Publisher, Id, State";
 	protected function setState($data){
 		foreach($data as $key => $value){
 			if(!preg_match('@'.$key.'@', $this->needle['setState'])){
@@ -196,40 +204,40 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiUse MyResponse
 	 * 
 	 */
-	protected function offerList($data){
+	// protected function offerList($data){
 
 		
-		$offer = \OfferQuery::create()
-				->filterByPublisher($data->Publisher)
-				->find();
+	// 	$offer = \OfferQuery::create()
+	// 			->filterByPublisher($data->Publisher)
+	// 			->find();
 		
-		$Json = array();
+	// 	$Json = array();
 		
-		if(!$offer->count()){
-			 $Json['errors'] = "Publisher doesn't exists or hasn't offers.";
-			 $Json['response'] = false;
-		}
+	// 	if(!$offer->count()){
+	// 		 $Json['errors'] = "Publisher doesn't exists or hasn't offers.";
+	// 		 $Json['response'] = false;
+	// 	}
 		
-		$return = array();
+	// 	$return = array();
 		
-		foreach ($offer as $single) {
+	// 	foreach ($offer as $single) {
 
-			$ar = $single->toArray();
-			$tgs = $single->getTags();
-			$ar['Tag'] ='';
-			foreach ($tgs as $value) {
-				foreach(\TagQuery::create()->filterById($value->getId())->find() as $t){
-					$ar['Tag'] .= $t->getName().', ';
-				}
-			}
-			array_push($return, $ar);
-		}
+	// 		$ar = $single->toArray();
+	// 		$tgs = $single->getTags();
+	// 		$ar['Tag'] ='';
+	// 		foreach ($tgs as $value) {
+	// 			foreach(\TagQuery::create()->filterById($value->getId())->find() as $t){
+	// 				$ar['Tag'] .= $t->getName().', ';
+	// 			}
+	// 		}
+	// 		array_push($return, $ar);
+	// 	}
 
-		if(!isset($Json['response'])) $Json['response'] = true;
-		$Json['body'] = $return;
-		return $Json;
+	// 	if(!isset($Json['response'])) $Json['response'] = true;
+	// 	$Json['body'] = $return;
+	// 	return $Json;
 		
-	}
+	// }
 
 
 	/**
@@ -390,6 +398,7 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiUse MyResponse
 	 * 
 	 */
+	public $needle_delete = "Publisher, Id";// State
 	protected function delete($data){
 
 		$offer = \OfferQuery::create()
@@ -433,34 +442,34 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiUse MyResponse
 	 * 
 	 */
-	protected function single($data){
+	// protected function single($data){
 
-		$offer = \OfferQuery::create()
-				->filterByPublisher($data->Publisher)
-				->filterById($data->Id)
-				->find();
+	// 	$offer = \OfferQuery::create()
+	// 			->filterByPublisher($data->Publisher)
+	// 			->filterById($data->Id)
+	// 			->find();
 		
 		
-		$return = array();
+	// 	$return = array();
 		
-		foreach ($offer as $single) {
+	// 	foreach ($offer as $single) {
 			
-			// raccolgo tutta la riga della tabella
-			$ar = $single->toArray();
+	// 		// raccolgo tutta la riga della tabella
+	// 		$ar = $single->toArray();
 
-			// aggiungo la lista dei tag
-			$tgs = $single->getTags();// doppia s!
-			$ar['Tag'] ='';
-			foreach ($tgs as $value) {
-				foreach(\TagQuery::create()->filterById($value->getId())->find() as $t){
-					$ar['Tag'] .= $t->getName().', ';
-				}
-			}
-			array_push($return,  $ar);
-		}
+	// 		// aggiungo la lista dei tag
+	// 		$tgs = $single->getTags();// doppia s!
+	// 		$ar['Tag'] ='';
+	// 		foreach ($tgs as $value) {
+	// 			foreach(\TagQuery::create()->filterById($value->getId())->find() as $t){
+	// 				$ar['Tag'] .= $t->getName().', ';
+	// 			}
+	// 		}
+	// 		array_push($return,  $ar);
+	// 	}
 
-		return array('body'=>$return, 'response'=>true);
-	}
+	// 	return array('body'=>$return, 'response'=>true);
+	// }
 
 
 	/**
@@ -488,24 +497,24 @@ class ApiOffer extends \Foowd\FApi{
 			if(!$fkId){
 				$proceed = false;
 				$errors['Foreign']['Id'] = "Errore: il Publisher non risulta nella tabella Utenti";
+				$errors['Foreign']['File'] = "File: ".__FILE__." , Line: ".__LINE__;
 			}
 
 			if(isset($data->Tag)){
 				// prendo i tag inseriti dal form
-				$actualTags = explode(',', $data->Tag);
+				$actualTags = array_map('trim', explode(',', $data->Tag));
 				$actualTags = array_unique($actualTags);	// evito eventuali ripetizioni
-				$errors['Tag'] = array();
+				//$errors['Tag'] = array();
 	
 				// valido i tag (posso anche impostarlo lato propel)
 				foreach ($actualTags as $single) {
 					// prima di salvare, controllo che il tag sia di una sola parola
 					// da vedere: aggiungere controllo sulla presenza di caratteri speciali
 					$single = trim($single);
-					if(preg_match('@ +@i', $single)){
-						$errors['Tag'][$single] = "errore nel tag: ".$single;
-						$proceed = false;
-					}
+					if(preg_match('@ +@i', $single)) $errors['Tag'][$single] = "I tag possono essere costituiti da una sola parola: ".$single;
+					if($single == '' ) $errors['Tag']['empty'] = "I tag possono essere parole vuote: controlla che non vi sia una virgola iniziale o finale";
 				}
+				if(isset($errors['Tag'])) $proceed = false;
 			}
 
 			// i settaggi li faccio solamente se tutti i controlli precedenti sono andati a buon fine 

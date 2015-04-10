@@ -1,18 +1,18 @@
-api_offerte/app/generated-classes/Base
-api_offerte/app/generated-classes/Map
-api_offerte/app/generated-classes/Offer.php
-api_offerte/app/generated-classes/OfferQuery.php
-api_offerte/app/generated-conf
-api_offerte/app/generated-sql
-api_offerte/app/composer.lock
-api_offerte/app/generated-classes
-api_offerte/app/vendor/
+api_foowd/app/generated-classes/Base
+api_foowd/app/generated-classes/Map
+api_foowd/app/generated-classes/Offer.php
+api_foowd/app/generated-classes/OfferQuery.php
+api_foowd/app/generated-conf
+api_foowd/app/generated-sql
+api_foowd/app/composer.lock
+api_foowd/app/generated-classes
+api_foowd/app/vendor/
 
 
 # linee aggiunte da Simone Scardoni
 # ignoro tutte le directory dentro a /data/
-#api_offerte/app/data/**/
-api_offerte/app/data/generated-*/
+#api_foowd/app/data/**/
+api_foowd/app/data/generated-*/
 
 # linee aggiunte da Marco Predari
 # io uso webstorm e aggiungo la cartella del progetto che crea il programma

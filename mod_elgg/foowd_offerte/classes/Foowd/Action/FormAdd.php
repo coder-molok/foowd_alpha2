@@ -18,7 +18,7 @@ namespace Foowd\Action;
 			'Description'	=> 'inserire descrizione',
 			'Publisher'		=> '',		
 			'Price'			=> 'cifre decimali separate dalla virgola...',
-			'Minqt'			=> '',
+			'Minqt'			=> 'valore obbligatorio, con massimo 3 cifre decimali e una specificata',
 			'Maxqt'			=> '',
 			'Created'		=> '',
 			'Modified'		=> '',

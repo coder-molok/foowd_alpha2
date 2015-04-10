@@ -19,7 +19,9 @@
 	 */
      public $msg = array(
      		"integer"	=>	"Data must be integer greater than zero",
-        "enum"    =>  "Il valore '%string%' non e' tra le opzioni"
+        "enum"    =>  "Il valore '%string%' non e' tra le opzioni",
+        "isCash"  =>  "Il valore deve essere costituito da due cifre decimali",
+        "isQt"    =>  "Il valore deve essere costituito da una fino a tre cifre decimali",
      		);
 
 
@@ -70,6 +72,37 @@
         return false;
       }
     
+    }
+
+    /**
+     * controllo che ci siano solo due cifre decimali precedute dalla virgola
+     * @param  [type]  $var [description]
+     * @return boolean      se true, la validazione e' andata a buon fine
+     */
+    public function isCash($value, $constraint){
+      if (preg_match('/^\d{1,8}\.\d{2,2}$/', $value)){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+    /**
+     * controllo sulle quantita, decimal(8,3)
+     * @param  [type]  $var [description]
+     * @return boolean      se true, la validazione e' andata a buon fine
+     */
+    public function isQt($value, $constraint){
+      //var_dump($constraint);
+      // qui controllo solo il formato, ma non devo garantire l'esistenza
+      // l'esistenza, inteso come obbligo, viene controllata grazie ai fari $needle_<metodo>
+      if(is_null($value)) return true;
+
+      if (preg_match('/^\d{1,5}\.\d{1,3}$/', $value)){
+        return true;
+      }else{
+        return false;
+      }
     }
  
 
