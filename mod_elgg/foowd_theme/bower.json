@@ -1,0 +1,22 @@
+{
+  "name": "foowd static html template",
+  "version": "0.0.0",
+  "homepage": "https://github.com/coder-molok/foowd_alpha2",
+  "authors": [
+    "Predo <predorock@gmail.com>"
+  ],
+  "description": "A simple theme for foowd platform",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4"
+  }
+}

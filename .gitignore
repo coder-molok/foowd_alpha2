@@ -17,3 +17,6 @@ api_foowd/app/data/generated-*/
 # linee aggiunte da Marco Predari
 # io uso webstorm e aggiungo la cartella del progetto che crea il programma
 html_theme_template/.idea/
+.idea/
+html_theme_template/vendor/
+mod_elgg/foowd_theme/vendor/
