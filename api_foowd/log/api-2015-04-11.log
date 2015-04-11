@@ -1,0 +1,4 @@
+[2015-04-11 18:24:06] FoowdLogger.ERROR: {"status":201,"msg":"Invalid argument supplied for foreach()","line":38,"file":"\/opt\/lampp\/htdocs\/InElgg\/foowd_alpha2\/api_foowd\/app\/routes\/actions\/FApi.php"} {"API":"Foowd"} {"extra":"Debug"}
+[2015-04-11 18:25:04] FoowdLogger.ERROR: {"status":201,"msg":"Invalid argument supplied for foreach()","line":38,"file":"\/opt\/lampp\/htdocs\/InElgg\/foowd_alpha2\/api_foowd\/app\/routes\/actions\/FApi.php"} {"API":"Foowd"} {"extra":"Debug"}
+[2015-04-11 18:35:48] FoowdLogger.ERROR: {"status":201,"msg":"Invalid argument supplied for foreach()","line":38,"file":"\/opt\/lampp\/htdocs\/InElgg\/foowd_alpha2\/api_foowd\/app\/routes\/actions\/FApi.php"} {"API":"Foowd"} {"extra":"Debug"}
+[2015-04-11 18:36:44] FoowdLogger.ERROR: {"status":201,"msg":"Invalid argument supplied for foreach()","line":38,"file":"\/opt\/lampp\/htdocs\/InElgg\/foowd_alpha2\/api_foowd\/app\/routes\/actions\/FApi.php"} {"API":"Foowd"} {"extra":"Debug"}

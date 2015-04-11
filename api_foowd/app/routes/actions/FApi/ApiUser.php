@@ -53,7 +53,6 @@ class ApiUser extends \Foowd\FApi{
 	public $needle_create = "Name, Genre, ExternalId";
 	public function create($data){
 
-		
 		// unset($data->type);
 		// unset($data->method);
 

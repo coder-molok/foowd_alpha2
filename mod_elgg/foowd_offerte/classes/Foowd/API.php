@@ -30,11 +30,12 @@ class API{
 		}
 		
 		// converto tutti i dati in un array da passare in formato json via curl
+		$numeric = array('Price', 'Minqt','Maxqt');
 		foreach($params as $field => $value){
 			
 			// modifico automaticamente le virgole in punti, 
 			// in modo da passare il corretto formato per salvataggio mysql.
-			if(is_numeric($value)) $value = preg_replace('@,@', '.', $value);			
+			if(in_array($field, $numeric)) $value = preg_replace('@,@', '.', $value);			
 			$ar[$field] = $value;
 		}
 
@@ -79,7 +80,7 @@ class API{
 		foreach ($returned->body as $key => $value) {
 			foreach($value as $field => $var){
 				// i valori numerici per convenzione hanno la virgola come separatore decimale
-				if(is_numeric($var)){
+				if(in_array($field, $numeric)){
 					$returned->body[$key]->{$field} = preg_replace('@\.@', ',', $var);
 				}	
 			}

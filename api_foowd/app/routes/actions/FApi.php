@@ -15,9 +15,6 @@ abstract class FApi{
 		// Le richieste POST recuperano i dati esclusivamente dal body, e in formato json
 		
 		switch($method){
-			case null: 
-				echo  json_encode(array('msg'=>get_class($this).': richiesta non specificata', 'response'=>false));
-				return;
 
 			case "post": // se il metodo e' post, allora i parametri vengono passati come body
 				$data = json_decode($app->request()->getBody());//std class		
@@ -26,17 +23,30 @@ abstract class FApi{
 			case "get": // il metodo get acquisisce i parametri via url.
 				$data = (object) array_map('trim', $app->request()->Params());
 				break;
+
+			default : 
+				echo  json_encode(array('msg'=>get_class($this).': richiesta non specificata o errata ', 'response'=>false));
+				return;
+			
 		}
 
 		// ai dati aggiungo il dipo di richiesta
 		// $data->method = $method; 
+		//var_dump($data);
 		if(isset($this->hookData))	call_user_func(array($this, 'hookData'), array($data,$this->hookData));
-		
+
+		// controllo i dati, ad esempio per la validazione
+		if($e = $this->parseData($data)){
+			$Json['errors'] = $e;
+			$Json['response'] = false;
+			echo json_encode($Json);
+			return;
+		}
+
 		// i parametri nulli e' molto meglio toglierli, per evitare incoerenze con la validazione
 		foreach($data as $key => $value){
 			if(is_null($value) || $value=='') unset($data->{$key});
 		}
-		//var_dump($data); return;
 
 		if(isset($data->type)){
 			
@@ -47,9 +57,12 @@ abstract class FApi{
 				// evito di portarmi dietro dati inutili
 				$type = $data->type;
 				unset($data->type);
-				$ret = $this->{$type}($data);
-				//var_dump($ret);
-				echo json_encode($this->parse($ret) );
+				if(method_exists($this, $type)){
+					$ret = $this->{$type}($data);
+					echo json_encode($this->parseResult($ret) );
+				}else{
+					echo json_encode(array('msg'=>get_class($this).": metodo - $type - inesistente", 'response'=>false));
+				}
 			}
 		}else{
 			echo  json_encode(array('msg'=>get_class($this).': metodo non specificato', 'response'=>false));
@@ -104,6 +117,16 @@ abstract class FApi{
 
 	}
 
+	public function parseData($data){
+		foreach($data as $key => $value){
+			//var_dump($key);
+			if($key === "Minqt" && !preg_match('/^\d{1,5}\.\d{1,3}$/', $value)) $e['Minqt']="Errore di validazione: $value";
+			if($key === "Price" && !preg_match('/^\d{1,8}\.\d{2,2}$/', $value)) $e['Price']="Errore di validazione: $value";
+		}
+
+		if(isset($e)) return $e;
+		return null;
+	}
 
 	/**
 	 * Per svolgere operazioni di default sugli oggetti ritornati, ovvero le risposte delle api.
@@ -111,7 +134,7 @@ abstract class FApi{
 	 * @param  [type] $obj API ritornata, in formato array (non ancora json);
 	 * @return [type]      l'oggetto passato, al netto delle operazioni di parser.
 	 */
-	public function parse($obj){
+	public function parseResult($obj){
 
 		if(!isset($obj['body'])) return $obj;
 
