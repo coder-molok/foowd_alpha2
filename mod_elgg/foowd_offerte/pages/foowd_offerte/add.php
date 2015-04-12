@@ -16,7 +16,7 @@ $content = elgg_view_title($title);
 $f = new \Foowd\Action\FormAdd();
 
 $vars = $f->prepare_form_vars($Pid.'/add');
-var_dump(elgg_get_logged_in_user_guid());
+//var_dump(elgg_get_logged_in_user_guid());
 //$vars['titleError'] = date('Y-m-d H:i:s');
 
 $content .= elgg_view_form($Pid.'/add', array(), $vars);

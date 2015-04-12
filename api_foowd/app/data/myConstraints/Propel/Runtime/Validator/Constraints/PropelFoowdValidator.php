@@ -80,11 +80,12 @@
      * @return boolean      se true, la validazione e' andata a buon fine
      */
     public function isCash($value, $constraint){
-      if (preg_match('/^\d{1,8}\.\d{2,2}$/', $value)){
+      // echo $value;
+      // if (preg_match('/^\d{1,8}\.\d{2,2}$/', $value)){
         return true;
-      }else{
-        return false;
-      }
+      // }else{
+      //   return false;
+      // }
     }
 
     /**
@@ -96,13 +97,13 @@
       //var_dump($constraint);
       // qui controllo solo il formato, ma non devo garantire l'esistenza
       // l'esistenza, inteso come obbligo, viene controllata grazie ai fari $needle_<metodo>
-      if(is_null($value)) return true;
+      // if(is_null($value)) return true;
 
-      if (preg_match('/^\d{1,5}\.\d{1,3}$/', $value)){
+      // if (preg_match('/^\d{1,5}\.\d{1,3}$/', $value)){
         return true;
-      }else{
-        return false;
-      }
+      // }else{
+      //   return false;
+      // }
     }
  
 

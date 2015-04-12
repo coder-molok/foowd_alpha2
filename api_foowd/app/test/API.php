@@ -26,9 +26,11 @@ class API{
 			//var_dump($url);
 			$ch = curl_init($url);
 		}else{
-			var_dump("Impossibile eseguire l'azione");
+			// var_dump("Impossibile eseguire l'azione");
 			// qui eventualmente generare il log per avvisare che curl non funziona
-		   	return false;
+			$r['obj']['errors']['curl_init'] = "curl non e' impsostato sul server";
+			$r['obj']['response'] = false;
+		   	return $r;
 		}
 		
 		// converto tutti i dati in un array da passare in formato json via curl
@@ -46,7 +48,7 @@ class API{
 		$testGet = (preg_match('@type@i', $url) && $method==="GET");
 		if(!$testPost && !$testGet){
 			var_dump('Error: undefined type');
-			return false;
+			return ;
 		}
 
 		// utile per debug tramite POSTMAN
@@ -74,6 +76,8 @@ class API{
 		$allData['post']=$ar;
 		$allData['get']=$url;
 
+
+		//var_dump($output);
 		
 		$returned = json_decode($output);
 
@@ -100,8 +104,10 @@ class API{
 		$r = self::Request($url, $method , $params);
 			echo '<div class="single-sent">';
 			if($method === 'GET') var_dump($r['get']);
-			if($method === 'POST') var_dump($r['post']);
+			if($method === 'POST') echo self::pretty_json(json_encode($r['post']));
 			echo '</div>';
+
+			//var_dump($r['obj']);
 
 			if($r['obj']->response){
 				$cls = 'true';
@@ -109,8 +115,59 @@ class API{
 				$cls = 'false';
 			}
 			echo '<div class="single-return-'.$cls.'">';
-			echo $r['output'];
+			echo self::pretty_json($r['output']);
 			echo '</div>';
 	}
+
+	public static function pretty_json($json) {
+ 
+    $result      = '<pre>';
+    $pos         = 0;
+    $strLen      = strlen($json);
+    $indentStr   = '  ';
+    $newLine     = "\n";
+    $prevChar    = '';
+    $outOfQuotes = true;
+
+    for ($i=0; $i<=$strLen; $i++) {
+ 
+        // Grab the next character in the string.
+        $char = substr($json, $i, 1);
+ 
+        // Are we inside a quoted string?
+        if ($char == '"' && $prevChar != '\\') {
+            $outOfQuotes = !$outOfQuotes;
+ 
+        // If this character is the end of an element, 
+        // output a new line and indent the next line.
+        } else if(($char == '}' || $char == ']') && $outOfQuotes) {
+            $result .= $newLine;
+            $pos --;
+            for ($j=0; $j<$pos; $j++) {
+                $result .= $indentStr;
+            }
+        }
+ 
+        // Add the character to the result string.
+        $result .= $char;
+ 
+        // If the last character was the beginning of an element, 
+        // output a new line and indent the next line.
+        if (($char == ',' || $char == '{' || $char == '[') && $outOfQuotes) {
+            $result .= $newLine;
+            if ($char == '{' || $char == '[') {
+                $pos ++;
+            }
+ 
+            for ($j = 0; $j < $pos; $j++) {
+                $result .= $indentStr;
+            }
+        }
+ 
+        $prevChar = $char;
+    }
+ 
+    return $result."</pre>";
+}
 
 }

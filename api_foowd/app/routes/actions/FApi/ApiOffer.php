@@ -543,11 +543,13 @@ class ApiOffer extends \Foowd\FApi{
 			     unset($data->{$key});
 			     continue;
 			 	}
+			 	//var_dump($data->{$key});
 
 			 	// trasformo il separatore dei decimali
 			 	if(preg_match('/^\d+\,\d*$/', $value))	$value = preg_replace('@,@', '.', $value);
 			 	//var_dump("{'set'.$key}($value)");
 			 	$offer->{'set'.$key}($value); 
+			 	//var_dump($offer->{'get'.$key}($value));
 			}
 
 			if($proceed){
