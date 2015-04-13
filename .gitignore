@@ -13,6 +13,7 @@ api_foowd/app/vendor/
 # ignoro tutte le directory dentro a /data/
 #api_foowd/app/data/**/
 api_foowd/app/data/generated-*/
+mod_elgg/foowd_offerte/log/
 
 # linee aggiunte da Marco Predari
 # io uso webstorm e aggiungo la cartella del progetto che crea il programma

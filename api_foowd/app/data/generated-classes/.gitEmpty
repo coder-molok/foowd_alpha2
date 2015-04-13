@@ -1,0 +1,3 @@
+TRICK: file aggiunto solo per permettere di tracciare la directory che lo contiene via git.
+
+Questo serve per non avere alcun errore di "composer install" gia' a partire dalla prima installazione.

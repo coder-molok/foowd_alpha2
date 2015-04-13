@@ -16,7 +16,7 @@ class API{
 	//  * @return [type] [description]
 	//  */
 
-	public static function Request(string $url, string $method , array $params){
+	public static function Request($url, $method , array $params){
 		
 		if(is_callable('curl_init')){
 			// inizializzo la chiamata
@@ -69,6 +69,7 @@ class API{
 
 		// dovrebbe ritornare un formato json
 		$output=curl_exec($ch);
+		\Foowd\Param::logger($output);
 		
 		//$_SESSION['my']=json_encode($url);
 		register_error($output);

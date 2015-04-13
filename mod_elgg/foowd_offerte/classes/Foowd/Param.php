@@ -43,6 +43,20 @@ namespace Foowd;
 			return $check;
 		}
 
+		/**
+		 * semplice logger per salvare la stringa passata nella directory "log/" del presente plugin
+		 * @param  [type] $str [description]
+		 * @return [type]      [description]
+		 */
+		public static function logger($str){
+			date_default_timezone_set('Europe/Rome'); 
+			$file = __DIR__.'/../../log/'.self::pid().'-'.date("y-m-d").'.log';
+			$old = file_get_contents($file); 
+			$log = "[". date("D M j G:i:s T Y"). "] " . print_r($str, true);   
+			$log .= " \n"; 
+			file_put_contents($file, $log.$old);   
+		}
+
 
 	}
 
