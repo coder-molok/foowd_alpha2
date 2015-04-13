@@ -1,50 +1,38 @@
 <?php
 
-// set the title
-// for distributed plugins, be sure to use elgg_echo() for internationalization
-// $template = 'Hello, {{name}},<br /> Today is {{dayoftheweek}}, and the time is {{currentime}}';
-// //set the template values
-// $values = array(
-//     'name'=>'John',
-//     'dayoftheweek'=>date('l'),
-//     'currentime'=>date('H:i:s')
-// );
+/*
+ * Foowd Wall Page
+ * 
+ */
 
-// //start the mustache engine
-// $m = new Mustache_Engine;
-// //render the template with the set values
-// echo $m->render($template, $values);
+//Carico Mustache tramite l'autoload di composer
 require 'mod/foowd_theme/vendor/autoload.php';
-elgg_load_css('bootstrap_css');
 Mustache_Autoloader::register();
-
+//Inizializzo la template engine indicando la directory in cui si trovano i template
+//modifico l'estensione dei template, in modo da poter utilizzare dei file HTML
+$options =  array('extension' => '.html');
 $mustache = new Mustache_Engine(array(
-    'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/views'),
+    'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/templates', $options),
 ));
-
+//titolo della pagina
 $title = "Foowd Wall";
 
-//Compile Product Template
-
+//Carico e compilo il template dell'anteprima del prodotoo
 $productTemplate = $mustache->loadTemplate('product');
-
+//Creo il contesto di dati da inserire nel template
 $context = array(
 		'name'=>'Pizza Margherita',
 		'price'=>'6',
 		'thumb'=>'http://lorempizza.com/380/240',
 		'description'=>'La pizza Margherita è la mia preferita'
 );
-
-
+//associo al template il contesto caricato e lo aggiungo al contenuto della pagina
 $content = $productTemplate->render($context);
 
-// // start building the main column of the page
-// $content = elgg_view_title($title);
-
-// // layout the page
-$body = elgg_view_layout('one_column', array(
-    'content' => $content,
-));
-
-// // draw the page
-echo elgg_view_page($title, $body);
+//Carico la view di elgg
+// $body = elgg_view_layout('one_column', array(
+//     'content' => $content,
+// ));
+$body = $content;
+//Stampo il contenuto della pagina
+echo elgg_view_page($title,$body);
