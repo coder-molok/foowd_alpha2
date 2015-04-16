@@ -19,7 +19,7 @@
 	 */
      public $msg = array(
      		"integer"	=>	"Data must be integer greater than zero",
-        "enum"    =>  "Il valore '%string%' non e' tra le opzioni",
+        "enum"    =>  "I valori ammissibili sono solamente: '%string%'",
         "isCash"  =>  "Il valore deve essere costituito da due cifre decimali",
         "isQt"    =>  "Il valore deve essere costituito da una fino a tre cifre decimali",
      		);
@@ -58,17 +58,29 @@
         
     }
 
-    public function enum($value, $constraint){
+
+    /**
+     * Metodo per la gestione degli elenchi numerati.
+     *
+     * In propel viene richiamato mediante il validate. Vedi Schema.xml
+     * 
+     * @param  String &$value       elenco dei valori ammissibili, separato con virgola. Nota il passaggio By Reference per via di come generare il messaggio d'errore
+     * @param  Class $constraint    Classe Constraint associata alla presente classe.
+     * @return Bool                 true se la validazione non da problemi. Con false impedisce il salvataggio nel DB
+     */
+    public function enum(&$value, $constraint){
 
       // se non l'ho segnato, vuol dire che non e' obbligatorio
       if(is_null($value)) return true;
 
       // se invece l'ho esplicitato, allora devo verificare che sia presente nella lista dello schema.xml
       if(!isset($constraint->list)) return false;
+      //var_dump($constraint->list);
       $need = array_map('trim', explode( ',' , $constraint->list)  );
       if(in_array($value, $need)){
         return true;
       }else{
+        $value = $constraint->list;
         return false;
       }
     
