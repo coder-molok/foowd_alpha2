@@ -14,6 +14,7 @@ function foowd_theme_init() {
 	//Rimuovo alcune cose che non servono
 	elgg_unregister_menu_item('footer', 'powered');
 	elgg_unextend_view('page/elements/header', 'search/search_box');
+	elgg_unextend_view('page/elements/header', 'search/header');
     
 	//Registro le librerie javascript
 	//Bootstrap
@@ -34,6 +35,7 @@ function foowd_theme_init() {
 
 	//Registro i page handler
 	elgg_register_page_handler('activity', 'foowd_activity_page_handler');
+	elgg_register_page_handler('wall','foowd_wall_page_handler');
 }
 
 function foowd_activity_page_handler() {
@@ -43,6 +45,12 @@ function foowd_activity_page_handler() {
     return true;
 }
 
+function foowd_wall_page_handler() {
+	elgg_load_css('bootstrap_css');
+	if (!include_once(dirname(__FILE__) . "/pages/wall-simple.php"))
+        return false;
+    return true;
+}
 
 
 
