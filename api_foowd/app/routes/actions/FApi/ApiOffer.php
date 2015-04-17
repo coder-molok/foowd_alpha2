@@ -264,8 +264,6 @@ class ApiOffer extends \Foowd\FApi{
 	 * 
 	 */
 	protected function search($data){
-		
-		$msg = "Nessun risultato trovato: prova a ripetere la ricerca escludendo qualche opzione.";
 
 		// unset($data->type);
 		// unset($data->method);
@@ -330,6 +328,7 @@ class ApiOffer extends \Foowd\FApi{
 		
 		if(!$offer->count()){
 			 $Json['response'] = false;
+			 $msg = 'Problema nella ricerca dell\' offerta';
 		}
 		
 		$return = array();
@@ -367,7 +366,7 @@ class ApiOffer extends \Foowd\FApi{
 
 		}
 
-		if(count($return ) == 0) $Json['response'] =false;
+		// if(count($return ) == 0) $Json['response'] =false;
 		if(!isset($Json['response'])){ $Json['response'] = true;}
 		else {$Json['errors'] = $msg; }
 		$Json['body'] = $return;

@@ -120,8 +120,9 @@ abstract class FApi{
 	public function parseData($data){
 		foreach($data as $key => $value){
 			//var_dump($key);
-			if($key === "Minqt" && !preg_match('/^\d{1,5}\.\d{1,3}$/', $value)) $e['Minqt']="Errore di validazione: $value";
-			if($key === "Price" && !preg_match('/^\d{1,8}\.\d{2,2}$/', $value)) $e['Price']="Errore di validazione: $value";
+			if($key === "Minqt" && !preg_match('/^\d{1,5}(\.\d{0,3})?$/', $value)) $e['Minqt']="Errore di validazione: puoi inserire al massimo 5 cifre intere e 3 decimali";
+			if($key === "Maxqt" && !preg_match('/^\d{1,5}(\.\d{0,3})?$/', $value)) $e['Maxqt']="Errore di validazione: puoi inserire al massimo 5 cifre intere e 3 decimali";
+			if($key === "Price" && !preg_match('/^\d{1,8}(\.\d{0,2})?$/', $value)) $e['Price']="Errore di validazione: puoi inserire al massimo 8 cifre intere e 2 decimali";
 		}
 
 		if(isset($e)) return $e;
