@@ -159,60 +159,6 @@ define({ "api": [
   {
     "type": "get",
     "url": "/offers",
-    "title": "offerList",
-    "name": "offerList",
-    "group": "Offers",
-    "description": "<p>Per ottenere la lista delle offerte di un dato Publisher.</p> <p>NB: allo stato attuale e&#39; sufficiente utilizzare il metodo SEARCH, secondo l&#39;url <a href=\"http://localhost/api_offerte/public_html/api/offers?Publisher={{Publisher}}&amp;type=search\">http://localhost/api_offerte/public_html/api/offers?Publisher={{Publisher}}&amp;type=search</a></p> ",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "type",
-            "description": "<p>metodo da chiamare</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "Integer",
-            "optional": false,
-            "field": "Publisher",
-            "description": "<p>id dell&#39;offerente</p> "
-          }
-        ],
-        "Response": [
-          {
-            "group": "Response",
-            "type": "Bool",
-            "optional": false,
-            "field": "response",
-            "description": "<p>false, in caso di errore</p> "
-          },
-          {
-            "group": "Response",
-            "type": "String/json",
-            "optional": true,
-            "field": "errors",
-            "description": "<p>json contenente i messaggi di errore</p> "
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "URL-Example:",
-          "content": "http://localhost/api_offerte/public_html/api/offers?type=offerList&Publisher=37",
-          "type": "url"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiOffer.php",
-    "groupTitle": "Offers"
-  },
-  {
-    "type": "get",
-    "url": "/offers",
     "title": "search",
     "name": "search",
     "group": "Offers",
@@ -346,67 +292,6 @@ define({ "api": [
           "title": "Request-Example:",
           "content": "{\n \"Id\":\"88\",\n \"Publisher\":\"5\",\n \"State\": \"close\",\n \"type\":\"setState\"\n}",
           "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiOffer.php",
-    "groupTitle": "Offers"
-  },
-  {
-    "type": "get",
-    "url": "/offers",
-    "title": "single",
-    "name": "single",
-    "group": "Offers",
-    "description": "<p>Per ottenere l&#39;offerta specifica di un utente. </p> <p>NB: allo stato attuale e&#39; sufficiente utilizzare il metodo SEARCH, secondo l&#39;url <a href=\"http://localhost/api_offerte/public_html/api/offers?Publisher={{Publisher}}&amp;type=search&amp;Id=88\">http://localhost/api_offerte/public_html/api/offers?Publisher={{Publisher}}&amp;type=search&amp;Id=88</a></p> ",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "type",
-            "description": "<p>metodo da chiamare</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "Integer",
-            "optional": false,
-            "field": "Publisher",
-            "description": "<p>id dell&#39;offerente</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "Integer",
-            "optional": false,
-            "field": "Id",
-            "description": "<p>id dell&#39;offerta</p> "
-          }
-        ],
-        "Response": [
-          {
-            "group": "Response",
-            "type": "Bool",
-            "optional": false,
-            "field": "response",
-            "description": "<p>false, in caso di errore</p> "
-          },
-          {
-            "group": "Response",
-            "type": "String/json",
-            "optional": true,
-            "field": "errors",
-            "description": "<p>json contenente i messaggi di errore</p> "
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Request-Example:",
-          "content": "http://localhost/api_offerte/public_html/api/offers?Publisher=37&Id=31&type=single",
-          "type": "url"
         }
       ]
     },

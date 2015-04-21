@@ -106,6 +106,15 @@ $app->notFound(function () use ($app) {
 //------------------------------------------------------------------ fine gestione LOG ERRORI
 
 
+// classe creata per aggiungere un controllo di sicurezza
+// se non sono in localhost, verifico l'attendibilita' della sorgente:
+// opzione mantenuta per poter continuare a utilizzare postman
+// if($app->request()->headers('Host') !== 'localhost'){
+//     $app->add(new Foowd\HttpBasicAuth());
+// }
+
+
 require '../app/routes/routes.php';
 
 $app->run();
+

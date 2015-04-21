@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Foowd;
+namespace Uoowd;
 
 /**
  * Per convenzione, tutti i dati vengono passati e ritornati in formato json
@@ -22,13 +22,15 @@ class API{
 		if(is_callable('curl_init')){
 			// inizializzo la chiamata
 			//$url="http://localhost/api_offerte/public_html/api/offers";
-			$url = elgg_get_plugin_setting('api', \Foowd\Param::pid() ) . $url;
+			$url = elgg_get_plugin_setting('api', \Uoowd\Param::uid()  ) . $url;
 			$ch = curl_init($url);
 		}else{
 			register_error(elgg_echo("Impossibile eseguire l'azione"));
 			// qui eventualmente generare il log per avvisare che curl non funziona
 		   	return false;
 		}
+		// \Uoowd\Param::logger($url);
+		// \Uoowd\Param::logger('Url:');
 		
 		// converto tutti i dati in un array da passare in formato json via curl
 		$numeric = array('Price', 'Minqt','Maxqt');
@@ -77,7 +79,8 @@ class API{
 
 		// dovrebbe ritornare un formato json
 		$output=curl_exec($ch);
-		\Foowd\Param::logger($output);
+		// \Uoowd\Param::logger($output);
+		// \Uoowd\Param::logger('Api Returned:');
 		
 		//$_SESSION['my']=json_encode($url);
 		register_error($output);

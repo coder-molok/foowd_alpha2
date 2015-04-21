@@ -165,6 +165,12 @@ Qui di seguito elencare i comandi necessari per rendere operativi i commit, qual
 	````
 	successivamente utilizzare il comando del punto **1** per aggiornare l'autoload delle classi tramite composer.
 
+3. Refresh della cache di elgg,
+
+	andare al link `<sito elgg>/upgrade`.
+
+	Questo comando puo' tornare utile anche in fase di sviluppo qualora stranamente non appaiano delle view appena create.
+	
 
 Per rendere meno prolissi i messaggi del commit, consiglio di esplicitare i comandi da lanciare inserendoli dentro una parentesi quadra, ad esempio
 
