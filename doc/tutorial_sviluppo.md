@@ -152,7 +152,7 @@ Qui di seguito elencare i comandi necessari per rendere operativi i commit, qual
 	dalla directory `foowd_alpha2/api_foowd/app` lanciare il comando
 
 	````
-	composer install
+	composer update
 	````
 
 2. Aggiornare Classi Propel,

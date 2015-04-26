@@ -30,26 +30,15 @@ function foowd_theme_init() {
 	elgg_register_js('toogle-layout','/mod/foowd_theme/lib/js/toogle-layout.js');
 	elgg_register_js('ga','/mod/foowd_theme/lib/js/google-analytics.js');
 
-	//Dico a Elgg di utilizzare i miei css personalizzati
-	elgg_extend_view('css/elgg','foowd_theme/css');
 
 	//Registro i page handler
-	elgg_register_page_handler('activity', 'foowd_activity_page_handler');
-	elgg_register_page_handler('wall','foowd_wall_page_handler');
-}
-
-function foowd_activity_page_handler() {
-	elgg_load_css('bootstrap_css');
-	if (!include_once(dirname(__FILE__) . "/pages/wall.php"))
-        return false;
-    return true;
+	elgg_register_page_handler('wall', 'foowd_wall_page_handler');
 }
 
 function foowd_wall_page_handler() {
-	elgg_load_css('bootstrap_css');
 	if (!include_once(dirname(__FILE__) . "/pages/wall-simple.php"))
-        return false;
-    return true;
+		return false;
+	return true;
 }
 
 
