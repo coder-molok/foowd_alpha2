@@ -16,7 +16,7 @@ var foowd = (function(){
      */
     var offers;
     offers = {
-        all: "http://127.0.0.1/foowd_alpha2/api_foowd/public_html/api/offer?type=search",
+        all: "http://localhost/api_foowd/public_html/api/offer?type=search",
         filterby: {
             views: "",
             price: "",
