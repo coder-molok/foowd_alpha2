@@ -31,7 +31,19 @@
     </div>
     <div class="container-fluid navbar-menu">
         <div class="collapse navbar-collapse">
+        
             <ul class="nav navbar-nav navbar-right">
+            	
+            	<?php
+            			if(elgg_is_logged_in()){
+            				//TODO estrare il nonme tramite API fwd_offerte
+            				$logged_user_id=elgg_get_logged_in_user_guid();
+            				
+            				echo "<li>Ciao utente ".$logged_user_id." </li>";
+            			}
+            		            	 
+				?>
+
                 <li><a href=""><i class="glyphicon glyphicon-heart"></i></a></li>
                 <li><a href=""><i class="glyphicon glyphicon-shopping-cart"></i> </a></li>
                 <li><a href=""><i class="glyphicon glyphicon-user"></i></a></li>
