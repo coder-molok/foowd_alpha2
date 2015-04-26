@@ -15,7 +15,7 @@ api_foowd/app/vendor/
 api_foowd/app/data/generated-*/
 mod_elgg/foowd_*/log/
 *composer.lock
-vendor/
+*/foowd_utility/vendor/
 
 # linee aggiunte da Marco Predari
 # io uso webstorm e aggiungo la cartella del progetto che crea il programma
