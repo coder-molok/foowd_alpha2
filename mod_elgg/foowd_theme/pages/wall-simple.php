@@ -1,30 +1,20 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Bootply.com - Bootstrap Bootstrap Google Plus Theme</title>
-    <meta name="generator" content="Bootply" />
+    <title>Foowd</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Vendor Style Libraries -->
     <link href="mod/foowd_theme/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!--[if lt IE 9]>
-    <script type="text/javascript" src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <!-- Flavicons (not avaiable yet) -->
 
-    <!-- Flavicons -->
-
-    <!-- End Flavicons-->
-
-    <!-- Style -->
-    <!-- CSS code from Bootply.com editor -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
-    <!-- ADS Style-->
     <link rel="stylesheet" href="mod/foowd_theme/lib/css/ads.css">
 </head>
-
-<!-- HTML code from Bootply.com editor -->
 
 <body>
 
@@ -54,122 +44,40 @@
 <div class="container" id="main">
 
     <div class="wall">
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Prezzo e altri dettagli
-                </div>
-                <div class="panel-thumbnail">
-                    <img src="http://lorempizza.com/270/320" class="img-responsive">
-                    <div class="product-menu">
-                        <ul class="product-menu-options">
-                            <li><a href=""><i class="glyphicon glyphicon-send"></i></a></li>
-                            <li><a href=""><i class="glyphicon glyphicon-check"></i> </a></li>
-                            <li><a href=""><i class="glyphicon glyphicon-heart"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <p> Nullam feugiat metus at libero pulvinar, placerat scelerisque dolor commodo.
-                        Donec sem urna, suscipit non auctor in, varius sit amet ipsum.
-                        Vivamus pulvinar facilisis risus non auctor.
-                        Quisque pellentesque neque ut odio fermentum, et facilisis enim vestibulum.
-                        Nam ex lectus.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Prezzo e altri dettagli
-                </div>
-                <div class="panel-thumbnail">
-                    <img src="http://lorempizza.com/450/300" class="img-responsive">
-                    <div class="product-menu">
-                        <ul class="product-menu-options">
-                            <li><a href=""><i class="glyphicon glyphicon-send"></i></a></li>
-                            <li><a href=""><i class="glyphicon glyphicon-check"></i> </a></li>
-                            <li><a href=""><i class="glyphicon glyphicon-heart"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <p> Nullam feugiat metus at libero pulvinar, placerat scelerisque dolor commodo.
-                        Donec sem urna, suscipit non auctor in, varius sit amet ipsum.
-                        Vivamus pulvinar facilisis risus non auctor.
-                        Quisque pellentesque neque ut odio fermentum, et facilisis enim vestibulum.
-                        Nam ex lectus.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Prezzo e altri dettagli
-                </div>
-                <div class="panel-thumbnail">
-                    <img src="http://lorempizza.com/280/500" class="img-responsive">
-                    <div class="product-menu">
-                        <ul class="product-menu-options">
-                            <li><a href=""><i class="glyphicon glyphicon-send"></i></a></li>
-                            <li><a href=""><i class="glyphicon glyphicon-check"></i> </a></li>
-                            <li><a href=""><i class="glyphicon glyphicon-heart"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <p> Nullam feugiat metus at libero pulvinar, placerat scelerisque dolor commodo.
-                        Donec sem urna, suscipit non auctor in, varius sit amet ipsum.
-                        Vivamus pulvinar facilisis risus non auctor.
-                        Quisque pellentesque neque ut odio fermentum, et facilisis enim vestibulum.
-                        Nam ex lectus.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Prezzo e altri dettagli
-                </div>
-                <div class="panel-thumbnail">
-                    <img src="http://lorempizza.com/400/300" class="img-responsive">
-                    <div class="product-menu">
-                        <ul class="product-menu-options">
-                            <li><a href=""><i class="glyphicon glyphicon-send"></i></a></li>
-                            <li><a href=""><i class="glyphicon glyphicon-check"></i> </a></li>
-                            <li><a href=""><i class="glyphicon glyphicon-heart"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <p> Nullam feugiat metus at libero pulvinar, placerat scelerisque dolor commodo.
-                        Donec sem urna, suscipit non auctor in, varius sit amet ipsum.
-                        Vivamus pulvinar facilisis risus non auctor.
-                        Quisque pellentesque neque ut odio fermentum, et facilisis enim vestibulum.
-                        Nam ex lectus.
-                    </p>
-                </div>
-            </div>
-        </div>
+        <!-- Viene Riempito dal Javascript -->
     </div>
 </div>
 
 <!-- Javascripts -->
 
-<script type='text/javascript' src="mod/foowd_theme/vendor/jquery/dist/jquery.min.js"></script>
+<!-- Vendor Libraries -->
+<script type='text/javascript' src="mod/foowd_theme//vendor/jquery/dist/jquery.min.js"></script>
 <script type='text/javascript' src="mod/foowd_theme/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="mod/foowd_theme/vendor/handlebars/handlebars.runtime.js"></script>
+
+<!-- Pre-Compiled Templates -->
+<script type="text/javascript" src="mod/foowd_theme/pages/templates/templates.js"></script>
+
+<!-- Custom Libraries -->
+<script type="text/javascript" src="mod/foowd_theme/lib/js/foowd.js"></script>
+
+<!-- Load the wall -->
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded',function(event){
+        foowd.getProducts();
+    });
+</script>
+
 <!-- JavaScript jQuery code from Bootply.com editor  -->
 <script type='text/javascript' src="mod/foowd_theme/lib/js/toggle-layout.js"></script>
+
 <!-- Google analytics settings -->
 <script type="text/javascript" src="mod/foowd_theme/lib/js/google-analytics.js"></script>
 
-<div class="ad collapse in">
+<!--<div class="ad collapse in">
     <button class="ad-btn-hide" data-toggle="collapse" data-target=".ad">&times;</button>
     <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=bootplycom" id="_carbonads_js"></script>
-</div>
+</div>-->
 
 </body>
 </html>
