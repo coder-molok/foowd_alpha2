@@ -3,8 +3,6 @@
 	"name": "API Elgg Offer",
 	"description": "",
 	"order": [
-		"7f44647d-7eb9-2523-a9e7-35793ebc6b7e",
-		"97af3b7d-e771-68eb-96a6-3c316c80af8f",
 		"17db4e65-53f6-6d45-e8bf-5a210036f400",
 		"8b5110d6-e648-a791-e5a8-cc49fc8c045b",
 		"91b4e9b0-b1b5-1a10-c3c4-bd63a8652d80",
@@ -23,7 +21,7 @@
 	"requests": [
 		{
 			"id": "17db4e65-53f6-6d45-e8bf-5a210036f400",
-			"headers": "",
+			"headers": "Auth-check: 1429431310\n",
 			"url": "http://localhost/api_foowd/public_html/api/offer?Publisher={{Publisher}}&type=search&Id={\"min\":2 ,\"max\":109}&Tag=mangiare, cibo&order=Modified, desc",
 			"preRequestScript": "",
 			"pathVariables": {},
@@ -34,7 +32,7 @@
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1428607291803,
+			"time": 1429432053546,
 			"name": "Cerca con Filtri",
 			"description": "",
 			"collectionId": "7b3efbc3-a1b1-2551-5b4a-80107ffd4ff1",
@@ -61,26 +59,6 @@
 			"responses": [],
 			"synced": false,
 			"rawModeData": "{\n    \"Publisher\":\"{{Publisher}}\",\n    \"Id\": \"{{Id}}\",\n    \"State\" : \"open\",\n    \"type\":\"setState\"\n}"
-		},
-		{
-			"id": "7f44647d-7eb9-2523-a9e7-35793ebc6b7e",
-			"headers": "",
-			"url": "http://localhost/api_foowd/public_html/api/offer?type=offerList&Publisher={{Publisher}}",
-			"preRequestScript": "",
-			"pathVariables": {},
-			"method": "GET",
-			"data": [],
-			"dataMode": "params",
-			"version": 2,
-			"tests": "",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1428607333176,
-			"name": "Lista Offerte di un Utente",
-			"description": "",
-			"collectionId": "7b3efbc3-a1b1-2551-5b4a-80107ffd4ff1",
-			"responses": [],
-			"synced": false
 		},
 		{
 			"id": "8b5110d6-e648-a791-e5a8-cc49fc8c045b",
@@ -122,26 +100,6 @@
 			"collectionId": "7b3efbc3-a1b1-2551-5b4a-80107ffd4ff1",
 			"synced": false,
 			"rawModeData": "{\n \"Id\":\"{{Id}}\",\n \"Name\":\"Salumi Go Go!\",\n \"Description\":\"una bella cassa di salumi,ecceziunali veramente!\",\n \"Price\":\"7,56\",\n \"Minqt\":\"3\",\n \"Maxqt\":\"10\",\n \"Tag\":\"cibo, mangiare, latticini\",\n \"Modified\":\"2015-03-20 19:14:17\",\n \"Publisher\":\"{{Publisher}}\",\n \"type\":\"update\"\n}"
-		},
-		{
-			"id": "97af3b7d-e771-68eb-96a6-3c316c80af8f",
-			"headers": "",
-			"url": "http://localhost/api_foowd/public_html/api/offer?Publisher={{Publisher}}&Id={{Id}}&type=single",
-			"preRequestScript": "",
-			"pathVariables": {},
-			"method": "GET",
-			"data": [],
-			"dataMode": "params",
-			"version": 2,
-			"tests": "",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1428607309248,
-			"name": "Offerta Specifica di un Utente",
-			"description": "",
-			"collectionId": "7b3efbc3-a1b1-2551-5b4a-80107ffd4ff1",
-			"responses": [],
-			"synced": false
 		},
 		{
 			"id": "d3f27a23-4759-1fd8-d271-5b50564508c5",

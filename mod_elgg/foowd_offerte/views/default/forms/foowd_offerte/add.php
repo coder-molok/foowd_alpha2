@@ -1,7 +1,7 @@
 <?php
 // /views/default/input/
 
-$form = \Foowd\Param::pid().'/add';
+$form = \Uoowd\Param::pid().'/add';
 
 // utilizzo questa classe per maneggiare le variabili e lo sticky_form
 // gli Error servono per generare il messaggio di errore dentro al form
@@ -37,7 +37,7 @@ $fadd = new \Foowd\Action\FormAdd($vars);
 
 $fadd->createField('Name', 'Offerta', 'input/text');
 $fadd->createField('Description', 'Descrivi il tuo prodotto', 'input/longtext');
-$fadd->createField('Price','Importo (cifre con virgola)', 'input/text', array('maxlength'=>"11"));
+$fadd->createField('Price','Importo', 'input/text', array('maxlength'=>"11"));
 $fadd->createField('Tag', 'Tags (singole parole separate da una virgola)', 'input/text');
 $fadd->createField('Minqt', 'Quantita\' minima', 'input/text', array('maxlength'=>"9"));
 $fadd->createField('Maxqt', 'Quantita\' massima', 'input/text', array('maxlength'=>"9"));

@@ -187,7 +187,7 @@ abstract class Action {
 		 * @return boolean      se true, la validazione e' andata a buon fine
 		 */
 		public function isCash($var){
-			if (preg_match('/^\d+\,\d{2,2}$/', $var)){
+			if (preg_match('/^\d{1,8}(\.\d{0,2})?$/', $var)){
 				return true;
 			}else{
 				return false;

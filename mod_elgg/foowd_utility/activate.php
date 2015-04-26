@@ -1,16 +1,16 @@
 <?php
 
-$value = elgg_get_plugin_setting('api', \Uoowd\Param::pid() );
+$value = elgg_get_plugin_setting('api', \Uoowd\Param::uid() );
 
 if(!$value){
-	 elgg_set_plugin_setting('api', \Uoowd\Param::apiDom(), \Uoowd\Param::pid() );
+	 elgg_set_plugin_setting('api', \Uoowd\Param::apiDom(), \Uoowd\Param::uid() );
 	 elgg.system_message('caricata url di default');
 }
 
 $value = elgg_get_plugin_setting('dbg', \Uoowd\Param::pid() );
 
 if(!$value){
-	 elgg_set_plugin_setting('dbg', \Uoowd\Param::$par['dbg'] ,\Uoowd\Param::pid() );
+	 elgg_set_plugin_setting('dbg', \Uoowd\Param::$par['dbg'] ,\Uoowd\Param::uid() );
 	 elgg.system_message('caricato valore di debug');
 }
 

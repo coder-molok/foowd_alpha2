@@ -2,7 +2,7 @@
 
 namespace Foowd\Action;
 
-	class FormAdd extends \Foowd\Action{
+	class FormAdd extends \Uoowd\Action{
 		
 		/**
 		 * variabile per associare a ogni input il messaggio predefinito e 
@@ -17,7 +17,7 @@ namespace Foowd\Action;
 			'Name' 			=> 'immetti titolo...',
 			'Description'	=> 'inserire descrizione',
 			'Publisher'		=> '',		
-			'Price'			=> 'cifre decimali separate dalla virgola...',
+			'Price'			=> '',
 			'Minqt'			=> 'valore obbligatorio, con massimo 3 cifre decimali e una specificata',
 			'Maxqt'			=> '',
 			'Created'		=> '',
@@ -34,9 +34,9 @@ namespace Foowd\Action;
 		 * @var array
 		 */
 		private $errors = array(
-			'Name' 		=> 'errore nell\' immisione del titolo',
+			'Name' 			=> 'errore nell\' immisione del titolo',
 			'Description'	=> 'errore nell\' immisione della descrizione',
-			'Price'		=> 'ricorda: due cifre decimali separate dalla virgola...',
+			'Price'			=> 'massimo 8 cifre + 2 decimali...',
 			'Tag'			=> 'i tags possono essere solo singole parole separate da virgola...',
 		);
 

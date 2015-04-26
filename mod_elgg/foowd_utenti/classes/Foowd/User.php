@@ -4,6 +4,9 @@ namespace Foowd;
 
 class User {
 
+
+	public $form = null;
+
 	/**
 	 * registro un nuovo utente, aggiungendogli un metadato e salvandolo anche nel servizio API.
 	 * Qualora il salvataggio API non si realizzasse, il nuovo utente non viene salvato.
@@ -14,14 +17,16 @@ class User {
 	 * @param  [type] $params [description]
 	 * @return [type]         [description]
 	 */
-	public static function register($hook, $type, $value, $params){
+	public function register($hook, $type, $value, $params){
 
 
 		// Il form e' gia' sticky, e valore 'register'
-		$form = 'register';
+		$form = $this->form;
+		// \Uoowd\Logger::addInfo($form);
 
 		// richiamo la classe che gestisce il form
 		$f = new \Foowd\Action\Register();
+		\Uoowd\Logger::addInfo('Tentativo di Registrazione');
 
 		// manageForm ritorna i dati estrapolati dai get_input: 
 		//  se non si fa attenzione, potrebbero non essere coerenti con quelli dello sticky_form
@@ -32,10 +37,11 @@ class User {
 		// NB: il check viene fatto sugli get_input, non sugli elgg_get_sticky
 		if(!$f->status){
 		    // nel caso non stia usando il debug impostato nel plugin, stampo un messaggio normale
-		    if(! $str = \Foowd\Param::dbg()){ 
+		    if(! $str = \Uoowd\Param::dbg()){ 
 		        $str = "Errore nell'immissione dei dati";
 		    }
-		    register_error($str);
+		    //\Uoowd\Logger::addError($str);
+		    \Uoowd\Logger::addError($str);
 		    return false;
 		}
 
@@ -47,10 +53,10 @@ class User {
 		//To get its guid would
 		$user = get_entity($extId);
 		if (!$user){
-		    if(! $str = \Foowd\Param::dbg()){ 
-		        $str = "elgg errore creazione utente";
+		    if(! $str = \Uoowd\Param::dbg()){ 
+		        $str = "elgg errore creazione utente lato Elgg";
 		    }
-		    register_error($str);
+		    \Uoowd\Logger::addError($str);
 		    return false;
 		}
 
@@ -72,7 +78,7 @@ class User {
 		    if(! $str = \Uoowd\Param::dbg()){ 
 		        $str = "Errore Curl.";
 		    }
-		    register_error($str);
+		    \Uoowd\Logger::addError($str);
 		    return false;
 		}
 		
@@ -98,7 +104,7 @@ class User {
 		    if(! $str = \Uoowd\Param::dbg()){ 
 		        $str = "Errore remoto.";
 		    }
-		    register_error($str);
+		    \Uoowd\Logger::addError($str);
 		    return false;
 		}
 		

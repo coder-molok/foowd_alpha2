@@ -273,10 +273,6 @@ class ApiOffer extends \Foowd\FApi{
 		
 		}
 		
-		if(!$offer->count()){
-			 $Json['response'] = false;
-			 $msg = 'Problema nella ricerca dell\' offerta';
-		}
 		
 		$return = array();
 		

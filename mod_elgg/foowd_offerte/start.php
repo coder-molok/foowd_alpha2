@@ -1,5 +1,8 @@
 <?php
 
+// classe di default
+elgg_register_classes(elgg_get_plugins_path().'foowd_utility/classes');
+
 elgg_register_event_handler('init', 'system', 'offerte_init');
 
 
@@ -27,10 +30,11 @@ function offerte_init() {
 
 
 	// elimino il "more"
-	elgg_unregister_plugin_hook_handler('prepare', 'menu:site', '_elgg_site_menu_setup');
+	// elgg_unregister_plugin_hook_handler('prepare', 'menu:site', '_elgg_site_menu_setup');
+	// elgg_register_plugin_hook_handler('register', 'menu:site', 'foowd_menu');
 
-	elgg_register_plugin_hook_handler('register', 'menu:site', 'foowd_menu');
-
+	// estensione della sidebar
+	elgg_extend_view('page/elements/sidebar', 'foowd_offerte/sidebar');
 }
 
 function offerte_page_handler($segments) {
@@ -58,23 +62,23 @@ function offerte_page_handler($segments) {
 }
 
 
-function foowd_menu($hook, $type, $return, $params){
+// function foowd_menu($hook, $type, $return, $params){
 
 
-	    elgg_unregister_menu_item('menu:site', 'file');
-	    // Remove menu elements
-	    elgg_unregister_menu_item('site', 'activity');
-	    elgg_unregister_menu_item('site', 'blog');
-	    elgg_unregister_menu_item('site', 'more');
+// 	    elgg_unregister_menu_item('menu:site', 'file');
+// 	    // Remove menu elements
+// 	    elgg_unregister_menu_item('site', 'activity');
+// 	    elgg_unregister_menu_item('site', 'blog');
+// 	    elgg_unregister_menu_item('site', 'more');
 
-		//Add a menu item to the site menu
-		elgg_register_menu_item('menu:site', ElggMenuItem::factory(array(
-		 	'name' => 'offerte',
-		 	'href' => '/foowd_offerte/all',
-		 	'text' => elgg_echo('Offerte'),
-		 )));
+// 		//Add a menu item to the site menu
+// 		elgg_register_menu_item('menu:site', ElggMenuItem::factory(array(
+// 		 	'name' => 'offerte',
+// 		 	'href' => '/foowd_offerte/all',
+// 		 	'text' => elgg_echo('Offerte'),
+// 		 )));
 
-	// var_dump($params);
-	// var_dump($hook);
-	//return false;
-}
+// 	// var_dump($params);
+// 	// var_dump($hook);
+// 	//return false;
+// }

@@ -35,12 +35,16 @@ class API{
 		// converto tutti i dati in un array da passare in formato json via curl
 		$numeric = array('Price', 'Minqt','Maxqt');
 		foreach($params as $field => $value){
-			
+			// elimino gli spazi inutili
+			$value = trim($value);
+			// se e' vuoto, evito di mandarlo
+			if(empty($value)) continue;
 			// modifico automaticamente le virgole in punti, 
 			// in modo da passare il corretto formato per salvataggio mysql.
 			if(in_array($field, $numeric)) $value = preg_replace('@,@', '.', $value);			
 			$ar[$field] = $value;
 		}
+
 
 		// se non e' impostato type, allora non vado avanti
 		$testPost = (isset($ar['type']) && $method==="POST" );
@@ -84,6 +88,7 @@ class API{
 		
 		//$_SESSION['my']=json_encode($url);
 		register_error($output);
+		\Uoowd\Logger::addInfo($output);
 		
 		$returned = json_decode($output);
 

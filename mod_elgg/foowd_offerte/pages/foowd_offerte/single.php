@@ -2,7 +2,7 @@
 
 gatekeeper();
 
-$form = \Foowd\Param::pid().'/update';
+$form = \Uoowd\Param::pid().'/update';
 
 // richiamo la classe che gestisce il form
 $f = new \Foowd\Action\FormAdd();
@@ -22,7 +22,7 @@ if(!elgg_is_sticky_form($form) ){
 	$url=implode('&' , $url);
 	
 	// prendo i valori del vecchio post e li carico nel form
-	$r = \Foowd\API::Request('offer?'.$url,'GET');
+	$r = \Uoowd\API::Request('offer?'.$url,'GET');
 
 	// se sono qui la validazione lato elgg e' andata bene
 	// ma ora controllo quella lato API remote

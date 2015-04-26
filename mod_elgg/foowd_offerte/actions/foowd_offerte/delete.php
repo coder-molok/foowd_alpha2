@@ -24,7 +24,7 @@ $data['Id']=(int)get_input('Id');
 $data['type']='delete';
 
 
-$r = \Foowd\API::Request('offer','POST', $data);
+$r = \Uoowd\API::Request('offer','POST', $data);
 //$_SESSION['my'] = $r;
 
 // se sono qui la validazione lato elgg e' andata bene
@@ -33,7 +33,7 @@ if($r->response){
 	system_message(elgg_echo("eliminato il post ".$data['Id']));
 }else{
 	// nel caso non stia usando il debug impostato nel plugin, stampo un messaggio normale
-	if(! $str = \Foowd\Param::dbg()){ 
+	if(! $str = \Uoowd\Param::dbg()){ 
 		$str = "errore nell'eliminazione di offerta numero ".$data['Id'];
 	}
 	register_error($str);

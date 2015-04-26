@@ -159,7 +159,8 @@ abstract class FApi{
 				 	$data[0]->Publisher = $data[0]->Publisher->getId();
 				 }else{
 				 	$Json['response'] = false;
-				 	$Json['errors']['Foreign'] = "local ExternalId e Publisher passato non combaciano";
+				 	$Json['errors']['Foreign'] = "L'id passato non e\' associato a nessun utente API";
+				 	$Json['errors']['File'] = __FILE__. ' Line: '.__LINE__;
 				 	echo json_encode($Json);
 				 	exit(7);
 				 }

@@ -3,9 +3,9 @@
 gatekeeper();
 
 $appendUrl ="type=search&Publisher=".elgg_get_logged_in_user_guid();
-$r = \Foowd\API::Request('offer?'.$appendUrl, 'GET');
+$r = \Uoowd\API::Request('offer?'.$appendUrl, 'GET');
 
-$Pid = \Foowd\Param::pid(); //plugin id
+$Pid = \Uoowd\Param::pid(); //plugin id
 
 $str = '';
 if($r->response){

@@ -13,7 +13,7 @@ $content = elgg_view_title($title);
 //$content .= elgg_view('foowd_offerte/add', array(), $vars);
 $content .= 'complimenti, hai pullicato la tua offerta con successo.';
 $content .= elgg_view('output/url', array(
-				'href' => elgg_get_site_url() . \Foowd\Param::pid()."/all",
+				'href' => elgg_get_site_url() . \Uoowd\Param::pid()."/all",
 			    'text' => elgg_echo('All'),
 			    'class' => 'elgg-button elgg-button-delete',
 		    ))."\n\r<br/><br/><br/>";

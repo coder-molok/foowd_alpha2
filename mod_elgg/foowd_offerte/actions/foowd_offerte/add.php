@@ -2,7 +2,7 @@
 
 gatekeeper();
 
-$form = \Foowd\Param::pid().'/add';
+$form = \Uoowd\Param::pid().'/add';
 
 // set sticky: avviso il sistema che gli inpu di questo form sono sticky
 elgg_make_sticky_form($form);
@@ -20,7 +20,7 @@ if ($f->status) {
 	
 	//$_SESSION['my']=$data;
 	$data['type']='create';
-	$r = \Foowd\API::Request('offer', 'POST', $data);
+	$r = \Uoowd\API::Request('offer', 'POST', $data);
 			// se sono qui la validazione lato elgg e' andata bene
 	// ma ora controllo quella lato API remote
 	if($r->response){
@@ -30,7 +30,7 @@ if ($f->status) {
 		system_message(elgg_echo('success'));
 		
 		// rimando alla pagina di successo
-		forward(\Foowd\Param::pid().'/success');	
+		forward(\Uoowd\Param::pid().'/success');	
 
 	}else{
 		
@@ -39,7 +39,7 @@ if ($f->status) {
 		$f->addError(array_values($errors), $form);
 
 		// nel caso non stia usando il debug impostato nel plugin, stampo un messaggio normale
-		if(! $str = \Foowd\Param::dbg()){ 
+		if(! $str = \Uoowd\Param::dbg()){ 
 			$str = "Uno o piu campi sono errati";
 		}
 		register_error($str);

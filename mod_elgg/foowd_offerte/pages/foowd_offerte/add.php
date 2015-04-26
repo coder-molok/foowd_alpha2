@@ -2,7 +2,7 @@
 // make sure only logged in users can see this page
 gatekeeper();
 
-$Pid = \Foowd\Param::pid();
+$Pid = \Uoowd\Param::pid();
 
 // set the title
 // for distributed plugins, be sure to use elgg_echo() for internationalization

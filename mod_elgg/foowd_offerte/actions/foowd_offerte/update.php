@@ -1,7 +1,7 @@
 <?php
 gatekeeper();
 
-$form = \Foowd\Param::pid().'/update';
+$form = \Uoowd\Param::pid().'/update';
 
 // set sticky: avviso il sistema che gli input di questo form sono sticky
 elgg_make_sticky_form($form);
@@ -24,7 +24,7 @@ if(!$f->status) forward(REFERER);
 
 // se tutto va a buon fine, proseguo con le API esterne
 $data['type']='update';
-$r = \Foowd\API::Request('offer', 'POST', $data);
+$r = \Uoowd\API::Request('offer', 'POST', $data);
 
 if($r->response){
 	// dico al sistema di scartare gli input di questo form
@@ -40,7 +40,7 @@ if($r->response){
 	$_SESSION['sticky_forms'][$form]['apiError']=$r;
 
 	// nel caso non stia usando il debug impostato nel plugin, stampo un messaggio normale
-	if(! $str = \Foowd\Param::dbg()){ 
+	if(! $str = \Uoowd\Param::dbg()){ 
 		$str = 'Non riesco a caricare l\'offerta';
 	}
 	register_error(elgg_echo($str));
