@@ -1,6 +1,15 @@
 # Foowd Theme
 
 Questo è un tema sviluupato con **Elgg** per la piattforma **Foowd**.
+Aggiunge tutte le schermate personalizzate della piattaforma:
+
+In particolare 
+
+il wall con la lista delle offerte [vedi](http://localhost/elg/wall)
+Il dettaglio dell'offerta
+Il dettaglio delle preferenze inserite
+
+
 
 ## Installazione
 
