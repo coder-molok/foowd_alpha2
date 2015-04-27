@@ -25,3 +25,5 @@ html_theme_template/vendor/
 mod_elgg/foowd_theme/vendor/
 mod_elgg/foowd_theme/composer.phar
 mod_elgg/foowd_theme/composer.phar
+mod_elgg/foowd_utility/composer.phar
+mod_elgg/foowd_utility/composer.phar
