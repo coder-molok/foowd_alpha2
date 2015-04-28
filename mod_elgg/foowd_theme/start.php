@@ -36,7 +36,7 @@ function foowd_theme_init() {
 }
 
 function foowd_wall_page_handler() {
-	if (!include_once(dirname(__FILE__) . "/pages/wall-simple.php"))
+	if (!include_once(dirname(__FILE__) . "/pages/wall.php"))
 		return false;
 	return true;
 }
