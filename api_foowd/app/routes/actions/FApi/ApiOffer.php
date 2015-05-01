@@ -445,9 +445,13 @@ class ApiOffer extends \Foowd\FApi{
 			$Json['body'] = $search;
 		}
 
-		if(!isset($Json['response'])){ $Json['response'] = true;}
-		else {$Json['errors'] = $errors; }
-		return $Json;
+		if(isset($Json['response'])){ 
+			$Json['response'] = false;
+			$Json['errors'] = $errors;
+			return $Json;
+		}else{ 
+			return $search;
+		}
 	}
 
 
