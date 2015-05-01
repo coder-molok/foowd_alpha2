@@ -429,20 +429,17 @@ class ApiOffer extends \Foowd\FApi{
 			
 				$ext->OfferId = $offer['Id'];
 				$match = ApiPrefer::search($ext);
+				
 				if(isset($match['body'])){
-					if(count($match['body'])== 1){
+					if(count($match['body']) == 1){
 						$search['body'][$key]['prefer'] = $match['body'][0];
-					}else{
-						$Json['respnse'] = false;
+					}else if(count($match['body']) > 1){
+						$Json['response'] = false;
 						$errors['conteggio'] = "Errore: hai piu' preferenze dello stesso utente associate al singolo post";
 						$errors['file'] = "File: ".__FILE__." , Line: ".__LINE__;
 					}
 				}
 			}
-			// echo "<pre>";
-			// print_r($search);
-			// echo "</pre>";
-			$Json['body'] = $search;
 		}
 
 		if(isset($Json['response'])){ 
