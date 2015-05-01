@@ -428,7 +428,7 @@ class ApiOffer extends \Foowd\FApi{
 			foreach ($search['body'] as $key => $offer) {
 			
 				$ext->OfferId = $offer['Id'];
-				$match = \Foowd\Fapi\ApiPrefer::search($ext);
+				$match = ApiPrefer::search($ext);
 				if(isset($match['body'])){
 					if(count($match['body'])== 1){
 						$search['body'][$key]['prefer'] = $match['body'][0];

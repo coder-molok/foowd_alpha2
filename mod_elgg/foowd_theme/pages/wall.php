@@ -76,8 +76,13 @@
 <!-- Load the wall -->
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded',function(event){
-        foowd.getProducts();
+        foowd.getProducts(<?php echo json_encode(elgg_get_plugin_setting('api', \Uoowd\Param::uid()))?>);
     });
+    
+    function addPreference(id,qt){
+    	foowd.addPreference(id,qt,<?php echo json_encode(elgg_get_plugin_setting('api', \Uoowd\Param::uid()))?>,
+    	<?php echo json_encode(elgg_get_logged_in_user_guid())?>)
+    };
 </script>
 
 <!-- JavaScript jQuery code from Bootply.com editor  -->
