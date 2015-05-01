@@ -30,11 +30,6 @@ abstract class FApi{
 			
 		}
 
-		// ai dati aggiungo il dipo di richiesta
-		// $data->method = $method; 
-		//var_dump($data);
-		if(isset($this->hookData))	call_user_func(array($this, 'hookData'), array($data,$this->hookData));
-
 		// controllo i dati, ad esempio per la validazione
 		if($e = $this->parseData($data)){
 			$Json['errors'] = $e;
@@ -148,26 +143,5 @@ abstract class FApi{
 		}
 		return $obj;
 	}
-
-
-	public function hookData($data){
-		//var_dump($data);
-		foreach($data[1] as $value){
-			if($value === 'Publisher' && isset($data[0]->Publisher)){
-				 $data[0]->Publisher = \UserQuery::Create()->filterByExternalId($data[0]->Publisher)->findOne();
-				 if(is_object($data[0]->Publisher)){
-				 	$data[0]->Publisher = $data[0]->Publisher->getId();
-				 }else{
-				 	$Json['response'] = false;
-				 	$Json['errors']['Foreign'] = "L'id passato non e\' associato a nessun utente API";
-				 	$Json['errors']['File'] = __FILE__. ' Line: '.__LINE__;
-				 	echo json_encode($Json);
-				 	exit(7);
-				 }
-			}
-		}
-		//var_dump($data);
-	}
-
 
 }

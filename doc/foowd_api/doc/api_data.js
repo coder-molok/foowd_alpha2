@@ -232,6 +232,88 @@ define({ "api": [
     "groupTitle": "Offers"
   },
   {
+    "type": "get",
+    "url": "/offers",
+    "title": "searchPrefer",
+    "name": "searchPrefer",
+    "group": "Offers",
+    "description": "<p>Svolge la normale Search aggiungendo la chiave &quot;prefer&quot; alle offerte ritornate per le quali ExternalId abbia espresso una preferenza:         in tal caso &quot;prefer&quot; contiene tutti i dati relativi alla preferenza.         Se non si presenta tale corrispondenza, allora la singola offerta non contiene la chiave &quot;prefer&quot;.</p> <p>Strutturato in questo modo, cerca solo le intersezioni dei filtri.</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>searchPrefer</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "ExternalId",
+            "description": "<p>User Id elgg (ovvero ExternalId API) dell&#39;utente che sta&#39; eseguendo la ricerca</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Mixed",
+            "optional": true,
+            "field": "qualunque",
+            "description": "<p>qualunque colonna. Il valore puo&#39; essere una STRINGA o un ARRAY come stringa-JSON con chiavi &quot;max&quot; e/o &quot;min&quot; (lettere minuscole).</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "order",
+            "description": "<p>stringa per specificare l&#39;ordinamento. Il primo elemento e&#39; la colonna php. Si puo&#39; specificare se &#39;asc&#39; o &#39;desc&#39; inserendo uno di questi dopo una virgola. Generalmente saranno Name, Price, Created, Modified</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Mixed",
+            "optional": true,
+            "field": "offset",
+            "description": "<p>Il valore puo&#39; essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi &quot;page&quot; e &quot;maxPerPage&quot; per sfruttare la paginazione di propel.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "Tag",
+            "description": "<p>elenco di tags separati da virgola</p> "
+          }
+        ],
+        "Response": [
+          {
+            "group": "Response",
+            "type": "Bool",
+            "optional": false,
+            "field": "response",
+            "description": "<p>false, in caso di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "errors",
+            "description": "<p>json contenente i messaggi di errore</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "URL-Example:",
+          "content": "\nhttp://localhost/api_foowd/public_html/api/offer?type=searchPrefer&ExternalId=52&Publisher=5&Tag=latticini",
+          "type": "url"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiOffer.php",
+    "groupTitle": "Offers"
+  },
+  {
     "type": "post",
     "url": "/offers",
     "title": "setState",
@@ -430,8 +512,8 @@ define({ "api": [
             "group": "Parameter",
             "type": "Integer",
             "optional": false,
-            "field": "PreferId",
-            "description": "<p>id locale dell&#39;utente (non ExternalId)</p> "
+            "field": "ExternalId",
+            "description": "<p>id elgg dell&#39;utente</p> "
           },
           {
             "group": "Parameter",
@@ -482,8 +564,8 @@ define({ "api": [
             "group": "Parameter",
             "type": "Integer",
             "optional": false,
-            "field": "PreferId",
-            "description": "<p>id locale dell&#39;utente (non ExternalId)</p> "
+            "field": "ExternalId",
+            "description": "<p>id elgg dell&#39;utente</p> "
           }
         ]
       },
@@ -505,7 +587,7 @@ define({ "api": [
     "title": "search",
     "name": "search",
     "group": "Prefer",
-    "description": "<p>Per ottenere la lista delle offerte di un dato Publisher.</p> <p>Strutturato in questo modo, cerca solo le intersezioni dei filtri.</p> ",
+    "description": "<p>.</p> <p>Strutturato in questo modo, cerca solo le intersezioni dei filtri.</p> ",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -514,7 +596,7 @@ define({ "api": [
             "type": "String",
             "optional": false,
             "field": "type",
-            "description": "<p>metodo da chiamare</p> "
+            "description": "<p>search</p> "
           },
           {
             "group": "Parameter",

@@ -4,6 +4,7 @@
 	"description": "",
 	"order": [
 		"17db4e65-53f6-6d45-e8bf-5a210036f400",
+		"a79a24de-b980-bf24-2c80-5396fab27b7a",
 		"8b5110d6-e648-a791-e5a8-cc49fc8c045b",
 		"91b4e9b0-b1b5-1a10-c3c4-bd63a8652d80",
 		"d3f27a23-4759-1fd8-d271-5b50564508c5",
@@ -100,6 +101,26 @@
 			"collectionId": "7b3efbc3-a1b1-2551-5b4a-80107ffd4ff1",
 			"synced": false,
 			"rawModeData": "{\n \"Id\":\"{{Id}}\",\n \"Name\":\"Salumi Go Go!\",\n \"Description\":\"una bella cassa di salumi,ecceziunali veramente!\",\n \"Price\":\"7,56\",\n \"Minqt\":\"3\",\n \"Maxqt\":\"10\",\n \"Tag\":\"cibo, mangiare, latticini\",\n \"Modified\":\"2015-03-20 19:14:17\",\n \"Publisher\":\"{{Publisher}}\",\n \"type\":\"update\"\n}"
+		},
+		{
+			"id": "a79a24de-b980-bf24-2c80-5396fab27b7a",
+			"headers": "Auth-check: 1429431310\n",
+			"url": "http://localhost/api_foowd/public_html/api/offer?type=searchPrefer&ExternalId=52&Publisher=5&Tag=latticini",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1430430655213,
+			"name": "Cerca con Filtri Ritornando Preferenza",
+			"description": "",
+			"collectionId": "7b3efbc3-a1b1-2551-5b4a-80107ffd4ff1",
+			"responses": [],
+			"synced": false
 		},
 		{
 			"id": "d3f27a23-4759-1fd8-d271-5b50564508c5",
