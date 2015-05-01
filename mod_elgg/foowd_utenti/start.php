@@ -29,6 +29,9 @@ function utenti_init(){
     // elgg_register_event_handler('create', 'user', array('\Foowd\User', 'register'));
     // sovrascrivo la registrazione lato elgg
     elgg_register_action("useradd", __DIR__ . "/actions/useradd.php", "admin");
+
+    // estensione della sidebar
+    elgg_extend_view('page/elements/sidebar', 'extend/sidebar');
 }
 
 
@@ -44,15 +47,15 @@ function user_list($segments){
     //var_dump($segments);
 
      // test per eventuale login con google+
-    // if($segments[0] === 'auth'){
-    //     include elgg_get_plugins_path() . 'foowd_utenti/pages/auth.php';
-    //     return;
-    // }
-    // if($segments[0] === 'indexauth'){
-    //     define('AUTH',__DIR__.'/vendor/hybridauth/hybridauth/hybridauth/index.php' );
-    //     include elgg_get_plugins_path() . 'foowd_utenti/pages/indexauth.php';
-    //     return;
-    // }
+    if($segments[0] === 'auth'){
+        include elgg_get_plugins_path() . 'foowd_utenti/pages/auth.php';
+        return;
+    }
+    if($segments[0] === 'indexauth'){
+        define('AUTH',__DIR__.'/vendor/hybridauth/hybridauth/hybridauth/index.php' );
+        include elgg_get_plugins_path() . 'foowd_utenti/pages/indexauth.php';
+        return;
+    }
 
     //return;
     $authPage = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];

@@ -37,7 +37,7 @@ class ApiPrefer extends \Foowd\FApi{
 	 * 
 	 * @apiParam {String} 		type 		metodo da chiamare
 	 * @apiParam {Integer}  	OfferId 	id dell'offerta
-	 * @apiParam {Integer}  	PreferId 	id locale dell'utente (non ExternalId)
+	 * @apiParam {Integer}  	ExternalId 	id elgg dell'utente
 	 * @apiParam {Integer}  	Qt 			quantita' da istanziare o da incrementare/decrementare; Se positiva incrementa, altrimenti decrementa.
 	 * 
  	 * 
@@ -51,12 +51,27 @@ class ApiPrefer extends \Foowd\FApi{
 	 *
 	 *     
 	 */	
-	public $needle_create = "OfferId, UserId, Qt";
+	public $needle_create = "OfferId, ExternalId, Qt";
 	public function create($data){
+
+		// recupero l'id dell'utente
+		$UserId = \UserQuery::Create()->filterByExternalId($data->ExternalId)->findOne();
+
+
+		if(!$UserId){
+			$Json['errors']['ExternalId']="ExternalId not match nothing";
+			$Json['response'] = false;
+			return $Json;
+		}
+
+		$UserId = $UserId->getId();
+		unset($data->ExternalId);
+		$data->UserId = $UserId;
+
 		
 		$prefer = \PreferQuery::Create()
 				->filterByOfferId($data->OfferId)
-				->filterByUserId($data->UserId)
+				->filterByUserId($UserId)
 				->findOne();
 
 		if($prefer){
@@ -67,15 +82,11 @@ class ApiPrefer extends \Foowd\FApi{
 				//$Json['errors']['Qt'] = "Raggiunta la soglia minima dello zero";
 			}
 			$prefer->setQt( $value );
-		
 		}else{ 
 
 			//check foreign constraint
 			$of = \OfferQuery::Create()->filterById($data->OfferId)->findOne();
 			if(!$of) $Json['errors']['OfferId']="L' ID non combiacia con alcuna offerta";
-
-			$us = \UserQuery::Create()->filterById($data->UserId)->findOne();
-			if(!$us) $Json['errors']['UserId']="L' ID non combiacia con alcun utente locale";
 
 			if(isset($Json)){
 				$Json['response'] = false;
@@ -104,7 +115,7 @@ class ApiPrefer extends \Foowd\FApi{
 	 * 
 	 * @apiParam {String} 		type 		metodo da chiamare
 	 * @apiParam {Integer}  	OfferId 	id dell'offerta
-	 * @apiParam {Integer}  	PreferId 	id locale dell'utente (non ExternalId)
+	 * @apiParam {Integer}  	ExternalId 	id elgg dell'utente
 	 * 
  	 * 
 	 * @apiParamExample {json} Request-Example:
@@ -117,8 +128,22 @@ class ApiPrefer extends \Foowd\FApi{
 	 *
 	 *     
 	 */	
-	public $needle_delete = "OfferId, UserId";
+	public $needle_delete = "OfferId, ExternalId";
 	protected function delete($data){
+
+		// recupero l'id dell'utente
+		$UserId = \UserQuery::Create()->filterByExternalId($data->ExternalId)->findOne();
+
+
+		if(!$UserId){
+			$Json['errors']['ExternalId']="ExternalId not match nothing";
+			$Json['response'] = false;
+			return $Json;
+		}
+
+		$UserId = $UserId->getId();
+		unset($data->ExternalId);
+		$data->UserId = $UserId;
 
 		$prefer = \PreferQuery::create()
 		  		->filterByUserId($data->UserId)
@@ -147,11 +172,11 @@ class ApiPrefer extends \Foowd\FApi{
 	 * @apiName search
 	 * @apiGroup Prefer
 	 * 
- 	 * @apiDescription Per ottenere la lista delle offerte di un dato Publisher.
+ 	 * @apiDescription .
  	 *
  	 * Strutturato in questo modo, cerca solo le intersezioni dei filtri.
 	 * 
-	 * @apiParam {String} 		type 			metodo da chiamare
+	 * @apiParam {String} 		type 			search
 	 * @apiParam {Mixed}	  	[qualunque] 	qualunque colonna. Il valore puo' essere una STRINGA o un ARRAY come stringa-JSON con chiavi "max" e/o "min" (lettere minuscole).
 	 * @apiParam {String} 		[order] 		stringa per specificare l'ordinamento. Il primo elemento e' la colonna php. Si puo' specificare se 'asc' o 'desc' inserendo uno di questi dopo una virgola. Generalmente saranno Name, Price, Created, Modified
 	 * @apiParam {Mixed}	  	[offset] 		Il valore puo' essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi "page" e "maxPerPage" per sfruttare la paginazione di propel.
@@ -163,9 +188,27 @@ class ApiPrefer extends \Foowd\FApi{
 	 * @apiUse MyResponse
 	 * 
 	 */
-	protected function search($data){
+	public static function search($data){
 		
 		$msg = "Nessun risultato trovato: prova a ripetere la ricerca escludendo qualche opzione.";
+
+		if(isset($data->ExternalId)){
+			// recupero lo userId e poi elimino $data->ExternalId
+			$UserId = \UserQuery::Create()->filterByExternalId($data->ExternalId)->findOne();
+			// se l'utente con quell'id esterno esiste, allora lo utilizzo, altrimenti blocco tutto
+			if(is_object($UserId)){
+				$UserId = $UserId->getId();
+				$data->UserId = $UserId;
+				unset($data->ExternalId);
+			}else{
+				$Json['response'] = false;
+				$Json['errors']['Foreign'] = "L'id passato non e' associato a nessun utente API";
+				$Json['errors']['File'] = __FILE__. ' Line: '.__LINE__;
+				echo json_encode($Json);
+				exit(7);
+			}
+		}
+
 
 		if(isset($data->order)){
 			$order = array_map('trim' , explode( ',', $data->order) );
@@ -219,9 +262,9 @@ class ApiPrefer extends \Foowd\FApi{
 		
 		}
 		
-		if(!$prefer->count()){
-			 $Json['response'] = false;
-		}
+		// if(!$prefer->count()){
+		// 	 $Json['response'] = false;
+		// }
 		
 		$return = array();
 		

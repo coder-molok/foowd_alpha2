@@ -1,6 +1,31 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
+
+
+### 30/04/2015
+
+- corretta [issue#12](https://github.com/coder-molok/foowd_alpha2/issues/12): vedere i commenti della issue stessa.
+
+- corretta [issue#28](https://github.com/coder-molok/foowd_alpha2/issues/28).
+
+- corretta [issue#32](https://github.com/coder-molok/foowd_alpha2/issues/32).
+
+- corretta [issue#33](https://github.com/coder-molok/foowd_alpha2/issues/33).
+
+- corretta [issue#34](https://github.com/coder-molok/foowd_alpha2/issues/34).
+
+- corretta [issue#35](https://github.com/coder-molok/foowd_alpha2/issues/35).
+
+
+
+In merito alla **Issue 34**:
+
+creato il metodo `searchPrefer`, che richiede l' `ExternalId` come parametro obbligatorio. Qualora vi sia il match tra la singola preferenza e l'ExternalId, allora alla preferenza viene aggiunta la chiave "prefer", che diventa un oggetto json contenente i dati relativi alla preferenza.
+
+
+
+
 ### 26/04/2015
 
 - corretta [issue#28](https://github.com/coder-molok/foowd_alpha2/issues/28) sostituendo la frase con *"L'id passato non e\' associato a nessun utente API"*

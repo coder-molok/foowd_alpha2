@@ -40,10 +40,6 @@ class ApiOffer extends \Foowd\FApi{
 
 	public function __construct($app, $method = null){
 
-		// tutti i Publisher che arrivano da ELGG in realta' sono gli ExternalId,
-		// pertanto ridefinisco il Publisher in mase all' ID associato nella tabella User.
-		$this->hookData = array("Publisher");
-
 		parent::__construct($app, $method);
 
 	}
@@ -86,6 +82,7 @@ class ApiOffer extends \Foowd\FApi{
 
 		$offer = new \Offer();
 		if(!isset($data->Created)) $data->Created = date('Y-m-d H:i:s');
+		$this->ExtToId($data);
 		return $this->offerManager($data, $offer);
 
 	}
@@ -128,6 +125,8 @@ class ApiOffer extends \Foowd\FApi{
 	 */
 	public $needle_update = "Name, Description, Price, Minqt, Publisher, Tag";
 	protected function update($data){
+
+		$this->ExtToId($data);
 
 		// recupero il post originale
 		$offer = \OfferQuery::create()
@@ -211,6 +210,9 @@ class ApiOffer extends \Foowd\FApi{
 	 * 
 	 */
 	protected function search($data){
+
+		// converto il Publisher con Id elgg a Publisher con Id User
+		$this->ExtToId($data, 1);
 
 		// unset($data->type);
 		// unset($data->method);
@@ -343,6 +345,8 @@ class ApiOffer extends \Foowd\FApi{
 	public $needle_delete = "Publisher, Id";// State
 	protected function delete($data){
 
+		$this->ExtToId($data);
+
 		$offer = \OfferQuery::create()
 		  	->filterById($data->Id)
 		  	->filterByPublisher($data->Publisher)
@@ -362,6 +366,88 @@ class ApiOffer extends \Foowd\FApi{
 		 
 		//echo json_encode($count);
 		return $Json;	
+	}
+
+
+
+	/**
+	 *
+	 * @api {get} /offers searchPrefer
+	 * @apiName searchPrefer
+	 * @apiGroup Offers
+	 * 
+ 	 * @apiDescription Svolge la normale Search aggiungendo la chiave "prefer" alle offerte ritornate per le quali ExternalId abbia espresso una preferenza:
+ 	 * 		in tal caso "prefer" contiene tutti i dati relativi alla preferenza.
+ 	 * 		Se non si presenta tale corrispondenza, allora la singola offerta non contiene la chiave "prefer".
+ 	 *
+ 	 * Strutturato in questo modo, cerca solo le intersezioni dei filtri.
+	 * 
+	 * @apiParam {String} 		type 			searchPrefer
+	 * @apiParam {Integer} 		ExternalId		User Id elgg (ovvero ExternalId API) dell'utente che sta' eseguendo la ricerca
+	 * @apiParam {Mixed}	  	[qualunque] 	qualunque colonna. Il valore puo' essere una STRINGA o un ARRAY come stringa-JSON con chiavi "max" e/o "min" (lettere minuscole).
+	 * @apiParam {String} 		[order] 		stringa per specificare l'ordinamento. Il primo elemento e' la colonna php. Si puo' specificare se 'asc' o 'desc' inserendo uno di questi dopo una virgola. Generalmente saranno Name, Price, Created, Modified
+	 * @apiParam {Mixed}	  	[offset] 		Il valore puo' essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi "page" e "maxPerPage" per sfruttare la paginazione di propel.
+	 * @apiParam {String} 		[Tag] 			elenco di tags separati da virgola
+	 *
+	 * @apiParamExample {url} URL-Example:
+	 * 
+	 * http://localhost/api_foowd/public_html/api/offer?type=searchPrefer&ExternalId=52&Publisher=5&Tag=latticini
+	 * 
+	 * @apiUse MyResponse
+	 * 
+	 */
+	
+	public $needle_searchPrefer = "ExternalId";
+	public function searchPrefer($data){
+		if(!isset($data->ExternalId)){
+		 $errors['ExternalId'] = "Impossibile eseguire il metodo senza ExternalId";
+		 $Json['response'] = false;
+		}else{
+			// recupero lo userId e poi elimino $data->ExternalId
+			$UserId = \UserQuery::Create()->filterByExternalId($data->ExternalId)->findOne();
+			// se l'utente con quell'id esterno esiste, allora lo utilizzo, altrimenti blocco tutto
+			if(is_object($UserId)){
+				$UserId = $UserId->getId();
+				$ExternalId = $data->ExternalId;
+				unset($data->ExternalId);
+			}else{
+				$Json['response'] = false;
+				$Json['errors']['ExternalId'] = "L'ExternalId  non e' associato a nessun utente API";
+				$Json['errors']['File'] = __FILE__. ' Line: '.__LINE__;
+				echo json_encode($Json);
+				exit(7);
+			}
+
+			// ora eseguo la ricerca delle offerte in base ai filtri passati:
+			
+			$search = $this->search($data);
+			$ext = new \stdClass();
+			$ext->ExternalId = $ExternalId;
+			
+			// per ogni offerta, controllo se esiste la preferenza: se si, imposto true, altrimenti false
+			foreach ($search['body'] as $key => $offer) {
+			
+				$ext->OfferId = $offer['Id'];
+				$match = \Foowd\Fapi\ApiPrefer::search($ext);
+				if(isset($match['body'])){
+					if(count($match['body'])== 1){
+						$search['body'][$key]['prefer'] = $match['body'][0];
+					}else{
+						$Json['respnse'] = false;
+						$errors['conteggio'] = "Errore: hai piu' preferenze dello stesso utente associate al singolo post";
+						$errors['file'] = "File: ".__FILE__." , Line: ".__LINE__;
+					}
+				}
+			}
+			// echo "<pre>";
+			// print_r($search);
+			// echo "</pre>";
+			$Json['body'] = $search;
+		}
+
+		if(!isset($Json['response'])){ $Json['response'] = true;}
+		else {$Json['errors'] = $errors; }
+		return $Json;
 	}
 
 
@@ -455,6 +541,33 @@ class ApiOffer extends \Foowd\FApi{
 
 			return $return;
 	}
+
+
+	
+	/**
+	 * tutti i Publisher che arrivano da ELGG in realta' sono gli ExternalId,
+	 * pertanto ridefinisco il Publisher in mase all' ID associato nella tabella User.
+	 * @param [type] $data [description]
+	 * @param [type] $noEr se impostato, gli dico di non considerare errore la non corrispondenza(vedi Search)
+	 */
+	protected function ExtToId($data, $noEr =null){
+
+		if(isset($data->Publisher)){
+			$data->Publisher = \UserQuery::Create()->filterByExternalId($data->Publisher)->findOne();
+			if(is_object($data->Publisher)){
+				$data->Publisher = $data->Publisher->getId();
+			}else{
+				if($noEr === null){
+					$Json['response'] = false;
+					$Json['errors']['Foreign'] = "L'id passato non e' associato a nessun utente API";
+					$Json['errors']['File'] = __FILE__. ' Line: '.__LINE__;
+					echo json_encode($Json);
+					exit(7);
+				}
+			}
+		}
+	}
+
 
 }
 

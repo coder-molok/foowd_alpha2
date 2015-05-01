@@ -33,8 +33,7 @@ function offerte_init() {
 	// elgg_unregister_plugin_hook_handler('prepare', 'menu:site', '_elgg_site_menu_setup');
 	// elgg_register_plugin_hook_handler('register', 'menu:site', 'foowd_menu');
 
-	// estensione della sidebar
-	elgg_extend_view('page/elements/sidebar', 'foowd_offerte/sidebar');
+
 }
 
 function offerte_page_handler($segments) {

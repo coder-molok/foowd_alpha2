@@ -35,11 +35,11 @@ $fadd = new \Foowd\Action\FormAdd($vars);
 // var_dump($_SESSION['sticky_forms']);
 //var_dump($_SESSION['my']);
 
-$fadd->createField('Name', 'Offerta', 'input/text');
-$fadd->createField('Description', 'Descrivi il tuo prodotto', 'input/longtext');
-$fadd->createField('Price','Importo', 'input/text', array('maxlength'=>"11"));
-$fadd->createField('Tag', 'Tags (singole parole separate da una virgola)', 'input/text');
-$fadd->createField('Minqt', 'Quantita\' minima', 'input/text', array('maxlength'=>"9"));
+$fadd->createField('Name', 'Offerta *', 'input/text');
+$fadd->createField('Description', 'Descrivi il tuo prodotto *', 'input/longtext');
+$fadd->createField('Price','Importo *', 'input/text', array('maxlength'=>"11"));
+$fadd->createField('Tag', 'Tags (singole parole separate da una virgola) *', 'input/text');
+$fadd->createField('Minqt', 'Quantita\' minima *', 'input/text', array('maxlength'=>"9"));
 $fadd->createField('Maxqt', 'Quantita\' massima', 'input/text', array('maxlength'=>"9"));
 
 ?>
@@ -67,4 +67,9 @@ $fadd->createField('Maxqt', 'Quantita\' massima', 'input/text', array('maxlength
 <div>
     <?php echo elgg_view('input/submit', array('value' => elgg_echo('save'))); ?>
 </div>
+
+<div>
+    <?php echo '* : campo obbligatorio.'; ?>
+</div>
+
 <?php
