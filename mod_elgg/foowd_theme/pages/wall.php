@@ -24,8 +24,8 @@
             <a href="" class="navbar-brand">filtra per:</a>
             <ul class="nav navbar-nav">
                 <li><a href="">Visualizzazioni</a></li>
-                <li><a href="">Data</a></li>
-                <li><a href="">Prezzo</a></li>
+                <li><a onClick = "foowd.filterBy('date')">Data</a></li>
+                <li><a onClick = "foowd.filterBy('price')">Prezzo</a></li>
             </ul>
         </div>
     </div>
@@ -82,15 +82,19 @@
         var apiUrl = <?php echo json_encode(elgg_get_plugin_setting('api', \Uoowd\Param::uid()))?>;
         //prendo l'id dell'utente. 0 equivale a non loggato.
         var userId = <?php echo json_encode(elgg_get_logged_in_user_guid())?>;
-        //richiamo la procedura per mostrare il wall
-        foowd.getProducts(apiUrl,userId);
         
+        //imposto i parametri nel modulo
+        foowd.setBaseUrl(apiUrl);
+        foowd.setUserId(userId);
+
+        //richiamo la procedura per mostrare il wall
+        foowd.getProducts();
+        
+        //funzione per l'aggiunta della preferenza
         function addPreference(id,qt){
             foowd.addPreference(
                 id, // id offerta
-                qt, // quantità
-                apiUrl, // url delle api
-                userId // id dell pubblisher
+                qt // quantità
             );
         };
     });

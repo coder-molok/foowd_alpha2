@@ -6,10 +6,16 @@ var foowd = (function() {
 
 
 	
-	/*
-	 *  Questo è un modulo che contiene tutte le funzionalità del client foowd
+    /*
+  	 *  Questo è un modulo che contiene tutte le funzionalità del client foowd
 	 */
 
+	// inizializzo l'url a cui verranno fiatte le chiamate
+	var baseUrl = "";
+	//preferenza sulle ricerche delle offerte
+	var filterPreference = "";
+	//user id per controllare se l'utente e loggato oppure no
+	var userId = 0;
 	/*
 	 * L'oggeto offers contiene gli URL a cui fare le chiamate alle API.
 	 * E' organizzato in modo tale da essere di facile lettura e comprensione, e facilmente espandibile.
@@ -19,11 +25,17 @@ var foowd = (function() {
 		all :"offer?type=search",
 		filterby : {
 			views : "",
-			price : "",
-			date : ""
+			price : "offer?type=search&order=Price, asc",
+			date  : "offer?type=search&order=Created, asc"
 		}
 	};
-	
+
+	//inizializzo la preferenza nelle ricerche
+	filterPreference = offers.all;
+
+	/*
+	 * Definisco i parametri standard per l'inserimento delle offerte
+	 */
 	var preference;
 	preference = {
 		url : "prefer",
@@ -51,7 +63,7 @@ var foowd = (function() {
 	 * Funzione che riempe il tag html con i template dei prodotti complilati
 	 */
 	function fillWall(content) {
-		$(wallId).append(content);
+		$(wallId).html(content);
 	}
 
 	/*
@@ -66,15 +78,21 @@ var foowd = (function() {
 	}
 
 	return {
+
+		setBaseUrl : function(newUrl){
+			baseUrl = newUrl;
+		},
+		setUserId : function(newId){
+			userId = newId;
+		},
 		/*
 		 * Funzione che prende i dati da remoto e li trasforma nei prodotti del wall
 		 */
-		getProducts : function(baseUrl, userId) {
+		getProducts : function() {
 			// uso lo user id per capire se un utente è loggato o meno
 			// in base a quello scelgo il template da utilizzare
 			var useTemplate = (userId == 0) ? productNoLoggedTemplate : productLoggedTemplate;
-			console.log(useTemplate);
-			$.get( baseUrl+offers.all, function(data) {
+			$.get( baseUrl + filterPreference, function(data) {
 				var rawProducts = $.parseJSON(data);
 				var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
 				fillWall(parsedProducts);
@@ -86,7 +104,7 @@ var foowd = (function() {
 		 * Funzione che aggiunge una preferenza dell'utente
 		 */
 
-		addPreference : function(offerId,qt,baseUrl,userId) {
+		addPreference : function(offerId,qt) {
 			
 			preference.data.OfferId=offerId;
 			preference.data.UserId=userId;
@@ -109,6 +127,10 @@ var foowd = (function() {
 			});
 
 
+		},
+		filterBy : function(filterParam){
+			filterPreference = offers.filterby[filterParam];
+			foowd.getProducts();
 		}
 	};
 
