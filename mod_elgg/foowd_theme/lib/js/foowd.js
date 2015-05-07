@@ -35,8 +35,15 @@ var foowd = (function() {
 		}
 	};
 	
-	//qui è contenuta la versione compilata del template del prodotto
-	var productTemplate = Handlebars.templates.product;
+	/*
+	 * Ci sono due versioni del template:
+	 *  - una per gli utenti loggati con tutte le funzioni per aggiungere i prodotti alle preferenze
+	 *  - una senza funzionalità per gli utenti visitatori
+	 */
+
+	var productLoggedTemplate = Handlebars.templates.productLogged;
+	var productNoLoggedTemplate = Handlebars.templates.productNoLogged;
+	
 	//tag html dove andiamo a mettere il template compilato
 	var wallId = ".wall";
 
@@ -50,10 +57,10 @@ var foowd = (function() {
 	/*
 	 * Funzione che applica il template ripetutamente ai dati di contesto
 	 */
-	function applyProductContext(context) {
+	function applyProductContext(context, myTemplate) {
 		var result = "";
 		context.map(function(el) {
-			result += productTemplate(el);
+			result += myTemplate(el);
 		});
 		return result;
 	}
@@ -62,15 +69,22 @@ var foowd = (function() {
 		/*
 		 * Funzione che prende i dati da remoto e li trasforma nei prodotti del wall
 		 */
-		getProducts : function(baseUrl) {
-
+		getProducts : function(baseUrl, userId) {
+			// uso lo user id per capire se un utente è loggato o meno
+			// in base a quello scelgo il template da utilizzare
+			var useTemplate = (userId == 0) ? productNoLoggedTemplate : productLoggedTemplate;
+			console.log(useTemplate);
 			$.get( baseUrl+offers.all, function(data) {
 				var rawProducts = $.parseJSON(data);
-				var parsedProducts = applyProductContext(rawProducts.body);
+				var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
 				fillWall(parsedProducts);
 			});
 
 		},
+
+		/*
+		 * Funzione che aggiunge una preferenza dell'utente
+		 */
 
 		addPreference : function(offerId,qt,baseUrl,userId) {
 			

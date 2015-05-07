@@ -75,14 +75,27 @@
 
 <!-- Load the wall -->
 <script type="text/javascript">
+
     document.addEventListener('DOMContentLoaded',function(event){
-        foowd.getProducts(<?php echo json_encode(elgg_get_plugin_setting('api', \Uoowd\Param::uid()))?>);
+
+        //prendo il parametro per richiamare le API
+        var apiUrl = <?php echo json_encode(elgg_get_plugin_setting('api', \Uoowd\Param::uid()))?>;
+        //prendo l'id dell'utente. 0 equivale a non loggato.
+        var userId = <?php echo json_encode(elgg_get_logged_in_user_guid())?>;
+        //richiamo la procedura per mostrare il wall
+        foowd.getProducts(apiUrl,userId);
+        
+        function addPreference(id,qt){
+            foowd.addPreference(
+                id, // id offerta
+                qt, // quantità
+                apiUrl, // url delle api
+                userId // id dell pubblisher
+            );
+        };
     });
     
-    function addPreference(id,qt){
-    	foowd.addPreference(id,qt,<?php echo json_encode(elgg_get_plugin_setting('api', \Uoowd\Param::uid()))?>,
-    	<?php echo json_encode(elgg_get_logged_in_user_guid())?>)
-    };
+    
 </script>
 
 <!-- JavaScript jQuery code from Bootply.com editor  -->
