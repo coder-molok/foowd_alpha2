@@ -26,29 +26,29 @@
                 <li><a href="">Visualizzazioni</a></li>
                 <li><a onClick = "foowd.filterBy('date')">Data</a></li>
                 <li><a onClick = "foowd.filterBy('price')">Prezzo</a></li>
+                <li>
+                    <a>
+                        <?php
+                        if(elgg_is_logged_in()){
+                            //TODO estrare il nonme tramite API fwd_offerte
+                            $logged_user_id=elgg_get_logged_in_user_guid();
+                            
+                            echo "<li>Ciao utente ".$logged_user_id." </li>";
+                        }
+                                     
+                        ?>
+                    </a>
+               </li>
             </ul>
         </div>
+    <div class="collapse navbar-collapse">
+    
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href=""><i class="glyphicon glyphicon-heart"></i></a></li>
+            <li><a href=""><i class="glyphicon glyphicon-shopping-cart"></i> </a></li>
+            <li><a href=""><i class="glyphicon glyphicon-user"></i></a></li>
+        </ul>
     </div>
-    <div class="container-fluid navbar-menu">
-        <div class="collapse navbar-collapse">
-        
-            <ul class="nav navbar-nav navbar-right">
-            	
-            	<?php
-            			if(elgg_is_logged_in()){
-            				//TODO estrare il nonme tramite API fwd_offerte
-            				$logged_user_id=elgg_get_logged_in_user_guid();
-            				
-            				echo "<li>Ciao utente ".$logged_user_id." </li>";
-            			}
-            		            	 
-				?>
-
-                <li><a href=""><i class="glyphicon glyphicon-heart"></i></a></li>
-                <li><a href=""><i class="glyphicon glyphicon-shopping-cart"></i> </a></li>
-                <li><a href=""><i class="glyphicon glyphicon-user"></i></a></li>
-            </ul>
-        </div>
     </div>
 </nav>
 
@@ -90,13 +90,6 @@
         //richiamo la procedura per mostrare il wall
         foowd.getProducts();
         
-        //funzione per l'aggiunta della preferenza
-        function addPreference(id,qt){
-            foowd.addPreference(
-                id, // id offerta
-                qt // quantità
-            );
-        };
     });
     
     

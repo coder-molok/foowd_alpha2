@@ -3,13 +3,16 @@
         <div class="panel-heading">
             {{Name}}  {{Price}}
         </div>
-        <div class="panel-thumbnail" onclick="addPreference({{Id}},{{Minqt}})">
+        <div class="panel-thumbnail">
             <img src="http://lorempixel.com/320/270/food" class="img-responsive">
             <div class="product-menu">
                 <ul class="product-menu-options">
-                    <li><a href=""><i class="glyphicon glyphicon-send"></i></a></li>
-                    <li><a href=""><i class="glyphicon glyphicon-check"></i> </a></li>
-                    <li><a href=""><i class="glyphicon glyphicon-heart"></i></a></li>
+                    <li><a><i class="glyphicon glyphicon-send"></i></a></li>
+                    <li><a><i class="glyphicon glyphicon-check"></i> </a></li>
+                    <li><a onclick="foowd.addPreference({{Id}},{{Minqt}})">
+                            <i class="glyphicon glyphicon-heart"></i>
+                        </a>
+                        </li>
                 </ul>
             </div>
         </div>
