@@ -10,6 +10,7 @@ api_offerte che contiene il codice del modulo offerta. All'interno il codice l'h
 http://www.slimframework.com/2011/09/24/how-to-organize-a-large-slim-framework-application.html
 
 mod_elgg che contiene i plugin per elgg
+
 doc dove metto la documentazione e i tutorial
 
 
