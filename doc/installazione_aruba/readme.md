@@ -1,6 +1,6 @@
 # Installazione su Aruba
 
-per installare su aruba non potendo lanciare gli script in locale è necessario creare i file in locale utilizzando la configurazione
+per installare su aruba, non potendo lanciare gli script in remoto, Ã¨ necessario creare i file in locale utilizzando la configurazione
 con le impostazione del server di produzione
 	
 	proper_prod.json
