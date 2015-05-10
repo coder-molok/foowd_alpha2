@@ -24,31 +24,31 @@
             <a href="" class="navbar-brand">filtra per:</a>
             <ul class="nav navbar-nav">
                 <li><a href="">Visualizzazioni</a></li>
-                <li><a href="">Data</a></li>
-                <li><a href="">Prezzo</a></li>
+                <li><a onClick = "foowd.filterBy('date')">Data</a></li>
+                <li><a onClick = "foowd.filterBy('price')">Prezzo</a></li>
+                <li>
+                    <a>
+                        <?php
+                        if(elgg_is_logged_in()){
+                            //TODO estrare il nonme tramite API fwd_offerte
+                            $logged_user_id=elgg_get_logged_in_user_guid();
+                            
+                            echo "<li>Ciao utente ".$logged_user_id." </li>";
+                        }
+                                     
+                        ?>
+                    </a>
+               </li>
             </ul>
         </div>
+    <div class="collapse navbar-collapse">
+    
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href=""><i class="glyphicon glyphicon-heart"></i></a></li>
+            <li><a href=""><i class="glyphicon glyphicon-shopping-cart"></i> </a></li>
+            <li><a href=""><i class="glyphicon glyphicon-user"></i></a></li>
+        </ul>
     </div>
-    <div class="container-fluid navbar-menu">
-        <div class="collapse navbar-collapse">
-        
-            <ul class="nav navbar-nav navbar-right">
-            	
-            	<?php
-            			if(elgg_is_logged_in()){
-            				//TODO estrare il nonme tramite API fwd_offerte
-            				$logged_user_id=elgg_get_logged_in_user_guid();
-            				
-            				echo "<li>Ciao utente ".$logged_user_id." </li>";
-            			}
-            		            	 
-				?>
-
-                <li><a href=""><i class="glyphicon glyphicon-heart"></i></a></li>
-                <li><a href=""><i class="glyphicon glyphicon-shopping-cart"></i> </a></li>
-                <li><a href=""><i class="glyphicon glyphicon-user"></i></a></li>
-            </ul>
-        </div>
     </div>
 </nav>
 
@@ -75,14 +75,24 @@
 
 <!-- Load the wall -->
 <script type="text/javascript">
+
     document.addEventListener('DOMContentLoaded',function(event){
-        foowd.getProducts(<?php echo json_encode(elgg_get_plugin_setting('api', \Uoowd\Param::uid()))?>);
+
+        //prendo il parametro per richiamare le API
+        var apiUrl = <?php echo json_encode(elgg_get_plugin_setting('api', \Uoowd\Param::uid()))?>;
+        //prendo l'id dell'utente. 0 equivale a non loggato.
+        var userId = <?php echo json_encode(elgg_get_logged_in_user_guid())?>;
+        
+        //imposto i parametri nel modulo
+        foowd.setBaseUrl(apiUrl);
+        foowd.setUserId(userId);
+
+        //richiamo la procedura per mostrare il wall
+        foowd.getProducts();
+        
     });
     
-    function addPreference(id,qt){
-    	foowd.addPreference(id,qt,<?php echo json_encode(elgg_get_plugin_setting('api', \Uoowd\Param::uid()))?>,
-    	<?php echo json_encode(elgg_get_logged_in_user_guid())?>)
-    };
+    
 </script>
 
 <!-- JavaScript jQuery code from Bootply.com editor  -->
