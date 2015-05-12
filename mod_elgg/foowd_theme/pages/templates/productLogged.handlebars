@@ -1,18 +1,18 @@
 <div class="col-md-3">
     <div class="panel panel-default">
         <div class="panel-heading">
-            {{Name}}  {{Price}}
+            <div class="pull-left">{{Name}}</div>  
+            <div class="pull-right">{{Price}}<span class="apex">€</span></div>
         </div>
         <div class="panel-thumbnail">
             <img src="http://lorempixel.com/320/270/food" class="img-responsive">
             <div class="product-menu">
                 <ul class="product-menu-options">
-                    <li><a><i class="glyphicon glyphicon-send"></i></a></li>
-                    <li><a><i class="glyphicon glyphicon-check"></i> </a></li>
-                    <li><a onclick="foowd.addPreference({{Id}},{{Minqt}})">
-                            <i class="glyphicon glyphicon-heart"></i>
+                    <li>
+                        <a onclick="foowd.addPreference({{Id}},{{Minqt}})">
+                            <i class="glyphicon glyphicon-heart fw-menu-icon"></i>
                         </a>
-                        </li>
+                    </li>
                 </ul>
             </div>
         </div>

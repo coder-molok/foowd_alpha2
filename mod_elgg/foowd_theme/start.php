@@ -12,7 +12,8 @@ elgg_register_event_handler('init','system','foowd_theme_init');
 function foowd_theme_init() {
 
 	//Registro i page handler
-	elgg_register_page_handler('activity', 'foowd_wall_page_handler');
+	//elgg_register_page_handler('activity', 'foowd_wall_page_handler');
+	elgg_register_plugin_hook_handler('index', 'system', 'foowd_wall_page_handler');
 }
 
 function foowd_wall_page_handler() {
@@ -20,7 +21,5 @@ function foowd_wall_page_handler() {
 		return false;
 	return true;
 }
-
-
 
 

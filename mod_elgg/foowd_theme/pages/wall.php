@@ -13,40 +13,32 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
-    <link rel="stylesheet" href="mod/foowd_theme/lib/css/ads.css">
-</head>
-
 <body>
 
 <nav class="navbar navbar-fixed-top header">
     <div class="container-fluid">
         <div class="navbar-header navbar-menu">
-            <a href="" class="navbar-brand">filtra per:</a>
-            <ul class="nav navbar-nav">
-                <li><a href="">Visualizzazioni</a></li>
-                <li><a onClick = "foowd.filterBy('date')">Data</a></li>
-                <li><a onClick = "foowd.filterBy('price')">Prezzo</a></li>
-                <li>
-                    <a>
-                        <?php
-                        if(elgg_is_logged_in()){
-                            //TODO estrare il nonme tramite API fwd_offerte
-                            $logged_user_id=elgg_get_logged_in_user_guid();
-                            
-                            echo "<li>Ciao utente ".$logged_user_id." </li>";
-                        }
-                                     
-                        ?>
-                    </a>
-               </li>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Ordina per: <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                        <li><a onClick = "foowd.filterBy('date')">Data</a></li>
+                        <li><a onClick = "foowd.filterBy('price')">Prezzo</a></li>
+                  </ul>
+                </li>
             </ul>
+            <div class="navbar-form navbar-left" role="search">
+              <div class="form-group">
+                <a class="navbar-brand">foowd_</a>
+                <input type="text" id ="searchText"class="form-control">
+              </div>
+              <button onclick = "foowd.searchOffers()" class="btn btn-default">Submit</button>
+            </div>
         </div>
     <div class="collapse navbar-collapse">
-    
         <ul class="nav navbar-nav navbar-right">
-            <li><a href=""><i class="glyphicon glyphicon-heart"></i></a></li>
-            <li><a href=""><i class="glyphicon glyphicon-shopping-cart"></i> </a></li>
-            <li><a href=""><i class="glyphicon glyphicon-user"></i></a></li>
+            <li><a><i class="glyphicon glyphicon-heart fw-menu-icon"></i></a></li>
+            <li><a><i class="glyphicon glyphicon-user fw-menu-icon"></i></a></li>
         </ul>
     </div>
     </div>
