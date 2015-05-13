@@ -23,9 +23,9 @@ body {
 .header .navbar-collapse {
     background-color:#ffffff;
 }
-.navbar-menu,
+/*.navbar-menu,*/
 .navbar-brand{
-    font-size: 10px;
+    font-size: 28px;
     height: 15px;
 }
 
@@ -38,6 +38,9 @@ body {
     border-color:transparent;
     position: absolute;
     padding: 4px 5px 4px 5px;
+}
+.panel-heading{
+    width: 87%;
 }
 .panel .panel-heading a {
     font-weight:400;
@@ -91,6 +94,13 @@ h3,h4,h5 {
 }
 .panel .panel-heading,
 .product-menu-options li i{
-    color: #ffffff;
     font-size: 20px;
+}
+.fw-menu-icon{
+    color: #ffffff;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.apex{
+    vertical-align: super;
+    font-size: 15px;
 }

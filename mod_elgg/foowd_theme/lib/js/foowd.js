@@ -12,8 +12,10 @@ var foowd = (function() {
 
 	// inizializzo l'url a cui verranno fiatte le chiamate
 	var baseUrl = "";
-	//preferenza sulle ricerche delle offerte
+	//ordinamento dei risultati delle offerte
 	var filterPreference = "";
+	//input di ricerca delle offerte
+	var searchPreference = "";
 	//user id per controllare se l'utente e loggato oppure no
 	var userId = 0;
 	/*
@@ -22,16 +24,13 @@ var foowd = (function() {
 	 */
 	var offers;
 	offers = {
-		all :"offer?type=search",
+		search :"type=search",
 		filterby : {
 			views : "",
-			price : "offer?type=search&order=Price, asc",
-			date  : "offer?type=search&order=Created, asc"
+			price : "&order=Price,asc",
+			date  : "&order=Created,asc"
 		}
 	};
-
-	//inizializzo la preferenza nelle ricerche
-	filterPreference = offers.all;
 
 	/*
 	 * Definisco i parametri standard per l'inserimento delle offerte
@@ -59,11 +58,20 @@ var foowd = (function() {
 	//tag html dove andiamo a mettere il template compilato
 	var wallId = ".wall";
 
+	//search box id
+	var searchBox = "#searchText";
+
 	/*
 	 * Funzione che riempe il tag html con i template dei prodotti complilati
 	 */
 	function fillWall(content) {
 		$(wallId).html(content);
+	}
+	/*
+	 * Funzione che riempe il tag html con i template dei prodotti complilati
+	 */
+	function getSearchText() {
+		return $(searchBox).val();
 	}
 
 	/*
@@ -80,7 +88,7 @@ var foowd = (function() {
 	return {
 
 		setBaseUrl : function(newUrl){
-			baseUrl = newUrl;
+			baseUrl = newUrl + "offer?";
 		},
 		setUserId : function(newId){
 			userId = newId;
@@ -92,7 +100,10 @@ var foowd = (function() {
 			// uso lo user id per capire se un utente è loggato o meno
 			// in base a quello scelgo il template da utilizzare
 			var useTemplate = (userId == 0) ? productNoLoggedTemplate : productLoggedTemplate;
-			$.get( baseUrl + filterPreference, function(data) {
+			
+			var urlParams ="";
+
+			$.get( baseUrl + offers.search + searchPreference + filterPreference, function(data) {
 				var rawProducts = $.parseJSON(data);
 				var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
 				fillWall(parsedProducts);
@@ -130,6 +141,11 @@ var foowd = (function() {
 		},
 		filterBy : function(filterParam){
 			filterPreference = offers.filterby[filterParam];
+			foowd.getProducts();
+		},
+		searchOffers : function(){
+			//TODO: serch by text in some way
+			searchPreference = "&Tag=" + $(searchBox).val();
 			foowd.getProducts();
 		}
 	};
