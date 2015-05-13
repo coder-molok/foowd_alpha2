@@ -38,9 +38,13 @@ abstract class FApi{
 			return;
 		}
 
-		// i parametri nulli e' molto meglio toglierli, per evitare incoerenze con la validazione
+		// i parametri nulli non hanno senso, pertanto se vengono passati restituisco un errore
 		foreach($data as $key => $value){
-			if(is_null($value) || $value=='') unset($data->{$key});
+			if(is_null($value) || $value==''){
+				echo  json_encode(array('errors'=>" '$key' e' un parametro vuoto.", 'response'=>false));
+			 	unset($data->{$key});
+			 	return;
+			}
 		}
 
 		if(isset($data->type)){

@@ -8,6 +8,7 @@ namespace Foowd\FApi;
 //use \Offer as Offer;
 // use Base\OfferQuery as OfferQuery;
 // use Base\TagQuery as TagQuery;
+// use Propel\Runtime\ActiveQuery\Criteria;
 
 /**
  * @apiDefine MyResponse
@@ -192,14 +193,13 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiName search
 	 * @apiGroup Offers
 	 * 
- 	 * @apiDescription Per ottenere la lista delle offerte di un dato Publisher.
- 	 *
- 	 * Strutturato in questo modo, cerca solo le intersezioni dei filtri.
+ 	 * @apiDescription Per ottenere la lista delle offerte mediante filtri, in particolare cerca solo le intersezioni dei filtri.
 	 * 
 	 * @apiParam {String} 		type 			metodo da chiamare
 	 * @apiParam {Mixed}	  	[qualunque] 	qualunque colonna. Il valore puo' essere una STRINGA o un ARRAY come stringa-JSON con chiavi "max" e/o "min" (lettere minuscole).
 	 * @apiParam {String} 		[order] 		stringa per specificare l'ordinamento. Il primo elemento e' la colonna php. Si puo' specificare se 'asc' o 'desc' inserendo uno di questi dopo una virgola. Generalmente saranno Name, Price, Created, Modified
 	 * @apiParam {Mixed}	  	[offset] 		Il valore puo' essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi "page" e "maxPerPage" per sfruttare la paginazione di propel.
+	 * @apiParam {Mixed}	  	[match] 		Stringa-JSON le cui chiavi sono le colonne del DB e i valori sono singole parole separate da spazi o virgole.
 	 * @apiParam {String} 		[Tag] 			elenco di tags separati da virgola
 	 *
 	 * @apiParamExample {url} URL-Example:
@@ -216,6 +216,7 @@ class ApiOffer extends \Foowd\FApi{
 
 		// unset($data->type);
 		// unset($data->method);
+		
 		if(isset($data->Tag)){
 			//var_dump($data->Tag);
 			$Tag = array_map('trim', explode(',', $data->Tag));
@@ -245,12 +246,35 @@ class ApiOffer extends \Foowd\FApi{
 
 		$obj = \OfferQuery::create();
 		foreach($data as $key => $value){
-			//echo "$key";
+			// echo "$key";
 			if(preg_match('@{.+}@',$value)) $value = (array) json_decode($value);
-			//var_dump($value);
+
+			// al match applico il filtro per condizione or
+			if($key === 'match'){
+				// la $k e' il campo in cui cercare la presenza delle parole chiave,
+				// tipicamente il titolo dell'offerta o il testo.
+				foreach($value as $k => $val){
+					$val = $output = preg_split( "/(,|'| )/", $val );
+					// se sono vuoti o minori di tre li elimino
+					$j = 0;
+					$conds = array();
+					foreach($val as $i => $v){
+						if( strlen($v)>2 ) {
+							$cond = 'cond'.$j;
+							array_push($conds, $cond);
+							$obj = $obj->condition($cond, 'Offer.'.$k.' LIKE ?', '%'.$v.'%');
+							$j++;
+						}
+					}
+					if($j>0) $obj = $obj->where($conds, 'or');
+				}
+				continue;
+			}
+
 			$obj = $obj->{'filterBy'.$key}($value);
 		}
 		
+
 		if(isset($order)) $obj = $obj->{'orderBy'.$order[0]}($order['1']);
 
 		// offset e/o limit
@@ -281,6 +305,20 @@ class ApiOffer extends \Foowd\FApi{
 		foreach ($offer as $single) {
 
 			$ar = $single->toArray();
+
+			// cerco le quantita' totali associate alla singola offerta
+			$ext = new \stdClass();
+			$ext->OfferId = $single->getId();
+			$prefer = \Foowd\FApi\ApiPrefer::search($ext);
+			if($prefer['response'] && count($prefer['body'])>0){
+				$totalQ = 0;
+				foreach($prefer['body'] as $pf){
+					$totalQ += $pf['Qt'];
+				}
+				$ar['totalQt'] = $totalQ;
+			}
+
+			// ora lavoro sui tags
 			$tgs = $single->getTags();
 			$ar['Tag'] ='';
 			$tmp = array();
@@ -320,55 +358,6 @@ class ApiOffer extends \Foowd\FApi{
 	}
 
 
-	/**
-	 *
-	 * @api {post} /offers delete
-	 * @apiName delete
-	 * @apiGroup Offers
-	 * 
- 	 * @apiDescription Per eliminare un' offerta. 
-	 * 
-	 * @apiParam {String} 		type 		metodo da chiamare
-	 * @apiParam {Integer}  	Publisher 	id dell'offerente
-	 * @apiParam {Integer}  	Id 			id dell'offerta
-	 *
-	 * @apiParamExample {json} Request-Example:
-	 * {
-	 * 	"Publisher":"37",
-	 * 	"Id":"30",
-	 * 	"type":"delete"
-	 * }
-	 *
-	 * @apiUse MyResponse
-	 * 
-	 */
-	public $needle_delete = "Publisher, Id";// State
-	protected function delete($data){
-
-		$this->ExtToId($data);
-
-		$offer = \OfferQuery::create()
-		  	->filterById($data->Id)
-		  	->filterByPublisher($data->Publisher)
-		 	->find();
-
-		 $status = false;
-
-		 // in teoria la query dovrebbe restituire un solo valore, ma meglio controllare
-		 if( $offer->count() == 1){
-		 	$offer->delete();
-		 	$status = true;
-		 }else{
-		 	$Json['errors'] = "Si sta tentando di cancellare un post che non esiste.";
-		 }
-
-		 $Json['response'] = $status;
-		 
-		//echo json_encode($count);
-		return $Json;	
-	}
-
-
 
 	/**
 	 *
@@ -387,6 +376,7 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiParam {Mixed}	  	[qualunque] 	qualunque colonna. Il valore puo' essere una STRINGA o un ARRAY come stringa-JSON con chiavi "max" e/o "min" (lettere minuscole).
 	 * @apiParam {String} 		[order] 		stringa per specificare l'ordinamento. Il primo elemento e' la colonna php. Si puo' specificare se 'asc' o 'desc' inserendo uno di questi dopo una virgola. Generalmente saranno Name, Price, Created, Modified
 	 * @apiParam {Mixed}	  	[offset] 		Il valore puo' essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi "page" e "maxPerPage" per sfruttare la paginazione di propel.
+	 * @apiParam {Mixed}	  	[match] 		Stringa-JSON le cui chiavi sono le colonne del DB e i valori sono singole parole separate da spazi o virgole.
 	 * @apiParam {String} 		[Tag] 			elenco di tags separati da virgola
 	 *
 	 * @apiParamExample {url} URL-Example:
@@ -449,6 +439,56 @@ class ApiOffer extends \Foowd\FApi{
 		}else{ 
 			return $search;
 		}
+	}
+
+
+
+	/**
+	 *
+	 * @api {post} /offers delete
+	 * @apiName delete
+	 * @apiGroup Offers
+	 * 
+ 	 * @apiDescription Per eliminare un' offerta. 
+	 * 
+	 * @apiParam {String} 		type 		metodo da chiamare
+	 * @apiParam {Integer}  	Publisher 	id dell'offerente
+	 * @apiParam {Integer}  	Id 			id dell'offerta
+	 *
+	 * @apiParamExample {json} Request-Example:
+	 * {
+	 * 	"Publisher":"37",
+	 * 	"Id":"30",
+	 * 	"type":"delete"
+	 * }
+	 *
+	 * @apiUse MyResponse
+	 * 
+	 */
+	public $needle_delete = "Publisher, Id";// State
+	protected function delete($data){
+
+		$this->ExtToId($data);
+
+		$offer = \OfferQuery::create()
+		  	->filterById($data->Id)
+		  	->filterByPublisher($data->Publisher)
+		 	->find();
+
+		 $status = false;
+
+		 // in teoria la query dovrebbe restituire un solo valore, ma meglio controllare
+		 if( $offer->count() == 1){
+		 	$offer->delete();
+		 	$status = true;
+		 }else{
+		 	$Json['errors'] = "Si sta tentando di cancellare un post che non esiste.";
+		 }
+
+		 $Json['response'] = $status;
+		 
+		//echo json_encode($count);
+		return $Json;	
 	}
 
 

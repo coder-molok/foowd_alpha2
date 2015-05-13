@@ -162,7 +162,7 @@
     "title": "search",
     "name": "search",
     "group": "Offers",
-    "description": "<p>Per ottenere la lista delle offerte di un dato Publisher.</p> <p>Strutturato in questo modo, cerca solo le intersezioni dei filtri.</p> ",
+    "description": "<p>Per ottenere la lista delle offerte mediante filtri, in particolare cerca solo le intersezioni dei filtri.</p> ",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -193,6 +193,13 @@
             "optional": true,
             "field": "offset",
             "description": "<p>Il valore puo&#39; essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi &quot;page&quot; e &quot;maxPerPage&quot; per sfruttare la paginazione di propel.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Mixed",
+            "optional": true,
+            "field": "match",
+            "description": "<p>Stringa-JSON le cui chiavi sono le colonne del DB e i valori sono singole parole separate da spazi o virgole.</p> "
           },
           {
             "group": "Parameter",
@@ -275,6 +282,13 @@
             "optional": true,
             "field": "offset",
             "description": "<p>Il valore puo&#39; essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi &quot;page&quot; e &quot;maxPerPage&quot; per sfruttare la paginazione di propel.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Mixed",
+            "optional": true,
+            "field": "match",
+            "description": "<p>Stringa-JSON le cui chiavi sono le colonne del DB e i valori sono singole parole separate da spazi o virgole.</p> "
           },
           {
             "group": "Parameter",

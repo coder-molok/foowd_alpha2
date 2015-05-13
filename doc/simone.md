@@ -3,6 +3,29 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 
 
+### 13/05/2015
+
+- corretta [issue#39](https://github.com/coder-molok/foowd_alpha2/issues/39)
+
+- corretta [issue#38](https://github.com/coder-molok/foowd_alpha2/issues/38)
+
+- corretta [issue#37](https://github.com/coder-molok/foowd_alpha2/issues/38)
+
+    Tra i parametri ora si puo' passare anche "match" nella forma:
+
+    ````
+    match={"Name":"cassa di formaggi"}
+    ````
+    
+    In questo modo nella colonna "Name" vengono filtrati tutti i titoli che contengono la parola 'cassa' o 'formaggi'. L'ho realizzata in questo modo per poter   eventualmente svolgere anche una ricerca sulla descrizione:
+    
+    ````
+    match={"Description":"formaggi trentini"}
+    ````
+
+    in modo da cercare tutti i post la cui descrizione contiene la parola 'formaggi' o 'trentini'.
+
+
 ### 30/04/2015
 
 - corretta [issue#12](https://github.com/coder-molok/foowd_alpha2/issues/12): vedere i commenti della issue stessa.
