@@ -41,8 +41,9 @@ var foowd = (function() {
 		data : {
 			type : "create",
 			Qt : "0",
-			UserId : "",
+			ExternalId : "",
 			OfferId : ""
+			
 		}
 	};
 	
@@ -88,7 +89,7 @@ var foowd = (function() {
 	return {
 
 		setBaseUrl : function(newUrl){
-			baseUrl = newUrl + "offer?";
+			baseUrl = newUrl ;
 		},
 		setUserId : function(newId){
 			userId = newId;
@@ -103,7 +104,7 @@ var foowd = (function() {
 			
 			var urlParams ="";
 
-			$.get( baseUrl + offers.search + searchPreference + filterPreference, function(data) {
+			$.get( baseUrl + "offer?" + offers.search + searchPreference + filterPreference, function(data) {
 				var rawProducts = $.parseJSON(data);
 				var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
 				fillWall(parsedProducts);
@@ -118,7 +119,7 @@ var foowd = (function() {
 		addPreference : function(offerId,qt) {
 			
 			preference.data.OfferId=offerId;
-			preference.data.UserId=userId;
+			preference.data.ExternalId=userId;
 			preference.data.Qt=qt;
 			
 			jQuery.ajax({
