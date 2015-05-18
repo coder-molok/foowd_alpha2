@@ -18,13 +18,15 @@ var foowd = (function() {
 	var searchPreference = "";
 	//user id per controllare se l'utente e loggato oppure no
 	var userId = 0;
+	
 	/*
 	 * L'oggeto offers contiene gli URL a cui fare le chiamate alle API.
 	 * E' organizzato in modo tale da essere di facile lettura e comprensione, e facilmente espandibile.
 	 */
-	var offers;
-	offers = {
-		search :"type=search",
+	var offers = {
+		search : "offer?type=search",
+		prefer : "prefer", 
+		getPreferences : "prefer?type=search",
 		filterby : {
 			views : "",
 			price : "&order=Price,asc",
@@ -33,18 +35,13 @@ var foowd = (function() {
 	};
 
 	/*
-	 * Definisco i parametri standard per l'inserimento delle offerte
+	 * Definisco i parametri di default per l'inserimento di una preferenza
 	 */
-	var preference;
-	preference = {
-		url : "prefer",
-		data : {
+	var preference = {
+			OfferId : "",
+			ExternalId : "",
 			type : "create",
 			Qt : "0",
-			ExternalId : "",
-			OfferId : ""
-			
-		}
 	};
 	
 	/*
@@ -66,7 +63,9 @@ var foowd = (function() {
 	 * Funzione che riempe il tag html con i template dei prodotti complilati
 	 */
 	function fillWall(content) {
-		$(wallId).html(content);
+		$(wallId)
+			.html(content) //contenuto 
+			.addClass('animated bounceInLeft'); //animazione
 	}
 	/*
 	 * Funzione che riempe il tag html con i template dei prodotti complilati
@@ -89,7 +88,7 @@ var foowd = (function() {
 	return {
 
 		setBaseUrl : function(newUrl){
-			baseUrl = newUrl ;
+			baseUrl = newUrl;
 		},
 		setUserId : function(newId){
 			userId = newId;
@@ -101,10 +100,9 @@ var foowd = (function() {
 			// uso lo user id per capire se un utente è loggato o meno
 			// in base a quello scelgo il template da utilizzare
 			var useTemplate = (userId == 0) ? productNoLoggedTemplate : productLoggedTemplate;
-			
-			var urlParams ="";
+			var urlParams = "";
 
-			$.get( baseUrl + "offer?" + offers.search + searchPreference + filterPreference, function(data) {
+			$.get(baseUrl + offers.search + searchPreference + filterPreference, function(data) {
 				var rawProducts = $.parseJSON(data);
 				var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
 				fillWall(parsedProducts);
@@ -117,16 +115,15 @@ var foowd = (function() {
 		 */
 
 		addPreference : function(offerId,qt) {
-			
-			preference.data.OfferId=offerId;
-			preference.data.ExternalId=userId;
-			preference.data.Qt=qt;
+			preference.OfferId = offerId;
+			preference.ExternalId = userId;
+			preference.Qt = qt;
 			
 			jQuery.ajax({
 				type : "POST",
-				url : baseUrl+preference.url,
+				url : baseUrl + offers.prefer,
 				contentType : "application/json; charset=utf-8",
-				data :JSON.stringify(preference.data),
+				data : JSON.stringify(preference),
 				dataType : "json",
 				success : function(data, status, jqXHR) {
 					//TODO tenere in considerazione errori
@@ -145,9 +142,11 @@ var foowd = (function() {
 			foowd.getProducts();
 		},
 		searchOffers : function(){
-			//TODO: serch by text in some way
-			searchPreference = "&Tag=" + $(searchBox).val();
-			foowd.getProducts();
+			var search = $(searchBox).val();
+			if(search != ""){
+				searchPreference = "&Tag=" + search;
+				foowd.getProducts();
+			}
 		}
 	};
 

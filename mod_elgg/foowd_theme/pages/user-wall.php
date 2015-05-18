@@ -30,7 +30,7 @@
             </ul>
             <div class="navbar-form navbar-left" role="search">
               <div class="form-group">
-                <a class="navbar-brand" href = <?php echo($_SERVER[REQUEST_URI]);?>>foowd_</a>
+                <a class="navbar-brand" href = <?php echo($_SERVER[HTTP_ROOT]);?>>foowd_</a>
                 <input type="text" id ="searchText"class="form-control">
               </div>
               <button onclick = "foowd.searchOffers()" class="btn btn-default">Submit</button>
@@ -38,11 +38,8 @@
         </div>
     <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-            <li><a href = <?php echo($_SERVER[REQUEST_URI]."panel");?>>
-                <i class="glyphicon glyphicon-heart fw-menu-icon"></i>
-                </a>
-            </li>
-            <li><a href = <?php echo($_SERVER[REQUEST_URI]."login");?>>
+            <li><a><i class="glyphicon glyphicon-heart fw-menu-icon"></i></a></li>
+            <li><a href=<?php echo($_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI]."login");?>>
                 <i class="glyphicon glyphicon-user fw-menu-icon"></i>
                 </a>
             </li>
@@ -81,11 +78,10 @@
         var apiUrl = <?php echo json_encode(elgg_get_plugin_setting('api', \Uoowd\Param::uid()))?>;
         //prendo l'id dell'utente. 0 equivale a non loggato.
         var userId = <?php echo json_encode(elgg_get_logged_in_user_guid())?>;
-        
         //imposto i parametri nel modulo
-        foowd.setBaseUrl(apiUrl);
+    
         foowd.setUserId(userId);
-
+        foowd.setBaseUrl(apiUrl);
         //richiamo la procedura per mostrare il wall
         foowd.getProducts();
         
