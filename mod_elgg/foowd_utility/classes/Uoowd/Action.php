@@ -121,9 +121,10 @@ abstract class Action {
 		 */
 		public function manageForm(string $sticky_form){
 			$this->status = true;
+			// metodo specifico della classe, utile per fare un pre assestamento dei dati input
+			if(method_exists($this,'manageInput')) $this->manageInput($sticky_form);
 			foreach($this->par as $field => $value){
 				$var = get_input($field);
-				//\Uoowd\Param::logger($var);
 				if(isset($var)){
 				 	$data[$field] = $var;
 

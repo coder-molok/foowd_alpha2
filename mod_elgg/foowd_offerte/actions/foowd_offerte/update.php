@@ -9,8 +9,10 @@ elgg_make_sticky_form($form);
 // richiamo la classe che gestisce il form
 $f = new \Foowd\Action\FormAdd();
 
+
 // loop necessario per impostare i dati get_input su cui si basa il successivo manageForm
 foreach(elgg_get_sticky_values($form) as $field => $value){
+	// \Uoowd\Logger::addNotice($field." => ".$value);
 	if(! preg_match('@_{2,}@', $field)) set_input($field,$value);
 }
 

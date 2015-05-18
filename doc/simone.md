@@ -3,6 +3,19 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 
 
+### 18/05/2015
+
+- corretta [issue#40](https://github.com/coder-molok/foowd_alpha2/issues/40):
+    ora l'unica API di ricerca e' `search`, che a ciascuna offerta aggiunge le chiavi:
+    - *prefer*, ovvero la preferenza relativa all' **ExternalId** passato(se esistente), oppure null
+    - *totalQt*, numero interno maggiore o uguale a zero
+    - *Tag*, stringa contags o eventualmente di lunghezza nulla: ''
+    
+
+- implementato form offerte inserendo uno **SPINNER** HTML5 per i campi numerici *Price*, *Minqt* e *Maxqt*
+
+
+
 ### 13/05/2015
 
 - corretta [issue#39](https://github.com/coder-molok/foowd_alpha2/issues/39)

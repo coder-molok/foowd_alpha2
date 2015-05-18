@@ -14,10 +14,13 @@ $fadd = new \Foowd\Action\FormAdd($vars);
 
 $fadd->createField('Name', 'Offerta', 'input/text');
 $fadd->createField('Description', 'Descrivi il tuo prodotto', 'input/longtext');
-$fadd->createField('Price','Importo', 'input/text', array('maxlength'=>"11"));
+// $fadd->createField('Price','Importo', 'input/text', array('maxlength'=>"11"));
+$fadd->createField('Price', 'Import', 'input/spinner', array("decimal"=>2, "integer"=>"8"));
 $fadd->createField('Tag', 'Tags (singole parole separate da una virgola)', 'input/text');
-$fadd->createField('Minqt', 'Quantita\' minima', 'input/text', array('maxlength'=>"9"));
-$fadd->createField('Maxqt', 'Quantita\' massima', 'input/text', array('maxlength'=>"9"));
+// $fadd->createField('Minqt', 'Quantita\' minima', 'input/text', array('maxlength'=>"9"));
+$fadd->createField('Minqt', 'Quantita\' minima', 'input/spinner', array("decimal"=>3, "integer"=>5));
+// $fadd->createField('Maxqt', 'Quantita\' massima', 'input/text', array('maxlength'=>"9"));
+$fadd->createField('Maxqt', 'Quantita\' massima', 'input/spinner', array("decimal"=>3, "integer"=>5));
 
 ?>
 

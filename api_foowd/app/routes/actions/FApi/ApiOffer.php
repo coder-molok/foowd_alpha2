@@ -200,18 +200,24 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiParam {String} 		[order] 		stringa per specificare l'ordinamento. Il primo elemento e' la colonna php. Si puo' specificare se 'asc' o 'desc' inserendo uno di questi dopo una virgola. Generalmente saranno Name, Price, Created, Modified
 	 * @apiParam {Mixed}	  	[offset] 		Il valore puo' essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi "page" e "maxPerPage" per sfruttare la paginazione di propel.
 	 * @apiParam {Mixed}	  	[match] 		Stringa-JSON le cui chiavi sono le colonne del DB e i valori sono singole parole separate da spazi o virgole.
-	 * @apiParam {String} 		[Tag] 			elenco di tags separati da virgola
+	 * @apiParam {String} 		[Tag] 			elenco di tags separati da virgola, o stringa di lunghezza nulla ''
+	 * @apiParam {String} 		[ExternalId] 	id dell'utente loggato, per fare in modo di ritornare anche le sue preferenze, qualora ne abbia espresse
 	 *
 	 * @apiParamExample {url} URL-Example:
 	 * 
 	 * http://localhost/api_offerte/public_html/api/offers?Publisher={{Publisher}}&type=search&Id={"min":2 ,"max":109}&Tag=mangiare, cibo&order=Modified, desc
 	 * 
-	 * @apiUse MyResponse
+	 * @apiParam (Response) {Bool}				response 		false, in caso di errore
+ 	 * @apiParam (Response) {String/json}		[errors] 		json contenente i messaggi di errore
+ 	 * @apiParam (Response) {String/json}		[body] 			json contenente i parametri da ritornare in funzione della richiesta
+ 	 * @apiParam (Response) {String/json}		[body-totalQt]	ogni preferenza ritornata contiene la Quantinta' totale ad essa associata. 0 nel caso non vi siano preferenze espresse per essa, o qualora valgano effettivamente zero.
+	 * @apiParam (Response) {String/json}		[body-prefer]	La preferenza espressa dall'utente riconosciuto tramite il parametro ExternalId. Se non presente, allora e' null
+ 	 * @apiParam (Response) {String} 			[msg] 			messaggi ritornati
 	 * 
 	 */
 	protected function search($data){
 
-		// converto il Publisher con Id elgg a Publisher con Id User
+		// converto il Publisher con Id elgg in Publisher con Id User
 		$this->ExtToId($data, 1);
 
 		// unset($data->type);
@@ -240,6 +246,24 @@ class ApiOffer extends \Foowd\FApi{
 			}
 			unset($data->offset);
 		}
+
+		if(isset($data->ExternalId)){
+			// recupero lo userId e poi elimino $data->ExternalId
+			$UserId = \UserQuery::Create()->filterByExternalId($data->ExternalId)->findOne();
+			// se l'utente con quell'id esterno esiste, allora lo utilizzo, altrimenti blocco tutto
+			if(is_object($UserId)){
+				// questo dato verra' riutilizzato nel loop delle offerte
+				$ExternalId = $data->ExternalId;
+				unset($data->ExternalId);
+			}else{
+				$Json['response'] = false;
+				$Json['errors']['ExternalId'] = "L'ExternalId  non e' associato a nessun utente API";
+				$Json['errors']['File'] = __FILE__. ' Line: '.__LINE__;
+				echo json_encode($Json);
+				exit(7);
+			}
+		}
+
 
 		// NB: se ritorna qualche errore sul Model Criteria e' perche' probabilmente sto' usando un dato di ricerca che non esiste!
 		//var_dump($data);
@@ -301,7 +325,8 @@ class ApiOffer extends \Foowd\FApi{
 		
 		
 		$return = array();
-		
+	
+		// ciclo su ogni offerta
 		foreach ($offer as $single) {
 
 			$ar = $single->toArray();
@@ -310,12 +335,21 @@ class ApiOffer extends \Foowd\FApi{
 			$ext = new \stdClass();
 			$ext->OfferId = $single->getId();
 			$prefer = \Foowd\FApi\ApiPrefer::search($ext);
+			$totalQ = 0;
 			if($prefer['response'] && count($prefer['body'])>0){
-				$totalQ = 0;
 				foreach($prefer['body'] as $pf){
 					$totalQ += $pf['Qt'];
 				}
-				$ar['totalQt'] = $totalQ;
+			}
+			$ar['totalQt'] = $totalQ;
+
+			// se l'utente ha espresso una preferenza per questo prodotto, allora la aggiungo come prefer, altrimenti risulta null
+			if(isset($ExternalId)){
+				$ar['prefer']=null;
+				$ext->ExternalId = $ExternalId;
+				$prefer = \Foowd\FApi\ApiPrefer::search($ext);
+				// se esiste la preferenza e non e' vuota
+				if(count($prefer==1) && isset($prefer['body'][0]['Id'])) $ar['prefer']=$prefer['body'][0];
 			}
 
 			// ora lavoro sui tags
@@ -359,87 +393,87 @@ class ApiOffer extends \Foowd\FApi{
 
 
 
-	/**
-	 *
-	 * @api {get} /offers searchPrefer
-	 * @apiName searchPrefer
-	 * @apiGroup Offers
-	 * 
- 	 * @apiDescription Svolge la normale Search aggiungendo la chiave "prefer" alle offerte ritornate per le quali ExternalId abbia espresso una preferenza:
- 	 * 		in tal caso "prefer" contiene tutti i dati relativi alla preferenza.
- 	 * 		Se non si presenta tale corrispondenza, allora la singola offerta non contiene la chiave "prefer".
- 	 *
- 	 * Strutturato in questo modo, cerca solo le intersezioni dei filtri.
-	 * 
-	 * @apiParam {String} 		type 			searchPrefer
-	 * @apiParam {Integer} 		ExternalId		User Id elgg (ovvero ExternalId API) dell'utente che sta' eseguendo la ricerca
-	 * @apiParam {Mixed}	  	[qualunque] 	qualunque colonna. Il valore puo' essere una STRINGA o un ARRAY come stringa-JSON con chiavi "max" e/o "min" (lettere minuscole).
-	 * @apiParam {String} 		[order] 		stringa per specificare l'ordinamento. Il primo elemento e' la colonna php. Si puo' specificare se 'asc' o 'desc' inserendo uno di questi dopo una virgola. Generalmente saranno Name, Price, Created, Modified
-	 * @apiParam {Mixed}	  	[offset] 		Il valore puo' essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi "page" e "maxPerPage" per sfruttare la paginazione di propel.
-	 * @apiParam {Mixed}	  	[match] 		Stringa-JSON le cui chiavi sono le colonne del DB e i valori sono singole parole separate da spazi o virgole.
-	 * @apiParam {String} 		[Tag] 			elenco di tags separati da virgola
-	 *
-	 * @apiParamExample {url} URL-Example:
-	 * 
-	 * http://localhost/api_foowd/public_html/api/offer?type=searchPrefer&ExternalId=52&Publisher=5&Tag=latticini
-	 * 
-	 * @apiUse MyResponse
-	 * 
-	 */
+	// *
+	//  *
+	//  * @api {get} /offers searchPrefer
+	//  * @apiName searchPrefer
+	//  * @apiGroup Offers
+	//  * 
+ // 	 * @apiDescription Svolge la normale Search aggiungendo la chiave "prefer" alle offerte ritornate per le quali ExternalId abbia espresso una preferenza:
+ // 	 * 		in tal caso "prefer" contiene tutti i dati relativi alla preferenza.
+ // 	 * 		Se non si presenta tale corrispondenza, allora la singola offerta non contiene la chiave "prefer".
+ // 	 *
+ // 	 * Strutturato in questo modo, cerca solo le intersezioni dei filtri.
+	//  * 
+	//  * @apiParam {String} 		type 			searchPrefer
+	//  * @apiParam {Integer} 		ExternalId		User Id elgg (ovvero ExternalId API) dell'utente che sta' eseguendo la ricerca
+	//  * @apiParam {Mixed}	  	[qualunque] 	qualunque colonna. Il valore puo' essere una STRINGA o un ARRAY come stringa-JSON con chiavi "max" e/o "min" (lettere minuscole).
+	//  * @apiParam {String} 		[order] 		stringa per specificare l'ordinamento. Il primo elemento e' la colonna php. Si puo' specificare se 'asc' o 'desc' inserendo uno di questi dopo una virgola. Generalmente saranno Name, Price, Created, Modified
+	//  * @apiParam {Mixed}	  	[offset] 		Il valore puo' essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi "page" e "maxPerPage" per sfruttare la paginazione di propel.
+	//  * @apiParam {Mixed}	  	[match] 		Stringa-JSON le cui chiavi sono le colonne del DB e i valori sono singole parole separate da spazi o virgole.
+	//  * @apiParam {String} 		[Tag] 			elenco di tags separati da virgola
+	//  *
+	//  * @apiParamExample {url} URL-Example:
+	//  * 
+	//  * http://localhost/api_foowd/public_html/api/offer?type=searchPrefer&ExternalId=52&Publisher=5&Tag=latticini
+	//  * 
+	//  * @apiUse MyResponse
+	//  * 
+	 
 	
-	public $needle_searchPrefer = "ExternalId";
-	public function searchPrefer($data){
-		if(!isset($data->ExternalId)){
-		 $errors['ExternalId'] = "Impossibile eseguire il metodo senza ExternalId";
-		 $Json['response'] = false;
-		}else{
-			// recupero lo userId e poi elimino $data->ExternalId
-			$UserId = \UserQuery::Create()->filterByExternalId($data->ExternalId)->findOne();
-			// se l'utente con quell'id esterno esiste, allora lo utilizzo, altrimenti blocco tutto
-			if(is_object($UserId)){
-				$UserId = $UserId->getId();
-				$ExternalId = $data->ExternalId;
-				unset($data->ExternalId);
-			}else{
-				$Json['response'] = false;
-				$Json['errors']['ExternalId'] = "L'ExternalId  non e' associato a nessun utente API";
-				$Json['errors']['File'] = __FILE__. ' Line: '.__LINE__;
-				echo json_encode($Json);
-				exit(7);
-			}
+	// public $needle_searchPrefer = "ExternalId";
+	// public function searchPrefer($data){
+	// 	if(!isset($data->ExternalId)){
+	// 	 $errors['ExternalId'] = "Impossibile eseguire il metodo senza ExternalId";
+	// 	 $Json['response'] = false;
+	// 	}else{
+	// 		// recupero lo userId e poi elimino $data->ExternalId
+	// 		$UserId = \UserQuery::Create()->filterByExternalId($data->ExternalId)->findOne();
+	// 		// se l'utente con quell'id esterno esiste, allora lo utilizzo, altrimenti blocco tutto
+	// 		if(is_object($UserId)){
+	// 			$UserId = $UserId->getId();
+	// 			$ExternalId = $data->ExternalId;
+	// 			unset($data->ExternalId);
+	// 		}else{
+	// 			$Json['response'] = false;
+	// 			$Json['errors']['ExternalId'] = "L'ExternalId  non e' associato a nessun utente API";
+	// 			$Json['errors']['File'] = __FILE__. ' Line: '.__LINE__;
+	// 			echo json_encode($Json);
+	// 			exit(7);
+	// 		}
 
-			// ora eseguo la ricerca delle offerte in base ai filtri passati:
+	// 		// ora eseguo la ricerca delle offerte in base ai filtri passati:
 			
-			$search = $this->search($data);
-			$ext = new \stdClass();
-			$ext->ExternalId = $ExternalId;
+	// 		$search = $this->search($data);
+	// 		$ext = new \stdClass();
+	// 		$ext->ExternalId = $ExternalId;
 			
-			// per ogni offerta, controllo se esiste la preferenza: se si, imposto true, altrimenti false
-			foreach ($search['body'] as $key => $offer) {
+	// 		// per ogni offerta, controllo se esiste la preferenza: se si, imposto true, altrimenti false
+	// 		foreach ($search['body'] as $key => $offer) {
 			
-				$ext->OfferId = $offer['Id'];
-				$match = \Foowd\FApi\ApiPrefer::search($ext);
+	// 			$ext->OfferId = $offer['Id'];
+	// 			$match = \Foowd\FApi\ApiPrefer::search($ext);
 				
-				if(isset($match['body'])){
-					if(count($match['body']) == 1){
-						$search['body'][$key]['prefer'] = $match['body'][0];
-					}else if(count($match['body']) > 1){
-						$Json['response'] = false;
-						$errors['conteggio'] = "Errore: hai piu' preferenze dello stesso utente associate al singolo post";
-						$errors['file'] = "File: ".__FILE__." , Line: ".__LINE__;
-					}
-				}
-			}
-		}
+	// 			if(isset($match['body'])){
+	// 				if(count($match['body']) == 1){
+	// 					$search['body'][$key]['prefer'] = $match['body'][0];
+	// 				}else if(count($match['body']) > 1){
+	// 					$Json['response'] = false;
+	// 					$errors['conteggio'] = "Errore: hai piu' preferenze dello stesso utente associate al singolo post";
+	// 					$errors['file'] = "File: ".__FILE__." , Line: ".__LINE__;
+	// 				}
+	// 			}
+	// 		}
+	// 	}
 
-		if(isset($Json['response'])){ 
-			$Json['response'] = false;
-			$Json['errors'] = $errors;
-			return $Json;
-		}else{ 
-			return $search;
-		}
-	}
+	// 	if(isset($Json['response'])){ 
+	// 		$Json['response'] = false;
+	// 		$Json['errors'] = $errors;
+	// 		return $Json;
+	// 	}else{ 
+	// 		return $search;
+	// 	}
+	// }
 
 
 

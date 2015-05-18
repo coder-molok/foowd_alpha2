@@ -87,7 +87,7 @@ class API{
 		// \Uoowd\Param::logger('Api Returned:');
 		
 		//$_SESSION['my']=json_encode($url);
-		register_error($output);
+		//register_error($output);
 		\Uoowd\Logger::addInfo($output);
 		
 		$returned = json_decode($output);

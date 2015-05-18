@@ -38,12 +38,12 @@ abstract class FApi{
 			return;
 		}
 
-		// i parametri nulli non hanno senso, pertanto se vengono passati restituisco un errore
+		// i parametri nulli vengono ignorati mediante la loro eliminazione
 		foreach($data as $key => $value){
 			if(is_null($value) || $value==''){
-				echo  json_encode(array('errors'=>" '$key' e' un parametro vuoto.", 'response'=>false));
+				// echo  json_encode(array('errors'=>" '$key' e' un parametro vuoto.", 'response'=>false));
 			 	unset($data->{$key});
-			 	return;
+			 	// return;
 			}
 		}
 

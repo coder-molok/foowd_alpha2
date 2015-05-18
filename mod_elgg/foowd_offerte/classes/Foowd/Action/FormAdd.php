@@ -59,6 +59,29 @@ namespace Foowd\Action;
 			// passo i parametri al padre
 			 parent::__construct(get_object_vars($this), $ar);
 		}
+
+		/**
+		 * metodo per convertire i campi di spinner in un unica cifra razionale
+		 * @param  [type] $sticky_form [description]
+		 * @return [type]              [description]
+		 */
+		public function manageInput($sticky_form){
+			$numeric = array("Price", "Minqt","Maxqt");
+			foreach($numeric as $key){
+				$set = 1; // as true; 0 as false
+				if(get_input($key.'-integer')===""){
+					$set *= 0;
+				}
+				if($set){
+					// imposto i valori di input
+					$quantity = get_input($key.'-integer').'.'.get_input($key.'-decimal');
+					set_input($key,  $quantity);
+					// imposto i valori dello sticky form
+					$this->manageSticky(array($key=>$quantity), $sticky_form);
+					// \Uoowd\Logger::addNotice($quantity);
+				}
+			}
+		}
 	}
 
 
