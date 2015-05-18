@@ -1,0 +1,20 @@
+###################
+RewriteEngine On
+#   RewriteBase /home/mhd/www.foowd.eu/htdocs/ 
+
+##
+## ELGG section for /elgg/.htaccess remainder
+##
+RewriteCond %{HTTP_HOST} elgg.foowd.eu
+RewriteCond %{REQUEST_URI} !elgg/
+RewriteRule ^(.*)$ /elgg/$1 [L]
+###################
+
+##
+## SLIM section for foowd-ordini API ##
+##
+   RewriteCond %{HTTP_HOST} www.foowd.eu
+   RewriteCond %{REQUEST_FILENAME} !-f
+   #RewriteRule /?api/([^?]*)\??(.*)?$ /api_foowd/public_html/index.php?$1&$2 [L]
+   RewriteRule /?api/.* /api_foowd/public_html/index.php [QSA,L]
+###################
