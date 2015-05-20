@@ -15,9 +15,13 @@ $content = elgg_view_title($title);
 
 $f = new \Foowd\Action\FormAdd();
 
+// var_dump($_SESSION['sticky_forms']);
+// elgg_make_sticky_form($Pid.'/add');
+var_dump(elgg_get_sticky_values($Pid.'/add'));
 $vars = $f->prepare_form_vars($Pid.'/add');
+// var_dump($vars);
 //var_dump(elgg_get_logged_in_user_guid());
-//$vars['titleError'] = date('Y-m-d H:i:s');
+// $vars['titleError'] = date('Y-m-d H:i:s');
 
 $content .= elgg_view_form($Pid.'/add', array(), $vars);
 

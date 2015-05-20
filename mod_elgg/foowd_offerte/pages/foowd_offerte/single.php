@@ -41,14 +41,16 @@ if(!elgg_is_sticky_form($form) ){
 	}
 }
 
+// var_dump($input);
+// var_dump($_SESSION);
 
 $title = "Modifica la tua Offerta";
 $content = elgg_view_title($title);
 
 
 $vars = $f->prepare_form_vars($form);
+// var_dump($vars);
 
-// add the form stored in /views/default/forms/foowd_offerte/add.php
 $content .= elgg_view_form($form, array($form), $vars);
 
 // optionally, add the content for the sidebar

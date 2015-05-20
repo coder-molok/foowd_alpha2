@@ -17,8 +17,8 @@ namespace Foowd\Action;
 			'Name' 			=> 'immetti titolo...',
 			'Description'	=> 'inserire descrizione',
 			'Publisher'		=> '',		
-			'Price'			=> '0,00',
-			'Minqt'			=> '0',
+			'Price'			=> '',
+			'Minqt'			=> '',
 			'Maxqt'			=> '',
 			'Created'		=> '',
 			'Modified'		=> '',
@@ -27,6 +27,13 @@ namespace Foowd\Action;
 			'Tag'			=> '', 	// extra non appartenente alla tabella sql,
 									// ma in ogni caso necessario nella compilazione del form
 
+		);
+
+
+		private $needle = array(
+			"Price",
+			"Tag",
+			"Minqt"
 		);
 
 		/**
@@ -49,12 +56,7 @@ namespace Foowd\Action;
 			'Tag'		=> 'isTag'
 		);
 
-		/**
-		 * variabile di stoccaccio per contenere tutti gli input e i loro valori
-		 * @var string
-		 */
-		//public $vars = 'null';
-
+		
 		public function __construct(array $ar = null){
 			// passo i parametri al padre
 			 parent::__construct(get_object_vars($this), $ar);
@@ -67,6 +69,7 @@ namespace Foowd\Action;
 		 */
 		public function manageInput($sticky_form){
 			$numeric = array("Price", "Minqt","Maxqt");
+			// \Uoowd\Logger::addNotice('$quantity');
 			foreach($numeric as $key){
 				$set = 1; // as true; 0 as false
 				if(get_input($key.'-integer')===""){
@@ -74,11 +77,11 @@ namespace Foowd\Action;
 				}
 				if($set){
 					// imposto i valori di input
+					if(get_input($key.'-decimal') === "") set_input($key.'-decimal', 0);
 					$quantity = get_input($key.'-integer').'.'.get_input($key.'-decimal');
 					set_input($key,  $quantity);
 					// imposto i valori dello sticky form
 					$this->manageSticky(array($key=>$quantity), $sticky_form);
-					// \Uoowd\Logger::addNotice($quantity);
 				}
 			}
 		}

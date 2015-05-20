@@ -12,8 +12,8 @@ $options_values = array("Utente Regolare","Offerente");
 
 // antepongo Genre- come aggancio al metodo isEnum della fowd/action/register che utilizzo per il controllo
 $options = array(
-	"standard"	=> "Utente Regolare",
-	"offerente" => "Offerente"
+	"offerente" => "Offerente",
+	"standard"	=> "Utente Regolare"
 	);
 
 // imposto i valori di default

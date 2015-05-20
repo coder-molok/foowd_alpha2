@@ -28,6 +28,12 @@ abstract class Action {
 		private $check = array();
 
 		/**
+		 * variabile per specificare i parametri obbligatori
+		 * @var array
+		 */
+		private $needle = array();
+
+		/**
 		 * NB: check and error should be similare in $key
 		 */
 
@@ -58,14 +64,16 @@ abstract class Action {
 		 *	funzione per impostare la variabile $vars che la pages utilizzera'
 		 *	per generare la view_form che richiama ($vars verra' passata a questa).
 		 * 
-		 * @return array array con tutti i valori del form
+		 * @return array array con tutti i valori del form: vuoto nel caso il form non sia sitcky
 		 */
 		public function prepare_form_vars(string $action) {
 			// controllo se e' uno sticky form
 			if (elgg_is_sticky_form($action)) {
 				// ottengo tutti gli stricky value precedentemente salvati
+				// var_dump(elgg_get_sticky_values($action));
+				// $sticky_values = array_merge(elgg_get_sticky_values($action), $_SESSION['sticky_forms'][$action]);
 				$sticky_values = elgg_get_sticky_values($action);
-				//var_dump($sticky_values);
+				// vsar_dump($sticky_values);
 				foreach ($sticky_values as $key => $value) {
 					$values[$key] = $value;
 				}
@@ -128,8 +136,23 @@ abstract class Action {
 				if(isset($var)){
 				 	$data[$field] = $var;
 
-					if(!$this->checkError($field, $data[$field], $sticky_form))	$this->status = false; 
+					// \Uoowd\Logger::addNotice($field." => ".$var);
+					if(!$this->checkError($field, $data[$field], $sticky_form)){
+						$this->status = false; 
+					}
 				 }
+			}
+
+			// se ho dei parametri obbligatori allora controllo che siano stati immessi
+			if(isset($this->needle)){
+				$e = array_diff($this->needle, array_keys($data) );
+				// \Uoowd\Logger::addNotice($e);
+				foreach($e as $key){
+					$str = $key.'Error';
+					$err = 'Il campo e\' obbligatorio';
+					$this->manageSticky(array($str=>$err), $sticky_form);
+					$this->status = false; 
+				}
 			}
 			return $data;
 		}
@@ -148,6 +171,8 @@ abstract class Action {
 				$method = $this->check[$er];
 				if(!$this->$method($val))
 				$_SESSION['sticky_forms'][$action][$er.'Error']=$this->errors[$er];
+				// \Uoowd\Logger::addNotice($_SESSION['sticky_forms'][$action]);
+				// \Uoowd\Logger::addNotice($er);
 				return $this->$method($val);
 			}else{
 				return true; //perche' su di essa non devo fare controlli
@@ -188,6 +213,7 @@ abstract class Action {
 		 * @return boolean      se true, la validazione e' andata a buon fine
 		 */
 		public function isCash($var){
+			// \Uoowd\Logger::addNotice($var);
 			if (preg_match('/^\d{1,8}(\.\d{0,2})?$/', $var)){
 				return true;
 			}else{
@@ -202,6 +228,10 @@ abstract class Action {
 		 * @return boolean      [description]
 		 */
 		public function isTag($var){
+
+			// se vuoto, ritorna errore in quanto almeno un tag ci deve essere
+			if($var === "") return false;
+
 			// prendo i tag inseriti dal form
 			$actualTags = explode(',', $var);
 			$actualTags = array_unique($actualTags);	// evito eventuali ripetizioni

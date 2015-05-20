@@ -39,6 +39,7 @@ class Logger{
 			// $str = array_diff(explode(DIRECTORY_SEPARATOR, $str), explode(DIRECTORY_SEPARATOR, __DIR__));
 			// $str = implode('/', $str);
 			$dbg = debug_backtrace()[1];
+			if(is_object($arguments[0]) || is_array($arguments[0])) $arguments[0] = json_encode($arguments[0]);
 			$str = $arguments[0].' [File: '.$dbg['file'].' ][Line: '.$dbg['line'].' ]';
 			self::init()->{$name}($str);	
 		} 

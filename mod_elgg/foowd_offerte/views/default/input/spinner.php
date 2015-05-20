@@ -19,7 +19,7 @@
 // $input['class'] .= " spinner";
 
 $number = preg_split("@(\.|,)@", strval($vars['value']));
-
+// var_dump($vars);
 $input['type'] = "number";
 $input['min']=0;
 $input['value']=$number[0];

@@ -16,6 +16,9 @@ $data = $f->manageForm($form);
 $data['Created']=date('Y-m-d H:i:s');
 $data['Publisher']=elgg_get_logged_in_user_guid();
 
+// \Uoowd\Logger::addNotice(elgg_get_sticky_values($form));
+// \Uoowd\Logger::addNotice($data);
+
 if ($f->status) {
 	
 	//$_SESSION['my']=$data;
@@ -24,6 +27,7 @@ if ($f->status) {
 			// se sono qui la validazione lato elgg e' andata bene
 	// ma ora controllo quella lato API remote
 	if($r->response){
+
 		
 		// dico al sistema di scartare gli input di questo form
 		elgg_clear_sticky_form($form);

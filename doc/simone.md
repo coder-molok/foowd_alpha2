@@ -12,7 +12,9 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
     - *Tag*, stringa contags o eventualmente di lunghezza nulla: ''
     
 
-- implementato form offerte inserendo uno **SPINNER** HTML5 per i campi numerici *Price*, *Minqt* e *Maxqt*
+- implementato form offerte inserendo uno **SPINNER** HTML5 per i campi numerici *Price*, *Minqt* e *Maxqt*. 
+
+    > NB: e' necessario caricare la view andando su `<sito elgg>/upgrade`
 
 
 
