@@ -2,15 +2,15 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-left">{{Name}}</div>  
-            <div class="pull-right">x/{{Minqt}} - {{Price}}<span class="apex">€</span></div>
+            <div class="pull-right">{{totalQt}}/{{Minqt}} - {{Price}}<span class="apex">€</span></div>
         </div>
         <div class="panel-thumbnail">
             <img src="http://lorempixel.com/320/270/food" class="img-responsive">
             <div class="product-menu">
                 <ul class="product-menu-options">
                     <li>
-                        <a onclick="foowd.addPreference({{Id}},{{Minqt}})">
-                            <i class="glyphicon glyphicon-heart fw-menu-icon"></i>
+                        <a onclick="foowd.addPreference({{Id}},{{Minqt}},this)">
+                            <i id = "like" class="glyphicon glyphicon-heart fw-menu-icon {{prefer}}"></i>
                         </a>
                     </li>
                 </ul>
