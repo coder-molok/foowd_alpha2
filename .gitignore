@@ -14,6 +14,7 @@ api_foowd/app/vendor/
 #api_foowd/app/data/**/
 api_foowd/app/data/generated-*/
 mod_elgg/foowd_*/log/
+mod_elgg/sftp-config.json
 *composer.lock
 */foowd_utility/vendor/
 

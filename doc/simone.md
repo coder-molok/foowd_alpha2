@@ -3,6 +3,16 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 
 
+### 20/05/2015
+
+- corretta [issue#50](https://github.com/coder-molok/foowd_alpha2/issues/50): creato con successo utente *test* nel **DB API**
+    
+- corretta [issue#47](https://github.com/coder-molok/foowd_alpha2/issues/47)
+
+- corretta [issue#46](https://github.com/coder-molok/foowd_alpha2/issues/46)
+
+
+
 ### 18/05/2015
 
 - corretta [issue#40](https://github.com/coder-molok/foowd_alpha2/issues/40):
@@ -14,7 +24,7 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 - implementato form offerte inserendo uno **SPINNER** HTML5 per i campi numerici *Price*, *Minqt* e *Maxqt*. 
 
-    > NB: e' necessario caricare la view andando su `<sito elgg>/upgrade`
+    > NB: e' necessario caricare la view andando su `<sito elgg>/upgrade.php`
 
 
 

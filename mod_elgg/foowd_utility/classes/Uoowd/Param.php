@@ -26,7 +26,7 @@ namespace Uoowd;
 		 */
 		public static function pid(){
 			$trace = self::findLastPlug();
-			//var_dump($trace);
+			// \Fprint::r($trace);
 			$file = str_replace('\\','/', $trace['file']);
 			$file = explode( '/',$file);
 			// blocco a -1 poiche' confronto ogni elemento col suo successivo
@@ -91,11 +91,11 @@ namespace Uoowd;
 		public static function findLastPlug(){
 			$bt =  debug_backtrace();
 			foreach($bt as $trace){
-				//var_dump($trace);
-				if(!preg_match('@foowd_*@',$trace['file'])) break;
+				// \Fprint::r($trace['file']);
+				if(!preg_match('@foowd_.*@',$trace['file'])) break;
 				$check = $trace;
 			}
-			//var_dump($bt);
+			// \Fprint::r($bt);
 			return $check;
 		}
 
