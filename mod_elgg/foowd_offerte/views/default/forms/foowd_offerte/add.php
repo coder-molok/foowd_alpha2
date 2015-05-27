@@ -1,49 +1,29 @@
 <?php
 // /views/default/input/
 
-$form = \Uoowd\Param::pid().'/add';
+// $form = \Uoowd\Param::pid().'/add';
+
+// per test rapidi
+// $vars['Name']='jkjj';
+// $vars['Description'] = 'kkkkkk';
+// $vars['Price-integer'] = '3';
+// $vars['Tag'] = 'jjjjjjj';
+// $vars['Minqt-integer'] = '4';
+// $vars['Price'] = '3.0';
+// $vars['Minqt'] = '4.0';
 
 // utilizzo questa classe per maneggiare le variabili e lo sticky_form
 // gli Error servono per generare il messaggio di errore dentro al form
 $fadd = new \Foowd\Action\FormAdd($vars);
 
-//for rapid testing
-// $api = new \Foowd\API();
-// $ar['publisher']=elgg_get_logged_in_user_guid();
-// $ar['name']="cassa di mana";
-// $ar['description']="Questo e' un prodotto da veri nerd...";
-// $ar['tags']="fantasy, adventure, latte, miele";
-// $ar['price']='100,59';
-// if($api){
-// 	$api->Create('offer', $ar);
-// 	$r = $api->stop();
-// 	if($r->response) var_dump($r);
-// }
-
-// $api = new \Foowd\API();
-// $ar['publisher']=elgg_get_logged_in_user_guid();
-// $ar['name']="Formaggi!";
-// $ar['description']="roba buona!";
-// $ar['tags']="latte, adventure, cibo, vita";
-// $ar['price']='100,59';
-// if($api){
-// 	$api->Create('offer', $ar);
-// 	$r = $api->stop();
-// 	if($r->response) var_dump($r);
-// }
-
-// var_dump($_SESSION['sticky_forms']);
-//var_dump($_SESSION['my']);
-
-// $fadd->createField('Name', 'Offerta *', 'input/text');
-// $fadd->createField('Description', 'Descrivi il tuo prodotto *', 'input/longtext');
-// $fadd->createField('Price','Importo *', 'input/text', array('maxlength'=>"11"));
-// $fadd->createField('Tag', 'Tags (singole parole separate da una virgola) *', 'input/text');
-// $fadd->createField('Minqt', 'Quantita\' minima *', 'input/text', array('maxlength'=>"9"));
-// $fadd->createField('Maxqt', 'Quantita\' massima', 'input/text', array('maxlength'=>"9"));
 
 $fadd->createField('Name', 'Offerta *', 'input/text');
 $fadd->createField('Description', 'Descrivi il tuo prodotto *', 'input/longtext');
+
+// la prima volta non dovrebbe essere impostato niente, e visualizzo soltanto il form di caricamento
+$fadd->createField('file', 'Carica l\'immagine', 'input/file', array('id'=>'loadedFile', 'value'=>''));
+echo '<center><div id="image-container" style="display:none;">Seleziona l\'area da ritagliare.<div id="image"></div></div></center>';
+
 // $fadd->createField('Price','Importo', 'input/text', array('maxlength'=>"11"));
 $fadd->createField('Price', 'Importo *', 'input/spinner', array("decimal"=>2, "integer"=>"8"));
 $fadd->createField('Tag', 'Tags (singole parole separate da una virgola) *', 'input/text');
@@ -54,26 +34,22 @@ $fadd->createField('Maxqt', 'Quantita\' massima', 'input/spinner', array("decima
 
 ?>
 
-<!-- <div>
-    <label><?php echo elgg_echo("Offerta"); ?></label><div style="color:red"><?php echo elgg_echo($fadd->nameError);?></div><br />
-    <?php echo elgg_view('input/text',array('name' => 'name', 'value' => elgg_echo($fadd->name)) ); ?>
-</div>
 
-<div>
-    <label><?php echo elgg_echo("descrizione"); ?></label><br />
-    <?php echo elgg_view('input/longtext',array('name' => 'description' ,'value' => elgg_echo($fadd->description)) ); ?>
+<div class="elgg-foot">
+    <?php 
+        // la guid mi serve per salvare il file temporaneo
+        echo elgg_view('input/hidden', array('name' => 'guid', 'value' => $vars['guid']));
+        if(isset($vars['sticky'])) echo elgg_view('input/hidden', array('name' => 'sticky', 'value' => $vars['sticky'])); 
+    ?>
+</div> 
+<div id="crop">
+    <input type="hidden" name="crop[x1]" value="" />
+    <input type="hidden" name="crop[y1]" value="" />
+    <input type="hidden" name="crop[x2]" value="" />
+    <input type="hidden" name="crop[y2]" value="" />    
 </div>
+<a href="image-tmp" id="url" style="display:none;">testo</a>
 
-<div>
-    <label><?php echo elgg_echo("importo"); ?></label><div style="color:red"><?php echo elgg_echo($fadd->priceError);?></div><br />
-    <?php echo elgg_view('input/text',array('name' => 'price',  'maxlength' => 20, 'value' => elgg_echo($fadd->price)) ); ?>
-</div>
-
-<div>
-    <label><?php echo elgg_echo("tags"); ?></label><br />
-    <?php echo elgg_view('input/tags',array('name' => 'tags', 'value' => elgg_echo($fadd->tags)) ); ?>
-</div>
- -->
 <div>
     <?php echo elgg_view('input/submit', array('value' => elgg_echo('save'))); ?>
 </div>
@@ -82,4 +58,10 @@ $fadd->createField('Maxqt', 'Quantita\' massima', 'input/spinner', array("decima
     <?php echo '* : campo obbligatorio.'; ?>
 </div>
 
-<?php
+
+<?php elgg_load_js('jquery'); ?>
+<link href="<?php echo elgg_get_site_url ();?>mod/foowd_offerte/js/imgareaselect/css/imgareaselect-default.css" rel="stylesheet">
+<script type="text/javascript" src="<?php echo elgg_get_site_url ();?>mod/foowd_offerte/js/imgareaselect/scripts/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo elgg_get_site_url ();?>mod/foowd_offerte/js/imgareaselect/scripts/jquery.imgareaselect.pack.js"></script>
+<?php elgg_require_js(\Uoowd\Param::pid().'/use_crop'); 
+// echo \Uoowd\Param::pid().'/use_crop';

@@ -52,6 +52,9 @@ function offerte_page_handler($segments) {
 		case 'single':
 			include elgg_get_plugins_path() . 'foowd_offerte/pages/foowd_offerte/single.php';
 			break;
+		case 'image-tmp':
+			include elgg_get_plugins_path() . 'foowd_offerte/pages/foowd_offerte/image-tmp.php';
+			break;
 		default:
 			$check = false;
 			break;

@@ -56,6 +56,11 @@ abstract class Action {
 				$this->{$key} = $value;
 			}
 			$this->vars = $ar;
+			if($ar){
+				foreach ($ar as $key => $value) {
+					$this->{$key} = $value;
+				}
+			}
 		}
 
 
@@ -94,17 +99,38 @@ abstract class Action {
 		 * @param  array  $extra [description]
 		 * @return [type]        [description]
 		 */
-		public function createField($field, $label, $type, array $extra){
+		/*public function createField($field, $label, $type, array $extra){
 			$settings = array('name' => $field, 'value' => elgg_echo($this->{$field}) );
 			if(isset($extra)) $settings = array_merge($settings,$extra);
-			//var_dump($settings);
+			// var_dump($settings);
 			?>
 			<div>
 			    <label><?php echo elgg_echo($label); ?></label><div style="color:red"><?php echo elgg_echo($this->{$field.'Error'});?></div><br />
 			    <?php echo elgg_view($type,$settings); ?>
 			</div>
 			<?php
+		}*/
+		public function createField($field, $label, $type, array $extra){
+			// se non e' creato, crelo lo sticky
+			if(!is_object($this->sticky)) $this->sticky = new \Uoowd\Sticky($this->vars['sticky']);
+
+			// se il field non ha valore, provo a inserirlo mediante sticky
+			if(!isset($this->{$field}) || $this->{$field}=='') $this->{$field} = $this->sticky->getV($field);
+			
+			if(!isset($this->{$field.'Error'}) || $this->{$field.'Error'}=='') $this->{$field.'Error'} = $this->sticky->getV($field.'Error');
+			
+			$settings = array('name' => $field, 'value' => elgg_echo($this->{$field}) );
+			if(isset($extra)) $settings = array_merge($settings,$extra);
+			// var_dump($settings);
+			?>
+			<div>
+			    <label><?php echo elgg_echo($label); ?></label><div style="color:red">
+			    <?php echo elgg_echo($this->{$field.'Error'} );?></div><br />
+			    <?php echo elgg_view($type,$settings); ?>
+			</div>
+			<?php
 		}
+
 
 		/**
 		 * creo automaticamente i membri della classe grazie all'array pubblico $var

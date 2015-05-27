@@ -7,4 +7,7 @@
 
 // libero la variabile 
 // unset_config('ApiDom'); 		
-// elgg.system_message('disattivato');
+
+// \Uoowd\Logger::addError(dirname(__FILE__).' e\' stato disattivato');
+
+// mandare mail

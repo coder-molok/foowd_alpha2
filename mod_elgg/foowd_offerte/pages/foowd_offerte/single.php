@@ -4,6 +4,10 @@ gatekeeper();
 
 $form = \Uoowd\Param::pid().'/update';
 
+// metodo per istanziare la variabile $session se lo sticky esiste
+// in particolare mi serve per l'array_merge prima di richiamare la view
+($session = $_SESSION['sticky_forms'][$form]); 
+
 // richiamo la classe che gestisce il form
 $f = new \Foowd\Action\FormAdd();
 
@@ -47,11 +51,18 @@ if(!elgg_is_sticky_form($form) ){
 $title = "Modifica la tua Offerta";
 $content = elgg_view_title($title);
 
-
+// var_dump(elgg_get_sticky_values());
 $vars = $f->prepare_form_vars($form);
+
+// aggiungo il nome del form alle variabili, visto che usero' sticky e $fadd della view dovra' chiamare \Uoowd\Sticky
+// altri valori utili per il form
+$vars['guid']=elgg_get_logged_in_user_guid();
+$vars['sticky']=$form;
+
+$vars = array_merge($vars, (array) $session);
 // var_dump($vars);
 
-$content .= elgg_view_form($form, array($form), $vars);
+$content .= elgg_view_form($form, array('enctype'=>'multipart/form-data'), $vars);
 
 // optionally, add the content for the sidebar
 $sidebar = "";
@@ -65,3 +76,4 @@ $body = elgg_view_layout('one_sidebar', array(
 echo elgg_view_page($title, $body);
 
 
+unset($_SESSION['sticky_forms'][$form]);

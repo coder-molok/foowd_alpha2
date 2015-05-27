@@ -80,7 +80,8 @@ abstract class FApi{
 		}
 		else {
 			$obj->save();
-		   $r['response'] = true;
+			$r['Id']= $obj->getId();
+		   	$r['response'] = true;
 		}
 
 		return $r;

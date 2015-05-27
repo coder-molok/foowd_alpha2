@@ -9,7 +9,8 @@ namespace Uoowd;
 		public static $par = array(
 			'apiDom'	=> 'http://localhost/api_foowd/public_html/api/',	// path to API
 			'uid'		=> 'foowd_utility',									// id del plugin
-			'dbg'		=> 0												// per visualizzare messaggi extra. Definito anche nel pannello utente, come apiDom
+			'dbg'		=> 0,												// per visualizzare messaggi extra. Definito anche nel pannello utente, come apiDom
+			'imgStore'	=> 'OfferImg'										// folder in cui salvare le immagini
 		);
 	
 		public static function __callStatic($name, $arguments){
@@ -97,6 +98,19 @@ namespace Uoowd;
 			}
 			// \Fprint::r($bt);
 			return $check;
+		}
+
+		public static function imgStore(){
+			$store = trim(elgg_get_root_path(), '/');
+			$store = explode( '/', $store);
+			// rimuovo l'ultimo, che equivale a tornare indietro di una directory
+			unset($store[count($store)-1]);
+			$store = implode($store, '/');
+			$store .= '/'.self::$par['imgStore'].'/';
+			if (!file_exists($store)) {
+			    mkdir($store, 0777, true);
+			}
+			return $store;
 		}
 
 	}

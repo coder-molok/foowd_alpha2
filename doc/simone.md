@@ -3,6 +3,28 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 
 
+### 27/05/2015
+
+- per visualizzare i cambiamenti e' necessario aggiornare la cache di elgg andando all'indirizzo
+
+    ````
+    <sito_elgg>/upgrade.php
+    ````
+
+- implementato salvataggio immagini con sistema di ritaglio:
+    le immagini vengono salvate nella stessa directory del `<sito_elgg>` in un folder di nome `OfferImg`
+
+    > NB: fare attenzione ai permessi di scrittora per creare il folder `OfferImg` :
+    > lo script deve avere la possibilita' di creare immagini e directory in quest'ultima
+
+- Nel file `foowd_utility/deactivate.php` ho impostato, in fare sperimentale, la possibilita' di mandare una mail a tutti gli amministratori alla disattivazione del plugin:
+    
+    ho pensato fosse utile, nel caso il sistema decida di disattivare il plugin in automatico *(quando la cache non e' attiva puo' capitare che non riesca a caricare le view, con conseguente disattivazione del plugin)*
+
+    > per utilizzare questa opzione e' necessario impostare l'email del sito dal pannello di amministrazione ed avere abilitato php all'invio di email.
+
+
+
 ### 20/05/2015
 
 - corretta [issue#50](https://github.com/coder-molok/foowd_alpha2/issues/50): creato con successo utente *test* nel **DB API**

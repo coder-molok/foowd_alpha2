@@ -14,6 +14,7 @@ namespace Foowd\FApi;
  * @apiDefine MyResponse
  *
  * @apiParam (Response) {Bool}				response 	false, in caso di errore
+ * @apiParam (Response) {String}			[Id]	 	se il metodo e' update o create, allora l'id dell'offerta
  * @apiParam (Response) {String/json}		[errors] 	json contenente i messaggi di errore
  * @apiParam (Response) {String/json}		[body] 		json contenente i parametri da ritornare in funzione della richiesta
  * @apiParam (Response) {String} 			[msg] 		messaggi ritornati
