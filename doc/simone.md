@@ -3,6 +3,15 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 
 
+### 29/05/2015
+
+- risolta [issue#52](https://github.com/coder-molok/foowd_alpha2/issues/52):
+    ora nei **settings** del pannello d'amministrazione, sezione **utility foowd** e' possibile inserire un elenco di **Tags** che verranno poi visulizzati nell'articolo. 
+
+    >NB: i tags devono essere singoli nomi separati da virgola e non contenere lettere accentate
+
+
+
 ### 27/05/2015
 
 - per visualizzare i cambiamenti e' necessario aggiornare la cache di elgg andando all'indirizzo

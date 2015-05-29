@@ -17,6 +17,7 @@ mod_elgg/foowd_*/log/
 mod_elgg/sftp-config.json
 *composer.lock
 */foowd_utility/vendor/
+**/foowd_utility/tags.json
 
 # linee aggiunte da Marco Predari
 # io uso webstorm e aggiungo la cartella del progetto che crea il programma

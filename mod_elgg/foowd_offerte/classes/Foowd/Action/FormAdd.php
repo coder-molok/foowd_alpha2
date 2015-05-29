@@ -44,7 +44,8 @@ namespace Foowd\Action;
 			'Name' 			=> 'errore nell\' immisione del titolo',
 			'Description'	=> 'errore nell\' immisione della descrizione',
 			'Price'			=> 'massimo 8 cifre + 2 decimali...',
-			'Tag'			=> 'i tags possono essere solo singole parole separate da virgola...',
+			// 'Tag'			=> 'i tags possono essere solo singole parole separate da virgola...',
+			'Tag'			=> 'devi selezionare almeno un tag'
 		);
 
 		/**
@@ -85,6 +86,16 @@ namespace Foowd\Action;
 				}
 			}
 		}
+
+		public function hookCreateTag($type , $input){
+			echo '<div '.elgg_format_attributes($input['attributes']).' >';
+			foreach ($input['inputs'] as $val){
+				echo elgg_view($type, $val);
+			}
+			echo '</div>';
+
+		}
+
 	}
 
 

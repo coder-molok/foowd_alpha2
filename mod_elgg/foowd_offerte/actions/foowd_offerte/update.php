@@ -10,7 +10,15 @@ elgg_make_sticky_form($form);
 // richiamo la classe che gestisce il form
 $f = new \Foowd\Action\FormAdd();
 
+// Preparo il Tag passato mediante checkbox
+$tag = array();
+foreach(get_input('Tag') as $val) if($val!='0') array_push($tag, $val);
 
+// NB: set input imposta il valore all'input del form, ma non cambia il corrispettivo in $_SESSION!!
+// pertanto se non faccio altro, il valore di ritorno di TAG rimane l'array che avevo passato
+// e non la stringa che imposto di seguito
+set_input('Tag', implode( ' , ', $tag)  );
+$_SESSION['sticky_forms'][$form]['str']=$_SESSION['sticky_forms'][$form]['Tag'];
 
 $data = $f->manageForm($form);
 

@@ -10,7 +10,8 @@ namespace Uoowd;
 			'apiDom'	=> 'http://localhost/api_foowd/public_html/api/',	// path to API
 			'uid'		=> 'foowd_utility',									// id del plugin
 			'dbg'		=> 0,												// per visualizzare messaggi extra. Definito anche nel pannello utente, come apiDom
-			'imgStore'	=> 'OfferImg'										// folder in cui salvare le immagini
+			'imgStore'	=> 'OfferImg',										// folder in cui salvare le immagini
+			'tags'		=> 'tags.json'										// dove salvare il json contenente i tags
 		);
 	
 		public static function __callStatic($name, $arguments){
@@ -111,6 +112,11 @@ namespace Uoowd;
 			    mkdir($store, 0777, true);
 			}
 			return $store;
+		}
+
+
+		public static function tags(){
+			return elgg_get_plugins_path().'foowd_utility/views/default/plugins/foowd_utility/'.self::$par['tags'];
 		}
 
 	}

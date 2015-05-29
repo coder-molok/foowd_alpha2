@@ -26,7 +26,8 @@ echo '<center><div id="image-container" style="display:none;">Seleziona l\'area 
 
 // $fadd->createField('Price','Importo', 'input/text', array('maxlength'=>"11"));
 $fadd->createField('Price', 'Importo *', 'input/spinner', array("decimal"=>2, "integer"=>"8"));
-$fadd->createField('Tag', 'Tags (singole parole separate da una virgola) *', 'input/text');
+// i Tag hanno un metodo particolare
+$fadd->createField('Tag', 'Tags (selezionane almeno uno) *', 'input/checkbox', array('inputs' => $vars['Tag'], 'attributes' =>$vars['TagAttributes']) );
 // $fadd->createField('Minqt', 'Quantita\' minima', 'input/text', array('maxlength'=>"9"));
 $fadd->createField('Minqt', 'Quantita\' minima *', 'input/spinner', array("decimal"=>3, "integer"=>5));
 // $fadd->createField('Maxqt', 'Quantita\' massima', 'input/text', array('maxlength'=>"9"));

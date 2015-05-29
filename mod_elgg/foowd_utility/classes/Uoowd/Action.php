@@ -126,7 +126,15 @@ abstract class Action {
 			<div>
 			    <label><?php echo elgg_echo($label); ?></label><div style="color:red">
 			    <?php echo elgg_echo($this->{$field.'Error'} );?></div><br />
-			    <?php echo elgg_view($type,$settings); ?>
+			    <?php 
+			    	$method = 'hookCreate'.$field;
+			    	if(method_exists($this, $method)){
+			    		call_user_func(array($this, $method ), $type, $extra);
+			    	}else{
+			    		echo elgg_view($type,$settings);
+			    	}
+
+			    	?>
 			</div>
 			<?php
 		}
@@ -193,6 +201,7 @@ abstract class Action {
 		 * @return [type]      [description]
 		 */
 		public function checkError($er, $val, $action){
+			// \Uoowd\Logger::addNotice($val);
 			if(array_key_exists($er, $this->check)){
 				$method = $this->check[$er];
 				if(!$this->$method($val))
