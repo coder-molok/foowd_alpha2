@@ -22,10 +22,13 @@ function utility_init(){
 	// quando salvo i settings del plugin
 	elgg_register_plugin_hook_handler('setting', 'plugin', 'salva_json');
 
+	// wrap plugin pages
+	elgg_register_page_handler('foowd_utility', 'utility_page_handler');
+
 }
 
 
-
+// hook del salvataggio settings
 function salva_json($hook, $type, $url, $params){
 	$tag['tags'] = $params['value'];
 	$tag = json_encode($tag);
@@ -33,3 +36,19 @@ function salva_json($hook, $type, $url, $params){
 	// return false;
 }
 
+
+function utility_page_handler($segments) {
+	$check = true;
+
+	switch($segments[0]){
+		case 'log':
+			\Uoowd\Logger::displayLog();
+			break;
+		default:
+			$check = false;
+			break;
+	}
+
+
+	return $check;
+}

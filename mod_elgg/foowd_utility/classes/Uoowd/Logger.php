@@ -23,7 +23,7 @@ class Logger{
 	
 		// create a log channel
 		$log = new \Monolog\Logger('Foowd');
-		$log->pushHandler(new \Monolog\Handler\StreamHandler(elgg_get_plugins_path().\Uoowd\Param::uid().'/log//'.date("y-m-d").'.log', \Monolog\Logger::NOTICE));
+		$log->pushHandler(new \Monolog\Handler\StreamHandler(elgg_get_plugins_path().\Uoowd\Param::uid().'/log//'.date("y-m-d").'.log', \Monolog\Logger::INFO));
 
 		return $log;
 	}
@@ -43,6 +43,31 @@ class Logger{
 			$str = $arguments[0].' [File: '.$dbg['file'].' ][Line: '.$dbg['line'].' ]';
 			self::init()->{$name}($str);	
 		} 
+	}
+
+
+	/**
+	 *  funzione che permette agli amministratori di visualizzare l'elenco di tutti i log
+	 */
+	public static function displayLog(){
+		elgg_admin_gatekeeper();
+		$dir = elgg_get_plugins_path().\Uoowd\Param::uid().'/log/';
+		$logs = array();
+		foreach(new \DirectoryIterator($dir) as $file){
+			if($file->isFile()) array_push($logs, $dir.$file->getBasename());
+		}
+
+		$logs = array_reverse($logs);
+
+		foreach($logs as $file){
+			echo '<h1>'.basename($file).'</h1>';
+			$file = file($file);
+			$file = array_reverse($file);
+			foreach($file as $f){
+				echo '<pre>'.$f.'</pre>';
+			}
+		}
+		// \Fprint::r($logs);
 	}
 
 }

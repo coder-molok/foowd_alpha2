@@ -514,15 +514,18 @@ class ApiOffer extends \Foowd\FApi{
 					if(preg_match('@ +@i', $single)) $errors['Tag'][$single] = "I tag possono essere costituiti da una sola parola: ".$single;
 					if($single == '' ) $errors['Tag']['empty'] = "I tag possono essere parole vuote: controlla che non vi sia una virgola iniziale o finale";
 				}
-				if(isset($errors['Tag'])){ 
-					$proceed = false;
-				}else{
-					// trucco stupido per imporre l'update della data di modifica dell'offerta:
-					// essendo i tags non direttamente associati alla tabella, una loro modifica non comporta
-					// l'attivazione dell ON UPDATE di mysql nella tabella offers
+
+				// trucco stupido per imporre l'update della data di modifica dell'offerta:
+				// essendo i tags non direttamente associati alla tabella, una loro modifica non comporta
+				// l'attivazione dell ON UPDATE di mysql nella tabella offers
+				if(!$offer->isNew()){
 					$offer->setDescription($offer->getDescription().' ');
 					$offer->save();
 				}
+				if(isset($errors['Tag'])){ 
+					$proceed = false;
+				}
+				
 			}
 
 			// i settaggi li faccio solamente se tutti i controlli precedenti sono andati a buon fine 

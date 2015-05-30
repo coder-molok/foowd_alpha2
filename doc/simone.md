@@ -5,6 +5,13 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 ### 30/05/2015
 
+- corretto bug di commit issue#57: introduceva un errore nella creazione di una nuova offerta.
+
+- inserita visualizzazione dei log: andando su `/foowd_utility/log` gli amministratori possono visualizzare l'elenco degli errori di Log generati dal sistema.
+
+    > attualmente questa opzione risulta utile a me, ma in futuro il sistema di Log diventera' piu' specifico.
+
+
 - risolta [issue#57](https://github.com/coder-molok/foowd_alpha2/issues/57):
 
     per rendere effettivi i cambiamenti nel DB e' necessario andare nella cartella contenente lo `schema.xml` di propel ed eseguire i seguenti comandi:
@@ -16,11 +23,14 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
     Purtroppo e' necessario svolgere un'ulteriore passaggio:
 
-    1. accedere a mysql da terminale
+    - accedere a mysql da terminale
+ 
         ````
         $ mysql -u <utente> -p
         ````
-    2. aggiornare il campo **modified** della tabella **offer**
+
+    - aggiornare il campo **modified** della tabella **offer**
+    
         ````
         > USE `foowd_api`; ALTER TABLE `offer` CHANGE `modified` `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
         ````

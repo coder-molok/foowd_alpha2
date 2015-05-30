@@ -24,6 +24,7 @@ class API{
 			//$url="http://localhost/api_offerte/public_html/api/offers";
 			$url = elgg_get_plugin_setting('api', \Uoowd\Param::uid()  ) . $url;
 			$ch = curl_init($url);
+			\Uoowd\Logger::addDebug('Url API: ' . $url);
 		}else{
 			register_error(elgg_echo("Impossibile eseguire l'azione"));
 			// qui eventualmente generare il log per avvisare che curl non funziona
@@ -64,6 +65,8 @@ class API{
 		
 		// utile per debug tramite POSTMAN
 		//register_error(json_encode($url));
+		\Uoowd\Logger::addDebug('Dati post inviati: '.json_encode($ar));
+
 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 	    // curl_setopt($ch, CURLOPT_URL, $URL);
@@ -88,7 +91,7 @@ class API{
 		
 		//$_SESSION['my']=json_encode($url);
 		//register_error($output);
-		\Uoowd\Logger::addInfo($output);
+		\Uoowd\Logger::addInfo('Responso API: '.$output);
 		
 		$returned = json_decode($output);
 
