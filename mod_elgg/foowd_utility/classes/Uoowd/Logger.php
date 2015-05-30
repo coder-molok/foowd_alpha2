@@ -23,7 +23,7 @@ class Logger{
 	
 		// create a log channel
 		$log = new \Monolog\Logger('Foowd');
-		$log->pushHandler(new \Monolog\Handler\StreamHandler(elgg_get_plugins_path().\Uoowd\Param::uid().'/log//'.date("y-m-d").'.log', \Monolog\Logger::INFO));
+		$log->pushHandler(new \Monolog\Handler\StreamHandler(elgg_get_plugins_path().\Uoowd\Param::uid().'/log//'.date("y-m-d").'.log', \Monolog\Logger::DEBUG));
 
 		return $log;
 	}
