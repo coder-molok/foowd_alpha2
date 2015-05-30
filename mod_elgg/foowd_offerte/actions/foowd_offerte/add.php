@@ -27,7 +27,7 @@ $_SESSION['sticky_forms'][$form]['str']=$_SESSION['sticky_forms'][$form]['Tag'];
 $data = $f->manageForm($form);
 
 // imposto la data
-$data['Created']=date('Y-m-d H:i:s');
+// $data['Created']=date('Y-m-d H:i:s');
 $data['Publisher']=elgg_get_logged_in_user_guid();
 
 // \Uoowd\Logger::addNotice(elgg_get_sticky_values($form));

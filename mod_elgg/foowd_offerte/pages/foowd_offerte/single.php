@@ -42,7 +42,7 @@ if(!elgg_is_sticky_form($form) ){
 
 		// quando arriva dalle API e' una stringa da trasformare in array.
 		// invece dopo il submit del form, e' un array
-		$input['Tag'] = array_map('trim', explode(',', $vars['Tag']));
+		$input['Tag'] = array_map('trim', explode(',', $input['Tag'] ));
 
 		// salvo nello sticky form tutti i dati ritornati dalla API
 		$f->manageSticky($input, $form);

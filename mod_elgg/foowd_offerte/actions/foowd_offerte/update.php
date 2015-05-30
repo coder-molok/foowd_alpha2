@@ -23,7 +23,7 @@ $_SESSION['sticky_forms'][$form]['str']=$_SESSION['sticky_forms'][$form]['Tag'];
 $data = $f->manageForm($form);
 
 // imposto la data
-$data['Modified'] =date('Y-m-d H:i:s');
+// $data['Modified'] =date('Y-m-d H:i:s');
 $data['Publisher']=elgg_get_logged_in_user_guid();
 
 

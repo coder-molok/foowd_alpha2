@@ -83,7 +83,7 @@ class ApiOffer extends \Foowd\FApi{
 	public function create($data){
 
 		$offer = new \Offer();
-		if(!isset($data->Created)) $data->Created = date('Y-m-d H:i:s');
+		// if(!isset($data->Created)) $data->Created = date('Y-m-d H:i:s');
 		$this->ExtToId($data);
 		return $this->offerManager($data, $offer);
 
@@ -141,13 +141,41 @@ class ApiOffer extends \Foowd\FApi{
 		}
 
 		// cancello tutti i tag per riscrivere quelli aggiornati
-		\OfferTagQuery::create()
-				->filterByOfferId($data->Id)
-				->delete();
+		// $tg = \OfferTagQuery::create()->filterByOfferId($data->Id)->delete();
+		
+		//////////// Preparo i Tag per passarse a offerManager solo quelli da aggiungere.
+		//////////// nel mentre quelli superflui li elimino
+		// al posto della query sopra posso creare un loop usando direttamente $offer:
+		// $Tg e' un oggetto Tag di propel
+
+		$oldTg = array();
+		$newTag = array_map('trim', explode(',' , $data->Tag));
+		foreach($offer->getTags() as $Tg) {
+			// con la seconda condizione evito di cancellare nel caso di parole separate da spazi:
+			// se ho gia' "formaggi" e inserisco "formaggi sardi", senza la virgola, devo evitare che il tag
+			// "formaggi" venga cancellato: il modo piu' semplice e' controllare se era gia' presente
+			// nella stringa di partenza, ovvero $data->Tag
+			if(in_array($Tg->getName(), $newTag) || preg_match('@'.$Tg->getName().'@', $data->Tag)){
+				// var_dump($Tg->getName().' gia presente');
+				array_push($oldTg, $Tg->getName());
+			}else{
+				// var_dump($Tg->getName().' lo elimino');
+				$Tg->delete();
+			}
+		}
+
+		// raccolgo solo i nuovi valori
+		$data->Tag = implode(' , ' , array_diff($newTag, $oldTg) );
+		// e se non ne ho di nuovi, lo rimuovo per non creare confusione in offerManager
+		if($data->Tag == '') unset($data->Tag);
+
+		// il tag Modified si riaggiorna in automatico grazie ai parametri ON UPDATE inseriti in mysql
+		// $offer->setModified('');
+		// \OfferQuery::create()->filterById($data->Id)->update(array('Name'=>$data->Name));
 
 		//date_timezone_set('Europe/Rome');
-		if(!isset($data->Modified)) $data->Modified = date('Y-m-d H:i:s');
-
+		// if(!isset($data->Modified)) $data->Modified = date('Y-m-d H:i:s');
+		
 		return $this->offerManager($data, $offer);
 	}
 
@@ -394,90 +422,6 @@ class ApiOffer extends \Foowd\FApi{
 
 
 
-	// *
-	//  *
-	//  * @api {get} /offers searchPrefer
-	//  * @apiName searchPrefer
-	//  * @apiGroup Offers
-	//  * 
- // 	 * @apiDescription Svolge la normale Search aggiungendo la chiave "prefer" alle offerte ritornate per le quali ExternalId abbia espresso una preferenza:
- // 	 * 		in tal caso "prefer" contiene tutti i dati relativi alla preferenza.
- // 	 * 		Se non si presenta tale corrispondenza, allora la singola offerta non contiene la chiave "prefer".
- // 	 *
- // 	 * Strutturato in questo modo, cerca solo le intersezioni dei filtri.
-	//  * 
-	//  * @apiParam {String} 		type 			searchPrefer
-	//  * @apiParam {Integer} 		ExternalId		User Id elgg (ovvero ExternalId API) dell'utente che sta' eseguendo la ricerca
-	//  * @apiParam {Mixed}	  	[qualunque] 	qualunque colonna. Il valore puo' essere una STRINGA o un ARRAY come stringa-JSON con chiavi "max" e/o "min" (lettere minuscole).
-	//  * @apiParam {String} 		[order] 		stringa per specificare l'ordinamento. Il primo elemento e' la colonna php. Si puo' specificare se 'asc' o 'desc' inserendo uno di questi dopo una virgola. Generalmente saranno Name, Price, Created, Modified
-	//  * @apiParam {Mixed}	  	[offset] 		Il valore puo' essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi "page" e "maxPerPage" per sfruttare la paginazione di propel.
-	//  * @apiParam {Mixed}	  	[match] 		Stringa-JSON le cui chiavi sono le colonne del DB e i valori sono singole parole separate da spazi o virgole.
-	//  * @apiParam {String} 		[Tag] 			elenco di tags separati da virgola
-	//  *
-	//  * @apiParamExample {url} URL-Example:
-	//  * 
-	//  * http://localhost/api_foowd/public_html/api/offer?type=searchPrefer&ExternalId=52&Publisher=5&Tag=latticini
-	//  * 
-	//  * @apiUse MyResponse
-	//  * 
-	 
-	
-	// public $needle_searchPrefer = "ExternalId";
-	// public function searchPrefer($data){
-	// 	if(!isset($data->ExternalId)){
-	// 	 $errors['ExternalId'] = "Impossibile eseguire il metodo senza ExternalId";
-	// 	 $Json['response'] = false;
-	// 	}else{
-	// 		// recupero lo userId e poi elimino $data->ExternalId
-	// 		$UserId = \UserQuery::Create()->filterByExternalId($data->ExternalId)->findOne();
-	// 		// se l'utente con quell'id esterno esiste, allora lo utilizzo, altrimenti blocco tutto
-	// 		if(is_object($UserId)){
-	// 			$UserId = $UserId->getId();
-	// 			$ExternalId = $data->ExternalId;
-	// 			unset($data->ExternalId);
-	// 		}else{
-	// 			$Json['response'] = false;
-	// 			$Json['errors']['ExternalId'] = "L'ExternalId  non e' associato a nessun utente API";
-	// 			$Json['errors']['File'] = __FILE__. ' Line: '.__LINE__;
-	// 			echo json_encode($Json);
-	// 			exit(7);
-	// 		}
-
-	// 		// ora eseguo la ricerca delle offerte in base ai filtri passati:
-			
-	// 		$search = $this->search($data);
-	// 		$ext = new \stdClass();
-	// 		$ext->ExternalId = $ExternalId;
-			
-	// 		// per ogni offerta, controllo se esiste la preferenza: se si, imposto true, altrimenti false
-	// 		foreach ($search['body'] as $key => $offer) {
-			
-	// 			$ext->OfferId = $offer['Id'];
-	// 			$match = \Foowd\FApi\ApiPrefer::search($ext);
-				
-	// 			if(isset($match['body'])){
-	// 				if(count($match['body']) == 1){
-	// 					$search['body'][$key]['prefer'] = $match['body'][0];
-	// 				}else if(count($match['body']) > 1){
-	// 					$Json['response'] = false;
-	// 					$errors['conteggio'] = "Errore: hai piu' preferenze dello stesso utente associate al singolo post";
-	// 					$errors['file'] = "File: ".__FILE__." , Line: ".__LINE__;
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-
-	// 	if(isset($Json['response'])){ 
-	// 		$Json['response'] = false;
-	// 		$Json['errors'] = $errors;
-	// 		return $Json;
-	// 	}else{ 
-	// 		return $search;
-	// 	}
-	// }
-
-
-
 	/**
 	 *
 	 * @api {post} /offers delete
@@ -570,7 +514,15 @@ class ApiOffer extends \Foowd\FApi{
 					if(preg_match('@ +@i', $single)) $errors['Tag'][$single] = "I tag possono essere costituiti da una sola parola: ".$single;
 					if($single == '' ) $errors['Tag']['empty'] = "I tag possono essere parole vuote: controlla che non vi sia una virgola iniziale o finale";
 				}
-				if(isset($errors['Tag'])) $proceed = false;
+				if(isset($errors['Tag'])){ 
+					$proceed = false;
+				}else{
+					// trucco stupido per imporre l'update della data di modifica dell'offerta:
+					// essendo i tags non direttamente associati alla tabella, una loro modifica non comporta
+					// l'attivazione dell ON UPDATE di mysql nella tabella offers
+					$offer->setDescription($offer->getDescription().' ');
+					$offer->save();
+				}
 			}
 
 			// i settaggi li faccio solamente se tutti i controlli precedenti sono andati a buon fine 

@@ -3,12 +3,43 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 
 
+### 30/05/2015
+
+- risolta [issue#57](https://github.com/coder-molok/foowd_alpha2/issues/57):
+
+    per rendere effettivi i cambiamenti nel DB e' necessario andare nella cartella contenente lo `schema.xml` di propel ed eseguire i seguenti comandi:
+
+    ````
+    $ propel diff         // per generare il file di migrazione nella cartella "generated-migrations"
+    $ propel migrate      // per rendere effettivi i cambiamenti sul DB
+    ````
+
+    Purtroppo e' necessario svolgere un'ulteriore passaggio:
+
+    1. accedere a mysql da terminale
+        ````
+        $ mysql -u <utente> -p
+        ````
+    2. aggiornare il campo **modified** della tabella **offer**
+        ````
+        > USE `foowd_api`; ALTER TABLE `offer` CHANGE `modified` `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+        ````
+
+
+
+
 ### 29/05/2015
 
 - risolta [issue#52](https://github.com/coder-molok/foowd_alpha2/issues/52):
     ora nei **settings** del pannello d'amministrazione, sezione **utility foowd** e' possibile inserire un elenco di **Tags** che verranno poi visulizzati nell'articolo. 
 
     >NB: i tags devono essere singoli nomi separati da virgola e non contenere lettere accentate
+
+- per visualizzare i cambiamenti nel css aggiunto e' necessario aggiornare la cache di elgg andando all'indirizzo
+
+    ````
+    <sito_elgg>/upgrade.php
+    ````
 
 
 
@@ -32,7 +63,9 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
     > per utilizzare questa opzione e' necessario impostare l'email del sito dal pannello di amministrazione ed avere abilitato php all'invio di email.
 
-
+corretta [issue#50](https://github.com/coder-molok/foowd_alpha2/issues/50):
+`propel diff` se si vuole vedere il cambiamento in `generated-migrations`
+`propel migrate` per fare l'update del DB
 
 ### 20/05/2015
 
