@@ -179,7 +179,6 @@
 </script>
 <!-- Custom Libraries -->
 <!-- <script type="text/javascript" src="mod/foowd_theme/lib/js/foowd.js"></script> -->
-foowd
 
 <!-- Load the wall -->
 
