@@ -11,7 +11,8 @@ namespace Uoowd;
 			'uid'		=> 'foowd_utility',									// id del plugin
 			'dbg'		=> 0,												// per visualizzare messaggi extra. Definito anche nel pannello utente, come apiDom
 			'imgStore'	=> 'OfferImg',										// folder in cui salvare le immagini
-			'tags'		=> 'tags.json'										// dove salvare il json contenente i tags
+			'tags'		=> 'tags.json',										// dove salvare il json contenente i tags
+			'utilAMD'	=> 'mod/foowd_utility/js/utility.settings.amd.js'	// file js contenente i settings e che viene aggiornato ad ogni salvataggio
 		);
 	
 		public static function __callStatic($name, $arguments){

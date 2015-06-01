@@ -35,7 +35,6 @@ $fadd->createField('Maxqt', 'Quantita\' massima', 'input/spinner', array("decima
 
 ?>
 
-
 <div class="elgg-foot">
     <?php 
         // la guid mi serve per salvare il file temporaneo

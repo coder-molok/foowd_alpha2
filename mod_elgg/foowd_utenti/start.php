@@ -121,4 +121,27 @@ function user_list($segments){
 }
 
 
+function checkUser(){
 
+    $user = elgg_get_logged_in_user_entity();
+    $guid = $user->guid;
+    // echo $guid;
+    // echo $user->Genre;
+
+    if($user){
+        if(!isset($user->Genre)){
+            var_dump('not set');
+
+            $user->Genre = 'offerente';
+            // $data['type']= "create";
+            // $data['ExternalId'] = $guid;
+
+            // $r = \Uoowd\API::Request('user', 'POST', $data);
+
+
+
+            exit(0);
+        }
+    }
+
+}

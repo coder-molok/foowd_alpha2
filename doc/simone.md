@@ -3,6 +3,18 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 
 
+### 01/06/2015
+
+- risolta [issue#51](https://github.com/coder-molok/foowd_alpha2/issues/51):
+
+    la soluzione si basa su quanto precedentemente svolto, ma in chiave **AMD**.
+
+    > **IMPORTANTISSIMO**
+    > 
+    > per poter accedere alle configurazioni generali in chiave puramente javascript, e' necessario andare nei setting di **foowd_utility** e salvarli una volta: in questo modo viene generato in automatico un modulo AMD contenente i settings salvati (attualmente solo la url API).
+
+
+
 ### 30/05/2015
 
 - corretto bug di commit issue#57: introduceva un errore nella creazione di una nuova offerta.

@@ -1,0 +1,1 @@
+define({"api":"http:\/\/localhost\/api_foowd\/public_html\/api\/","dbg":"1"});
