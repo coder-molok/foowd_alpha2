@@ -9,7 +9,6 @@
 
 elgg_gatekeeper();
 
-
 // $form = 'foowd_utility/uploader';//get_input('sticky');
 // $sticky = new \Uoowd\Sticky($form);
 
@@ -23,8 +22,8 @@ $guid = 'User-'.get_input('guid');
 $dir = str_replace('\\', '/', \Uoowd\Param::imgStore());
 $saveDir = $dir.$guid.'/';
 
-if (!file_exists($dir.'/'.$guid)) {
-    mkdir($dir.'/'.$guid, 0777, true);
+if (!file_exists($saveDir)) {
+    if(!mkdir($saveDir, 0777, true)) \Uoowd\Logger::addError('Impossibile creare: '.$saveDir);
 }
 
 

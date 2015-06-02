@@ -9,7 +9,7 @@ namespace Uoowd;
 		public static $par = array(
 			'apiDom'	=> 'http://localhost/api_foowd/public_html/api/',	// path to API
 			'uid'		=> 'foowd_utility',									// id del plugin
-			'dbg'		=> 0,												// per visualizzare messaggi extra. Definito anche nel pannello utente, come apiDom
+			'dbg'		=> 0,												// per visualizzare messaggi di errore fronthand (scritte rosse). Definito anche nel pannello utente, come apiDom
 			'imgStore'	=> 'OfferImg',										// folder in cui salvare le immagini
 			'tags'		=> 'tags.json',										// dove salvare il json contenente i tags
 			'utilAMD'	=> 'mod/foowd_utility/js/utility.settings.amd.js'	// file js contenente i settings e che viene aggiornato ad ogni salvataggio
@@ -74,18 +74,18 @@ namespace Uoowd;
 		 * @param  [type] $str [description]
 		 * @return [type]      [description]
 		 */
-		public static function logger($str){
-			date_default_timezone_set('Europe/Rome'); 
-			//$file = __DIR__.'/../../log/'.self::pid().'-'.date("y-m-d").'.log';
-			$file = elgg_get_plugins_path().self::pid().'/log//'.self::pid().'-'.date("y-m-d").'.log';
-			$old = file_get_contents($file); 
-			// var_dump($old);
-			$log = "[". date("D M j G:i:s T Y"). "] " . print_r($str, true)." \n\r";   
-			// var_dump($log);
-			$str = $log.$old;
-			// var_dump($str);
-			file_put_contents($file, $str);   
-		}
+		// public static function logger($str){
+		// 	date_default_timezone_set('Europe/Rome'); 
+		// 	//$file = __DIR__.'/../../log/'.self::pid().'-'.date("y-m-d").'.log';
+		// 	$file = elgg_get_plugins_path().self::pid().'/log//'.self::pid().'-'.date("y-m-d").'.log';
+		// 	$old = file_get_contents($file); 
+		// 	// var_dump($old);
+		// 	$log = "[". date("D M j G:i:s T Y"). "] " . print_r($str, true)." \n\r";   
+		// 	// var_dump($log);
+		// 	$str = $log.$old;
+		// 	// var_dump($str);
+		// 	file_put_contents($file, $str);   
+		// }
 
 		/**
 		 * trovo l'ultima pagina chiamante: mi permette di tracciare l'ultimo plugin foowd che la chiama.
@@ -103,9 +103,10 @@ namespace Uoowd;
 		}
 
 		public static function imgStore(){
-			$store = trim(elgg_get_root_path(), '/');
+
+			$store = elgg_get_root_path();
+			$store = rtrim($store, '/');
 			$store = explode( '/', $store);
-			// rimuovo l'ultimo, che equivale a tornare indietro di una directory
 			unset($store[count($store)-1]);
 			$store = implode($store, '/');
 			$store .= '/'.self::$par['imgStore'].'/';

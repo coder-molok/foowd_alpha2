@@ -101,9 +101,6 @@ function user_list($segments){
 
     //     return $check;
     // }
-
-
-    //\Uoowd\Param::logger($segments);
    
      $users = elgg_get_entities(array('type' => 'user', 'limit' => 0));
      var_dump(count($users));

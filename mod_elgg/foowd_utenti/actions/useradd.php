@@ -4,11 +4,7 @@
 
 // inserisco la useradd di default
 //require(elgg_get_plugins_path().'../actions/useradd.php');
-//
 
-
-
-//\Uoowd\Param::logger(elgg_get_sticky_values('Genre'));
 
 // Parte del codice e' presa da <progetto elgg>/actions/useradd.php
 

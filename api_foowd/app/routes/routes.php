@@ -9,9 +9,6 @@
  */
 $app->group('/api', function() use ($app){
 
-		file_put_contents('test.log', 'test');
-		$app->getLog()->error('test');
-
 		// gestione offerte
 		// 
 		// NB: vorrei eliminare il path /offers lasciando solo /offer per rispecchiare correttamente il nome del metodo

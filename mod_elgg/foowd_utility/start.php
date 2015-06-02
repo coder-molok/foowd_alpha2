@@ -10,7 +10,7 @@
 // 		} 
 // 	} 
 // }
-
+\Uoowd\Logger::addDebug(__FILE__);
 elgg_register_classes(elgg_get_plugins_path().'foowd_utility/classes');
 
 
@@ -46,7 +46,7 @@ function update_json($hook, $type, $url, $params){
 
 	// genero un modulo AMD contenente i settings di utility
 	$settings = elgg_get_plugin_from_id(\Uoowd\Param::uid())->getAllSettings();
-	unset($settings['tags']);
+	// unset($settings['tags']);
 	$str = 'define('.json_encode($settings) .');' ;
 	file_put_contents(\Uoowd\Param::utilAMD(), $str);
 	// var_dump($settings);

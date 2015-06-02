@@ -1,3 +1,6 @@
+
+<!--------------- API ------------------>
+
 <?php 
 
    $value = elgg_get_plugin_setting('api', \Uoowd\Param::pid() );
@@ -12,7 +15,7 @@
 </p>
 
 
-
+<!--------------- TAGS ------------------>
 <p>
 
 	<?php 
@@ -106,11 +109,65 @@ $(function(){
 });
 </script>
 
-
-
-
+<!--------------- LOG LEVEL ------------------>
 
 <?php 
+
+
+
+   $value = elgg_get_plugin_setting('LEVEL', \Uoowd\Param::pid() );
+   
+   // se non e' impostato, lo imposto
+   $value = ($value) ? $value : 'NULL';
+   
+  if($value){
+    $str = 'spunta per disabilitare il debug';
+    $v = 0;
+  }else{
+    $str = 'spunta per abilitare il debug';
+    $v = 1;
+  }
+
+  // Levels by RFC 5424
+
+  $levels = array( 'DEBUG', 'INFO', 'NOTICE', 'WARNING', 'ERROR', 'CRITICAL', 'ALERT', 'EMERGENCY');
+  // DEBUG (100): Detailed debug information.
+  // INFO (200): Interesting events. Examples: User logs in, SQL logs.
+  // NOTICE (250): Normal but significant events.
+  // WARNING (300): Exceptional occurrences that are not errors. Examples: Use of deprecated APIs, poor use of an API, undesirable things that are not necessarily wrong.
+  // ERROR (400): Runtime errors that do not require immediate action but should typically be logged and monitored.
+  // CRITICAL (500): Critical conditions. Example: Application component unavailable, unexpected exception.
+  // ALERT (550): Action must be taken immediately. Example: Entire website down, database unavailable, etc. This should trigger the SMS alerts and wake you up.
+  // EMERGENCY (600): Emergency: system is unusable.
+
+?>
+
+<p>
+  <?php 
+    echo '<label>Debug LEVEL: </label>(per gli sviluppatori)<br/>'; 
+    echo 'Valore Attuale: '. $value ; 
+    echo elgg_view('input/select',array(
+      'name' => 'params[LEVEL]',
+      //'value' => 3,
+      'options' => $levels, 
+      'value' => array($value), // valore predefinito: quello con select
+      'style' => 'margin-left: 170px;'
+      )
+
+    );
+  ?>
+  <!-- 0 vuol dire false -->
+  <!-- quando e' checked salva il valore impostato, altrimenti non fa nulla -->
+</p>
+
+
+
+
+<!--------------- LOGGER ------------------>
+
+<?php 
+
+
 
    $value = elgg_get_plugin_setting('dbg', \Uoowd\Param::pid() );
    
@@ -125,26 +182,17 @@ $(function(){
 		$v = 1;
 	}
 
-	//var_dump($vars['entity']->dbg);
 
 ?>
 
 <p>
-	<?php echo 'Debug Foowd:<br/>';  ?>
+	<?php echo 'Debug Foowd:<br/> (utilizzato per visualizzare un messaggio register_error)<br/>';  ?>
 	<!-- 0 vuol dire false -->
 	<!-- quando e' checked salva il valore impostato, altrimenti non fa nulla -->
 
    <input type="checkbox"  name="params[dbg]" value="<?php echo $v;?>" /> <?php echo $str; ?>
 
-
-
 </p>
 
 <?php
 
-// echo elgg_view('input/checkboxes', array(
-//             'options' => array('spunta per attivare il debug' => 'dbg' ) ,
-//             'value' => 0,//$vars['entity']->dbg,// 1 spuntato, 2 non
-//             'name' => 'params[dbg]',
-//             //'align' => 'vertical',
-//         ));

@@ -3,6 +3,16 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 
 
+### 02/06/2015
+
+- inserito lightbox di upload immagine offerta.
+
+- corretto bug creazione immagini sul server.
+
+- impostazione log LEVEL da setting di **foowd_utility**: utile per gli sviluppatori.
+
+
+
 ### 01/06/2015
 
 - risolta [issue#51](https://github.com/coder-molok/foowd_alpha2/issues/51):

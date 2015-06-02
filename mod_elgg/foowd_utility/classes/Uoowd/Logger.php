@@ -20,10 +20,14 @@ require_once(elgg_get_plugins_path().\Uoowd\Param::uid().'/vendor/autoload.php')
 class Logger{
 
 	public static function init(){
-	
+		
+		$level = elgg_get_plugin_setting('LEVEL', \Uoowd\Param::uid() );
+		if(! $level) $level = 'ERROR';
+		// il livello e' una costante di classe: nota come viene invocata nel pushHandler
+		$func = '\Monolog\Logger::'.$level;
 		// create a log channel
 		$log = new \Monolog\Logger('Foowd');
-		$log->pushHandler(new \Monolog\Handler\StreamHandler(elgg_get_plugins_path().\Uoowd\Param::uid().'/log//'.date("y-m-d").'.log', \Monolog\Logger::DEBUG));
+		$log->pushHandler(new \Monolog\Handler\StreamHandler(elgg_get_plugins_path().\Uoowd\Param::uid().'/log//'.date("y-m-d").'.log', constant($func)    ));
 
 		return $log;
 	}

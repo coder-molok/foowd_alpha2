@@ -30,8 +30,6 @@ class API{
 			// qui eventualmente generare il log per avvisare che curl non funziona
 		   	return false;
 		}
-		// \Uoowd\Param::logger($url);
-		// \Uoowd\Param::logger('Url:');
 		
 		// converto tutti i dati in un array da passare in formato json via curl
 		$numeric = array('Price', 'Minqt','Maxqt');
@@ -86,8 +84,6 @@ class API{
 
 		// dovrebbe ritornare un formato json
 		$output=curl_exec($ch);
-		// \Uoowd\Param::logger($output);
-		// \Uoowd\Param::logger('Api Returned:');
 		
 		//$_SESSION['my']=json_encode($url);
 		//register_error($output);

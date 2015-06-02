@@ -84,11 +84,14 @@ document.getElementById('loadedFile').addEventListener('change', function(e) {
     // preparo i dati da inviare
     var formData = new FormData();
     formData.append(this.name, file);
-    console.log(JSON.stringify(formData))
+    // console.log(JSON.stringify(formData));
 
     var guid = document.querySelector('input[name=guid]');
-    console.log(guid.value);
+    // console.log(guid.value);
     formData.append(guid.name, guid.value);
+
+    // classe per visualizzare una piccola progressbar
+    var pop = new LoadPop();
     
     // alert(JSON.stringify(formData));
     // return;
@@ -97,18 +100,29 @@ document.getElementById('loadedFile').addEventListener('change', function(e) {
 
     xhr.addEventListener('progress', function(e) {
         var done = e.position || e.loaded, total = e.totalSize || e.total;
-        console.log('xhr progress: ' + (Math.floor(done/total*1000)/10) + '%');
+        var percent = Math.floor(done/total*1000)/10;
+        if(!isFinite(percent)) percent = 100;
+        pop.progress(percent);
+        // console.log('xhr progress: ' + (Math.floor(done/total*1000)/10) + '%');
     }, false);
     if ( xhr.upload ) {
         xhr.upload.onprogress = function(e) {
             var done = e.position || e.loaded, total = e.totalSize || e.total;
-            console.log('xhr.upload progress: ' + done + ' / ' + total + ' = ' + (Math.floor(done/total*1000)/10) + '%');
+            var percent = Math.floor(done/total*1000)/10;
+            if(!isFinite(percent)) percent = 100;
+            pop.progress(percent);
+            // console.log('xhr.upload progress: ' + done + ' / ' + total + ' = ' + percent + '%');
         };
     }
     xhr.onreadystatechange = function(e) {
+        
+                
         if ( 4 == this.readyState ) {
+            
+            pop.complete();
+            
             console.log(['xhr upload complete', e]);
-            console.log(JSON.stringify(xhr.responseText));
+            // console.log(JSON.stringify(xhr.responseText));
 
             var obj = null;
             try{
@@ -389,6 +403,68 @@ function preview(img, selection) {
     }
 
 }
+
+
+// vedere foowd_offerte.css per gli elementi
+var LoadPop =  function(){
+
+    // lightbox
+    this.div=document.createElement("div");
+    this.div.className = 'foowd-lightbox';
+    document.body.appendChild(this.div);
+
+    // container progress
+    this.box = document.createElement('div');
+    this.box.className='progress-container';
+    this.div.appendChild(this.box);
+
+    // la barra progress 
+    this.x = document.createElement("PROGRESS");
+    this.x.className = 'progress-bar';
+    this.x.max = 100;
+    this.x.value = 0;
+    this.box.appendChild(this.x);
+
+    // la scritta 
+    this.t = document.createElement("span");
+    this.t.className = 'progress-value';
+    this.t.innerHTML = '0 %';
+    this.box.appendChild(this.t);
+    
+
+    // infine sistemo il box centrandolo
+    this.box.style.left = ($wSize.w - this.box.offsetWidth)/2 +'px';
+    this.box.style.top = ($wSize.h - this.box.offsetHeight)/2 +'px';
+    // this.x.insertAdjacentHTML( 'beforeBegin', '<br/>' );
+
+    
+
+    this.progress = function(percent){
+        this.x.value = Math.floor(percent);
+        this.t.innerHTML = Math.floor(percent)+' %';
+    };
+
+    this.complete = function(){
+        // console.log('done')
+        this.div.remove();
+    };
+
+}
+
+
+// dimensioni finestra
+var $wSize = (function(){
+    var w = window,
+        d = document,
+        e = d.documentElement,
+        g = d.getElementsByTagName('body')[0],
+        x = w.innerWidth || e.clientWidth || g.clientWidth,
+        y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+    return{
+        'w' : x,
+        'h' : y
+    }
+})()
 
 
 /////////////////////////// fine di tutte le costruzioni ///////////////////////	

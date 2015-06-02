@@ -35,7 +35,7 @@ if($r->response){
 forward(REFERER);
 
 function unlinkDir($dir){
-	// if(!file_exists($dir)) return;
+	if(!file_exists($dir)) return;
 	foreach (new \DirectoryIterator($dir) as $fileInfo) {
 		// se e' dot la ignoro
 		if($fileInfo->isDot()) continue;

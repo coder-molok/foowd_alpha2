@@ -196,6 +196,10 @@ class Crop{
 		    $crop['y2'] = ($h + $l)/(2*$h);
 		}
 
+		// salvo i dati del crop in formato json nella directory dell'immagine 
+		// utile per riformarla quando si modifica un'offerta
+		file_put_contents($savedir.'crop.json', json_encode($crop));
+
 		$crop['w'] = $crop['x2']-$crop['x1'];
 		$crop['h'] = $crop['y2']-$crop['y1'];
 
