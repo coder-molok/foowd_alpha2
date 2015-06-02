@@ -30,10 +30,10 @@ class ApiUser extends \Foowd\FApi{
 	 * @apiName create
 	 * @apiGroup User
 	 * 
- 	 * @apiDescription Crea una nuovo utente. 
+ 	 * @apiDescription Crea un nuovo utente. 
 	 * 
 	 * @apiParam {String} 		type 		metodo da chiamare
-	 * @apiParam {String} 		Name 		nome offerta, ovvero il titolo
+	 * @apiParam {String} 		Name 		nome dell'utente
 	 * @apiParam {Integer}  	ExternalId 	id Elgg
 	 * @apiParam {Enum}  		Genre 		{standard, offerente}: tipologia utente
 	 * @apiParam {String} 		[Location] 	luogo
@@ -81,10 +81,7 @@ class ApiUser extends \Foowd\FApi{
  	 * @apiDescription Elimina utente.
 	 * 
 	 * @apiParam {String} 		type 		metodo da chiamare
-	 * @apiParam {String} 		Name 		nome offerta, ovvero il titolo
 	 * @apiParam {Integer}  	ExternalId 	id Elgg
-	 * @apiParam {Enum}  		Genre 		{standard, offerente}: tipologia utente
-	 * @apiParam {String} 		[Location] 	luogo
 	 * 
  	 * 
 	 * @apiParamExample {json} Request-Example:
@@ -116,6 +113,42 @@ class ApiUser extends \Foowd\FApi{
 		 
 		return $Json;	
 	}
+
+
+	/**
+	 *
+	 * @api {post} /user search
+	 * @apiName search
+	 * @apiGroup User
+	 * 
+ 	 * @apiDescription Restituisce "response false" se l'ExternalId passato non corrisponde ad alcun utente,
+ 	 * 					altrimenti ritorna true e il Genere dell'utente
+	 * 
+	 * @apiParam {String} 		type 		metodo da chiamare
+	 * @apiParam {Integer}  	ExternalId 	id Elgg
+	 * 
+ 	 * 
+	 * @apiParamExample {json} Request-Example:
+	 *  {
+	 *   "type":"search",
+	 *   "ExternalId":"54"
+	 *  }
+	 *
+	 *     
+	 */	
+	public $needle_search = "ExternalId";
+	protected function search($data){
+
+		$user = \UserQuery::Create()
+				->filterByExternalId($data->ExternalId)
+				->findOne();
+
+		if(!$user) return array('errors'=>'utente inesistente.', 'response' => false);
+
+		return array('Genre'=> $user->getGenre(), 'response' => true);
+		
+	}
+
 
 }
 

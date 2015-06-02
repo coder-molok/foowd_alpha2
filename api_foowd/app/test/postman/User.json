@@ -4,17 +4,39 @@
 	"description": "",
 	"order": [
 		"29f26cc6-ec9e-fdd0-3078-e964ae4d334b",
-		"de789df8-edc4-edad-afbf-ff75f29f0099"
+		"de789df8-edc4-edad-afbf-ff75f29f0099",
+		"0a79ce29-ce7f-ad49-a42d-090298073f7c"
 	],
 	"folders": [],
 	"timestamp": 1428520370891,
-	"synced": false,
 	"owner": "",
-	"subscribed": false,
 	"remoteLink": "",
 	"public": false,
-	"write": true,
+	"createdAt": null,
+	"updatedAt": null,
+	"synced": false,
 	"requests": [
+		{
+			"id": "0a79ce29-ce7f-ad49-a42d-090298073f7c",
+			"headers": "",
+			"url": "http://localhost/api_foowd/public_html/api/user",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1433276104290,
+			"name": "Cerca Utente",
+			"description": "",
+			"collectionId": "c9d38002-c462-5153-d9b1-066dccbad5b0",
+			"responses": [],
+			"synced": false,
+			"rawModeData": "{\n    \"type\":\"search\",\n    \"ExternalId\":\"137\"\n}"
+		},
 		{
 			"id": "29f26cc6-ec9e-fdd0-3078-e964ae4d334b",
 			"headers": "Content-Type: application/json\n",

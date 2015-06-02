@@ -32,6 +32,11 @@ function utenti_init(){
 
     // estensione della sidebar
     elgg_extend_view('page/elements/sidebar', 'extend/sidebar');
+
+    // nel caso l'utente esista in Elgg, ma non sia stato registrato correttamente:
+    // ad esempio per l'amministratore che inizializza Elgg
+    checkUser();
+
 }
 
 
@@ -119,25 +124,63 @@ function user_list($segments){
 
 
 function checkUser(){
-
     $user = elgg_get_logged_in_user_entity();
+    unset($user->Genre);
     $guid = $user->guid;
-    // echo $guid;
-    // echo $user->Genre;
 
+    // se e' un utente loggato, allora continuo coi check
     if($user){
         if(!isset($user->Genre)){
-            var_dump('not set');
 
-            $user->Genre = 'offerente';
-            // $data['type']= "create";
-            // $data['ExternalId'] = $guid;
+            \Uoowd\Logger::addWarning('Utente '.$guid.' : il genere non e\' impostato');
 
-            // $r = \Uoowd\API::Request('user', 'POST', $data);
+            // se non ha il genere probabilmente non e' registrato nel DB API
+            
+            // anzitutto controllo se esiste
+            $data['type']= "search";
+            $data['ExternalId'] = $guid;
+            $r = \Uoowd\API::Request('user', 'POST', $data);
+            // var_dump($r);
+            
+            // se esiste nelle API salvo il suo genere e sono ok
+            if( $r->response ){
+                // nel caso non sia impostato il genere nelle API
+                if(!$r->Genre){
+                  \Uoowd\Logger::addError('Utente '.$guid.' , e\' registrato ma non ha Genre specificato');
+                  return false;
+                } 
+                // se tutto e' andato a buon fine, allora posso salvare
+                $user->Genre = $r->Genre;
+                return true;
+            }
 
+            
+            // se invece non e' registrato nel DB API allora gli imposto un genere di default e 
+            // lo salvo in tale DB: in caso di successo salvo anche su elgg il suo Genere, 
+            // altrimenti non lo faccio
 
+            // gli amministratori li imposto come offerenti, perche' devono accedere a tutto
+            if($user->admin){
+                $Genre = 'offerente';
+            }else{
+                $Genre = 'standard';
+            }
 
-            exit(0);
+            $data['type']= "create";
+            $data['ExternalId'] = $guid;
+            $data['Name'] = $user->name;
+            $data['Genre'] = $Genre;
+
+            $r = \Uoowd\API::Request('user', 'POST', $data);
+            
+            if(!$r->response){
+                \uoowd\Logger::addError('Utente '.$guid.' , risulta registrato, ma non si riesce a salvarlo nel DB API');
+                return false;
+            }
+
+            $user->Genre = $Genre;
+
+            return true;
         }
     }
 

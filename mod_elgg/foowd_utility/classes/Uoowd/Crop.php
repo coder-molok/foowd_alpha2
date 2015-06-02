@@ -181,7 +181,8 @@ class Crop{
 
 		$crop = get_input('crop');
 
-		if(!$crop['x1']){
+		// se non muovo la windows, di default i valori non sono istanziati
+		if( $crop['x1']==='' ){
 
 		    // normalizzo le dimensioni
 		    // list($width, $height, $type, $attr) = $File['extra'];
@@ -196,12 +197,12 @@ class Crop{
 		    $crop['y2'] = ($h + $l)/(2*$h);
 		}
 
-		// salvo i dati del crop in formato json nella directory dell'immagine 
-		// utile per riformarla quando si modifica un'offerta
-		file_put_contents($savedir.'crop.json', json_encode($crop));
-
 		$crop['w'] = $crop['x2']-$crop['x1'];
 		$crop['h'] = $crop['y2']-$crop['y1'];
+
+		// salvo i dati del crop in formato json nella directory dell'immagine 
+		// utile per riformarla quando si modifica un'offerta
+		file_put_contents($saveDir.basename($target_file).'crop.json', json_encode($crop));
 
 		// dimensioni di default thumbnail
 		$imsize['small'] = 100;

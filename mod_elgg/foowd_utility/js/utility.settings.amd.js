@@ -1,1 +1,1 @@
-define({"api":"http:\/\/localhost\/api_foowd\/public_html\/api\/","dbg":"1","LEVEL":"ERROR"});
+define({"api":"http:\/\/localhost\/api_foowd\/public_html\/api\/","dbg":"1","LEVEL":"ERROR","tags":"cibo, formaggi , alpi , toscana, \r\nappennini , aceto , arance , vino, \r\nspumante , salumi"});

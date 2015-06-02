@@ -11,6 +11,10 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 - impostazione log LEVEL da setting di **foowd_utility**: utile per gli sviluppatori.
 
+- corretto bug relativo all'utente ADMIN introducendo al contempo il controllo sul `Genre` dell'utente.
+
+- introdotta una semplice `search` per `ExternalId` nelle API `USER`, al fine di ovviare al bug di cui sopra.
+
 
 
 ### 01/06/2015

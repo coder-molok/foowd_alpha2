@@ -615,7 +615,7 @@
     "title": "create",
     "name": "create",
     "group": "User",
-    "description": "<p>Crea una nuovo utente.</p> ",
+    "description": "<p>Crea un nuovo utente.</p> ",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -631,7 +631,7 @@
             "type": "String",
             "optional": false,
             "field": "Name",
-            "description": "<p>nome offerta, ovvero il titolo</p> "
+            "description": "<p>nome dell&#39;utente</p> "
           },
           {
             "group": "Parameter",
@@ -687,31 +687,10 @@
           },
           {
             "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "Name",
-            "description": "<p>nome offerta, ovvero il titolo</p> "
-          },
-          {
-            "group": "Parameter",
             "type": "Integer",
             "optional": false,
             "field": "ExternalId",
             "description": "<p>id Elgg</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "Enum",
-            "optional": false,
-            "field": "Genre",
-            "description": "<p>{standard, offerente}: tipologia utente</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": true,
-            "field": "Location",
-            "description": "<p>luogo</p> "
           }
         ]
       },
@@ -719,6 +698,44 @@
         {
           "title": "Request-Example:",
           "content": "{\n \"type\":\"delete\",\n \"ExternalId\":\"54\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiUser.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
+    "url": "/user",
+    "title": "search",
+    "name": "search",
+    "group": "User",
+    "description": "<p>Restituisce &quot;response false&quot; se l&#39;ExternalId passato non corrisponde ad alcun utente,                     altrimenti ritorna true e il Genere dell&#39;utente</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>metodo da chiamare</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "ExternalId",
+            "description": "<p>id Elgg</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n \"type\":\"search\",\n \"ExternalId\":\"54\"\n}",
           "type": "json"
         }
       ]
