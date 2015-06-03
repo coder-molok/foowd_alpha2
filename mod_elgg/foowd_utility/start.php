@@ -18,6 +18,14 @@ elgg_register_classes(elgg_get_plugins_path().'foowd_utility/classes');
 elgg_register_event_handler('init', 'system', 'utility_init');
 
 function utility_init(){
+	
+	$oldGet = $_GET; 
+	// var_dump($_GET);
+	// $_GET['json']='';
+	// include(elgg_get_plugins_path().'foowd_utility/js/pages.php') ;
+	$_GET= $oldGet;
+	// var_dump($_GET);
+
 
 	// quando salvo i settings del plugin
 	elgg_register_plugin_hook_handler('setting', 'plugin', 'update_json');
@@ -30,6 +38,10 @@ function utility_init(){
 	elgg_define_js('utility-settings', [
 	    	'src' => \Uoowd\Param::utilAMD(),
 	    	'deps' => array('jquery')
+	]);
+
+	elgg_define_js('page', [
+	    	'src' => \Uoowd\Param::pageAMD(),
 	]);
 
 }

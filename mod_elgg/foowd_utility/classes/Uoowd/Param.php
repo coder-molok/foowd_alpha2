@@ -12,7 +12,9 @@ namespace Uoowd;
 			'dbg'		=> 0,												// per visualizzare messaggi di errore fronthand (scritte rosse). Definito anche nel pannello utente, come apiDom
 			'imgStore'	=> 'OfferImg',										// folder in cui salvare le immagini
 			'tags'		=> 'tags.json',										// dove salvare il json contenente i tags
-			'utilAMD'	=> 'mod/foowd_utility/js/utility.settings.amd.js'	// file js contenente i settings e che viene aggiornato ad ogni salvataggio
+			'utilAMD'	=> 'mod/foowd_utility/js/utility.settings.amd.js',	// file js contenente i settings e che viene aggiornato ad ogni salvataggio
+			'pageAMD' 	=> '/mod/foowd_utility/js/foowd.pages.amd.js',		// file js contenente l'elenco delle pagine di navigazione
+		   'pagePlugAMD'=> '/mod/foowd_utility/js/foowd.pages.plugin.amd.js',// file js contenente l'elenco delle pagine di navigazione
 		);
 	
 		public static function __callStatic($name, $arguments){
@@ -119,6 +121,30 @@ namespace Uoowd;
 
 		public static function tags(){
 			return elgg_get_plugins_path().'foowd_utility/views/default/plugins/foowd_utility/'.self::$par['tags'];
+		}
+
+
+		/**
+		 * restituisco la pagina specifica recuperando tutto da un file json
+		 * @param  [type] $page [description]
+		 * @return [type]       [description]
+		 */
+		public static function page($page){
+			$file = file(elgg_get_root_path().\Uoowd\Param::pageAMD());
+			// var_dump($file);
+			$json = false;
+			foreach($file as $row => $line){
+				if($json && $row!=count($file)-1){
+					$line = preg_replace('@(//.*|/\*.*\*/)@','', $line); // tolgo i commenti: sia /*... */ che // ...
+					// $line = preg_replace('@@','', $line); // tolgo i commenti
+					$json .= $line;	
+				} 
+				if(preg_match('@^define\(@', $line)) $json = ' ';
+			}
+			// var_dump($json);
+			$json = json_decode($json);
+
+			return $json->{$page};
 		}
 
 	}

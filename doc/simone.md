@@ -3,6 +3,14 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 
 
+### 03/06/2015
+
+- inserito markdown [foowd_main.md](foowd_main.md).
+
+- implementato sistema di gestione centralizzato pagine di navigazione via [foowd.pages.amd.js](../mod_elgg/foowd_utility/js/foowd.pages.amd.js).
+
+
+
 ### 02/06/2015
 
 - inserito lightbox di upload immagine offerta.

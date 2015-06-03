@@ -125,7 +125,6 @@ function user_list($segments){
 
 function checkUser(){
     $user = elgg_get_logged_in_user_entity();
-    unset($user->Genre);
     $guid = $user->guid;
 
     // se e' un utente loggato, allora continuo coi check
