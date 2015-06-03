@@ -78,13 +78,11 @@ Attualmente le immagini relative all'offeta vengono salvate in una directory sor
 
 
 
-#### Problemi nelle View
+#### Problemi nelle View e Javascript
 
 Generalmente quando non si riesce a visualizzare una view, specialmente se appena create, l'errore e' attribuibile alla cache di Elgg.
-Pertanto tentare, direttamente dal Browser e loggati coi permessi d'amministratore Elgg, di andare all'URL
+Pertanto andare nella `Dashboard` e nel widget del `Control Panel` e cliccare 
 
-````
-<sito_elgg>
-````
+    Flush the caches
 
 
