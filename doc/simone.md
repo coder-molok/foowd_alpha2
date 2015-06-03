@@ -9,6 +9,10 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 - implementato sistema di gestione centralizzato pagine di navigazione via [foowd.pages.amd.js](../mod_elgg/foowd_utility/js/foowd.pages.amd.js).
 
+- risolta [issue#55](https://github.com/coder-molok/foowd_alpha2/issues/5)
+    
+    >NB: in caso di problemi con la view ricordarsi di andare su `<site>/upgrade.php` oppure fare un `Flush the caches` dal pannello di Amministrazione.
+
 
 
 ### 02/06/2015

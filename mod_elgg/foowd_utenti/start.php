@@ -33,6 +33,16 @@ function utenti_init(){
     // estensione della sidebar
     elgg_extend_view('page/elements/sidebar', 'extend/sidebar');
 
+    // pagina del profilo
+    // elgg_view_exists('profile/detai');
+    elgg_extend_view('profile/details', 'extend/profile');
+
+
+    // Carico il mio css di default
+    $css =  'mod/'.\Uoowd\Param::pid()."/css/foowd_utenti.css";
+    elgg_register_css('userFoowdCss', $css );
+    elgg_load_css('userFoowdCss');  // If you uncomment this, the css will load every page a user views
+
     // nel caso l'utente esista in Elgg, ma non sia stato registrato correttamente:
     // ad esempio per l'amministratore che inizializza Elgg
     checkUser();

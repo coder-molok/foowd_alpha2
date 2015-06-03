@@ -14,7 +14,6 @@ namespace Uoowd;
 			'tags'		=> 'tags.json',										// dove salvare il json contenente i tags
 			'utilAMD'	=> 'mod/foowd_utility/js/utility.settings.amd.js',	// file js contenente i settings e che viene aggiornato ad ogni salvataggio
 			'pageAMD' 	=> '/mod/foowd_utility/js/foowd.pages.amd.js',		// file js contenente l'elenco delle pagine di navigazione
-		   'pagePlugAMD'=> '/mod/foowd_utility/js/foowd.pages.plugin.amd.js',// file js contenente l'elenco delle pagine di navigazione
 		);
 	
 		public static function __callStatic($name, $arguments){
