@@ -143,7 +143,7 @@ namespace Uoowd;
 			// var_dump($json);
 			$json = json_decode($json);
 
-			return $json->{$page};
+			return $json;
 		}
 
 	}

@@ -18,6 +18,7 @@ define(
 		"add" : "foowd_offerte/add",  		// form per la creazione di una nuova offerta
 		"success": "foowd_offerte/success", /* pagina di redirect in caso di salvataggio andato a buon fine */
 		"single": "foowd_offerte/single",	// visualizzazione singola offerta
-		"profile": "profile"
+		"profile": "profile",
+		"auth": "foowd_utenti/auth" 		// pagina utilizzata per il login mediante socials
 	}
 );

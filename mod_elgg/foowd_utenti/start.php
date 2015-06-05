@@ -3,6 +3,9 @@
 // classe di default
 elgg_register_classes(elgg_get_plugins_path().'foowd_utility/classes');
 
+// carico i namespace composer di questo plugin
+// require_once(elgg_get_plugins_path().\Uoowd\Param::pid().'/vendor/autoload.php');
+
 
 elgg_register_event_handler('init', 'system', 'utenti_init');
 
@@ -17,7 +20,7 @@ function utenti_init(){
     // elgg_unregister_plugin_hook_handler('register', 'user', array('\Foowd\User', 'register'));
 
     //register a new page handler: solo di prova.
-    elgg_register_page_handler('foowd_utenti', 'user_list');
+    elgg_register_page_handler('foowd_utenti', 'foowd_utenti_handler');
 
     // modifico la registrazione lato admin: non servira' quasi mai
     elgg_extend_view('forms/useradd', 'register/extend');
@@ -30,8 +33,10 @@ function utenti_init(){
     // sovrascrivo la registrazione lato elgg
     elgg_register_action("useradd", __DIR__ . "/actions/useradd.php", "admin");
 
-    // estensione della sidebar
     elgg_extend_view('page/elements/sidebar', 'extend/sidebar');
+
+    // estensione della sidebar
+    elgg_extend_view('forms/login', 'login/extend_social' /*, 450*/);
 
     // pagina del profilo
     // elgg_view_exists('profile/detai');
@@ -56,79 +61,29 @@ function utenti_init(){
  * @param  [type] $segments [description]
  * @return [type]           [description]
  */
-function user_list($segments){
+function foowd_utenti_handler($segments){
 
     
     //var_dump($segments);
 
      // test per eventuale login con google+
     if($segments[0] === 'auth'){
-        include elgg_get_plugins_path() . 'foowd_utenti/pages/auth.php';
-        return;
+        // include elgg_get_plugins_path() . 'foowd_utenti/pages/auth.php';
+        new \Foowd\SocialLogin();
+        return true;
     }
     if($segments[0] === 'indexauth'){
         define('AUTH',__DIR__.'/vendor/hybridauth/hybridauth/hybridauth/index.php' );
-        include elgg_get_plugins_path() . 'foowd_utenti/pages/indexauth.php';
-        return;
+        // include elgg_get_plugins_path() . 'foowd_utenti/pages/indexauth.php';
+        // \Uoowd\Logger::addError('ora sono prima di require auth');
+        
+        require(AUTH); 
+        // questo require in realta' esegue dei redirect, 
+        //pertanto il return sarebbe inutile
+        return true;
     }
 
-    //return;
-    $authPage = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
-
-    $config = array(
-          "base_url" => $authPage.'auh',
-          "providers" => array (
-            "Google" => array (
-              "enabled" => true,
-              "keys"    => array ( "id" => "108856046715-v5vl192ibtbit586p0klsp5oh0pl2elk.apps.googleusercontent.com", "secret" => "G95n2a3_dQHHXMNzgLZfvg71" ),
-              "scope"           => "https://www.googleapis.com/auth/userinfo.profile ". // optional
-                                   "https://www.googleapis.com/auth/userinfo.email"   , // optional
-              // "access_type"     => "offline",   // optional
-              // "approval_prompt" => "force",     // optional
-              // "hd"              => "domain.com" // optional
-        )));
-
-    var_dump($authPage);
-    var_dump($_SERVER);
-
-     
-        //require_once( "/path/to/hybridauth/Hybrid/Auth.php" );
-     
-        // $hybridauth = new \Hybrid_Auth( $config );
-     
-        // $adapter = $hybridauth->authenticate( "Google" );
-     
-        // $user_profile = $adapter->getUserProfile();
-
-        //var_dump($user_profile);
-
-
-    //     $check = true;
-
-    //     switch($segments[0]){
-    //         case 'all':
-    //             include elgg_get_plugins_path() . 'foowd_offerte/pages/foowd_offerte/all.php';
-    //             break;
-    //         default:
-    //             $check = false;
-    //             break;
-    //     }
-
-    //     return $check;
-    // }
-   
-     $users = elgg_get_entities(array('type' => 'user', 'limit' => 0));
-     var_dump(count($users));
-    foreach ($users as $user) {
-       
-        // var_dump(get_class_methods (  $user ));
-        $field = $user->Genre.'  ***  '.$user->name.'<br/>';
-
-        echo $field;
-      
-
-    }
-    return true;
+    return false;
 
 }
 

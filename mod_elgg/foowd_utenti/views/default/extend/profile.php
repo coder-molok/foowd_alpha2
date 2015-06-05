@@ -29,7 +29,7 @@ echo '<h3>Crea</h3>';
 echo '<p>per creare una nuova offerta basta cliccare qui sotto.</p>';
 echo elgg_view('output/url', array(
 		// associate to the action
-		'href' => \Uoowd\Param::page('add'),
+		'href' => \Uoowd\Param::page()->add,
 	    'text' => elgg_echo('Crea Nuova'),
 	    'class' => 'elgg-button elgg-button-delete',
     ));
@@ -41,7 +41,7 @@ echo '<h3>Visualizza Tutte</h3>';
 echo '<p>cliccando potrai visualizzare una pagina con l\'elenco delle tue offerte, ed eventualmente modifcarle.</p>';
 echo elgg_view('output/url', array(
 		// associate to the action
-		'href' => \Uoowd\Param::page('all'),
+		'href' => \Uoowd\Param::page()->all,
 	    'text' => elgg_echo('Mie Offerte'),
 	    'class' => 'elgg-button elgg-button-delete',
     ));

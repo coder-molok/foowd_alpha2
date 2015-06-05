@@ -20,6 +20,7 @@ api_foowd/sftp-config.json
 *composer.lock
 */foowd_utility/vendor/
 **/foowd_utility/tags.json
+*/foowd_utenti/vendor/
 
 # linee aggiunte da Marco Predari
 # io uso webstorm e aggiungo la cartella del progetto che crea il programma

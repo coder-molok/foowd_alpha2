@@ -2,6 +2,11 @@
 
 namespace Foowd;
 
+// Metadata associati all'utente:
+// Genre , standard o offerente
+// idAuth, per coloro che si loggano tramite facebook/google+
+// fake, valore lol solo per l'utente 373 (lo uso per test)
+
 class User {
 
 
@@ -32,6 +37,11 @@ class User {
 		//  se non si fa attenzione, potrebbero non essere coerenti con quelli dello sticky_form
 		$genre = get_input('Genre');
 		set_input('Genre', 'Genre-'.$genre);
+
+		// per eventuale registrazione mediante social
+		$idAuth = get_input('idAuth');
+		// set_input('idAuth', 'idAuth-'.$genre);
+
 		$data = $f->manageForm($form);
 		
 		// NB: il check viene fatto sugli get_input, non sugli elgg_get_sticky
@@ -62,6 +72,8 @@ class User {
 
 		// salvo metadata: 
 		$user->Genre = $genre;
+		// \Uoowd\Logger::addError('registro auth: '.$idAuth);
+		$user->idAuth = $idAuth;
 		//i metadata vengono automaticamente salvati, pertanto questo comando posso evitarlo:
 		//$user->save();
 

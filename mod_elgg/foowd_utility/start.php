@@ -75,11 +75,14 @@ function utility_page_handler($segments) {
 		case 'log':
 			\Uoowd\Logger::displayLog();
 			break;
+		case 'test':
+		    include elgg_get_plugins_path() . 'foowd_utility/test/test.php';
+		    break;
 		default:
 			$check = false;
 			break;
 	}
 
-
 	return $check;
+
 }

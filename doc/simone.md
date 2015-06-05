@@ -3,13 +3,23 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 
 
+### 05/06/2015
+
+- risolta [issue#16](https://github.com/coder-molok/foowd_alpha2/issues/16): 
+    
+    >ATTENZIONE!!!
+    > vedere [Readme.md](../mod_elgg/foowd_utenti/Readme.md#login-via-social) del plugin `foowd_utenti`.
+
+
+
+
 ### 03/06/2015
 
 - inserito markdown [foowd_main.md](foowd_main.md).
 
 - implementato sistema di gestione centralizzato pagine di navigazione via [foowd.pages.amd.js](../mod_elgg/foowd_utility/js/foowd.pages.amd.js).
 
-- risolta [issue#55](https://github.com/coder-molok/foowd_alpha2/issues/5)
+- risolta [issue#55](https://github.com/coder-molok/foowd_alpha2/issues/55)
     
     >NB: in caso di problemi con la view ricordarsi di andare su `<site>/upgrade.php` oppure fare un `Flush the caches` dal pannello di Amministrazione.
 

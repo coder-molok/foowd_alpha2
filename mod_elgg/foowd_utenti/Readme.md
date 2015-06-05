@@ -59,6 +59,42 @@ http://blog.techwheels.net/send-email-from-localhost-wamp-server-using-sendmail/
 
 
 
+Login via  Social
+=================
+
+Il sistema di login tramite socials (allo stato attuale Facebook e Google+), sfrutta la libreria [HybridAuth](https://github.com/hybridauth/hybridauth), che provvede un sistema unificato per svolgere l'autenticazione OAuth verso i principali socials.
+
+### Installazione
+
+Per il suo utilizzo e' necessario andare nella directory del plugin `foowd_utility`, dove sara' presente il file `composer.json`, e runnare da linea di comando:
+
+````
+$ composer install
+````
+
+### Configurazioni
+
+Svolta l'installazione il codice dovrebbe gia' essere funzionante, ma la libreria richiede delle configurazioni esplicite, nello specifico:
+
+#### Facebook :
+
+- seguire il link [http://hybridauth.sourceforge.net/userguide/IDProvider_info_Facebook.html](http://hybridauth.sourceforge.net/userguide/IDProvider_info_Facebook.html) per visionare gli step da svolgere per l'installazione.
+
+- nel caso si volesse rimuovere la propria sottoscrizione all'app (ad esempio per test vari), e' necessario andare nella propria pagina di facebook e:
+    + Cliccare  in alto su Facebook e seleziona Impostazioni.
+    + Cliccare su Applicazioni nella colonna sinistra.
+    + Posizionare il cursore sull'applicazione Foowd e cliccare sulla x.
+
+
+
+#### Google+:
+
+- seguire il link [http://hybridauth.sourceforge.net/userguide/IDProvider_info_Google.html](http://hybridauth.sourceforge.net/userguide/IDProvider_info_Google.html).
+
+- nel caso si volesse rimuovere la propria sottoscrizione all'app (ad esempio per test vari), e' sufficiente andare al link [https://security.google.com/settings/security/permissions](https://security.google.com/settings/security/permissions).
+
+
+
 
 Riferimenti
 ===========
