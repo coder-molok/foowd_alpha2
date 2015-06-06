@@ -44,7 +44,7 @@ function AMD(){
 	elgg_define_js('foowd', [
 	    // 'src' => '/mod/foowd_theme/views/default/js/foowd_theme/foowd.js',
 	    'src' => '/mod/foowd_theme/lib/js/foowd-AMD.js',
-	    'deps'=>array('templates', 'elgg', 'handlebars', 'utility-settings' )
+	    'deps'=>array('templates', 'elgg', 'handlebars', 'page' , 'jquery' )
 	]);
 
 	elgg_define_js('handlebars', [

@@ -111,7 +111,7 @@
 <script type="text/javascript">
 
     // require(["elgg\/dev"]);
-    require(['foowd'], function(){
+    require(['foowd', 'utility-settings'], function(){
 
       // modulo AMD definito nella sezione js di foowd_utility: 
       // tale modulo si aggiorna ogni volta che i settings vengono salvati
@@ -119,7 +119,8 @@
 
       // il modulo foowd
       var foowd = require('foowd');
-
+      // lo esporto come variabile globale per gli eventi onClick dichiarati direttamente nell'html
+      window.foowd = foowd;
       //  il modulo elgg: praticamente l'analogo dei comendi elgg_ in php
       var elgg = require('elgg');
       // console.log(elgg)

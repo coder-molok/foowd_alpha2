@@ -7,6 +7,10 @@
    	var Handlebars = require('handlebars');
       var templates = require('templates');
       var elgg = require('elgg');
+      var page = require('page'); 
+      
+      // esempio di utilizzo plugin Page
+      // alert(page.all);
 
       var foowd = (function() {
 
@@ -98,8 +102,7 @@
             var offers = content.body;
             for( var i in offers){
                var of = offers[i];
-               of.picture = elgg.get_site_url() + '../OfferImg/User-' + of.Publisher + '/' + of.Id + '/medium/' + of.Id + '.jpg';
-               console.log( of.picture );
+               of.picture = page.offerFolder + '/User-' + of.Publisher + '/' + of.Id + '/medium/' + of.Id + '.jpg';
             }
          }
          

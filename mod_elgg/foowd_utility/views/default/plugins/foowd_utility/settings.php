@@ -54,7 +54,73 @@
    <?php //echo elgg_view('input/longtext', array('name'=>'params[tags]') );?>
 
 </p>
+
+<div id="create-group">Crea Gruppo</div>
+<input type="text" id="input-group" value="bevande"/>
+
+<div id="tag-box" >
+  
+</div>
+
+<style>
+#create-group{
+  background-color: steelblue;
+  padding: 5px;
+  font-weight: bold;
+  display: inline-block;
+}
+#create-group:hover{
+  background-color: green;
+  cursor: pointer;
+  cursor: hand;
+}
+#create-group:active{
+  background-color: yellow;
+}
+
+</style>
+
+
 <script>
+// // new style
+// var createGroup = $('#create-group');
+// var inputGroup = $('#input-group');
+// var container = $('#tag-box');
+
+// $(document).on('click', '#create-group' , function(){
+//   console.log(inputGroup.val())
+//   createGroupBox();
+//   console.log('cliccked');
+// });
+
+// function createGroupBox(){
+//   var group = inputGroup.val();
+//   // fare un parser
+//   if($('#'+group).length > 0){ 
+//     alert('i tags non possono essere ripetuti!');
+//     return;
+//   }
+
+//   // $('#'+group).each(function(){
+//   //   $(this).css('background-color','red');
+//   //   console.log($('#'+group).lenght)
+//   // })
+
+//   var Jgroup = $('<div/>', {
+//                 'id' : group,
+//                 'text':group
+//               })
+//               .appendTo(container);
+//   Jgroup.append($('<input/>', {
+//        id:   'input-' + group
+//     }))
+
+// }
+
+
+
+
+// old style type
 $(function(){
 	// $('#tags').css('overflow', 'hidden');
   $('#tags').on('keyup', function(){
