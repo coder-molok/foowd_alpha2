@@ -113,7 +113,9 @@ class Crop{
 		$File = $this->File;
 
 		// parto col salvataggio dell'originale nella root del folder
-		$target_file = $saveDir.$File['name'];
+		// $target_file = $saveDir.$File['name'];
+		$target_file = $saveDir.get_input('offerGuid').'.'.pathinfo($File['name'], PATHINFO_EXTENSION);
+		// \Uoowd\Logger::addError($target_file);
 
 		// per il metodo crop()
 		$this->target = $target_file;
@@ -128,7 +130,7 @@ class Crop{
 		    //         unlink($fileInfo->getPathname());
 		    //     }
 		    // }
-		    $this->emptyDirBut($saveDir, $File['name']);
+		    $this->emptyDirBut($saveDir, $target_file);
 		} else {
 		    $r['message'] = "Purtroppo il file risulta corrotto.";
 		    $r['response'] = 'error';
@@ -202,7 +204,7 @@ class Crop{
 
 		// salvo i dati del crop in formato json nella directory dell'immagine 
 		// utile per riformarla quando si modifica un'offerta
-		file_put_contents($saveDir.basename($target_file).'crop.json', json_encode($crop));
+		file_put_contents($saveDir.pathinfo ( $target_file , PATHINFO_FILENAME).'-crop.json', json_encode($crop));
 
 		// dimensioni di default thumbnail
 		$imsize['small'] = 100;
@@ -219,10 +221,11 @@ class Crop{
 		    
 		    imagecopyresampled ( $thumb , $img , 0 , 0 , (int)($crop['x1']*$w) , (int)($crop['y1']*$h) , $l , $l , (int) ($crop['w']*$w) , (int) ($crop['h']*$h) );
 		    
-		    
-		    imagejpeg( $thumb , $sdir.basename($target_file) );
+		    // $Fname = $sdir.basename($target_file);
+		    $Fname = $sdir.get_input('offerGuid').'.jpg';
+		    imagejpeg( $thumb , $Fname );
 
-		    if(!$this->emptyDirBut($sdir, basename($target_file))) return;
+		    if(!$this->emptyDirBut($sdir, basename($Fname))) return;
 		}
 
 	}
@@ -243,6 +246,8 @@ class Crop{
 	}
 
 	public function emptyDirBut($dir, $baseName){
+
+		$baseName = basename($baseName);
 
 		// nel caso di errori di creazione, allora ritorno un errore
 		if (!file_exists($dir)){

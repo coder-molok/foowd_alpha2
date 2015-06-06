@@ -28,7 +28,7 @@ $style = 'style="display:none;"';
 if(file_exists($dir)){
 	foreach( new \DirectoryIterator($dir) as $single){
 		// non faccio controlli particolari per ora
-		if($single->isFile()){
+		if($single->isFile() && $single->getExtension() !== 'json'  ){
 		 	$img = $single->getPathname();
 		 	break;
 		 }

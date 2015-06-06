@@ -3,6 +3,15 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
 
 
 
+### 06/06/2015
+
+- risolta [issue#44](https://github.com/coder-molok/foowd_alpha2/issues/44)
+
+- risolta [issue#59](https://github.com/coder-molok/foowd_alpha2/issues/59)
+
+
+
+
 ### 05/06/2015
 
 - risolta [issue#16](https://github.com/coder-molok/foowd_alpha2/issues/16): 

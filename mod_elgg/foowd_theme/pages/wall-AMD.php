@@ -143,7 +143,7 @@
       // in questo oggetto si potrebbero inserire tutti i links del sito
       var links = (function(){
         var site = elgg.get_site_url();
-        console.log(site);
+        // console.log(site);
         var login = site + 'login';
         var profile = site + 'profile';
         return {

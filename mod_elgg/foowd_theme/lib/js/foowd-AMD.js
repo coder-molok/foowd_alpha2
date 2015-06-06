@@ -86,9 +86,23 @@
    		 */
    		function fillWall(content) {
    			$(wallId)
-   				.html(content) //contenuto 
+   				//.html(content) //contenuto 
+               .append(content)
    				.addClass('animated bounceInLeft'); //animazione
    		}
+         /*
+          * Funzione che aggiunge a ciascuna offerta il membro picture, utilizzato nel template
+          */
+         
+         function addPicture(content) {
+            var offers = content.body;
+            for( var i in offers){
+               var of = offers[i];
+               of.picture = elgg.get_site_url() + '../OfferImg/User-' + of.Publisher + '/' + of.Id + '/medium/' + of.Id + '.jpg';
+               console.log( of.picture );
+            }
+         }
+         
    		/*
    		 * Funzione che riempe il tag html con i template dei prodotti complilati
    		 */
@@ -145,6 +159,7 @@
 
    				$.get(baseUrl + offers.search + urlParams, function(data) {
    					var rawProducts = $.parseJSON(data);
+                  addPicture(rawProducts);
    					var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
    					fillWall(parsedProducts);
    				});

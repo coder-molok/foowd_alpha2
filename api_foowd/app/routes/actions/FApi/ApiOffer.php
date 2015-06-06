@@ -370,6 +370,11 @@ class ApiOffer extends \Foowd\FApi{
 					$totalQ += $pf['Qt'];
 				}
 			}
+
+			// Restituisco l'id esterno dell'utente, ovvero quello utilizzato da Elgg
+			$ar['Publisher'] = $this->IdToExt($ar['Publisher']);
+
+			// carico l'ordinazione totale
 			$ar['totalQt'] = $totalQ;
 
 			// se l'utente ha espresso una preferenza per questo prodotto, allora la aggiungo come prefer, altrimenti risulta null
@@ -597,6 +602,20 @@ class ApiOffer extends \Foowd\FApi{
 				}
 			}
 		}
+	}
+
+
+
+	/**
+	 * gli passo l'id locale di un utente e restituisce il suo externalId
+	 * @param [type] $userId [description]
+	 */
+	protected function IdToExt($userId){
+
+		$elggId = \UserQuery::Create()->filterById($userId)->findOne();
+		// eventualmente implementare un log: ci sarebbero articoli con utente indefinito...
+		if($elggId)	return $elggId->getExternalId();
+			
 	}
 
 
