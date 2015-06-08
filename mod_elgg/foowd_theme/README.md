@@ -59,15 +59,18 @@ Per utilizzare **Handlebars** suggerisco di installarlo tramite :
 
 > **Nota Template :** installare Handlebars in riga di comando serve soltanto se si intende modificare i template. **Non è essenziale per il funzionamento del plugin**
 
+Per generare i template AMD usare il seguente comando
+
+	handlebars <template1.handlebars> <template2.handlebars> -f templates-amd.js --amd
 
 
 
-### foowd.js
+### foowdAPI.js
 
-foowd.js è un modulo Javascript che contiene tutte le funzioni per interrogare le API foowd e per popolare il wall.
+foowdAPI.js è un modulo Javascript che contiene tutte le funzioni per interrogare le API foowd. In questo file sono contenute solo le chiamate alle API senza callback. Ho preferito inserirle qui in modo da scorporarle dal comportamento della singola pagina, a differenza della precedente versione.
 
-Per ora mi soffermerei solo su una cosa del modulo: all'inizio viene dichiarato un oggetto `offers` che contiene gli URL delle API da chiamare. Ora contiene solo l'indirizzo per prendere tutte le offerte in generale. Il prossimo step è estenderlo per abilitare il filtraggio delle richieste con i bottoni in alto a sinistra del wall.
+### WallController.js
+Gestisce tutte le azione relative alla pagina del wall-AMD.php, in file come questi vengono appunto richiamate le API e in questo caso usati i template di handlebars.
 
-Intuitivamente per riferirsi all'url delle richieste filtrate per prezzo bisogna scrivere : `offers.filterby.price ` è si otterrà l'URL corrispondente.
-
->**Nota Modulo** il modulo per ora espone solo una funzione che è ``` foowd.getOffers()``` tutte le altre funzioni e parametri sono privati. Si vedrà in futuro se creare metodi per modificarli.
+### ProductDetailController.js
+Analogamente come il WallController gestisce il comportamento della pagina di dettaglio dei prodotti. Qui viene richiamata l'API per ottenere una singola offerta. L'id dell'offerta è passato dal WallController tramite parametro nell'URL.
