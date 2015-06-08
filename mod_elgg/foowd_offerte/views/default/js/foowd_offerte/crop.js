@@ -72,7 +72,7 @@ var urlF = document.getElementById('url').href;
 document.getElementById('loadedFile').addEventListener('change', function(e) {
 
     // controllo sui formati
-    if(! this.value.match(/\.(jpg|jpeg|png|gif)$/) ){
+    if(! this.value.match(/\.(jpg|jpeg|png|gif)$/i) ){
          alert('Sono validi solo formati jpg - jpeg - png - gif');
          this.value = '';
          return;

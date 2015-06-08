@@ -3,6 +3,12 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 
 
 
+### 09/06/2015
+
+- introdotto controllo case insensitive sull'estensione al caricamento dell'immagine relativa all'offerta
+
+
+
 ### 08/06/2015
 
 - risolta [issue#60](https://github.com/coder-molok/foowd_alpha2/issues/60)
