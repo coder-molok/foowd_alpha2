@@ -93,103 +93,51 @@
 
 <!--main-->
 <div class="container" id="main">
-    <div class="wall">
-        <!-- Viene Riempito dal Javascript -->
-    </div>
+
 </div>
+
+<!-- Javascripts -->
+
+<!-- Vendor Libraries -->
+<!-- <script type='text/javascript' src="mod/foowd_theme//vendor/jquery/dist/jquery.min.js"></script> -->
+<!-- <script type='text/javascript' src="mod/foowd_theme/vendor/bootstrap/dist/js/bootstrap.min.js"></script> -->
+<!-- <script type="text/javascript" src="mod/foowd_theme/vendor/handlebars/handlebars.runtime.js"></script> -->
+
+<!-- Pre-Compiled Templates -->
+<!-- <script type="text/javascript" src="mod/foowd_theme/pages/templates/templates.js"></script> -->
+
 <script type="text/javascript">
+    require(['foowdAPI', 'ProductDetailController', 'utility-settings'], function(){
+      //impostazioni del plugin foowd_utility
+      var settings = require('utility-settings');
+      //interfaccia alle API di elgg
+      var API = require('foowdAPI');
+      //funzioni di elgg
+      var elgg = require('elgg');
+      //controller della pagina
+      var ProductDetailController = require('ProductDetailController');
+      //aggiungo il base url per le chiamate alle API
+      API.setBaseUrl("http://localhost/foowd_alpha2/api_foowd/public_html/api/");
 
-   //  // require(["elgg\/dev"]);
-   //  require(['foowd', 'utility-settings'], function(){
-
-   //    // modulo AMD definito nella sezione js di foowd_utility: 
-   //    // tale modulo si aggiorna ogni volta che i settings vengono salvati
-   //    var settings = require('utility-settings');
-
-   //    // il modulo foowd
-   //    var foowd = require('foowd');
-   //    // lo esporto come variabile globale per gli eventi onClick dichiarati direttamente nell'html
-   //    window.foowd = foowd;
-   //    //  il modulo elgg: praticamente l'analogo dei comendi elgg_ in php
-   //    var elgg = require('elgg');
-   //    console.log(elgg)
-
-   //    // utente elgg
-   //    var user = elgg.get_logged_in_user_entity();
-   //    var UserId = 0;
-   //    if(user) UserId = user.guid;
-
-       
-   //    //imposto i parametri nel modulo
-   //    //foowd.setBaseUrl(settings.api);
-   //    //Marco Predari -> non mi funzionava l'url e l'ho impostato a mano
-   //    foowd.setBaseUrl("http://localhost/foowd_alpha2/api_foowd/public_html/api/");
-
-   //    foowd.setUserId(UserId);
-
-   //    if(!UserId) UserId = 0;
-
-   //    //richiamo la procedura per mostrare il wall
-   //    foowd.getProducts();   
-
-
-   //    // in questo oggetto si potrebbero inserire tutti i links del sito
-   //    var links = (function(){
-   //      var site = elgg.get_site_url();
-   //      // console.log(site);
-   //      var login = site + 'login';
-   //      var profile = site + 'profile';
-   //      return {
-   //        'profile' : profile,
-   //        'login' : login
-   //      };
-   //    })();
-
-   //    // imposto il redirect dell'icona utente
-   //    var userButton = document.getElementById('userButton');
-
-   //    // inizializzo il link, ma in concreto sarebbe superfluo
-   //    setUserButton(userButton);
-      
-   //    // azione al click
-   //    userButton.onclick=function(event){
-   //      setUserButton(this);
-   //      // event.preventDefault();
-   //    };
-
-   //    // seleziono il link opportuno
-   //    function setUserButton(obj){
-   //      if(elgg.is_logged_in()){
-   //        obj.href = links.profile;
-   //      }else{
-   //        obj.href = links.login;
-   //      }
-   //    }
-
-   // });
-
-require(['foowdAPI', 'WallController', 'utility-settings'], function(){
-  //impostazioni del plugin foowd_utility
-  var settings = require('utility-settings');
-  //interfaccia alle API di elgg
-  var API = require('foowdAPI');
-  //funzioni di elgg
-  var elgg = require('elgg');
-  //controller della pagina
-  var WallController = require('WallController');
-  window.WallController = WallController;
-  //aggiungo il base url per le chiamate alle API
-  API.setBaseUrl("http://localhost/foowd_alpha2/api_foowd/public_html/api/");
-  //prendo lo user id dall'entità user di elgg
-  var user = elgg.get_logged_in_user_entity();
-  var userId = user != null ? user.guid : null;
-  //imposto lo user id nel mio modulo
-  WallController.setLocalUserId(userId);
-  //richiamo il controller per riempire il wall di prodotti
-  WallController.fillWallWithProducts();
-
-});
-    
+      ProductDetailController.getDetailsOf('#main');
+     
+   });
 </script>
+<!-- Custom Libraries -->
+<!-- <script type="text/javascript" src="mod/foowd_theme/lib/js/foowd.js"></script> -->
+
+<!-- Load the wall -->
+
+<!-- JavaScript jQuery code from Bootply.com editor  -->
+<!-- <script type='text/javascript' src="mod/foowd_theme/lib/js/toggle-layout.js"></script> -->
+
+<!-- Google analytics settings -->
+<script type="text/javascript" src="mod/foowd_theme/lib/js/google-analytics.js"></script>
+
+<!-- <div class="ad collapse in">
+    <button class="ad-btn-hide" data-toggle="collapse" data-target=".ad">&times;</button>
+    <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=bootplycom" id="_carbonads_js"></script>
+</div> -->
+
 </body>
 </html>

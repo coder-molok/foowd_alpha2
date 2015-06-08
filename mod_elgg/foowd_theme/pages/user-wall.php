@@ -49,11 +49,19 @@
 </nav>
 
 <!--main-->
-<div class="container" id="main">
-
-    <div class="wall">
-        <!-- Viene Riempito dal Javascript -->
+<div class="container-fluid" id="main">
+     <div class="center-block">
+            <img src="http://lorempixel.com/64/64/people" class = "img-responsive img-circle">
+            <div id = "details">
+                Pippo Pluto
+            </div>
+     </div>
+    <div id = "user-details" class = "row">
+       
     </div>
+    <ul id="user-preferences" class = "media-list">
+        <!-- Viene Riempito dal Javascript -->
+    </ul>
 </div>
 
 <!-- Javascripts -->

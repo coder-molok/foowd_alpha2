@@ -15,6 +15,7 @@ function foowd_theme_init() {
 	//elgg_register_page_handler('activity', 'foowd_wall_page_handler');
 	elgg_register_plugin_hook_handler('index', 'system', 'foowd_wall_page_handler');
 	elgg_register_page_handler('panel','foowd_user_wall_page_handler');
+	elgg_register_page_handler('detail', 'foowd_product_detail_page_handler');
 
 	// parte aggiunta da Simone Scardoni
 	AMD();
@@ -37,16 +38,22 @@ function foowd_user_wall_page_handler() {
 	forward("");
 }
 
+function foowd_product_detail_page_handler(){
+	if (!include_once(dirname(__FILE__) . "/pages/product-detail.php"))
+		return false;
+	return true;
+}
+
 
 // AMD LOAD
 function AMD(){
-	
-	elgg_define_js('foowd', [
-	    // 'src' => '/mod/foowd_theme/views/default/js/foowd_theme/foowd.js',
-	    'src' => '/mod/foowd_theme/lib/js/foowd-AMD.js',
-	    'deps'=>array('templates', 'elgg', 'handlebars', 'page' , 'jquery' )
+	/* 
+	 * Librerie
+	 */
+	elgg_define_js('jquery', [
+	    	'src' => 'mod/foowd_theme/vendor/jquery/dist/jquery.min.js'
 	]);
-
+	
 	elgg_define_js('handlebars', [
     	'src' => '/mod/foowd_theme/vendor/handlebars/handlebars.amd.min.js',
     	// 'deps' => array('templates'),
@@ -59,15 +66,33 @@ function AMD(){
 	   	// 'exports' => 'Handlebars'
 	]);
 
-
+	elgg_define_js('bootstrap', [
+	    	'src' => 'mod/foowd_theme/vendor/bootstrap/dist/js/bootstrap.min.js',
+	    	'deps' => array('jquery')
+	]);
+	/* 
+	 * Template di Handlebars Precompilati
+	 */
 	elgg_define_js('templates', [
 	    	'src' => '/mod/foowd_theme/pages/templates/templates-amd.js',
 	    	// 'deps'=> array('handlebars')
 	]);
+	/* 
+	 * Moduli custom foowd
+	 */
+	elgg_define_js('foowdAPI',[
+	    'src' => '/mod/foowd_theme/lib/js/foowd/foowdAPI-AMD.js',
+	    'deps'=> array('jquery', 'elgg')
+	]);	
 
-	elgg_define_js('bootstrap', [
-	    	'src' => 'mod/foowd_theme/vendor/bootstrap/dist/js/bootstrap.min.js',
-	    	'deps' => array('jquery')
+	elgg_define_js('WallController', [
+	    'src' => '/mod/foowd_theme/lib/js/foowd/WallController.js',
+	    'deps'=>array('templates', 'elgg', 'handlebars', 'page' , 'jquery' )
+	]);
+
+	elgg_define_js('ProductDetailController', [
+	    'src' => '/mod/foowd_theme/lib/js/foowd/ProductDetailController.js',
+	    'deps'=>array('templates', 'elgg', 'handlebars', 'page' , 'jquery' )
 	]);
 
 }

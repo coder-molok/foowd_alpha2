@@ -8,6 +8,7 @@
       var templates = require('templates');
       var elgg = require('elgg');
       var page = require('page'); 
+      var $ = require('jquery');
       
       // esempio di utilizzo plugin Page
       // alert(page.all);
@@ -52,6 +53,14 @@
    				Qt : "0",
    		};
    		
+         var API = {
+            getProduct : function(productId){
+               var requestURL = baseUrl + offers.search + '&Id={"min":' + productId + ', "max":' + productId + '}';
+               var deferred = $.Deferred();
+               $.get(requestURL, function(data){ deferred.resolve(data); });
+               return deferred.promise();
+            }
+         };
    		/*
    		 * Ci sono due versioni del template:
    		 *  - una per gli utenti loggati con tutte le funzioni per aggiungere i prodotti alle preferenze
@@ -131,6 +140,19 @@
    			});
    			return result;
    		}
+         /*
+          * Funzione che ritorna un prodotto specifico dato l'id
+          */
+
+         function getProduct(productId){
+            var requestURL = baseUrl + offers.search + '&Id={"min":' + productId + ', "max":' + productId + '}';
+            console.log(requestURL);
+            var deferred = $.Deferred();
+            return $.get(requestURL, function(data){
+               deferred.resolve(data);
+            });
+            return deferred.promise();
+         }
 
    		return {
 
@@ -168,7 +190,6 @@
    				});
 
    			},
-
    			/*
    			 * Funzione che aggiunge una preferenza dell'utente
    			 */
@@ -206,7 +227,34 @@
    					searchPreference = "&Tag=" + search;
    					foowd.getProducts();
    				}
-   			}
+   			},
+            goProductDetail : function(productId){
+               elgg.forward("/detail?productId=" + productId);
+            },
+            getProductInfo: function(productId){
+               //recupero l'id del prodotto dall'URL
+               var queryUrl = elgg.parse_url(window.location.href).query;
+               var sURLVariables = queryUrl.split('&');
+               var queryObject = {};
+               for(var i = 0; i < sURLVariables.length ; i++){
+                  var args = sURLVariables[i].split('=');
+                  queryObject[args[0]] = args[1];
+               }
+               //controllo che tra i parametri ci sia l'id del prodotto
+               if(!queryObject.productId){
+                  //reindirizzo alla pagina del wall
+                  elgg.forward("/");
+               }else{
+                  //chiamo l'API 
+                  API.getProduct(queryObject.productId).then(function(d){
+                     //TODO : applicare il template alla pagina
+                     console.log(d);
+                  }, function(e){
+                     console.log(e);
+                  });
+               }
+               
+            }
    		};
 
    	})(); 
