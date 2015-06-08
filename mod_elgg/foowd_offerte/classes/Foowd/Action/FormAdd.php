@@ -88,11 +88,105 @@ namespace Foowd\Action;
 		}
 
 		public function hookCreateTag($type , $input){
-			echo '<div '.elgg_format_attributes($input['attributes']).' >';
-			foreach ($input['inputs'] as $val){
-				echo elgg_view($type, $val);
+			// echo '<div '.elgg_format_attributes($input['attributes']).' >';
+			// foreach ($input['inputs'] as $val){
+			// 	echo elgg_view($type, $val);
+			// }
+			// echo '</div>';
+			
+			$css_url = 'mod/foowd_utility/bower_components/chosen/chosen.min.css';
+			elgg_register_css('chosen-css', $css_url);
+			elgg_load_css('chosen-css');
+
+
+			// set the path, define its dependencies, and what value it returns
+			// elgg_define_js('jquery.chosen', [
+			//     'src' => '/mod/foowd_utility/bower_components/chosen/chosen.jquery.min.js',
+			//     'deps' => array('jquery'),
+			//     'exports' => 'jQuery.fn.chosen',
+			// ]);
+			// elgg_require_js('jquery.chosen');
+
+			// elgg_define_js('jquery.chosen');
+			elgg_register_js('jquery.chosen', '/mod/foowd_utility/bower_components/chosen/chosen.jquery.min.js');
+			elgg_load_js('jquery.chosen');
+			// echo '<script src="/mod/foowd_utility/bower_components/chosen/chosen.jquery.min.js"></script>';
+			// $tags = elgg_get_plugin_setting('tags', \Uoowd\Param::uid());
+			// $tags = json_decode($tags);
+			// var_dump($tags);
+
+			// eventualmente al posto di chosen
+			// 		http://travistidwell.com/jquery.treeselect.js/
+			echo '<div id="chosen-container">';
+			echo '<select data-placeholder="Seleziona i Tag che vuoi inserire" style="width:350px;" class="chosen-select" multiple tabindex="6">'
+			      .'<option value=""></option>';
+
+			$i = 0;
+			$tags = $input['inputs'];
+			$hiddenInput= array();
+			foreach($tags as $category => $obj){
+			    // echo "$category \n";
+			    echo '<optgroup label="'.$category.'">';
+
+			    foreach ($obj as $single) {
+			        if($single['checked']){
+			        	$attr ='selected';
+			        	$field = '<input type="hidden" name="Tag[]" chosen-hook="'.$i.'" value="'.$single['tag'].'"/>';
+			        	array_push($hiddenInput, $field);
+			        }else{
+			        	$attr = '';
+			        }
+
+			        echo '<option value="'.$i.'" '.$attr.'>'.$single['tag'].'</option>';
+
+
+			        $i++;
+			    }
+			    echo '</optgroup>';
 			}
-			echo '</div>';
+			  echo '</select>';
+
+			  // stampo gli input hidden
+			  foreach($hiddenInput as $field){
+			  	echo $field;
+			  }
+
+			  echo '</div>';
+			?>
+
+			<script>
+			  // jQuery('body').css('background-color', 'red');
+			  $(".chosen-select").chosen();
+
+			  $('.chosen-select').on('change', function(evt, params) {
+			      // do_something(evt, params);
+			      $(this).css({'background-color': 'red'});
+			      // alert($(this).val());
+			      // console.log(JSON.stringify(evt, null, 4));
+			      // console.log(JSON.stringify(params, null, 4))
+			      console.log(params.selected);
+			      // se selezionato, aggiungo un input col suo valore
+			      if(params.selected){
+			        var Jel = $('.chosen-select option[value="'+params.selected+'"]')
+			        Jel.css('background-color','green')
+			        var tag = Jel.text();
+			        $('<input/>',{
+			            'name':'Tag[]',
+			            'chosen-hook': params.selected, // inventato da me
+			            'value': tag,
+			            'type': 'hidden'
+			        }).appendTo('#chosen-container');
+
+			      } 
+
+			      if(params.deselected){
+			        var Jel = $('#chosen-container input[chosen-hook="'+params.deselected+'"]');
+			        Jel.remove();
+			      } 
+			    });
+
+			</script>
+			<?php
 
 		}
 

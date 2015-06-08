@@ -33,6 +33,7 @@ $fadd->createField('Minqt', 'Quantita\' minima *', 'input/spinner', array("decim
 // $fadd->createField('Maxqt', 'Quantita\' massima', 'input/text', array('maxlength'=>"9"));
 $fadd->createField('Maxqt', 'Quantita\' massima', 'input/spinner', array("decimal"=>3, "integer"=>5));
 
+
 ?>
 
 <div class="elgg-foot">

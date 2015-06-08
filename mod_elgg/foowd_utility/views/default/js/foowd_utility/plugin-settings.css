@@ -1,0 +1,56 @@
+#tag-box{
+  margin-bottom: 50px;
+}
+
+#create-group, .add{
+  background-color: steelblue;
+  padding: 5px;
+  font-weight: bold;
+  display: inline-block;
+  margin: 20px;
+}
+#create-group:hover, .add:hover{
+  background-color: green;
+  cursor: pointer;
+  cursor: hand;
+}
+#create-group:active, .add:active{
+  background-color: yellow;
+}
+
+[id^="input-"]{
+  /*background-color: violet;*/
+  /*margin-left: 50px;*/
+  padding: 2px;
+}
+
+.name-group{
+  background-color: rgba(45, 45, 198, 0.32);
+  padding: 5px;
+  font-weight: bold;
+  display: inline-block; 
+  width: 170px;
+  margin-right: 150px;
+
+}
+
+.name-single{
+  /*background-color: blue;*/
+  border: 1px solid rgba(70, 130, 180, 0.59);
+  padding: 3px; 
+  /*clear:both;*/
+  margin: 0px 6px 4px 6px;
+  display: inline-block;
+}
+
+[class*=" name-"]:hover{
+  background-color: rgba(255, 0, 0, 0.6);
+  cursor: pointer;
+  cursor: hand;
+}
+
+[class*=" name-"]:hover::before{
+  content: ' x ' ;
+  margin-right: 5px;
+  border-right: 1px solid gray;
+}

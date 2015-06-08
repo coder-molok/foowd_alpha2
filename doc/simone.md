@@ -1,6 +1,20 @@
 # Commit
-elenco delle azioni principali associate ai commit svolti da Simone Scardoni.
+elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+
+
+### 08/06/2015
+
+- risolta [issue#60](https://github.com/coder-molok/foowd_alpha2/issues/60)
+
+    >NB: andare in `mod_elgg/foowd_utility` e da li digitare
+    > ````
+    > $ bower install
+    > ````
+
+- Risistemato il medoto di immissione Tags in [settings.php](../mod_elgg/foowd_utility/views/default/plugins/foowd_utility/settings.php)
+
+Puo' essere utile leggere [foowd_main.md#tags](foowd_main.md#tags) .
 
 
 ### 06/06/2015

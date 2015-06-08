@@ -19,11 +19,11 @@ elgg_register_event_handler('init', 'system', 'utility_init');
 
 function utility_init(){
 	
-	$oldGet = $_GET; 
+	// $oldGet = $_GET; 
 	// var_dump($_GET);
 	// $_GET['json']='';
 	// include(elgg_get_plugins_path().'foowd_utility/js/pages.php') ;
-	$_GET= $oldGet;
+	// $_GET= $oldGet;
 	// var_dump($_GET);
 
 
@@ -37,7 +37,7 @@ function utility_init(){
 	// elgg_register_simplecache_view('js/foowd_utility/utility-settings');
 	elgg_define_js('utility-settings', [
 	    	'src' => \Uoowd\Param::utilAMD(),
-	    	'deps' => array('jquery')
+	    	// 'deps' => array('jquery')
 	]);
 
 	elgg_define_js('page', [
@@ -50,11 +50,6 @@ function utility_init(){
 // hook del salvataggio settings
 function update_json($hook, $type, $url, $params){
 	
-	// genero un json di backup dei tags
-	$tag['tags'] = $params['value'];
-	$tag = json_encode($tag);
-	file_put_contents(\Uoowd\Param::tags(), $tag);
-
 
 	// genero un modulo AMD contenente i settings di utility
 	$settings = elgg_get_plugin_from_id(\Uoowd\Param::uid())->getAllSettings();
@@ -63,6 +58,8 @@ function update_json($hook, $type, $url, $params){
 	file_put_contents(\Uoowd\Param::utilAMD(), $str);
 	// var_dump($settings);
 
+	// genero un json di backup dei tags
+	file_put_contents(\Uoowd\Param::tags(), $settings['tags']);
 
 	// return false;
 }

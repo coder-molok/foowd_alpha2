@@ -28,21 +28,27 @@ $vars = $f->prepare_form_vars($form);
 // $fadd->createField('Tag', 'Tags (singole parole separate da una virgola) *', 'input/text');
 
 // mi serve perche' lo uso come default
-$value = elgg_get_plugin_setting('tags', \Uoowd\Param::uid() );
-$value = array_map('trim', explode(',', $value));
+$value = elgg_get_plugin_setting('tags', \Uoowd\Param::uid());
+$value = json_decode($value);
+
 // \Fprint::r($vars['Tag']);
 $checkBox = array();
-foreach($value as $i => $val){
-    // echo '<span style="margin: 10px;"><input type="radio" name="Tag['.$val.']" value="'.$val.'" checked />'.$val.'</span>';
-    if(in_array( $val, $vars['Tag'] )){
-        $checked = true;
-    }else{
-        $checked = false;
-    }
-    // echo elgg_view('input/checkbox', array('name'=>'Tag['.$val.']', 'value'=>$val, 'label'=>$val, 'checked'=>$checked)) ;
-    array_push($checkBox,  array('name'=>'Tag['.$i.']', 'value'=>$val, 'label'=>$val, 'checked'=>$checked));
+
+foreach($value as $category => $obj){
+	// var_dump($category);
+	$i = 0;
+	foreach($obj as $single){
+		if(in_array( $single, $vars['Tag'] )){
+		    $checked = true;
+		}else{
+		    $checked = false;
+		}	
+		// $var_dump($single);
+		$checkBox[$category][$i++] = array('tag'=>$single, 'checked'=>$checked);
+	}
 }
-// altrimenti verrebbe riscritto nell'array_merge qui sotto
+
+
 unset($session['Tag']);
 $vars['Tag'] = $checkBox;
 // per il css del box contenitore

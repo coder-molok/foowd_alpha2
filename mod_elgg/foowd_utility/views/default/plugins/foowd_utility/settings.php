@@ -16,164 +16,57 @@
 
 
 <!--------------- TAGS ------------------>
-<p>
+<div id="tags-hook">
 
 	<?php 
 	
 
 	elgg_load_js("jquery");
-
+  // elgg_unset_plugin_setting('tags', \Uoowd\Param::pid() );
 	$value = elgg_get_plugin_setting('tags', \Uoowd\Param::pid() );
-	// var_dump($value);
+	$json = \Uoowd\Param::tags();
+  
+  tagsBackup(dirname($json));
 
-	// se il tags non e' salvato come settings o se e' vuoto
-	if(!$value || trim($value)===''){
-		$json = \Uoowd\Param::tags();
+  // se il tags non e' salvato come settings o se e' vuoto
+  if(!$value || trim($value)===''){
 		// echo $json;
 		// se non esiste il file json in cui salvarlo
 		if(file_exists($json)){
 			// echo 'carico';
-			$value = (array) json_decode(file_get_contents($json));
-			$value = $value['tags'];
+			$value =  file_get_contents($json);
 		}else{
 			$value = '';
 		}
 	} 
 
-	// numero di riche
-	$row = count(explode("\n", $value));
+
 
 	// registro un hook a questo submit
 
 	echo '<label>TAGS:</label><br/>';  
-	?>
-	<!-- mi serve js perche' la validita' dei tags la testo prima del submit -->
-	<noscript><div style="color:red;">Mi dispiace, ma per inserire i tags devi avere abilitato javascript.</div></noscript>
-   <textarea id="tags" name="params[tags]" rows="<?php echo $row; ?>" cols="50"><?php echo $value; ?></textarea>
-   <div style="font-style: italic; font-size:11px;">Puoi inserire singole parole separate da virgola e andare a capo.</div>
-   <?php //echo elgg_view('input/longtext', array('name'=>'params[tags]') );?>
-
-</p>
-
-<div id="create-group">Crea Gruppo</div>
-<input type="text" id="input-group" value="bevande"/>
-
-<div id="tag-box" >
-  
+  ?>
+  <div style="font-style: italic; font-size:11px;">
+    Cliccando sui nomi dei tags aggiunti potrai cancellarli.<br/>
+    NB: singole parole con lettere MINUSCOLE.
+  </div>
+  <!-- mi serve js perche' la validita' dei tags la testo prima del submit -->
+  <noscript><div style="color:red;">Mi dispiace, ma per inserire i tags devi avere abilitato javascript.</div></noscript>
+   <input type='hidden' id="tags" name="params[tags]" value=<?php echo $value;?> />
 </div>
 
-<style>
-#create-group{
-  background-color: steelblue;
-  padding: 5px;
-  font-weight: bold;
-  display: inline-block;
-}
-#create-group:hover{
-  background-color: green;
-  cursor: pointer;
-  cursor: hand;
-}
-#create-group:active{
-  background-color: yellow;
-}
 
-</style>
+<?php 
 
+elgg_require_js('foowd_utility/plugin-settings');
+// il comando sopra stampa
+// <script>require(['foowd_utility/plugin-settings']) </script>
 
-<script>
-// // new style
-// var createGroup = $('#create-group');
-// var inputGroup = $('#input-group');
-// var container = $('#tag-box');
+$css_url = 'mod/foowd_utility/views/default/js/foowd_utility/plugin-settings.css';
+elgg_register_css('plugin-settings', $css_url);
+elgg_load_css('plugin-settings');
 
-// $(document).on('click', '#create-group' , function(){
-//   console.log(inputGroup.val())
-//   createGroupBox();
-//   console.log('cliccked');
-// });
-
-// function createGroupBox(){
-//   var group = inputGroup.val();
-//   // fare un parser
-//   if($('#'+group).length > 0){ 
-//     alert('i tags non possono essere ripetuti!');
-//     return;
-//   }
-
-//   // $('#'+group).each(function(){
-//   //   $(this).css('background-color','red');
-//   //   console.log($('#'+group).lenght)
-//   // })
-
-//   var Jgroup = $('<div/>', {
-//                 'id' : group,
-//                 'text':group
-//               })
-//               .appendTo(container);
-//   Jgroup.append($('<input/>', {
-//        id:   'input-' + group
-//     }))
-
-// }
-
-
-
-
-// old style type
-$(function(){
-	// $('#tags').css('overflow', 'hidden');
-  $('#tags').on('keyup', function(){
-    var offset = this.offsetHeight - this.clientHeight;
-    $(this).css('height', 'auto').css('height', this.scrollHeight + offset);
-  });
-  // faccio qui un check dei tags
-  $('form').on('submit', function(evt){
-  	var tags = $('#tags').val();
-
-  	var check = true;
-
-  	// elimino le linee vuote
-  	tags = tags.replace(/^\s*[\r\n]/gm,'');
-  	// elimino la virgola finale e la riga vuota
-  	// tags = tags.replace(/,\n$/g,'').replace(/^$/, '');
-  	$('#tags').val(tags);
-  	
-  	tags = tags.split(/\r?\n/);
-  	for(var i in tags){
-
-  		line = tags[i];
-  		console.log(line);
-
-  		if(!line.match(/, +$/)) tags[i] += ',';
-
-  		if(i == tags.length-1) tags[i] = tags[i].replace(/,$/g, "");
-  		console.log(JSON.stringify(tags[i]));
-
-  		if(line.match(/[\u00E0-\u00FC]/gi)){
-  			alert('lettere accentate vietate');
-  			check = false;
-  		}
-
-  		if(line.match(/\w+ +\w+/g)){
-  			alert('tra due parole DEVI inserire la virgola');
-  			check = false;
-  		}
-  		// elimino le virgole consecutive e gli spazi finali tra una virgola e la fine linea
-  		tags[i] = tags[i].replace(/,+ +,+/g, '').replace(/ +$/g,'');
-
-  		
-  	}
-
-  	// salvo i cambiamenti
-  	$('#tags').val(tags.join(" \n"));
-  	// check = false;
-  	if(!check) evt.preventDefault();
-
-
-  })
-});
-</script>
+?>
 
 <!--------------- LOG LEVEL ------------------>
 
@@ -262,3 +155,44 @@ $(function(){
 
 <?php
 
+function tagsBackup($dir){
+
+  $saveDir = $dir.'/backup/';
+
+  $created = true;
+  if (!file_exists($saveDir)) {
+      $created = mkdir($saveDir, 0777, true);
+  }
+  if(!$created){
+    var_dump('Attenzione, la directory di backup non e\' stata creata.');
+    return;
+  }
+
+  // ad ogni salvataggio dei settings viene generato un file tags.json,
+  // che pertanto e' il piu' recente e ne salvo una copia di backup
+  $src = $dir.'/tags.json';
+  $time = filemtime($src);
+  $date = date('Y-m-d', $time);
+  $dest = $saveDir.$date.'_tags.json';
+  copy($src, $dest);
+
+  // tengo memorizzati solo gli ultimi 10 backup
+  foreach( new \DirectoryIterator($saveDir) as $f ){
+    if($f->isFile() && $f->getExtension() == 'json'){
+
+      // $ar['date']=date('Y-m-d', $f->getATime());
+      // $ar['bname']=$f->getFilename();
+      // $ar['fname']= pathinfo($f->getFilename(), PATHINFO_FILENAME);
+      $ar['path']=$f->getPathname();
+      $files[$f->getMTime()] = $f->getPathname();
+    
+    }
+  }
+
+  // riordino dalla piu recente alla piu vecchia
+  ksort($files);
+  $files = array_reverse($files);
+
+  // tengo solo le ultime 7
+  
+}

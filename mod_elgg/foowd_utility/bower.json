@@ -1,0 +1,20 @@
+{
+  "name": "foowd_utility js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/coder-molok/foowd_alpha2",
+  "authors": [
+    "Simone Scardoni"
+  ],
+  "description": "raccolta di script",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "chosen": "harvesthq/bower-chosen#~1.4.2"
+  }
+}
