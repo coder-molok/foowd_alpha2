@@ -32,14 +32,25 @@ Nel pannello raggiunto e' possibile inserire:
 - Impostare il livello di Debug (per sviluppatori);
 - Impostre la visualizzazione del popup *"register_error()"* impostando la voce di Debug con la spunta;
 
+##### Tags
+
+Nel caso vengano cancellati per sbaglio, e' stata impostata una directory di backup all'interno di `/mod_elgg/foowd_utility/views/default/plugins/foowd_utility/`, dove vengono salvate in formato json le sette piu' recenti versioni dei tags (per giorno).
+
+Qualora si voglia ripristinare una di queste, basta copiarla in `/mod_elgg/foowd_utility/views/default/plugins/foowd_utility/` e salvarla come `tags.json` in modo da sovrascrivere la precedente.
+
 
 
 ### Javascript
 
 qualora si volesse utilizzare l'implementazione `AMD` con `Requirejs` , ho messo a disposizione i seguenti files:
 
-- [utility.settings.amd.js](../mod_elgg/foowd_utility/js/utility.settings.amd.js) , che permette di utilizzare i settings impostati 
-- [foowd.pages.amd.js](../mod_elgg/foowd_utility/js/foowd.pages.amd.js) , che permette raccoglie l'elenco delle pagine impostate nei plugins
+- [utility.settings.amd.js](../mod_elgg/foowd_utility/js/utility.settings.amd.js) , che permette di utilizzare i settings impostati. 
+    
+    Definito in [start.php](../mod_elgg/foowd_utility/start.php) viene richiamato in require con stringra `utility-settings`
+
+- [foowd.pages.amd.js](../mod_elgg/foowd_utility/js/foowd.pages.amd.js) , che permette raccoglie l'elenco delle pagine impostate nei plugins.
+    
+    Definito in [start.php](../mod_elgg/foowd_utility/start.php) viene richiamato in require con stringra `utility-settings`
 
 
 
