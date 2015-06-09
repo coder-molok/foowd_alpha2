@@ -49,17 +49,20 @@ function utility_init(){
 
 // hook del salvataggio settings
 function update_json($hook, $type, $url, $params){
-	
 
 	// genero un modulo AMD contenente i settings di utility
 	$settings = elgg_get_plugin_from_id(\Uoowd\Param::uid())->getAllSettings();
 	// unset($settings['tags']);
 	$str = 'define('.json_encode($settings) .');' ;
-	file_put_contents(\Uoowd\Param::utilAMD(), $str);
+	if(! file_put_contents(\Uoowd\Param::utilAMD(), $str)) {
+		\Uoowd\Logger::addError('Errore nel salvataggio di '.\Uoowd\Param::utilAMD());;
+	}
 	// var_dump($settings);
 
 	// genero un json di backup dei tags
-	file_put_contents(\Uoowd\Param::tags(), $settings['tags']);
+	if(! file_put_contents(\Uoowd\Param::tags(), $settings['tags']) ){
+		\Uoowd\Logger::addError('Errore nel salvataggio di '.\Uoowd\Param::tags());
+	};
 
 	// return false;
 }
