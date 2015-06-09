@@ -8,7 +8,7 @@
 
     <!-- Vendor Style Libraries -->
     <link href="mod/foowd_theme/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="mod/foowd_theme/vendor/animate/animate.css" rel="stylesheet">
+    <link href="mod/foowd_theme/vendor/animate.css/animate.css" rel="stylesheet">
 
     <!-- Flavicons (not avaiable yet) -->
 
