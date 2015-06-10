@@ -25,6 +25,9 @@ define(function(require){
    			baseUrl = url;
    		}
 
+         function isValid(el){
+            return el !== undefined && el !== null
+         }
    		//ritorno il modulo
       	return{
       		setBaseUrl : setUrl,
@@ -44,18 +47,18 @@ define(function(require){
                var requestURL = baseUrl + offers.search;
                var deferred = $.Deferred();
                
-               requestURL = userId    != undefined ? requestURL + "&ExternalId=" + userId : requestURL;
-               requestURL = publisher != undefined ? requestURL + "&Publisher=" + publisher : requestURL;
-               requestURL = tags      != undefined ? requestURL + "&Tag=" + tags : requestURL;
-               requestURL = order     != undefined ? requestURL + "&order=" + order : requestURL;
+               requestURL = isValid(userId)    ? requestURL + "&ExternalId=" + userId : requestURL;
+               requestURL = isValid(publisher) ? requestURL + "&Publisher=" + publisher : requestURL;
+               requestURL = isValid(tags)      ? requestURL + "&Tag=" + tags : requestURL;
+               requestURL = isValid(order)     ? requestURL + "&order=" + order : requestURL;
 
-               if(min != undefined){
+               if(isValid(min)){
                		baseUrl += '&Id={"min":' + min;
-               		if(max != undefined){
+               		if(isValid(max)){
                			baseUrl += ', "max":' + max + '}';
                		}
                }else{
-               		if(max != undefined){
+               		if(isValid(max)){
                			baseUrl += '&Id={"max":' + max +'}';
                		}
                }
@@ -85,7 +88,7 @@ define(function(require){
                return deferred.promise();
 
       	  }
-         }
+         };
       })();
 
       return foowdAPI;

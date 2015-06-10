@@ -29,7 +29,7 @@ define(function(require){
 				  elgg.forward("/");
 				}else{
 					//template del prodotto singolo
-					var productTemplate = templates.product;
+					var productTemplate = templates.productDetail;
 					//richiamo la API per i dettagli del prodotto
 					API.getProduct(queryObject.productId).then(function(data){
 						//parso in JSON il risultato
@@ -46,7 +46,7 @@ define(function(require){
 					});
 				}
 			}
-		}
+		};
 	})();
 
 	return ProductDetailController;

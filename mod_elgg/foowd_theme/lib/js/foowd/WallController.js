@@ -28,7 +28,7 @@ define(function(require){
 	
 		Handlebars.registerHelper('prefer', function(object) {
 			var result = "";
-			if(object.data.root.prefer != null){
+			if(object.data.root.prefer !== null){
 				result = "red-heart";
 			}
 			return new Handlebars.SafeString(result);
@@ -49,7 +49,7 @@ define(function(require){
 		 */
 		function addPicture(content) {
 			var offers = content.body;
-			for( var i in offers){
+			for(var i in offers){
 			   var of = offers[i];
 			   of.picture = page.offerFolder + '/User-' + of.Publisher + '/' + of.Id + '/medium/' + of.Id + '.jpg';
 			}
@@ -88,7 +88,7 @@ define(function(require){
                   	addPicture(rawProducts);
                   	//prendo l'id dell'utente (se loggato) e vedo che template usare
   					var useTemplate = null;
-  					if(userId != null){
+  					if(userId !== null){
   						useTemplate = templates.productLogged;
   					}else{
   						useTemplate = templates.productNoLogged;
@@ -119,6 +119,11 @@ define(function(require){
 			goProductDetail : function(productId){
                elgg.forward("/detail?productId=" + productId);
             },
+            //funzione che re indirizza su una pagina generica
+            goToUserProfile : function(){
+            	elgg.forward("/profile/" + elgg.get_logged_in_user_entity().username);
+            	//elgg.forward("/profile" + elgg);
+            },
 			//funzione che riempie il wall con i prododtti del database
 			fillWallWithProducts : function(){
 				API.getProducts(userId).then(function(data){
@@ -128,7 +133,7 @@ define(function(require){
                   	addPicture(rawProducts);
                   	//prendo l'id dell'utente (se loggato) e vedo che template usare
   					var useTemplate = null;
-  					if(userId != null){
+  					if(userId !== null){
   						useTemplate = templates.productLogged;
   					}else{
   						useTemplate = templates.productNoLogged;
@@ -156,7 +161,7 @@ define(function(require){
 
    			},
    			searchProducts : searchProducts
-		}
+		};
 
 	})();
 
