@@ -26,7 +26,7 @@ class Logger{
 		// il livello e' una costante di classe: nota come viene invocata nel pushHandler
 		$func = '\Monolog\Logger::'.$level;
 		// create a log channel
-		$log = new \Monolog\Logger('Foowd');
+		$log = new \Monolog\Logger('ElggUtilityFoowd');
 		$log->pushHandler(new \Monolog\Handler\StreamHandler(elgg_get_plugins_path().\Uoowd\Param::uid().'/log//'.date("y-m-d").'.log', constant($func)    ));
 
 		return $log;

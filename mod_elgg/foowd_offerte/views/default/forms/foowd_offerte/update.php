@@ -25,12 +25,15 @@ $fadd->createField('file', 'Carica l\'immagine', 'input/file', array('id'=>'load
 $dir = \Uoowd\Param::imgStore().'User-'.$vars['guid'].'/'.$vars['Id'].'/';
 // echo $dir;
 $style = 'style="display:none;"';
+
 if(file_exists($dir)){
 	foreach( new \DirectoryIterator($dir) as $single){
 		// non faccio controlli particolari per ora
 		if($single->isFile() && $single->getExtension() !== 'json'  ){
 		 	$img = $single->getPathname();
-		 	break;
+		 	// break;
+		 }elseif($single->getExtension() === 'json'){
+		 	$oldCrop = json_decode( file_get_contents($single->getPathname()) );
 		 }
 	}
 	if($img) {
@@ -76,10 +79,10 @@ echo elgg_view('input/hidden', array('name' => 'fileBasename', 'value' => basena
     ?>
 </div> 
 <div id="crop">
-    <input type="hidden" name="crop[x1]" value="" />
-    <input type="hidden" name="crop[y1]" value="" />
-    <input type="hidden" name="crop[x2]" value="" />
-    <input type="hidden" name="crop[y2]" value="" />    
+    <input type="hidden" name="crop[x1]" value="<?php echo $oldCrop->x1; ?>" />
+    <input type="hidden" name="crop[y1]" value="<?php echo $oldCrop->y1; ?>" />
+    <input type="hidden" name="crop[x2]" value="<?php echo $oldCrop->x2; ?>" />
+    <input type="hidden" name="crop[y2]" value="<?php echo $oldCrop->y2; ?>" />    
 </div>
 <a href="image-tmp" id="url" style="display:none;">testo</a>
 
@@ -94,7 +97,7 @@ echo elgg_view('input/hidden', array('name' => 'fileBasename', 'value' => basena
 
 <?php elgg_load_js('jquery'); ?>
 <link href="<?php echo elgg_get_site_url ();?>mod/foowd_offerte/js/imgareaselect/css/imgareaselect-default.css" rel="stylesheet">
-<script type="text/javascript" src="<?php echo elgg_get_site_url ();?>mod/foowd_offerte/js/imgareaselect/scripts/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="<?php echo elgg_get_site_url ();?>mod/foowd_offerte/js/imgareaselect/scripts/jquery.min.js"></script> -->
 <script type="text/javascript" src="<?php echo elgg_get_site_url ();?>mod/foowd_offerte/js/imgareaselect/scripts/jquery.imgareaselect.pack.js"></script>
 <?php elgg_require_js(\Uoowd\Param::pid().'/use_crop'); 
 // echo \Uoowd\Param::pid().'/use_crop';
