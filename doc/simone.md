@@ -3,6 +3,16 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 
 
 
+### 10/06/2015
+
+- sistemato file [composer.json](../api_foowd/app/composer.json)
+
+- risolta [issue#63](https://github.com/coder-molok/foowd_alpha2/issues/63)
+
+- migliorato caricamento iniziale Crop Offerte
+
+
+
 ### 09/06/2015
 
 - introdotto controllo case insensitive sull'estensione al caricamento dell'immagine relativa all'offerta

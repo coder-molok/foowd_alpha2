@@ -21,7 +21,7 @@ require_once  '../app/data/generated-conf/config.php';
 // http://symfony.com/it/doc/current/cookbook/logging/monolog.html
 date_default_timezone_set('Europe/Rome');
 $logger = new \Flynsarmy\SlimMonolog\Log\MonologWriter(array(
-	'name' => 'FoowdLogger',
+	'name' => 'ApiFoowd',
     'handlers' => array(
         new \Monolog\Handler\RotatingFileHandler(__DIR__.'/../log/api.log'),
     ),

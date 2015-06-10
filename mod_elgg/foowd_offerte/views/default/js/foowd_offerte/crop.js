@@ -267,12 +267,29 @@ function start(){
 
     // imposto i dati per l'inizializzazione dello script di "crop"
     scale.setL(div.width(), div.height());
-    // faccio in modo che la finestra sia centrata nell'immagine
-    var xx1 = Math.round( ($img.width - scale.l) / 2 );
-    var xx2 = Math.round( scale.l + xx1 );
-    var yy1 = Math.round( ($img.height - scale.l) / 2 );
-    var yy2 = Math.round( scale.l + yy1 );
-    div.imgAreaSelect({ aspectRatio: '1:1', handles: true ,onSelectChange: preview ,  x1: xx1 ,y1:yy1, x2:xx2, y2:yy2});
+
+    // recupero eventuali valori di crop iniziali
+    var ar = ['x1', 'x2', 'y1', 'y2'];
+    var oldCrop = {};
+    for(var i in ar){
+        var tmp = ar[i];
+        var val = $('input[name*='+tmp+']').val();
+        if(val === ''){
+            // faccio in modo che la finestra sia centrata nell'immagine
+            switch(tmp){
+                case 'x1': oldCrop.x1 = Math.round( ($img.width - scale.l) / 2 ); break;
+                case 'x2': oldCrop.x2 = Math.round( scale.l + oldCrop.x1 ); break;
+                case 'y1': oldCrop.y1 = Math.round( ($img.height - scale.l) / 2 ); break;
+                case 'y2': oldCrop.y2 = Math.round( scale.l + oldCrop.y1 ); break;
+            }
+
+        }else{
+            if(tmp == 'x1' || tmp == 'x2')  oldCrop[tmp] = val*$img.width;
+            if(tmp == 'y1' || tmp == 'y2')  oldCrop[tmp] = val*$img.height;
+        }
+    }
+
+    div.imgAreaSelect({ aspectRatio: '1:1', handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2});
 }
 
 /**

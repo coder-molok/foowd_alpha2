@@ -5,7 +5,8 @@
         	"slim/middleware": "*",
         	"propel/propel": "2.0.*@dev",
         	"monolog/monolog": "*",
-        	"flynsarmy/slim-monolog": "*"
+        	"flynsarmy/slim-monolog": "*",
+            "symfony/symfony": "2.6.7"
     	},
 	"autoload": {
         "classmap": ["./data/generated-classes/"],
