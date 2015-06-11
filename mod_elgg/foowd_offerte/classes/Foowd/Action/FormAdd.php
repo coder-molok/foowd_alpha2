@@ -45,7 +45,8 @@ namespace Foowd\Action;
 			'Description'	=> 'errore nell\' immisione della descrizione',
 			'Price'			=> 'massimo 8 cifre + 2 decimali...',
 			// 'Tag'			=> 'i tags possono essere solo singole parole separate da virgola...',
-			'Tag'			=> 'devi selezionare almeno un tag'
+			'Tag'			=> 'devi selezionare almeno un tag',
+			'Maxqt'			=> 'la quantita\' massima deve superare o eguagliare quella minima.<br/>Se non vuoi inserire un massimo, cancella i numeri dal campo sottostante. ',
 		);
 
 		/**
@@ -54,7 +55,8 @@ namespace Foowd\Action;
 		 */
 		private $check = array(
 			'Price'		=> 'isCash',
-			'Tag'		=> 'isTag'
+			'Tag'		=> 'isTag',
+			'Maxqt'		=> 'isMax'
 		);
 
 		

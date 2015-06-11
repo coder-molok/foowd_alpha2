@@ -543,7 +543,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/offers",
+    "url": "/prefer",
     "title": "search",
     "name": "search",
     "group": "Prefer",
