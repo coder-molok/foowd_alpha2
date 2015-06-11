@@ -1,13 +1,20 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+### 11/06/2015
+
+- risolta [issue#63](https://github.com/coder-molok/foowd_alpha2/issues/63) 
+
+- risistemato grafica lista offerte in `<site_elgg>/foowd_offerte/all`
+
+    > NB: eseguire il solito flush della cache!
+
+
 
 
 ### 10/06/2015
 
 - sistemato file [composer.json](../api_foowd/app/composer.json)
-
-- risolta [issue#63](https://github.com/coder-molok/foowd_alpha2/issues/63)
 
 - migliorato caricamento iniziale Crop Offerte
 

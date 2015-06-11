@@ -296,6 +296,22 @@ abstract class Action {
 				return false;
 			} 
 		}
+
+		/**
+		 * check that Maxqt >= Minqt.
+		 * This happens only if tha Maxqt is set in forms, otherwise that's not even set between data to send to API service.
+		 * @param  [type]  $var [description]
+		 * @return boolean      [description]
+		 */
+		public function isMax($var){
+			if(get_input('Minqt') > $var ){
+				return false;
+			}
+			return true;
+		}
+
+
+
 	}
 
 

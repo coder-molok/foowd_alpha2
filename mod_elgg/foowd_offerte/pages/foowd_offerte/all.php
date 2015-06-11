@@ -9,41 +9,22 @@ $Pid = \Uoowd\Param::pid(); //plugin id
 
 $str = '';
 if($r->response){
+	$afterTitle = ", <br/>ecco le offerte che hai pubblicato";
 	foreach($r->body as $key ){
-		$str.= 'Titolo: '.$key->Name. ' Tags: '.$key->Tag."\n\r<br/>";
-		$str.= 'Contenuto: '.$key->Description. "\n\r<br/>";
-		$str.= 'Prezzo: '.$key->Price. "\n\r<br/>";
-		$str.= 'li: '.$key->Created. "\n\r<br/>";
-		$str.= 'Modified: '.$key->Modified. "\n\r<br/>";
-		$str.= elgg_view('output/url', array(
-				// associate to the action
-				'href' => elgg_get_site_url() . "action/".$Pid."/delete?Id=" . $key->Id,
-			    'text' => elgg_echo('elimina: '.$key->Id),
-			    'is_action' => true,
-			    'is_trusted' => true,
-			    'confirm' => elgg_echo('Sei sicuro di voler eliminare questa offerta: '.$key->Id),
-			    'class' => 'elgg-button elgg-button-delete',
-		    ));//."\n\r<br/><br/><br/>";
-		$str.= elgg_view('output/url', array(
-				// associate to the action
-				'href' => elgg_get_site_url() . $Pid ."/single?Id=" . $key->Id,
-			    'text' => elgg_echo('modifica: '.$key->Id),
-			    //'is_action' => true,
-			    //'is_trusted' => true,
-			    //'confirm' => elgg_echo('deleteconfirm'),
-			    'class' => 'elgg-button elgg-button-delete',
-		    ))."\n\r<br/><br/><br/>";
-	//var_dump($key);
+		$str .= elgg_view('offers/allSingle',array('single' => (array)$key,'pid'=>$Pid ,'guid'=>elgg_get_logged_in_user_guid()) );
 	}
+}else{
+	$afterTitle =", <br/>devi ancora pubblicare la tua prima offerta.";
 }
-
-// my debug
-//var_dump($_SESSION['my']);
 
 // set the title
 // for distributed plugins, be sure to use elgg_echo() for internationalization
 $user = get_user_entity_as_row(elgg_get_logged_in_user_guid());
-$title = $user->name.", <br/>ecco le offerte che hai pubblicato";
+$title = $user->name.$afterTitle.'<br/><br/>';
+
+// my debug
+//var_dump($_SESSION['my']);
+
 
 // start building the main column of the page
 $content = elgg_view_title($title);

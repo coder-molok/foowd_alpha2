@@ -619,5 +619,22 @@ class ApiOffer extends \Foowd\FApi{
 	}
 
 
+	protected function hookFSave($obj){
+
+		// faccio un controllo sulle quantita' prima del salvataggio: 
+		// la minima non deve superare la massima
+		$maxQt = $obj->getMaxqt();
+		if(!is_null($maxQt)){
+			$minQt = $obj->getMinqt();
+			if($minQt > $maxQt){
+				$Json['response']= false;
+				$Json['errors']['Maxqt'] = 'La quantita\' massima deve superare o eguagliare quella minima';
+				echo json_encode($Json);
+				exit(0);
+			}
+		} 
+
+	}
+
 }
 

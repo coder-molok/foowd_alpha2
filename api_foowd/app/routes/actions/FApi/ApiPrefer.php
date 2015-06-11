@@ -168,7 +168,7 @@ class ApiPrefer extends \Foowd\FApi{
 
 	/**
 	 *
-	 * @api {get} /offers search
+	 * @api {get} /prefer search
 	 * @apiName search
 	 * @apiGroup Prefer
 	 * 

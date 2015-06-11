@@ -70,6 +70,9 @@ abstract class FApi{
 
 	public function FSave($obj){
 
+		// ciascuna classe figlio puo' sviluppare un proprio hook da svolgere prima del salvataggio.
+		if(method_exists($this, 'hookFSave')) call_user_func(array($this, 'hookFSave'), $obj);
+
 		//return $obg->validate();
 		if (!$obj->validate()) {
 		    foreach ($obj->getValidationFailures() as $failure) {

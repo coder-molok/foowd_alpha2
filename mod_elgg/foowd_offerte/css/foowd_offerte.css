@@ -35,3 +35,74 @@
 	font-weight : bold;
 	color : #34BD34;
 }
+
+
+/******** view offers/allSingle ********/
+
+div.foowd-all-single-container > div{
+	background-color: steelblue;
+	/*display: inline;*/
+	/*position: relative;*/
+	/*display: flex;*/
+	/*justify-content: space-between;*/
+}
+.foowd-all-data {
+	/*position:absolute;*/
+	padding: 5px;
+	/*float:right;*/
+}
+
+.foowd-title{
+	font-weight: bold;
+	margin-bottom: 5px;
+	color:#519DD0;
+	font-size: 1.1em;
+}
+
+.foowd-description{
+	padding-left: 15px;
+}
+
+.foowd-all-img img{
+	border:1px solid #000000;
+}
+
+table.foowd-all-single-container td{
+	padding: 5px;
+}
+
+table.foowd-all-single-container{
+	width:100%;
+}
+
+table.foowd-all-single-container td:first-child{
+	/*background-color: red;*/
+	width:100px;
+	padding: 0px;
+}
+
+table.foowd-all-single-container td:nth-child(2){
+	/*background-color: yellow;*/
+}
+
+table.foowd-all-single-container td:nth-child(3){
+	/*background-color: green;*/
+	width:10em;
+}
+
+table.foowd-all-single-container td:nth-child(4){
+	/*background-color: green;*/
+	width:10em;
+}
+
+
+
+.foowd-all-data{
+	font-size: 0.85em;
+	font-style: italic;
+	border-left: 1px solid silver;
+}
+
+.foowd-all-data .foowd-data{
+	margin-bottom: 10px;
+}
