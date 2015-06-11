@@ -1,7 +1,8 @@
 define(function(require){
 
 	  var $ = require('jquery');
-      
+     var Utils = require('Utils');
+
       //modulo per la chiamata delle API  foowd
       var foowdAPI = (function(){
 
@@ -24,7 +25,6 @@ define(function(require){
    		function setUrl(url){
    			baseUrl = url;
    		}
-
    		//ritorno il modulo
       	return{
       		setBaseUrl : setUrl,
@@ -39,23 +39,31 @@ define(function(require){
             },
             /*
       		 * Funzione che ritorna tutti i dati relativi ad un singolo prodotto.
+             * @param userId     : id dell'utente
+             * @param match      : stringa di confronto per il nome dell'offerta
+             * @param tags       : tag dell'offerta
+             * @param publisher  : chi l'ha pubblicata
+             * @param min        : id minimo offerta
+             * @param max        : id massimo offerta
+             * @param prder      : ordine di arrivo dei dati
       		 */
-      		getProducts : function(userId, publisher, min, max, tags, order){
+      		getProducts : function(userId, match, tags, publisher, min, max, order){
                var requestURL = baseUrl + offers.search;
                var deferred = $.Deferred();
                
-               requestURL = userId    != undefined ? requestURL + "&ExternalId=" + userId : requestURL;
-               requestURL = publisher != undefined ? requestURL + "&Publisher=" + publisher : requestURL;
-               requestURL = tags      != undefined ? requestURL + "&Tag=" + tags : requestURL;
-               requestURL = order     != undefined ? requestURL + "&order=" + order : requestURL;
+               requestURL = Utils.isValid(userId)    ? requestURL + "&ExternalId=" + userId           :requestURL;
+               requestURL = Utils.isValid(publisher) ? requestURL + "&Publisher=" + publisher         :requestURL;
+               requestURL = Utils.isValid(tags)      ? requestURL + "&Tag=" + tags                    :requestURL;
+               requestURL = Utils.isValid(order)     ? requestURL + "&order=" + order                 :requestURL;
+               requestURL = Utils.isValid(match)     ? requestURL + '&match={"name":"' + match + '"}' :requestURL;
 
-               if(min != undefined){
+               if(Utils.isValid(min)){
                		baseUrl += '&Id={"min":' + min;
-               		if(max != undefined){
-               			baseUrl += ', "max":' + max + '}';
+               		if(Utils.isValid(max)){
+               			baseUrl += ',"max":' + max + '}';
                		}
                }else{
-               		if(max != undefined){
+               		if(Utils.isValid(max)){
                			baseUrl += '&Id={"max":' + max +'}';
                		}
                }
@@ -85,7 +93,7 @@ define(function(require){
                return deferred.promise();
 
       	  }
-         }
+         };
       })();
 
       return foowdAPI;
