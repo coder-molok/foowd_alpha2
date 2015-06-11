@@ -69,7 +69,7 @@
             </ul>
             <div class="navbar-form navbar-left" role="search">
               <div class="form-group">
-                <a class="navbar-brand" href = "">foowd_</a>
+                <a class="navbar-brand" onClick = "utils.goTo()">foowd_</a>
                 <input type="text" id ="searchText"class="form-control">
               </div>
               <!-- <button onclick = "foowd.searchOffers()" class="btn btn-default">Submit</button> -->
@@ -78,11 +78,11 @@
 
     <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-            <li><a id="heart" href = "">
+            <li><a id="heart">
                 <i class="glyphicon glyphicon-heart fw-menu-icon"></i>
                 </a>
             </li>
-            <li><a id="userButton" href = "" >
+            <li><a id="userButton"  onClick = "utils.goToUserProfile()">
                 <i class="glyphicon glyphicon-user fw-menu-icon"></i>
                 </a>
             </li>
@@ -96,48 +96,24 @@
 
 </div>
 
-<!-- Javascripts -->
-
-<!-- Vendor Libraries -->
-<!-- <script type='text/javascript' src="mod/foowd_theme//vendor/jquery/dist/jquery.min.js"></script> -->
-<!-- <script type='text/javascript' src="mod/foowd_theme/vendor/bootstrap/dist/js/bootstrap.min.js"></script> -->
-<!-- <script type="text/javascript" src="mod/foowd_theme/vendor/handlebars/handlebars.runtime.js"></script> -->
-
-<!-- Pre-Compiled Templates -->
-<!-- <script type="text/javascript" src="mod/foowd_theme/pages/templates/templates.js"></script> -->
-
 <script type="text/javascript">
-    require(['foowdAPI', 'ProductDetailController', 'utility-settings'], function(){
-      //impostazioni del plugin foowd_utility
-      var settings = require('utility-settings');
-      //interfaccia alle API di elgg
-      var API = require('foowdAPI');
-      //funzioni di elgg
-      var elgg = require('elgg');
-      //controller della pagina
-      var ProductDetailController = require('ProductDetailController');
-      //aggiungo il base url per le chiamate alle API
-      API.setBaseUrl("http://localhost/foowd_alpha2/api_foowd/public_html/api/");
+require(['FoowdAPI', 'ProductDetailController', 'utility-settings'], function(){
+  //impostazioni del plugin foowd_utility
+  var settings = require('utility-settings');
+  //interfaccia alle API di elgg
+  var API = require('FoowdAPI');
+  //funzioni di elgg
+  var elgg = require('elgg');
+  //controller della pagina
+  var ProductDetailController = require('ProductDetailController');
+  //funzioni di utilità
+  window.utils = require('Utils');
+  //aggiungo il base url per le chiamate alle API
+  API.setBaseUrl(settings.api);
 
-      ProductDetailController.getDetailsOf('#main');
-     
-   });
+  ProductDetailController.getDetailsOf('#main');
+
+});
 </script>
-<!-- Custom Libraries -->
-<!-- <script type="text/javascript" src="mod/foowd_theme/lib/js/foowd.js"></script> -->
-
-<!-- Load the wall -->
-
-<!-- JavaScript jQuery code from Bootply.com editor  -->
-<!-- <script type='text/javascript' src="mod/foowd_theme/lib/js/toggle-layout.js"></script> -->
-
-<!-- Google analytics settings -->
-<script type="text/javascript" src="mod/foowd_theme/lib/js/google-analytics.js"></script>
-
-<!-- <div class="ad collapse in">
-    <button class="ad-btn-hide" data-toggle="collapse" data-target=".ad">&times;</button>
-    <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=bootplycom" id="_carbonads_js"></script>
-</div> -->
-
 </body>
 </html>

@@ -1,7 +1,6 @@
 define(function(require){
 
-	var API = require('foowdAPI');
-	var Handlebars = require('handlebars');
+	var API = require('FoowdAPI');
 	var templates = require('templates');
 	var elgg = require('elgg');
 	var page = require('page'); 
@@ -20,20 +19,6 @@ define(function(require){
    				type : "create",
    				Qt : "0",
    		};
-
-   		/*
-		 * Ho registrato un helper handlebars, per modificare la classe del cuore sulla preferenza
-	     * in base ai dati che arrivano decido se applicare la classe oppure no
-	     */
-	
-		Handlebars.registerHelper('prefer', function(object) {
-			var result = "";
-			if(object.data.root.prefer !== null){
-				result = "red-heart";
-			}
-			return new Handlebars.SafeString(result);
-		});
-
    		//userId reference
    		var userId = null;
 		/*
@@ -81,7 +66,7 @@ define(function(require){
 			var textSearch = getSearchText();
 			//TODO : capire in quale parametro va il testo della ricerca
 			//		 nel caso vedere anche il file delle API
-   				API.getProducts(userId).then(function(data){
+   				API.getProducts(userId, textSearch).then(function(data){
 					//parso il JSON dei dati ricevuti
 					var rawProducts = $.parseJSON(data);
 					//(? Simo) creo aggiunga l'immagine ai dati
@@ -111,19 +96,16 @@ define(function(require){
 		});
 
 		return{
+			/*
+			 * Private Aliases
+			 */
+			searchProducts : searchProducts,
+
+
 			//funzione che setta lo user id all'interno del modulo
 			setLocalUserId : function(id){
-				userId = id;
+				if(id != 0)userId = id;
 			},
-			//re-indirizza alla pagina di dettaglio del modulo
-			goProductDetail : function(productId){
-               elgg.forward("/detail?productId=" + productId);
-            },
-            //funzione che re indirizza su una pagina generica
-            goToUserProfile : function(){
-            	elgg.forward("/profile/" + elgg.get_logged_in_user_entity().username);
-            	//elgg.forward("/profile" + elgg);
-            },
 			//funzione che riempie il wall con i prododtti del database
 			fillWallWithProducts : function(){
 				API.getProducts(userId).then(function(data){
@@ -160,7 +142,6 @@ define(function(require){
    				});
 
    			},
-   			searchProducts : searchProducts
 		};
 
 	})();

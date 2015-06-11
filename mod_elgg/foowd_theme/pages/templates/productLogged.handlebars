@@ -5,11 +5,11 @@
             <div class="pull-right">{{totalQt}}/{{Minqt}} - {{Price}}<span class="apex">€</span></div>
         </div>
         <div class="panel-thumbnail">
-            <img src="{{picture}}" class="img-responsive" onClick="WallController.goProductDetail({{Id}})">
+            <img src="{{picture}}" class="img-responsive" onClick="utils.goProductDetail({{Id}})">
             <div class="product-menu">
                 <ul class="product-menu-options">
                     <li>
-                        <a onclick="WallController.addPreference({{Id}},{{Minqt}},this)">
+                        <a onclick="utils.addPreference({{Id}},{{Minqt}},this)">
                             <i id = "like" class="glyphicon glyphicon-heart fw-menu-icon {{prefer}}"></i>
                         </a>
                     </li>

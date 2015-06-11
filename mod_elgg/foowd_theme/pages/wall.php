@@ -64,7 +64,7 @@
             </ul>
             <div class="navbar-form navbar-left" role="search">
               <div class="form-group">
-                <a class="navbar-brand" href = "">foowd_</a>
+                <a class="navbar-brand" onClick = "utils.goTo()">foowd_</a>
                 <input type="text" id ="searchText"class="form-control">
               </div>
               <!-- <button onclick = "foowd.searchOffers()" class="btn btn-default">Submit</button> -->
@@ -77,7 +77,7 @@
                 <i class="glyphicon glyphicon-heart fw-menu-icon"></i>
                 </a>
             </li>
-            <li><a id="userButton"  onClick = "WallController.goToUserProfile()">
+            <li><a id="userButton"  onClick = "utils.goToUserProfile()">
                 <i class="glyphicon glyphicon-user fw-menu-icon"></i>
                 </a>
             </li>
@@ -91,15 +91,20 @@
     </div>
 </div>
 <script type="text/javascript">
-require(['foowdAPI', 'WallController', 'utility-settings'], function(){
+require(['FoowdAPI', 'WallController', 'helpers','utility-settings'], function(){
   //impostazioni del plugin foowd_utility
   var settings = require('utility-settings');
   //interfaccia alle API di elgg
-  var API = require('foowdAPI');
+  var API = require('FoowdAPI');
   //funzioni di elgg
   var elgg = require('elgg');
+  //helpers di Handlebars
+  var helpers = require('helpers');
+  //funzioni di utility
+  window.utils = require('Utils');
   //controller della pagina
   var WallController = require('WallController');
+
   window.WallController = WallController;
   //aggiungo il base url per le chiamate alle API
   API.setBaseUrl(settings.api);

@@ -26,9 +26,9 @@ templates['productLogged'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":f
     + alias3(((helper = (helper = helpers.Price || (depth0 != null ? depth0.Price : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Price","hash":{},"data":data}) : helper)))
     + "<span class=\"apex\">€</span></div>\n        </div>\n        <div class=\"panel-thumbnail\">\n            <img src=\""
     + alias3(((helper = (helper = helpers.picture || (depth0 != null ? depth0.picture : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"picture","hash":{},"data":data}) : helper)))
-    + "\" class=\"img-responsive\" onClick=\"WallController.goProductDetail("
+    + "\" class=\"img-responsive\" onClick=\"utils.goProductDetail("
     + alias3(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Id","hash":{},"data":data}) : helper)))
-    + ")\">\n            <div class=\"product-menu\">\n                <ul class=\"product-menu-options\">\n                    <li>\n                        <a onclick=\"WallController.addPreference("
+    + ")\">\n            <div class=\"product-menu\">\n                <ul class=\"product-menu-options\">\n                    <li>\n                        <a onclick=\"utils.addPreference("
     + alias3(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Id","hash":{},"data":data}) : helper)))
     + ","
     + alias3(((helper = (helper = helpers.Minqt || (depth0 != null ? depth0.Minqt : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Minqt","hash":{},"data":data}) : helper)))
@@ -49,7 +49,7 @@ templates['productNoLogged'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main"
     + alias3(((helper = (helper = helpers.Minqt || (depth0 != null ? depth0.Minqt : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Minqt","hash":{},"data":data}) : helper)))
     + " - "
     + alias3(((helper = (helper = helpers.Price || (depth0 != null ? depth0.Price : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Price","hash":{},"data":data}) : helper)))
-    + "<span class=\"apex\">€</span></div>\n        </div>\n        <div class=\"panel-thumbnail\" onClick=\"WallController.goProductDetail("
+    + "<span class=\"apex\">€</span></div>\n        </div>\n        <div class=\"panel-thumbnail\" onClick=\"utils.goProductDetail("
     + alias3(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Id","hash":{},"data":data}) : helper)))
     + ")\">\n            <img src=\""
     + alias3(((helper = (helper = helpers.picture || (depth0 != null ? depth0.picture : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"picture","hash":{},"data":data}) : helper)))

@@ -80,10 +80,17 @@ function AMD(){
 	    	// 'deps'=> array('handlebars')
 	]);
 	/* 
+	 * Helpers di handlebars
+	 */
+	elgg_define_js('helpers', [
+	    	'src' => '/mod/foowd_theme/lib/js/HandlebarsHelpers.js',
+	    	'deps'=> array('handlebars.runtime')
+	]);
+	/* 
 	 * Moduli custom foowd
 	 */
-	elgg_define_js('foowdAPI',[
-	    'src' => '/mod/foowd_theme/lib/js/foowd/foowdAPI-AMD.js',
+	elgg_define_js('FoowdAPI',[
+	    'src' => '/mod/foowd_theme/lib/js/foowd/FoowdAPI.js',
 	    'deps'=> array('jquery', 'elgg')
 	]);	
 
@@ -96,5 +103,12 @@ function AMD(){
 	    'src' => '/mod/foowd_theme/lib/js/foowd/ProductDetailController.js',
 	    'deps'=>array('templates', 'elgg', 'handlebars', 'page' , 'jquery' )
 	]);
+	/* 
+	 * Utility
+	 */
+	elgg_define_js('Utils', [
+	    'src' => '/mod/foowd_theme/lib/js/Utils.js'
+	]);
+
 
 }
