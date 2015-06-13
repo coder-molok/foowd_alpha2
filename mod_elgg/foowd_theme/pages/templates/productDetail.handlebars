@@ -1,26 +1,35 @@
-<div class="container-fluid" id="main">
-    <div class = "row">
-        <div class="col-lg-2">
-            {{productDetails.Price}}<span class="apex">€</span>
+<div class = "row">
+    <div class="col-xs-12 col-sm-6 col-md-8">
+        <div class="number-description">
+            {{Price}}<span class="apex">€</span>
             Prezzo Unità
         </div>
-        <div class="col-lg-2">
-            {{productDetails.Price }} * {{productDetails.Minqt}}<span class="apex">€</span>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-8">
+        <div class="number-description">
+            {{math Price '*' Minqt}}<span class="apex">€</span>
             Ordine Minimo
         </div>
     </div>
-    <div class = "row">
-        <div class="col-lg-2">
-            {{productDetails.Name}}
+</div>
+<div class = "row">
+    <div class="col-xs-12 col-sm-6 col-md-8">
+        <div class="row">
+            <div class="col-xs-6 col-md-4">
+                {{Name}}
+            </div>
+            <div class="col-xs-6 col-md-4">
+            </div>
         </div>
-        <div class="col-lg-2">
-            followers
+        <div class="row">
+            <div class="col-xs-6 col-md-4">
+                {{Description}}
+            </div>
+            <div class="col-xs-6 col-md-4">
+            </div>
         </div>
-        <div class="col-lg-2">
-            share
-        </div>
-        <div class="col-lg-2">
-            <img ng-src="http://lorempixel.com/120/160/food">
-        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-8">
+       {{picture}}
     </div>
 </div>

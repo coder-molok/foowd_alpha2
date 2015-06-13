@@ -1,13 +1,14 @@
 define(function(require){
 
-	  var $ = require('jquery');
+	   var $ = require('jquery');
      var Utils = require('Utils');
+     var settings = require('utility-settings');
 
       //modulo per la chiamata delle API  foowd
       var foowdAPI = (function(){
 
       	//url di base delle API
-      	var baseUrl = "";
+      	var baseUrl = settings.api;
 
       	//struttura della chiamata alle offerete 
       	var offers = {

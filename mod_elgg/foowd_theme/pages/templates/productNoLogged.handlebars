@@ -1,19 +1,15 @@
-<div class="col-md-3">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="pull-left">{{Name}}</div>  
-            <div class="pull-right">{{totalQt}}/{{Minqt}} - {{Price}}<span class="apex">€</span></div>
+<div class="product-post">
+    <div class="product-post-header">
+        <div class="pull-left"  id="name">{{Name}}</div>  
+        <div class="pull-right" id="price">{{Price}}<span class="apex">€</span></div>
+        <div class="pull-right" id="qt-progress">{{totalQt}}/{{Minqt}} - </div>
+    </div>
+    <a onclick="utils.goProductDetail({{Id}})">
+        <div class="product-post-image-thumbnail">
+            <img src="{{picture}}" class="img-responsive" >
         </div>
-        <div class="panel-thumbnail" onClick="utils.goProductDetail({{Id}})">
-            <img src="{{picture}}" height="200" width="400" class="img-responsive">
-            <div class="product-menu">
-
-            </div>
-        </div>
-        <div class="panel-body">
-            <p>
-                {{{Description}}}
-            </p>
-        </div>
+    </a>
+    <div class="product-post-body">
+            {{{Description}}}
     </div>
 </div>

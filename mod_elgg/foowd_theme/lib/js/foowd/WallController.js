@@ -1,10 +1,16 @@
 define(function(require){
 
+	//foowd api
 	var API = require('FoowdAPI');
+	//templates pre compilati
 	var templates = require('templates');
-	var elgg = require('elgg');
-	var page = require('page'); 
+	//informazioni sulla pagina
+	var page = require('page');
+	//jQuery 
 	var $ = require('jquery');
+	//isotope per il layout degli oggetti
+	var Isotope = require('isotope');
+
 
 	var WallController = (function(){
 
@@ -20,7 +26,7 @@ define(function(require){
    				Qt : "0",
    		};
    		//userId reference
-   		var userId = null;
+   		var userId = elgg.get_logged_in_user_guid() === 0 ? null : elgg.get_logged_in_user_guid();
 		/*
 		 * Funzione che riempe il tag html con i template dei prodotti complilati
 		 */
@@ -28,6 +34,19 @@ define(function(require){
 			$(wallId)
 		  	    .html(content)
 				.addClass('animated bounceInLeft'); //animazione
+			//solo ora che ho renderizzato tutti gli elementi applicao il layout
+			applyLayout();
+
+		}
+		/*
+		 * Funcione che applica il layout egli elementi del wall
+		 */
+		function applyLayout(){
+			var layout = new Isotope(wallId ,{
+      			layoutMode: 'fitRows',
+      			itemSelector: '.product-post',
+     		  	resizesContainer : false
+    		});
 		}
 		/*
 		 * Funzione che aggiunge a ciascuna offerta il membro picture, utilizzato nel template
@@ -59,32 +78,31 @@ define(function(require){
 			context.map(function(el) {
 				result += myTemplate(el);
 			});
+
 			return result;
 		}
 		//ricerca di un prodotto specifico
 		function searchProducts(){
 			var textSearch = getSearchText();
-			//TODO : capire in quale parametro va il testo della ricerca
-			//		 nel caso vedere anche il file delle API
-   				API.getProducts(userId, textSearch).then(function(data){
-					//parso il JSON dei dati ricevuti
-					var rawProducts = $.parseJSON(data);
-					//(? Simo) creo aggiunga l'immagine ai dati
-                  	addPicture(rawProducts);
-                  	//prendo l'id dell'utente (se loggato) e vedo che template usare
-  					var useTemplate = null;
-  					if(userId !== null){
-  						useTemplate = templates.productLogged;
-  					}else{
-  						useTemplate = templates.productNoLogged;
-  					}
-  					//utilizo il template sui dati che ho ottenuto
-   					var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
-   					//riempio il wall con i prodotti 
-   					fillWall(parsedProducts);
-				},function(error){
-					console.log(error);
-				});
+			API.getProducts(userId, textSearch).then(function(data){
+				//parso il JSON dei dati ricevuti
+				var rawProducts = $.parseJSON(data);
+				//(? Simo) creo aggiunga l'immagine ai dati
+              	addPicture(rawProducts);
+              	//prendo l'id dell'utente (se loggato) e vedo che template usare
+					var useTemplate = null;
+					if(userId !== null){
+						useTemplate = templates.productLogged;
+					}else{
+						useTemplate = templates.productNoLogged;
+					}
+					//utilizo il template sui dati che ho ottenuto
+					var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
+					//riempio il wall con i prodotti 
+					fillWall(parsedProducts);
+			},function(error){
+				console.log(error);
+			});
 		}
 
 		//gestore dell'evento dell'avvenuta premuta del pulsante invio sulla casella di testo
@@ -96,16 +114,6 @@ define(function(require){
 		});
 
 		return{
-			/*
-			 * Private Aliases
-			 */
-			searchProducts : searchProducts,
-
-
-			//funzione che setta lo user id all'interno del modulo
-			setLocalUserId : function(id){
-				if(id != 0)userId = id;
-			},
 			//funzione che riempie il wall con i prododtti del database
 			fillWallWithProducts : function(){
 				API.getProducts(userId).then(function(data){

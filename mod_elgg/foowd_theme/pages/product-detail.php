@@ -55,55 +55,44 @@
     </head>
 <body>
 
-<nav class="navbar navbar-fixed-top header">
+<nav class="navbar navbar-default navbar-fixed-top header">
     <div class="container-fluid">
-        <div class="navbar-header navbar-menu">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Ordina per: <span class="caret"></span></a>
-                  <ul class="dropdown-menu" role="menu">
-                        <!-- <li><a onClick = "foowd.filterBy('date')">Data</a></li>
-                        <li><a onClick = "foowd.filterBy('price')">Prezzo</a></li> -->
-                  </ul>
-                </li>
-            </ul>
-            <div class="navbar-form navbar-left" role="search">
-              <div class="form-group">
-                <a class="navbar-brand" onClick = "utils.goTo()">foowd_</a>
-                <input type="text" id ="searchText"class="form-control">
-              </div>
-              <!-- <button onclick = "foowd.searchOffers()" class="btn btn-default">Submit</button> -->
-            </div>
-        </div>
-
-    <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav navbar-right">
-            <li><a id="heart">
-                <i class="glyphicon glyphicon-heart fw-menu-icon"></i>
-                </a>
-            </li>
-            <li><a id="userButton"  onClick = "utils.goToUserProfile()">
-                <i class="glyphicon glyphicon-user fw-menu-icon"></i>
-                </a>
-            </li>
-        </ul>
-    </div>
-    </div>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" onClick="utils.goTo()">foowd_</a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a id="heart">
+            <i class="glyphicon glyphicon-heart fw-menu-icon"></i>
+            </a>
+        </li>
+        <li><a id="userButton"  onClick = "utils.goToUserProfile()">
+            <i class="glyphicon glyphicon-user fw-menu-icon"></i>
+            </a>
+        </li>
+      </ul>
+  </div>
 </nav>
 
 <!--main-->
-<div class="container" id="main">
+<div class="container-fluid" id="main">
 
 </div>
 
 <script type="text/javascript">
-require(['FoowdAPI', 'ProductDetailController', 'utility-settings'], function(){
+require(['FoowdAPI', 'ProductDetailController', 'helpers', 'utility-settings'], function(){
   //impostazioni del plugin foowd_utility
   var settings = require('utility-settings');
   //interfaccia alle API di elgg
   var API = require('FoowdAPI');
   //funzioni di elgg
   var elgg = require('elgg');
+  //handlebars helpers
+  var helpers = require('helpers');
   //controller della pagina
   var ProductDetailController = require('ProductDetailController');
   //funzioni di utilità
