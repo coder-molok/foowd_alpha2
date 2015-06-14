@@ -67,11 +67,11 @@
       </div>
       <ul class="nav navbar-nav navbar-right">
         <li><a id="heart">
-            <i class="glyphicon glyphicon-heart fw-menu-icon"></i>
+            <i class="glyphicon glyphicon-heart fw-menu-icon header-icon"></i>
             </a>
         </li>
         <li><a id="userButton"  onClick = "utils.goToUserProfile()">
-            <i class="glyphicon glyphicon-user fw-menu-icon"></i>
+            <i class="glyphicon glyphicon-user fw-menu-icon header-icon"></i>
             </a>
         </li>
       </ul>
@@ -79,28 +79,20 @@
 </nav>
 
 <!--main-->
-<div class="container-fluid" id="main">
+<div class="container-fluid" id="product-detail-main">
 
 </div>
 
 <script type="text/javascript">
-require(['FoowdAPI', 'ProductDetailController', 'helpers', 'utility-settings'], function(){
-  //impostazioni del plugin foowd_utility
-  var settings = require('utility-settings');
-  //interfaccia alle API di elgg
-  var API = require('FoowdAPI');
-  //funzioni di elgg
-  var elgg = require('elgg');
+require(['ProductDetailController', 'helpers'], function(){
   //handlebars helpers
   var helpers = require('helpers');
   //controller della pagina
   var ProductDetailController = require('ProductDetailController');
   //funzioni di utilità
   window.utils = require('Utils');
-  //aggiungo il base url per le chiamate alle API
-  API.setBaseUrl(settings.api);
 
-  ProductDetailController.getDetailsOf('#main');
+  ProductDetailController.getDetailsOf('#product-detail-main');
 
 });
 </script>

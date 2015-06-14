@@ -3,8 +3,10 @@
  */
 
 define(function(require){
-
+    //modulo di elgg
 	var elgg = require('elgg');
+    //modulo page
+    var page = require('page');
 
 	var Utils = (function(){
 		//controlla che una data variabile sia valida
@@ -28,12 +30,19 @@ define(function(require){
 			page = isValid(page) ? page : "";
 			elgg.forward("/" + page);
 		}
+        /*
+         * Funzione che aggiunge ad una offerta il membro picture, utilizzato nel template
+         */
+        function addPicture(of) {
+            of.picture = page.offerFolder + '/User-' + of.Publisher + '/' + of.Id + '/medium/' + of.Id + '.jpg';
+        }
 
         return{
         	isValid: isValid,
         	goProductDetail: goProductDetail,
         	goToUserProfile: goToUserProfile,
         	goTo: goTo,
+            addPicture : addPicture,
         };
 	})();;
 

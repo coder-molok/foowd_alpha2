@@ -4,6 +4,8 @@ define(function(require){
 	var API = require('FoowdAPI');
 	//templates pre compilati
 	var templates = require('templates');
+	//libreria di utility
+	var utils = require('Utils');
 	//informazioni sulla pagina
 	var page = require('page');
 	//jQuery 
@@ -49,16 +51,6 @@ define(function(require){
     		});
 		}
 		/*
-		 * Funzione che aggiunge a ciascuna offerta il membro picture, utilizzato nel template
-		 */
-		function addPicture(content) {
-			var offers = content.body;
-			for(var i in offers){
-			   var of = offers[i];
-			   of.picture = page.offerFolder + '/User-' + of.Publisher + '/' + of.Id + '/medium/' + of.Id + '.jpg';
-			}
-		}
-		/*
 		 * Funzione che riempe il tag html con i template dei prodotti complilati
 		 */
 		function getSearchText() {
@@ -76,6 +68,7 @@ define(function(require){
 		function applyProductContext(context, myTemplate) {
 			var result = "";
 			context.map(function(el) {
+				utils.addPicture(el);
 				result += myTemplate(el);
 			});
 
@@ -87,19 +80,17 @@ define(function(require){
 			API.getProducts(userId, textSearch).then(function(data){
 				//parso il JSON dei dati ricevuti
 				var rawProducts = $.parseJSON(data);
-				//(? Simo) creo aggiunga l'immagine ai dati
-              	addPicture(rawProducts);
               	//prendo l'id dell'utente (se loggato) e vedo che template usare
-					var useTemplate = null;
-					if(userId !== null){
-						useTemplate = templates.productLogged;
-					}else{
-						useTemplate = templates.productNoLogged;
-					}
-					//utilizo il template sui dati che ho ottenuto
-					var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
-					//riempio il wall con i prodotti 
-					fillWall(parsedProducts);
+				var useTemplate = null;
+				if(userId !== null){
+					useTemplate = templates.productLogged;
+				}else{
+					useTemplate = templates.productNoLogged;
+				}
+				//utilizo il template sui dati che ho ottenuto
+				var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
+				//riempio il wall con i prodotti 
+				fillWall(parsedProducts);
 			},function(error){
 				console.log(error);
 			});
@@ -111,6 +102,7 @@ define(function(require){
 				searchProducts();
 				return false;
 			}
+
 		});
 
 		return{
@@ -119,11 +111,9 @@ define(function(require){
 				API.getProducts(userId).then(function(data){
 					//parso il JSON dei dati ricevuti
 					var rawProducts = $.parseJSON(data);
-					//(? Simo) creo aggiunga l'immagine ai dati
-                  	addPicture(rawProducts);
                   	//prendo l'id dell'utente (se loggato) e vedo che template usare
   					var useTemplate = null;
-  					if(userId !== null){
+  					if(utils.isValid(userId)){
   						useTemplate = templates.productLogged;
   					}else{
   						useTemplate = templates.productNoLogged;

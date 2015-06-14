@@ -1,10 +1,8 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:400);
-
 /*
  * Foowd Style
  * author: Marco Predari;
  */
-
+@import url(http://fonts.googleapis.com/css?family=Georgia);
 
 /*
  *  General Style
@@ -39,9 +37,18 @@ h3,h4,h5 {
     height: 60px;
 }
 .navbar-brand{
+    color: black;
     padding-top: 20px;
-    font-size: 24pt;
     vertical-align: middle;
+    font-family: Helvetica;
+    font-weight: bold;
+    font-variant: normal;
+    font-style: normal;
+    font-size: 25px;
+}
+
+.navbar-brand {
+    
 }
 .navbar-form input{
     margin-top: 3px;
@@ -53,13 +60,16 @@ h3,h4,h5 {
 .navbar-right{
     margin-top: 5px;
 }
+.header-icon{
+    color: white;
+}
 
 /* 
  * Wall --------------------------------------------------------------------------
  */
 .wall{
 }
-#main {
+#wall-main {
     padding-top:80px;
     margin: 0px;
     padding-right: 10px;
@@ -127,9 +137,9 @@ h3,h4,h5 {
 
 }
 .fw-menu-icon{
-    color: #ffffff;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     cursor: pointer;
+    color:white;
 }
 .apex{
     vertical-align: super;
@@ -139,3 +149,83 @@ h3,h4,h5 {
 .red-heart{
     color: red;
 }
+
+/*
+ * Product Detail
+ */
+
+#product-detail-main{
+    margin-top: 60px;
+}
+.product-info ul{
+    display:inline-block;
+}
+.action-icons{
+    position:relative;
+    float:right;
+}
+
+.action-icons li{
+    display:inline-block;
+    vertical-align:middle;
+}
+#action-heart{
+    padding:10px;
+    background: rgb(250,230,239);
+    border-radius:50%;
+}
+#action-heart > i{
+    position:relative;
+    left:-1px;
+    top:4px;
+    color:rgb(250,230,239);
+    font-size:40px;
+}
+#action-minus{
+    padding:10px;
+    background: rgb(235,235,235);
+    border-radius:50%;
+}
+#action-minus > i{
+    position:relative;
+    left:-1px;
+    color:rgb(235,235,235);
+    font-size:40px;
+}
+.number-block{
+    margin:5px;
+    padding:0px;
+    font-size:18px;
+    font-weight:bold;
+}
+.number-block > li{
+    padding:0px;
+    margin:0px;
+}
+.number-description{
+    font-size:12px;
+    font-weight:normal;
+}
+.product-picture{
+    padding:0px;
+}
+.commercial-menu > li{
+    border-top: 0.1em solid rgb(120,120,120);
+    padding:15px;
+}
+.commercial-menu > li > i{
+    vertical-align:middle;
+    color:white;
+}
+#detail-menu{
+    margin-bottom: 20px;
+}
+#detail-info-row1{
+    height:160px;
+}
+.pippo{
+    border: solid 1px black;
+}
+
+
+

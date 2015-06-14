@@ -68,17 +68,17 @@
       </div>
       <ul class="nav navbar-nav navbar-right">
         <li><a id="heart">
-            <i class="glyphicon glyphicon-heart fw-menu-icon"></i>
+            <i class="glyphicon glyphicon-heart fw-menu-icon header-icon"></i>
             </a>
         </li>
         <li><a id="userButton"  onClick = "utils.goToUserProfile()">
-            <i class="glyphicon glyphicon-user fw-menu-icon"></i>
+            <i class="glyphicon glyphicon-user fw-menu-icon header-icon"></i>
             </a>
         </li>
       </ul>
   </div>
 </nav>
-<div class="container-fluid" id="main">
+<div class="container-fluid" id="wall-main">
   <div class="wall">
   </div>
 </div>
