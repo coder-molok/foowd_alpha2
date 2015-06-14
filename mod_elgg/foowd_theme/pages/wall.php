@@ -61,11 +61,11 @@
         </button>
         <a class="navbar-brand" onClick="util.goTo()">foowd_</a>
       </div>
-      <form class="navbar-form navbar-left" role="search">
+      <div class="navbar-form navbar-left" role="search">
           <div class="form-group">
-            <input type="text" class="form-control" size = "50">
+            <input type="text" class="form-control" id="searchText" size = "50">
           </div>
-      </form>
+      </div>
       <ul class="nav navbar-nav navbar-right">
         <li><a id="heart">
             <i class="glyphicon glyphicon-heart fw-menu-icon"></i>
