@@ -92,12 +92,12 @@ function AMD(){
 
 	elgg_define_js('WallController', [
 	    'src' => '/mod/foowd_theme/lib/js/foowd/WallController.js',
-	    'deps'=>array('FoowdAPI','templates', 'elgg', 'page' , 'jquery' )
+	    'deps'=>array('FoowdAPI','templates', 'elgg', 'page' , 'jquery' , 'bootstrap')
 	]);
 
 	elgg_define_js('ProductDetailController', [
 	    'src' => '/mod/foowd_theme/lib/js/foowd/ProductDetailController.js',
-	    'deps'=>array('FoowdAPI','templates', 'elgg', 'handlebars', 'page' , 'jquery' )
+	    'deps'=>array('FoowdAPI','templates', 'elgg', 'handlebars', 'page' , 'jquery' , 'bootstrap')
 	]);
 
 	elgg_define_js('NavbarController', [

@@ -20,6 +20,14 @@ h3,h4,h5 {
     padding-bottom:10px;
 }
 
+#foowd-success, #foowd-error{
+    display: none;
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    z-index: 10000;
+}
+
 
 /* 
  *  Header -------------------------------------------------------------------------------------------

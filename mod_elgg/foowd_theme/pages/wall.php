@@ -78,13 +78,15 @@
       </ul>
   </div>
 </nav>
+</div>
 <div class="container-fluid" id="wall-main">
   <div class="wall">
   </div>
 </div>
-
+<div class="alert alert-success" role="alert" id="foowd-success"></div>
+<div class="alert alert-danger" role="alert" id="foowd-error"></div>
 <script type="text/javascript">
-require(['WallController', 'isotope-fit-columns', 'helpers'], 
+require(['WallController', 'bootstrap' ,'isotope-fit-columns', 'helpers'], 
   function(){
   //helpers di Handlebars
   var helpers = require('helpers'); 
@@ -95,7 +97,6 @@ require(['WallController', 'isotope-fit-columns', 'helpers'],
   window.WallController = WallController;
   //richiamo il controller per riempire il wall di prodotti
   WallController.fillWallWithProducts();
-
 });
 </script>
 </body>

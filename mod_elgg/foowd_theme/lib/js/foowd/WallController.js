@@ -81,16 +81,21 @@ define(function(require){
 				//parso il JSON dei dati ricevuti
 				var rawProducts = $.parseJSON(data);
               	//prendo l'id dell'utente (se loggato) e vedo che template usare
-				var useTemplate = null;
-				if(userId !== null){
-					useTemplate = templates.productLogged;
+				if(rawProducts.body.length > 0){
+					var useTemplate = null;
+					if(userId !== null){
+						useTemplate = templates.productLogged;
+					}else{
+						useTemplate = templates.productNoLogged;
+					}
+					//utilizo il template sui dati che ho ottenuto
+					var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
+					//riempio il wall con i prodotti 
+					fillWall(parsedProducts);
 				}else{
-					useTemplate = templates.productNoLogged;
+					$(searchBox).trigger('failedSearch');
 				}
-				//utilizo il template sui dati che ho ottenuto
-				var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
-				//riempio il wall con i prodotti 
-				fillWall(parsedProducts);
+
 			},function(error){
 				console.log(error);
 			});
@@ -103,6 +108,21 @@ define(function(require){
 				return false;
 			}
 
+		});
+
+		$(searchBox).on('failedSearch', function(e){
+			$('#foowd-error').text('La tua ricerca non ha prodotto risultati');
+			$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
+		});
+
+		$(searchBox).on('preferenceAdded', function(e){
+			$('#foowd-success').text('La tua preferenza è stata aggiunta');
+			$('#foowd-success').fadeIn(500).delay(3000).fadeOut(500);
+		});
+
+		$(searchBox).on('preferenceError', function(e){
+			$('#foowd-error').text("C'è stato un errore durante l'aggiuta della tua preferenza");
+			$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
 		});
 
 		return{
@@ -135,7 +155,9 @@ define(function(require){
    				API.addPreference(preference).then(function(data){
    					//nella callback setto il cuore rosso della preferenza
    					setRedHeart(el);
+   					$(searchBox).trigger('preferenceAdded');
    				}, function(error){
+   					$(searchBox).trigger('preferenceError');
    					console.log(error);
    				});
 
