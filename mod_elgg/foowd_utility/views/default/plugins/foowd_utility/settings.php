@@ -9,7 +9,7 @@
 ?>
 
 <p>
-	<?php echo '<label>Server API:</label><br/>';  ?>
+	<?php echo '<h1>Server API:</h1><br/>';  ?>
    <input type="text" name="params[api]" size="50" value="<?php echo $value; ?>" />
 
 </p>
@@ -44,7 +44,7 @@
 
 	// registro un hook a questo submit
 
-	echo '<label>TAGS:</label><br/>';  
+	echo '<h1>TAGS:</h1><br/>';  
   ?>
   <div style="font-style: italic; font-size:11px;">
     Cliccando sui nomi dei tags aggiunti potrai cancellarli.<br/>
@@ -67,6 +67,31 @@ elgg_register_css('plugin-settings', $css_url);
 elgg_load_css('plugin-settings');
 
 ?>
+
+
+
+
+<!--------------- API ------------------>
+<h1>Socials</h1>
+<br/>
+<?php 
+  $socials = array('Google-Id', 'Google-Secret', 'Facebook-Id','Facebook-Secret');
+
+  foreach($socials as $s){
+    $value = elgg_get_plugin_setting($s, \Uoowd\Param::pid() );
+
+    echo '<p>'.
+          '<label>'.$s.'</label><br/>'.
+          '<input class="socials" type="text" name="params['.$s.']" size="80" value="'.$value.'" />'.
+          '</p>';       
+
+  }
+   
+?>
+
+
+
+
 
 <!--------------- LOG LEVEL ------------------>
 
@@ -103,7 +128,7 @@ elgg_load_css('plugin-settings');
 
 <p>
   <?php 
-    echo '<label>Debug LEVEL: </label>(per gli sviluppatori)<br/>'; 
+    echo '<h1>Debug LEVEL: </h1>(per gli sviluppatori)<br/>'; 
     echo 'Valore Attuale: '. $value ; 
     echo elgg_view('input/select',array(
       'name' => 'params[LEVEL]',

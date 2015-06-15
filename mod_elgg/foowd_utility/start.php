@@ -53,6 +53,13 @@ function update_json($hook, $type, $url, $params){
 	// genero un modulo AMD contenente i settings di utility
 	$settings = elgg_get_plugin_from_id(\Uoowd\Param::uid())->getAllSettings();
 	// unset($settings['tags']);
+	
+	// rimuovo le chiavi che non voglio condividere mediante js
+	$socials = array('Google-Id', 'Google-Secret', 'Facebook-Id','Facebook-Secret');
+	foreach($socials as $s) unset($settings[$s]);
+
+
+	// salvo nel js
 	$str = 'define('.json_encode($settings) .');' ;
 	if(! file_put_contents(\Uoowd\Param::utilAMD(), $str)) {
 		\Uoowd\Logger::addError('Errore nel salvataggio di '.\Uoowd\Param::utilAMD());;

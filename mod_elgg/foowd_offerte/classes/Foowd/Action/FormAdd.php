@@ -185,6 +185,10 @@ namespace Foowd\Action;
 			        var Jel = $('#chosen-container input[chosen-hook="'+params.deselected+'"]');
 			        Jel.remove();
 			      } 
+
+			    // per collaborare con gli altri plugin
+        		$( document ).trigger( "foowd:update:tag" );
+
 			    });
 
 			</script>

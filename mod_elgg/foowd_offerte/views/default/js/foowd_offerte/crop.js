@@ -162,6 +162,9 @@ document.getElementById('loadedFile').addEventListener('change', function(e) {
 
                 div.appendChild(this);
                 // alert($img.width + ' x ' + $img.height);
+                
+                // per collaborare con gli altri plugin
+                $( document ).trigger( "foowd:update:file" );
 
                 start();
 
