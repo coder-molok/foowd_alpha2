@@ -87,16 +87,11 @@ h3,h4,h5 {
  *  Product Panels (template) -------------------------------------------------------------------------------------------
  */
 .product-post-header{
-    width: 100%;
     margin: 0px 0px 0px 0px;
     padding: 5px;
     background:transparent;
     border-color:transparent;
     position: absolute;
-
-    color: white;
-    font-size: 15px;
-    font-weight: bold;
 }
 .product-post > a{
     cursor: pointer;
