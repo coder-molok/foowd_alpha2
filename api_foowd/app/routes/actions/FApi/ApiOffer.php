@@ -307,7 +307,7 @@ class ApiOffer extends \Foowd\FApi{
 				// la $k e' il campo in cui cercare la presenza delle parole chiave,
 				// tipicamente il titolo dell'offerta o il testo.
 				foreach($value as $k => $val){
-					$val = $output = preg_split( "/(,|'| )/", $val );
+					$val = preg_split( "/(,|'| )/", $val );
 					// se sono vuoti o minori di tre li elimino
 					$j = 0;
 					$conds = array();

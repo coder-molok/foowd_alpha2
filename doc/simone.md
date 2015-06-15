@@ -1,6 +1,22 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+
+
+### 15/06/2015
+
+- check del form offerte direttamente tramite js
+
+
+
+### 13/06/2015
+
+- aggiunto caso email gia' presente in [SocialLogin.php](../mod_elgg/foowd_utenti/classes/Foowd/SocialLogin.php)
+
+- aggiunto inserimento Id e Secret della App Socials da pannello dei settings di utility foowd
+
+
+
 ### 11/06/2015
 
 - risolta [issue#63](https://github.com/coder-molok/foowd_alpha2/issues/63) 
@@ -8,7 +24,6 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 - risistemato grafica lista offerte in `<site_elgg>/foowd_offerte/all`
 
     > NB: eseguire il solito flush della cache!
-
 
 
 

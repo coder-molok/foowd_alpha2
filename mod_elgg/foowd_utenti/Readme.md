@@ -74,16 +74,23 @@ $ composer install
 
 ### Configurazioni
 
-Svolta l'installazione il codice dovrebbe gia' essere funzionante, ma la libreria richiede delle configurazioni esplicite, nello specifico:
+Svolta l'installazione il codice dovrebbe gia' essere funzionante, ma la libreria richiede delle configurazioni esplicite.
+
+Per ciascun social e' necessario creare una rispettiva app in modo da ottenere un **ID** e una **SECRET**, che dovranno poi essere inserite nel pannello d'amministrazione del sito, sotto la categoria Socials.
 
 #### Facebook :
 
-- seguire il link [http://hybridauth.sourceforge.net/userguide/IDProvider_info_Facebook.html](http://hybridauth.sourceforge.net/userguide/IDProvider_info_Facebook.html) per visionare gli step da svolgere per l'installazione.
+- seguire il link [http://hybridauth.sourceforge.net/userguide/IDProvider_info_Facebook.html](http://hybridauth.sourceforge.net/userguide/IDProvider_info_Facebook.html) per visionare gli step da svolgere per l'installazione. 
+
+    > NB: il sito da indicare nella app e' www.foowd.eu
 
 - nel caso si volesse rimuovere la propria sottoscrizione all'app (ad esempio per test vari), e' necessario andare nella propria pagina di facebook e:
     + Cliccare  in alto su Facebook e seleziona Impostazioni.
     + Cliccare su Applicazioni nella colonna sinistra.
     + Posizionare il cursore sull'applicazione Foowd e cliccare sulla x.
+    
+    > NB: l'url da indicare nella app e' http://www.foowd.eu/elgg/foowd_utenti/indexauth?hauth.done=Google
+
 
 
 
@@ -107,3 +114,5 @@ Riferimenti
 [3] [Tutorial Blog](http://learn.elgg.org/en/1.11/tutorials/blog.html) , *utile per metadati*
 
 [4] [Events](http://learn.elgg.org/en/latest/design/events.html) , *alcuni event handlers*
+
+

@@ -64,5 +64,9 @@ $fadd->createField('Maxqt', 'Quantita\' massima', 'input/spinner', array("decima
 <link href="<?php echo elgg_get_site_url ();?>mod/foowd_offerte/js/imgareaselect/css/imgareaselect-default.css" rel="stylesheet">
 <!-- <script type="text/javascript" src="<?php echo elgg_get_site_url ();?>mod/foowd_offerte/js/imgareaselect/scripts/jquery.min.js"></script> -->
 <script type="text/javascript" src="<?php echo elgg_get_site_url ();?>mod/foowd_offerte/js/imgareaselect/scripts/jquery.imgareaselect.pack.js"></script>
-<?php elgg_require_js(\Uoowd\Param::pid().'/use_crop'); 
+
+<?php 
+elgg_require_js(\Uoowd\Param::pid().'/use_crop'); 
+elgg_require_js(\Uoowd\Param::pid().'/offer-form-check.amd'); 
+
 // echo \Uoowd\Param::pid().'/use_crop';
