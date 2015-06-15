@@ -86,7 +86,12 @@
 <div class="alert alert-success" role="alert" id="foowd-success"></div>
 <div class="alert alert-danger" role="alert" id="foowd-error"></div>
 <script type="text/javascript">
-require(['WallController', 'bootstrap' ,'isotope-fit-columns', 'helpers'], 
+require([
+  'WallController', 
+  'bootstrap', 
+  'helpers',
+  'isotope-fit-columns'], 
+
   function(){
   //helpers di Handlebars
   var helpers = require('helpers'); 

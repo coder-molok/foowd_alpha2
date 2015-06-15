@@ -40,7 +40,7 @@ function AMD(){
 	 * Librerie
 	 */
 	elgg_define_js('jquery', [
-	    	'src' => 'mod/foowd_theme/vendor/jquery/dist/jquery.min.js',
+		'src' => 'mod/foowd_theme/vendor/jquery/dist/jquery.min.js',
 	]);
 	
 	elgg_define_js('handlebars', [
@@ -52,34 +52,33 @@ function AMD(){
 	]);
 
 	elgg_define_js('isotope',[
-			'src' => 'mod/foowd_theme/vendor/isotope/dist/isotope.pkgd.js'
+		'src' => 'mod/foowd_theme/vendor/isotope/dist/isotope.pkgd.js'
 	]);
 
 	elgg_define_js('isotope-fit-columns',[
-			'src' => 'mod/foowd_theme/vendor/isotope-fit-columns/fit-columns.js',
-			'deps' => array('isotope')
+		'src' => 'mod/foowd_theme/vendor/isotope-fit-columns/fit-columns.js',
+		'deps' => array('isotope')
 
 	]);
 
 	elgg_define_js('bootstrap', [
-	    	'src' => 'mod/foowd_theme/vendor/bootstrap/dist/js/bootstrap.min.js',
-	    	'deps' => array('jquery')
+    	'src' => 'mod/foowd_theme/vendor/bootstrap/dist/js/bootstrap.min.js',
+    	'deps' => array('jquery')
 	]);
 
 	/* 
 	 * Template di Handlebars Precompilati
 	 */
 	elgg_define_js('helpers', [
-	    	'src' => '/mod/foowd_theme/lib/js/HandlebarsHelpers.js',
-	    	'deps'=> array('handlebars.runtime')
+		'src' => '/mod/foowd_theme/lib/js/HandlebarsHelpers.js',
+    	'deps'=> array('handlebars.runtime')
 	]);
 	/* 
 	 * Helpers di handlebars
 	 */
-
 	elgg_define_js('templates', [
-	    	'src' => '/mod/foowd_theme/pages/templates/templates-amd.js',
-	    	'deps'=> array('handlebars', 'handlebars.runtime','helpers')
+    	'src' => '/mod/foowd_theme/pages/templates/templates-amd.js',
+    	'deps'=> array('handlebars', 'handlebars.runtime','helpers')
 	]);
 
 	/* 
