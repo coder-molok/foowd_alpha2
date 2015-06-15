@@ -1,26 +1,65 @@
-<div class="container-fluid" id="main">
-    <div class = "row">
-        <div class="col-lg-2">
-            {{productDetails.Price}}<span class="apex">€</span>
-            Prezzo Unità
+<div class = "row" id="detail-menu">
+    <div class="col-xs-10 col-sm-4 col-md-6">
+        <ul class="number-block">
+            <li>{{Price}}<span class="apex">€</span></li>
+            <li><span class ="number-description">Prezzo Unità</span></li>
+        </ul>
+    </div>
+    <div class="col-xs-10 col-sm-4 col-md-6">
+        <ul class="number-block">
+            <li>{{math Price '*' Minqt}}<span class="apex">€</span></li>
+            <li><span class ="number-description">Ordine Minimo</span></li>
+        </ul>
+    </div>
+</div>
+<div class = "row" id="detail-info">
+    <div class="col-xs-10 col-sm-4 col-md-6">
+        <div class="row" id="detail-info-row1">
+            <div class="col-xs-6 col-md-6 product-name">
+                {{Name}}
+            </div>
+            <div class="col-xs-6 col-md-6 product-info">
+                <ul class="number-block">
+                    <li>4</li>
+                    <li><span class ="number-description">Followers</span></li>
+                </ul>
+                <ul class="number-block">
+                    <li>12</li>
+                    <li><span class ="number-description">Share</span></li>
+                </ul>
+                <ul class="action-icons">
+                    <li id="action-heart">
+                        <i  class="glyphicon glyphicon-heart fw-menu-icon"></i>
+                    </li>
+                    <li id="action-minus">
+                        <i class="glyphicon glyphicon-minus fw-menu-icon"></i>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="col-lg-2">
-            {{productDetails.Price }} * {{productDetails.Minqt}}<span class="apex">€</span>
-            Ordine Minimo
+        <div class="row" id="detail-info-row1">
+            <div class="col-xs-6 col-md-6 product-description">
+                {{{Description}}}
+            </div>
+            <div class="col-xs-6 col-md-6 product-commercial-info">
+                <ul class="commercial-menu">
+                    <li>
+                        <i id="" class="glyphicon glyphicon-heart fw-menu-icon"></i>
+                        carrello
+                    </li>
+                    <li>
+                        <i id="" class="glyphicon glyphicon-unchecked fw-menu-icon"></i>
+                        tot
+                    </li>
+                    <li>
+                        <i id="" class="glyphicon glyphicon-unchecked fw-menu-icon"></i>
+                        spesa comune raggiunta
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-    <div class = "row">
-        <div class="col-lg-2">
-            {{productDetails.Name}}
-        </div>
-        <div class="col-lg-2">
-            followers
-        </div>
-        <div class="col-lg-2">
-            share
-        </div>
-        <div class="col-lg-2">
-            <img ng-src="http://lorempixel.com/120/160/food">
-        </div>
+    <div class="col-xs-10 col-sm-4 col-md-6 product-picture">
+       <img src="{{picture}}"/>
     </div>
 </div>

@@ -1,64 +1,17 @@
 /*
-A custom Bootstrap 3.2 'Google Plus style' theme
-from http://bootply.com
+ * Foowd Style
+ * author: Marco Predari;
+ */
+@import url(http://fonts.googleapis.com/css?family=Georgia);
 
-This CSS code should follow the 'bootstrap.css'
-in your HTML file.
+/*
+ *  General Style
+ */
 
-license: MIT
-author: bootply.com
-*/
-
-@import url(http://fonts.googleapis.com/css?family=Roboto:400);
 body {
-    background-color:#e0e0e0;
+    background-color: #ffffff;
     -webkit-font-smoothing: antialiased;
     font: normal 14px Roboto,arial,sans-serif;
-}
-
-.header {
-    background-color:#ffffff;
-    border-width:0;
-    opacity: 0.96}
-.header .navbar-collapse {
-    background-color:#ffffff;
-}
-/*.navbar-menu,*/
-.navbar-brand{
-    font-size: 28px;
-    height: 15px;
-}
-
-
-.panel .btn i,.btn span{
-    color:#666666;
-}
-.panel .panel-heading {
-    background-color:transparent;
-    border-color:transparent;
-    position: absolute;
-    padding: 4px 5px 4px 5px;
-}
-.panel-heading{
-    width: 87%;
-}
-.panel .panel-heading a {
-    font-weight:400;
-    font-size:11px;
-}
-.panel .panel-default {
-    border-color:#cccccc;
-}
-.panel .panel-thumbnail {
-    padding:0;
-}
-.panel .img-circle {
-    width:50px;
-    height:50px;
-}
-.list-group-item:first-child,
-.list-group-item:last-child {
-    border-radius:0;
 }
 
 h3,h4,h5 {
@@ -67,43 +20,220 @@ h3,h4,h5 {
     padding-bottom:10px;
 }
 
-#main {
-    padding-top:120px;
+#foowd-success, #foowd-error{
+    display: none;
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    z-index: 10000;
 }
-.wall{
-    margin-left: -70px;
-    margin-right: -70px;
+
+
+/* 
+ *  Header -------------------------------------------------------------------------------------------
+ */
+
+.header {
+    background: #fbecf2; /* Old browsers */
+    background: -moz-linear-gradient(left,  #fbecf2 1%, #fbecf2 50%, #fbecf2 50%, #ffffff 50%, #ffffff 50%, #ffffff 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(1%,#fbecf2), color-stop(50%,#fbecf2), color-stop(50%,#fbecf2), color-stop(50%,#ffffff), color-stop(50%,#ffffff), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  #fbecf2 1%,#fbecf2 50%,#fbecf2 50%,#ffffff 50%,#ffffff 50%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  #fbecf2 1%,#fbecf2 50%,#fbecf2 50%,#ffffff 50%,#ffffff 50%,#ffffff 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  #fbecf2 1%,#fbecf2 50%,#fbecf2 50%,#ffffff 50%,#ffffff 50%,#ffffff 100%); /* IE10+ */
+    background: linear-gradient(to right,  #fbecf2 1%,#fbecf2 50%,#fbecf2 50%,#ffffff 50%,#ffffff 50%,#ffffff 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbecf2', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+    height: 60px;
 }
-.panel-thumbnail .product-menu{
-    position: relative;
-    bottom: 25px;
+.navbar-brand{
+    color: black;
+    padding-top: 20px;
+    vertical-align: middle;
+    font-family: Helvetica;
+    font-weight: bold;
+    font-variant: normal;
+    font-style: normal;
+    font-size: 25px;
+}
+
+.navbar-brand {
+    
+}
+.navbar-form input{
+    margin-top: 3px;
+    margin-left: -30px;
     background: transparent;
-    border: transparent;
+    border: none;
+    outline: none;
+}
+.navbar-right{
+    margin-top: 5px;
+}
+.header-icon{
+    color: white;
+}
+
+/* 
+ * Wall --------------------------------------------------------------------------
+ */
+.wall{
+}
+#wall-main {
+    padding-top:80px;
+    margin: 0px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+/* 
+ *  Product Panels (template) -------------------------------------------------------------------------------------------
+ */
+.product-post {
+    width: 295px;
+    float: left;
+    position: relative;
+    margin: 10px;
+}
+.product-post-header{
+    width: 100%;
+    margin: 0px 0px 0px 0px;
+    padding: 5px;
+    background:transparent;
+    border-color:transparent;
+    position: absolute;
+
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+}
+.product-post > a{
+    cursor: pointer;
+}
+.product-post-header *{
+    display: inline-block;
+}
+.product-post-image-thumbnail{
+    position: relative;
+    left:0px;
+    z-index: -10;
+    width: 100%;
+    height: 100%;
+}
+.product-post-menu{
+    position: absolute;
+    background: transparent;
+    border: none;
+    margin-top: -25px;
     z-index: 10;
 }
-.product-menu-options{
-    position: absolute;
+.product-post-menu-options{
+    position: relative;
     float: left;
-    padding: 0;
+    padding: 0px;
+    margin: 0px;
+    font-size: 18px;
 
 }
-.product-menu-options li {
+.product-post-menu-options li {
     list-style-type: none;
     display: inline-block;
     margin-left: 5px;
 }
-.panel .panel-heading,
-.product-menu-options li i{
-    font-size: 20px;
+.product-post-body{
+    position: relative;
+    background: transparent;
+    padding: 5px;
+    font-size: 12px;
+
 }
 .fw-menu-icon{
-    color: #ffffff;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    cursor: pointer;
+    color:white;
 }
 .apex{
     vertical-align: super;
     font-size: 15px;
+    margin-top: -12px;
 }
 .red-heart{
     color: red;
 }
+
+/*
+ * Product Detail
+ */
+
+#product-detail-main{
+    margin-top: 60px;
+}
+.product-info ul{
+    display:inline-block;
+}
+.action-icons{
+    position:relative;
+    float:right;
+}
+
+.action-icons li{
+    display:inline-block;
+    vertical-align:middle;
+}
+#action-heart{
+    padding:10px;
+    background: rgb(250,230,239);
+    border-radius:50%;
+}
+#action-heart > i{
+    position:relative;
+    left:-1px;
+    top:4px;
+    color:rgb(250,230,239);
+    font-size:40px;
+}
+#action-minus{
+    padding:10px;
+    background: rgb(235,235,235);
+    border-radius:50%;
+}
+#action-minus > i{
+    position:relative;
+    left:-1px;
+    color:rgb(235,235,235);
+    font-size:40px;
+}
+.number-block{
+    margin:5px;
+    padding:0px;
+    font-size:18px;
+    font-weight:bold;
+}
+.number-block > li{
+    padding:0px;
+    margin:0px;
+}
+.number-description{
+    font-size:12px;
+    font-weight:normal;
+}
+.product-picture{
+    padding:0px;
+}
+.commercial-menu > li{
+    border-top: 0.1em solid rgb(120,120,120);
+    padding:15px;
+}
+.commercial-menu > li > i{
+    vertical-align:middle;
+    color:white;
+}
+#detail-menu{
+    margin-bottom: 20px;
+}
+#detail-info-row1{
+    height:160px;
+}
+.pippo{
+    border: solid 1px black;
+}
+
+
+

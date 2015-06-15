@@ -1,10 +1,14 @@
 define(function(require){
 
-	//carico le librerie che mi servono per il controller
+	//API foowd
 	var API = require('FoowdAPI');
+	//templates handlebars
 	var templates = require('templates');
+	//elgg utility
 	var elgg = require('elgg');
+	//jQuery
 	var $ = require('jquery');
+	//util library
 	var Utils = require('Utils');
 	//creo il controller della pagina dettaglio
 	var ProductDetailController = (function(){
@@ -29,12 +33,15 @@ define(function(require){
 						//richiamo la API per i dettagli del prodotto
 						API.getProduct(queryObject.productId).then(function(data){
 							//parso in JSON il risultato
-							var rawProduct = $.parseJSON(data);
+							var rawProduct = $.parseJSON(data).body[0];
+							console.log(rawProduct);
+							//aggiungo il campo immagine
+							Utils.addPicture(rawProduct);
 							//applico il template ai dati ricevuti
-							var parsedProducts = productTemplate(rawProduct);
+							var parsedProduct = productTemplate(rawProduct);
 							//lo metto nell'elemento HTML che passato alla funzione
 							$(DOMelement)
-				  	    		.append(parsedProducts)
+				  	    		.append(parsedProduct)
 								.addClass('animated bounceInLeft'); //animazione
 						}, function(error){
 							//gestico l'errore

@@ -7,9 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <!-- Vendor Style Libraries -->
+    <link href="mod/foowd_theme/lib/css/reset.css">
+    <!-- Vendor Style Libraries -->
     <link href="mod/foowd_theme/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="mod/foowd_theme/vendor/animate.css/animate.css" rel="stylesheet">
 
+     <!-- Custom CSS -->
+    <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
     <!-- Flavicons (not avaiable yet) -->
 
     <!-- elgg -->
@@ -45,76 +49,59 @@
             echo elgg_format_element('script', array('src' => $url));
         }
       ?>
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
 </head>
 <body>
-<nav class="navbar navbar-fixed-top header">
+<nav class="navbar navbar-default navbar-fixed-top header">
     <div class="container-fluid">
-        <div class="navbar-header navbar-menu">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Ordina per: <span class="caret"></span></a>
-                  <ul class="dropdown-menu" role="menu">
-                        <!-- <li><a onClick = "foowd.filterBy('date')">Data</a></li>
-                        <li><a onClick = "foowd.filterBy('price')">Prezzo</a></li> -->
-                  </ul>
-                </li>
-            </ul>
-            <div class="navbar-form navbar-left" role="search">
-              <div class="form-group">
-                <a class="navbar-brand" onClick = "utils.goTo()">foowd_</a>
-                <input type="text" id ="searchText"class="form-control">
-              </div>
-              <!-- <button onclick = "foowd.searchOffers()" class="btn btn-default">Submit</button> -->
-            </div>
-        </div>
-
-    <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav navbar-right">
-            <li><a id="heart">
-                <i class="glyphicon glyphicon-heart fw-menu-icon"></i>
-                </a>
-            </li>
-            <li><a id="userButton"  onClick = "utils.goToUserProfile()">
-                <i class="glyphicon glyphicon-user fw-menu-icon"></i>
-                </a>
-            </li>
-        </ul>
-    </div>
-    </div>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" onClick="util.goTo()">foowd_</a>
+      </div>
+      <div class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" id="searchText" size = "50">
+          </div>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a id="heart">
+            <i class="glyphicon glyphicon-heart fw-menu-icon header-icon"></i>
+            </a>
+        </li>
+        <li><a id="userButton"  onClick = "utils.goToUserProfile()">
+            <i class="glyphicon glyphicon-user fw-menu-icon header-icon"></i>
+            </a>
+        </li>
+      </ul>
+  </div>
 </nav>
-<div class="container" id="main">
-    <div class="wall">
-        <!-- Viene Riempito dal Javascript -->
-    </div>
 </div>
+<div class="container-fluid" id="wall-main">
+  <div class="wall">
+  </div>
+</div>
+<div class="alert alert-success" role="alert" id="foowd-success"></div>
+<div class="alert alert-danger" role="alert" id="foowd-error"></div>
 <script type="text/javascript">
-require(['FoowdAPI', 'WallController', 'helpers','utility-settings'], function(){
-  //impostazioni del plugin foowd_utility
-  var settings = require('utility-settings');
-  //interfaccia alle API di elgg
-  var API = require('FoowdAPI');
-  //funzioni di elgg
-  var elgg = require('elgg');
+require([
+  'WallController', 
+  'bootstrap', 
+  'helpers',
+  'isotope-fit-columns'], 
+
+  function(){
   //helpers di Handlebars
-  var helpers = require('helpers');
+  var helpers = require('helpers'); 
   //funzioni di utility
   window.utils = require('Utils');
   //controller della pagina
   var WallController = require('WallController');
-
   window.WallController = WallController;
-  //aggiungo il base url per le chiamate alle API
-  API.setBaseUrl(settings.api);
-  //prendo lo user id dall'entità user di elgg
-  var userId = elgg.get_logged_in_user_guid();
-  //imposto lo user id nel mio modulo
-  WallController.setLocalUserId(userId);
   //richiamo il controller per riempire il wall di prodotti
   WallController.fillWallWithProducts();
-
 });
 </script>
 </body>
