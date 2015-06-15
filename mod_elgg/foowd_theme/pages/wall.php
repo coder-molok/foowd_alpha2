@@ -14,8 +14,8 @@
 
      <!-- Custom CSS -->
     <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
+    <link rel="stylesheet" href="mod/foowd_theme/lib/css/grid.css">
     <!-- Flavicons (not avaiable yet) -->
-
     <!-- elgg -->
     <?php
 
@@ -59,7 +59,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" onClick="util.goTo()">foowd_</a>
+        <a class="navbar-brand" onClick="utils.goTo()">foowd_</a>
       </div>
       <div class="navbar-form navbar-left" role="search">
           <div class="form-group">
@@ -86,13 +86,12 @@
 <div class="alert alert-success" role="alert" id="foowd-success"></div>
 <div class="alert alert-danger" role="alert" id="foowd-error"></div>
 <script type="text/javascript">
-require([
-  'WallController', 
+require([ 
   'bootstrap', 
   'helpers',
-  'isotope-fit-columns'], 
-
-  function(){
+  'Utils',
+  'WallController'
+  ],function(){
   //helpers di Handlebars
   var helpers = require('helpers'); 
   //funzioni di utility
@@ -104,4 +103,5 @@ require([
   WallController.fillWallWithProducts();
 });
 </script>
+
 </body>

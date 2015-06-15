@@ -86,12 +86,6 @@ h3,h4,h5 {
 /* 
  *  Product Panels (template) -------------------------------------------------------------------------------------------
  */
-.product-post {
-    width: 295px;
-    float: left;
-    position: relative;
-    margin: 10px;
-}
 .product-post-header{
     width: 100%;
     margin: 0px 0px 0px 0px;

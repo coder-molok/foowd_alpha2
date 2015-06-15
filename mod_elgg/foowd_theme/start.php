@@ -51,21 +51,10 @@ function AMD(){
     	'src' => '/mod/foowd_theme/vendor/handlebars/handlebars.runtime.amd.min.js',
 	]);
 
-	elgg_define_js('isotope',[
-		'src' => 'mod/foowd_theme/vendor/isotope/dist/isotope.pkgd.js'
-	]);
-
-	elgg_define_js('isotope-fit-columns',[
-		'src' => 'mod/foowd_theme/vendor/isotope-fit-columns/fit-columns.js',
-		'deps' => array('isotope')
-
-	]);
-
 	elgg_define_js('bootstrap', [
     	'src' => 'mod/foowd_theme/vendor/bootstrap/dist/js/bootstrap.min.js',
     	'deps' => array('jquery')
 	]);
-
 	/* 
 	 * Template di Handlebars Precompilati
 	 */
@@ -80,7 +69,6 @@ function AMD(){
     	'src' => '/mod/foowd_theme/pages/templates/templates-amd.js',
     	'deps'=> array('handlebars', 'handlebars.runtime','helpers')
 	]);
-
 	/* 
 	 * Moduli custom foowd
 	 */

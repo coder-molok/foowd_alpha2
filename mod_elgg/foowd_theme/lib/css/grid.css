@@ -1,0 +1,24 @@
+.product-post {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 22.75%;
+  margin-left: 0%;
+  margin-right: 3%;
+}
+.product-post:before,
+.product-post:after {
+  content: '';
+  display: table;
+}
+.product-post:after {
+  clear: both;
+}
+.product-post:nth-child(4n) {
+  margin-right: 0%;
+  float: right;
+}
+.product-post:nth-child(4n+1) {
+  clear: both;
+}
