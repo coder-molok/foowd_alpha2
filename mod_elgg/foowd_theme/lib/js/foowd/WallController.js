@@ -14,8 +14,6 @@ define(function(require){
 	var page = require('page');
 	//jQuery 
 	var $ = require('jquery');
-	//isotope per il layout degli oggetti
-	var Isotope = require('isotope');
 
 
 	var WallController = (function(){
@@ -43,7 +41,6 @@ define(function(require){
 		 * FUNZIONI PRIVATE DEL MODULO -----------------------------------------------------------
 		 */
 
-
 		/*
 		 * Funzione che riempe il tag html con i template dei prodotti complilati
 		 */
@@ -52,18 +49,7 @@ define(function(require){
 		  	    .html(content)
 				.addClass('animated bounceInLeft'); //animazione
 			//solo ora che ho renderizzato tutti gli elementi applicao il layout
-			applyLayout();
 
-		}
-		/*
-		 * Funcione che applica il layout egli elementi del wall
-		 */
-		function applyLayout(){
-			var layout = new Isotope(wallId ,{
-      			layoutMode: 'fitRows',
-      			itemSelector: '.product-post',
-     		  	resizesContainer : false
-    		});
 		}
 		/*
 		 * Funzione che riempe il tag html con i template dei prodotti complilati
