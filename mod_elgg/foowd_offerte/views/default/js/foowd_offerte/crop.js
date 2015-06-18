@@ -196,6 +196,10 @@ var $preWindos = [];
 // css
 var $margin = '20px';
 
+// oggeto imgAreaSelect: istanza
+// gli assegno anche le vecchie variabili
+var $ias = {};
+
 // oggetto globale che utilizzo solo in una funzione
 var scale = {
     setScale : function(num){
@@ -203,6 +207,11 @@ var scale = {
         this.h = Math.round(num*scale.y);
         this.k = Math.min(scale.x, scale.y);
         this.l = Math.min(scale.w, scale.h);
+
+        //post opzione quadrato: la larghezza e' fissa e si adatta l'altezza
+        this.r = this.h/this.w;
+        this.w = this.l;
+        this.h = this.l / this.r;
     },
 
     setL : function(l1,l2){
@@ -292,8 +301,10 @@ function start(){
         }
     }
 
-    div.imgAreaSelect({ aspectRatio: '1:1', handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2});
-}
+    // instance of image area select: used to force aspect ratio in onSelectChange event
+    $ias = div.imgAreaSelect({instance: true});    
+    $ias.setOptions({/* aspectRatio: '1:1',*/ handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 30, minHeight: 30});    
+}   
 
 /**
  * classe che rappresenta la finestra di zoom
@@ -306,8 +317,8 @@ function start(){
 var PrevWindow = function(size ,div, scale){
     // dimensioni immagine di crop
     this.x = scale.w;
-    this.y = scale.h;
-     
+    this.y = scale.h;    
+    this.r = scale.r;
     
     // identificativo del selettore
     var box = div.attr("id") + '-' + size;
@@ -328,28 +339,28 @@ var PrevWindow = function(size ,div, scale){
     // creo la preview
     // ho il box prev-container che contiene il titolo e il div con dentro il tag img,
     // in particolare il div con tag img mi fa da preview, pertanto esso per visualizzare l'immagine non deve contenere altro
-    var Jpre = $('<div><img id="'+box+'" src="'+src+'" style="width:'+scale.w+'px; height:'+scale.h+'px;" /><div>')
+    this.Jpre = $('<div><img id="'+box+'" src="'+src+'" style="width:'+scale.w+'px; height:'+scale.h+'px;" /><div>')
         .css({
             // position: 'relative',
             overflow: 'hidden',
-            width: scale.l+'px',
-            height: scale.l+'px',
-            // margin : $margin,
-            // 'float': 'left'
+            // width: scale.l+'px',
+            // height: scale.l+'px', // opzione fisso a quadrato
+            width: scale.w + 'px',
+            height: scale.h + 'px'
         })
         // .prepend(title)
         // uso parent() perche' li inserisco dopo il div che contiene l'immagine, e non dopo l'immagine stessa
         .appendTo(prevBox);
      // racchiudo tutto in un box che non ha proprieta
-     Jpre.wrap('<div class=\'prev-single-container\' style="display:inline;"></div>');
-     $('.prev-single-container').css({'display':'inline-block'});
-     var title = $('<div ">Preview '+size+'</div>').css({
+     this.Jpre.wrap('<div class=\'prev-single-container\' style="display:inline;"></div>');
+     this.prevSingle = $('.prev-single-container').css({'display':'inline-block'});
+     var title = $('<div>Preview '+size+'</div>').css({
         'class':"prev-title",
          'style' :"margin-top: 5px, padding: 2px",
          'background-color': 'rgba(70, 144, 214, 0.8)',
-         'width' : Jpre.width()
+         'width' : this.Jpre.width()
      });
-     Jpre.parent().css({
+     this.Jpre.parent().css({
         // 'float': 'left', 
         position:'relative', margin: $margin}).prepend(title);
 
@@ -362,7 +373,7 @@ var PrevWindow = function(size ,div, scale){
 
 
     // lunghezza minima, ovvero il lato della preview
-    this.k = Math.min(this.x, this.y);
+    // this.k = Math.min(this.x, this.y);
 
     // modifico la preview
     this.draw = function(img, selection){
@@ -373,16 +384,24 @@ var PrevWindow = function(size ,div, scale){
         var ratiox = selection.width / img.width;
         var ratioy = selection.height / img.height;
 
-        var scaleX = this.k / (ratiox || 1);
-        var scaleY = this.k / (ratioy || 1);
-      
+        var scaleX = this.x / (ratiox || 1); // nella versione a quadrato ho this.k al numeratore
+        // var scaleY = this.x / (ratioy || 1); // nella versione a quadrato ho this.k al numeratore
+        var scaleY = scaleX * this.r;
+
+
         // adatto l'immagine di previwe
+        // l'immagine
         this.divj.css({
             width: Math.round(scaleX) + 'px',
             height: Math.round(scaleY) + 'px',
             marginLeft: '-' + Math.round( scaleX * selection.x1 / img.width ) + 'px',
             marginTop: '-' + Math.round( scaleY * selection.y1 / img.height ) + 'px'
-        });         
+        });
+
+        // extra non presente nell'impostazione quadrata
+        this.Jpre.css({
+            height: Math.round(this.x *selection.height/selection.width) +'px'
+        });
     };
 
     this.remove = function(){
@@ -394,12 +413,22 @@ var PrevWindow = function(size ,div, scale){
 // immagine concreta, e oggetto coordinate della selezione, ovvero x1, 
 // var $check_yet = false;
 function preview(img, selection) {
+    
+    // console.log($ias.getOptions().x1);
+    // console.log(selection)
 
-    // if(!$check_yet){
-    //     document.getElementById('img-yet').value = 'changed';
-    //     $check_yet = true;
-    //     alert('call')
-    // }
+    // forzo l'aspect ratio in modo che la larghezza non superi l'altezza 
+    // e l'altezza non sia il doppio della larghezza
+    if(selection.height < selection.width || selection.height > 2*selection.width){
+        var x1 = $ias.getOptions().x1;
+        var x2 = $ias.getOptions().x2;
+        var y1 = $ias.getOptions().y1;
+        var y2 = $ias.getOptions().y2;
+        // $ias.setSelection(selection.x1,selection.y1, selection.x2, selection.y1 + selection.w)
+        $ias.setSelection(x1, y1, x2, y2);
+        $ias.update()
+        return false;
+    }
 
     // disegno le previews
     for(var i in $preWindos){
@@ -421,6 +450,10 @@ function preview(img, selection) {
             $('input[name*='+property+']').val(normalized[property]);
         // }
     }
+    
+    $ias.setSelection(selection.x1, selection.y1, selection.x2, selection.y2)
+    $ias.setOptions({ x1:selection.x1, y1: selection.y1, x2: selection.x2, y2: selection.y2 });
+    $ias.update();
 
 }
 

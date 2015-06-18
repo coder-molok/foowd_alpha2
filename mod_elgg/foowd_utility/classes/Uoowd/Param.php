@@ -146,6 +146,25 @@ namespace Uoowd;
 			return $json;
 		}
 
+
+		public static function checkFoowdPlugins(){
+			// controllo che i plugin foowd siano attivi, 
+			// ma solo se l'ho abilitato nei settings di foowd_utility
+			if(elgg_get_plugin_setting('forceActivateAll', 'foowd_utility')){
+				foreach( new \DirectoryIterator(elgg_get_plugins_path()) as $plug){
+					if(preg_match('@foowd_@', $plug->getFilename())){
+						// il filename coincide col plug id
+						// ottengo l'entita' plugin
+						$plg=elgg_get_plugin_from_id($plug->getFilename());
+						if(!$plg->isActive()){
+							$plg->activate();
+							// register_error('Plugin '.$plug->getFilename().' non attivo');
+						} 
+					} 
+				}
+			}
+		}
+
 	}
 
 

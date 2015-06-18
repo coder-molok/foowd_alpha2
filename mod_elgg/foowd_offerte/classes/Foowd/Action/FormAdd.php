@@ -41,12 +41,13 @@ namespace Foowd\Action;
 		 * @var array
 		 */
 		private $errors = array(
-			'Name' 			=> 'errore nell\' immisione del titolo',
-			'Description'	=> 'errore nell\' immisione della descrizione',
-			'Price'			=> 'massimo 8 cifre + 2 decimali...',
+			'Name' 			=> 'foowd:name:error',
+			'Description'	=> 'foowd:description:error',
+			'Price'			=> 'foowd:price:error',
 			// 'Tag'			=> 'i tags possono essere solo singole parole separate da virgola...',
-			'Tag'			=> 'devi selezionare almeno un tag',
-			'Maxqt'			=> 'la quantita\' massima deve superare o eguagliare quella minima.<br/>Se non vuoi inserire un massimo, cancella i numeri dal campo sottostante. ',
+			'Tag'			=> 'foowd:tag:error',
+			'Minqt'			=> 'foowd:minqt:error',
+			'Maxqt'			=> 'foowd:maxqt:error',
 		);
 
 		/**
@@ -56,6 +57,7 @@ namespace Foowd\Action;
 		private $check = array(
 			'Price'		=> 'isCash',
 			'Tag'		=> 'isTag',
+			'Minqt'		=> 'isQt',
 			'Maxqt'		=> 'isMax'
 		);
 
@@ -66,28 +68,32 @@ namespace Foowd\Action;
 		}
 
 		/**
+		 * NB: 	lo usavo per svolgere una premodifica sui dati
+		 * 		da inviare alle API. 
+		 * 		E' utile tenerlo come promemoria.
+		 * 
 		 * metodo per convertire i campi di spinner in un unica cifra razionale
 		 * @param  [type] $sticky_form [description]
 		 * @return [type]              [description]
 		 */
-		public function manageInput($sticky_form){
-			$numeric = array("Price", "Minqt","Maxqt");
-			// \Uoowd\Logger::addNotice('$quantity');
-			foreach($numeric as $key){
-				$set = 1; // as true; 0 as false
-				if(get_input($key.'-integer')===""){
-					$set *= 0;
-				}
-				if($set){
-					// imposto i valori di input
-					if(get_input($key.'-decimal') === "") set_input($key.'-decimal', 0);
-					$quantity = get_input($key.'-integer').'.'.get_input($key.'-decimal');
-					set_input($key,  $quantity);
-					// imposto i valori dello sticky form
-					$this->manageSticky(array($key=>$quantity), $sticky_form);
-				}
-			}
-		}
+		// public function hookManage($sticky_form){
+		// 	$numeric = array("Price", "Minqt","Maxqt");
+		// 	// \Uoowd\Logger::addNotice('$quantity');
+		// 	foreach($numeric as $key){
+		// 		$set = 1; // as true; 0 as false
+		// 		if(get_input($key.'-integer')===""){
+		// 			$set *= 0;
+		// 		}
+		// 		if($set){
+		// 			// imposto i valori di input
+		// 			if(get_input($key.'-decimal') === "") set_input($key.'-decimal', 0);
+		// 			$quantity = get_input($key.'-integer').'.'.get_input($key.'-decimal');
+		// 			set_input($key,  $quantity);
+		// 			// imposto i valori dello sticky form
+		// 			$this->manageSticky(array($key=>$quantity), $sticky_form);
+		// 		}
+		// 	}
+		// }
 
 		public function hookCreateTag($type , $input){
 			// echo '<div '.elgg_format_attributes($input['attributes']).' >';
@@ -166,7 +172,7 @@ namespace Foowd\Action;
 			      // alert($(this).val());
 			      // console.log(JSON.stringify(evt, null, 4));
 			      // console.log(JSON.stringify(params, null, 4))
-			      console.log(params.selected);
+			      // console.log(params.selected);
 			      // se selezionato, aggiungo un input col suo valore
 			      if(params.selected){
 			        var Jel = $('.chosen-select option[value="'+params.selected+'"]')

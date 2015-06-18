@@ -97,7 +97,7 @@ class API{
 			foreach($value as $field => $var){
 				// i valori numerici per convenzione hanno la virgola come separatore decimale
 				if(in_array($field, $numeric)){
-					$returned->body[$key]->{$field} = preg_replace('@\.@', ',', $var);
+					// $returned->body[$key]->{$field} = preg_replace('@\.@', ',', $var);
 				}	
 			}
 		}

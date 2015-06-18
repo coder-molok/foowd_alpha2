@@ -25,17 +25,17 @@
 
 
 // per funzionare e' necessario che abbia impostato una mail di default dal pannello di amministrazione
-$users = elgg_get_admins();
+// $users = elgg_get_admins();
 
-foreach($users as $admin){
-	// var_dump($admin);
-	echo $admin->email;
-	$send = elgg_send_email	(	
-		'Sito Elgg <'.elgg_get_site_entity()->email.'>', // solo il from nella preview, non il vero mittente: original from
-		'Destinatario Beddo <'.$admin->email.'>', // apparently to
-		$admin->username.' : notifica',
-	 	basename(dirname(__FILE__)).': il plugin e\' stato disattivato'
-	);
-	// var_dump($send);
-}
+// foreach($users as $admin){
+// 	// var_dump($admin);
+// 	echo $admin->email;
+// 	$send = elgg_send_email	(	
+// 		'Sito Elgg <'.elgg_get_site_entity()->email.'>', // solo il from nella preview, non il vero mittente: original from
+// 		'Destinatario Beddo <'.$admin->email.'>', // apparently to
+// 		$admin->username.' : notifica',
+// 	 	basename(dirname(__FILE__)).': il plugin e\' stato disattivato'
+// 	);
+// 	// var_dump($send);
+// }
 

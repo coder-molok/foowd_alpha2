@@ -14,12 +14,15 @@ if($vars['Id']==='' || $vars['guid']==='' ){
 	return;
 }
 
+// $fadd->createField('Name', 'Offerta', 'input/text');
+$fadd->createField('Name', 'foowd:name:need', 'input/text');
 
-$fadd->createField('Name', 'Offerta', 'input/text');
-$fadd->createField('Description', 'Descrivi il tuo prodotto', 'input/longtext');
+// $fadd->createField('Description', 'Descrivi il tuo prodotto', 'input/longtext');
+$fadd->createField('Description', 'foowd:description:need', 'input/longtext');
 
 // la prima volta non dovrebbe essere impostato niente, e visualizzo soltanto il form di caricamento
-$fadd->createField('file', 'Carica l\'immagine', 'input/file', array('id'=>'loadedFile', 'value'=>''));
+// $fadd->createField('file', 'Carica l\'immagine', 'input/file', array('id'=>'loadedFile', 'value'=>''));
+$fadd->createField('file', 'foowd:file:need', 'input/file', array('id'=>'loadedFile', 'value'=>''));
 
 // div image se esiste img
 $dir = \Uoowd\Param::imgStore().'User-'.$vars['guid'].'/'.$vars['Id'].'/';
@@ -55,12 +58,14 @@ echo '<center><div id="image-container" '.$style.' >';
 
 echo '<div id="image">'.$img.'</div></div></center>';
 
-$fadd->createField('Price', 'Importo', 'input/spinner', array("decimal"=>2, "integer"=>"8"));
-
-$fadd->createField('Tag', 'Tags (selezionane almeno uno) *', 'input/checkbox', array('inputs' => $vars['Tag'], 'attributes' =>$vars['TagAttributes']) );
-
-$fadd->createField('Minqt', 'Quantita\' minima', 'input/spinner', array("decimal"=>3, "integer"=>5));
-$fadd->createField('Maxqt', 'Quantita\' massima', 'input/spinner', array("decimal"=>3, "integer"=>5));
+// $fadd->createField('Price', 'Importo', 'input/spinner', array("decimal"=>2, "integer"=>"8"));
+$fadd->createField('Price','foowd:price:need', 'input/text', array('maxlength'=>"11"));
+// $fadd->createField('Tag', 'Tags (selezionane almeno uno) *', 'input/checkbox', array('inputs' => $vars['Tag'], 'attributes' =>$vars['TagAttributes']) );
+$fadd->createField('Tag', 'foowd:tag:need', 'input/checkbox', array('inputs' => $vars['Tag'], 'attributes' =>$vars['TagAttributes']) );
+// $fadd->createField('Minqt', 'Quantita\' minima', 'input/spinner', array("decimal"=>3, "integer"=>5));
+$fadd->createField('Minqt', 'foowd:minqt:need', 'input/text', array('maxlength'=>"9"));
+// $fadd->createField('Maxqt', 'Quantita\' massima', 'input/spinner', array("decimal"=>3, "integer"=>5));
+$fadd->createField('Maxqt', 'foowd:maxqt', 'input/text', array('maxlength'=>"9"));
 
 // variabile per il controllo su cambiamenti dell'immagine di default
 echo elgg_view('input/hidden', array('name' => 'fileBasename', 'value' => basename($path)) ); 

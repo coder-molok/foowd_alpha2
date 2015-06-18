@@ -3,6 +3,8 @@
 // classe di default
 elgg_register_classes(elgg_get_plugins_path().'foowd_utility/classes');
 
+// \Uoowd\Param::checkFoowdPlugins();
+
 elgg_register_event_handler('init', 'system', 'offerte_init');
 
 
@@ -29,13 +31,6 @@ function offerte_init() {
 	elgg_register_action("foowd_offerte/update", elgg_get_plugins_path() . 'foowd_offerte/actions/foowd_offerte/update.php');
 
 
-
-	// Carico il mio css di default
-	$css =  'mod/'.\Uoowd\Param::pid()."/css/foowd_offerte.css";
-	elgg_register_css('offerFoowdCss', $css );
-	elgg_load_css('offerFoowdCss');  // If you uncomment this, the css will load every page a user views
-
-
 	// elimino il "more"
 	// elgg_unregister_plugin_hook_handler('prepare', 'menu:site', '_elgg_site_menu_setup');
 	// elgg_register_plugin_hook_handler('register', 'menu:site', 'foowd_menu');
@@ -44,6 +39,13 @@ function offerte_init() {
 }
 
 function offerte_page_handler($segments) {
+
+	// Carico il mio css di default
+	$css =  'mod/'.\Uoowd\Param::pid()."/css/foowd_offerte.css";
+	elgg_register_css('offerFoowdCss', $css );
+	elgg_load_css('offerFoowdCss');  // If you uncomment this, the css will load every page a user views
+
+	
 	$check = true;
 
 	switch($segments[0]){

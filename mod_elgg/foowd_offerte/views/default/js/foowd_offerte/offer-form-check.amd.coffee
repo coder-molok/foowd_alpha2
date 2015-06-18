@@ -3,7 +3,7 @@
 
     if typeof define is 'function' and define.amd
         # AMD. Register as an anonymous module.
-        define([], factory);
+        define(['elgg','jquery'], factory);
     else if typeof exports is 'object'
         # Node. Does not work with strict CommonJS, but
         # only CommonJS-like environments that support module.exports,
@@ -22,6 +22,7 @@
     loom = this
 
     $ = require('jquery')
+    elgg = require('elgg')
 
     # con @ impongo il this!
     class Input 
@@ -43,6 +44,21 @@
             @inpt = $(@obj.inpt)
             @key = @obj.key
 
+            # NB:   al posto di utilizzare il that, 
+            #       con coffeescript e' possibile utilizzare la fat arrow =>
+            that = this
+            first = true
+
+            # se all'oggetto e' attribuito un evento di trigger
+            # dalla prima volta che entra nel campo input,
+            # considero che debba rispettare i vincoli
+            
+            @inpt .on "click focus", ->
+                first = false
+                return
+            
+            # trigger extra per gli oggetti associati a un evento di altri plugin
+            # (solo caricamento immagine e inserimento tag)
             if @obj.trigger?
                 $(document).on @obj.trigger , ->
                     first = false
@@ -50,23 +66,25 @@
                         that.error()
                     else 
                         that.clean()
+                
+            
 
-            that = this
-            first = true
-            @inpt .on "focusout keydown click", ()->
-                first = false
-                if not that.check()  
-                    that.error()
-                else 
-                    that.clean()
-
+            #vincoli da rispettare
+            @inpt .on "focusout mouseout keyup", ()->
+                if !first
+                    if not that.check()  
+                        that.error()
+                    else 
+                        that.clean()
+            
+            ###
             @inpt .on "mouseout", ()->
                 if !first 
                     if not that.check()  
                         that.error()
                     else 
                         that.clean()
-
+            ###
         color: (color) ->
             @inpt.css(
                 "background-color": color
@@ -77,7 +95,7 @@
 
         error: ->
             #console.log "error-#{@el.attr 'name'}"
-            @color "rgba(255, 0, 0, 0.17)"
+            #@color "rgba(255, 0, 0, 0.17)"
 
             #se c'e' lo rimuovo
             $(".error-#{@el.attr 'name'}").remove()
@@ -85,28 +103,63 @@
             #console.log @msg
             $('<span/>',
                 "class": "error-#{@el.attr 'name'}"
-                "html": @msg
+                "html": elgg.echo @msg
                 ).
                 #appendTo(@el.parent().find('label'))
                 appendTo("label[for*=#{@key}]")
-            console.log "appeso #{@key}"
+            #console.log "appeso #{@key}"
             
         clean: ->
             $(".error-#{@el.attr 'name'}").remove()
-            @color ''
+            #@color ''
  
 
     class Price extends Input
         check: ->
             #@key = @key
+            re = new RegExp(/^\d{1,8}(\.\d{0,2})?$/)
             v = @el.val().trim()
-            if isFinite(v) and v isnt '' then true else false
+            if re.test(v) and v isnt '' then true else false
+
+    class Minqt extends Input
+        check: ->
+            #@key = @key
+            re = new RegExp(/^\d{1,5}(\.\d{0,3})?$/)
+            v = @el.val().trim()
+            if re.test(v) and v isnt '' then true else false
+
+    class Maxqt extends Input
+        check: ->
+            #@key = @key
+            re = new RegExp(/^\d{1,5}(\.\d{0,3})?$/)
+            Max = @el.val().trim()
+
+            if Max is '' then true
+
+            Min = $("[name*=Minqt]").val().trim()
+            if Min is ''
+                @msg = 'Devi prima inserire la quantit&agrave; massima'
+                @el.val('')
+                return false
+
+            if not re.test(Max) 
+                @msg = 'foowd:' +@key.toLowerCase()+':error' 
+                return false
+
+            console.log "#{Min} e #{Max}"
+            if parseFloat(Min) > parseFloat(Max)
+                @msg = 'foowd:' +@key.toLowerCase()+':error:larger' 
+                return false
+
+            return true
+
 
     class Text extends Input
         check: ->
             v = @el.val().trim()
             if not v then false else true
 
+    ###
     class Larger extends Input   
         maxInt = $("[name*=Maxqt-integer]")
         maxDec = $("[name*=Maxqt-decimal]")
@@ -124,27 +177,32 @@
                 Min = minInt.val() + '.' +minDec.val()
                 #alert "#{Min} e #{Max}"
                 if Max < Min then false else true
+    ###
 
     # se il div esiste ritorna true, altrimenti false
     class Div extends Input
         check: ->
-            console.log @obj.el
+            #console.log @obj.el
             v = document.querySelectorAll(@obj.el)
             v = v.length
-            console.log "#{v} fatto" 
+            #console.log "#{v} fatto" 
             if v > 0 then true else false
 
 
     class InputFactory 
 
         input =
-            'Name': ['Text', 'Il campo non puo\' essere vuoto']
+            'Name': ['Text']
             #'Description': ['Text', 'Il campo non puo\' essere vuoto']
-            'Minqt-integer':['Price', 'Il campo e\' obbligatorio']
-            'Maxqt-integer':['Larger', 'La quantita\' massima deve superare o eguagliare quella minima.<br/>    Se non vuoi inserire un massimo, cancella i numeri dal campo sottostante. ']
-            'Price-integer':['Price',  'Il campo e\' obbligatorio']
-            'Tag': ['Div', 'Devi selezionare almeno un tag', '.search-choice', 'foowd:update:tag']
-            'file' : ['Div', 'Non hai aggiunto alcuna immagine', '#sorgente', 'foowd:update:file']
+            #'Minqt-integer':['Price', 'Il campo e\' obbligatorio']
+            #'Maxqt-integer':['Larger', 'La quantita\' massima deve superare o eguagliare quella minima.<br/>    Se non vuoi inserire un massimo, cancella i numeri dal campo sottostante. ']
+            #'Price-integer':['Price',  'Il campo e\' obbligatorio']
+            'Price':['Price'],
+            'Minqt' : ['Minqt']
+            'Maxqt' : ['Maxqt'],
+            #'Tag': ['Div', 'Devi selezionare almeno un tag', '.search-choice', 'foowd:update:tag']
+            'Tag': ['Div', '.search-choice', 'foowd:update:tag']# l'ultimo e' il trigger event impostato con chosen
+            'file' : ['Div',  '#sorgente']#, 'foowd:update:file']
 
         constructor: ->
             @factory = []
@@ -154,16 +212,16 @@
                 selector = '[name*='+key+']'
                 if key is 'Tag' then inpt = '.chosen-choices'
                 #else if key is 'file' then selector = '"#sorgente"'
-                if cls[2]? then selector = cls[2]
+                if cls[1]? then selector = cls[1]
                 obj = 
                     "el" : selector
                     "key": key.split('-')[0]
                     "inpt": inpt
 
-                if cls[3]? then obj.trigger = cls[3]
+                if cls[2]? then obj.trigger = cls[2]
 
                 tmp = eval("new "+tmp+'(' + JSON.stringify(obj) + ')' )
-                tmp.msg = cls[1]
+                tmp.msg = 'foowd:'+ key.toLowerCase() + ':error'
                 @factory.push tmp
                 #i.msg = cls[1]
                  #i

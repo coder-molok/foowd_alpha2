@@ -4,16 +4,17 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
-    return define([], factory);
+    return define(['elgg', 'jquery'], factory);
   } else if (typeof exports === 'object') {
     return module.exports = factory();
   } else {
     return root.returnExports = factory();
   }
 })(this, function() {
-  var $, Div, Input, InputFactory, Larger, Price, Text, fac, loom;
+  var $, Div, Input, InputFactory, Maxqt, Minqt, Price, Text, elgg, fac, loom;
   loom = this;
   $ = require('jquery');
+  elgg = require('elgg');
   Input = (function() {
     function Input(obj1) {
       var first, that;
@@ -21,9 +22,13 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
       this.el = $(this.obj.el);
       this.inpt = $(this.obj.inpt);
       this.key = this.obj.key;
+      that = this;
+      first = true;
+      this.inpt.on("click focus", function() {
+        first = false;
+      });
       if (this.obj.trigger != null) {
         $(document).on(this.obj.trigger, function() {
-          var first;
           first = false;
           if (!that.check()) {
             return that.error();
@@ -32,17 +37,7 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
           }
         });
       }
-      that = this;
-      first = true;
-      this.inpt.on("focusout keydown click", function() {
-        first = false;
-        if (!that.check()) {
-          return that.error();
-        } else {
-          return that.clean();
-        }
-      });
-      this.inpt.on("mouseout", function() {
+      this.inpt.on("focusout mouseout keyup", function() {
         if (!first) {
           if (!that.check()) {
             return that.error();
@@ -51,6 +46,15 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
           }
         }
       });
+
+      /*
+      @inpt .on "mouseout", ()->
+          if !first 
+              if not that.check()  
+                  that.error()
+              else 
+                  that.clean()
+       */
     }
 
     Input.prototype.color = function(color) {
@@ -62,18 +66,15 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
     Input.prototype.check = function() {};
 
     Input.prototype.error = function() {
-      this.color("rgba(255, 0, 0, 0.17)");
       $(".error-" + (this.el.attr('name'))).remove();
-      $('<span/>', {
+      return $('<span/>', {
         "class": "error-" + (this.el.attr('name')),
-        "html": this.msg
+        "html": elgg.echo(this.msg)
       }).appendTo("label[for*=" + this.key + "]");
-      return console.log("appeso " + this.key);
     };
 
     Input.prototype.clean = function() {
-      $(".error-" + (this.el.attr('name'))).remove();
-      return this.color('');
+      return $(".error-" + (this.el.attr('name'))).remove();
     };
 
     return Input;
@@ -87,9 +88,10 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
     }
 
     Price.prototype.check = function() {
-      var v;
+      var re, v;
+      re = new RegExp(/^\d{1,8}(\.\d{0,2})?$/);
       v = this.el.val().trim();
-      if (isFinite(v) && v !== '') {
+      if (re.test(v) && v !== '') {
         return true;
       } else {
         return false;
@@ -97,6 +99,62 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
     };
 
     return Price;
+
+  })(Input);
+  Minqt = (function(superClass) {
+    extend(Minqt, superClass);
+
+    function Minqt() {
+      return Minqt.__super__.constructor.apply(this, arguments);
+    }
+
+    Minqt.prototype.check = function() {
+      var re, v;
+      re = new RegExp(/^\d{1,5}(\.\d{0,3})?$/);
+      v = this.el.val().trim();
+      if (re.test(v) && v !== '') {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    return Minqt;
+
+  })(Input);
+  Maxqt = (function(superClass) {
+    extend(Maxqt, superClass);
+
+    function Maxqt() {
+      return Maxqt.__super__.constructor.apply(this, arguments);
+    }
+
+    Maxqt.prototype.check = function() {
+      var Max, Min, re;
+      re = new RegExp(/^\d{1,5}(\.\d{0,3})?$/);
+      Max = this.el.val().trim();
+      if (Max === '') {
+        true;
+      }
+      Min = $("[name*=Minqt]").val().trim();
+      if (Min === '') {
+        this.msg = 'Devi prima inserire la quantit&agrave; massima';
+        this.el.val('');
+        return false;
+      }
+      if (!re.test(Max)) {
+        this.msg = 'foowd:' + this.key.toLowerCase() + ':error';
+        return false;
+      }
+      console.log(Min + " e " + Max);
+      if (parseFloat(Min) > parseFloat(Max)) {
+        this.msg = 'foowd:' + this.key.toLowerCase() + ':error:larger';
+        return false;
+      }
+      return true;
+    };
+
+    return Maxqt;
 
   })(Input);
   Text = (function(superClass) {
@@ -119,42 +177,26 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
     return Text;
 
   })(Input);
-  Larger = (function(superClass) {
-    var maxDec, maxInt, minDec, minInt;
 
-    extend(Larger, superClass);
-
-    function Larger() {
-      return Larger.__super__.constructor.apply(this, arguments);
-    }
-
-    maxInt = $("[name*=Maxqt-integer]");
-
-    maxDec = $("[name*=Maxqt-decimal]");
-
-    minInt = $("[name*=Minqt-integer]");
-
-    minDec = $("[name*=Minqt-decimal]");
-
-    Larger.prototype.check = function() {
-      var Max, Min, v;
-      v = this.el.val().trim();
-      if (!isFinite(v) || v === '') {
-        return true;
-      } else {
-        Max = maxInt.val() + '.' + maxDec.val();
-        Min = minInt.val() + '.' + minDec.val();
-        if (Max < Min) {
-          return false;
-        } else {
-          return true;
-        }
-      }
-    };
-
-    return Larger;
-
-  })(Input);
+  /*
+  class Larger extends Input   
+      maxInt = $("[name*=Maxqt-integer]")
+      maxDec = $("[name*=Maxqt-decimal]")
+      minInt = $("[name*=Minqt-integer]")
+      minDec = $("[name*=Minqt-decimal]")
+  
+  
+      check: ->
+          v = @el.val().trim()
+           * se e' vuoto, allora non ci sono problemi!
+          if not isFinite(v) or v is ''
+              true
+          else
+              Max = maxInt.val() + '.' +maxDec.val()
+              Min = minInt.val() + '.' +minDec.val()
+              #alert "#{Min} e #{Max}"
+              if Max < Min then false else true
+   */
   Div = (function(superClass) {
     extend(Div, superClass);
 
@@ -164,10 +206,8 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
 
     Div.prototype.check = function() {
       var v;
-      console.log(this.obj.el);
       v = document.querySelectorAll(this.obj.el);
       v = v.length;
-      console.log(v + " fatto");
       if (v > 0) {
         return true;
       } else {
@@ -182,12 +222,12 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
     var input;
 
     input = {
-      'Name': ['Text', 'Il campo non puo\' essere vuoto'],
-      'Minqt-integer': ['Price', 'Il campo e\' obbligatorio'],
-      'Maxqt-integer': ['Larger', 'La quantita\' massima deve superare o eguagliare quella minima.<br/>    Se non vuoi inserire un massimo, cancella i numeri dal campo sottostante. '],
-      'Price-integer': ['Price', 'Il campo e\' obbligatorio'],
-      'Tag': ['Div', 'Devi selezionare almeno un tag', '.search-choice', 'foowd:update:tag'],
-      'file': ['Div', 'Non hai aggiunto alcuna immagine', '#sorgente', 'foowd:update:file']
+      'Name': ['Text'],
+      'Price': ['Price'],
+      'Minqt': ['Minqt'],
+      'Maxqt': ['Maxqt'],
+      'Tag': ['Div', '.search-choice', 'foowd:update:tag'],
+      'file': ['Div', '#sorgente']
     };
 
     function InputFactory() {
@@ -201,19 +241,19 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
         if (key === 'Tag') {
           inpt = '.chosen-choices';
         }
-        if (cls[2] != null) {
-          selector = cls[2];
+        if (cls[1] != null) {
+          selector = cls[1];
         }
         obj = {
           "el": selector,
           "key": key.split('-')[0],
           "inpt": inpt
         };
-        if (cls[3] != null) {
-          obj.trigger = cls[3];
+        if (cls[2] != null) {
+          obj.trigger = cls[2];
         }
         tmp = eval("new " + tmp + '(' + JSON.stringify(obj) + ')');
-        tmp.msg = cls[1];
+        tmp.msg = 'foowd:' + key.toLowerCase() + ':error';
         this.factory.push(tmp);
       }
     }

@@ -202,13 +202,16 @@ class Crop{
 		$crop['w'] = $crop['x2']-$crop['x1'];
 		$crop['h'] = $crop['y2']-$crop['y1'];
 
+		// ratio
+		//$crop['r'] = $crop['h']/$crop['w'];
+
 		// salvo i dati del crop in formato json nella directory dell'immagine 
 		// utile per riformarla quando si modifica un'offerta
 		file_put_contents($saveDir.pathinfo ( $target_file , PATHINFO_FILENAME).'-crop.json', json_encode($crop));
 
 		// dimensioni di default thumbnail
 		$imsize['small'] = 100;
-		$imsize['medium'] = 300;
+		$imsize['medium'] = 400;
 
 
 		// ora svolgo il crop e salvo le immagini
@@ -217,9 +220,16 @@ class Crop{
 		    $sdir = $saveDir.$dir.'/';
 		    if(!$this->createDir($sdir)) return;
 
-		    $thumb = imagecreatetruecolor( $l, $l );
+		    // il secondo e' per mantenere le proporzioni
+		    $scaleX = $l /$crop['w'];
+		    $scaleY = $scaleX * $h/$w;
+		    $selectionW = $crop['w'] * $w;
+		    $selectionH = $crop['h'] * $h;
+		    $cropRatio = $selectionH / $selectionW;
+
+		    $thumb = imagecreatetruecolor( $l, $l * $cropRatio);
 		    
-		    imagecopyresampled ( $thumb , $img , 0 , 0 , (int)($crop['x1']*$w) , (int)($crop['y1']*$h) , $l , $l , (int) ($crop['w']*$w) , (int) ($crop['h']*$h) );
+		    imagecopyresampled ( $thumb , $img , 0 , 0 , (int)($crop['x1']*$w) , (int)($crop['y1']*$h) , $l , $l*$cropRatio, (int) ($crop['w']*$w) , (int) ($crop['h']*$h) );
 		    
 		    // $Fname = $sdir.basename($target_file);
 		    $Fname = $sdir.get_input('offerGuid').'.jpg';

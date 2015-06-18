@@ -1,3 +1,11 @@
+<?php
+  // NB1:  quando il plugin e' disattivato, questa pagina non e' visualizzabile
+  // 
+  // NB2:  tutti i parametri di questo plugin salvati, rimangono conservati in elgg 
+  //      e disponibili agli altri plugin, anche quando il plugin stesso e' disattivato.
+  //      Pertanto ha senso mantenere un parametro di controllo sul plugin setto come
+  //      avviene per 'forceActiveAll' creato in fondo
+?>
 
 <!--------------- API ------------------>
 
@@ -93,6 +101,11 @@ elgg_load_css('plugin-settings');
 
 
 
+
+<br>
+<h1>Per Sviluppatori</h1>
+<br>
+
 <!--------------- LOG LEVEL ------------------>
 
 <?php 
@@ -128,7 +141,7 @@ elgg_load_css('plugin-settings');
 
 <p>
   <?php 
-    echo '<h1>Debug LEVEL: </h1>(per gli sviluppatori)<br/>'; 
+    echo '<h3>Debug LEVEL: </h3><br/>'; 
     echo 'Valore Attuale: '. $value ; 
     echo elgg_view('input/select',array(
       'name' => 'params[LEVEL]',
@@ -147,36 +160,44 @@ elgg_load_css('plugin-settings');
 
 
 
-<!--------------- LOGGER ------------------>
-
+<!--------------- DEBUG FOOWD ------------------>
+<p>
+  <!-- quando e' checked salva il valore impostato, altrimenti non fa nulla -->
 <?php 
 
+  echo '<h3>Debug Foowd:</h3>(utilizzato per visualizzare un messaggio register_error)<br/><br/>'; 
+
+  // NB: se spuntato, quando salva gli da valore 'on' (true)
+  //      altrimenti '0' (false)
+
+  $value = elgg_get_plugin_setting('dbg', \Uoowd\Param::pid() );
+  // se non e' impostato, lo imposto
+  $value = ($value) ? $value : \Uoowd\Param::$par['dbg']; 
+
+  $checked = ($value) ? true : false ;
+
+  echo elgg_view("input/checkbox", array(
+      'label' => 'spunta per attivare il debug',
+      'name'  => "params[dbg]",
+      'checked' => $checked
+    ));
 
 
-   $value = elgg_get_plugin_setting('dbg', \Uoowd\Param::pid() );
-   
-   // se non e' impostato, lo imposto
-   $value = ($value) ? $value : \Uoowd\Param::$par['dbg'];
-   
-	if($value){
-		$str = 'spunta per disabilitare il debug';
-		$v = 0;
-	}else{
-		$str = 'spunta per abilitare il debug';
-		$v = 1;
-	}
+
+  echo '<br/>';
+  $value = elgg_get_plugin_setting('forceActivateAll', \Uoowd\Param::pid() );
+  $checked = ($value) ? true : false ;
+  echo elgg_view("input/checkbox", array(
+      'label' => 'spunta per attivare forzare la riattivazione automatica dei plugins foowd',
+      'name'  => "params[forceActivateAll]",
+      'checked' => $checked
+    ));
 
 
 ?>
-
-<p>
-	<?php echo 'Debug Foowd:<br/> (utilizzato per visualizzare un messaggio register_error)<br/>';  ?>
-	<!-- 0 vuol dire false -->
-	<!-- quando e' checked salva il valore impostato, altrimenti non fa nulla -->
-
-   <input type="checkbox"  name="params[dbg]" value="<?php echo $v;?>" /> <?php echo $str; ?>
-
 </p>
+
+
 
 <?php
 

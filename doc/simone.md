@@ -3,6 +3,18 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 
 
 
+### 18/05/2015
+
+- sistemato crop per permettere diversi ratio immagine
+
+- aggiornato salvataggio immagini a larghezza 400 per il Wall
+
+- tolti gli spinner e rimessa la vecchia immissione testuale per i valori numerici
+
+- aggiornata pagina [success.php](../mod_elgg/foowd_offerte/pages/foowd_offerte/success.php)
+
+
+
 ### 15/06/2015
 
 - check del form offerte direttamente tramite js

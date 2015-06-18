@@ -164,7 +164,7 @@ abstract class Action {
 		public function manageForm(string $sticky_form){
 			$this->status = true;
 			// metodo specifico della classe, utile per fare un pre assestamento dei dati input
-			if(method_exists($this,'manageInput')) $this->manageInput($sticky_form);
+			if(method_exists($this,'hookManage')) $this->hookManage($sticky_form);
 			foreach($this->par as $field => $value){
 				$var = get_input($field);
 				if(isset($var)){
@@ -257,6 +257,20 @@ abstract class Action {
 		}
 
 		/**
+		 * controllo che ci siano solo due cifre decimali precedute dalla virgola
+		 * @param  [type]  $var [description]
+		 * @return boolean      se true, la validazione e' andata a buon fine
+		 */
+		public function isQt($var){
+			// \Uoowd\Logger::addNotice($var);
+			if (preg_match('/^\d{1,5}(\.\d{0,3})?$/', $var)){
+				return true;
+			}else{
+				return false;
+			}
+		}
+
+		/**
 		 * check base sui tag
 		 * 
 		 * @param  [type]  $var [description]
@@ -304,7 +318,7 @@ abstract class Action {
 		 * @return boolean      [description]
 		 */
 		public function isMax($var){
-			if(get_input('Minqt') > $var ){
+			if(get_input('Minqt') > $var && get_input('Maxqt')!=='' ){
 				return false;
 			}
 			return true;

@@ -11,12 +11,19 @@ $content = elgg_view_title($title);
 
 
 //$content .= elgg_view('foowd_offerte/add', array(), $vars);
-$content .= 'complimenti, hai pullicato la tua offerta con successo.';
+$content .= '<p>complimenti, hai pullicato la tua offerta con successo.</p>';
+$content .= '<p>Sarai reindirizzato alla lista delle tue offerte entro <span id="counter">5</span> secondi.</p>';
+?>
+
+
+
+<?php
+$content .= '<p>Se non vuoi attendere oppure non vieni reindirizzato puoi cliccare ';
 $content .= elgg_view('output/url', array(
 				'href' => elgg_get_site_url() . \Uoowd\Param::pid()."/all",
-			    'text' => elgg_echo('All'),
-			    'class' => 'elgg-button elgg-button-delete',
-		    ))."\n\r<br/><br/><br/>";
+			    'text' => elgg_echo('qui'),
+			    // 'class' => 'elgg-button elgg-button-delete',
+		    ))."</p>\n\r<br/>";
 
 // add the form stored in /views/default/forms/foowd_offerte/add.php
 //$content .= elgg_view_form('foowd_offerte/add');
@@ -31,3 +38,20 @@ $body = elgg_view_layout('one_sidebar', array(
 
 // draw the page
 echo elgg_view_page($title, $body);
+?>
+
+<script type="text/javascript">
+require(['page', 'elgg'], function(page, elgg){
+	// page = require('page');
+	
+	function countdown() {
+	    var i = document.getElementById('counter');
+	    i.innerHTML = parseInt(i.innerHTML)-1;
+	    if (parseInt(i.innerHTML)<=0) {
+	        location.href = elgg.get_site_url()+page.all;
+	    }
+	}
+	setInterval(function(){ countdown(); },1000);
+
+});
+</script>
