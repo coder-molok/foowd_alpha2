@@ -152,4 +152,29 @@ abstract class FApi{
 		return $obj;
 	}
 
+
+
+	/**
+	 * gli passo l'id locale di un utente e restituisce il suo externalId
+	 * @param [type] $userId [description]
+	 */
+	// protected function IdToExt($userId){
+
+	// 	$elggId = \UserQuery::Create()->filterById($userId)->findOne();
+	// 	// eventualmente implementare un log: ci sarebbero articoli con utente indefinito...
+	// 	if($elggId)	return $elggId->getExternalId();
+			
+	// }
+
+	protected static function IdToExt($userId){
+
+		$elggId = \UserQuery::Create()->filterById($userId)->findOne();
+		// eventualmente implementare un log: ci sarebbero articoli con utente indefinito...
+		if($elggId)	return $elggId->getExternalId();
+			
+	}
+
+
+
+
 }

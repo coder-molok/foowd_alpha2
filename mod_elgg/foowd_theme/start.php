@@ -12,7 +12,7 @@ elgg_register_event_handler('init','system','foowd_theme_init');
 function foowd_theme_init() {
 
 	
-	elgg_register_plugin_hook_handler('index', 'system', 'foowd_wall_page_handler');
+	elgg_register_page_handler('','foowd_wall_page_handler');
 	elgg_register_page_handler('detail', 'foowd_product_detail_page_handler');
 
 	// caricamento dei moduli Javascript

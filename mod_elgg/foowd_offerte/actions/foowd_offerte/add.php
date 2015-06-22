@@ -37,8 +37,6 @@ $crop = new \Uoowd\Crop();
 
 // $_SESSION['sticky_forms'][$form] = $data;
 
-\Uoowd\Logger::addError($data);
-
 if ($f->status && $crop->status ) {
 
 	// message_system('partenza');
@@ -48,7 +46,6 @@ if ($f->status && $crop->status ) {
 	$data['type']='create';
 	$r = \Uoowd\API::Request('offer', 'POST', $data);
 
-	\Uoowd\Logger::addError($r);
 	// se sono qui la validazione lato elgg e' andata bene
 	// ma ora controllo quella lato API remote
 	if($r->response){

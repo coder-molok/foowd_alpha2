@@ -177,13 +177,14 @@ class ApiPrefer extends \Foowd\FApi{
  	 * Strutturato in questo modo, cerca solo le intersezioni dei filtri.
 	 * 
 	 * @apiParam {String} 		type 			search
+	 * @apiParam {Str/Num}		[ExternalId] 	numero intero o sequenza di interi separati da virgola
 	 * @apiParam {Mixed}	  	[qualunque] 	qualunque colonna. Il valore puo' essere una STRINGA o un ARRAY come stringa-JSON con chiavi "max" e/o "min" (lettere minuscole).
 	 * @apiParam {String} 		[order] 		stringa per specificare l'ordinamento. Il primo elemento e' la colonna php. Si puo' specificare se 'asc' o 'desc' inserendo uno di questi dopo una virgola. Generalmente saranno Name, Price, Created, Modified
 	 * @apiParam {Mixed}	  	[offset] 		Il valore puo' essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi "page" e "maxPerPage" per sfruttare la paginazione di propel.
 	 *
 	 * @apiParamExample {url} URL-Example:
 	 * 
-	 * http://localhost/api_offerte/public_html/api/prefer?OfferId=38&type=search
+	 * http://localhost/api_offerte/public_html/api/prefer?OfferId=38&type=search&ExternalId=37,52
 	 * 
 	 * @apiUse MyResponse
 	 * 
@@ -194,12 +195,17 @@ class ApiPrefer extends \Foowd\FApi{
 
 		if(isset($data->ExternalId)){
 			// recupero lo userId e poi elimino $data->ExternalId
-			$UserId = \UserQuery::Create()->filterByExternalId($data->ExternalId)->findOne();
+			$extid = $data->ExternalId;
+			unset($data->ExternalId);
+			if(is_string($extid) && preg_match('@,@', $extid)) $extid = explode(',', $extid);
+			$UserId = \UserQuery::Create()->filterByExternalId($extid)->find();
 			// se l'utente con quell'id esterno esiste, allora lo utilizzo, altrimenti blocco tutto
 			if(is_object($UserId)){
-				$UserId = $UserId->getId();
-				$data->UserId = $UserId;
-				unset($data->ExternalId);
+				$data->UserId = array();
+				foreach ($UserId as $single) {
+					array_push($data->UserId, $single->getId());
+					}	
+				
 			}else{
 				$Json['response'] = false;
 				$Json['errors']['Foreign'] = "L'id passato non e' associato a nessun utente API";
@@ -208,7 +214,6 @@ class ApiPrefer extends \Foowd\FApi{
 				exit(7);
 			}
 		}
-
 
 		if(isset($data->order)){
 			$order = array_map('trim' , explode( ',', $data->order) );
@@ -233,7 +238,7 @@ class ApiPrefer extends \Foowd\FApi{
 		$obj = \PreferQuery::create();
 		foreach($data as $key => $value){
 			//echo "$key";
-			if(preg_match('@{.+}@',$value)) $value = (array) json_decode($value);
+			if(is_string($value) && preg_match('@{.+}@',$value)) $value = (array) json_decode($value);
 			//var_dump($value);
 			$obj = $obj->{'filterBy'.$key}($value);
 		}
@@ -279,6 +284,10 @@ class ApiPrefer extends \Foowd\FApi{
 			//  			->filterById($ar['UserId'])
 			//       ->find()->toArray();	
 			//  }
+			$uid = $ar['UserId'];
+			//unset($ar['UserId']);
+			// $ar['ExternalId'] = self::IdToExt($uid);
+			$ar['UserId'] = self::IdToExt($uid);
 			array_push($return, $ar );
 		}
 

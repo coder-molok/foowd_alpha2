@@ -1,11 +1,13 @@
 <?php
 
+admin_gatekeeper();
+
 $user = get_user_by_email('scardoni.simone@gmail.com')[0];
 $guid = $user->guid;
 
 // $user->fake = array('lolg'=>1, 'lal'=> 'io');
 
-// var_dump($user->metadata );
+// \Fprint::r($user->metadata );
 
 
 // elgg_get_entities(array('types'=>'user','callback'=>'my_get_entity_callback'));
@@ -16,7 +18,7 @@ $user = elgg_get_entities_from_metadata(
 	// array( 'metadata_names'=>array('fake'), 'metadata_values'=>array('i') )
 	);
 
-var_dump($user);
+//\Fprint::r($user);
 
 
 
@@ -28,13 +30,13 @@ function my_get_entity_callback($row)
 
     $user = get_entity($row->guid);
 
-    var_dump($user->fake);
-    var_dump($user->guid);
-    var_dump($user->name);
-    var_dump($user->username);
-    var_dump($user->email);
-    var_dump($user->Genre);
-    var_dump($user->idAuth);
+    \Fprint::r($user->fake);
+    \Fprint::r($user->guid);
+    \Fprint::r($user->name);
+    \Fprint::r($user->username);
+    \Fprint::r($user->email);
+    \Fprint::r($user->Genre);
+    \Fprint::r($user->idAuth);
 
     echo '<br>';
 

@@ -230,17 +230,17 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiParam {Mixed}	  	[offset] 		Il valore puo' essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi "page" e "maxPerPage" per sfruttare la paginazione di propel.
 	 * @apiParam {Mixed}	  	[match] 		Stringa-JSON le cui chiavi sono le colonne del DB e i valori sono singole parole separate da spazi o virgole.
 	 * @apiParam {String} 		[Tag] 			elenco di tags separati da virgola, o stringa di lunghezza nulla ''
-	 * @apiParam {String} 		[ExternalId] 	id dell'utente loggato, per fare in modo di ritornare anche le sue preferenze, qualora ne abbia espresse
+	 * @apiParam {Str/Num}		[ExternalId] 	numero intero o sequenza di interi separati da virgola. Rappresenta/no id dell'utente: per ogni offerta ritornata, il campo "prefer" sara' riempito con le preferenze della singola offerta che matchano gli id ivi passati.
 	 *
 	 * @apiParamExample {url} URL-Example:
 	 * 
-	 * http://localhost/api_offerte/public_html/api/offers?Publisher={{Publisher}}&type=search&Id={"min":2 ,"max":109}&Tag=mangiare, cibo&order=Modified, desc
+	 * http://localhost/api_offerte/public_html/api/offers?Publisher={{Publisher}}&type=search&Id={"min":2 ,"max":109}&Tag=mangiare, cibo&order=Modified, desc&ExternalId=52,37
 	 * 
 	 * @apiParam (Response) {Bool}				response 		false, in caso di errore
  	 * @apiParam (Response) {String/json}		[errors] 		json contenente i messaggi di errore
- 	 * @apiParam (Response) {String/json}		[body] 			json contenente i parametri da ritornare in funzione della richiesta
+ 	 * @apiParam (Response) {String/json}		[body] 			json contenente i parametri da ritornare in funzione della richiesta. Il parametro prefer impostato nel ritorno contiene eventuali preferenze che metchano gli ExternalId passati con la chiamata.
  	 * @apiParam (Response) {String/json}		[body-totalQt]	ogni preferenza ritornata contiene la Quantinta' totale ad essa associata. 0 nel caso non vi siano preferenze espresse per essa, o qualora valgano effettivamente zero.
-	 * @apiParam (Response) {String/json}		[body-prefer]	La preferenza espressa dall'utente riconosciuto tramite il parametro ExternalId. Se non presente, allora e' null
+	 * @apiParam (Response) {Array/json}		[body-prefer]	La/LE preferenza/e espressa/e dall'utente riconosciuto tramite il parametro ExternalId passato durante la chiamata. Se non presente, allora e' un array vuoto
  	 * @apiParam (Response) {String} 			[msg] 			messaggi ritornati
 	 * 
 	 */
@@ -277,22 +277,32 @@ class ApiOffer extends \Foowd\FApi{
 		}
 
 		if(isset($data->ExternalId)){
-			// recupero lo userId e poi elimino $data->ExternalId
-			$UserId = \UserQuery::Create()->filterByExternalId($data->ExternalId)->findOne();
-			// se l'utente con quell'id esterno esiste, allora lo utilizzo, altrimenti blocco tutto
-			if(is_object($UserId)){
-				// questo dato verra' riutilizzato nel loop delle offerte
-				$ExternalId = $data->ExternalId;
-				unset($data->ExternalId);
+			if(preg_match('@,@',$data->ExternalId)){
+				$toCheck = explode(',' , $data->ExternalId);
 			}else{
-				$Json['response'] = false;
-				$Json['errors']['ExternalId'] = "L'ExternalId  non e' associato a nessun utente API";
-				$Json['errors']['File'] = __FILE__. ' Line: '.__LINE__;
+				$toCheck = array($data->ExternalId);
+			}
+			unset($data->ExternalId);
+
+			foreach($toCheck as $value){
+				// recupero lo userId e poi elimino $data->ExternalId
+				$UserId = \UserQuery::Create()->filterByExternalId($value)->findOne();
+				// se l'utente con quell'id esterno esiste, allora lo utilizzo, altrimenti blocco tutto
+				if(is_object($UserId)){
+					// questo dato verra' riutilizzato nel loop delle offerte
+					$ExternalId[] = $value;
+				}else{
+					$Json['response'] = false;
+					$Json['errors']['ExternalId'][] = "L'ExternalId ".$value."  non e' associato a nessun utente API";
+					$Json['errors']['File'] = __FILE__. ' Line: '.__LINE__;
+				}
+			}
+
+			if(!isset($ExternalId) || count($ExternalId)!==count($toCheck)){
 				echo json_encode($Json);
 				exit(7);
 			}
 		}
-
 
 		// NB: se ritorna qualche errore sul Model Criteria e' perche' probabilmente sto' usando un dato di ricerca che non esiste!
 		//var_dump($data);
@@ -300,7 +310,7 @@ class ApiOffer extends \Foowd\FApi{
 		$obj = \OfferQuery::create();
 		foreach($data as $key => $value){
 			// echo "$key";
-			if(preg_match('@{.+}@',$value)) $value = (array) json_decode($value);
+			if(is_string($value) && preg_match('@{.+}@',$value)) $value = (array) json_decode($value);
 
 			// al match applico il filtro per condizione or
 			if($key === 'match'){
@@ -379,11 +389,11 @@ class ApiOffer extends \Foowd\FApi{
 
 			// se l'utente ha espresso una preferenza per questo prodotto, allora la aggiungo come prefer, altrimenti risulta null
 			if(isset($ExternalId)){
-				$ar['prefer']=null;
+				$ar['prefer']=array();
 				$ext->ExternalId = $ExternalId;
 				$prefer = \Foowd\FApi\ApiPrefer::search($ext);
 				// se esiste la preferenza e non e' vuota
-				if(count($prefer==1) && isset($prefer['body'][0]['Id'])) $ar['prefer']=$prefer['body'][0];
+				if(count($prefer>0) && isset($prefer['body'][0]['Id'])) $ar['prefer']=$prefer['body'];
 			}
 
 			// ora lavoro sui tags
@@ -604,19 +614,6 @@ class ApiOffer extends \Foowd\FApi{
 		}
 	}
 
-
-
-	/**
-	 * gli passo l'id locale di un utente e restituisce il suo externalId
-	 * @param [type] $userId [description]
-	 */
-	protected function IdToExt($userId){
-
-		$elggId = \UserQuery::Create()->filterById($userId)->findOne();
-		// eventualmente implementare un log: ci sarebbero articoli con utente indefinito...
-		if($elggId)	return $elggId->getExternalId();
-			
-	}
 
 
 	protected function hookFSave($obj){

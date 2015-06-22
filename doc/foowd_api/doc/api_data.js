@@ -210,10 +210,10 @@ define({ "api": [
           },
           {
             "group": "Parameter",
-            "type": "String",
+            "type": "Str/Num",
             "optional": true,
             "field": "ExternalId",
-            "description": "<p>id dell&#39;utente loggato, per fare in modo di ritornare anche le sue preferenze, qualora ne abbia espresse</p> "
+            "description": "<p>numero intero o sequenza di interi separati da virgola. Rappresenta/no id dell&#39;utente: per ogni offerta ritornata, il campo &quot;prefer&quot; sara&#39; riempito con le preferenze della singola offerta che matchano gli id ivi passati.</p> "
           }
         ],
         "Response": [
@@ -236,7 +236,7 @@ define({ "api": [
             "type": "String/json",
             "optional": true,
             "field": "body",
-            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta</p> "
+            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta. Il parametro prefer impostato nel ritorno contiene eventuali preferenze che metchano gli ExternalId passati con la chiamata.</p> "
           },
           {
             "group": "Response",
@@ -247,10 +247,10 @@ define({ "api": [
           },
           {
             "group": "Response",
-            "type": "String/json",
+            "type": "Array/json",
             "optional": true,
             "field": "body-prefer",
-            "description": "<p>La preferenza espressa dall&#39;utente riconosciuto tramite il parametro ExternalId. Se non presente, allora e&#39; null</p> "
+            "description": "<p>La/LE preferenza/e espressa/e dall&#39;utente riconosciuto tramite il parametro ExternalId passato durante la chiamata. Se non presente, allora e&#39; un array vuoto</p> "
           },
           {
             "group": "Response",
@@ -264,7 +264,7 @@ define({ "api": [
       "examples": [
         {
           "title": "URL-Example:",
-          "content": "\nhttp://localhost/api_offerte/public_html/api/offers?Publisher={{Publisher}}&type=search&Id={\"min\":2 ,\"max\":109}&Tag=mangiare, cibo&order=Modified, desc",
+          "content": "\nhttp://localhost/api_offerte/public_html/api/offers?Publisher={{Publisher}}&type=search&Id={\"min\":2 ,\"max\":109}&Tag=mangiare, cibo&order=Modified, desc&ExternalId=52,37",
           "type": "url"
         }
       ]
@@ -560,6 +560,13 @@ define({ "api": [
           },
           {
             "group": "Parameter",
+            "type": "Str/Num",
+            "optional": true,
+            "field": "ExternalId",
+            "description": "<p>numero intero o sequenza di interi separati da virgola</p> "
+          },
+          {
+            "group": "Parameter",
             "type": "Mixed",
             "optional": true,
             "field": "qualunque",
@@ -600,7 +607,7 @@ define({ "api": [
       "examples": [
         {
           "title": "URL-Example:",
-          "content": "\nhttp://localhost/api_offerte/public_html/api/prefer?OfferId=38&type=search",
+          "content": "\nhttp://localhost/api_offerte/public_html/api/prefer?OfferId=38&type=search&ExternalId=37,52",
           "type": "url"
         }
       ]

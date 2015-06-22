@@ -3,6 +3,13 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 
 
 
+### 22/06/2015
+
+- risolta [issue#61](https://github.com/coder-molok/foowd_alpha2/issues/61) 
+
+- risolta [issue#67](https://github.com/coder-molok/foowd_alpha2/issues/67) 
+
+
 ### 18/05/2015
 
 - sistemato crop per permettere diversi ratio immagine
