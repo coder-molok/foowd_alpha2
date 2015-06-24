@@ -23,7 +23,9 @@ namespace Foowd\Action;
 			'Created'		=> '',
 			'Modified'		=> '',
 			'State'			=> '',
-
+			'Unit'			=> '',
+			'UnitExtra'		=> '',
+			'Quota'			=> '',
 			'Tag'			=> '', 	// extra non appartenente alla tabella sql,
 									// ma in ogni caso necessario nella compilazione del form
 
@@ -48,6 +50,7 @@ namespace Foowd\Action;
 			'Tag'			=> 'foowd:tag:error',
 			'Minqt'			=> 'foowd:minqt:error',
 			'Maxqt'			=> 'foowd:maxqt:error',
+			'Quota'			=> 'foowd:quota:error',
 		);
 
 		/**
@@ -58,7 +61,8 @@ namespace Foowd\Action;
 			'Price'		=> 'isCash',
 			'Tag'		=> 'isTag',
 			'Minqt'		=> 'isQt',
-			'Maxqt'		=> 'isMax'
+			'Maxqt'		=> 'isMax',
+			'Quota'		=> 'isQt',
 		);
 
 		

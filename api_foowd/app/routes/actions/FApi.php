@@ -38,6 +38,9 @@ abstract class FApi{
 			return;
 		}
 
+		// $app->getLog()->error('data inside object');
+		// $app->getLog()->error($data);
+
 		// i parametri nulli vengono ignorati mediante la loro eliminazione
 		foreach($data as $key => $value){
 			if(is_null($value) || $value==''){

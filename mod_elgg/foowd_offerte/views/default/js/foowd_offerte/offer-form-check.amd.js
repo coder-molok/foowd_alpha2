@@ -66,15 +66,15 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
     Input.prototype.check = function() {};
 
     Input.prototype.error = function() {
-      $(".error-" + (this.el.attr('name'))).remove();
+      $(".error-" + this.key).remove();
       return $('<span/>', {
-        "class": "error-" + (this.el.attr('name')),
+        "class": "error-" + this.key,
         "html": elgg.echo(this.msg)
       }).appendTo("label[for*=" + this.key + "]");
     };
 
     Input.prototype.clean = function() {
-      return $(".error-" + (this.el.attr('name'))).remove();
+      return $(".error-" + this.key).remove();
     };
 
     return Input;
@@ -112,7 +112,7 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
       var re, v;
       re = new RegExp(/^\d{1,5}(\.\d{0,3})?$/);
       v = this.el.val().trim();
-      if (re.test(v) && v !== '') {
+      if (re.test(v) && v !== '' && parseFloat(v) > 0.0) {
         return true;
       } else {
         return false;
@@ -134,7 +134,7 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
       re = new RegExp(/^\d{1,5}(\.\d{0,3})?$/);
       Max = this.el.val().trim();
       if (Max === '') {
-        true;
+        return true;
       }
       Min = $("[name*=Minqt]").val().trim();
       if (Min === '') {
@@ -146,7 +146,6 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
         this.msg = 'foowd:' + this.key.toLowerCase() + ':error';
         return false;
       }
-      console.log(Min + " e " + Max);
       if (parseFloat(Min) > parseFloat(Max)) {
         this.msg = 'foowd:' + this.key.toLowerCase() + ':error:larger';
         return false;
@@ -219,13 +218,15 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
 
   })(Input);
   InputFactory = (function() {
-    var input;
+    var JquotaPrev, input, quotaDivs;
 
     input = {
       'Name': ['Text'],
       'Price': ['Price'],
       'Minqt': ['Minqt'],
       'Maxqt': ['Maxqt'],
+      'Quota': ['Minqt'],
+      'Unit': ['Text'],
       'Tag': ['Div', '.search-choice', 'foowd:update:tag'],
       'file': ['Div', '#sorgente']
     };
@@ -240,6 +241,9 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
         selector = '[name*=' + key + ']';
         if (key === 'Tag') {
           inpt = '.chosen-choices';
+        }
+        if (key === 'Unit') {
+          inpt = 'select[name=Unit]';
         }
         if (cls[1] != null) {
           selector = cls[1];
@@ -257,6 +261,18 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
         this.factory.push(tmp);
       }
     }
+
+    quotaDivs = '[name="Quota"], select[name="Unit"], [name="UnitExtra"]';
+
+    JquotaPrev = $('#quota-preview');
+
+    $(quotaDivs).on("change keyup", function() {
+      var str;
+      str = $('[name="Quota"]').val() + ' ' + $('select[name="Unit"]').val() + ' ' + $('[name="UnitExtra"]').val();
+      return JquotaPrev.html(str);
+    });
+
+    $(quotaDivs).trigger('change');
 
     InputFactory.prototype.checkAll = function() {
       var check, i, inpt, len, ref;

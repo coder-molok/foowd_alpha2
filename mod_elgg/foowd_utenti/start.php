@@ -50,6 +50,13 @@ function utenti_init(){
     elgg_register_css('userFoowdCss', $css );
     elgg_load_css('userFoowdCss');  // If you uncomment this, the css will load every page a user views
 
+
+    // dipendenze
+    // elgg_define_js('foowd_utenti/user-register', [
+        // 'src' => 'mod/foowd_theme/vendor/bootstrap/dist/js/bootstrap.min.js',
+        // 'deps' => array('jquery','elgg','handlebars')
+    // ]);
+
     // nel caso l'utente esista in Elgg, ma non sia stato registrato correttamente:
     // ad esempio per l'amministratore che inizializza Elgg
     checkUser();

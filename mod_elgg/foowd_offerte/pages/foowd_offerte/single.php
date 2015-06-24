@@ -89,6 +89,18 @@ $vars['Tag'] = $checkBox;
 // per il css del box contenitore
 $vars['TagAttributes'] = array('class' => 'foowd-Tag');
 
+// recupero le unita'
+$unit = \Uoowd\Param::unit();
+// $u['name']="Unit";
+if(!isset($vars['Unit'])) $u['options_values']=array(''=>'-- scegli un valore --');
+foreach($unit as $obj){
+	foreach ($obj as $unit => $symbol) {
+		$u['options_values'][$unit]=sprintf('%s (%s)<br/>', ucwords(str_replace('_',' ',$unit)), $symbol);
+		// $u['options'][]=$unit;
+	}
+}
+// NB: l'underscore server per non metchare il vero field, che contiene lo sticky value
+$vars['_Unit'] = $u;
 
 
 // aggiungo il nome del form alle variabili, visto che usero' sticky e $fadd della view dovra' chiamare \Uoowd\Sticky

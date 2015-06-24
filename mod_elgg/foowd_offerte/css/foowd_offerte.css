@@ -11,6 +11,15 @@
   font-style: italic;
   font-size: 0.9em;
 }
+.elgg-form-foowd-offerte-add #quota-preview,
+.elgg-form-foowd-offerte-update #quota-preview {
+  margin: 10px;
+  padding: 5px 10px 5px 15px;
+  font-style: italic;
+  background-color: rgba(36, 153, 236, 0.1);
+  color: gray;
+  display: inline-block;
+}
 
 .foowd-Tag input {
   margin: 0px 0px 21px 1px;

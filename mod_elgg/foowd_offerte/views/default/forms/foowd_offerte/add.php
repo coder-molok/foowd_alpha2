@@ -24,6 +24,13 @@ $fadd->createField('Description', 'foowd:description:need', 'input/longtext');
 $fadd->createField('file', 'foowd:file:need', 'input/file', array('id'=>'loadedFile', 'value'=>''));
 echo '<center><div id="image-container" style="display:none;">Seleziona l\'area da ritagliare.<div id="image"></div></div></center>';
 
+$fadd->createField('Quota', 'foowd:quota:need', 'input/text', array('maxlength'=>"9"));
+$fadd->createField('Unit','foowd:unit:need', 'input/select', $vars['_Unit']);
+$fadd->createField('UnitExtra','foowd:unit:extra', 'input/text', array('maxlength'=>"30"));
+?>
+<label for="quota-preview"><?php echo elgg_echo('foowd:quota:preview'); ?></label>
+<div id="quota-preview"></div>
+<?php
 $fadd->createField('Price','foowd:price:need', 'input/text', array('maxlength'=>"11"));
 // $fadd->createField('Price', 'Importo *', 'input/spinner', array("decimal"=>2, "integer"=>"8"));
 // i Tag hanno un metodo particolare
@@ -61,9 +68,9 @@ $fadd->createField('Maxqt', 'foowd:maxqt', 'input/text', array('maxlength'=>"9")
 
 
 <?php elgg_load_js('jquery'); ?>
-<link href="<?php echo elgg_get_site_url ();?>mod/foowd_offerte/js/imgareaselect/css/imgareaselect-default.css" rel="stylesheet">
+<link href="<?php echo elgg_get_site_url ();?>mod/foowd_utility/js/imgareaselect/css/imgareaselect-default.css" rel="stylesheet">
 <!-- <script type="text/javascript" src="<?php echo elgg_get_site_url ();?>mod/foowd_offerte/js/imgareaselect/scripts/jquery.min.js"></script> -->
-<script type="text/javascript" src="<?php echo elgg_get_site_url ();?>mod/foowd_offerte/js/imgareaselect/scripts/jquery.imgareaselect.pack.js"></script>
+<script type="text/javascript" src="<?php echo elgg_get_site_url ();?>mod/foowd_utility/js/imgareaselect/scripts/jquery.imgareaselect.pack.js"></script>
 
 <?php 
 elgg_require_js(\Uoowd\Param::pid().'/use_crop'); 

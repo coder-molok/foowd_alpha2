@@ -2,6 +2,22 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 25/06/2015
+
+- implementate [issue#66](https://github.com/coder-molok/foowd_alpha2/issues/66) , [issue#68](https://github.com/coder-molok/foowd_alpha2/issues/68) e [issue#79](https://github.com/coder-molok/foowd_alpha2/issues/79)  aggiungendo i campi `@Unit@`, `@Quota@` e `@UnitExtra@` (quest'ultimo per dare un'ulteriore apporto all'unita') e sviluppata semplice preview formato quota
+
+- risolta [issue#69](https://github.com/coder-molok/foowd_alpha2/issues/69) 
+    
+>NB: aggiornare DB e classi Propel mediante
+>
+>`propel diff`
+>
+>`propel migrate`
+>
+>`propel model:build`
+
+- aggiornato [ApiUser.php](../api_foowd/app/routes/actions/FApi/ApiUser.php) e relativa [documentazione API](../doc/foowd_api/doc)
+
 
 ### 22/06/2015
 

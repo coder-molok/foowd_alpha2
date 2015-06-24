@@ -4,8 +4,10 @@ namespace Foowd;
 
 // Metadata associati all'utente:
 // Genre , standard o offerente
-// idAuth, per coloro che si loggano tramite facebook/google+
+// idAuth-{provider}, per coloro che si loggano tramite facebook/google+
 // fake, valore lol solo per l'utente 373 (lo uso per test)
+// Description , per gli offerenti
+// Image, per gli offerenti
 
 class User {
 
@@ -15,6 +17,8 @@ class User {
 	/**
 	 * registro un nuovo utente, aggiungendogli un metadato e salvandolo anche nel servizio API.
 	 * Qualora il salvataggio API non si realizzasse, il nuovo utente non viene salvato.
+	 *
+	 * NB: questa funzione viene ad essere invocata alla registrazione da fronthend come hook soltanto dopo che l'action useradd.php ha dato esito positivo
 	 * 
 	 * @param  [type] $hook   [description]
 	 * @param  [type] $type   [description]
@@ -43,7 +47,8 @@ class User {
 		// set_input('idAuth', 'idAuth-'.$genre);
 
 		$data = $f->manageForm($form);
-		
+
+	
 		// NB: il check viene fatto sugli get_input, non sugli elgg_get_sticky
 		if(!$f->status){
 		    // nel caso non stia usando il debug impostato nel plugin, stampo un messaggio normale
@@ -83,6 +88,22 @@ class User {
 		$data['Name'] = get_input('name');
 		$data['type']= "create";
 		$data['ExternalId'] = $extId;
+		if(get_input('Description')!=='') $data['Description']=get_input('Description');
+		
+		// if(get_input('file')!=='') $data['Image']=get_input('file');
+		if($genre === 'offerente'){
+			$crop = new \Uoowd\FoowdCrop();
+			$dir = 'User-'.$extId.'/profile/';
+			$crop->saveImg($dir, $extId, 'useradd');
+	
+			if(!$crop->cropCheck()){
+				\Uoowd\Logger::addError("qualcosa e' andato storto nel crop");
+				$crop->removeDir(\Uoowd\Param::imgStore().'User-'.$extId);
+				return false;
+			}
+			$data['Image'] = $crop->base64();
+		}
+
 
 		$r = \Uoowd\API::Request('user', 'POST', $data);
 
@@ -108,6 +129,8 @@ class User {
 
 		}else{
 		    
+			if(isset($crop)) $crop->removeDir(\Uoowd\Param::imgStore().'User-'.$extId);
+
 		    // aggiungo gli errori ritornati dalle API esterne
 		    $errors = array_keys(get_object_vars($r->errors));
 		    $f->addError(array_values($errors), $form);

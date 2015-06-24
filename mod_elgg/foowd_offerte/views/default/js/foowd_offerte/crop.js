@@ -405,7 +405,7 @@ var PrevWindow = function(size ,div, scale){
     };
 
     this.remove = function(){
-        Jpre.parent().remove();
+        this.Jpre.parent().remove();
     }
 }
 

@@ -14,6 +14,7 @@ namespace Uoowd;
 			'tags'		=> 'tags.json',										// dove salvare il json contenente i tags
 			'utilAMD'	=> 'mod/foowd_utility/js/utility.settings.amd.js',	// file js contenente i settings e che viene aggiornato ad ogni salvataggio
 			'pageAMD' 	=> '/mod/foowd_utility/js/foowd.pages.amd.js',		// file js contenente l'elenco delle pagine di navigazione
+			'unitAMD' 	=> '/mod/foowd_offerte/js/foowd.unit.amd.js',		// file js contenente l'elenco delle unita' di misura
 		);
 	
 		public static function __callStatic($name, $arguments){
@@ -128,8 +129,7 @@ namespace Uoowd;
 		 * @param  [type] $page [description]
 		 * @return [type]       [description]
 		 */
-		public static function page($page){
-			$file = file(elgg_get_root_path().\Uoowd\Param::pageAMD());
+		public static function JSON_AMD($file){
 			// var_dump($file);
 			$json = false;
 			foreach($file as $row => $line){
@@ -140,10 +140,22 @@ namespace Uoowd;
 				} 
 				if(preg_match('@^define\(@', $line)) $json = ' ';
 			}
+			// $json = preg_replace('@( |\n|\r|\t)@','',$json);
 			// var_dump($json);
 			$json = json_decode($json);
+			// var_dump($json);
 
 			return $json;
+		}
+
+		public static function page(){
+			$file = file(elgg_get_root_path().\Uoowd\Param::pageAMD());
+			return self::JSON_AMD($file);
+		}
+
+		public static function unit(){
+			$file = file(elgg_get_root_path().\Uoowd\Param::unitAMD());
+			return self::JSON_AMD($file);
 		}
 
 

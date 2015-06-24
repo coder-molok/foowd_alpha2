@@ -736,13 +736,95 @@ define({ "api": [
             "optional": false,
             "field": "ExternalId",
             "description": "<p>id Elgg</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "return",
+            "description": "<p>elenco dei campi da ritornare (PHP name di Propel), separati dalla virgola</p> "
+          }
+        ],
+        "Response": [
+          {
+            "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "Image",
+            "description": "<p>l&#39;immagine salvata nel DB. Questo stream viene ritornato come base64_encode.</p> "
           }
         ]
       },
       "examples": [
         {
           "title": "Request-Example:",
-          "content": "{\n \"type\":\"search\",\n \"ExternalId\":\"54\"\n}",
+          "content": "{\n \"type\":\"search\",\n \"ExternalId\":\"54\",\n \"return\":\"Description,Image\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiUser.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
+    "url": "/user",
+    "title": "update",
+    "name": "update",
+    "group": "User",
+    "description": "<p>Aggiorno dati utente: tutti tranne l&#39;ExternalId.</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>metodo da chiamare: update</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "ExternalId",
+            "description": "<p>id Elgg</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Enum",
+            "optional": false,
+            "field": "Genre",
+            "description": "<p>{standard, offerente}: tipologia utente</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "Location",
+            "description": "<p>luogo</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "Description",
+            "description": "<p>Descrizione dell&#39;utente</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "Image",
+            "description": "<p>Immagine. Deve essere uno stream base64_encode, in particolare ottenibile mediante &quot;base64_encode(stream_get_contents(fopen(&quot;immagine.jpg&quot;,&quot;rb&quot;)))&quot;</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n \"type\":\"update\",\n \"Name\":\"gigi\",\n \"Genre\":\"standard\",\n \"Location\": \"torino\",\n \"ExternalId\":\"54\",\n \"Description\":\"Sono superbellissimo\",\n \"Image\":\"stringa base64_encode.....\"\n}",
           "type": "json"
         }
       ]

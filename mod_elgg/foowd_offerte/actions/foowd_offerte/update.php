@@ -55,6 +55,7 @@ if(!$f->status || !$crop->status) forward(REFERER);
 
 // se tutto va a buon fine, proseguo con le API esterne
 $data['type']='update';
+// \Uoowd\Logger::addError($data);
 $r = \Uoowd\API::Request('offer', 'POST', $data);
 
 if($r->response){

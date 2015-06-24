@@ -3,12 +3,15 @@
 	<table name="offer" phpName="Offer">
         <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
         <column name="name" phpName="Name" type="VARCHAR" size="255" required="true" />
-        <column name="description" phpName="Description" type="VARCHAR" size="255" required="false" />
+        <column name="description" phpName="Description" type="VARCHAR" size="1700" required="true" />
         <column name="publisher" phpName="Publisher" type="INTEGER" required="true"/>
         <!-- con size 10 vuol dire 10 numeri in totale, pertanto fino a 8 cifre per la parte intera + 2 cifre per la decimale -->
-        <column name="price" phpName="Price" type="DECIMAL" size="10" scale="2" phpType="double" required="false"/>
-        <column name="minqt" phpName="Minqt" type="DECIMAL" size="8" scale="3" phpType="double" required="false"/>
+        <column name="price" phpName="Price" type="DECIMAL" size="10" scale="2" phpType="double" required="true"/>
+        <column name="minqt" phpName="Minqt" type="DECIMAL" size="8" scale="3" phpType="double" required="true"/>
         <column name="maxqt" phpName="Maxqt" type="DECIMAL" size="8" scale="3" phpType="double" required="false"/>
+        <column name="quota" phpName="Quota" type="DECIMAL" size="8" scale="3" phpType="double" required="true"/>
+        <column name="unit"  phpName="Unit"  type="VARCHAR" size="20" required="true" />
+        <column name="unitextra"  phpName="UnitExtra"  type="VARCHAR" size="30" required="false" />
         <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP" required="false"/>
         <column name="modified" phpName="Modified" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP" required="false"/>
         <!-- aggiunto -->
@@ -60,8 +63,12 @@
         <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
         <column name="name" phpName="Name" type="VARCHAR" size="255" required="true" />
         <column name="genre" phpName="Genre" type="VARCHAR" size="10" required="true" />
-        <column name="location" phpName="Location" type="VARCHAR" size="255" required="false" />
         <column name="externalid" phpName="ExternalId" type="INTEGER" required="true"/>
+        <column name="location" phpName="Location" type="VARCHAR" size="255" required="false" />
+        <column name="description" phpName="Description" type="VARCHAR" size="2000" required="false" />
+        <!-- VARBINARY indica il MEDIUMBLOB di mysql-->
+        <!-- in caso di errore ricordarsi di impostare l'opzione max_allowed_packet=16M in mysql.ini -->
+        <column name="image" phpName="Image" type="VARBINARY" required="false" />
 
         <behavior name="validate">
             <parameter name="name" value="{column: name, validator: NotBlank}" />

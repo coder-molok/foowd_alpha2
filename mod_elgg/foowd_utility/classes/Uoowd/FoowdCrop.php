@@ -6,34 +6,45 @@ namespace Uoowd;
 // il form action, preso da sticky
 // la guid, presa da guid
 
-class Crop{
+class FoowdCrop{
 
 	// lo uso per determinare se non ho errori nel controllo prima di effettuare il salvataggio
 	public $status = true;
 
+
 	/**
-	 * all'inizio constrollo solo che il form abbia impostato il file da croppare 
+	 * salvo la prima immagine, impostando la directory come default per eventuali crop
 	 *
-	 * opzionalmente uso l'input sticky per creare uno sticky form
+	 * imposto globalmente:
+	 * saveDir, che e' la directory di partenza
+	 * File, ovvero il file immagine (come primo e unico elemento di $_FILE)
+	 * guid, la guid dell'utente
+	 * target, il nome dell'immagine che viene salvata, path incluso
+	 * sticky, classe sticky form
+	 * 
+	 * @param  [type] $directory rispetto a \Uoowd\Param::imgStore()
+	 * @return [type]            [description]
 	 */
-	public function __construct($empty = null){
-		
-		// solo se e' un utente
-		elgg_gatekeeper();
+	public function saveImg($directory, $guid, $form = 'generic'){
 
+		// a questo punto posso impostare i parametri di salvataggio
+		$dir = str_replace('\\', '/', \Uoowd\Param::imgStore());
+		// $dir .= 'User-'.elgg_get_logged_in_user_guid().'/';
+		$saveDir = $dir.$directory;
+		// if (!file_exists($saveDir)) {
+		//     mkdir($saveDir, 0777, true);
+		// }
+		if(! $this->createDir($saveDir)) return;
+		// utile da richiamare nel caso voglia cancellare la directory per via di errori successivi
+		// vedi metodo removeDir() e crop() 
+		$this->saveDir = $saveDir;
+		$this->guid = $guid;
 
-		// inizio col predisporre lo sticky form, che se non esiste non crea errori
-		$form = get_input('sticky');
-		// register_error($form);
-		
-		// creo lo sticky per salvare in $_SESSION i vari messaggi
 		$this->sticky = new \Uoowd\Sticky($form);
 		$sticky = $this->sticky;
 
-		if(!is_null($empty)) return;
-		
-		// system_message($form);
-
+		// recupero il file salvato col costruttore
+		// NB: credo vi sia un Bug di php: $File (inteso come $_FILES) non puo' essere impostato con $sticky->setV !!!!
 		// ora penso al file, perche' e' un parametro obbligatorio
 		// controllo di avere un'immagine da salvare
 		foreach($_FILES as $key => $file){
@@ -66,61 +77,16 @@ class Crop{
 		   $this->File = $file;
 		}
 
-		// system_message($guid.' '.$form);
-
-	}
-
-	/**
-	 * funzione che salva l'immagine e le sue thumbnail
-	 *
-	 * ho bisogno della come directory per l'offerta
-	 *
-	 * 
-	 * @return [type] [description]
-	 */
-	public function saveImg(){
-
-		// recupero la classe sticky creata col costruttore
-		$sticky = $this->sticky;
-
-		// controllo sulla guid Id dell'Offerta: se non esiste non posso manco sapere dove salvare
-		// $owner = get_entity($guid);
-		$guid = get_input('offerGuid');
-		if(!$guid){
-		    $sticky->setV(array('guidError'=>'Attenzione, non posso rintracciare l\'offerta.'));
-		    // forward(REFERER);
-		    $this->status = false;
-		    return;
-		}
-
-		// a questo punto posso impostare i parametri di salvataggio
-		$dir = str_replace('\\', '/', \Uoowd\Param::imgStore());
-		$dir .= 'User-'.elgg_get_logged_in_user_guid().'/';
-		$saveDir = $dir.$guid.'/';
-		// if (!file_exists($saveDir)) {
-		//     mkdir($saveDir, 0777, true);
-		// }
-		if(! $this->createDir($saveDir)) return;
-
-		// utile da richiamare nel caso voglia cancellare la directory per via di errori successivi
-		// vedi metodo removeDir() e crop() 
-		$this->saveDir = $saveDir;
-
-
-
-		// recupero il file salvato col costruttore
-		// NB: credo vi sia un Bug di php: $File (inteso come $_FILES) non puo' essere impostato con $sticky->setV !!!!
-		$File = $this->File;
-
 		// parto col salvataggio dell'originale nella root del folder
 		// $target_file = $saveDir.$File['name'];
-		$target_file = $saveDir.get_input('offerGuid').'.'.pathinfo($File['name'], PATHINFO_EXTENSION);
+		$sticky->setV(array('att'=>$File));
+		$target_file = $saveDir.$guid.'.'.pathinfo($this->File['name'], PATHINFO_EXTENSION);
 		// \Uoowd\Logger::addError($target_file);
 
 		// per il metodo crop()
 		$this->target = $target_file;
 
-		if (move_uploaded_file($File["tmp_name"], $target_file)) {
+		if (move_uploaded_file($this->File["tmp_name"], $target_file)) {
 		    $r['message'] = "File ". basename( $target_file). " salvato con successo.";
 		    $r['response'] = 'success';
 		    // svuoto la directory
@@ -135,7 +101,7 @@ class Crop{
 		    $r['message'] = "Purtroppo il file risulta corrotto.";
 		    $r['response'] = 'error';
 		    $er['fileError'] = "Purtroppo il file risulta corrotto.";
-		    $er['offerGuid'] = $guid;
+		    $er['guid'] = $guid;
 		    // $er['fi_le'] = json_decode($this->File);
 		    $er['target'] = $target_file;
 		    $sticky->setV($er);
@@ -232,12 +198,29 @@ class Crop{
 		    imagecopyresampled ( $thumb , $img , 0 , 0 , (int)($crop['x1']*$w) , (int)($crop['y1']*$h) , $l , $l*$cropRatio, (int) ($crop['w']*$w) , (int) ($crop['h']*$h) );
 		    
 		    // $Fname = $sdir.basename($target_file);
-		    $Fname = $sdir.get_input('offerGuid').'.jpg';
+		    $Fname = $sdir.$this->guid.'.jpg';
 		    imagejpeg( $thumb , $Fname );
 
 		    if(!$this->emptyDirBut($sdir, basename($Fname))) return;
 		}
 
+	}
+
+	public function base64(){
+		$fp = fopen($this->target, "rb");
+		$fp = base64_encode(stream_get_contents($fp));
+		fclose($fp);
+		return $fp;
+	}
+
+	public function cropCheck(){
+		if($this->status){
+			$this->sticky->unsetSticky();
+			return true;
+		}else{
+			$this->removeDir();
+			return false;
+		}
 	}
 
 
@@ -248,6 +231,7 @@ class Crop{
 		// nel caso di errori di creazione, allora ritorno un errore
 		if (!file_exists($dir)){
 			$this->sticky->setV(array('dirError'=>'Directory: '.$dir.' , non esiste'));
+			\Uoowd\Logger::addError('Directory: '.$dir.' , non esiste');
 			$this->status = false;
 			return false;
 		}
@@ -279,28 +263,6 @@ class Crop{
 
 		// savedir settato con metodo saveImg()
 		if(is_null($dir)) $dir = $this->saveDir;
-
-	 //    if (!file_exists($dir)) {
-	 //        return true;
-	 //    }
-	
-	 //    if (!is_dir($dir)) {
-	 //        return unlink($dir);
-	 //    }
-	
-	 //    foreach (scandir($dir) as $item) {
-	 //        if ($item == '.' || $item == '..') {
-	 //            continue;
-	 //        }
-	
-	 //        if (!$this->removeDir($dir . DIRECTORY_SEPARATOR . $item)) {
-	 //            return false;
-	 //        }
-	
-	 //    }
-	
-	 //    return rmdir($dir);
-		// }
 
 		foreach (new \DirectoryIterator($dir) as $fileInfo) {
 			// se e' dot la ignoro

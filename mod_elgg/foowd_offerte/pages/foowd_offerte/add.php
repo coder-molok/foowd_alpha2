@@ -59,6 +59,19 @@ $vars['guid']=elgg_get_logged_in_user_guid();
 $vars['sticky']=$form;
 $vars['tags'] = $value;
 
+// recupero le unita' di misura
+$unit = \Uoowd\Param::unit();
+// $u['name']="Unit";
+if(!isset($vars['Unit'])) $u['options_values']=array(''=>'-- scegli un valore --');
+foreach($unit as $obj){
+	foreach ($obj as $unit => $symbol) {
+		$u['options_values'][$unit]=sprintf('%s (%s)<br/>', ucwords(str_replace('_',' ',$unit)), $symbol);
+		// $u['options'][]=$unit;
+	}
+}
+// NB: l'underscore server per non metchare il vero field, che contiene lo sticky value
+$vars['_Unit'] = $u;
+
 // salvo eventuali parametri di sessione, magari ritornati dalle mie action
 $vars = array_merge($vars, (array) $session);
 // var_dump($vars);

@@ -21,6 +21,14 @@ return array(
 	'foowd:file:need' => 'Carica l\'immagine *',
 	'foowd:file:error' => 'Non hai aggiunto alcuna immagine',
 
+	'foowd:quota:need' => 'Quota *',
+	'foowd:quota:error' => 'Massimo 5 cifre + 3 decimali separate da un punto',
+	'foowd:quota:preview' => 'Ecco come verr&agrave; visualizzata la tua quota',
+
+	'foowd:unit:need' => 'Unit&agrave; di misura *',
+	'foowd:unit:error' => 'Scegli un valore',
+	'foowd:unit:extra' => 'Aggiungi ulteriori specifiche alla quota',
+
 	'foowd:price' => 'Prezzo per quota',
 	'foowd:price:need' => 'Prezzo per quota *',
 	'foowd:price:error' => 'Massimo 8 cifre + 2 decimali separate da un punto',
@@ -35,6 +43,12 @@ return array(
 	'foowd:maxqt' => 'Quantit&agrave; massima',
 	'foowd:maxqt:error' => 'Massimo 5 cifre + 3 decimali separate da un punto',
 	'foowd:maxqt:error:larger' => 'La quantit&agrave; massima deve superare o eguagliare quella minima.<br/>Se non vuoi inserire un massimo, cancella i numeri dal campo sottostante.',
+
+	'foowd:user:description' => 'Inserisci una descrizione per farti conoscere',
+
+	// utility
+	// 'foowd:offer:image-tmp' => 'foowd_offerte/image-tmp',
+	'foowd:image-tmp' => 'foowd_utility/image-tmp',
 
 
 

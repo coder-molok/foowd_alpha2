@@ -98,19 +98,21 @@
             #@color "rgba(255, 0, 0, 0.17)"
 
             #se c'e' lo rimuovo
-            $(".error-#{@el.attr 'name'}").remove()
+            #$(".error-#{@el.attr 'name'}").remove()
+            $(".error-#{@key}").remove()
 
             #console.log @msg
             $('<span/>',
-                "class": "error-#{@el.attr 'name'}"
+                "class": "error-#{@key}"#"error-#{@el.attr 'name'}"
                 "html": elgg.echo @msg
                 ).
                 #appendTo(@el.parent().find('label'))
                 appendTo("label[for*=#{@key}]")
-            #console.log "appeso #{@key}"
+            # console.log "appeso #{@key}"
             
         clean: ->
-            $(".error-#{@el.attr 'name'}").remove()
+            #$(".error-#{@el.attr 'name'}").remove()
+            $(".error-#{@key}").remove()
             #@color ''
  
 
@@ -126,7 +128,7 @@
             #@key = @key
             re = new RegExp(/^\d{1,5}(\.\d{0,3})?$/)
             v = @el.val().trim()
-            if re.test(v) and v isnt '' then true else false
+            if re.test(v) and v isnt '' and parseFloat(v)>0.0 then true else false
 
     class Maxqt extends Input
         check: ->
@@ -134,7 +136,7 @@
             re = new RegExp(/^\d{1,5}(\.\d{0,3})?$/)
             Max = @el.val().trim()
 
-            if Max is '' then true
+            if Max is '' then return true
 
             Min = $("[name*=Minqt]").val().trim()
             if Min is ''
@@ -146,7 +148,7 @@
                 @msg = 'foowd:' +@key.toLowerCase()+':error' 
                 return false
 
-            console.log "#{Min} e #{Max}"
+            # console.log "#{Min} e #{Max}"
             if parseFloat(Min) > parseFloat(Max)
                 @msg = 'foowd:' +@key.toLowerCase()+':error:larger' 
                 return false
@@ -197,9 +199,11 @@
             #'Minqt-integer':['Price', 'Il campo e\' obbligatorio']
             #'Maxqt-integer':['Larger', 'La quantita\' massima deve superare o eguagliare quella minima.<br/>    Se non vuoi inserire un massimo, cancella i numeri dal campo sottostante. ']
             #'Price-integer':['Price',  'Il campo e\' obbligatorio']
-            'Price':['Price'],
+            'Price' : ['Price']
             'Minqt' : ['Minqt']
-            'Maxqt' : ['Maxqt'],
+            'Maxqt' : ['Maxqt']
+            'Quota' : ['Minqt']
+            'Unit'  : ['Text']
             #'Tag': ['Div', 'Devi selezionare almeno un tag', '.search-choice', 'foowd:update:tag']
             'Tag': ['Div', '.search-choice', 'foowd:update:tag']# l'ultimo e' il trigger event impostato con chosen
             'file' : ['Div',  '#sorgente']#, 'foowd:update:file']
@@ -211,6 +215,7 @@
                 inpt = 'input[name*='+key+']'
                 selector = '[name*='+key+']'
                 if key is 'Tag' then inpt = '.chosen-choices'
+                if key is 'Unit' then inpt = 'select[name=Unit]'
                 #else if key is 'file' then selector = '"#sorgente"'
                 if cls[1]? then selector = cls[1]
                 obj = 
@@ -230,6 +235,24 @@
 
             #for key in @factory
             #   console.log key.el
+        
+
+        # gestisco la preview della quota
+        quotaDivs = '[name="Quota"], select[name="Unit"], [name="UnitExtra"]'
+        JquotaPrev = $('#quota-preview')
+        $(quotaDivs).on "change keyup", ()->
+            str = $('[name="Quota"]').val() + ' ' + $('select[name="Unit"]').val() + ' ' + $('[name="UnitExtra"]').val()
+            JquotaPrev.html(str)
+        # forzo un trigger per far eseguire una volta di default
+        $(quotaDivs).trigger('change')
+
+        # Jframe = $('').first()
+        # console.log Jframe
+        # $(window).on 'load', ()->
+        #     Jframe = $("iframe").contents()
+        #     Jframe.on 'click', (e)->
+        #         console.log Jframe.selector
+        #         console.log $(this).val()
             
 
         checkAll: ->

@@ -36,10 +36,30 @@ if (isset($vars['entity'])) {
 //echo elgg_view('input/dropdown', $vars);
 
 $vars = array_merge($defaults, $vars);
+
 // istanzio per la creazione
 $fadd = new \Foowd\Action\Register();
 $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars);
 
 ?>
+<div id="offer-hook">
+	<?php
+		// $fadd = new \Foowd\Action\FormAdd($vars);
 
+		$fadd->createField('Description', 'foowd:user:description', 'input/longtext');
 
+		// la prima volta non dovrebbe essere impostato niente, e visualizzo soltanto il form di caricamento
+		$fadd->createField('file', 'foowd:file:need', 'input/file', array('id'=>'loadedFile', 'value'=>''));
+		echo '<center><div id="image-container" style="display:none;">Seleziona l\'area da ritagliare.<div id="image"></div></div></center>';
+	?>
+	<div id="crop">
+	    <input type="hidden" name="crop[x1]" value="" />
+	    <input type="hidden" name="crop[y1]" value="" />
+	    <input type="hidden" name="crop[x2]" value="" />
+	    <input type="hidden" name="crop[y2]" value="" />    
+	</div>
+	<a href="<?php echo elgg_echo('foowd:image-tmp')?>" id="url" style="display:none" >testo</a>
+</div>
+<?php
+
+elgg_require_js('foowd_utenti/user-register');

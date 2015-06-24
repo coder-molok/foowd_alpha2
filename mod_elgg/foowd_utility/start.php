@@ -34,6 +34,18 @@ function utility_init(){
 	    	'src' => \Uoowd\Param::pageAMD(),
 	]);
 
+	// per il plugin crop
+	elgg_define_js('crop',[
+	    'src' => '/mod/foowd_utility/js/foowd-crop/crop.js',
+	    'deps'=> array('jquery', 'elgg', 'imgAreaSelect')
+	]);	
+
+	elgg_define_js('imgAreaSelect', [
+	    'src' => '/mod/foowd_utility/js/imgareaselect/scripts/jquery.imgareaselect.pack.js',
+	    'deps' => array('jquery'),
+	    // 'exports' => 'jQuery.fn.imgAreaSelect',
+	]);
+
 }
 
 
@@ -74,6 +86,9 @@ function utility_page_handler($segments) {
 			break;
 		case 'test':
 		    include elgg_get_plugins_path() . 'foowd_utility/test/test.php';
+		    break;
+		case 'image-tmp':
+		    include elgg_get_plugins_path() . 'foowd_utility/pages/image-tmp.php';
 		    break;
 		default:
 			$check = false;
