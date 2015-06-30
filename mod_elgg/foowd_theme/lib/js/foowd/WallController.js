@@ -78,30 +78,32 @@ define(function(require){
 		/*
 		 * Ricerca dei prodotti in base alla chiave testuale
 		 */
-		function searchProducts(){
-			var textSearch = getSearchText();
-			API.getProducts(userId, textSearch).then(function(data){
-				//parso il JSON dei dati ricevuti
-				var rawProducts = $.parseJSON(data);
-              	//prendo l'id dell'utente (se loggato) e vedo che template usare
-				if(rawProducts.body.length > 0){
-					var useTemplate = null;
-					if(userId !== null){
-						useTemplate = templates.productLogged;
+		function searchProducts(e){
+			if(e.keyCode == 13){
+				var textSearch = getSearchText();
+				API.getProducts(userId, textSearch).then(function(data){
+					//parso il JSON dei dati ricevuti
+					var rawProducts = $.parseJSON(data);
+	              	//prendo l'id dell'utente (se loggato) e vedo che template usare
+					if(rawProducts.body.length > 0){
+						var useTemplate = null;
+						if(userId !== null){
+							useTemplate = templates.productLogged;
+						}else{
+							useTemplate = templates.productNoLogged;
+						}
+						//utilizo il template sui dati che ho ottenuto
+						var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
+						//riempio il wall con i prodotti 
+						fillWall(parsedProducts);
 					}else{
-						useTemplate = templates.productNoLogged;
+						$(searchBox).trigger('failedSearch');
 					}
-					//utilizo il template sui dati che ho ottenuto
-					var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
-					//riempio il wall con i prodotti 
-					fillWall(parsedProducts);
-				}else{
-					$(searchBox).trigger('failedSearch');
-				}
 
-			},function(error){
-				console.log(error);
-			});
+				},function(error){
+					console.log(error);
+				});
+			}
 		}
 
 		/*
@@ -152,15 +154,7 @@ define(function(require){
 		/*
 		 * GESTIONE EVENTI ------------------------------------------------------------------------
 		 */
-
-		//gestore dell'evento dell'avvenuta premuta del pulsante invio sulla casella di testo
-		$(searchBox).keypress(function (e) {
-			if (e.keyCode == 13){
-				searchProducts();
-				return false;
-			}
-
-		});
+		 
 		//notifica errore nel caso la ricerca testuale non ha prodotto risultati
 		$(searchBox).on('failedSearch', function(e){
 			$('#foowd-error').text('La tua ricerca non ha prodotto risultati');
@@ -182,6 +176,7 @@ define(function(require){
 		 */
 
 		return{
+			searchProducts : searchProducts,
 			fillWallWithProducts : fillWallWithProducts,
 			addPreference : addPreference
 		};

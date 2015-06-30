@@ -1,0 +1,72 @@
+
+@import 'jeet'
+/* Stile Nuovo Header*/
+
+
+//breakpoint responsiveness
+bp = 900px;
+//margine tra il contenuto e la barra di navigazione
+contentMargin = 60px;
+/*----- Fine variabili utili -----*/
+
+.foowd-navbar
+  cf()
+  height: contentMargin;
+  width : 100%
+  position : fixed
+  top : 0
+  z-index: 10000;
+  box-shadow: 0 2px 3px -1px #f5f5f5;
+
+.navbar-section
+  column(1/2, cycle: 2)
+  span(1/2)
+  height:100%;
+  +below(bp)
+    stack()
+    background-color:red;
+
+#foowd-brand
+  background-color: rgb(250,230,239);
+  a
+    align(vertical)
+    text-decoration : none;
+    color: black;
+    font-family AkkuratBold;
+    font-size: 24pt;
+    margin-left: 15px;
+
+//barra di reicerca
+#search-section
+  align(vertical)
+  shift(1/6)
+  span(1/3)
+  margin-left:15px;
+  input
+    background-color: rgb(250,230,239);
+    outline:none;
+    border:none;
+    
+#user-menu-section
+  background-color: rgb(255,255,255);
+
+
+#user-menu
+  position:relative;
+  float:right;
+  display: inline-block;
+  margin-top : 20px;
+  font-size:12pt;
+  a 
+    margin-right: 10px;
+
+.fw-menu-icon{
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    cursor: pointer;
+    color:white;
+}
+#price-section
+  height: 100%;
+  background:trasparent;
+
+/* Fine stile nuovo header*/

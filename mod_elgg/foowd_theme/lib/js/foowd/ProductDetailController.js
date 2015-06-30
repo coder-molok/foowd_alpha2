@@ -12,6 +12,14 @@ define(function(require){
 	var Utils = require('Utils');
 	//creo il controller della pagina dettaglio
 	var ProductDetailController = (function(){
+
+		function animateProgressBar(bar, amount){
+			//amount 0 to 100
+			var progress = amount > 100 ? 100 : amount;
+			var containerWidth = bar.parent()[0].clientWidth;
+			bar.css("width", (progress * containerWidth)/100);
+		};
+
 		return{
 			getDetailsOf : function(DOMelement){
 				//prendo l'id del prodotto dall'url
@@ -34,7 +42,6 @@ define(function(require){
 						API.getProduct(queryObject.productId).then(function(data){
 							//parso in JSON il risultato
 							var rawProduct = $.parseJSON(data).body[0];
-							console.log(rawProduct);
 							//aggiungo il campo immagine
 							Utils.addPicture(rawProduct);
 							//applico il template ai dati ricevuti
@@ -43,6 +50,9 @@ define(function(require){
 							$(DOMelement)
 				  	    		.append(parsedProduct)
 								.addClass('animated bounceInLeft'); //animazione
+							//riempio la progress bar
+							//TODO : trovare il valore corretto con cui riempire la progress bar
+							animateProgressBar($('#progress-bar'),20);
 						}, function(error){
 							//gestico l'errore
 							console.log(error);

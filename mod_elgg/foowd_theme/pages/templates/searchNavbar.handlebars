@@ -1,0 +1,25 @@
+<div class="foowd-navbar">
+    <div class="navbar-section" id="foowd-brand">
+         <a class = "foowd-brand" onClick="utils.goTo()">
+         foowd_</a>
+        <div id="search-section">
+            <input type="text" id="searchText" onkeypress="WallController.searchProducts(event)">
+        </div>
+    </div>
+    <div class = "navbar-section" id="user-menu-section">
+        <div id = "user-menu" onClick="utils.goTo('board')">
+            <a id="heart">
+                <i class="glyphicon glyphicon-heart fw-menu-icon">
+                </i>
+            </a>
+            <a id="userButton"  onClick = "utils.goToUserProfile()">
+                <i class="glyphicon glyphicon-user fw-menu-icon">
+                </i>
+            </a>
+            <a id="menu">
+                <i class="glyphicon glyphicon-th-large fw-menu-icon">
+                </i>
+            </a>
+        </div>
+    </div>
+</div>

@@ -14,7 +14,6 @@
 
      <!-- Custom CSS -->
     <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
-    <link rel="stylesheet" href="mod/foowd_theme/lib/css/grid.css">
     <!-- Flavicons (not avaiable yet) -->
     <!-- elgg -->
     <?php
@@ -51,33 +50,8 @@
       ?>
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top header">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" onClick="utils.goTo()">foowd_</a>
-      </div>
-      <div class="navbar-form navbar-left" role="search">
-          <div class="form-group">
-            <input type="text" class="form-control" id="searchText" size = "50">
-          </div>
-      </div>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a id="heart">
-            <i class="glyphicon glyphicon-heart fw-menu-icon header-icon"></i>
-            </a>
-        </li>
-        <li><a id="userButton"  onClick = "utils.goToUserProfile()">
-            <i class="glyphicon glyphicon-user fw-menu-icon header-icon"></i>
-            </a>
-        </li>
-      </ul>
-  </div>
-</nav>
+<div class="foowd-navbar">
+  
 </div>
 <div class="container-fluid" id="wall-main">
   <div class="wall">
@@ -89,16 +63,21 @@
 require([ 
   'bootstrap', 
   'helpers',
+  'templates',
   'Utils',
   'WallController'
   ],function(){
   //helpers di Handlebars
   var helpers = require('helpers'); 
+  //templates di handlebars
+  var templates = require('templates');
   //funzioni di utility
   window.utils = require('Utils');
   //controller della pagina
   var WallController = require('WallController');
   window.WallController = WallController;
+  //inserisco la barra di navigazione
+  $('.foowd-navbar').html(templates.searchNavbar(""));
   //richiamo il controller per riempire il wall di prodotti
   WallController.fillWallWithProducts();
 });

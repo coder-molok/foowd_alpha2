@@ -1,0 +1,74 @@
+/*
+ * Wall --------------------------------------------------------------------------
+ */
+.wall{
+}
+#wall-main {
+    padding-top:80px;
+    margin: 0px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+/*
+ *  Product Panels (template) -------------------------------------------------------------------------------------------
+ */
+.product-post-header{
+    margin: 0px 0px 0px 0px;
+    padding: 5px;
+    background:transparent;
+    border-color:transparent;
+    position: absolute;
+}
+.product-post > a{
+    cursor: pointer;
+}
+.product-post-header *{
+    display: inline-block;
+}
+.product-post-image-thumbnail{
+    position: relative;
+    left:0px;
+    z-index: -10;
+    width: 100%;
+    height: 100%;
+}
+.product-post-menu{
+    position: absolute;
+    background: transparent;
+    border: none;
+    margin-top: -25px;
+    z-index: 10;
+}
+.product-post-menu-options{
+    position: relative;
+    float: left;
+    padding: 0px;
+    margin: 0px;
+    font-size: 18px;
+
+}
+.product-post-menu-options li {
+    list-style-type: none;
+    display: inline-block;
+    margin-left: 5px;
+}
+.product-post-body{
+    position: relative;
+    background: transparent;
+    padding: 5px;
+    font-size: 12px;
+
+}
+.fw-menu-icon{
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    cursor: pointer;
+    color:white;
+}
+.apex{
+    vertical-align: super;
+    font-size: 15px;
+    margin-top: -12px;
+}
+.red-heart{
+    color: red;
+}

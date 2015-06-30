@@ -1,6 +1,5 @@
 define(function(require){
 	var Handlebars = require('handlebars.runtime');
-
    /*
 	* Ho registrato un helper handlebars, per modificare la classe del cuore sulla preferenza
 	* in base ai dati che arrivano decido se applicare la classe oppure no
@@ -25,5 +24,5 @@ define(function(require){
 	        "%": lvalue % rvalue
 	    }[operator];
 	});
-
+	
 });

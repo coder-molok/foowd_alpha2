@@ -1,0 +1,141 @@
+
+@import 'jeet'
+
+/*Contenuti pagina di dettaglio*/
+
+//breakpoint responsiveness
+bp = 900px;
+//margine tra il contenuto e la barra di navigazione
+contentMargin = 60px;
+/*----- Fine variabili utili -----*/
+
+
+#product-detail-main
+  margin-top: contentMargin;
+  +below(bp)
+    margin-top : contentMargin * 2;
+
+//ATTENZIONE : da qui in poi visualizza la pagina del template productDetail
+
+.detail-menu-section
+  column(1/2 1/2, cycle: 2)
+  span(1/2)
+  height: contentMargin;
+  +below(bp)
+    stack()
+
+#detail-menu
+  margin-bottom: 20px;
+
+#bar
+  background-image : url('../../img/stripes.png');
+  position: absolute;
+  width: 100px;
+  height:46px;
+
+.price-detail
+    column(1/2 1/2)
+    span(1/2)
+    
+.number-block
+  margin:5px;
+  padding:0px;
+  font-size:18px;
+  font-weight:bold;
+
+.number-block > li
+  padding:0px;
+  margin:0px;
+
+.number-description
+  font-size:12px;
+  font-weight:normal;
+  font-family: AkkuratRegular;
+
+
+#min-order-price
+  li
+    text-align:right;
+
+#menu-close
+  text-align: right;
+  padding-top: 5px;
+  span
+    font-size:14pt;
+    margin-right:10px;
+
+.product-menu-section
+  column(1/2)
+  span(1/2)
+  +below(bp)
+    stack()
+
+.menu-section
+  column(1/2)
+  
+
+#section1
+  height: 100px;
+
+#product-name
+  font-family: AkkuratBold;
+  font-size: 16pt;
+
+.action-icons
+  position:relative;
+  float:right;
+  
+#preference-action
+  text-align: right;
+
+.action-icons li
+  display:inline-block;
+  vertical-align:middle;
+
+#action-heart
+  padding:10px;
+  background: rgb(250,230,239);
+  border-radius:50%;
+
+#action-heart > i
+  position:relative;
+  left:-1px;
+  top:4px;
+  color:rgb(250,230,239);
+  font-size:40px;
+
+#action-minus
+  padding:10px;
+  background: rgb(235,235,235);
+  border-radius:50%;
+
+#action-minus > i
+  position:relative;
+  left:-1px;
+  color:rgb(235,235,235);
+  font-size:40px;
+
+#section2
+  height:160px;
+
+#section1, #section2
+  padding:15px;
+
+
+#commercial-menu > li
+  border-top: 0.1em solid rgb(120,120,120);
+  padding:15px;
+  
+#commercial-menu > li > i
+  vertical-align:middle;
+  color:white;
+
+#product-picture
+  padding:0px;
+
+
+
+
+
+
+

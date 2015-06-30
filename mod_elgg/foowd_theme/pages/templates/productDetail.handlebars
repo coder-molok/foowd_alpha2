@@ -1,48 +1,49 @@
-<div class = "row" id="detail-menu">
-    <div class="col-xs-10 col-sm-4 col-md-6">
-        <ul class="number-block">
-            <li>{{Price}}<span class="apex">€</span></li>
-            <li><span class ="number-description">Prezzo Unità</span></li>
-        </ul>
+<div id="detail-menu">
+    <div class="detail-menu-section" id="price-section">
+        <span id="progress-bar"></span>
+        <span id="preview-bar"></span>
+        <div class="price-detail">
+            <ul class="number-block" id="unit-price">
+                <li>{{Price}}<span class="apex">€</span></li>
+                <li><span class ="number-description">prezzo unità</span></li>
+            </ul>
+        </div>
+        {{!-- Barra di caricamento --}}
+        <div class="price-detail">
+            <ul class="number-block" id="min-order-price">
+                <li>{{math Price '*' Minqt}}<span class="apex">€</span></li>
+                <li><span class ="number-description">ordine minimo</span></li>
+            </ul>
+        </div>
     </div>
-    <div class="col-xs-10 col-sm-4 col-md-6">
-        <ul class="number-block">
-            <li>{{math Price '*' Minqt}}<span class="apex">€</span></li>
-            <li><span class ="number-description">Ordine Minimo</span></li>
-        </ul>
+    <div class="detail-menu-section" id ="menu-close">
+        <span class="glyphicon glyphicon-remove-circle fw-menu-icon" id ="close-detail" onClick="utils.goTo('')"></span>
     </div>
 </div>
-<div class = "row" id="detail-info">
-    <div class="col-xs-10 col-sm-4 col-md-6">
-        <div class="row" id="detail-info-row1">
-            <div class="col-xs-6 col-md-6 product-name">
+<div id="product-menu">
+    <div class="product-menu-section" id="product-info">
+        <div class="product-info-menu" id = "section1">
+
+            <div class="menu-section" id="product-name">
                 {{Name}}
             </div>
-            <div class="col-xs-6 col-md-6 product-info">
-                <ul class="number-block">
-                    <li>4</li>
-                    <li><span class ="number-description">Followers</span></li>
-                </ul>
-                <ul class="number-block">
-                    <li>12</li>
-                    <li><span class ="number-description">Share</span></li>
-                </ul>
-                <ul class="action-icons">
-                    <li id="action-heart">
-                        <i  class="glyphicon glyphicon-heart fw-menu-icon"></i>
-                    </li>
-                    <li id="action-minus">
-                        <i class="glyphicon glyphicon-minus fw-menu-icon"></i>
-                    </li>
-                </ul>
-            </div>
+            
+            <ul class="action-icons menu-section" id = "preference-action">
+                <li id="action-heart">
+                    <i  class="glyphicon glyphicon-heart fw-menu-icon"></i>
+                </li>
+                <li id="action-minus">
+                    <i class="glyphicon glyphicon-minus fw-menu-icon"></i>
+                </li>
+            </ul>
+
         </div>
-        <div class="row" id="detail-info-row1">
-            <div class="col-xs-6 col-md-6 product-description">
+        <div class="product-info-menu" id = "section2">
+            <div class = "menu-section" id="product-description">
                 {{{Description}}}
             </div>
-            <div class="col-xs-6 col-md-6 product-commercial-info">
-                <ul class="commercial-menu">
+            <div class = "menu-section" id="product-commercial-info">
+                <ul id="commercial-menu">
                     <li>
                         <i id="" class="glyphicon glyphicon-heart fw-menu-icon"></i>
                         carrello
@@ -51,15 +52,11 @@
                         <i id="" class="glyphicon glyphicon-unchecked fw-menu-icon"></i>
                         tot
                     </li>
-                    <li>
-                        <i id="" class="glyphicon glyphicon-unchecked fw-menu-icon"></i>
-                        spesa comune raggiunta
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="col-xs-10 col-sm-4 col-md-6 product-picture">
+    <div class = "product-menu-section" id="product-picture">
        <img src="{{picture}}"/>
     </div>
 </div>
