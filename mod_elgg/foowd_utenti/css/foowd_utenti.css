@@ -1,112 +1,55 @@
-.foowd-profile-container{
-	/*margin: 10px;*/
-	position: relative;
-	text-align: justify;
-}
+/*
+Error: File to import not found or unreadable: icomoon/variables.scss.
+       Load paths:
+         C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets
+         Compass::SpriteImporter
+        on line 2 of C:\wamp\www\ElggProject\foowd_alpha2\mod_elgg\foowd_utenti\css\foowd_utenti.sass
 
+1: @import "icomoon/style.css"
+2: @import "icomoon/variables.scss"
+3: 
+4: .foowd-profile-container 
+5:     /*margin: 10px*\/
+6:     position: relative
+7:     text-align: justify
 
-.foowd-profile-container #box{
-	display: flex;
-	justify-content: space-around;
-}
-
-.foowd-profile-container #box div{
-	/*border: 1px solid silver;*/
-	padding: 10px;
-}
-
-/* per posizionare i bottoni a una giusta distanza */
-.foowd-profile-container #box div p{
-	margin-bottom: 25px; 
-}
-
-.foowd-profile-container #box div a{
-	position:absolute; 
-	bottom:0;
-	margin-top: 20px;
-}
-
-
-/**** social buttons ****/
-
-@font-face {
-    font-family: 'si';
-    src: url('socicon-v1.3/socicon-1.3/socicon.eot');
-    src: url('socicon-v1.3/socicon-1.3/socicon.eot?#iefix') format('embedded-opentype'),
-         url('socicon-v1.3/socicon-1.3/socicon.woff') format('woff'),
-         url('socicon-v1.3/socicon-1.3/socicon.ttf') format('truetype'),
-         url('socicon-v1.3/socicon-1.3/socicon.svg#icomoonregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
- 
-}
- 
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-    @font-face {
-        font-family:si;
-        src: url(socicon-v1.3/socicon-1.3/socicon.svg) format(svg);
-    }
-}
-
-.soc {
-    overflow:hidden;
-    margin:0; padding:0;
-    list-style:none;
-}
-
-.soc li {
-    display:inline-block;
-    *display:inline;
-    zoom:1;
-}
-
-.soc li a {
-    font-family:si!important;
-    font-style:normal;
-    font-weight:400;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    -webkit-box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    -ms-box-sizing:border-box;
-    -o-box-sizing:border-box;
-    box-sizing:border-box;
-    overflow:hidden;
-    text-decoration:none;
-    text-align:center;
-    display:block;
-    position: relative;
-    z-index: 1;
-    width: 67px;
-    height: 67px;
-    line-height: 67px;
-    font-size: 36px;
-    -webkit-border-radius: 14px;
-    -moz-border-radius: 14px;
-    border-radius: 14px;
-    margin-right: 17px;
-    color: #ffffff;
-    background-color: none;
-}
-
-.soc-icon-last{
-    margin:0 !important;
-}
-
-.soc-facebook {
-    background-color: #3e5b98;
-}
-.soc-facebook:before {
-    content:'b';
-}
-.soc-google {
-    background-color: #d93e2d;
-}
-.soc-google:before {
-    content:'c';
-}
-
-/* aggiunto da simone scardoni */
-.soc li a:hover{
-	background-color: #AFDEF3;
-}
+Backtrace:
+C:\wamp\www\ElggProject\foowd_alpha2\mod_elgg\foowd_utenti\css\foowd_utenti.sass:2
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/import_node.rb:67:in `rescue in import'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/import_node.rb:45:in `import'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/import_node.rb:28:in `imported_file'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/import_node.rb:37:in `css_import?'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:311:in `visit_import'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/stack.rb:79:in `block in with_base'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/stack.rb:115:in `with_frame'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/stack.rb:79:in `with_base'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:158:in `visit'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:52:in `map'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:157:in `visit'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:8:in `visit'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/root_node.rb:36:in `css_tree'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/engine.rb:368:in `_render_with_sourcemap'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/engine.rb:285:in `render_with_sourcemap'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/exec/sass_scss.rb:407:in `run'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/exec/sass_scss.rb:63:in `process_result'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/exec/base.rb:52:in `parse'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/lib/sass/exec/base.rb:19:in `parse!'
+C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/sass-3.4.14/bin/sass:13:in `<top (required)>'
+C:/RailsInstaller/Ruby2.1.0/bin/sass:23:in `load'
+C:/RailsInstaller/Ruby2.1.0/bin/sass:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: File to import not found or unreadable: icomoon/variables.scss.\A        Load paths:\A          C:/RailsInstaller/Ruby2.1.0/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets\A          Compass::SpriteImporter\A         on line 2 of C:\wamp\www\ElggProject\foowd_alpha2\mod_elgg\foowd_utenti\css\foowd_utenti.sass\A \A 1: @import \"icomoon/style.css\"\A 2: @import \"icomoon/variables.scss\"\A 3: \A 4: .foowd-profile-container \A 5:     /*margin: 10px*/\A 6:     position: relative\A 7:     text-align: justify"; }
