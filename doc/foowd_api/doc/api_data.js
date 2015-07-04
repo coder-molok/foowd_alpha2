@@ -76,10 +76,31 @@ define({ "api": [
           },
           {
             "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "Id",
+            "description": "<p>se il metodo e&#39; update o create, allora l&#39;id dell&#39;offerta</p> "
+          },
+          {
+            "group": "Response",
             "type": "String/json",
             "optional": true,
             "field": "errors",
             "description": "<p>json contenente i messaggi di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "body",
+            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "msg",
+            "description": "<p>messaggi ritornati</p> "
           }
         ]
       },
@@ -137,10 +158,31 @@ define({ "api": [
           },
           {
             "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "Id",
+            "description": "<p>se il metodo e&#39; update o create, allora l&#39;id dell&#39;offerta</p> "
+          },
+          {
+            "group": "Response",
             "type": "String/json",
             "optional": true,
             "field": "errors",
             "description": "<p>json contenente i messaggi di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "body",
+            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "msg",
+            "description": "<p>messaggi ritornati</p> "
           }
         ]
       },
@@ -322,10 +364,31 @@ define({ "api": [
           },
           {
             "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "Id",
+            "description": "<p>se il metodo e&#39; update o create, allora l&#39;id dell&#39;offerta</p> "
+          },
+          {
+            "group": "Response",
             "type": "String/json",
             "optional": true,
             "field": "errors",
             "description": "<p>json contenente i messaggi di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "body",
+            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "msg",
+            "description": "<p>messaggi ritornati</p> "
           }
         ]
       },
@@ -425,10 +488,31 @@ define({ "api": [
           },
           {
             "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "Id",
+            "description": "<p>se il metodo e&#39; update o create, allora l&#39;id dell&#39;offerta</p> "
+          },
+          {
+            "group": "Response",
             "type": "String/json",
             "optional": true,
             "field": "errors",
             "description": "<p>json contenente i messaggi di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "body",
+            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "msg",
+            "description": "<p>messaggi ritornati</p> "
           }
         ]
       },
@@ -547,7 +631,7 @@ define({ "api": [
     "title": "search",
     "name": "search",
     "group": "Prefer",
-    "description": "<p>.</p> <p>Strutturato in questo modo, cerca solo le intersezioni dei filtri.</p> ",
+    "description": "<p>Oltre a svolgere una ricerca nella tabella preferenze, ritorna anche il parametro extra &quot;<strong>Offer</strong>&quot; contenente l&#39;offerta a cui si riferisce, in formato JSON.</p> <p>Strutturato in questo modo, cerca solo le intersezioni dei filtri.</p> ",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -601,6 +685,27 @@ define({ "api": [
             "optional": true,
             "field": "errors",
             "description": "<p>json contenente i messaggi di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "body",
+            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "body-offer",
+            "description": "<p>ciascuna preferenza ritornata contiene il parametro Offer: un JSON con tutti i dati relativi all&#39;offerta a cui si riferisce la preferenza</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "msg",
+            "description": "<p>messaggi ritornati</p> "
           }
         ]
       },

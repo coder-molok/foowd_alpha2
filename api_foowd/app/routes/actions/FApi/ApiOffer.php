@@ -11,7 +11,7 @@ namespace Foowd\FApi;
 // use Propel\Runtime\ActiveQuery\Criteria;
 
 /**
- * @apiDefine MyResponse
+ * @apiDefine MyResponseOffer
  *
  * @apiParam (Response) {Bool}				response 	false, in caso di errore
  * @apiParam (Response) {String}			[Id]	 	se il metodo e' update o create, allora l'id dell'offerta
@@ -76,7 +76,7 @@ class ApiOffer extends \Foowd\FApi{
 	 *       "type":"create"
 	 *     }
 	 *
-	 * @apiUse MyResponse
+	 * @apiUse MyResponseOffer
 	 *     
 	 */	
 	public $needle_create = "Name, Description, Price, Minqt, Publisher, Tag";
@@ -122,7 +122,7 @@ class ApiOffer extends \Foowd\FApi{
 	 *      "Publisher":"37","type":"update"
 	 *     }
 	 *
-	 * @apiUse MyResponse
+	 * @apiUse MyResponseOffer
 	 *     
 	 */
 	public $needle_update = "Name, Description, Price, Minqt, Publisher, Tag";
@@ -200,7 +200,7 @@ class ApiOffer extends \Foowd\FApi{
 	 *     "type":"setState"
 	 *    }
 	 *
-	 * @apiUse MyResponse
+	 * @apiUse MyResponseOffer
 	 *     
 	 */
 	public $needle_setState = "Publisher, Id, State";
@@ -456,7 +456,7 @@ class ApiOffer extends \Foowd\FApi{
 	 * 	"type":"delete"
 	 * }
 	 *
-	 * @apiUse MyResponse
+	 * @apiUse MyResponseOffer
 	 * 
 	 */
 	public $needle_delete = "Publisher, Id";// State

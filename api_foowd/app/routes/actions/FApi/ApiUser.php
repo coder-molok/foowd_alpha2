@@ -6,7 +6,7 @@ namespace Foowd\FApi;
 // use Base\TagQuery as TagQuery;
 
 /**
- * @apiDefine MyResponse
+ * @apiDefine MyResponseUser
  *
  * @apiParam (Response) {Bool}				response 	false, in caso di errore
  * @apiParam (Response) {String/json}		[errors] 	json contenente i messaggi di errore
