@@ -1,20 +1,22 @@
 
-<div class="product-post">
-    <div class="product-post-header">
-        <div class="pull-left"  id="name">{{Name}}</div>  
-        <div class="pull-right" id="price">{{Price}}<span class="apex">€</span></div>
-        <div class="pull-right" id="qt-progress">{{totalQt}}/{{Minqt}} - </div>
+<li class="product-post">
+    <div class="product-post-image-thumbnail" 
+         onclick="utils.goProductDetail({{Id}})">
+        <img src="{{picture}}">
     </div>
-    <a onclick="utils.goProductDetail({{Id}})">
-        <div class="product-post-image-thumbnail">
-            <img src="{{picture}}" >
+    <div class="product-post-header">
+        <div class="product-post-name element">{{Name}}</div>  
+        <div class="product-post-price element">{{Price}}
+            <span class="apex">€</span>
         </div>
-    </a>
+        {{!-- <div class="product-post-qt-progress">
+            {{totalQt}}/{{Minqt}}
+        </div> --}}
+    </div>
     <div class="product-post-menu">
         <ul class="product-post-menu-options">
-            <li>
-                <a onclick="WallController.addPreference({{Id}},{{Minqt}},this)">
-                    <i id = "like" class="glyphicon glyphicon-heart fw-menu-icon {{prefer}}"></i>
+            <li onclick="WallController.addPreference({{Id}},{{Minqt}},this)">
+                    <i class = "like" class="glyphicon glyphicon-heart fw-menu-icon {{prefer}}"></i>
                 </a>
             </li>
         </ul>
@@ -22,4 +24,4 @@
     <div class="product-post-body">
             {{{Description}}}
     </div>
-</div>
+</li>

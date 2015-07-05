@@ -1,15 +1,19 @@
-<div class="product-post">
+
+<li class="product-post">
+    <div class="product-post-image-thumbnail" 
+         onclick="utils.goProductDetail({{Id}})">
+            <img src="{{picture}}">
+         </div>
     <div class="product-post-header">
-        <div class="pull-left"  id="name">{{Name}}</div>  
-        <div class="pull-right" id="price">{{Price}}<span class="apex">€</span></div>
-        <div class="pull-right" id="qt-progress">{{totalQt}}/{{Minqt}} - </div>
-    </div>
-    <a onclick="utils.goProductDetail({{Id}})">
-        <div class="product-post-image-thumbnail">
-            <img src="{{picture}}" >
+        <div id="product-post-name">{{Name}}</div>  
+        <div id="product-post-price">{{Price}}
+            <span class="apex">€</span></div>
+        <div id="product-post-qt-progress">
+            {{totalQt}}/{{Minqt}}
         </div>
-    </a>
+    </div>
+    
     <div class="product-post-body">
             {{{Description}}}
     </div>
-</div>
+</li>
