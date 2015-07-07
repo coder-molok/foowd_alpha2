@@ -2,17 +2,17 @@
 <li class="product-post">
     <div class="product-post-image-thumbnail" 
          onclick="utils.goProductDetail({{Id}})">
-            <img src="{{picture}}">
-         </div>
-    <div class="product-post-header">
-        <div id="product-post-name">{{Name}}</div>  
-        <div id="product-post-price">{{Price}}
-            <span class="apex">€</span></div>
-        <div id="product-post-qt-progress">
-            {{totalQt}}/{{Minqt}}
-        </div>
+        <img src="{{picture}}">
     </div>
-    
+    <div class="product-post-header">
+        <div class="product-post-name element">{{Name}}</div>  
+        <div class="product-post-price element">{{Price}}
+            <span class="apex">€</span>
+        </div>
+        {{!-- <div class="product-post-qt-progress">
+            {{totalQt}}/{{Minqt}}
+        </div> --}}
+    </div>
     <div class="product-post-body">
             {{{Description}}}
     </div>

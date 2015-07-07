@@ -112,6 +112,11 @@ function AMD(){
 	    'src' => '/mod/foowd_theme/lib/js/foowd/NavbarController.js',
 	    'deps'=>array('FoowdAPI')
 	]);
+	
+	elgg_define_js('UserBoardController', [
+	    'src' => '/mod/foowd_theme/lib/js/foowd/UserBoardController.js',
+	    'deps'=> array('FoowdAPI')
+	]);
 	/* 
 	 * Utility
 	 */

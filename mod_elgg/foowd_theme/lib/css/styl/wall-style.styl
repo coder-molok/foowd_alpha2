@@ -3,26 +3,18 @@
 
 containerMargin = 20px;
 
-edit()
-
-#wall
-	//position:relative
-	margin-top: contentMargin + containerMargin
-	margin-right: 10px;
-	margin-left: 10px;
-
 .grid
-	span(1)
+	margin-top: contentMargin + containerMargin
 	list-style: none;
 	padding: 0;
+	align(horizontal)
 
 .grid li
-	margin: 20px;
-	display: block;
 	float: left;
-	padding: 7px;
-	width: 20%;
+	width: 318px;
+	margin: 0px 20px 20px 20px !important;
 	opacity: 0;
+
 
 .grid li.shown,
 .no-js .grid li,
@@ -48,35 +40,50 @@ edit()
 
 .product-post-image-thumbnail
 	img
-		-webkit-filter: contrast(85%);
+		-webkit-filter: contrast(70%);
 		span(1)
+		height:100%
 		
 .product-post-header
 	top: 0px;
-	column(1/4)
-	.element
-		column(1/3)
-
-.product-post-price
-	shift(1/3)
-	text-align:right !important;
+	span(1)
+	position: absolute;
+	div
+		padding:10px
 		
 .product-post-name
+	column(1/2)
 	color: white;
 	font-family: AkkuratBold
 	font-size: 14pt;
 	line-height: 16pt;
 	z-index:100;
+
 .product-post-price
+	column(1/3)
+	shift(1/24)
 	color: white;
 	font-family: AkkuratBold;
 	font-size : 24pt;
-	line-height: 24pt;
-	letter-spacing: -4pt;
+	line-height: 16pt;
+	letter-spacing: -2.5pt;
+	text-align:right !important;
 	.apex
-		margin-right: 15px;
-		font-size:14pt;
+		font-size:11pt;
 		vertical-align: super;
+
+.product-post-menu
+	span(1)
+	padding: 10px;
+	margin-top: -35px;
+	background: none
+
+.like
+	font-size : 12pt;
+	line-height: 12pt;
+
+.red-heart
+	color:red;
 	
 	
 

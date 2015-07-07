@@ -74,49 +74,45 @@
     margin-right: auto;
   }
 }
-#foowd-brand {
+#logo {
   background-color: #fae6ef;
 }
-#foowd-brand a {
+#foowd-brand {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 48.5%;
+  margin-left: 0%;
+  margin-right: 3%;
   position: absolute;
   transform-style: preserve-3d;
   top: 50%;
   transform: translateY(-50%);
+  margin-left: 20px;
   text-decoration: none;
   color: #000;
   font-family: AkkuratBold;
   font-size: 24pt;
   line-height: 24pt;
   letter-spacing: -1.5pt;
-  margin-left: 15px;
 }
-#search-section {
-  position: absolute;
-  transform-style: preserve-3d;
-  top: 50%;
-  transform: translateY(-50%);
-  position: relative;
-  left: 17.166666666666664%;
-  *zoom: 1;
-  float: left;
-  clear: none;
-  text-align: inherit;
-  width: 33.33333333333333%;
-  margin-left: 0%;
-  margin-right: 0%;
-}
-#search-section:before,
-#search-section:after {
+#foowd-brand:before,
+#foowd-brand:after {
   content: '';
   display: table;
 }
-#search-section:after {
+#foowd-brand:after {
   clear: both;
 }
-#search-section input {
+#foowd-brand:last-child {
+  margin-right: 0%;
+}
+#foowd-brand input {
+  width: 40%;
   background-color: #fae6ef;
   outline: none;
-  border: 1px solid #000;
+  border: none;
 }
 #user-menu-section {
   background-color: #fff;
