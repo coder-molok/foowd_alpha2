@@ -6,8 +6,8 @@
                     "adapter"    : "mysql",
                     "classname"  : "Propel\\Runtime\\Connection\\ConnectionWrapper",
                     "dsn"        : "mysql:unix_socket=/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock;dbname=foowd_api",
-                    "user"       : "root",
-                    "password"   : "",
+                    "user"       : "foowd",
+                    "password"   : "mangioBENE",
                     "attributes" : [],
 		    "settings":{
         		  "charset" : "utf8",

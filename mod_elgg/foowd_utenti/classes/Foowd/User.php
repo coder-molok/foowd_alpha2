@@ -32,10 +32,14 @@ class User {
 		// Il form e' gia' sticky, e valore 'register'
 		$form = $this->form;
 		// \Uoowd\Logger::addInfo($form);
+		
+		// set sticky: avviso il sistema che gli input di questo form sono sticky
+		elgg_make_sticky_form($form);
 
 		// richiamo la classe che gestisce il form
 		$f = new \Foowd\Action\Register();
 		\Uoowd\Logger::addInfo('Tentativo di Registrazione');
+		
 
 		// manageForm ritorna i dati estrapolati dai get_input: 
 		//  se non si fa attenzione, potrebbero non essere coerenti con quelli dello sticky_form
@@ -47,7 +51,8 @@ class User {
 		// set_input('idAuth', 'idAuth-'.$genre);
 
 		$data = $f->manageForm($form);
-
+		// \Uoowd\Logger::addError($form);
+		// \Uoowd\Logger::addError($data);
 	
 		// NB: il check viene fatto sugli get_input, non sugli elgg_get_sticky
 		if(!$f->status){
@@ -82,14 +87,36 @@ class User {
 		//i metadata vengono automaticamente salvati, pertanto questo comando posso evitarlo:
 		//$user->save();
 
-
 		// chiamata Api
+		// \Uoowd\Logger::addError('chiamata API');
 		$data['Genre'] = $genre;
 		$data['Name'] = get_input('name');
 		$data['type']= "create";
 		$data['ExternalId'] = $extId;
-		if(get_input('Description')!=='') $data['Description']=get_input('Description');
+		$data['Email'] = $user->email;
+		if($data['Genre']=='offerente'){
+			$need = array('Description','Site','Piva', 'Phone','Address','Company');
+
+			foreach ($need as $field) {			
+				// se non e' vuoto e se esiste
+				if(get_input($field)!=='' && get_input($field) ){
+					$data[$field]=get_input($field);
+				}else{
+					if($field === 'Site') continue;
+					$EmptyNeed[$field]=$field;
+				}
+			}
+			
+		}
 		
+
+		if(isset($EmptyNeed)){
+			\Uoowd\Logger::addError("Mancano campi obbligatori");
+			\Uoowd\Logger::addError($EmptyNeed);
+			return false;
+		}
+		
+		// \Uoowd\Logger::addError($data);
 		// if(get_input('file')!=='') $data['Image']=get_input('file');
 		if($genre === 'offerente'){
 			$crop = new \Uoowd\FoowdCrop();

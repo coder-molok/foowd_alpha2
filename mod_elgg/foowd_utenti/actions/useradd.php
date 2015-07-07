@@ -1,6 +1,7 @@
 <?php
 
 \Uoowd\Logger::addDebug('Registrazione lato Admin');
+// \Uoowd\Logger::addError('Registrazione lato Admin');
 
 // inserisco la useradd di default
 //require(elgg_get_plugins_path().'../actions/useradd.php');
@@ -16,7 +17,6 @@ $password = get_input('password', null, false);
 $password2 = get_input('password2', null, false);
 $email = get_input('email');
 $name = get_input('name');
-
 $admin = get_input('admin');
 if (is_array($admin)) {
 	$admin = $admin[0];

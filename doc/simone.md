@@ -2,6 +2,23 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 07/07/2015
+
+- implementata parte di [issue#85](https://github.com/coder-molok/foowd_alpha2/issues/85)
+
+
+### 06/07/2015
+
+- [issue#77](https://github.com/coder-molok/foowd_alpha2/issues/77) risultava gia' implementata
+
+
+
+### 04/07/2015
+
+- modificate api in accordo con [issue#75](https://github.com/coder-molok/foowd_alpha2/issues/75) 
+
+
+
 ### 25/06/2015
 
 - implementate [issue#66](https://github.com/coder-molok/foowd_alpha2/issues/66) , [issue#68](https://github.com/coder-molok/foowd_alpha2/issues/68) e [issue#79](https://github.com/coder-molok/foowd_alpha2/issues/79)  aggiungendo i campi `@Unit@`, `@Quota@` e `@UnitExtra@` (quest'ultimo per dare un'ulteriore apporto all'unita') e sviluppata semplice preview formato quota

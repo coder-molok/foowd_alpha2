@@ -383,6 +383,7 @@ class ApiOffer extends \Foowd\FApi{
 
 			// Restituisco l'id esterno dell'utente, ovvero quello utilizzato da Elgg
 			$ar['Publisher'] = $this->IdToExt($ar['Publisher']);
+			$ar['UserId'] = $this->IdToExt($ar['Publisher']);
 
 			// carico l'ordinazione totale
 			$ar['totalQt'] = $totalQ;
