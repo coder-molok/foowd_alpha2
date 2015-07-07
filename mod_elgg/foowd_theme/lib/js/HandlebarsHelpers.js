@@ -6,7 +6,7 @@ define(function(require){
 	*/
 	Handlebars.registerHelper('prefer', function(object) {
 		var result = "";
-		if(object.data.root.prefer != null){
+		if(object.data.root.prefer.length != 0){
 			result = "red-heart";
 		}
 		return new Handlebars.SafeString(result);

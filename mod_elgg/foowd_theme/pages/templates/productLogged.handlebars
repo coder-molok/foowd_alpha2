@@ -3,10 +3,20 @@
     <div class="product-post-image-thumbnail" 
          onclick="utils.goProductDetail({{Id}})">
         <img src="{{picture}}">
+        <div class="heart-overlay"></div>
     </div>
     <div class="product-post-header">
-        <div class="product-post-name">{{Name}}</div>  
-        <div class="product-post-price">{{Price}}
+        <div class="product-post-name">
+            {{Name}}
+            <br/>
+            <br/>
+            <span class="product-post-unit-price">
+                {{Quota}} {{Unit}} {{UnitExtra}}
+                <br/>
+                {{Price}}€
+            </span>
+        </div>  
+        <div class="product-post-progress-price">{{Price}}
             <span class="apex">€</span>
         </div>
         {{!-- <div class="product-post-qt-progress">
