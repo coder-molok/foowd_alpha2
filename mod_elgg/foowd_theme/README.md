@@ -31,14 +31,15 @@ In questo modo si può modifcare il plugin senza tutte le volte aggiornare quell
 Sucessivamente bisogna spostarsi a seconda della procedura fatta precedentemente nella cartella della mod di elgg.
 	
 	cd <foowd_theme>
+	chmod -R +x scripts
 
-Installare con npm bower
+Installare alcuni moduli npm
 
-	npm install -g bower
+	npm install -g bower stylus jeet rupture handlebars
 
-Installiamo alcuni moduli Javascript con  
+Eseguire lo script di installazione
 	
-	bower install
+	./scripts/install-first
 
 L'installazione è completata, ora resta solo da attivare il plugin dal pannello di amministrazione di ellg.
 
@@ -47,22 +48,9 @@ L'installazione è completata, ora resta solo da attivare il plugin dal pannello
 Ho usato un template system di nome **Handlebars**, la documentazione può essere trovata [qui]("http://handlebarsjs.com/"). In particolare ho sfruttato la sua caratteristica di poter precompilare i template, in modo da ottimizzare il caricamento una volta presi i dati dalle API.
 
 Se si vogliono aggiungere templates o modificarli, si trovano nella cartella `foowd_theme/pages/templates `. 
-Una volta modificati bisogna procedere con la precompilazione eseguendo il comando : 
-
-	handlebars pages/templates/<templatefile>.handlebars -f pages/templates/templates.js 
-
-Nel caso ci siano più di un template da compilare bisogna dare in input, prima del ```-f```, tutti i file con estensione ```.handlebars```.
-
-Per utilizzare **Handlebars** suggerisco di installarlo tramite :
-
-	npm install -g handlebars 
-
-> **Nota Template :** installare Handlebars in riga di comando serve soltanto se si intende modificare i template. **Non è essenziale per il funzionamento del plugin**
-
 Per generare i template AMD usare il seguente comando
 
-	handlebars <template1.handlebars> <template2.handlebars> -f templates-amd.js --amd
-
+	handlebars pages/templates/*.handlebars -f templates-amd.js --amd
 
 
 ### foowdAPI.js
