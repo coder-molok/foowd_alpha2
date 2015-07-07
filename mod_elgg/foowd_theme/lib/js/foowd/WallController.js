@@ -15,7 +15,6 @@ define(function(require){
 	//jQuery 
 	var $ = require('jquery');
 
-
 	var WallController = (function(){
 
 		/*
@@ -24,7 +23,7 @@ define(function(require){
 
 
 		//tag html dove andiamo a mettere il template compilato
-		var wallId = ".wall";
+		var wallId = "#wall";
 		//search box id
 		var searchBox = "#searchText";
 		//prototipo di una prefereza
@@ -46,9 +45,14 @@ define(function(require){
 		 */
 		function fillWall(content) {
 			$(wallId)
-		  	    .html(content)
-				.addClass('animated bounceInLeft'); //animazione
+		  	    .html(content);
+				//.addClass('animated bounceInLeft'); //animazione
 			//solo ora che ho renderizzato tutti gli elementi applicao il layout
+			new AnimOnScroll( document.getElementById( 'wall' ), {
+				minDuration : 0.4,
+				maxDuration : 0.7,
+				viewportFactor : 0.2
+			} );
 
 		}
 		/*

@@ -9,9 +9,7 @@
     <!-- Vendor Style Libraries -->
     <link href="mod/foowd_theme/lib/css/reset.css">
     <!-- Vendor Style Libraries -->
-    <link href="mod/foowd_theme/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="mod/foowd_theme/vendor/animate.css/animate.css" rel="stylesheet">
-
      <!-- Custom CSS -->
     <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
     <!-- Flavicons (not avaiable yet) -->
@@ -53,20 +51,35 @@
 <div class="foowd-navbar">
   
 </div>
-<div class="container-fluid" id="wall-main">
-  <div class="wall">
-  </div>
-</div>
+
+<ul class="grid effect-1" id="wall">
+
+</ul>
+
 <div class="alert alert-success" role="alert" id="foowd-success"></div>
 <div class="alert alert-danger" role="alert" id="foowd-error"></div>
+<script type="text/javascript" src="mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
 <script type="text/javascript">
 require([ 
   'bootstrap', 
   'helpers',
   'templates',
   'Utils',
+  'masonry',
+  'imagesLoaded',
+  'classie',
+  'animOnScroll',
   'WallController'
   ],function(){
+
+  var imagesLoaded = require('imagesLoaded');
+  window.imagesLoaded = imagesLoaded;
+  var masonry = require('masonry');
+  window.Masonry = masonry;
+  var classie = require('classie');
+  console.log(classie);
+  window.classie = classie;
+
   //helpers di Handlebars
   var helpers = require('helpers'); 
   //templates di handlebars

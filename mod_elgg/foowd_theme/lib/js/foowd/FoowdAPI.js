@@ -92,7 +92,20 @@ define(function(require){
 
              return deferred.promise();
 
-    	  }
+    	  },
+        /*
+         * Funzione che ritorna le preferenze di un utente
+         */
+         getUserPreferences : function(userId){
+            var deferred = $.Deferred();
+            var requestURL = baseUrl + offers.getPreferences;
+
+            requestURL = Utils.isValid(userId) ? requestURL + "&ExternalId=" + userId : requestURL;
+
+            $.get(requestURL, function(data){ deferred.resolve(data); });
+
+            return deferred.promise();
+         },
      };
   })();
 

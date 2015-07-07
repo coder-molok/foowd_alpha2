@@ -64,6 +64,18 @@ function AMD(){
     	'src' => 'mod/foowd_theme/vendor/bootstrap/dist/js/bootstrap.min.js',
     	'deps' => array('jquery')
 	]);
+	elgg_define_js('masonry', [
+    	'src' => 'mod/foowd_theme/vendor/masonry/dist/masonry.pkgd.min.js',
+	]);
+	elgg_define_js('imagesLoaded', [
+    	'src' => 'mod/foowd_theme/vendor/imagesloaded/imagesloaded.pkgd.min.js',
+	]);
+	elgg_define_js('classie', [
+    	'src' => 'mod/foowd_theme/lib/grid-loading/js/classie.js',
+	]);
+	elgg_define_js('animOnScroll', [
+    	'src' => 'mod/foowd_theme/lib/grid-loading/js/AnimOnScroll.js',
+	]);
 	/* 
 	 * Template di Handlebars Precompilati
 	 */
@@ -99,6 +111,11 @@ function AMD(){
 	elgg_define_js('NavbarController', [
 	    'src' => '/mod/foowd_theme/lib/js/foowd/NavbarController.js',
 	    'deps'=>array('FoowdAPI')
+	]);
+	
+	elgg_define_js('UserBoardController', [
+	    'src' => '/mod/foowd_theme/lib/js/foowd/UserBoardController.js',
+	    'deps'=> array('FoowdAPI')
 	]);
 	/* 
 	 * Utility

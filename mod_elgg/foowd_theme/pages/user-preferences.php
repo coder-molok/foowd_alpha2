@@ -83,86 +83,28 @@
         </ul>
     </div>
 </div>
+
 <div id="preferences-container">
-    <div class="user-preference">
-        <div class="user-preference-section">
-            <img src="../profile.png" class = "user-preference-image">    
-        </div>
-        <div class="user-preference-name user-preference-section">
-            <ul class="number-block">
-                <li>Alici di sorrento</li>
-                <li><span class ="number-description">Pescheria Napoletana SRL</span></li>
-            </ul>
-        </div>
-        <div class="user-preference-details user-preference-section">
-            <ul class="number-block preference-detail">
-                <li>5€</li>
-                <li><span class ="number-description">carrello</span></li>
-            </ul>
-            <ul class="number-block preference-detail">
-                <li>x5</li>
-                <li><span class ="number-description">carrello</span></li>
-            </ul>
-            <ul class="number-block preference-detail">
-                <li>25€</li>
-                <li><span class ="number-description">tot.spesa</span></li>
-            </ul>
-        </div>
-        <div class="user-preference-actions user-preference-section">
-            <ul class="action-icons">
-                <li id="action-heart">
-                    <i  class="glyphicon glyphicon-heart fw-menu-icon"></i>
-                </li>
-                <li id="action-minus">
-                    <i class="glyphicon glyphicon-minus fw-menu-icon"></i>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="user-preference">
-        <div class="user-preference-section">
-            <img src="../profile.png" class = "user-preference-image">    
-        </div>
-        <div class="user-preference-name user-preference-section">
-            <ul class="number-block preference-detail">
-                <li>Alici di sorrento</li>
-                <li><span class ="number-description">Pescheria Napoletana SRL</span></li>
-            </ul>
-        </div>
-        <div class="user-preference-details user-preference-section">
-            <ul class="number-block preference-detail">
-                <li>5€</li>
-                <li><span class ="number-description">carrello</span></li>
-            </ul>
-            <ul class="number-block preference-detail">
-                <li>x5</li>
-                <li><span class ="number-description">carrello</span></li>
-            </ul>
-            <ul class="number-block preference-detail">
-                <li>25€</li>
-                <li><span class ="number-description">tot.spesa</span></li>
-            </ul>
-        </div>
-        <div class="user-preference-actions user-preference-section">
-            <ul class="action-icons">
-                <li id="action-heart">
-                    <i  class="glyphicon glyphicon-heart fw-menu-icon"></i>
-                </li>
-                <li id="action-minus">
-                    <i class="glyphicon glyphicon-minus fw-menu-icon"></i>
-                </li>
-            </ul>
-        </div>
-    </div>
+    
 </div>
+
 <script type="text/javascript">
-    require(['templates','Utils'], function(){
+    require([
+        'templates',
+        'Utils',
+        'UserBoardController'], function(){
       //utils function
       window.utils = require('Utils');
       //handlebars helpers
       var templates = require('templates');
 
       $('.foowd-navbar').html(templates.simpleNavbar(""));
+
+      var UserBoardController = require('UserBoardController');
+
+      UserBoardController.getUserPreferences();
+
+
 
     });
 </script>

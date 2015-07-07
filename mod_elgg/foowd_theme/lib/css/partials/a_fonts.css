@@ -1,0 +1,8 @@
+@font-face{
+    font-family: AkkuratBold;
+    src: url("../fonts/AkkuratBold.otf") format("opentype");
+}
+@font-face{
+    font-family: AkkuratRegular;
+    src: url("../fonts/AkkuratRegular.otf") format("opentype");
+}
