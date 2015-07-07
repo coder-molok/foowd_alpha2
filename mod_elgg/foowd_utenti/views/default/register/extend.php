@@ -1,5 +1,8 @@
 <?php
 
+//NB: la registrazione da front-hand viene triggerata da user.php
+
+
 // definito in \Foowd\SocialLogin, metodo registerUser
 $idAuth = get_input('idAuth');
 
@@ -11,7 +14,12 @@ if(isset($idAuth)){
 
 // utilizzo questa classe per maneggiare le variabili e lo sticky_form
 // gli Error servono per generare il messaggio di errore dentro al form
+// var_dump($vars);
+
 $fadd = new \Foowd\Action\Register($vars);
+
+$fadd->createField('Site','foowd:user:site:optional', 'input/text', array('maxlength'=>"255"));
+$fadd->createField('Phone','foowd:user:phone:optional', 'input/text', array('maxlength'=>"11"));
 
 // opzioni disponibili
 $options_values = array("Utente Regolare","Offerente");
@@ -38,8 +46,9 @@ if (isset($vars['entity'])) {
 $vars = array_merge($defaults, $vars);
 
 // istanzio per la creazione
-$fadd = new \Foowd\Action\Register();
+// $fadd = new \Foowd\Action\Register();
 $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars);
+
 
 ?>
 <div id="offer-hook">
@@ -59,7 +68,15 @@ $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars)
 	    <input type="hidden" name="crop[y2]" value="" />    
 	</div>
 	<a href="<?php echo elgg_echo('foowd:image-tmp')?>" id="url" style="display:none" >testo</a>
-</div>
+
+	<?php
+	$fadd->createField('Piva','foowd:user:piva:need', 'input/text', array('maxlength'=>"11"));
+	$fadd->createField('Address','foowd:user:address:need', 'input/text', array('maxlength'=>"150"));
+	$fadd->createField('Company','foowd:user:company:need', 'input/text', array('maxlength'=>"100"));
+	?>
+
+</div><!-- end #offer-hook -->
 <?php
 
 elgg_require_js('foowd_utenti/user-register');
+// elgg_require_js('foowdFormCheck');
