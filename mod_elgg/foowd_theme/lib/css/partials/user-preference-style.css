@@ -129,6 +129,44 @@
 #preference-container:last-child {
   margin-right: 0%;
 }
+.preference {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 100%;
+  margin-left: 0%;
+  margin-right: 3%;
+  height: 120px;
+}
+.preference:before,
+.preference:after {
+  content: '';
+  display: table;
+}
+.preference:after {
+  clear: both;
+}
+.preference:last-child {
+  margin-right: 0%;
+}
+@media only screen and (max-width: 900px) {
+  .preference {
+    height: 240px;
+  }
+}
+.progress-bar {
+  position: absolute;
+  left: 0;
+  height: 120px;
+  background-color: #fae6ef;
+  z-index: -100;
+}
+@media only screen and (max-width: 900px) {
+  .progress-bar {
+    height: 240px;
+  }
+}
 .user-preference {
   *zoom: 1;
   float: left;
@@ -265,6 +303,7 @@
   }
 }
 .user-preference-name ul {
+  margin-left: 20px;
   margin-top: 35px;
   width: 100%;
 }
@@ -308,7 +347,7 @@
 }
 @media only screen and (max-width: 900px) {
   .preference-detail li {
-    margin-right: 20px;
+    margin-left: 20px;
   }
 }
 @media only screen and (max-width: 900px) {

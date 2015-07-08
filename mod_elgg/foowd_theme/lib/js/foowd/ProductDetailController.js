@@ -9,7 +9,7 @@ define(function(require){
 	//jQuery
 	var $ = require('jquery');
 	//util library
-	var Utils = require('Utils');
+	var utils = require('Utils');
 	//creo il controller della pagina dettaglio
 	var ProductDetailController = (function(){
 
@@ -24,7 +24,7 @@ define(function(require){
 			getDetailsOf : function(DOMelement){
 				//prendo l'id del prodotto dall'url
 				var queryUrl = elgg.parse_url(window.location.href).query;
-				if(Utils.isValid(queryUrl)){
+				if(utils.isValid(queryUrl)){
 					//splitto i vari parametri dell'url
 					var sURLVariables = queryUrl.split('&');
 					//creo l'oggeto finale
@@ -43,7 +43,7 @@ define(function(require){
 							//parso in JSON il risultato
 							var rawProduct = $.parseJSON(data).body[0];
 							//aggiungo il campo immagine
-							Utils.addPicture(rawProduct);
+							utils.addPicture(rawProduct);
 							//applico il template ai dati ricevuti
 							var parsedProduct = productTemplate(rawProduct);
 							//lo metto nell'elemento HTML che passato alla funzione

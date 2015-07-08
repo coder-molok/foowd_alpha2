@@ -1,35 +1,38 @@
-<div class="user-preference">
-    <div class="user-preference-section">
-        <img src="{{Offer.picture}}" class = "user-preference-image">    
-    </div>
-    <div class="user-preference-name user-preference-section">
-        <ul class="number-block">
-            <li>{{Offer.Name}}</li>
-            {{!-- <li><span class ="number-description">Pescheria Napoletana SRL</span></li> --}}
-        </ul>
-    </div>
-    <div class="user-preference-details user-preference-section">
-        <ul class="number-block preference-detail">
-            <li>{{Offer.Price}}€</li>
-            <li><span class ="number-description">Prezzo unità</span></li>
-        </ul>
-        <ul class="number-block preference-detail">
-            <li>x{{Qt}}</li>
-            <li><span class ="number-description">carrello</span></li>
-        </ul>
-        <ul class="number-block preference-detail">
-            <li>{{math Qt '*' Offer.Price}}€</li>
-            <li><span class ="number-description">tot.spesa</span></li>
-        </ul>
-    </div>
-    <div class="user-preference-actions user-preference-section">
-        <ul class="action-icons">
-            <li id="action-heart">
-                <i  class="glyphicon glyphicon-heart fw-menu-icon"></i>
-            </li>
-            <li id="action-minus">
-                <i class="glyphicon glyphicon-minus fw-menu-icon"></i>
-            </li>
-        </ul>
+<div class="preference">
+    <span class = "progress-bar" data-width = "25"></span>
+    <div class="user-preference">
+        <div class="user-preference-section">
+            <img src="{{Offer.picture}}" class = "user-preference-image">    
+        </div>
+        <div class="user-preference-name user-preference-section">
+            <ul class="number-block">
+                <li>{{Offer.Name}}</li>
+                {{!-- <li><span class ="number-description">Pescheria Napoletana SRL</span></li> --}}
+            </ul>
+        </div>
+        <div class="user-preference-details user-preference-section">
+            <ul class="number-block preference-detail">
+                <li>{{Offer.Price}}€</li>
+                <li><span class ="number-description">Prezzo unità</span></li>
+            </ul>
+            <ul class="number-block preference-detail">
+                <li>x{{Qt}}</li>
+                <li><span class ="number-description">carrello</span></li>
+            </ul>
+            <ul class="number-block preference-detail">
+                <li>{{math Qt '*' Offer.Price}}€</li>
+                <li><span class ="number-description">tot.spesa</span></li>
+            </ul>
+        </div>
+        <div class="user-preference-actions user-preference-section">
+            <ul class="action-icons">
+                <li id="action-heart">
+                    <i  class="glyphicon glyphicon-heart fw-menu-icon"></i>
+                </li>
+                <li id="action-minus">
+                    <i class="glyphicon glyphicon-minus fw-menu-icon"></i>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>

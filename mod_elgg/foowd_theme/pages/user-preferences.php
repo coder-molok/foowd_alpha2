@@ -61,7 +61,7 @@
         <img src="../profile.png" id = "user-avatar">
         <div id="user-info">
             <div id="username">
-                Marco Predari
+                
             </div>
             <div id = "board">
                 my board
