@@ -9,8 +9,6 @@ define(function(require) {
 	//jQuery 
 	var $ = require('jquery');
 
-	var page = require('page');
-
 	var UserBoardController = (function(){
 
 		var preferencesContainerId =  "#preferences-container";
@@ -20,20 +18,32 @@ define(function(require) {
    		function applyProductContext(context, myTemplate) {
 			var result = "";
 			context.map(function(el) {
-				console.log(el);
-				_addPicture(el.Offer);
-				result += myTemplate(el);
+				//aggiungo l'immagine al json di contesto
+				utils.addPicture(el.Offer);
+				//ottengo l'html dal template + contesto
+				var htmlComponent = myTemplate(el);
+				//concateno
+				result += htmlComponent;
 			});
 
 			return result;
 		}
 		
-		function _addPicture(of) {
-            of.picture = page.offerFolder + '/User-' + userId + '/' + of.Id + '/medium/' + of.Id + '.jpg';
-        }
-
 		function fillBoard(content) {
 			$(preferencesContainerId).html(content);
+			fillProgressBars();
+		}
+
+		function fillProgressBars(){
+			$('.progress-bar').each(function(i) {
+			    var width = $(this).data('width');
+			    width = width > 100 ? 100 : width;
+			    $(this).width(width + "%");
+			});
+		}
+
+		function setUserNameLabel(){
+			$('#username').html(elgg.get_logged_in_user_entity().name);
 		}
 
 		function getUserPreferences(){
@@ -42,6 +52,7 @@ define(function(require) {
 				var rawProducts = $.parseJSON(data);
 				var parsedProducts = applyProductContext(rawProducts.body, templates.userPreference);
 				fillBoard(parsedProducts);
+				setUserNameLabel();
 			},function(e){
 				console.log(e);
 			});

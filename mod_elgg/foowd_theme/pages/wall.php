@@ -77,7 +77,6 @@ require([
   var masonry = require('masonry');
   window.Masonry = masonry;
   var classie = require('classie');
-  console.log(classie);
   window.classie = classie;
 
   //helpers di Handlebars
