@@ -286,14 +286,22 @@ class ApiPrefer extends \Foowd\FApi{
 			//  			->filterById($ar['UserId'])
 			//       ->find()->toArray();	
 			//  }
-			$uid = $ar['UserId'];
+			// $uid = $ar['UserId'];
+			// $ar['UserId'] = self::IdToExt($uid);
 
 			$OfferId = $ar['OfferId'];
 			unset($ar['OfferId']);
 
 			$ar['Offer'] = \OfferQuery::Create()->filterById($OfferId)->findOne()->toArray();
+			$ar['Offer']['Publisher'] = self::IdToExt($ar['Offer']['Publisher']);
+			$ar['Offer']['totalQt'] = 0;
+			$pf = \PreferQuery::Create()->filterByOfferId($OfferId)->find();
 
-			$ar['UserId'] = self::IdToExt($uid);
+			foreach($pf as $sing){
+				// var_dump($sing);
+				$sing = $sing->toArray();
+				$ar['Offer']['totalQt'] += $sing['Qt'];
+			}
 
 			array_push($return, $ar );
 

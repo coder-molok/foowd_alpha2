@@ -31,7 +31,6 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
     sourceImg: '#file1-sorgente',
     imgContainer: '#file1-image-container'
   };
-  crop.create().initialize(init2);
   init = {
     urlF: document.getElementById('url').href,
     fileInput: '[name="file"]',

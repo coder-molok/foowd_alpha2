@@ -49,7 +49,6 @@
         # id del box che contiene tutte le immagini: appeso dopo $init.fileInput
         imgContainer:'#file1-image-container'
     
-    crop.create().initialize(init2)
 
 
     ## parto con l'impostare i parametri di crop

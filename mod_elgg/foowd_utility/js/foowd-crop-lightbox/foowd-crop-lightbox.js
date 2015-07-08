@@ -9,10 +9,17 @@
   }
 })(this, function() {
   var $, $wSize, Gobj, LoadPop, PrevWindow, elgg, preview, scale;
-  Gobj = function() {
-    console.log("Prototype: " + this.prototype);
-    console.log("Constructor: " + this.Constructor);
-  };
+  Gobj = (function() {
+    function Gobj() {
+      if (!(this instanceof Gobj)) {
+        alert('costruisco');
+        return new Gobj();
+      }
+    }
+
+    return Gobj;
+
+  })();
   elgg = require('elgg');
   $ = require('jquery');
   Gobj.prototype.setInit = function(obj) {

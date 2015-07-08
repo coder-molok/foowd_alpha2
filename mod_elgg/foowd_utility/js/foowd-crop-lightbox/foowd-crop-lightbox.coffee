@@ -21,13 +21,14 @@
     # ma tutti gli $init invece devono appartenere all'oggetto specifico, pertanto li devo rendere dei metodi di Gobj!!!
 
     ## oggetto globale, ovvero quello che verra' ritornato dal plugin
-    Gobj = ()->
-        # nel caso lo voglia utilizzare come una funzione
-        # if (!(this instanceof Gobj))
-                # return new Gobj()
-        console.log "Prototype: #{@prototype}"
-        console.log "Constructor: #{@Constructor}"
-        return
+    
+    class Gobj 
+        constructor: ()->
+            # nel caso lo voglia utilizzare come una funzione
+            if (!(this instanceof Gobj))
+                alert('costruisco')
+                return new Gobj()
+        
 
     elgg = require('elgg')
     $ = require('jquery')
