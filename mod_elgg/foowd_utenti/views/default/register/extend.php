@@ -19,7 +19,7 @@ if(isset($idAuth)){
 $fadd = new \Foowd\Action\Register($vars);
 
 $fadd->createField('Site','foowd:user:site:optional', 'input/text', array('maxlength'=>"255"));
-$fadd->createField('Phone','foowd:user:phone:optional', 'input/text', array('maxlength'=>"11"));
+$fadd->createField('Phone','foowd:user:phone:need', 'input/text', array('maxlength'=>"11"));
 
 // opzioni disponibili
 $options_values = array("Utente Regolare","Offerente");
@@ -55,17 +55,37 @@ $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars)
 	<?php
 		// $fadd = new \Foowd\Action\FormAdd($vars);
 
-		$fadd->createField('Description', 'foowd:user:description', 'input/longtext');
+		$fadd->createField('Description', 'foowd:user:description:need', 'input/longtext');
 
 		// la prima volta non dovrebbe essere impostato niente, e visualizzo soltanto il form di caricamento
-		$fadd->createField('file', 'foowd:file:need', 'input/file', array('id'=>'loadedFile', 'value'=>''));
-		echo '<center><div id="image-container" style="display:none;">Seleziona l\'area da ritagliare.<div id="image"></div></div></center>';
+		$fadd->createField('file1', 'foowd:file:need', 'input/file', array('value'=>''));
+		// $fadd->createField('file-2', 'foowd:file:need', 'input/file', array('value'=>''));
+		// $fadd->createField('file-3', 'foowd:file:need', 'input/file', array('value'=>''));
+		// $fadd->createField('file-4', 'foowd:file:need', 'input/file', array('value'=>''));
+		// $fadd->createField('file-5', 'foowd:file:need', 'input/file', array('value'=>''));
+		$fadd->createField('file', 'foowd:file:need', 'input/file', array('value'=>''));
+		// echo '<center><div id="image-container" style="display:none;">Seleziona l\'area da ritagliare.<div id="image"></div></div></center>'; 
 	?>
-	<div id="crop">
-	    <input type="hidden" name="crop[x1]" value="" />
-	    <input type="hidden" name="crop[y1]" value="" />
-	    <input type="hidden" name="crop[x2]" value="" />
-	    <input type="hidden" name="crop[y2]" value="" />    
+	<center>
+		<div id='file-container'></div>
+	</center>
+	<!-- deve essere nel formato: crop_{nome dell'input file a cui si riferisce}[x1], etc -->
+	<div class="crop">
+	    <input type="hidden" name="crop_file[x1]" value="" />
+	    <input type="hidden" name="crop_file[y1]" value="" />
+	    <input type="hidden" name="crop_file[x2]" value="" />
+	    <input type="hidden" name="crop_file[y2]" value="" />    
+	</div>
+
+	<center>
+		<div id='file1-container'></div>
+	</center>
+	<!-- deve essere nel formato: crop_{nome dell'input file a cui si riferisce}[x1], etc -->
+	<div class="crop">
+	    <input type="hidden" name="crop_file1[x1]" value="" />
+	    <input type="hidden" name="crop_file1[y1]" value="" />
+	    <input type="hidden" name="crop_file1[x2]" value="" />
+	    <input type="hidden" name="crop_file1[y2]" value="" />    
 	</div>
 	<a href="<?php echo elgg_echo('foowd:image-tmp')?>" id="url" style="display:none" >testo</a>
 
@@ -76,7 +96,13 @@ $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars)
 	?>
 
 </div><!-- end #offer-hook -->
+<div class="legend">
+*  : campo opzionale.<br/>
+** : campo obbligatorio per la registrazione come <strong>offerente</strong>.
+</div>
 <?php
 
+echo '';
+
 elgg_require_js('foowd_utenti/user-register');
-// elgg_require_js('foowdFormCheck');
+elgg_require_js('foowdFormCheck');

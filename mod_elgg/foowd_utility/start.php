@@ -52,6 +52,12 @@ function utility_init(){
 	    'deps'=> array('jquery', 'elgg')
 	]);
 
+	// gestione del form
+	elgg_define_js('foowdCropLightbox',[
+	    'src' => '/mod/foowd_utility/js/foowd-crop-lightbox/foowd-crop-lightbox.js',
+	    'deps'=> array('jquery', 'elgg')
+	]);
+
 }
 
 

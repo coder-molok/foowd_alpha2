@@ -3,17 +3,17 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
-    return define(['elgg', 'jquery', 'handlebars', 'crop', 'foowdFormCheck'], factory);
+    return define(['elgg', 'jquery', 'handlebars', 'crop', 'foowdFormCheck', 'foowdCropLightbox'], factory);
   } else if (typeof exports === 'object') {
     return module.exports = factory();
   } else {
     return root.returnExports = factory();
   }
 })(this, function() {
-  var $, Jform, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, crop, elgg, fct, flds, form, i, init, len, needAr, noNeedAr, setNeed, test, va;
+  var $, Jform, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, crop, elgg, fct, flds, form, i, init, init2, len, needAr, noNeedAr, setNeed, test, va;
   elgg = require('elgg');
   $ = require('jquery');
-  crop = require('crop');
+  crop = require('foowdCropLightbox');
   form = require('foowdFormCheck');
   Jhook = $('#offer-hook');
   Jform = Jhook.parents('form:first');
@@ -23,15 +23,24 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
     display: 'none'
   });
   Jgenre.val('standard');
+  init2 = {
+    urlF: document.getElementById('url').href,
+    fileInput: '[name="file1"]',
+    css: ['mod/foowd_utility/js/imgareaselect/css/imgareaselect-default.css', 'mod/foowd_utility/js/foowd-crop/foowd-crop.css'],
+    loadedImgContainer: '#file1-container',
+    sourceImg: '#file1-sorgente',
+    imgContainer: '#file1-image-container'
+  };
+  crop.create().initialize(init2);
   init = {
     urlF: document.getElementById('url').href,
-    loadedImageContainerId: 'image',
-    sourceId: 'sorgente',
-    fileId: 'loadedFile',
-    imageContainerId: 'image-container',
-    css: ['mod/foowd_utility/js/imgareaselect/css/imgareaselect-default.css', 'mod/foowd_utility/js/foowd-crop/foowd-crop.css']
+    fileInput: '[name="file"]',
+    css: ['mod/foowd_utility/js/imgareaselect/css/imgareaselect-default.css', 'mod/foowd_utility/js/foowd-crop/foowd-crop.css'],
+    loadedImgContainer: '#file-container',
+    sourceImg: '#file-sorgente',
+    imgContainer: '#file-image-container'
   };
-  crop.initialize(init);
+  crop.create().initialize(init);
   test = new Text();
   fct = form.factory();
   ar = [];

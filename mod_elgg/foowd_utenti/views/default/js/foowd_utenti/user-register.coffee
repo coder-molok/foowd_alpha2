@@ -3,7 +3,7 @@
 
     if typeof define is 'function' and define.amd
         # AMD. Register as an anonymous module.
-        define(['elgg','jquery', 'handlebars', 'crop', 'foowdFormCheck'], factory);
+        define(['elgg','jquery', 'handlebars', 'crop', 'foowdFormCheck', 'foowdCropLightbox'], factory);
     else if typeof exports is 'object'
         module.exports = factory();
     else
@@ -16,7 +16,8 @@
 
     elgg = require('elgg')
     $ = require('jquery')
-    crop = require('crop')
+    # crop = require('crop')
+    crop = require('foowdCropLightbox')
     form = require('foowdFormCheck')
 
     Jhook = $('#offer-hook')
@@ -30,25 +31,48 @@
     Jgenre.val('standard')
 
 
+    init2 =
+        # ricavo l'url
+        urlF : document.getElementById('url').href
+        # l'id del campo input che immagazzina i file, ovvero le immagini
+        fileInput : '[name="file1"]'
+        css: [
+            'mod/foowd_utility/js/imgareaselect/css/imgareaselect-default.css',
+            'mod/foowd_utility/js/foowd-crop/foowd-crop.css'
+        ]
+        # deve esistere, e li dentro verra' immagazzinata l'immagine, se gia' non esiste
+        loadedImgContainer : '#file1-container'
+
+        
+        # l'id del tag img che funge da sorgente. Se esiste lo carica in $img privata del plugin, altrimenti lo creera' col caricamento dell'immagine
+        sourceImg: '#file1-sorgente'
+        # id del box che contiene tutte le immagini: appeso dopo $init.fileInput
+        imgContainer:'#file1-image-container'
+    
+    crop.create().initialize(init2)
+
+
     ## parto con l'impostare i parametri di crop
     #  NB: tutti gli ID sono impostati senza il query selector, ovvero con solo il nome puro
     init =
         # ricavo l'url
         urlF : document.getElementById('url').href
-        # deve esistere, e li dentro verra' immagazzinata l'immagine, se gia' non esiste
-        loadedImageContainerId : 'image'
-        # l'id del tag img che funge da sorgente
-        sourceId : 'sorgente'
         # l'id del campo input che immagazzina i file, ovvero le immagini
-        fileId : 'loadedFile'
-        # id del box che contiene tutte le immagini: appeso dopo $init.fileId
-        imageContainerId :'image-container'
+        fileInput : '[name="file"]'
         css: [
             'mod/foowd_utility/js/imgareaselect/css/imgareaselect-default.css',
             'mod/foowd_utility/js/foowd-crop/foowd-crop.css'
         ]
+        # deve esistere, e li dentro verra' immagazzinata l'immagine, se gia' non esiste
+        loadedImgContainer : '#file-container'
+
+        
+        # l'id del tag img che funge da sorgente. Se esiste lo carica in $img privata del plugin, altrimenti lo creera' col caricamento dell'immagine
+        sourceImg: '#file-sorgente'
+        # id del box che contiene tutte le immagini: appeso dopo $init.fileInput
+        imgContainer:'#file-image-container'
     
-    crop.initialize(init)
+    crop.create().initialize(init)
 
     test = new Text()
     
@@ -62,6 +86,10 @@
     for va in flds
         JmailLabel = $('[name="'+va+'"]').prevUntil('','label');
         JmailLabel.attr({'for': va})
+
+    # $('<span/>',{'html':'**','class':'extra-Site'}).appendTo($('label[for="Site"]'))
+    
+
 
     ajaxCheck = ()->
 
@@ -149,5 +177,7 @@
                 ()->
                     $(this).val('')
             )
+
+    
 
 );

@@ -48,30 +48,31 @@ return array(
 	// user form
 
 	'foowd:user:description' => 'Inserisci una descrizione per farti conoscere',
+	'foowd:user:description:need' => 'Inserisci una descrizione per farti conoscere **',
 	
 	'foowd:user:site' => 'Sito Internet',
-	'foowd:user:site:optional' => 'Sito Internet (opzionale)',
-	'foowd:user:site:need' => 'Sito Internet *',
+	'foowd:user:site:optional' => 'Sito Internet *',
+	'foowd:user:site:need' => 'Sito Internet',
 	'foowd:user:site:error' => 'Il nome del dominio inserito non &egrave; corretto',
 
 	'foowd:user:piva' => 'Partita Iva',
 	'foowd:user:piva:optional' => 'Partita Iva (opzionale)',
-	'foowd:user:piva:need' => 'Partita Iva *',
+	'foowd:user:piva:need' => 'Partita Iva **',
 	'foowd:user:piva:error' => 'La P.Iva inserita deve essere composta da 11 cifre',
 
 	'foowd:user:phone' => 'Telefono',
 	'foowd:user:phone:optional' => 'Telefono (opzionale)',
-	'foowd:user:phone:need' => 'Telefono *',
+	'foowd:user:phone:need' => 'Telefono **',
 	'foowd:user:phone:error' => 'Il numero di telefono deve essere costituito solo da numeri senza spazi.',
 
 	'foowd:user:address' => 'Indirizzo',
 	'foowd:user:address:optional' => 'Indirizzo (opzionale)',
-	'foowd:user:address:need' => 'Indirizzo *',
+	'foowd:user:address:need' => 'Indirizzo **',
 	'foowd:user:address:error' => 'Devi inserire l\'indirizzo',
 
 	'foowd:user:company' => 'Ragione Sociale',
 	'foowd:user:company:optional' => 'Ragione Sociale (opzionale)',
-	'foowd:user:company:need' => 'Ragione Sociale *',
+	'foowd:user:company:need' => 'Ragione Sociale **',
 	'foowd:user:company:error' => 'Manca la Ragione Sociale',
 
 	'foowd:user:email:error' => 'Indirizzo email non valido',
