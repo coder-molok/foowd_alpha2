@@ -13,12 +13,13 @@ define(function(require){
 	//creo il controller della pagina dettaglio
 	var ProductDetailController = (function(){
 
-		function animateProgressBar(bar, amount){
-			//amount 0 to 100
-			var progress = amount > 100 ? 100 : amount;
-			var containerWidth = bar.parent()[0].clientWidth;
-			bar.css("width", (progress * containerWidth)/100);
-		};
+		function fillProgressBars(){
+			$('.detail-progress-bar').each(function(i) {
+			    var width = $(this).data('width');
+			    width = width > 100 ? 100 : width;
+			    $(this).width(width + "%");
+			});
+		}
 
 		return{
 			getDetailsOf : function(DOMelement){
@@ -52,7 +53,7 @@ define(function(require){
 								.addClass('animated bounceInLeft'); //animazione
 							//riempio la progress bar
 							//TODO : trovare il valore corretto con cui riempire la progress bar
-							animateProgressBar($('#progress-bar'),20);
+							fillProgressBars();
 						}, function(error){
 							//gestico l'errore
 							console.log(error);
