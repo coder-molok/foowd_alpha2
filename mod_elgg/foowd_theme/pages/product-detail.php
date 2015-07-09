@@ -70,13 +70,11 @@ require(['ProductDetailController', 'helpers', 'templates'], function(){
   //template di handlebars
   var templates = require('templates');
   //controller della pagina
-  var ProductDetailController = require('ProductDetailController');
+  window.ProductDetailController = require('ProductDetailController');
   //funzioni di utilità
   window.utils = require('Utils');
   //inserisco la barra di navigazione
   $('.foowd-navbar').html(templates.simpleNavbar(""));
-  //richiamo i dettagli del prdotto
-  ProductDetailController.getDetailsOf('#product-detail-main');
 
 });
 </script>

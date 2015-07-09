@@ -1,7 +1,7 @@
 
 <li class="product-post">
     <div class="product-post-image-thumbnail" 
-         onclick="utils.goProductDetail({{Id}})">
+         onclick="WallController.addPreference({{Id}},{{Quota}})">
         <img src="{{picture}}">
         <div class="heart-overlay"></div>
     </div>
@@ -24,8 +24,8 @@
         </div> --}}
     </div>
     <div class="product-post-menu">
-        <div onclick="WallController.addPreference({{Id}},{{Quota}},this)">
-           <span class = "like glyphicon glyphicon-heart fw-menu-icon {{prefer}}">
+        <div onclick="utils.goProductDetail({{Id}})">
+           <span class = "like glyphicon glyphicon-info-sign fw-menu-icon">
            </span>
         </div>
     </div>

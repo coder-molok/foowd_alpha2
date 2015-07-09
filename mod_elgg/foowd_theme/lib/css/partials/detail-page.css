@@ -68,9 +68,24 @@
   margin-bottom: 20px;
 }
 .detail-progress-bar {
-  background-image: url("../../img/stripes.png");
   position: absolute;
   height: 46px;
+  width: 50%;
+  z-index: -1;
+}
+.detail-progress-bar .progress {
+  position: absolute;
+  z-index: -1;
+  height: 100%;
+  background-image: url("../../img/stripes.png");
+}
+.detail-progress-bar.preview-bar {
+  z-index: -2;
+}
+.detail-progress-bar.preview-bar .progress {
+  background-image: none;
+  background-color: #fae6ef;
+  z-index: -2;
 }
 .price-detail {
   *zoom: 1;
@@ -87,6 +102,7 @@
   width: 50%;
   margin-left: 0%;
   margin-right: 0%;
+  z-index: 100;
 }
 .price-detail:before,
 .price-detail:after {
@@ -106,6 +122,9 @@
 }
 .price-detail:after {
   clear: both;
+}
+#unit-price {
+  margin-left: 20px;
 }
 .number-block {
   margin: 5px;

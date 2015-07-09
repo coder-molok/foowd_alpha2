@@ -100,6 +100,7 @@ define(function(require){
 						var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
 						//riempio il wall con i prodotti 
 						fillWall(parsedProducts);
+						$(searchBox).trigger('preferenceAdded');
 					}else{
 						$(searchBox).trigger('failedSearch');
 					}
@@ -136,7 +137,7 @@ define(function(require){
 		/*
 		 * Funzione che aggiunge una preferenza
 		 */
-		function addPreference(offerId, qt, el) {
+		function addPreference(offerId, qt) {
     		//setto i parametri della mia preferenza
 			preference.OfferId = offerId;
 			preference.ExternalId = userId;
@@ -144,7 +145,7 @@ define(function(require){
 			//richiamo l'API per settare la preferenza
 			API.addPreference(preference).then(function(data){
 				//nella callback setto il cuore rosso della preferenza
-				setRedHeart(el);
+				//setRedHeart(el);
 
 				fillWallWithProducts();
 				$(searchBox).trigger('preferenceAdded');
@@ -159,18 +160,23 @@ define(function(require){
 		 * GESTIONE EVENTI ------------------------------------------------------------------------
 		 */
 		 
+		 //TODO : prima di impostare degli eventi bisogna assicurarsi che i template siano stati renderizzati
+
 		//notifica errore nel caso la ricerca testuale non ha prodotto risultati
 		$(searchBox).on('failedSearch', function(e){
+			console.log('failedSearch ooooo');
 			$('#foowd-error').text('La tua ricerca non ha prodotto risultati');
 			$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
 		});
 		//notifica positiva nel caso la preferenza è stata aggiunta correttamente
 		$(searchBox).on('preferenceAdded', function(e){
+			console.log("preferenza aggiunta");
 			$('#foowd-success').text('La tua preferenza è stata aggiunta');
 			$('#foowd-success').fadeIn(500).delay(3000).fadeOut(500);
 		});
 		//notifica di errore nel caso la preferenza non fosse stata aggiunta
 		$(searchBox).on('preferenceError', function(e){
+			console.log('preferenceError ooosos');
 			$('#foowd-error').text("C'è stato un errore durante l'aggiuta della tua preferenza");
 			$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
 		});

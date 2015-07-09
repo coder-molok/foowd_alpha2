@@ -1,6 +1,18 @@
 <div id="detail-menu">
     <div class="detail-menu-section" id="price-section">
-        <span class="detail-progress-bar" data-width="20">
+        <span class = "detail-progress-bar">
+            <span class = "progress" 
+              data-unit = "{{Quota}}"
+              data-progress = "{{totalQt}}" 
+              data-total = "{{Minqt}}">
+            </span>    
+        </span>
+        <span class = "detail-progress-bar preview-bar">
+            <span class = "progress" 
+              data-unit = "{{Quota}}"
+              data-progress = "{{totalQt}}" 
+              data-total = "{{Minqt}}">
+            </span>    
         </span>
         <div class="price-detail">
             <ul class="number-block" id="unit-price">
@@ -30,10 +42,12 @@
             
             <ul class="action-icons menu-section" id = "preference-action">
                 <li id="action-heart">
-                    <i  class="glyphicon glyphicon-heart fw-menu-icon"></i>
+                    <i  class="glyphicon glyphicon-heart fw-menu-icon" 
+                        onClick = "ProductDetailController.addPreference({{Id}}, 1)"></i>
                 </li>
                 <li id="action-minus">
-                    <i class="glyphicon glyphicon-minus fw-menu-icon"></i>
+                    <i class="glyphicon glyphicon-minus fw-menu-icon" 
+                       onClick = "ProductDetailController.addPreference({{Id}}, -1)"></i>
                 </li>
             </ul>
 
