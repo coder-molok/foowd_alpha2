@@ -62,6 +62,11 @@ define(function(require){
 						var rawProduct = $.parseJSON(data).body[0];
 						//aggiungo il campo immagine
 						utils.addPicture(rawProduct);
+						//se l'utente è loggato aggiungo un flag true
+
+						if(utils.isValid(userId) && userId != 0){
+							rawProduct.logged = true;
+						}
 						//applico il template ai dati ricevuti
 						var parsedProduct = productTemplate(rawProduct);
 						//lo metto nell'elemento HTML che passato alla funzione

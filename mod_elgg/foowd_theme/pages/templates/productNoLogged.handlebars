@@ -1,9 +1,7 @@
 
 <li class="product-post">
-    <div class="product-post-image-thumbnail" 
-         onclick="utils.goProductDetail({{Id}})">
+    <div class="product-post-image-thumbnail">
         <img src="{{picture}}">
-        <div class="heart-overlay"></div>
     </div>
     <div class="product-post-header">
         <div class="product-post-name">
@@ -22,6 +20,12 @@
         {{!-- <div class="product-post-qt-progress">
             {{totalQt}}/{{Minqt}}
         </div> --}}
+    </div>
+    <div class="product-post-menu">
+        <div onclick="utils.goProductDetail({{Id}})">
+           <span class = "like glyphicon glyphicon-info-sign fw-menu-icon">
+           </span>
+        </div>
     </div>
     <div class="product-post-body">
             {{{Description}}}
