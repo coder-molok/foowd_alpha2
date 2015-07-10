@@ -50,12 +50,17 @@
 	+below(bp)
 		height:240px;
 
-.progress-bar
+.preference-progress-bar
 	position: absolute;
 	left: 0;
-	height:120px
-	background-color: rgb(250,230,239);
+	height: 120px
+	width: 100%
 	z-index : -100
+	.progress
+		height: 100%
+		position: absolute
+		z-index : -100
+		background-color: rgb(250,230,239);
 	+below(bp)
 		height:240px
 

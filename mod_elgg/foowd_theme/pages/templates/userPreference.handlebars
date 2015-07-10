@@ -1,5 +1,11 @@
 <div class="preference">
-    <span class = "progress-bar" data-width = "25"></span>
+   <span class = "preference-progress-bar">
+        <span class = "progress" 
+          data-unit = "{{Offer.Quota}}"
+          data-progress = "{{Offer.totalQt}}" 
+          data-total = "{{Offer.Minqt}}">
+        </span>    
+    </span>
     <div class="user-preference">
         <div class="user-preference-section">
             <img src="{{Offer.picture}}" class = "user-preference-image">    
@@ -27,10 +33,14 @@
         <div class="user-preference-actions user-preference-section">
             <ul class="action-icons">
                 <li id="action-heart">
-                    <i  class="glyphicon glyphicon-heart fw-menu-icon"></i>
+                    <i  class = "glyphicon glyphicon-heart fw-menu-icon"
+                        onclick = "UserBoardController.addPreference({{Offer.Id}}, 1)">
+                    </i>
                 </li>
                 <li id="action-minus">
-                    <i class="glyphicon glyphicon-minus fw-menu-icon"></i>
+                    <i class="glyphicon glyphicon-minus fw-menu-icon"
+                       onclick = "UserBoardController.addPreference({{Offer.Id}}, -1)">
+                    </i>
                 </li>
             </ul>
         </div>

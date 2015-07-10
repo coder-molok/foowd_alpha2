@@ -171,6 +171,9 @@
 .product-post-menu:after {
   clear: both;
 }
+.product-post-menu div {
+  display: inline-block;
+}
 .like {
   font-size: 12pt;
   line-height: 12pt;

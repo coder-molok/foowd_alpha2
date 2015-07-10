@@ -16,4 +16,12 @@ h5 {
   top: 70px;
   right: 20px;
   z-index: 10000;
+  width: 150px;
+  height: 40px;
+}
+#foowd-error {
+  background-color: #f00;
+}
+#foowd-success {
+  background-color: #008000;
 }

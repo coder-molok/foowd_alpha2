@@ -28,13 +28,30 @@ contentMargin = 60px;
   margin-bottom: 20px;
 
 .detail-progress-bar
-  background-image : url('../../img/stripes.png');
-  position: absolute;
-  height:46px;
+    position: absolute;
+    height:46px;
+    width:50%
+    z-index: -1
+    .progress
+      position:absolute;
+      z-index: -1
+      height:100%
+      background-image : url('../../img/stripes.png');
+
+.detail-progress-bar.preview-bar
+  z-index: -2
+  .progress
+      background-image:none
+      background-color:rgb(250,230,239)
+      z-index: -2
 
 .price-detail
     column(1/2 1/2)
     span(1/2)
+    z-index:100
+    
+#unit-price
+  margin-left: 20px
     
 .number-block
   margin:5px;

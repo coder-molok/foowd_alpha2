@@ -880,9 +880,24 @@
   margin-bottom: 20px;
 }
 .detail-progress-bar {
-  background-image: url("../../img/stripes.png");
   position: absolute;
   height: 46px;
+  width: 50%;
+  z-index: -1;
+}
+.detail-progress-bar .progress {
+  position: absolute;
+  z-index: -1;
+  height: 100%;
+  background-image: url("../../img/stripes.png");
+}
+.detail-progress-bar.preview-bar {
+  z-index: -2;
+}
+.detail-progress-bar.preview-bar .progress {
+  background-image: none;
+  background-color: #fae6ef;
+  z-index: -2;
 }
 .price-detail {
   *zoom: 1;
@@ -899,6 +914,7 @@
   width: 50%;
   margin-left: 0%;
   margin-right: 0%;
+  z-index: 100;
 }
 .price-detail:before,
 .price-detail:after {
@@ -918,6 +934,9 @@
 }
 .price-detail:after {
   clear: both;
+}
+#unit-price {
+  margin-left: 20px;
 }
 .number-block {
   margin: 5px;
@@ -1094,6 +1113,14 @@ h5 {
   top: 70px;
   right: 20px;
   z-index: 10000;
+  width: 150px;
+  height: 40px;
+}
+#foowd-error {
+  background-color: #f00;
+}
+#foowd-success {
+  background-color: #008000;
 }
 
 /* Stile Nuovo Header*/
@@ -1393,15 +1420,21 @@ h5 {
     height: 240px;
   }
 }
-.progress-bar {
+.preference-progress-bar {
   position: absolute;
   left: 0;
   height: 120px;
-  background-color: #fae6ef;
+  width: 100%;
   z-index: -100;
 }
+.preference-progress-bar .progress {
+  height: 100%;
+  position: absolute;
+  z-index: -100;
+  background-color: #fae6ef;
+}
 @media only screen and (max-width: 900px) {
-  .progress-bar {
+  .preference-progress-bar {
     height: 240px;
   }
 }
@@ -1785,6 +1818,9 @@ h5 {
 }
 .product-post-menu:after {
   clear: both;
+}
+.product-post-menu div {
+  display: inline-block;
 }
 .like {
   font-size: 12pt;

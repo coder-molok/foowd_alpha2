@@ -100,11 +100,7 @@
 
       $('.foowd-navbar').html(templates.simpleNavbar(""));
 
-      var UserBoardController = require('UserBoardController');
-
-      UserBoardController.getUserPreferences();
-
-
+      window.UserBoardController = require('UserBoardController');
 
     });
 </script>

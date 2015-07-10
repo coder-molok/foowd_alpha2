@@ -155,15 +155,21 @@
     height: 240px;
   }
 }
-.progress-bar {
+.preference-progress-bar {
   position: absolute;
   left: 0;
   height: 120px;
-  background-color: #fae6ef;
+  width: 100%;
   z-index: -100;
 }
+.preference-progress-bar .progress {
+  height: 100%;
+  position: absolute;
+  z-index: -100;
+  background-color: #fae6ef;
+}
 @media only screen and (max-width: 900px) {
-  .progress-bar {
+  .preference-progress-bar {
     height: 240px;
   }
 }
