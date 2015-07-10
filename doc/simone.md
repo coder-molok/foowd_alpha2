@@ -2,6 +2,10 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 10/07/2015
+
+- implementata API user per sincronizzazione nuovi dati utenti
+
 ### 07/07/2015
 
 - implementata parte di [issue#85](https://github.com/coder-molok/foowd_alpha2/issues/85)

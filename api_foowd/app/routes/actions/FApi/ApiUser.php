@@ -201,29 +201,33 @@ class ApiUser extends \Foowd\FApi{
 	// per Blob data: http://propelorm.org/Propel/cookbook/working-with-advanced-column-types.html#getting-blob-values
 	public $needle_search = "ExternalId";
 	protected function search($data){
-
 		$user = \UserQuery::Create()
 				->filterByExternalId($data->ExternalId)
 				->findOne();
 
 		if(!$user) return array('errors'=>'utente inesistente.', 'response' => false);
 
-		$default = array("Genre");
+		$user = $user->toArray();
+		// var_dump($user);
+		
+		$return['body']	= $user;
 
-		if(isset($data->return)){
-			$r = $data->return;
-			$tmp = explode(',', $data->return);
-			$default = array_merge($default, $tmp);
-		}
+		// $default = array("Genre");
 
-		foreach ($default as $field) {
-			$return[$field] = $user->{'get'.$field}();
-		}
+		// if(isset($data->return)){
+		// 	$r = $data->return;
+		// 	$tmp = explode(',', $data->return);
+		// 	$default = array_merge($default, $tmp);
+		// }
 
-		if(isset($return['Image']) && $return['Image'] !== null){
-			$return['Image'] = base64_encode(stream_get_contents($return['Image'], -1, 0));
-			//$return['meta'] = stream_get_meta_data($img);
-		}
+		// foreach ($default as $field) {
+		// 	$return[$field] = $user->{'get'.$field}();
+		// }
+
+		// if(isset($return['Image']) && $return['Image'] !== null){
+		// 	$return['Image'] = base64_encode(stream_get_contents($return['Image'], -1, 0));
+		// 	//$return['meta'] = stream_get_meta_data($img);
+		// }
 
 		$return['response']= true;
 
