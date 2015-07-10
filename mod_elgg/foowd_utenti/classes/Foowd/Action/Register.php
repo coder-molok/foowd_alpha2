@@ -15,7 +15,7 @@ namespace Foowd\Action;
 		private $par = array(
 			'Name'					=> '',
 			'ExternalId'			=> '',		
-			'Genre'					=> array("standard", "offerente")
+			'Genre'					=> array("standard", "offerente"),
 		);
 
 		/**

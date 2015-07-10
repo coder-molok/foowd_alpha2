@@ -250,6 +250,11 @@ function start(){
 
     // imposto la finestra di riferimento e prendo la sua sorgente
     var div = $('img#sorgente');
+
+    // pulsanti per fare lo switch delle proporzioni
+    var strg = '<div id="ratio"><div data-ratio="2/3">2:3</div><div data-ratio="3/2">3:2<div/></div>';
+    $('<div/>',{'html':strg}).css({'position':'absolute'}).insertBefore(div)
+
     if(!div.length) alert('div not exists');
     var src = div.attr('src');
     if(!src) alert('src not exists');
@@ -303,7 +308,52 @@ function start(){
 
     // instance of image area select: used to force aspect ratio in onSelectChange event
     $ias = div.imgAreaSelect({instance: true});    
-    $ias.setOptions({/* aspectRatio: '1:1',*/ handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 30, minHeight: 30});    
+    //$ias.setOptions({/* aspectRatio: '1:1',*/ handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 30, minHeight: 30});    
+    
+    var ratio ;
+    if ($img.width > $img.height){
+        ratio = '3:2'
+    }else{
+        ratio = '2:3'
+    }
+
+    $ias.setOptions({aspectRatio: '2:3', handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 30, minHeight: 30});    
+    
+    // per fare lo switch delle proporzioni
+    $('div[data-ratio]').on('click', function(){
+        var txt = $(this).text();
+        var ratio = $(this).attr('data-ratio')
+        ratio = eval(ratio)
+
+        $ias.update()
+        var x1 = $ias.getOptions().x1;
+        var x2 = $ias.getOptions().x2;
+        var y1 = $ias.getOptions().y1;
+        var y2 = $ias.getOptions().y2;
+        var w = x2-x1;
+        var h = y2-y1;
+        var xc = (x1+x2)/2
+        var yc = (y1+y2)/2
+
+        var tmp = {}
+        if(ratio > 1){ // ovvero se e' piu largo che lungo
+            tmp.x = Math.max(w,h)
+            tmp.y = Math.min(w,h)
+        }else{
+            tmp.x = Math.min(w,h)
+            tmp.y = Math.max(w,h)
+        }
+        // console.log(JSON.stringify(tmp))
+            x1 = xc - tmp.x/2
+            x2 = x1 + tmp.x
+            y1 = yc - tmp.y/2
+            y2 = y1 + tmp.y
+        // console.log(x1 + ' ' + x2 + ' ' + y1 + ' ' + y2)
+        $ias.setSelection(x1, y1, x2, y2);
+        $ias.setOptions({aspectRatio: txt/*, x1:x1, x2:x2, y1:y1, y2:y2*/})
+        // console.log(ratio + txt)
+        $ias.update()
+    })
 }   
 
 /**
@@ -419,16 +469,16 @@ function preview(img, selection) {
 
     // forzo l'aspect ratio in modo che la larghezza non superi l'altezza 
     // e l'altezza non sia il doppio della larghezza
-    if(selection.height < selection.width || selection.height > 2*selection.width){
-        var x1 = $ias.getOptions().x1;
-        var x2 = $ias.getOptions().x2;
-        var y1 = $ias.getOptions().y1;
-        var y2 = $ias.getOptions().y2;
-        // $ias.setSelection(selection.x1,selection.y1, selection.x2, selection.y1 + selection.w)
-        $ias.setSelection(x1, y1, x2, y2);
-        $ias.update()
-        return false;
-    }
+    // if(selection.height < selection.width || selection.height > 2*selection.width){
+    //     var x1 = $ias.getOptions().x1;
+    //     var x2 = $ias.getOptions().x2;
+    //     var y1 = $ias.getOptions().y1;
+    //     var y2 = $ias.getOptions().y2;
+    //     // $ias.setSelection(selection.x1,selection.y1, selection.x2, selection.y1 + selection.w)
+    //     $ias.setSelection(x1, y1, x2, y2);
+    //     $ias.update()
+    //     return false;
+    // }
 
     // disegno le previews
     for(var i in $preWindos){
@@ -451,9 +501,10 @@ function preview(img, selection) {
         // }
     }
     
-    $ias.setSelection(selection.x1, selection.y1, selection.x2, selection.y2)
-    $ias.setOptions({ x1:selection.x1, y1: selection.y1, x2: selection.x2, y2: selection.y2 });
-    $ias.update();
+    // solo se devo controllare dinamicamente per forzare l'aspect ration
+    // $ias.setSelection(selection.x1, selection.y1, selection.x2, selection.y2)
+    // $ias.setOptions({ x1:selection.x1, y1: selection.y1, x2: selection.x2, y2: selection.y2 });
+    // $ias.update();
 
 }
 

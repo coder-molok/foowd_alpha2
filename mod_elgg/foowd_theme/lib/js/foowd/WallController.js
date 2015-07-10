@@ -15,7 +15,6 @@ define(function(require){
 	//jQuery 
 	var $ = require('jquery');
 
-
 	var WallController = (function(){
 
 		/*
@@ -24,7 +23,7 @@ define(function(require){
 
 
 		//tag html dove andiamo a mettere il template compilato
-		var wallId = ".wall";
+		var wallId = "#wall";
 		//search box id
 		var searchBox = "#searchText";
 		//prototipo di una prefereza
@@ -46,9 +45,14 @@ define(function(require){
 		 */
 		function fillWall(content) {
 			$(wallId)
-		  	    .html(content)
-				.addClass('animated bounceInLeft'); //animazione
+		  	    .html(content);
+				//.addClass('animated bounceInLeft'); //animazione
 			//solo ora che ho renderizzato tutti gli elementi applicao il layout
+			new AnimOnScroll( document.getElementById( 'wall' ), {
+				minDuration : 0.4,
+				maxDuration : 0.7,
+				viewportFactor : 0.2
+			} );
 
 		}
 		/*
@@ -78,30 +82,33 @@ define(function(require){
 		/*
 		 * Ricerca dei prodotti in base alla chiave testuale
 		 */
-		function searchProducts(){
-			var textSearch = getSearchText();
-			API.getProducts(userId, textSearch).then(function(data){
-				//parso il JSON dei dati ricevuti
-				var rawProducts = $.parseJSON(data);
-              	//prendo l'id dell'utente (se loggato) e vedo che template usare
-				if(rawProducts.body.length > 0){
-					var useTemplate = null;
-					if(userId !== null){
-						useTemplate = templates.productLogged;
+		function searchProducts(e){
+			if(e.keyCode == 13){
+				var textSearch = getSearchText();
+				API.getProducts(userId, textSearch).then(function(data){
+					//parso il JSON dei dati ricevuti
+					var rawProducts = $.parseJSON(data);
+	              	//prendo l'id dell'utente (se loggato) e vedo che template usare
+					if(rawProducts.body.length > 0){
+						var useTemplate = null;
+						if(userId !== null){
+							useTemplate = templates.productLogged;
+						}else{
+							useTemplate = templates.productNoLogged;
+						}
+						//utilizo il template sui dati che ho ottenuto
+						var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
+						//riempio il wall con i prodotti 
+						fillWall(parsedProducts);
+						$(searchBox).trigger('preferenceAdded');
 					}else{
-						useTemplate = templates.productNoLogged;
+						$(searchBox).trigger('failedSearch');
 					}
-					//utilizo il template sui dati che ho ottenuto
-					var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
-					//riempio il wall con i prodotti 
-					fillWall(parsedProducts);
-				}else{
-					$(searchBox).trigger('failedSearch');
-				}
 
-			},function(error){
-				console.log(error);
-			});
+				},function(error){
+					console.log(error);
+				});
+			}
 		}
 
 		/*
@@ -130,7 +137,7 @@ define(function(require){
 		/*
 		 * Funzione che aggiunge una preferenza
 		 */
-		function addPreference(offerId, qt, el) {
+		function addPreference(offerId, qt) {
     		//setto i parametri della mia preferenza
 			preference.OfferId = offerId;
 			preference.ExternalId = userId;
@@ -138,7 +145,7 @@ define(function(require){
 			//richiamo l'API per settare la preferenza
 			API.addPreference(preference).then(function(data){
 				//nella callback setto il cuore rosso della preferenza
-				setRedHeart(el);
+				//setRedHeart(el);
 
 				fillWallWithProducts();
 				$(searchBox).trigger('preferenceAdded');
@@ -152,27 +159,24 @@ define(function(require){
 		/*
 		 * GESTIONE EVENTI ------------------------------------------------------------------------
 		 */
+		 
+		 //TODO : prima di impostare degli eventi bisogna assicurarsi che i template siano stati renderizzati
 
-		//gestore dell'evento dell'avvenuta premuta del pulsante invio sulla casella di testo
-		$(searchBox).keypress(function (e) {
-			if (e.keyCode == 13){
-				searchProducts();
-				return false;
-			}
-
-		});
 		//notifica errore nel caso la ricerca testuale non ha prodotto risultati
 		$(searchBox).on('failedSearch', function(e){
+			console.log('failedSearch ooooo');
 			$('#foowd-error').text('La tua ricerca non ha prodotto risultati');
 			$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
 		});
 		//notifica positiva nel caso la preferenza è stata aggiunta correttamente
 		$(searchBox).on('preferenceAdded', function(e){
+			console.log("preferenza aggiunta");
 			$('#foowd-success').text('La tua preferenza è stata aggiunta');
 			$('#foowd-success').fadeIn(500).delay(3000).fadeOut(500);
 		});
 		//notifica di errore nel caso la preferenza non fosse stata aggiunta
 		$(searchBox).on('preferenceError', function(e){
+			console.log('preferenceError ooosos');
 			$('#foowd-error').text("C'è stato un errore durante l'aggiuta della tua preferenza");
 			$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
 		});
@@ -182,6 +186,7 @@ define(function(require){
 		 */
 
 		return{
+			searchProducts : searchProducts,
 			fillWallWithProducts : fillWallWithProducts,
 			addPreference : addPreference
 		};

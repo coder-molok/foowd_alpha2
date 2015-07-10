@@ -1,0 +1,139 @@
+/* Stile Nuovo Header*/
+/*----- Fine variabili utili -----*/
+.foowd-navbar {
+  *zoom: 1;
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 10000;
+  box-shadow: 0 0px 20px 0px #f0f0f0;
+}
+.foowd-navbar:before,
+.foowd-navbar:after {
+  content: '';
+  display: table;
+}
+.foowd-navbar:after {
+  clear: both;
+}
+.navbar-section {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 48.5%;
+  margin-left: 0%;
+  margin-right: 3%;
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 50%;
+  margin-left: 0%;
+  margin-right: 0%;
+  height: 100%;
+}
+.navbar-section:before,
+.navbar-section:after {
+  content: '';
+  display: table;
+}
+.navbar-section:after {
+  clear: both;
+}
+.navbar-section:nth-child(2n) {
+  margin-right: 0%;
+  float: right;
+}
+.navbar-section:nth-child(2n+1) {
+  clear: both;
+}
+.navbar-section:before,
+.navbar-section:after {
+  content: '';
+  display: table;
+}
+.navbar-section:after {
+  clear: both;
+}
+@media only screen and (max-width: 900px) {
+  .navbar-section {
+    display: block;
+    clear: both;
+    float: none;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #f00;
+  }
+  .navbar-section:first-child {
+    margin-left: auto;
+  }
+  .navbar-section:last-child {
+    margin-right: auto;
+  }
+}
+#logo {
+  background-color: #fae6ef;
+}
+#foowd-brand {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 48.5%;
+  margin-left: 0%;
+  margin-right: 3%;
+  position: absolute;
+  transform-style: preserve-3d;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 20px;
+  text-decoration: none;
+  color: #000;
+  font-family: AkkuratBold;
+  font-size: 24pt;
+  line-height: 24pt;
+  letter-spacing: -1.5pt;
+}
+#foowd-brand:before,
+#foowd-brand:after {
+  content: '';
+  display: table;
+}
+#foowd-brand:after {
+  clear: both;
+}
+#foowd-brand:last-child {
+  margin-right: 0%;
+}
+#foowd-brand input {
+  width: 40%;
+  background-color: #fae6ef;
+  outline: none;
+  border: none;
+}
+#user-menu-section {
+  background-color: #fff;
+}
+#user-menu {
+  position: relative;
+  float: right;
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 12pt;
+}
+#user-menu a {
+  margin-right: 10px;
+}
+.fw-menu-icon {
+  text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+  cursor: pointer;
+  color: #fff;
+}
+#price-section {
+  height: 100%;
+  background: trasparent;
+}
+/* Fine stile nuovo header*/

@@ -20,6 +20,9 @@
     "bootstrap": "~3.3.4",
     "handlebars": "~3.0.2",
     "animate.css": "~3.3.0",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "masonry": "~3.3.1",
+    "imagesloaded": "~3.1.8",
+    "modernizr": "~2.8.3"
   }
 }

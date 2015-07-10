@@ -9,12 +9,9 @@
     <!-- Vendor Style Libraries -->
     <link href="mod/foowd_theme/lib/css/reset.css">
     <!-- Vendor Style Libraries -->
-    <link href="mod/foowd_theme/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="mod/foowd_theme/vendor/animate.css/animate.css" rel="stylesheet">
-
      <!-- Custom CSS -->
     <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
-    <link rel="stylesheet" href="mod/foowd_theme/lib/css/grid.css">
     <!-- Flavicons (not avaiable yet) -->
     <!-- elgg -->
     <?php
@@ -51,54 +48,48 @@
       ?>
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top header">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" onClick="utils.goTo()">foowd_</a>
-      </div>
-      <div class="navbar-form navbar-left" role="search">
-          <div class="form-group">
-            <input type="text" class="form-control" id="searchText" size = "50">
-          </div>
-      </div>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a id="heart">
-            <i class="glyphicon glyphicon-heart fw-menu-icon header-icon"></i>
-            </a>
-        </li>
-        <li><a id="userButton"  onClick = "utils.goToUserProfile()">
-            <i class="glyphicon glyphicon-user fw-menu-icon header-icon"></i>
-            </a>
-        </li>
-      </ul>
-  </div>
-</nav>
+<div class="foowd-navbar">
+  
 </div>
-<div class="container-fluid" id="wall-main">
-  <div class="wall">
-  </div>
-</div>
+
+<ul class="grid effect-1" id="wall">
+
+</ul>
+
 <div class="alert alert-success" role="alert" id="foowd-success"></div>
 <div class="alert alert-danger" role="alert" id="foowd-error"></div>
+<script type="text/javascript" src="mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
 <script type="text/javascript">
 require([ 
   'bootstrap', 
   'helpers',
+  'templates',
   'Utils',
+  'masonry',
+  'imagesLoaded',
+  'classie',
+  'animOnScroll',
   'WallController'
   ],function(){
+
+  var imagesLoaded = require('imagesLoaded');
+  window.imagesLoaded = imagesLoaded;
+  var masonry = require('masonry');
+  window.Masonry = masonry;
+  var classie = require('classie');
+  window.classie = classie;
+
   //helpers di Handlebars
   var helpers = require('helpers'); 
+  //templates di handlebars
+  var templates = require('templates');
   //funzioni di utility
   window.utils = require('Utils');
   //controller della pagina
   var WallController = require('WallController');
   window.WallController = WallController;
+  //inserisco la barra di navigazione
+  $('.foowd-navbar').html(templates.searchNavbar(""));
   //richiamo il controller per riempire il wall di prodotti
   WallController.fillWallWithProducts();
 });

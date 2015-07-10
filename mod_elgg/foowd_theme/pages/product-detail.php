@@ -7,8 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <!-- Vendor Style Libraries -->
-    <link href="mod/foowd_theme/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="mod/foowd_theme/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">-->
     <link href="mod/foowd_theme/vendor/animate.css/animate.css" rel="stylesheet">
+
+    <!-- Custom style libs -->
+    <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
 
     <!-- Flavicons (not avaiable yet) -->
 
@@ -50,49 +53,28 @@
         }
       ?>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
     </head>
 <body>
 
-<nav class="navbar navbar-default navbar-fixed-top header">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" onClick="utils.goTo()">foowd_</a>
-      </div>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a id="heart">
-            <i class="glyphicon glyphicon-heart fw-menu-icon header-icon"></i>
-            </a>
-        </li>
-        <li><a id="userButton"  onClick = "utils.goToUserProfile()">
-            <i class="glyphicon glyphicon-user fw-menu-icon header-icon"></i>
-            </a>
-        </li>
-      </ul>
-  </div>
-</nav>
+<div class="foowd-navbar">
+</div>
 
 <!--main-->
-<div class="container-fluid" id="product-detail-main">
-
+<div id="product-detail-main">
 </div>
 
 <script type="text/javascript">
-require(['ProductDetailController', 'helpers'], function(){
+require(['ProductDetailController', 'helpers', 'templates'], function(){
   //handlebars helpers
   var helpers = require('helpers');
+  //template di handlebars
+  var templates = require('templates');
   //controller della pagina
-  var ProductDetailController = require('ProductDetailController');
+  window.ProductDetailController = require('ProductDetailController');
   //funzioni di utilità
   window.utils = require('Utils');
-
-  ProductDetailController.getDetailsOf('#product-detail-main');
+  //inserisco la barra di navigazione
+  $('.foowd-navbar').html(templates.simpleNavbar(""));
 
 });
 </script>

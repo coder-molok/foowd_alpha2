@@ -38,12 +38,24 @@ function utility_init(){
 	elgg_define_js('crop',[
 	    'src' => '/mod/foowd_utility/js/foowd-crop/crop.js',
 	    'deps'=> array('jquery', 'elgg', 'imgAreaSelect')
-	]);	
+	]);
 
 	elgg_define_js('imgAreaSelect', [
 	    'src' => '/mod/foowd_utility/js/imgareaselect/scripts/jquery.imgareaselect.pack.js',
 	    'deps' => array('jquery'),
 	    // 'exports' => 'jQuery.fn.imgAreaSelect',
+	]);
+
+	// gestione del form
+	elgg_define_js('foowdFormCheck',[
+	    'src' => '/mod/foowd_utility/js/foowd-form-check/foowd-form-check.js',
+	    'deps'=> array('jquery', 'elgg')
+	]);
+
+	// gestione del form
+	elgg_define_js('foowdCropLightbox',[
+	    'src' => '/mod/foowd_utility/js/foowd-crop-lightbox/foowd-crop-lightbox.js',
+	    'deps'=> array('jquery', 'elgg')
 	]);
 
 }
@@ -89,6 +101,9 @@ function utility_page_handler($segments) {
 		    break;
 		case 'image-tmp':
 		    include elgg_get_plugins_path() . 'foowd_utility/pages/image-tmp.php';
+		    break;
+		case 'user-check':
+		    include elgg_get_plugins_path() . 'foowd_utility/pages/user-check.php';
 		    break;
 		default:
 			$check = false;

@@ -33,6 +33,7 @@
         <column name="created" phpName="Created" type="TIMESTAMP"/>
         <column name="qt" phpName="Qt" type="INTEGER" phpType="double" required="false"/>
         <!-- lego le chiavi -->
+        <!-- onDelete="cascade": se elimino una riga da una foreign Table, allora viene eliminata anche nella presente tabella (prefer) -->
         <foreign-key foreignTable="offer" onDelete="cascade">
             <reference local="offerid" foreign="id"/>
         </foreign-key>
@@ -66,9 +67,16 @@
         <column name="externalid" phpName="ExternalId" type="INTEGER" required="true"/>
         <column name="location" phpName="Location" type="VARCHAR" size="255" required="false" />
         <column name="description" phpName="Description" type="VARCHAR" size="2000" required="false" />
+        <column name="site" phpName="Site" type="VARCHAR" size="255" required="false" />
+        <column name="piva" phpName="Piva" type="VARCHAR" size="11" required="false" />
+        <column name="email" phpName="Email" type="VARCHAR" size="50" required="false" />
+        <column name="phone" phpName="Phone" type="VARCHAR" size="11" required="false" />
+        <column name="address" phpName="Address" type="VARCHAR" size="150" required="false" />
+        <column name="company" phpName="Company" type="VARCHAR" size="100" required="false" />
+
         <!-- VARBINARY indica il MEDIUMBLOB di mysql-->
         <!-- in caso di errore ricordarsi di impostare l'opzione max_allowed_packet=16M in mysql.ini -->
-        <column name="image" phpName="Image" type="VARBINARY" required="false" />
+        <!-- <column name="image" phpName="Image" type="VARBINARY" required="false" /> -->
 
         <behavior name="validate">
             <parameter name="name" value="{column: name, validator: NotBlank}" />

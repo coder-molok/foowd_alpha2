@@ -5,7 +5,7 @@
                 "foowd_api": {
                     "adapter"    : "mysql",
                     "classname"  : "Propel\\Runtime\\Connection\\ConnectionWrapper",
-                    "dsn"        : "mysql:host=localhost;dbname=foowd_api",
+                    "dsn"        : "mysql:unix_socket=/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock;dbname=foowd_api",
                     "user"       : "foowd",
                     "password"   : "mangioBENE",
                     "attributes" : [],

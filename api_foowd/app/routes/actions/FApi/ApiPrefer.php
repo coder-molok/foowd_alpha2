@@ -6,12 +6,13 @@ namespace Foowd\FApi;
 // use Base\TagQuery as TagQuery;
 
 /**
- * @apiDefine MyResponse
+ * @apiDefine MyResponsePrefer
  *
- * @apiParam (Response) {Bool}				response 	false, in caso di errore
- * @apiParam (Response) {String/json}		[errors] 	json contenente i messaggi di errore
- * @apiParam (Response) {String/json}		[body] 		json contenente i parametri da ritornare in funzione della richiesta
- * @apiParam (Response) {String} 			[msg] 		messaggi ritornati
+ * @apiParam (Response) {Bool}				response 		false, in caso di errore
+ * @apiParam (Response) {String/json}		[errors] 		json contenente i messaggi di errore
+ * @apiParam (Response) {String/json}		[body] 			json contenente i parametri da ritornare in funzione della richiesta
+ * @apiParam (Response) {String/json}		[body-offer] 	ciascuna preferenza ritornata contiene il parametro Offer: un JSON con tutti i dati relativi all'offerta a cui si riferisce la preferenza
+ * @apiParam (Response) {String} 			[msg] 			messaggi ritornati
  * 
  */
 
@@ -172,7 +173,7 @@ class ApiPrefer extends \Foowd\FApi{
 	 * @apiName search
 	 * @apiGroup Prefer
 	 * 
- 	 * @apiDescription .
+ 	 * @apiDescription Oltre a svolgere una ricerca nella tabella preferenze, ritorna anche il parametro extra "<strong>Offer</strong>" contenente l'offerta a cui si riferisce, in formato JSON.
  	 *
  	 * Strutturato in questo modo, cerca solo le intersezioni dei filtri.
 	 * 
@@ -186,7 +187,7 @@ class ApiPrefer extends \Foowd\FApi{
 	 * 
 	 * http://localhost/api_offerte/public_html/api/prefer?OfferId=38&type=search&ExternalId=37,52
 	 * 
-	 * @apiUse MyResponse
+	 * @apiUse MyResponsePrefer
 	 * 
 	 */
 	public static function search($data){
@@ -275,6 +276,7 @@ class ApiPrefer extends \Foowd\FApi{
 		
 		foreach ($prefer as $single) {
 			$ar = $single->toArray();
+
 			// if(isset($data->Publisher)){
 			// 	$ar = \OfferQuery::Create()		
 			//       ->filterById($ar['OfferId'])
@@ -284,11 +286,25 @@ class ApiPrefer extends \Foowd\FApi{
 			//  			->filterById($ar['UserId'])
 			//       ->find()->toArray();	
 			//  }
-			$uid = $ar['UserId'];
-			//unset($ar['UserId']);
-			// $ar['ExternalId'] = self::IdToExt($uid);
-			$ar['UserId'] = self::IdToExt($uid);
+			// $uid = $ar['UserId'];
+			// $ar['UserId'] = self::IdToExt($uid);
+
+			$OfferId = $ar['OfferId'];
+			unset($ar['OfferId']);
+
+			$ar['Offer'] = \OfferQuery::Create()->filterById($OfferId)->findOne()->toArray();
+			$ar['Offer']['Publisher'] = self::IdToExt($ar['Offer']['Publisher']);
+			$ar['Offer']['totalQt'] = 0;
+			$pf = \PreferQuery::Create()->filterByOfferId($OfferId)->find();
+
+			foreach($pf as $sing){
+				// var_dump($sing);
+				$sing = $sing->toArray();
+				$ar['Offer']['totalQt'] += $sing['Qt'];
+			}
+
 			array_push($return, $ar );
+
 		}
 
 		if(!isset($Json['response'])){ $Json['response'] = true;}

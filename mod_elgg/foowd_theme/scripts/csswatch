@@ -1,0 +1,1 @@
+stylus -u jeet -u rupture -w lib/css/styl/*.styl -o lib/css/partials/

@@ -32,11 +32,24 @@ class User {
 		// Il form e' gia' sticky, e valore 'register'
 		$form = $this->form;
 		// \Uoowd\Logger::addInfo($form);
+		
+		// set sticky: avviso il sistema che gli input di questo form sono sticky
+		elgg_make_sticky_form($form);
 
 		// richiamo la classe che gestisce il form
 		$f = new \Foowd\Action\Register();
 		\Uoowd\Logger::addInfo('Tentativo di Registrazione');
 
+
+		if(isset($_GET['email'])){
+			$input = $_GET;
+		}elseif(isset($_POST['email'])){
+			$input = $_POST;
+		}else{
+			\Uoowd\Logger::addError('Il campo email non e\' impostato nel per $_GET ne per $_POST, pertanto non posso procedere.');
+			return false;
+		}
+		
 		// manageForm ritorna i dati estrapolati dai get_input: 
 		//  se non si fa attenzione, potrebbero non essere coerenti con quelli dello sticky_form
 		$genre = get_input('Genre');
@@ -47,7 +60,8 @@ class User {
 		// set_input('idAuth', 'idAuth-'.$genre);
 
 		$data = $f->manageForm($form);
-
+		// \Uoowd\Logger::addError($form);
+		// \Uoowd\Logger::addError($data);
 	
 		// NB: il check viene fatto sugli get_input, non sugli elgg_get_sticky
 		if(!$f->status){
@@ -82,28 +96,55 @@ class User {
 		//i metadata vengono automaticamente salvati, pertanto questo comando posso evitarlo:
 		//$user->save();
 
-
 		// chiamata Api
+		// \Uoowd\Logger::addError('chiamata API');
 		$data['Genre'] = $genre;
 		$data['Name'] = get_input('name');
 		$data['type']= "create";
 		$data['ExternalId'] = $extId;
-		if(get_input('Description')!=='') $data['Description']=get_input('Description');
+		$data['Email'] = $user->email;
+		if($data['Genre']=='offerente'){
+			$need = array('Description','Site','Piva', 'Phone','Address','Company');
+
+			foreach ($need as $field) {			
+				// se non e' vuoto e se esiste
+				if(get_input($field)!=='' && get_input($field) ){
+					$data[$field]=get_input($field);
+				}else{
+					// il sito e' opzionale
+					if($field === 'Site') continue;
+					$EmptyNeed[$field]=$field;
+				}
+			}
+			
+		}
 		
+
+		if(isset($EmptyNeed)){
+			\Uoowd\Logger::addError("Mancano campi obbligatori");
+			\Uoowd\Logger::addError($EmptyNeed);
+			// return false;
+		}
+		
+		// \Uoowd\Logger::addError($data);
 		// if(get_input('file')!=='') $data['Image']=get_input('file');
+		\Uoowd\Logger::addError("prima di offerente: il genere e' ".$genre);
 		if($genre === 'offerente'){
+			\Uoowd\Logger::addError("dentro a offerente");
 			$crop = new \Uoowd\FoowdCrop();
 			$dir = 'User-'.$extId.'/profile/';
-			$crop->saveImg($dir, $extId, 'useradd');
+			$crop->saveImgEach($dir, $extId, $form, $input);
 	
 			if(!$crop->cropCheck()){
 				\Uoowd\Logger::addError("qualcosa e' andato storto nel crop");
 				$crop->removeDir(\Uoowd\Param::imgStore().'User-'.$extId);
 				return false;
 			}
-			$data['Image'] = $crop->base64();
+			// se volessi salvare l'immagine
+			// $data['Image'] = $crop->base64();
 		}
 
+		\Uoowd\Logger::addError("dopo offerente");
 
 		$r = \Uoowd\API::Request('user', 'POST', $data);
 
@@ -128,6 +169,7 @@ class User {
 		    //uservalidationbyemail/emailsent
 
 		}else{
+			\Uoowd\Logger::addError("dentro else");
 		    
 			if(isset($crop)) $crop->removeDir(\Uoowd\Param::imgStore().'User-'.$extId);
 

@@ -33,8 +33,8 @@ define(function(require){
         /*
          * Funzione che aggiunge ad una offerta il membro picture, utilizzato nel template
          */
-        function addPicture(of) {
-            of.picture = page.offerFolder + '/User-' + of.Publisher + '/' + of.Id + '/medium/' + of.Id + '.jpg';
+        function addPicture(offer) {
+            offer.picture = page.offerFolder + '/User-' + offer.Publisher + '/' + offer.Id + '/medium/' + offer.Id + '.jpg';
         }
 
         return{
