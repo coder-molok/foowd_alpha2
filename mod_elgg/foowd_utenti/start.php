@@ -72,7 +72,7 @@ function utenti_init(){
  */
 function foowd_utenti_handler($segments){
 
-    
+    forward(REFERER);
     //var_dump($segments);
 
      // test per eventuale login con google+

@@ -17,11 +17,12 @@ foreach($attr as $at => $set){
 $style .='"';
 
 ?>
-
+<!--
 <h3 class="elgg-heading-main elgg-head">Oppure accedi tramite un social:</h2>
 
 <ul class="soc">
     <li><a class="soc-facebook" <?php echo $style; ?> href="<?php echo \Uoowd\Param::page()->auth; ?>?provider=Facebook"></a></li>
     <li><a class="soc-google soc-icon-last" <?php echo $style; ?> href="<?php echo \Uoowd\Param::page()->auth; ?>?provider=Google"></a></li>
 </ul>
+-->
 
