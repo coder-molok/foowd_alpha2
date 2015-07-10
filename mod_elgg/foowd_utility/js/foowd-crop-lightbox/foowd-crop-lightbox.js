@@ -25,6 +25,8 @@
   Gobj.prototype.setInit = function(obj) {
     var index, j, len, needle, prop, val;
     this.nocss = false;
+    this.margin = '20px';
+    this.preWindows = [];
     needle = ['urlF', 'loadedImgContainer', 'sourceImg', 'fileInput', 'imgContainer', 'css'];
     for (prop in obj) {
       val = obj[prop];
@@ -202,7 +204,7 @@
     };
   })();
   Gobj.prototype.start = function() {
-    var $ias, ar, decimals, div, i, j, len, oldCrop, src, tmp, val, variable, x;
+    var ar, decimals, i, j, len, oldCrop, opts, ratio, src, tmp, val, variable, x;
     decimals = 100000;
     if (this.Jimg.width() >= this.Jimg.height()) {
       scale.x = Math.round(decimals * this.Jimg.width() / this.Jimg.height()) / decimals;
@@ -211,36 +213,35 @@
       scale.x = 1;
       scale.y = Math.round(decimals * this.Jimg.height() / this.Jimg.width()) / decimals;
     }
-    div = this.Jimg;
-    if (!div.length) {
+    if (!this.Jimg.length) {
       alert('div not exists');
     }
-    src = div.attr('src');
+    src = this.Jimg.attr('src');
     if (!src) {
       alert('src not exists');
     }
-    i = $preWindos.length;
+    i = this.preWindows.length;
     while(i--){
-            $preWindos[i].remove();
-            $preWindos.splice(i);
+            this.preWindows[i].remove();
+            this.preWindows.splice(i);
         };
     scale.setScale(100);
-    $preWindos.push(new PrevWindow('small', div, scale));
+    this.preWindows.push(new PrevWindow('small', this.Jimg, scale, this));
     scale.setScale(250);
-    $preWindos.push(new PrevWindow('medium', div, scale));
+    this.preWindows.push(new PrevWindow('medium', this.Jimg, scale, this));
     x = document.querySelectorAll('[class^=imgareaselect]');
     for ( i = 0; i < x.length; i++) {
             x[i].remove();
         };
-    scale.setL(div.width, div.height);
+    scale.setL(this.Jimg.width(), this.Jimg.height());
     ar = ['x1', 'x2', 'y1', 'y2'];
     oldCrop = {};
+    this.Jcrop = {};
     for (i = j = 0, len = ar.length; j < len; i = ++j) {
       variable = ar[i];
       tmp = ar[i];
-      val = $('input[name="crop_' + $init.JfileInput.attr('name') + '[' + tmp + ']"]').val();
-      $Jcrop[tmp] = $('input[name="crop_' + $init.JfileInput.attr('name') + '[' + tmp + ']"]');
-      console.log($('input[name="crop_' + $init.JfileInput.attr('name') + '[' + tmp + ']"]').length);
+      val = $('input[name="crop_' + this.JfileInput.attr('name') + '[' + tmp + ']"]').val();
+      this.Jcrop[tmp] = $('input[name="crop_' + this.JfileInput.attr('name') + '[' + tmp + ']"]');
       if (val === '') {
         switch (tmp) {
           case 'x1':
@@ -264,33 +265,68 @@
         }
       }
     }
-    $ias = div.imgAreaSelect({
+    this.crop = oldCrop;
+    if (this.Jimg.width() > this.Jimg.height()) {
+      ratio = '3:2';
+    } else {
+      ratio = '2:3';
+    }
+    this.Jimg.parent().css({
+      'position': 'relative'
+    });
+    this.ias = this.Jimg.imgAreaSelect({
       instance: true
     });
-    $ias.setOptions({
+    this.ias.Jcrop = this.Jcrop;
+    opts = {
       handles: true,
+      aspectRatio: ratio,
       onInit: preview,
       onSelectChange: preview,
-      x1: oldCrop.x1,
-      y1: oldCrop.y1,
-      x2: oldCrop.x2,
-      y2: oldCrop.y2,
+      x1: this.crop.x1,
+      y1: this.crop.y1,
+      x2: this.crop.x2,
+      y2: this.crop.y2,
       show: true,
       minWidth: 50,
-      minHeight: 50
+      minHeight: 50,
+      classPrefix: this.imgAreaPrefix,
+      Jcrop: this.Jcrop,
+      preWindows: this.preWindows,
+      parent: this.Jimg.parent()
+    };
+    this.ias.setOptions(opts);
+    $('[class*="imgareaselect"]').css({
+      'position': 'absolute'
     });
+    $('[class*="imgareaselect-selection"]').parent().css({
+      'position': 'absolute'
+    });
+    this.Jimg.on("click", (function(_this) {
+      return function() {
+        _this.ias.setOptions({
+          remove: true
+        });
+        _this.ias.update();
+        _this.ias = _this.Jimg.imgAreaSelect({
+          instance: true
+        });
+        _this.ias.setOptions(opts);
+      };
+    })(this));
   };
-  PrevWindow = function(size, div, scale) {
-    var box, prevBox, src, title;
+  PrevWindow = function(size, div, scale, thisObj) {
+    var box, prevBox, prevClass, src, title;
+    prevClass = thisObj.imgAreaPrefix;
     this.x = scale.w;
     this.y = scale.h;
     this.r = scale.r;
-    box = div.attr("id") + '-' + size;
+    box = prevClass + '-' + size;
     src = div.attr("src");
-    prevBox = $('#prev-container');
+    prevBox = $('#' + prevClass + '-prev-container');
     if (!prevBox.length) {
       prevBox = $('<div/>', {
-        'id': 'prev-container'
+        'id': prevClass + '-prev-container'
       }).insertAfter(div.parent());
     }
     this.Jpre = $('<div><img id="' + box + '" src="' + src + '" style="width:' + scale.w + 'px; height:' + scale.h + 'px;" /><div>').css({
@@ -310,7 +346,7 @@
     });
     this.Jpre.parent().css({
       position: 'relative',
-      margin: $margin
+      margin: thisObj.margin
     }).prepend(title);
     this.divj = $('#' + box);
     this.draw = function(img, selection) {
@@ -334,19 +370,10 @@
     };
   };
   preview = function(img, selection) {
-    var normalized, property, value, x1, x2, y1, y2;
-    if (selection.height < selection.width || selection.height > 2 * selection.width) {
-      x1 = $ias.getOptions().x1;
-      x2 = $ias.getOptions().x2;
-      y1 = $ias.getOptions().y1;
-      y2 = $ias.getOptions().y2;
-      $ias.setSelection(x1, y1, x2, y2);
-      $ias.update();
-      return false;
-    }
-    for( i in $preWindos){
-            $preWindos[i].draw(img, selection);
+    for( i in this.preWindows){
+            this.preWindows[i].draw(img, selection);
         };
+    var normalized, property, value;
     normalized = {};
     normalized.x1 = selection.x1 / img.width;
     normalized.x2 = selection.x2 / img.width;
@@ -355,16 +382,8 @@
     for (property in normalized) {
       value = normalized[property];
       normalized[property] = Math.round(100000 * normalized[property]) / 100000;
-      $Jcrop[property].val(normalized[property]);
+      this.Jcrop[property].val(normalized[property]);
     }
-    $ias.setSelection(selection.x1, selection.y1, selection.x2, selection.y2);
-    $ias.setOptions({
-      x1: selection.x1,
-      y1: selection.y1,
-      x2: selection.x2,
-      y2: selection.y2
-    });
-    $ias.update();
   };
   return {
     create: function() {

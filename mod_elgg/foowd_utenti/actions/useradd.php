@@ -1,5 +1,6 @@
 <?php
 
+
 \Uoowd\Logger::addDebug('Registrazione lato Admin');
 // \Uoowd\Logger::addError('Registrazione lato Admin');
 
@@ -51,6 +52,7 @@ try {
 			// se non avviene la registrazione lato api, la cancello anche lato elgg
 			$new_user->delete();
 			\Uoowd\Logger::addError('Impossibile registrare l\'utente');
+			register_error(elgg_echo('Purtroppo e\' avvenuto un errore durante la registrazione'));
 			forward(REFERER);
 		}
 		//----- End lines added by Simone Scardoni.

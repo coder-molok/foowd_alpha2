@@ -144,7 +144,7 @@
                 "html": elgg.echo msg
                 ).
                 #appendTo(@el.parent().find('label'))
-                appendTo("label[for*=#{@key}]")
+                appendTo("label[for=#{@key}]")
             # console.log "appeso #{@key}"
             
         clean: ->

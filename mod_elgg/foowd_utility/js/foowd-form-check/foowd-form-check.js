@@ -98,7 +98,7 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
       return $('<span/>', {
         "class": "error-" + this.key,
         "html": elgg.echo(msg)
-      }).appendTo("label[for*=" + this.key + "]");
+      }).appendTo("label[for=" + this.key + "]");
     };
 
     Input.prototype.clean = function() {

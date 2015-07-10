@@ -40,6 +40,8 @@
 
     Gobj.prototype.setInit = (obj)->
         this.nocss = false
+        this.margin = '20px'
+        this.preWindows = []
 
         needle = ['urlF','loadedImgContainer','sourceImg','fileInput', 'imgContainer', 'css']
         for prop,val of obj 
@@ -167,7 +169,28 @@
                             # lo svuoto nel caso vi siano altre immagini
                             div.html('');
                             $(this).appendTo(div)
-                            $( document ).trigger( "foowd:update:file" )                      
+                            $( document ).trigger( "foowd:update:file" )  
+
+
+                            # prevBox = $('#' + that.imgAreaPrefix + '-lightbox');
+                            # if !prevBox.length
+                            #    ## alert('nada')
+                            #    prevBox = $('<div/>', {
+                            #        'id': that.imgAreaPrefix + '-lightbox',
+                            #    }).css({'position':'fixed', 'background-color':'silver', 'left':'0', 'top':'0', 'width':'100%', 'height':'100%', 'overflow':'scroll', 'z-index': '3'})
+                            # div.wrap(prevBox)
+                            
+                            # lol=$('<div/>',{
+                            #     id: that.imgAreaPrefix + '-close'
+                            #     html:'<span>Chiudi</span>'
+                            #     })
+                            # div.prepend(lol)
+                            
+                            # $('#'+that.imgAreaPrefix + '-close')
+                            #     .css({'position':'absolute','top':'0','right':'0'})
+                            #     .on 'click', ()->
+                            #         $(` this `).parent().parent().css({'display':'none'})
+
                             that.start()
 
                             return
@@ -291,6 +314,7 @@
     ## imposto le finestre e la funzione imgAreaSelect, con callback ##
     ###################################################################
     Gobj.prototype.start = ()->
+
         ## setto la scala: il valore piu piccolo corrisponde a 1 e l'altro scala in proporzione
         ## uso il piu piccolo in quanto sto usando l'overflow
         decimals = 100000; ## non penso di avere immagini che superino scale dei 1000px
@@ -301,30 +325,28 @@
         else
             scale.x = 1;
             scale.y = Math.round(decimals * @Jimg.height()/@Jimg.width() )/decimals;
-        
     
-        ## imposto la finestra di riferimento e prendo la sua sorgente
-        div = @Jimg
-        if !div.length then alert('div not exists');
+
+
+        if !@Jimg.length then alert('div not exists');
         
-        src = div.attr('src');
+        src = @Jimg.attr('src');
         if !src then alert('src not exists');
     
-    
         ## se gia' presenti, elimino le altre finestre di preview
-        i = $preWindos.length;
+        i = @preWindows.length;
         `while(i--){
-            $preWindos[i].remove();
-            $preWindos.splice(i);
+            this.preWindows[i].remove();
+            this.preWindows.splice(i);
         }`
         
     
         ## costruisco le finestre di preview
         scale.setScale(100);
-        $preWindos.push(new PrevWindow('small', div , scale ));
+        @preWindows.push(new PrevWindow('small', @Jimg , scale , this));
     
         scale.setScale(250);
-        $preWindos.push(new PrevWindow('medium', div , scale ));
+        @preWindows.push(new PrevWindow('medium', @Jimg , scale , this));
     
     
         ## resetto i dati nel caso avessi gia' caricato un'immagine rimuovendo le classi generate dal plugin
@@ -334,16 +356,19 @@
         }`
     
         ## imposto i dati per l'inizializzazione dello script di "crop"
-        scale.setL(div.width, div.height);
+        scale.setL(@Jimg.width(), @Jimg.height());
     
         ## recupero eventuali valori di crop iniziali
-        ar = ['x1', 'x2', 'y1', 'y2'];
-        oldCrop = {};
+        ar = ['x1', 'x2', 'y1', 'y2']
+        
+        oldCrop = {}
+        
+        @Jcrop = {}
+
         for variable,i in ar
             tmp = ar[i];
-            val = $('input[name="crop_'+$init.JfileInput.attr('name')+'['+tmp+']"]').val();
-            $Jcrop[tmp] = $('input[name="crop_'+$init.JfileInput.attr('name')+'['+tmp+']"]')
-            console.log $('input[name="crop_'+$init.JfileInput.attr('name')+'['+tmp+']"]').length
+            val = $('input[name="crop_'+@JfileInput.attr('name')+'['+tmp+']"]').val();
+            @Jcrop[tmp] = $('input[name="crop_'+@JfileInput.attr('name')+'['+tmp+']"]')
             if val is ''
                 ## faccio in modo che la finestra sia centrata nell'immagine
                 switch tmp
@@ -354,12 +379,40 @@
             else
                 if tmp is 'x1' or tmp is 'x2' then oldCrop[tmp] = val*@Jimg.width();
                 if tmp is 'y1' or tmp is 'y2' then oldCrop[tmp] = val*@Jimg.height();
+
+
+        @crop = oldCrop
             
+        
+
+
+        if (@Jimg.width() > @Jimg.height())
+            ratio = '3:2'
+        else
+            ratio = '2:3'
         
         
         ## instance of image area select: used to force aspect ratio in onSelectChange event
-        $ias = div.imgAreaSelect({instance: true});    
-        $ias.setOptions({handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 50, minHeight: 50});
+        @Jimg.parent().css({'position': 'relative'})
+        @ias = @Jimg.imgAreaSelect({instance: true});   
+        @ias.Jcrop = @Jcrop; 
+        opts = {handles: true ,aspectRatio: ratio, onInit: preview, onSelectChange: preview ,  x1: @crop.x1 ,y1:@crop.y1, x2:@crop.x2, y2:@crop.y2, show: true, minWidth: 50, minHeight: 50, classPrefix:@imgAreaPrefix, Jcrop: @Jcrop, preWindows: @preWindows, parent: @Jimg.parent()}
+        # @ias.setOptions({handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 50, minHeight: 50, classPrefix:@imgAreaPrefix, Jcrop: @Jcrop, preWindows: @preWindows});
+        @ias.setOptions(opts)
+
+        # assestamenti all'imgareaselect per renderlo compatibile col lightbox
+        $('[class*="imgareaselect"]').css({'position':'absolute'});
+        $('[class*="imgareaselect-selection"]').parent().css({'position':'absolute'});
+
+        @Jimg.on "click" ,()=>
+                    @ias.setOptions({remove:true})
+                    @ias.update()
+                    @ias = @Jimg.imgAreaSelect({instance: true});   
+                    @ias.setOptions(opts);
+                    return
+                    
+
+
         return
    
 
@@ -370,21 +423,25 @@
     # @param  {[type]} scale     classe che contiene i parametri delle scale
     # @return {[type]}           [description]
 
-    PrevWindow = (size ,div, scale)->
+    PrevWindow = (size ,div, scale, thisObj)->
+        
+        prevClass = thisObj.imgAreaPrefix
+        
         ## dimensioni immagine di crop
         this.x = scale.w;
         this.y = scale.h;    
         this.r = scale.r;
         ## identificativo del selettore
-        box = div.attr("id") + '-' + size;
+        box = prevClass + '-' + size;
         src = div.attr("src");
         ## titolo della finestra
         ## il box che contiene tutte le preview . lo utilizzo per gestire la visualizzazione
-        prevBox = $('#prev-container');
+        prevBox = $('#' + prevClass + '-prev-container');
+
         if !prevBox.length
            ## alert('nada')
            prevBox = $('<div/>', {
-               'id':'prev-container',
+               'id': prevClass + '-prev-container',
                ## 'style':'cursor:pointer;font-weight:bold;',
            }).insertAfter(div.parent());
         
@@ -416,9 +473,9 @@
         });
         this.Jpre.parent().css({
             ## 'float': 'left', 
-            position:'relative', margin: $margin
+            position:'relative', margin: thisObj.margin
             }).prepend(title);  
-    
+   
     
         ## selettore jquery: DEVE essere inserito solo dopo aver creato l'oggetto DOM
         this.divj = $('#' + box); 
@@ -442,7 +499,7 @@
             scaleY = scaleX * this.r;
     
     
-            ## adatto l'immagine di previwe
+            ## adatto l'immagine di preview
             ## l'immagine
             this.divj.css({
                 width: Math.round(scaleX) + 'px',
@@ -468,23 +525,26 @@
     ## immagine concreta, e oggetto coordinate della selezione, ovvero x1, 
     ##  $check_yet = false;
     preview = (img, selection)->
-           
+
+            
         ## forzo l'aspect ratio in modo che la larghezza non superi l'altezza 
         ## e l'altezza non sia il doppio della larghezza
-        if selection.height < selection.width or selection.height > 2*selection.width
-            x1 = $ias.getOptions().x1;
-            x2 = $ias.getOptions().x2;
-            y1 = $ias.getOptions().y1;
-            y2 = $ias.getOptions().y2;
-            ## $ias.setSelection(selection.x1,selection.y1, selection.x2, selection.y1 + selection.w)
-            $ias.setSelection(x1, y1, x2, y2);
-            $ias.update()
-            return false;
+        # if selection.height < selection.width or selection.height > 2*selection.width
+        #     x1 = this.getOptions().x1;
+        #     x2 = this.getOptions().x2;
+        #     y1 = this.getOptions().y1;
+        #     y2 = this.getOptions().y2;
+        #     ## @ias.setSelection(selection.x1,selection.y1, selection.x2, selection.y1 + selection.w)
+        #     this.setSelection(x1, y1, x2, y2);
+        #     this.update()
+        #     return false;
     
         ## disegno le previews
-        `for( i in $preWindos){
-            $preWindos[i].draw(img, selection);
+        `for( i in this.preWindows){
+            this.preWindows[i].draw(img, selection);
         }`
+
+        # console.log(JSON.stringify this)
         
         ## riempio il form
         normalized = {};
@@ -498,12 +558,12 @@
                 ## alert(property)
                 normalized[property] = Math.round(100000 * normalized[property])/100000;
                 ## seleziono l'input che matcha la proprieta', cosi' riempio il form normalizzato
-                $Jcrop[property].val(normalized[property]);
+                @Jcrop[property].val(normalized[property]);
             ## }
         
-        $ias.setSelection(selection.x1, selection.y1, selection.x2, selection.y2)
-        $ias.setOptions({ x1:selection.x1, y1: selection.y1, x2: selection.x2, y2: selection.y2 });
-        $ias.update();
+        # this.setSelection(selection.x1, selection.y1, selection.x2, selection.y2)
+        # this.setOptions({ x1:selection.x1, y1: selection.y1, x2: selection.x2, y2: selection.y2 });
+        # this.update();
         return
 
     return {

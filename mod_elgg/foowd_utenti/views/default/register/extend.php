@@ -58,25 +58,13 @@ $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars)
 		$fadd->createField('Description', 'foowd:user:description:need', 'input/longtext');
 
 		// la prima volta non dovrebbe essere impostato niente, e visualizzo soltanto il form di caricamento
-		$fadd->createField('file1', 'foowd:file:need', 'input/file', array('value'=>''));
 		// $fadd->createField('file-2', 'foowd:file:need', 'input/file', array('value'=>''));
 		// $fadd->createField('file-3', 'foowd:file:need', 'input/file', array('value'=>''));
 		// $fadd->createField('file-4', 'foowd:file:need', 'input/file', array('value'=>''));
 		// $fadd->createField('file-5', 'foowd:file:need', 'input/file', array('value'=>''));
-		$fadd->createField('file', 'foowd:file:need', 'input/file', array('value'=>''));
+		$fadd->createField('file1', 'foowd:file:need', 'input/file', array('value'=>''));
 		// echo '<center><div id="image-container" style="display:none;">Seleziona l\'area da ritagliare.<div id="image"></div></div></center>'; 
 	?>
-	<center>
-		<div id='file-container'></div>
-	</center>
-	<!-- deve essere nel formato: crop_{nome dell'input file a cui si riferisce}[x1], etc -->
-	<div class="crop">
-	    <input type="hidden" name="crop_file[x1]" value="" />
-	    <input type="hidden" name="crop_file[y1]" value="" />
-	    <input type="hidden" name="crop_file[x2]" value="" />
-	    <input type="hidden" name="crop_file[y2]" value="" />    
-	</div>
-
 	<center>
 		<div id='file1-container'></div>
 	</center>
@@ -86,6 +74,18 @@ $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars)
 	    <input type="hidden" name="crop_file1[y1]" value="" />
 	    <input type="hidden" name="crop_file1[x2]" value="" />
 	    <input type="hidden" name="crop_file1[y2]" value="" />    
+	</div>
+
+	<?php	$fadd->createField('file2', 'foowd:file:need', 'input/file', array('value'=>'')); ?>
+	<center>
+		<div id='file2-container'></div>
+	</center>
+	<!-- deve essere nel formato: crop_{nome dell'input file a cui si riferisce}[x1], etc -->
+	<div class="crop">
+	    <input type="hidden" name="crop_file2[x1]" value="" />
+	    <input type="hidden" name="crop_file2[y1]" value="" />
+	    <input type="hidden" name="crop_file2[x2]" value="" />
+	    <input type="hidden" name="crop_file2[y2]" value="" />    
 	</div>
 	<a href="<?php echo elgg_echo('foowd:image-tmp')?>" id="url" style="display:none" >testo</a>
 

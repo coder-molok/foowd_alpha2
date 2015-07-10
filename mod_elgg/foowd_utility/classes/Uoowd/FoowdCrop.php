@@ -17,15 +17,112 @@ class FoowdCrop{
 	 *
 	 * imposto globalmente:
 	 * saveDir, che e' la directory di partenza
-	 * File, ovvero il file immagine (come primo e unico elemento di $_FILE)
+	 * File, ovvero il file immagine 
 	 * guid, la guid dell'utente
 	 * target, il nome dell'immagine che viene salvata, path incluso
 	 * sticky, classe sticky form
+	 * baseFile , il nome base: file1, file2, etch.
+	 * cropSize, i parametri di ogni singolo crop
+	 * 
 	 * 
 	 * @param  [type] $directory rispetto a \Uoowd\Param::imgStore()
 	 * @return [type]            [description]
 	 */
-	public function saveImg($directory, $guid, $form = 'generic'){
+	// public function saveImg($directory, $guid, $form = 'generic'){
+
+	// 	// a questo punto posso impostare i parametri di salvataggio
+	// 	$dir = str_replace('\\', '/', \Uoowd\Param::imgStore());
+	// 	// $dir .= 'User-'.elgg_get_logged_in_user_guid().'/';
+	// 	$saveDir = $dir.$directory;
+	// 	// if (!file_exists($saveDir)) {
+	// 	//     mkdir($saveDir, 0777, true);
+	// 	// }
+	// 	if(! $this->createDir($saveDir)) return;
+	// 	// utile da richiamare nel caso voglia cancellare la directory per via di errori successivi
+	// 	// vedi metodo removeDir() e crop() 
+	// 	$this->saveDir = $saveDir;
+	// 	$this->guid = $guid;
+
+	// 	$this->sticky = new \Uoowd\Sticky($form);
+	// 	$sticky = $this->sticky;
+
+	// 	// recupero il file salvato col costruttore
+	// 	// NB: credo vi sia un Bug di php: $File (inteso come $_FILES) non puo' essere impostato con $sticky->setV !!!!
+	// 	// ora penso al file, perche' e' un parametro obbligatorio
+	// 	// controllo di avere un'immagine da salvare
+	// 	foreach($_FILES as $key => $file){
+	// 	    $error = elgg_get_friendly_upload_error($file['error']);
+		    
+	// 	    // check dell'immagine
+	// 	    if(! $size =getimagesize($file['tmp_name'])){
+	// 	        $msg = 'Puoi solo inserire immagini.';
+	// 	    }else{
+	// 	        // per il momento ho un solo file, pertanto non mi serve
+	// 	        // $_FILES[$key]['extra'] = $size;
+	// 	        $file['extra'] = $size;
+	// 	    }
+
+	// 	    // vari errori
+	// 	    if($error) {
+	// 	        // register_error($error);
+	// 	        // attenzione all'ordine!
+	// 	        $msg = 'Errore di caricamento dell\'immagine, siamo spiacenti';
+	// 	        if(!$file['name']) $msg = 'Non hai aggiunto alcuna immagine';
+
+	// 	    }
+
+	// 	    if($msg){
+	// 	        $sticky->_setV(array('fileError'=> $msg));
+	// 	        // forward(REFERER);
+	// 	        $this->status = false;
+	// 	   }
+	// 	   // salvo il file (attualmente dovrebbe essere l'unico) in una variabile da riutilizzare nel seguito
+	// 	   $this->File = $file;
+	// 	}
+
+	// 	// parto col salvataggio dell'originale nella root del folder
+	// 	// $target_file = $saveDir.$File['name'];
+	// 	$sticky->setV(array('att'=>$File));
+	// 	$target_file = $saveDir.$guid.'.'.pathinfo($this->File['name'], PATHINFO_EXTENSION);
+	// 	// \Uoowd\Logger::addError($target_file);
+
+	// 	// per il metodo crop()
+	// 	$this->target = $target_file;
+
+	// 	if (move_uploaded_file($this->File["tmp_name"], $target_file)) {
+	// 	    $r['message'] = "File ". basename( $target_file). " salvato con successo.";
+	// 	    $r['response'] = 'success';
+	// 	    // svuoto la directory
+	// 	    // per il momento decido di tenere un solo file per volta
+	// 	    // foreach (new DirectoryIterator($saveDir) as $fileInfo) {
+	// 	    //     if(!$fileInfo->isDot() && $fileInfo->getBasename()!=$File['name']) {
+	// 	    //         unlink($fileInfo->getPathname());
+	// 	    //     }
+	// 	    // }
+	// 	    $this->emptyDirBut($saveDir, $target_file);
+	// 	} else {
+	// 	    $r['message'] = "Purtroppo il file risulta corrotto.";
+	// 	    $r['response'] = 'error';
+	// 	    $er['fileError'] = "Purtroppo il file risulta corrotto.";
+	// 	    $er['guid'] = $guid;
+	// 	    // $er['fi_le'] = json_decode($this->File);
+	// 	    $er['target'] = $target_file;
+	// 	    $sticky->setV($er);
+	// 	    $this->status = false;
+	// 	    return;
+	// 	}
+
+	// 	// se sono qui, la creazione del file di base e' andata bene, 
+	// 	// pertanto non mi rimane che croppare
+		
+	// 	$this->crop();
+
+	// 	// $this->status = false;
+
+	// }
+	
+	public function saveImgEach($directory, $guid, $form = 'generic', $input){
+		\Uoowd\Logger::addError('inizio dentro a saveImgEach');
 
 		// a questo punto posso impostare i parametri di salvataggio
 		$dir = str_replace('\\', '/', \Uoowd\Param::imgStore());
@@ -37,7 +134,7 @@ class FoowdCrop{
 		if(! $this->createDir($saveDir)) return;
 		// utile da richiamare nel caso voglia cancellare la directory per via di errori successivi
 		// vedi metodo removeDir() e crop() 
-		$this->saveDir = $saveDir;
+		// $this->saveDir = $saveDir;
 		$this->guid = $guid;
 
 		$this->sticky = new \Uoowd\Sticky($form);
@@ -47,6 +144,8 @@ class FoowdCrop{
 		// NB: credo vi sia un Bug di php: $File (inteso come $_FILES) non puo' essere impostato con $sticky->setV !!!!
 		// ora penso al file, perche' e' un parametro obbligatorio
 		// controllo di avere un'immagine da salvare
+		// 
+		// $key e' il file: file1, file2, etch etch, associato a crop_file1, crop_file2, etch etch
 		foreach($_FILES as $key => $file){
 		    $error = elgg_get_friendly_upload_error($file['error']);
 		    
@@ -69,26 +168,35 @@ class FoowdCrop{
 		    }
 
 		    if($msg){
+		    	\Uoowd\Logger::addError($msg);
 		        $sticky->_setV(array('fileError'=> $msg));
 		        // forward(REFERER);
 		        $this->status = false;
 		   }
 		   // salvo il file (attualmente dovrebbe essere l'unico) in una variabile da riutilizzare nel seguito
 		   $this->File = $file;
-		}
+
 
 		// parto col salvataggio dell'originale nella root del folder
 		// $target_file = $saveDir.$File['name'];
 		$sticky->setV(array('att'=>$File));
-		$target_file = $saveDir.$guid.'.'.pathinfo($this->File['name'], PATHINFO_EXTENSION);
+		$fileDir = $saveDir.$key.'/';
+		if(! $this->createDir($fileDir)) return;
+		$this->saveDir = $fileDir;
+		$target_file = $fileDir.$key.'.'.pathinfo($this->File['name'], PATHINFO_EXTENSION);
 		// \Uoowd\Logger::addError($target_file);
 
 		// per il metodo crop()
 		$this->target = $target_file;
+		$this->cropSize = $input['crop_'.$key];
+		$this->baseFile = $key;
+		\Uoowd\Logger::addError($target_file);
+		\Uoowd\Logger::addError($fileDir);
 
 		if (move_uploaded_file($this->File["tmp_name"], $target_file)) {
 		    $r['message'] = "File ". basename( $target_file). " salvato con successo.";
 		    $r['response'] = 'success';
+		    \Uoowd\Logger::addError($r);
 		    // svuoto la directory
 		    // per il momento decido di tenere un solo file per volta
 		    // foreach (new DirectoryIterator($saveDir) as $fileInfo) {
@@ -105,17 +213,18 @@ class FoowdCrop{
 		    // $er['fi_le'] = json_decode($this->File);
 		    $er['target'] = $target_file;
 		    $sticky->setV($er);
+		    \Uoowd\Logger::addError($er);
 		    $this->status = false;
 		    return;
 		}
 
 		// se sono qui, la creazione del file di base e' andata bene, 
-		// pertanto non mi rimane che croppare
-		
+		// pertanto non mi rimane che croppare		
 		$this->crop();
 
 		// $this->status = false;
 
+		}// chiusura foreach salvataggio di OGNI file
 	}
 
 	/**
@@ -147,7 +256,7 @@ class FoowdCrop{
 		$w = imagesx($img);
 		$h = imagesy($img);
 
-		$crop = get_input('crop');
+		$crop = $this->cropSize;
 
 		// se non muovo la windows, di default i valori non sono istanziati
 		if( $crop['x1']==='' ){
@@ -198,7 +307,7 @@ class FoowdCrop{
 		    imagecopyresampled ( $thumb , $img , 0 , 0 , (int)($crop['x1']*$w) , (int)($crop['y1']*$h) , $l , $l*$cropRatio, (int) ($crop['w']*$w) , (int) ($crop['h']*$h) );
 		    
 		    // $Fname = $sdir.basename($target_file);
-		    $Fname = $sdir.$this->guid.'.jpg';
+		    $Fname = $sdir.$this->baseFile.'.jpg';
 		    imagejpeg( $thumb , $Fname );
 
 		    if(!$this->emptyDirBut($sdir, basename($Fname))) return;

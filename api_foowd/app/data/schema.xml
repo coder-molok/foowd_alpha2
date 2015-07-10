@@ -76,7 +76,7 @@
 
         <!-- VARBINARY indica il MEDIUMBLOB di mysql-->
         <!-- in caso di errore ricordarsi di impostare l'opzione max_allowed_packet=16M in mysql.ini -->
-        <column name="image" phpName="Image" type="VARBINARY" required="false" />
+        <!-- <column name="image" phpName="Image" type="VARBINARY" required="false" /> -->
 
         <behavior name="validate">
             <parameter name="name" value="{column: name, validator: NotBlank}" />

@@ -47,9 +47,10 @@
         # l'id del tag img che funge da sorgente. Se esiste lo carica in $img privata del plugin, altrimenti lo creera' col caricamento dell'immagine
         sourceImg: '#file1-sorgente'
         # id del box che contiene tutte le immagini: appeso dopo $init.fileInput
-        imgContainer:'#file1-image-container'
+        imgContainer:'#file1-image-container',
+        imgAreaPrefix: 'file1'
     
-
+    crop.create().initialize(init2)
 
     ## parto con l'impostare i parametri di crop
     #  NB: tutti gli ID sono impostati senza il query selector, ovvero con solo il nome puro
@@ -57,19 +58,20 @@
         # ricavo l'url
         urlF : document.getElementById('url').href
         # l'id del campo input che immagazzina i file, ovvero le immagini
-        fileInput : '[name="file"]'
+        fileInput : '[name="file2"]'
         css: [
             'mod/foowd_utility/js/imgareaselect/css/imgareaselect-default.css',
             'mod/foowd_utility/js/foowd-crop/foowd-crop.css'
         ]
         # deve esistere, e li dentro verra' immagazzinata l'immagine, se gia' non esiste
-        loadedImgContainer : '#file-container'
+        loadedImgContainer : '#file2-container'
+        imgAreaPrefix: 'file2'
 
         
         # l'id del tag img che funge da sorgente. Se esiste lo carica in $img privata del plugin, altrimenti lo creera' col caricamento dell'immagine
-        sourceImg: '#file-sorgente'
+        sourceImg: '#file2-sorgente'
         # id del box che contiene tutte le immagini: appeso dopo $init.fileInput
-        imgContainer:'#file-image-container'
+        imgContainer:'#file2-image-container'
     
     crop.create().initialize(init)
 
@@ -113,14 +115,17 @@
 
                 @status = ret
         });
-        
 
+
+
+    # NB: il campo "name" non e' univoco: utenti differenti possono avere lo stesso Name
+    ar.push({cls:'Text', obj:{inpt:'form.elgg-form-register input[name="name"]', key:'name', el:'form.elgg-form-register [name="name"]', msg: 'foowd:user:name:error'} })
     ar.push({cls:'Email', obj:{inpt:'form.elgg-form-register [name="email"]', key:'email', el:'form.elgg-form-register [name="email"]', msg: 'foowd:user:email:error', 'afterCheck': ajaxCheck} })
+    
+    # almeno di 4 lettere
     ar.push({cls:'Text', obj:{inpt:'form.elgg-form-register [name="username"]', key:'username', el:'form.elgg-form-register [name="username"]', msg: 'foowd:user:username:error', 'afterCheck': ajaxCheck} })
     
-    # ar.push({cls:'name', obj:{inpt:'form.elgg-form-register [name="name"]', key:'name', el:'form.elgg-form-register [name="name"]', msg: 'foowd:user:name:error'} })
     # ar.push({cls:'Text', obj:{inpt:'form.elgg-form-register [name="password"]', key:'password', el:'form.elgg-form-register [name="password"]', msg: 'foowd:user:password:error', 'afterCheck': ajaxCheck} })
-
     ar.push({cls:'Phone', obj:{inpt:'form.elgg-form-register [name="Phone"]', key:'Phone', el:'form.elgg-form-register [name="Phone"]', msg: 'foowd:user:phone:error'} })
     ar.push({cls:'WebDomain', obj:{inpt:'form.elgg-form-register [name="Site"]', key:'Site', el:'form.elgg-form-register [name="Site"]', msg: 'foowd:user:site:error'} })
     ar.push({cls:'Piva', obj:{inpt:'form.elgg-form-register [name="Piva"]', key:'Piva', el:'form.elgg-form-register [name="Piva"]', msg: 'foowd:user:piva:error'} })
@@ -129,7 +134,7 @@
     fct.pushFromArray(ar)
     # di default nessuno di questi e' obbligatorio
 
-    needAr = ['email', 'username']
+    needAr = ['email', 'username','name']
     noNeedAr = ['Site']
     setNeed = (bool)->
         fct.each( ()->
@@ -146,7 +151,7 @@
 
 
     
-    form.submit('form.elgg-form-register',
+    form.submit 'form.elgg-form-register',
         ()->
             pwd = $('form.elgg-form-register [name="password"]').val()
             pwd2 = $('form.elgg-form-register [name="password2"]').val()
@@ -161,7 +166,7 @@
 
             return true
 
-    )
+    
 
 
     Jgenre.on "change", ()->

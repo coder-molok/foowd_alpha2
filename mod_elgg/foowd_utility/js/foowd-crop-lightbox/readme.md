@@ -31,7 +31,28 @@ funzione chiamata da `OBJECT.initialize()`all'inizio posso passare i seguenti pa
 
 - `css` , array contenente i path dei fogli di stile da caricare. Vengono caricati solo se non sono gia' presenti
 
+
+
+### Membri dell'oggetto creati
+
 > NB:
 >       per ogni variabile rappresentante il selettore, il plugin memorizza l'elemento jQuery nel formato `J{variabile}`
 
+
+> NB2:
+>   tutti i parametri di inizializzazione vengono assegnati ai rispettivi parametri del plugin: `this.{parametro} = init.{parametro}`     
+
+
+- `Jimg` , l'immagine salvata come elemento jQuery (il tag `img`)
+
+- `nocss`, default false. Serve per non eseguire l'incorporamento dei files css utili al plugin (come comportamento di default). Vedere anche l'opzione di inizializzazione `css`
+
+- `preWindows` , array contenente gli oggetti *finestre di preview*, ovvero la classe `Prewindows()`
+
+- `ias` , istanza di `imagAreaSelect`
+
+-  `Jcrop` , oggetto contenente gli input in cui salvare i parametri del crop (x1,x2,y1,y2)
+
+
+prevclass per imagAreaSelect e prevwindow
 
