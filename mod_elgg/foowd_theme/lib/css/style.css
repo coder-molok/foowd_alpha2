@@ -881,6 +881,7 @@
 }
 .detail-progress-bar {
   position: absolute;
+  left: 0px;
   height: 46px;
   width: 50%;
   z-index: -1;
