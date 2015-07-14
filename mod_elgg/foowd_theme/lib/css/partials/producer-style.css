@@ -1,0 +1,9 @@
+#producer-carousel {
+  margin: 80px 0 0 0;
+  width: 100%;
+}
+#producer-carousel .item img {
+  display: block;
+  width: 100%;
+  height: auto;
+}

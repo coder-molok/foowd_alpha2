@@ -1,9 +1,19 @@
-
 <li class="product-post">
     <div class="product-post-image-thumbnail" 
          onclick="WallController.addPreference({{Id}},{{Quota}})">
         <img src="{{picture}}">
-        <div class="heart-overlay"></div>
+        <span class="heart-overlay foowd-icons foowd-icon-heart-full">
+        </span>
+        <div class="product-post-menu">
+            <div onclick="utils.goProductDetail({{Id}})">
+               <span class = "foowd-icons foowd-icon-len">
+               </span>
+            </div>
+            <div onclick="utils.goTo('producer')">
+               <span class = "foowd-icons foowd-icon-blade">
+               </span>
+            </div>
+        </div>
     </div>
     <div class="product-post-header">
         <div class="product-post-name">
@@ -15,18 +25,13 @@
                 <br/>
                 {{Price}}€
             </span>
-        </div>  
-        <div class="product-post-progress-price">{{Price}}
-            <span class="apex">€</span>
         </div>
-        {{!-- <div class="product-post-qt-progress">
-            {{totalQt}}/{{Minqt}}
-        </div> --}}
-    </div>
-    <div class="product-post-menu">
-        <div onclick="utils.goProductDetail({{Id}})">
-           <span class = "like glyphicon glyphicon-info-sign fw-menu-icon">
-           </span>
+        <span class="mini-progress-bar">
+            <span class="mini-progress" data-unit="1" data-progress="{{totalQt}}" data-total="{{Minqt}}"></span>
+        </span>  
+        <div class="product-post-progress-price">
+        {{math totalQt '*' Price}}
+            <span class="apex">€</span>
         </div>
     </div>
     <div class="product-post-body">

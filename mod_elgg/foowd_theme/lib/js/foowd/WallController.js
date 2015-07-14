@@ -55,6 +55,41 @@ define(function(require){
 			} );
 
 		}
+
+		function fillProgressBars(){
+			//valore in cui si trova il punto 0 della barra (immagine)
+			var halfBar = -417;
+
+			$('.mini-progress').each(function(i) {
+			    var unit = $(this).data('unit');
+			    var progress = $(this).data('progress');
+			    var total = $(this).data('total');
+
+			    var barSize = $(this).width();
+			    var progress = (progress/total)*barSize;
+			    progress = progress > barSize ? barSize : progress;
+
+			    
+			    $(this).css('background-position-x', (halfBar + progress) + 'px');
+			});
+		}
+
+		function adjustOverlays(){
+			$('.heart-overlay').each(function(i){
+				var container = $(this).parent().find('img');
+				var totalHorizontalMargin = container.width() - $(this).width();
+				var totalVerticalMargin = container.height() - $(this).height();
+
+				var margins = totalVerticalMargin/2 + 'px ' +
+					totalHorizontalMargin/2 + 'px ' + 
+					totalVerticalMargin/2 + 'px ' +
+					totalHorizontalMargin/2 + 'px ';
+				
+				$(this).css('margin',margins);
+
+
+			});
+		}
 		/*
 		 * Funzione che riempe il tag html con i template dei prodotti complilati
 		 */
@@ -129,6 +164,7 @@ define(function(require){
 				var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
 				//riempio il wall con i prodotti 
 				fillWall(parsedProducts);
+				$(document).trigger('wall-products-loaded');
 			},function(error){
 				console.log(error);
 			});
@@ -159,9 +195,20 @@ define(function(require){
 		/*
 		 * GESTIONE EVENTI ------------------------------------------------------------------------
 		 */
-		 
-		 //TODO : prima di impostare degli eventi bisogna assicurarsi che i template siano stati renderizzati
 
+		 
+		//TODO : prima di impostare degli eventi bisogna assicurarsi che i template siano stati renderizzati
+		$(document).ready(function(){
+			fillWallWithProducts();
+		});
+
+		$(document).on('wall-products-loaded',function(){
+			fillProgressBars();
+		});
+
+		$(wallId).on('images-loaded',function(){
+			adjustOverlays();
+		});
 		//notifica errore nel caso la ricerca testuale non ha prodotto risultati
 		$(searchBox).on('failedSearch', function(e){
 			console.log('failedSearch ooooo');

@@ -8,11 +8,12 @@
 
     <!-- Vendor Style Libraries -->
     <link href="mod/foowd_theme/lib/css/reset.css">
-    <!-- Vendor Style Libraries -->
     <link href="mod/foowd_theme/vendor/animate.css/animate.css" rel="stylesheet">
-     <!-- Custom CSS -->
+    <link href="mod/foowd_theme/assets/owl.carusel/owl.carousel.css" rel="stylesheet">
+    <link href="mod/foowd_theme/assets/owl.carusel/owl.theme.css" rel="stylesheet">
+    <!-- <link href="mod/foowd_theme/assets/owl.carusel/owl.transitions.css" rel="stylesheet">
+     --> <!-- Custom CSS -->
     <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
-    <!-- Flavicons (not avaiable yet) -->
     <!-- elgg -->
     <?php
 
@@ -48,49 +49,26 @@
       ?>
 </head>
 <body>
-<div class="foowd-navbar">
-  
+<div class="foowd-navbar"></div>
+<div id = "producer-carousel" class="owl-carousel">
+  <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-1.jpg"></div>
+  <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-2.jpg"></div>
+  <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-3.jpg"></div>
+  <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-4.jpg"></div>
+  <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-5.jpg"></div>
 </div>
-
-<ul class="grid effect-1" id="wall">
-
-</ul>
-
-<div class="alert alert-success" role="alert" id="foowd-success"></div>
-<div class="alert alert-danger" role="alert" id="foowd-error"></div>
 <script type="text/javascript" src="mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
 <script type="text/javascript">
-require([ 
-  'bootstrap', 
-  'helpers',
-  'templates',
-  'Utils',
-  'masonry',
-  'imagesLoaded',
-  'classie',
-  'animOnScroll',
-  'WallController'
-  ],function(){
-
-  var imagesLoaded = require('imagesLoaded');
-  window.imagesLoaded = imagesLoaded;
-  var masonry = require('masonry');
-  window.Masonry = masonry;
-  var classie = require('classie');
-  window.classie = classie;
-
-  //helpers di Handlebars
-  var helpers = require('helpers'); 
-  //templates di handlebars
+require(['ProducerController','templates','Utils'], function(){
+  //template di handlebars
   var templates = require('templates');
-  //funzioni di utility
+  window.ProducerController = require('ProducerController');
   window.utils = require('Utils');
-  //controller della pagina
-  window.WallController = require('WallController');
   //inserisco la barra di navigazione
-  $('.foowd-navbar').html(templates.searchNavbar(""));
-  //richiamo il controller per riempire il wall di prodotti
+  $('.foowd-navbar').html(templates.simpleNavbar(""));
+
 });
 </script>
+<script type="text/javascript" src="mod/foowd_theme/assets/owl.carusel/owl.carousel.min.js"></script>
 
 </body>

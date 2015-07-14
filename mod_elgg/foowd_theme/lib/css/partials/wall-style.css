@@ -7,6 +7,11 @@
   left: 50%;
   transform: translateX(-50%);
 }
+@media only screen and (max-width: 900px) {
+  .grid {
+    margin-top: 140px;
+  }
+}
 .grid li {
   float: left;
   width: 318px;
@@ -46,19 +51,17 @@
   clear: both;
 }
 .heart-overlay {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  font-size: 72pt;
+  background: none;
+  color: #fff;
+  z-index: 1000;
   opacity: 0;
-  position: relative;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  height: 298px;
-  width: 298px;
-  background-color: trasparent;
-  background-image: url("../../img/white-heart.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
   -webkit-transition: opacity 0.15s ease;
   -moz-transition: opacity 0.15s ease;
   -ms-transition: opacity 0.15s ease;
@@ -66,7 +69,7 @@
   transition: opacity 0.15s ease;
 }
 .heart-overlay:hover {
-  opacity: 0.5;
+  opacity: 1;
 }
 .product-post-header {
   top: 0px;
@@ -87,9 +90,6 @@
 .product-post-header:after {
   clear: both;
 }
-.product-post-header div {
-  padding: 10px;
-}
 .product-post-name {
   *zoom: 1;
   float: left;
@@ -98,10 +98,12 @@
   width: 48.5%;
   margin-left: 0%;
   margin-right: 3%;
+  padding: 10px 0 0 10px;
   color: #fff;
   font-family: AkkuratBold;
-  font-size: 14pt;
-  line-height: 16pt;
+  font-size: 12pt;
+  line-height: 14pt;
+  letter-spacing: -0.5pt;
   z-index: 100;
 }
 .product-post-name:before,
@@ -117,41 +119,35 @@
 }
 .product-post-unit-price {
   font-size: 12pt;
-  line-height: 12pt;
+  line-height: 14pt;
+  letter-spacing: -0.5pt;
 }
 .product-post-progress-price {
-  *zoom: 1;
-  float: left;
-  clear: none;
-  text-align: inherit;
-  width: 31.33333333333333%;
-  margin-left: 0%;
-  margin-right: 3%;
-  position: relative;
-  left: 4.291666666666666%;
+  padding: 5px 10px 0 0;
   color: #fff;
   font-family: AkkuratBold;
-  font-size: 24pt;
-  line-height: 16pt;
-  letter-spacing: -2.5pt;
-  text-align: right !important;
-}
-.product-post-progress-price:before,
-.product-post-progress-price:after {
-  content: '';
-  display: table;
-}
-.product-post-progress-price:after {
-  clear: both;
-}
-.product-post-progress-price:last-child {
-  margin-right: 0%;
+  font-size: 18pt;
+  line-height: 14pt;
+  letter-spacing: -1.5pt;
+  text-align: right;
 }
 .product-post-progress-price .apex {
+  margin: 0 !important;
   font-size: 11pt;
   vertical-align: super;
 }
-.product-post-menu {
+.mini-progress-bar {
+  position: absolute;
+  width: 40px;
+  top: 25px;
+  right: 90px;
+  height: 4px;
+}
+.mini-progress {
+  background-image: url("../../img/barra-bianca.png");
+  background-repeat: no-repeat;
+  background-position: left top;
+  height: 100%;
   *zoom: 1;
   float: left;
   clear: none;
@@ -159,24 +155,32 @@
   width: 100%;
   margin-left: 0%;
   margin-right: 0%;
-  padding: 10px;
-  margin-top: -35px;
-  background: none;
 }
-.product-post-menu:before,
-.product-post-menu:after {
+.mini-progress:before,
+.mini-progress:after {
   content: '';
   display: table;
 }
-.product-post-menu:after {
+.mini-progress:after {
   clear: both;
 }
-.product-post-menu div {
-  display: inline-block;
+.product-post-menu {
+  position: relative;
+  float: left;
+  margin: -30px 0 0 0;
+  vertical-align: baseline;
+  z-index: 1000;
+  padding: 0 0 0 10px;
+  background: none;
 }
-.like {
-  font-size: 12pt;
-  line-height: 12pt;
+.product-post-menu div {
+  display: -webkit-inline-box;
+}
+.product-post-menu div span {
+  font-size: 22pt;
+  line-height: 16pt;
+  cursor: pointer;
+  color: #000;
 }
 .red-heart {
   color: #f00;

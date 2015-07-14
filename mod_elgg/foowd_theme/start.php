@@ -15,6 +15,7 @@ function foowd_theme_init() {
 	elgg_register_page_handler('','foowd_wall_page_handler');
 	elgg_register_page_handler('detail', 'foowd_product_detail_page_handler');
 	elgg_register_page_handler('board', 'foowd_user_preference_page_handler');
+	elgg_register_page_handler('producer', 'foowd_producer_page_handler');
 
 	// caricamento dei moduli Javascript
 	AMD();
@@ -32,6 +33,7 @@ function foowd_product_detail_page_handler(){
 		return false;
 	return true;
 }
+
 function foowd_user_preference_page_handler(){
 	if(elgg_get_logged_in_user_entity() != 0){
 		if (!include_once(dirname(__FILE__) . "/pages/user-preferences.php"))
@@ -39,6 +41,12 @@ function foowd_user_preference_page_handler(){
 		return true;
 	}
 	forward("login");
+	return true;
+}
+
+function foowd_producer_page_handler(){
+	if (!include_once(dirname(__FILE__) . "/pages/producer.php"))
+		return false;
 	return true;
 }
 
@@ -67,15 +75,20 @@ function AMD(){
 	elgg_define_js('masonry', [
     	'src' => 'mod/foowd_theme/vendor/masonry/dist/masonry.pkgd.min.js',
 	]);
+
+	/* 
+	 * Grid loading
+	 */
 	elgg_define_js('imagesLoaded', [
     	'src' => 'mod/foowd_theme/vendor/imagesloaded/imagesloaded.pkgd.min.js',
 	]);
 	elgg_define_js('classie', [
-    	'src' => 'mod/foowd_theme/lib/grid-loading/js/classie.js',
+    	'src' => 'mod/foowd_theme/assets/grid-loading/js/classie.js',
 	]);
 	elgg_define_js('animOnScroll', [
-    	'src' => 'mod/foowd_theme/lib/grid-loading/js/AnimOnScroll.js',
+    	'src' => 'mod/foowd_theme/assets/grid-loading/js/AnimOnScroll.js',
 	]);
+
 	/* 
 	 * Template di Handlebars Precompilati
 	 */
@@ -83,6 +96,7 @@ function AMD(){
 		'src' => '/mod/foowd_theme/lib/js/HandlebarsHelpers.js',
     	'deps'=> array('handlebars.runtime')
 	]);
+
 	/* 
 	 * Helpers di handlebars
 	 */
@@ -90,6 +104,7 @@ function AMD(){
     	'src' => '/mod/foowd_theme/pages/templates/templates-amd.js',
     	'deps'=> array('handlebars', 'handlebars.runtime','helpers')
 	]);
+
 	/* 
 	 * Moduli custom foowd
 	 */
@@ -100,23 +115,28 @@ function AMD(){
 
 	elgg_define_js('WallController', [
 	    'src' => '/mod/foowd_theme/lib/js/foowd/WallController.js',
-	    'deps'=>array('FoowdAPI','templates', 'elgg', 'page' , 'jquery' , 'bootstrap')
+	    'deps'=> array('FoowdAPI','templates', 'elgg', 'page' , 'jquery' , 'bootstrap')
 	]);
 
 	elgg_define_js('ProductDetailController', [
 	    'src' => '/mod/foowd_theme/lib/js/foowd/ProductDetailController.js',
-	    'deps'=>array('FoowdAPI','templates', 'elgg', 'handlebars', 'page' , 'jquery' , 'bootstrap')
+	    'deps'=> array('FoowdAPI','templates', 'elgg', 'handlebars', 'page' , 'jquery' , 'bootstrap')
 	]);
 
 	elgg_define_js('NavbarController', [
 	    'src' => '/mod/foowd_theme/lib/js/foowd/NavbarController.js',
-	    'deps'=>array('FoowdAPI')
+	    'deps'=> array('FoowdAPI')
 	]);
 	
 	elgg_define_js('UserBoardController', [
 	    'src' => '/mod/foowd_theme/lib/js/foowd/UserBoardController.js',
 	    'deps'=> array('FoowdAPI')
 	]);
+
+	elgg_define_js('ProducerController', [
+	    'src' => '/mod/foowd_theme/lib/js/foowd/ProducerController.js',
+	    'deps'=> array('FoowdAPI')
+	]);	
 	/* 
 	 * Utility
 	 */

@@ -13,17 +13,19 @@
                 <br/>
                 {{Price}}€
             </span>
-        </div>  
-        <div class="product-post-progress-price">{{Price}}
+        </div>
+        <span class="mini-progress-bar">
+            <span class="mini-progress" data-unit="1" data-progress="{{totalQt}}" data-total="{{Minqt}}"></span>
+        </span>  
+        <div class="product-post-progress-price">{{math totalQt '*' Price}}
             <span class="apex">€</span>
         </div>
-        {{!-- <div class="product-post-qt-progress">
-            {{totalQt}}/{{Minqt}}
-        </div> --}}
+       
+
     </div>
     <div class="product-post-menu">
         <div onclick="utils.goProductDetail({{Id}})">
-           <span class = "like glyphicon glyphicon-info-sign fw-menu-icon">
+           <span class = "like foowd-icon icon-foowd-len fw-menu-icon">
            </span>
         </div>
     </div>

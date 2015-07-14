@@ -19,8 +19,8 @@ define(function(require){
 	    return {
 	        "+": lvalue + rvalue,
 	        "-": lvalue - rvalue,
-	        "*": lvalue * rvalue,
-	        "/": lvalue / rvalue,
+	        "*": (lvalue * rvalue).toFixed(2),
+	        "/": (lvalue / rvalue).toFixed(2),
 	        "%": lvalue % rvalue
 	    }[operator];
 	});

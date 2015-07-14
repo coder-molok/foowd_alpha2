@@ -137,6 +137,27 @@
 					}, false );
 				}
 
+				// predo --------------------------
+				//custom event to see when images are loaded
+				var event;
+
+			 	if (document.createEvent) {
+				    event = document.createEvent("HTMLEvents");
+				    event.initEvent("images-loaded", true, true);
+				} else {
+				    event = document.createEventObject();
+				    event.eventType = "images-loaded";
+				} 
+
+				event.eventName = "images-loaded";
+
+				if (document.createEvent) {
+				    self.el.dispatchEvent(event);
+				} else {
+				    self.el.fireEvent("on" + event.eventType, event);
+				}
+				//predo ---------------------------
+
 			});
 		},
 		_onScrollFn : function() {
