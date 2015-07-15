@@ -9,6 +9,10 @@ elgg_register_event_handler('init', 'system', 'utility_init');
 
 function utility_init(){
 	
+
+	elgg_extend_view('css/elements/layout','css/elements/layout_ext');
+
+
 	// $oldGet = $_GET; 
 	// var_dump($_GET);
 	// $_GET['json']='';

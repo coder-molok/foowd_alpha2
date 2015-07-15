@@ -40,6 +40,7 @@
         #   trigger,    evento DOCUMENT al cui verificarsi avvengono checK() e successivamente error() o clean()
         #   needle,     di default e' true. Se true il campo e' obbligatorio (quindi deve essere per forza non vuoto); se false invece deve essere diverso da un campo vuoto, e naturalmente matchare i risultati
         #   afterCheck, callback che usa il "this" e viene eseguita quando il check ritorna true. Se si vuole utilizzarla per la validazione al submit, allora puo' modificare il parametro @status
+        #   
         constructor: (@obj) ->
             # console.log(@Jselector)
             
@@ -78,7 +79,9 @@
 
             #vincoli da rispettare
             @inpt .on "focusout mouseout keyup", ()->
+                # console.log 'lol'
                 if !first
+                    # console.log 'inside'
                     that.action()
                     
             
@@ -90,9 +93,13 @@
         action: ->
 
             if not @check()  
+                # console.log 'not check'
                 @error()
+            else
+                @clean()
     
             if @allCheck() 
+                # console.log 'allcheck'
                 @clean()
     
             return
@@ -277,9 +284,11 @@
         checkAll: ->
             check = true
             for key,inpt of @factory
-                if not inpt.allCheck()
+                if inpt.status? and inpt.status
+                    # console.log "faccio status: #{inpt.key} e #{inpt.status}"
+                else if not inpt.allCheck()
+                    # console.log "faccio all check di #{inpt.key}"
                     check = false
-                    # console.log key
                     inpt.action()
             return check
 
