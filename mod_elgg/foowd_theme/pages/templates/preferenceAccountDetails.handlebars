@@ -1,0 +1,31 @@
+<div id = "user-details">
+    <img src="../profile.png" id = "user-avatar">
+    <div id="user-info">
+        <div id="username">
+            {{user.name}}
+        </div>
+        <div id = "board">
+            my board
+        </div>
+    </div>
+</div>
+<div id="account-info">
+    {{#if user.followers}}
+    <ul class="number-block account-info-section">
+        <li>{{user.followers}}</li>
+        <li><span class ="number-description">followers</span></li>
+    </ul>
+    {{/if}}
+    {{#if user.following}}
+    <ul class="number-block account-info-section">
+        <li>{{user.following}}</li>
+        <li><span class ="number-description">following</span></li>
+    </ul>
+    {{/if}}
+    {{#if user.likes}}
+    <ul class="number-block account-info-section">
+        <li>{{user.likes}}</li>
+        <li><span class ="number-description">products</span></li>
+    </ul>
+    {{/if}}
+</div>

@@ -7,6 +7,8 @@ define(function(require){
 	var elgg = require('elgg');
     //modulo page
     var page = require('page');
+    //templates
+    var templates = require('templates');
 
 	var Utils = (function(){
 		//controlla che una data variabile sia valida
@@ -36,6 +38,25 @@ define(function(require){
         function addPicture(offer) {
             offer.picture = page.offerFolder + '/User-' + offer.Publisher + '/' + offer.Id + '/medium/' + offer.Id + '.jpg';
         }
+        /*
+         * Funzione che mi setta il campo 'logged su di un oggetto se l'utente è loggato
+         */
+        function setLoggedFlag(object, userId){
+            if(isValid(userId) && userId != 0){
+                object.logged = true;
+            }
+        } 
+        /*
+         * Funzione che mi carica l'header
+         */
+        function loadNavbar(search){
+            search = isValid(search) ? search : false;
+            var context = {
+                "search" : search
+            };
+            $('.foowd-navbar').html(templates.navbar(context));
+        }
+
 
         return{
         	isValid: isValid,
@@ -43,6 +64,8 @@ define(function(require){
         	goToUserProfile: goToUserProfile,
         	goTo: goTo,
             addPicture : addPicture,
+            setLoggedFlag : setLoggedFlag,
+            loadNavbar : loadNavbar,
         };
 	})();;
 

@@ -1,9 +1,11 @@
 <li class="product-post">
     <div class="product-post-image-thumbnail">
         <img src="{{picture}}">
+        {{#if logged}}
         <span class="heart-overlay foowd-icons foowd-icon-heart-full"
               onclick="WallController.addPreference({{Id}},1)">
         </span>
+        {{/if}}
         <div class="product-post-menu">
             <div onclick="utils.goProductDetail({{Id}})">
                <span class = "foowd-icons foowd-icon-len">

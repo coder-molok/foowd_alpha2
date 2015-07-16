@@ -30,5 +30,4 @@ define(function(require){
     		return options.fn(this);
     	}
 	});
-	
 });

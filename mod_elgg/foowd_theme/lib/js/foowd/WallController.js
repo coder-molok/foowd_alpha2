@@ -34,12 +34,21 @@ define(function(require){
    				Qt : "0",
    		};
    		//userId reference
-   		var userId = elgg.get_logged_in_user_guid() === 0 ? null : elgg.get_logged_in_user_guid();
+   		var userId = null;
 		
    		/*
 		 * FUNZIONI PRIVATE DEL MODULO -----------------------------------------------------------
 		 */
 
+		//inizializzazione del controller
+		function _init(){
+			//carico l'id utente se loggato
+			userId = elgg.get_logged_in_user_guid() === 0 ? null : elgg.get_logged_in_user_guid();
+			//carico l'header 
+			utils.loadNavbar(true);
+			//carico il wall con i template
+			fillWallWithProducts();
+		}
 		/*
 		 * Funzione che riempe il tag html con i template dei prodotti complilati
 		 */
@@ -55,7 +64,9 @@ define(function(require){
 			} );
 
 		}
-
+		/*
+		 * Funzione che riempe le barre di progresso dei prodotti
+		 */
 		function fillProgressBars(){
 			//valore in cui si trova il punto 0 della barra (immagine)
 			var halfBar = -417;
@@ -73,7 +84,9 @@ define(function(require){
 			    $(this).css('background-position-x', (halfBar + progress) + 'px');
 			});
 		}
-
+		/*
+		 * Funzione che centra il cuore per esprimere la preferenza
+		 */
 		function adjustOverlays(){
 			$('.heart-overlay').each(function(i){
 				var container = $(this).parent().find('img');
@@ -97,18 +110,13 @@ define(function(require){
 			return $(searchBox).val();
 		}
 		/*
-		 * Setto il cuore rosso
-		 */
-		function setRedHeart(el){
-				$(el).children("#like").addClass("red-heart");
-		}
-		/*
 		 * Funzione che applica il template ripetutamente ai dati di contesto
 		 */
 		function applyProductContext(context, myTemplate) {
 			var result = "";
 			context.map(function(el) {
 				utils.addPicture(el);
+				utils.setLoggedFlag(el, userId);
 				result += myTemplate(el);
 			});
 
@@ -125,14 +133,8 @@ define(function(require){
 					var rawProducts = $.parseJSON(data);
 	              	//prendo l'id dell'utente (se loggato) e vedo che template usare
 					if(rawProducts.body.length > 0){
-						var useTemplate = null;
-						if(userId !== null){
-							useTemplate = templates.productLogged;
-						}else{
-							useTemplate = templates.productNoLogged;
-						}
 						//utilizo il template sui dati che ho ottenuto
-						var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
+						var parsedProducts = applyProductContext(rawProducts.body, templates.productPost);
 						//riempio il wall con i prodotti 
 						fillWall(parsedProducts);
 						$(searchBox).trigger('successSearch');
@@ -153,15 +155,8 @@ define(function(require){
 			API.getProducts(userId).then(function(data){
 				//parso il JSON dei dati ricevuti
 				var rawProducts = $.parseJSON(data);
-              	//prendo l'id dell'utente (se loggato) e vedo che template usare
-				var useTemplate = null;
-				if(utils.isValid(userId)){
-					useTemplate = templates.productLogged;
-				}else{
-					useTemplate = templates.productNoLogged;
-				}
 				//utilizo il template sui dati che ho ottenuto
-				var parsedProducts = applyProductContext(rawProducts.body, useTemplate);
+				var parsedProducts = applyProductContext(rawProducts.body, templates.productPost);
 				//riempio il wall con i prodotti 
 				fillWall(parsedProducts);
 				$(document).trigger('wall-products-loaded');
@@ -192,36 +187,39 @@ define(function(require){
 		/*
 		 * GESTIONE EVENTI ------------------------------------------------------------------------
 		 */
-
+		//il documento è stato caricato
 		$(document).ready(function(){
-			fillWallWithProducts();
+			_init();
 		});
 
+		//i template sono stati caricati, ora posso effettuare operazioni su di loro senza alcun problema
 		$(document).on('wall-products-loaded',function(){
+			//riempio le barre di probresso dei prodotti
 			fillProgressBars();
+
+			//attacco i listener alla barra di ricerca
 			$(searchBox).on('successSearch', function(e){
 				console.log('ho trovato un po di elementi');
 			});
 			//notifica errore nel caso la ricerca testuale non ha prodotto risultati
 			$(searchBox).on('failedSearch', function(e){
-				console.log('failedSearch ooooo');
 				$('#foowd-error').text('La tua ricerca non ha prodotto risultati');
 				$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
 			});
 			//notifica positiva nel caso la preferenza è stata aggiunta correttamente
 			$(searchBox).on('preferenceAdded', function(e){
-				console.log("preferenza aggiunta");
 				$('#foowd-success').text('La tua preferenza è stata aggiunta');
 				$('#foowd-success').fadeIn(500).delay(3000).fadeOut(500);
 			});
 			//notifica di errore nel caso la preferenza non fosse stata aggiunta
 			$(searchBox).on('preferenceError', function(e){
-				console.log('preferenceError ooosos');
 				$('#foowd-error').text("C'è stato un errore durante l'aggiuta della tua preferenza");
 				$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
 			});
 		});
 
+		//questo evento viene dal plugin che aggiusta il wall nelle colonne desiderate
+		//significa che tutti i post sono stati caricati
 		$(wallId).on('images-loaded',function(){
 			adjustOverlays();
 		});
@@ -232,7 +230,6 @@ define(function(require){
 
 		return{
 			searchProducts : searchProducts,
-			fillWallWithProducts : fillWallWithProducts,
 			addPreference : addPreference
 		};
 

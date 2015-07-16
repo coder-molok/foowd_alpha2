@@ -57,31 +57,7 @@
     
 </div>
 <div id = "account-menu">
-    <div id = "user-details">
-        <img src="../profile.png" id = "user-avatar">
-        <div id="user-info">
-            <div id="username">
-                
-            </div>
-            <div id = "board">
-                my board
-            </div>
-        </div>
-    </div>
-    <div id="account-info">
-        <ul class="number-block account-info-section">
-            <li>26</li>
-            <li><span class ="number-description">followers</span></li>
-        </ul>
-        <ul class="number-block account-info-section">
-            <li>74</li>
-            <li><span class ="number-description">following</span></li>
-        </ul>
-        <ul class="number-block account-info-section">
-            <li>7</li>
-            <li><span class ="number-description">products</span></li>
-        </ul>
-    </div>
+    
 </div>
 
 <div id="preferences-container">
@@ -89,20 +65,15 @@
 </div>
 
 <script type="text/javascript">
-    require([
-        'templates',
-        'Utils',
-        'UserBoardController'], function(){
-      //utils function
-      window.utils = require('Utils');
-      //handlebars helpers
-      var templates = require('templates');
+require([
+    'Utils',
+    'UserBoardController'], function(){
+  //utils function
+  window.utils = require('Utils');
+  //controller
+  window.UserBoardController = require('UserBoardController');
 
-      $('.foowd-navbar').html(templates.simpleNavbar(""));
-
-      window.UserBoardController = require('UserBoardController');
-
-    });
+});
 </script>
 </body>
 </html>

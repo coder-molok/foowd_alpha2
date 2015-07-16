@@ -87,9 +87,7 @@ require([
   window.utils = require('Utils');
   //controller della pagina
   window.WallController = require('WallController');
-  //inserisco la barra di navigazione
-  $('.foowd-navbar').html(templates.searchNavbar(""));
-  //richiamo il controller per riempire il wall di prodotti
+
 });
 </script>
 

@@ -73,8 +73,6 @@ require(['ProductDetailController', 'helpers', 'templates'], function(){
   window.ProductDetailController = require('ProductDetailController');
   //funzioni di utilità
   window.utils = require('Utils');
-  //inserisco la barra di navigazione
-  $('.foowd-navbar').html(templates.simpleNavbar(""));
 
 });
 </script>
