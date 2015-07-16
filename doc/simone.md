@@ -2,9 +2,20 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 15/07/2015
+
+- primi test su personalizzazione layout elgg
+
+- migliorato crop delle offerte
+
+- risolto errori ajax nel form di autenticazione
+
+
+
 ### 10/07/2015
 
 - implementata API user per sincronizzazione nuovi dati utenti
+
 
 ### 07/07/2015
 

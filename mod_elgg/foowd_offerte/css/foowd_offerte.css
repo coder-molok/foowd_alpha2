@@ -118,4 +118,10 @@ table.foowd-all-single-container td:nth-child(4) {
   margin-bottom: 10px;
 }
 
+/******* crop styles ***** */
+[data-ratio] {
+  cursor: pointer;
+  cursor: hand;
+}
+
 /*# sourceMappingURL=foowd_offerte.css.map */

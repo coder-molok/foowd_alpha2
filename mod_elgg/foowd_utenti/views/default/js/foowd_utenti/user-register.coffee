@@ -96,7 +96,7 @@
 
         v = @el.val().trim()
         url=elgg.get_site_url()+'foowd_utility/user-check?'+@key+'='+v
-        # console.log v
+        console.log v
         elgg.get(url, {
             success: (resultText, success, xhr)=>
                 obj = JSON.parse(resultText)

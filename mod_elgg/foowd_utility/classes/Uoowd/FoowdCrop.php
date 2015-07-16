@@ -378,7 +378,7 @@ class FoowdCrop{
 			if($fileInfo->isDot()) continue;
 
 			if($fileInfo->isDir()  && !rmdir($fileInfo->getPathname()) ){
-				\unlinkDir($fileInfo->getPathname());
+				$this->removeDir($fileInfo->getPathname());
 			} 
 
 		    unlink($fileInfo->getPathname());

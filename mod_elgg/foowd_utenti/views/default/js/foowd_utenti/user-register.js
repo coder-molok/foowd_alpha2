@@ -58,6 +58,7 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
     var url, v;
     v = this.el.val().trim();
     url = elgg.get_site_url() + 'foowd_utility/user-check?' + this.key + '=' + v;
+    console.log(v);
     return elgg.get(url, {
       success: (function(_this) {
         return function(resultText, success, xhr) {
