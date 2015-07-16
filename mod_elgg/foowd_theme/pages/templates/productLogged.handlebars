@@ -1,8 +1,8 @@
 <li class="product-post">
-    <div class="product-post-image-thumbnail" 
-         onclick="WallController.addPreference({{Id}},{{Quota}})">
+    <div class="product-post-image-thumbnail">
         <img src="{{picture}}">
-        <span class="heart-overlay foowd-icons foowd-icon-heart-full">
+        <span class="heart-overlay foowd-icons foowd-icon-heart-full"
+              onclick="WallController.addPreference({{Id}},1)">
         </span>
         <div class="product-post-menu">
             <div onclick="utils.goProductDetail({{Id}})">

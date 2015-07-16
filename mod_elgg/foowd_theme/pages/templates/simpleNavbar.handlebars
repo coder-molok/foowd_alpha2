@@ -6,18 +6,15 @@
     </div>
     <div class = "navbar-section" id="user-menu-section">
         <div id = "user-menu">
-            <a id="heart" onClick="utils.goTo('board')">
-                <i class="glyphicon glyphicon-heart fw-menu-icon">
-                </i>
-            </a>
-            <a id="userButton"  onClick = "utils.goToUserProfile()">
-                <i class="glyphicon glyphicon-user fw-menu-icon">
-                </i>
-            </a>
-            <a id="menu">
-                <i class="glyphicon glyphicon-th-large fw-menu-icon">
-                </i>
-            </a>
+            <span onClick="utils.goTo('board')" 
+                  class="foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link">
+            </span>
+            <span onClick = "utils.goToUserProfile()"
+                  class="foowd-icons foowd-icon-user fw-menu-icon profile-link">
+            </span>
+            <span id="menu" 
+                  class="foowd-icons foowd-icon-menu fw-menu-icon menu-link">
+            </span>
         </div>
     </div>
 </div>

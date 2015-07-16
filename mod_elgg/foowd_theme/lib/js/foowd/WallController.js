@@ -77,14 +77,14 @@ define(function(require){
 		function adjustOverlays(){
 			$('.heart-overlay').each(function(i){
 				var container = $(this).parent().find('img');
-				var totalHorizontalMargin = container.width() - $(this).width();
 				var totalVerticalMargin = container.height() - $(this).height();
 
 				var margins = totalVerticalMargin/2 + 'px ' +
-					totalHorizontalMargin/2 + 'px ' + 
+					0 + 'px ' + 
 					totalVerticalMargin/2 + 'px ' +
-					totalHorizontalMargin/2 + 'px ';
+					0 + 'px ';
 				
+				$(this).css('width',container.width());
 				$(this).css('margin',margins);
 
 
@@ -180,9 +180,6 @@ define(function(require){
 			preference.Qt = qt;
 			//richiamo l'API per settare la preferenza
 			API.addPreference(preference).then(function(data){
-				//nella callback setto il cuore rosso della preferenza
-				//setRedHeart(el);
-
 				fillWallWithProducts();
 				$(searchBox).trigger('preferenceAdded');
 			}, function(error){

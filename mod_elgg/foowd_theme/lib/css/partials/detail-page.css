@@ -1,7 +1,7 @@
 /*Contenuti pagina di dettaglio*/
-/*----- Fine variabili utili -----*/
 #product-detail-main {
   margin-top: 60px;
+  padding: 0 20px 0 20px;
 }
 @media only screen and (max-width: 900px) {
   #product-detail-main {
@@ -124,12 +124,9 @@
 .price-detail:after {
   clear: both;
 }
-#unit-price {
-  margin-left: 20px;
-}
 .number-block {
+  padding: 0;
   margin: 5px;
-  padding: 0px;
   font-size: 18px;
   font-weight: bold;
 }
@@ -150,8 +147,7 @@
   padding-top: 5px;
 }
 #menu-close span {
-  font-size: 14pt;
-  margin-right: 10px;
+  font-size: 36pt;
 }
 .product-menu-section {
   *zoom: 1;
@@ -231,54 +227,77 @@
   font-family: AkkuratBold;
   font-size: 16pt;
 }
+#preference-action {
+  text-align: right;
+}
 .action-icons {
   position: relative;
   float: right;
 }
-#preference-action {
-  text-align: right;
-}
-.action-icons li {
-  display: inline-block;
+.action-icons > li {
+  display: -webkit-inline-box;
   vertical-align: middle;
+  border-radius: 50%;
 }
-#action-heart {
-  padding: 10px;
+.action-icons > li > i {
+  font-size: 36pt;
+  color: #000;
+  display: -webkit-inline-box;
+}
+.action-heart {
   background: #fae6ef;
-  border-radius: 50%;
 }
-#action-heart > i {
-  position: relative;
-  left: -1px;
-  top: 4px;
-  color: #fae6ef;
-  font-size: 40px;
-}
-#action-minus {
-  padding: 10px;
+.action-minus {
   background: #ebebeb;
-  border-radius: 50%;
 }
-#action-minus > i {
-  position: relative;
-  left: -1px;
-  color: #ebebeb;
-  font-size: 40px;
+#section1 {
+  padding: 20px 20px 0 0;
 }
 #section2 {
   height: 160px;
+  padding: 0 20px 0 0;
 }
-#section1,
-#section2 {
-  padding: 15px;
+#section2 > div {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 48.5%;
+  margin-left: 0%;
+  margin-right: 3%;
 }
-#commercial-menu > li {
+#section2 > div:before,
+#section2 > div:after {
+  content: '';
+  display: table;
+}
+#section2 > div:after {
+  clear: both;
+}
+#section2 > div:last-child {
+  margin-right: 0%;
+}
+.item-container {
+  width: 100%;
+}
+.commercial-menu-item .item-container {
+  padding: 15px 0 15px 0;
   border-top: 0.1em solid #787878;
-  padding: 15px;
 }
-#commercial-menu > li > i {
+.commercial-menu-item .item-container > span {
+  display: -webkit-inline-box;
+  color: #000;
   vertical-align: middle;
-  color: #fff;
+}
+.commercial-menu-item .item-container .item-icon {
+  font-size: 18pt;
+}
+.commercial-menu-item .item-container .item-data {
+  float: right;
+  font-family: AkkuratBold;
+  font-size: 12pt;
+  font-weight: bold;
+  letter-spacing: -1pt;
 }
 #product-picture {
   padding: 0px;

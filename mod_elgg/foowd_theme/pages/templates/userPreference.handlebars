@@ -31,16 +31,14 @@
             </ul>
         </div>
         <div class="user-preference-actions user-preference-section">
-            <ul class="action-icons">
-                <li id="action-heart">
-                    <i  class = "glyphicon glyphicon-heart fw-menu-icon"
-                        onclick = "UserBoardController.addPreference({{Offer.Id}}, 1)">
-                    </i>
+            <ul class="action-icons menu-section" id = "preference-action">
+                <li class="action-heart">
+                    <i  class="foowd-icons foowd-icon-heart-edge" 
+                        onClick = "UserBoardController.addPreference({{Id}}, 1)"></i>
                 </li>
-                <li id="action-minus">
-                    <i class="glyphicon glyphicon-minus fw-menu-icon"
-                       onclick = "UserBoardController.addPreference({{Offer.Id}}, -1)">
-                    </i>
+                <li class="action-minus">
+                    <i class="foowd-icons foowd-icon-minus fw-menu-icon" 
+                       onClick = "UserBoardController.addPreference({{Id}}, -1)"></i>
                 </li>
             </ul>
         </div>

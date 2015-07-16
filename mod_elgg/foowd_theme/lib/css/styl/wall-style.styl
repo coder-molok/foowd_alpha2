@@ -1,21 +1,22 @@
 @import 'jeet'
 @require 'variables'
 
-
 containerMargin = 20px;
+productSize = 318px
+productMargin = 10px
 
 .grid
 	margin-top: contentMargin + containerMargin
 	list-style: none;
-	padding: 0;
+	padding: 0 stdMargin - productMargin 0 stdMargin - productMargin;
 	align(horizontal)
 	+below(bp)
 		margin-top : contentMargin * 2 + containerMargin
 
 .grid li
 	float: left;
-	width: 318px;
-	margin: 0px 20px 20px 20px !important;
+	width: productSize
+	margin: 0px productMargin stdMargin productMargin !important;
 	opacity: 0;
 
 
@@ -57,7 +58,7 @@ containerMargin = 20px;
 	background: none
 	color: white;
 	z-index : 1000
-	opacity:0
+	opacity : 0;
 	-webkit-transition: opacity .15s ease
 	   -moz-transition: opacity .15s ease
 	    -ms-transition: opacity .15s ease
@@ -97,10 +98,6 @@ containerMargin = 20px;
 	line-height: 14pt;
 	letter-spacing: -1.5pt;
 	text-align : right;
-	.apex
-		margin: 0 !important
-		font-size:11pt;
-		vertical-align: super;
 
 .mini-progress-bar
 	position: absolute;

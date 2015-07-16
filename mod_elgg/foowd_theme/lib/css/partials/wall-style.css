@@ -1,7 +1,7 @@
 .grid {
   margin-top: 80px;
   list-style: none;
-  padding: 0;
+  padding: 0 10px 0 10px;
   position: absolute;
   transform-style: preserve-3d;
   left: 50%;
@@ -15,7 +15,7 @@
 .grid li {
   float: left;
   width: 318px;
-  margin: 0px 20px 20px 20px !important;
+  margin: 0px 10px 20px 10px !important;
   opacity: 0;
 }
 .grid li.shown,
@@ -130,11 +130,6 @@
   line-height: 14pt;
   letter-spacing: -1.5pt;
   text-align: right;
-}
-.product-post-progress-price .apex {
-  margin: 0 !important;
-  font-size: 11pt;
-  vertical-align: super;
 }
 .mini-progress-bar {
   position: absolute;

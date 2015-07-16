@@ -116,7 +116,10 @@
 				// initialize masonry
 				new Masonry( self.el, {
 					itemSelector: 'li',
-					transitionDuration : 0
+					transitionDuration : 0,
+					isFitWidth : true,
+					isResizeBound: false
+
 				} );
 				
 				if( Modernizr.cssanimations ) {

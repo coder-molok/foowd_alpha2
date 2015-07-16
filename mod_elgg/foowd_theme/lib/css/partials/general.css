@@ -1,3 +1,8 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 body {
   background-color: #fff;
   -webkit-font-smoothing: antialiased;
@@ -24,4 +29,9 @@ h5 {
 }
 #foowd-success {
   background-color: #008000;
+}
+.apex {
+  margin: 0 !important;
+  vertical-align: super;
+  font-size: 8pt;
 }

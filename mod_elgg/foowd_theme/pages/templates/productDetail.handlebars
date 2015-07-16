@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="detail-menu-section" id ="menu-close">
-        <span class="glyphicon glyphicon-remove-circle fw-menu-icon" id ="close-detail" onClick="utils.goTo('')"></span>
+        <span class="foowd-icons foowd-icon-close" id ="close-detail" onClick="utils.goTo('')"></span>
     </div>
 </div>
 <div id="product-menu">
@@ -42,12 +42,12 @@
             
             {{#if logged}}
             <ul class="action-icons menu-section" id = "preference-action">
-                <li id="action-heart">
-                    <i  class="glyphicon glyphicon-heart fw-menu-icon" 
+                <li class="action-heart">
+                    <i  class="foowd-icons foowd-icon-heart-edge" 
                         onClick = "ProductDetailController.addPreference({{Id}}, 1)"></i>
                 </li>
-                <li id="action-minus">
-                    <i class="glyphicon glyphicon-minus fw-menu-icon" 
+                <li class="action-minus">
+                    <i class="foowd-icons foowd-icon-minus fw-menu-icon" 
                        onClick = "ProductDetailController.addPreference({{Id}}, -1)"></i>
                 </li>
             </ul>
@@ -55,20 +55,30 @@
 
         </div>
         <div class="product-info-menu" id = "section2">
-            <div class = "menu-section" id="product-description">
+            <div id="product-description">
                 {{{Description}}}
             </div>
-            <div class = "menu-section" id="product-commercial-info">
-                <ul id="commercial-menu">
-                    <li>
-                        <i id="" class="glyphicon glyphicon-heart fw-menu-icon"></i>
-                        carrello
-                    </li>
-                    <li>
-                        <i id="" class="glyphicon glyphicon-unchecked fw-menu-icon"></i>
-                        tot
-                    </li>
-                </ul>
+            <div id="commercial-menu">
+                {{#if logged}}
+                <div class = "commercial-menu-item">
+                    <div class="item-container">
+                        <span class="foowd-icons foowd-icon-heart-edge item-icon">
+                        </span>
+                        <span class = "item-title">carrello</span>
+                        <span class = "item-data">x{{Qt}}</span>
+                    </div>
+                </div>
+                {{/if}}
+                <div class = "commercial-menu-item">
+                    <div class="item-container">
+                        <span class="foowd-icons foowd-icon-cart item-icon"></span>
+                        <span class = "item-title">tot</span>
+                        <span class = "item-data">
+                            {{totalQt}}
+                            <span class = "apex">€</span>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
