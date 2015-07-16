@@ -389,21 +389,26 @@ h5 {
   border-bottom-width: 1px;
   padding-bottom: 10px;
 }
-#foowd-success,
-#foowd-error {
+.foowd-alert {
+  font-size: 10pt;
+  font-family: AkkuratRegular;
+  padding: 10px;
   display: none;
   position: fixed;
   top: 70px;
   right: 20px;
   z-index: 10000;
-  width: 150px;
-  height: 40px;
+  width: 200px;
+  height: 70px;
+  border-radius: 10px;
 }
 #foowd-error {
-  background-color: #f00;
+  color: #f00;
+  background-color: #fae6ef;
 }
 #foowd-success {
-  background-color: #008000;
+  color: #008000;
+  background-color: #cfffd8;
 }
 .apex {
   margin: 0 !important;
