@@ -2,6 +2,17 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+
+### 16/07/2015
+
+- inserito script [foowdSync.sh](../script/foowdSync.sh)
+
+- modificato header di risposta API
+
+- modificato ritorno API offer
+
+
+
 ### 15/07/2015
 
 - primi test su personalizzazione layout elgg

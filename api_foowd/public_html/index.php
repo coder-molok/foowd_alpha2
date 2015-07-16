@@ -116,5 +116,8 @@ $app->notFound(function () use ($app) {
 
 require '../app/routes/routes.php';
 
+// set response data
+$app->response->headers->set('Content-Type', 'application/json; charset=utf-8');
+
 $app->run();
 

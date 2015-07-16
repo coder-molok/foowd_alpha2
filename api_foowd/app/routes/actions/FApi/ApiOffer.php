@@ -394,7 +394,10 @@ class ApiOffer extends \Foowd\FApi{
 				$ext->ExternalId = $ExternalId;
 				$prefer = \Foowd\FApi\ApiPrefer::search($ext);
 				// se esiste la preferenza e non e' vuota
-				if(count($prefer>0) && isset($prefer['body'][0]['Id'])) $ar['prefer']=$prefer['body'];
+				if(count($prefer>0) && isset($prefer['body'][0]['Id'])){
+				unset($prefer['body'][0]['Offer']);
+				 $ar['prefer']=$prefer['body'];
+			}
 			}
 
 			// ora lavoro sui tags
