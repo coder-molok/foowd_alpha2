@@ -81,7 +81,7 @@ define(function(require) {
 		function getUserPreferences(){
 			API.getUserPreferences(userId).then(function(data){
 				
-				var rawData = $.parseJSON(data);
+				var rawData = data;
 				var parsedProducts = _applyProductContext(rawData.body);
 				var parsedUserData = _applyUserContext(rawData.body);
 				_fillBoard(parsedProducts);

@@ -130,7 +130,7 @@ define(function(require){
 				var textSearch = getSearchText();
 				API.getProducts(userId, textSearch).then(function(data){
 					//parso il JSON dei dati ricevuti
-					var rawProducts = $.parseJSON(data);
+					var rawProducts = data;
 	              	//prendo l'id dell'utente (se loggato) e vedo che template usare
 					if(rawProducts.body.length > 0){
 						//utilizo il template sui dati che ho ottenuto
@@ -154,7 +154,7 @@ define(function(require){
 		function fillWallWithProducts(){
 			API.getProducts(userId).then(function(data){
 				//parso il JSON dei dati ricevuti
-				var rawProducts = $.parseJSON(data);
+				var rawProducts = data;
 				//utilizo il template sui dati che ho ottenuto
 				var parsedProducts = applyProductContext(rawProducts.body, templates.productPost);
 				//riempio il wall con i prodotti 

@@ -77,7 +77,7 @@ define(function(require){
 					//richiamo la API per i dettagli del prodotto
 					API.getProduct(queryObject.productId).then(function(data){
 						//parso in JSON il risultato
-						var rawProduct = $.parseJSON(data).body[0];
+						var rawProduct = data.body[0];
 						var parsedProduct = _applyProductContext(rawProduct);
 						_fillProductDetail(parsedProduct);
 
