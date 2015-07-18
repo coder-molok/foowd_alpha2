@@ -115,9 +115,20 @@ define(function(require){
 		function applyProductContext(context, myTemplate) {
 			var result = "";
 			context.map(function(el) {
-				utils.addPicture(el);
-				utils.setLoggedFlag(el, userId);
-				result += myTemplate(el);
+				//aggiungo l'immmagine
+				el = utils.addPicture(el);
+				//se l'utente è loggato aggiungo un dato al contesto
+				el = utils.setLoggedFlag(el, userId);
+				//l'array prefer contiene tutti gli utenti che hanno espresso la preferenza sull'offerta
+				//in questo caso specificando sempre l'ExternaId nella richiesta quindi mi ritornerà 
+				//sempre un solo utente. Per comodità converto l'array contenente il singolo utente
+				//in un oggetto con i dati dell'utente
+				if(el.logged){
+					el.prefer = utils.singleElToObj(el.prefer)
+				}
+
+				result += templates.productPost(el);
+
 			});
 
 			return result;
@@ -134,7 +145,7 @@ define(function(require){
 	              	//prendo l'id dell'utente (se loggato) e vedo che template usare
 					if(rawProducts.body.length > 0){
 						//utilizo il template sui dati che ho ottenuto
-						var parsedProducts = applyProductContext(rawProducts.body, templates.productPost);
+						var parsedProducts = applyProductContext(rawProducts.body);
 						//riempio il wall con i prodotti 
 						fillWall(parsedProducts);
 						$(searchBox).trigger('successSearch');
@@ -154,9 +165,9 @@ define(function(require){
 		function fillWallWithProducts(){
 			API.getProducts(userId).then(function(data){
 				//parso il JSON dei dati ricevuti
-				var rawProducts = data;
+				var rawProducts = data.body;
 				//utilizo il template sui dati che ho ottenuto
-				var parsedProducts = applyProductContext(rawProducts.body, templates.productPost);
+				var parsedProducts = applyProductContext(rawProducts, templates.productPost);
 				//riempio il wall con i prodotti 
 				fillWall(parsedProducts);
 				$(document).trigger('wall-products-loaded');

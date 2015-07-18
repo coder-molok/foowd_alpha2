@@ -28,13 +28,15 @@
                 {{Price}}€
             </span>
         </div>
-        <span class="mini-progress-bar">
-            <span class="mini-progress" data-unit="1" data-progress="{{totalQt}}" data-total="{{Minqt}}"></span>
-        </span>  
-        <div class="product-post-progress-price">
-        {{math totalQt '*' Price}}
-            <span class="apex">€</span>
-        </div>
+        {{#if logged}}
+            <span class="mini-progress-bar">
+                <span class="mini-progress" data-unit="1" data-progress="{{prefer.Qt}}" data-total="{{Minqt}}"></span>
+            </span>  
+            <div class="product-post-progress-price">
+            {{math totalQt '*' Price}}
+                <span class="apex">€</span>
+            </div>
+        {{/if}}
     </div>
     <div class="product-post-body">
             {{{Description}}}

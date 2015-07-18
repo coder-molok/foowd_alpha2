@@ -1,5 +1,6 @@
 <div id="detail-menu">
     <div class="detail-menu-section" id="price-section">
+    {{#if logged}}
         <span class = "detail-progress-bar">
             <span class = "progress" 
               data-unit = "1"
@@ -14,6 +15,7 @@
               data-total = "{{Minqt}}">
             </span>    
         </span>
+    {{/if}}
         <div class="price-detail">
             <ul class="number-block" id="unit-price">
                 <li>{{Price}}<span class="apex">€</span></li>
@@ -65,20 +67,20 @@
                         <span class="foowd-icons foowd-icon-heart-edge item-icon">
                         </span>
                         <span class = "item-title">carrello</span>
-                        <span class = "item-data">x{{Qt}}</span>
+                        <span class = "item-data">x{{totalQt}}</span>
                     </div>
                 </div>
-                {{/if}}
                 <div class = "commercial-menu-item">
                     <div class="item-container">
                         <span class="foowd-icons foowd-icon-cart item-icon"></span>
                         <span class = "item-title">tot</span>
                         <span class = "item-data">
-                            {{totalQt}}
+                            {{math totalQt '*' Price}}
                             <span class = "apex">€</span>
                         </span>
                     </div>
                 </div>
+                {{/if}}
             </div>
         </div>
     </div>

@@ -15,6 +15,14 @@ define(function(require){
 		function isValid(el){
 			return el !== undefined && el !== null
 		}
+        //converte un array di un singolo elemento in un oggetto con gli attributi delll'elemento
+        function singleElToObj(array){
+            if(array.length == 1){
+                return array[0];
+            }
+            return array
+        }
+
 		//re-indirizza alla pagina di dettaglio del modulo
 		function goProductDetail(productId){
                elgg.forward("/detail?productId=" + productId);
@@ -36,15 +44,25 @@ define(function(require){
          * Funzione che aggiunge ad una offerta il membro picture, utilizzato nel template
          */
         function addPicture(offer) {
-            offer.picture = page.offerFolder + '/User-' + offer.Publisher + '/' + offer.Id + '/medium/' + offer.Id + '.jpg';
+            var newObj = offer;
+            if(isValid(newObj)){
+                newObj.picture = page.offerFolder + '/User-' + newObj.Publisher + '/' + newObj.Id + '/medium/' + newObj.Id + '.jpg';
+            }
+            return newObj;
         }
         /*
          * Funzione che mi setta il campo 'logged su di un oggetto se l'utente è loggato
          */
         function setLoggedFlag(object, userId){
-            if(isValid(userId) && userId != 0){
-                object.logged = true;
+            var newObj = object;
+            
+            if(isValid(object)){
+                if(isValid(userId) && userId != 0){
+                    newObj.logged = true;
+                }
             }
+
+            return newObj;
         } 
         /*
          * Funzione che mi carica l'header
@@ -60,6 +78,7 @@ define(function(require){
 
         return{
         	isValid: isValid,
+            singleElToObj, singleElToObj,
         	goProductDetail: goProductDetail,
         	goToUserProfile: goToUserProfile,
         	goTo: goTo,
