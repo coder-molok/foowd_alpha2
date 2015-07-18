@@ -416,8 +416,6 @@ h5 {
   font-size: 8pt;
 }
 
-/* Stile Nuovo Header*/
-/*----- Fine variabili utili -----*/
 .foowd-navbar {
   *zoom: 1;
   height: 60px;
@@ -573,6 +571,7 @@ h5 {
   background: trasparent;
 }
 /* Fine stile nuovo header*/
+
 
 #producer-carousel {
   margin: 80px 0 0 0;
@@ -967,7 +966,12 @@ h5 {
   height: 100%;
 }
 
-/*----- Fine variabili utili -----*/
+/*
+	Valori utili e per i fogli di stile foowd
+*/
+/* 1. Margins --------------------------- */
+/* 2. Colors ---------------------------- */
+/* 3. Responsive ------------------------ */
 
 .grid {
   margin-top: 80px;
@@ -996,6 +1000,9 @@ h5 {
 }
 .grid.effect-1 li.animate {
   -webkit-animation: fadeIn 0.65s ease forwards;
+  -moz-animation: fadeIn 0.65s ease forwards;
+  -ms-animation: fadeIn 0.65s ease forwards;
+  -o-prorp: fadeIn 0.65s ease forwards;
   animation: fadeIn 0.65s ease forwards;
 }
 @-webkit-keyframes fadeIn {
@@ -1003,8 +1010,11 @@ h5 {
     opacity: 1;
   }
 }
+.product-post-image-thumbnail {
+  display: table;
+  z-index: -50;
+}
 .product-post-image-thumbnail img {
-  -webkit-filter: contrast(70%);
   *zoom: 1;
   float: left;
   clear: none;
@@ -1012,6 +1022,8 @@ h5 {
   width: 100%;
   margin-left: 0%;
   margin-right: 0%;
+  position: relative;
+  z-index: -1;
 }
 .product-post-image-thumbnail img:before,
 .product-post-image-thumbnail img:after {
@@ -1021,22 +1033,30 @@ h5 {
 .product-post-image-thumbnail img:after {
   clear: both;
 }
+.tint {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: table;
+  background: rgba(0,0,0,0.2);
+}
 .heart-overlay {
   margin: 0;
   padding: 0;
   position: absolute;
+  z-index: 150;
   top: 0;
   left: 0;
   text-align: center;
   font-size: 72pt;
   background: none;
   color: #fff;
-  z-index: 1000;
   opacity: 0;
   -webkit-transition: opacity 0.15s ease;
   -moz-transition: opacity 0.15s ease;
   -ms-transition: opacity 0.15s ease;
-  -o-transition: opacity 0.15s ease;
+  -o-prorp: opacity 0.15s ease;
   transition: opacity 0.15s ease;
 }
 .heart-overlay:hover {
@@ -1052,6 +1072,7 @@ h5 {
   margin-left: 0%;
   margin-right: 0%;
   position: absolute;
+  z-index: 150;
 }
 .product-post-header:before,
 .product-post-header:after {
@@ -1135,9 +1156,9 @@ h5 {
   float: left;
   margin: -40px 0 0 0;
   vertical-align: baseline;
-  z-index: 1000;
   padding: 0 0 0 10px;
   background: none;
+  z-index: 150;
 }
 .product-post-menu div {
   display: -webkit-inline-box;

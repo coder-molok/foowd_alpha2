@@ -1,5 +1,6 @@
 @import 'jeet'
 @require 'variables'
+@require 'mixins'
 
 containerMargin = 20px;
 productSize = 318px
@@ -28,8 +29,9 @@ productMargin = 10px
 
 //* Effect 1: opacity */
 .grid.effect-1 li.animate {
-	-webkit-animation: fadeIn 0.65s ease forwards;
-	animation: fadeIn 0.65s ease forwards;
+	//-webkit-animation: fadeIn 0.65s ease forwards;
+	//animation: fadeIn 0.65s ease forwards;
+	vendor(animation, fadeIn 0.65s ease forwards)
 }
 
 @-webkit-keyframes fadeIn {
@@ -42,28 +44,35 @@ productMargin = 10px
 	100% { opacity: 1; }
 }
 
+postZindexBase = 50
+
 .product-post-image-thumbnail
+	display: table
+	z-index: postZindexBase * -1
 	img
-		-webkit-filter: contrast(70%);
 		span(1)
-		
+		position : relative
+		z-index: -1
+.tint
+	position : relative
+	width : 100%
+	margin : 0
+	padding :0
+	display: table
+	background: rgba(0,0,0,0.2);
 .heart-overlay
 	margin : 0 
 	padding: 0
 	position:absolute
+	z-index : postZindexBase * 3
 	top: 0;
 	left:0
 	text-align: center
 	font-size: 72pt;
 	background: none
 	color: white;
-	z-index : 1000
 	opacity : 0;
-	-webkit-transition: opacity .15s ease
-	   -moz-transition: opacity .15s ease
-	    -ms-transition: opacity .15s ease
-	     -o-transition: opacity .15s ease
-	        transition: opacity .15s ease
+	vendor(transition, opacity .15s ease)
     
 
 .heart-overlay:hover
@@ -73,6 +82,7 @@ productMargin = 10px
 	top: 0px;
 	span(1)
 	position: absolute;
+	z-index: postZindexBase * 3
 
 
 .product-post-name
@@ -118,9 +128,9 @@ productMargin = 10px
 	float: left
 	margin: -40px 0 0 0;
 	vertical-align: baseline;
-	z-index : 1000
 	padding: 0 0 0 10px;
 	background: none
+	z-index : postZindexBase *3
 	div
 		display: -webkit-inline-box;
 		background-color : foowdPink

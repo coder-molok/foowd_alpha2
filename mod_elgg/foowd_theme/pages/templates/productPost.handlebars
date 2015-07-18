@@ -1,6 +1,8 @@
 <li class="product-post">
     <div class="product-post-image-thumbnail">
-        <img src="{{picture}}">
+        <figure class="tint">
+            <img src="{{picture}}">
+        </figure>
         {{#if logged}}
         <span class="heart-overlay foowd-icons foowd-icon-heart-full"
               onclick="WallController.addPreference({{Id}},1)">

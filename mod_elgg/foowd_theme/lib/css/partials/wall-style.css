@@ -25,6 +25,9 @@
 }
 .grid.effect-1 li.animate {
   -webkit-animation: fadeIn 0.65s ease forwards;
+  -moz-animation: fadeIn 0.65s ease forwards;
+  -ms-animation: fadeIn 0.65s ease forwards;
+  -o-prorp: fadeIn 0.65s ease forwards;
   animation: fadeIn 0.65s ease forwards;
 }
 @-webkit-keyframes fadeIn {
@@ -32,8 +35,11 @@
     opacity: 1;
   }
 }
+.product-post-image-thumbnail {
+  display: table;
+  z-index: -50;
+}
 .product-post-image-thumbnail img {
-  -webkit-filter: contrast(70%);
   *zoom: 1;
   float: left;
   clear: none;
@@ -41,6 +47,8 @@
   width: 100%;
   margin-left: 0%;
   margin-right: 0%;
+  position: relative;
+  z-index: -1;
 }
 .product-post-image-thumbnail img:before,
 .product-post-image-thumbnail img:after {
@@ -50,22 +58,30 @@
 .product-post-image-thumbnail img:after {
   clear: both;
 }
+.tint {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: table;
+  background: rgba(0,0,0,0.2);
+}
 .heart-overlay {
   margin: 0;
   padding: 0;
   position: absolute;
+  z-index: 150;
   top: 0;
   left: 0;
   text-align: center;
   font-size: 72pt;
   background: none;
   color: #fff;
-  z-index: 1000;
   opacity: 0;
   -webkit-transition: opacity 0.15s ease;
   -moz-transition: opacity 0.15s ease;
   -ms-transition: opacity 0.15s ease;
-  -o-transition: opacity 0.15s ease;
+  -o-prorp: opacity 0.15s ease;
   transition: opacity 0.15s ease;
 }
 .heart-overlay:hover {
@@ -81,6 +97,7 @@
   margin-left: 0%;
   margin-right: 0%;
   position: absolute;
+  z-index: 150;
 }
 .product-post-header:before,
 .product-post-header:after {
@@ -164,9 +181,9 @@
   float: left;
   margin: -40px 0 0 0;
   vertical-align: baseline;
-  z-index: 1000;
   padding: 0 0 0 10px;
   background: none;
+  z-index: 150;
 }
 .product-post-menu div {
   display: -webkit-inline-box;
