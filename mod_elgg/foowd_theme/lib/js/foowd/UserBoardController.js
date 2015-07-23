@@ -1,12 +1,9 @@
 define(function(require) {
 
-	//foowd api
 	var API = require('FoowdAPI');
-	//templates pre compilati
+	var Navbar = require('NavbarController');
 	var templates = require('templates');
-	//libreria di utility
 	var utils = require('Utils');
-	//jQuery 
 	var $ = require('jquery');
 
 	var UserBoardController = (function(){
@@ -23,12 +20,26 @@ define(function(require) {
    				Qt : "",
    		};
 
+   		//nel controller devo essere sicuro che il dom sia stato casricato correttamente
+		function _stateCheck(){
+			switch(document.readyState){
+				case "loading":
+					document.onreadystatechange = function (){
+						_stateCheck();
+					}
+				break;
+				case "interactive":
+				case "complete": 
+					_init();
+				break;
+			}
+		}
    		//controller init
    		function _init(){
    			//prendo lo user id
    			userId = elgg.get_logged_in_user_guid() === 0 ? null : elgg.get_logged_in_user_guid();
    			//carico la barra di navigazione
-   			utils.loadNavbar();
+   			Navbar.loadNavbar();
    			//carico i template
    			getUserPreferences();
    		}
@@ -109,10 +120,6 @@ define(function(require) {
 
 		}
 
-		$(document).ready(function(){
-			_init();
-		});
-
 		$(document).on('preferences-loaded', function(){
 			_fillProgressBars();
 		});
@@ -122,7 +129,8 @@ define(function(require) {
 		});
 
 		return{
-			addPreference : addPreference
+			init 		  : _stateCheck, 
+			addPreference : addPreference,
 		};
 
 	})();

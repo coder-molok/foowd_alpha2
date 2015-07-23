@@ -106,6 +106,9 @@
 #foowd-brand:last-child {
   margin-right: 0%;
 }
+#foowd-brand span {
+  cursor: pointer;
+}
 #foowd-brand input {
   width: 40%;
   background-color: #fae6ef;

@@ -65,13 +65,9 @@
 </div>
 
 <script type="text/javascript">
-require([
-    'Utils',
-    'UserBoardController'], function(){
-  //utils function
-  window.utils = require('Utils');
-  //controller
+require(['Utils', 'UserBoardController'], function(){
   window.UserBoardController = require('UserBoardController');
+  window.UserBoardController.init();
 
 });
 </script>

@@ -9,11 +9,11 @@
         </span>
         {{/if}}
         <div class="product-post-menu">
-            <div onclick="utils.goProductDetail({{Id}})">
+            <div onclick="utils.go2('detail', 'productId', {{Id}})">
                <span class = "foowd-icons foowd-icon-len">
                </span>
             </div>
-            <div onclick="utils.goTo('producer')">
+            <div onclick="utils.go2('producer', 'producerId', {{Publisher}})">
                <span class = "foowd-icons foowd-icon-blade">
                </span>
             </div>

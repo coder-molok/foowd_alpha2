@@ -4,15 +4,10 @@ define(function(require){
 	 * DIPENDEZE MODULO ------------------------------------------------------------------------
      */
 
-	//foowd api
 	var API = require('FoowdAPI');
-	//templates pre compilati
+	var Navbar = require('NavbarController');
 	var templates = require('templates');
-	//libreria di utility
 	var utils = require('Utils');
-	//informazioni sulla pagina
-	var page = require('page');
-	//jQuery 
 	var $ = require('jquery');
 
 	var WallController = (function(){
@@ -26,6 +21,8 @@ define(function(require){
 		var wallId = "#wall";
 		//search box id
 		var searchBox = "#searchText";
+		//
+		var postProgressBarClass = ".mini-progress";
 		//prototipo di una prefereza
 		var preference = {
    				OfferId : "",
@@ -36,16 +33,30 @@ define(function(require){
    		//userId reference
    		var userId = null;
 		
-   		/*
-		 * FUNZIONI PRIVATE DEL MODULO -----------------------------------------------------------
-		 */
+   	   /*
+		* FUNZIONI PRIVATE DEL MODULO -----------------------------------------------------------
+		*/
 
+		//nel controller devo essere sicuro che il dom sia stato casricato correttamente
+		function _stateCheck(){
+			switch(document.readyState){
+				case "loading":
+					document.onreadystatechange = function (){
+						_stateCheck();
+					}
+				break;
+				case "interactive":
+				case "complete": 
+					_init();
+				break;
+			}
+		}
 		//inizializzazione del controller
 		function _init(){
 			//carico l'id utente se loggato
 			userId = elgg.get_logged_in_user_guid() === 0 ? null : elgg.get_logged_in_user_guid();
 			//carico l'header 
-			utils.loadNavbar(true);
+			Navbar.loadNavbar(true);
 			//carico il wall con i template
 			fillWallWithProducts();
 		}
@@ -56,22 +67,15 @@ define(function(require){
 			$(wallId)
 		  	    .html(content);
 				//.addClass('animated bounceInLeft'); //animazione
-			//solo ora che ho renderizzato tutti gli elementi applicao il layout
-			new AnimOnScroll( document.getElementById( 'wall' ), {
-				minDuration : 0.4,
-				maxDuration : 0.7,
-				viewportFactor : 0.2
-			} );
-
 		}
 		/*
 		 * Funzione che riempe le barre di progresso dei prodotti
 		 */
-		function fillProgressBars(){
+		function fillProgressBars(progressBarClass){
 			//valore in cui si trova il punto 0 della barra (immagine)
 			var halfBar = -417;
 
-			$('.mini-progress').each(function(i) {
+			$(progressBarClass).each(function(i) {
 			    var unit = $(this).data('unit');
 			    var progress = $(this).data('progress');
 			    var total = $(this).data('total');
@@ -195,22 +199,24 @@ define(function(require){
 
 		}
 
-		/*
-		 * GESTIONE EVENTI ------------------------------------------------------------------------
-		 */
-		//il documento è stato caricato
-		$(document).ready(function(){
-			_init();
-		});
+	   /*
+		* GESTIONE EVENTI ------------------------------------------------------------------------
+		*/
 
 		//i template sono stati caricati, ora posso effettuare operazioni su di loro senza alcun problema
 		$(document).on('wall-products-loaded',function(){
+			//solo ora che ho renderizzato tutti gli elementi applicao il layout
+			new AnimOnScroll( document.getElementById( 'wall' ), {
+				minDuration : 0.4,
+				maxDuration : 0.7,
+				viewportFactor : 0.2
+			} );
 			//riempio le barre di probresso dei prodotti
-			fillProgressBars();
+			fillProgressBars(postProgressBarClass);
 
 			//attacco i listener alla barra di ricerca
 			$(searchBox).on('successSearch', function(e){
-				console.log('ho trovato un po di elementi');
+
 			});
 			//notifica errore nel caso la ricerca testuale non ha prodotto risultati
 			$(searchBox).on('failedSearch', function(e){
@@ -235,13 +241,14 @@ define(function(require){
 			adjustOverlays();
 		});
 
-		/*
-		 * METODI PUBBLICI ------------------------------------------------------------------------
-		 */
+	   /*
+		* METODI PUBBLICI ------------------------------------------------------------------------
+		*/
 
 		return{
-			searchProducts : searchProducts,
-			addPreference : addPreference
+			init: 			_stateCheck,
+			searchProducts: searchProducts,
+			addPreference: 	addPreference,
 		};
 
 	})();
