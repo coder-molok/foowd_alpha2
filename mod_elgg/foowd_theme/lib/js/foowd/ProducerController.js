@@ -9,6 +9,7 @@ define(function(require){
 	var Navbar = require('NavbarController');
 	var templates = require('templates');
 	var utils = require('Utils');
+	var WallController = require('WallController');
 
 	var ProducerController = (function(){
 
@@ -129,24 +130,6 @@ define(function(require){
 			$(document).trigger('producer-info-loaded');
 		}
 		/*
-		 * Funzione che aggiunge una preferenza
-		 */
-		function addPreference(offerId, qt) {
-    		//setto i parametri della mia preferenza
-			preference.OfferId = offerId;
-			preference.ExternalId = userId;
-			preference.Qt = qt;
-			//richiamo l'API per settare la preferenza
-			API.addPreference(preference).then(function(data){
-				_getProducerWall();
-				$(searchBox).trigger('preferenceAdded');
-			}, function(error){
-				$(searchBox).trigger('preferenceError');
-				console.log(error);
-			});
-
-		}
-		/*
 		 * Funzione che riempe le barre di progresso dei prodotti
 		 */
 		function _fillProgressBars(progressBarClass){
@@ -226,7 +209,8 @@ define(function(require){
 		$(producerWallContainer).on('images-loaded',function(){
 			_adjustOverlays();
 		});
-
+	   /* Export ----------- */
+	   	window.addPreference = WallController.addPreference;
 	   /*
 		* METODI PUBBLICI ------------------------------------------------------------------------
 		*/

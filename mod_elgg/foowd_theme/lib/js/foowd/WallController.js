@@ -152,9 +152,9 @@ define(function(require){
 						var parsedProducts = applyProductContext(rawProducts.body);
 						//riempio il wall con i prodotti 
 						fillWall(parsedProducts);
-						$(searchBox).trigger('successSearch');
+						$(document).trigger('successSearch');
 					}else{
-						$(searchBox).trigger('failedSearch');
+						$(document).trigger('failedSearch');
 					}
 
 				},function(error){
@@ -184,18 +184,22 @@ define(function(require){
 		 * Funzione che aggiunge una preferenza
 		 */
 		function addPreference(offerId, qt) {
-    		//setto i parametri della mia preferenza
-			preference.OfferId = offerId;
-			preference.ExternalId = userId;
-			preference.Qt = qt;
-			//richiamo l'API per settare la preferenza
-			API.addPreference(preference).then(function(data){
-				fillWallWithProducts();
-				$(searchBox).trigger('preferenceAdded');
-			}, function(error){
-				$(searchBox).trigger('preferenceError');
-				console.log(error);
-			});
+			if(userId){
+	    		//setto i parametri della mia preferenza
+				preference.OfferId = offerId;
+				preference.ExternalId = userId;
+				preference.Qt = qt;
+				//richiamo l'API per settare la preferenza
+				API.addPreference(preference).then(function(data){
+					fillWallWithProducts();
+					$(document).trigger('preferenceAdded');
+				}, function(error){
+					$(document).trigger('preferenceError');
+					console.log(error);
+				});
+			}else{
+				utils.goTo('login');
+			}
 
 		}
 
@@ -215,21 +219,21 @@ define(function(require){
 			fillProgressBars(postProgressBarClass);
 
 			//attacco i listener alla barra di ricerca
-			$(searchBox).on('successSearch', function(e){
+			$(document).on('successSearch', function(e){
 
 			});
 			//notifica errore nel caso la ricerca testuale non ha prodotto risultati
-			$(searchBox).on('failedSearch', function(e){
+			$(document).on('failedSearch', function(e){
 				$('#foowd-error').text('La tua ricerca non ha prodotto risultati');
 				$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
 			});
 			//notifica positiva nel caso la preferenza è stata aggiunta correttamente
-			$(searchBox).on('preferenceAdded', function(e){
+			$(document).on('preferenceAdded', function(e){
 				$('#foowd-success').text('La tua preferenza è stata aggiunta');
 				$('#foowd-success').fadeIn(500).delay(3000).fadeOut(500);
 			});
 			//notifica di errore nel caso la preferenza non fosse stata aggiunta
-			$(searchBox).on('preferenceError', function(e){
+			$(document).on('preferenceError', function(e){
 				$('#foowd-error').text("C'è stato un errore durante l'aggiuta della tua preferenza");
 				$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
 			});
@@ -240,7 +244,8 @@ define(function(require){
 		$(wallId).on('images-loaded',function(){
 			adjustOverlays();
 		});
-
+	   /* Export---------------- */
+	   	window.addPreference = addPreference;
 	   /*
 		* METODI PUBBLICI ------------------------------------------------------------------------
 		*/
