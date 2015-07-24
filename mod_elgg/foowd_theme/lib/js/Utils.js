@@ -90,6 +90,13 @@ define(function(require){
         function getUserId () {
             return elgg.get_logged_in_user_guid() === 0 ? null : elgg.get_logged_in_user_guid();
         }
+       /*
+        * Vede se un utente è loggato
+        */
+        function isUserLogged(){
+            var userId = getUserId()
+            return isValid(userId);
+        }
        
        /*
         * Ritorna un oggetto con i parametri dell'url

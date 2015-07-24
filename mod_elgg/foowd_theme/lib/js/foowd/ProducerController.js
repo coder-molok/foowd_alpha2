@@ -188,6 +188,10 @@ define(function(require){
 			    dots: true,
 			    loop: true,
 			    lazyLoad:true,
+			    navText :[
+			    "<i class = 'foowd-icons foowd-icon-arrow-left'></i>",
+			    "<i class = 'foowd-icons foowd-icon-arrow-right'></i>"
+			    ]
 			});
 			$(document).trigger('producer-carusel-loaded');
 		}
