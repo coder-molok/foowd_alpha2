@@ -235,14 +235,14 @@
   float: right;
 }
 .action-icons > li {
-  display: -webkit-inline-box;
+  display: inline-flex;
   vertical-align: middle;
   border-radius: 50%;
 }
 .action-icons > li > i {
   font-size: 36pt;
   color: #000;
-  display: -webkit-inline-box;
+  display: inline-flex;
 }
 .action-heart {
   background: #fae6ef;
@@ -285,7 +285,7 @@
   border-top: 0.1em solid #787878;
 }
 .commercial-menu-item .item-container > span {
-  display: -webkit-inline-box;
+  display: inline-flex;
   color: #000;
   vertical-align: middle;
 }

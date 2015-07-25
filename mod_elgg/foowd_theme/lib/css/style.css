@@ -305,14 +305,14 @@
   float: right;
 }
 .action-icons > li {
-  display: -webkit-inline-box;
+  display: inline-flex;
   vertical-align: middle;
   border-radius: 50%;
 }
 .action-icons > li > i {
   font-size: 36pt;
   color: #000;
-  display: -webkit-inline-box;
+  display: inline-flex;
 }
 .action-heart {
   background: #fae6ef;
@@ -355,7 +355,7 @@
   border-top: 0.1em solid #787878;
 }
 .commercial-menu-item .item-container > span {
-  display: -webkit-inline-box;
+  display: inline-flex;
   color: #000;
   vertical-align: middle;
 }
@@ -423,7 +423,7 @@ h5 {
   position: fixed;
   top: 0;
   z-index: 10000;
-  box-shadow: 0 0px 20px 0px #f0f0f0;
+  box-shadow: 0 0 20px 0 #f0f0f0;
 }
 .foowd-navbar:before,
 .foowd-navbar:after {
@@ -539,8 +539,8 @@ h5 {
 #user-menu {
   position: relative;
   right: 0;
-  margin-right: 20px;
-  display: inline-block;
+  margin: 0 20px 0 0;
+  display: flex;
   font-size: 24pt;
   position: absolute;
   transform-style: preserve-3d;
@@ -548,7 +548,10 @@ h5 {
   transform: translateY(-50%);
 }
 #user-menu span {
-  display: -webkit-inline-box;
+  margin: 0 0 0 10px;
+  display: inline-flex;
+  flex-basis: auto;
+  justify-content: flex-end;
 }
 .preferences-link {
   font-size: 20pt;
@@ -1402,6 +1405,9 @@ h5 {
 /* 2. Colors ---------------------------- */
 /* 3. Responsive ------------------------ */
 
+/*
+ * About Wall Page Style
+ */
 .grid {
   margin-top: 80px;
   list-style: none;
@@ -1590,7 +1596,7 @@ h5 {
   z-index: 150;
 }
 .product-post-menu div {
-  display: -webkit-inline-box;
+  display: inline-flex;
   background-color: #fae6ef;
   border-radius: 50%;
   padding: 0;
@@ -1601,9 +1607,6 @@ h5 {
   font-size: 22pt;
   line-height: 22pt;
   color: #000;
-}
-.red-heart {
-  color: #f00;
 }
 @-moz-keyframes fadeIn {
   100% {

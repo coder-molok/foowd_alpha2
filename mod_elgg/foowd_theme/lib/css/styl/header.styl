@@ -1,7 +1,7 @@
 
 @import 'jeet'
 @require 'variables'
-
+@require 'mixins'
 
 .foowd-navbar
   cf()
@@ -10,7 +10,7 @@
   position : fixed
   top : 0
   z-index: 10000;
-  box-shadow: 0 0px 20px 0px #f0f0f0;
+  box-shadow: 0 0 20px 0 #f0f0f0;
 
 .navbar-section
   column(1/2, cycle: 2)
@@ -21,7 +21,7 @@
     background-color:red;
 
 #logo
-  background-color: rgb(250,230,239);
+  background-color: foowdPink;
 
 #foowd-brand
   column(1/2)  
@@ -48,12 +48,15 @@
 #user-menu
   position:relative;
   right: 0;
-  margin-right: 20px
-  display: inline-block;
+  margin: 0 20px 0 0
+  display: flex
   font-size:24pt;
   align(vertical)
   span
-    display: -webkit-inline-box;
+    margin: 0 0 0 10px;
+    display: inline-flex;
+    flex-basis : auto
+    justify-content: flex-end
   
 .preferences-link
   font-size : 20pt;

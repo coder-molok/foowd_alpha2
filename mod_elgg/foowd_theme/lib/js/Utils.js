@@ -119,14 +119,15 @@ define(function(require){
         }
 
         return{
-        	isValid:       isValid,
-            singleElToObj: singleElToObj,
-            go2:           go2,
-        	goTo:          goTo,
-            addPicture:    addPicture,
-            setLoggedFlag: setLoggedFlag,
-            getUserId:     getUserId,
-            getUrlArgs:    getUrlArgs,
+        	isValid        : isValid,
+            singleElToObj  : singleElToObj,
+            go2            : go2,
+        	goTo           : goTo,
+            addPicture     : addPicture,
+            setLoggedFlag  : setLoggedFlag,
+            getUserId      : getUserId,
+            isUserLogged   : isUserLogged,
+            getUrlArgs     : getUrlArgs,
         };
 
 	})();

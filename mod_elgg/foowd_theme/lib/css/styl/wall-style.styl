@@ -1,6 +1,15 @@
+
+/*
+ * About Wall Page Style
+ */
+
+
 @import 'jeet'
 @require 'variables'
 @require 'mixins'
+
+
+// 1. Wall alignment -------------------------------------------------
 
 .grid
 	margin-top: contentMargin + containerMargin
@@ -25,8 +34,6 @@
 
 //* Effect 1: opacity */
 .grid.effect-1 li.animate {
-	//-webkit-animation: fadeIn 0.65s ease forwards;
-	//animation: fadeIn 0.65s ease forwards;
 	vendor(animation, fadeIn 0.65s ease forwards)
 }
 
@@ -39,6 +46,8 @@
 	0% { }
 	100% { opacity: 1; }
 }
+
+// 2. Product Post ---------------------------------
 
 postZindexBase = 50
 
@@ -60,7 +69,7 @@ postZindexBase = 50
 .heart-overlay
 	margin : 0 
 	padding: 0
-	position:absolute
+	position: absolute
 	z-index : postZindexBase * 3
 	top: 0;
 	left:0
@@ -129,7 +138,7 @@ postZindexBase = 50
 	background: none
 	z-index : postZindexBase *3
 	div
-		display: -webkit-inline-box;
+		display: inline-flex;
 		background-color : foowdPink
 		border-radius : 50%
 		padding:0
@@ -139,10 +148,6 @@ postZindexBase = 50
 			font-size : 22pt;
 			line-height: 22pt;
 			color: black
-
-.red-heart
-	color:red;
-	
 	
 
 

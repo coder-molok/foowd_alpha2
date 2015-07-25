@@ -258,9 +258,9 @@ define(function(require){
 		*/
 
 		return{
-			init: 			_stateCheck,
-			searchProducts: _searchProducts,
-			addPreference: 	addPreference,
+			init           : _stateCheck,
+			searchProducts : _searchProducts,
+			addPreference  : addPreference,
 		};
 
 	})();
