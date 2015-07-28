@@ -8,12 +8,14 @@
 
     <!-- Vendor Style Libraries -->
     <link href="mod/foowd_theme/lib/css/reset.css">
+    <!-- Vendor Style Libraries -->
     <link href="mod/foowd_theme/vendor/animate.css/animate.css" rel="stylesheet">
     <link href="mod/foowd_theme/assets/owl.carusel/owl.carousel.css" rel="stylesheet">
     <link href="mod/foowd_theme/assets/owl.carusel/owl.theme.css" rel="stylesheet">
-    <!-- <link href="mod/foowd_theme/assets/owl.carusel/owl.transitions.css" rel="stylesheet">
-     --> <!-- Custom CSS -->
+    <link href="mod/foowd_theme/vendor/animate.css/animate.css" rel="stylesheet">
+     <!-- Custom CSS -->
     <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
+    <!-- Flavicons (not avaiable yet) -->
     <!-- elgg -->
     <?php
 
@@ -49,26 +51,48 @@
       ?>
 </head>
 <body>
-<div class="foowd-navbar"></div>
-<div id = "producer-carousel" class="owl-carousel">
-  <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-1.jpg"></div>
-  <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-2.jpg"></div>
-  <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-3.jpg"></div>
-  <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-4.jpg"></div>
-  <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-5.jpg"></div>
+<div class="foowd-navbar">
 </div>
+<div id="producer-container">
+  <div id = "producer-carousel" class="owl-carousel">
+    <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-1.jpg"></div>
+    <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-2.jpg"></div>
+    <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-3.jpg"></div>
+    <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-4.jpg"></div>
+    <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-5.jpg"></div>
+  </div>
+  <div id = "producer-profile">
+  </div>
+  <div id = "producer-products">
+    <div class="about">I nostri prodotti</div>
+  </div>
+</div>
+<ul class="grid effect-1" id="producer-wall">
+
+</ul>
+<div class="foowd-alert" role="alert" id="foowd-success"></div>
+<div class="foowd-alert" role="alert" id="foowd-error"></div>
 <script type="text/javascript" src="mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
+<script type="text/javascript" src="mod/foowd_theme/assets/owl.carusel/owl.carousel.min.js"></script>
 <script type="text/javascript">
-require(['ProducerController','templates','Utils'], function(){
-  //template di handlebars
-  var templates = require('templates');
+require([  
+  'helpers',
+  'masonry',
+  'imagesLoaded',
+  'classie',
+  'animOnScroll',
+  'ProducerController',
+  ],function(){
+
+  window.imagesLoaded = require('imagesLoaded');
+  window.Masonry = require('masonry');
+  window.classie = require('classie');
+
   window.ProducerController = require('ProducerController');
-  window.utils = require('Utils');
-  //inserisco la barra di navigazione
-  $('.foowd-navbar').html(templates.simpleNavbar(""));
+  window.ProducerController.init();
 
 });
 </script>
-<script type="text/javascript" src="mod/foowd_theme/assets/owl.carusel/owl.carousel.min.js"></script>
+
 
 </body>

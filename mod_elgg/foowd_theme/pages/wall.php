@@ -49,7 +49,6 @@
 </head>
 <body>
 <div class="foowd-navbar">
-  
 </div>
 
 <ul class="grid effect-1" id="wall">
@@ -69,24 +68,16 @@ require([
   'imagesLoaded',
   'classie',
   'animOnScroll',
-  'WallController'
+  'WallController',
+  'NavbarController',
   ],function(){
 
-  var imagesLoaded = require('imagesLoaded');
-  window.imagesLoaded = imagesLoaded;
-  var masonry = require('masonry');
-  window.Masonry = masonry;
-  var classie = require('classie');
-  window.classie = classie;
+  window.imagesLoaded = require('imagesLoaded');
+  window.Masonry = require('masonry');
+  window.classie = require('classie');
 
-  //helpers di Handlebars
-  var helpers = require('helpers'); 
-  //templates di handlebars
-  var templates = require('templates');
-  //funzioni di utility
-  window.utils = require('Utils');
-  //controller della pagina
   window.WallController = require('WallController');
+  window.WallController.init();
 
 });
 </script>

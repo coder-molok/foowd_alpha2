@@ -34,6 +34,12 @@ function foowd_product_detail_page_handler(){
 	return true;
 }
 
+function foowd_producer_page_handler(){
+	if (!include_once(dirname(__FILE__) . "/pages/producer.php"))
+		return false;
+	return true;
+}
+
 function foowd_user_preference_page_handler(){
 	if(elgg_get_logged_in_user_entity() != 0){
 		if (!include_once(dirname(__FILE__) . "/pages/user-preferences.php"))
@@ -43,13 +49,6 @@ function foowd_user_preference_page_handler(){
 	forward("login");
 	return true;
 }
-
-function foowd_producer_page_handler(){
-	if (!include_once(dirname(__FILE__) . "/pages/producer.php"))
-		return false;
-	return true;
-}
-
 
 // AMD LOAD
 function AMD(){
@@ -115,7 +114,7 @@ function AMD(){
 
 	elgg_define_js('WallController', [
 	    'src' => '/mod/foowd_theme/lib/js/foowd/WallController.js',
-	    'deps'=> array('FoowdAPI','templates', 'elgg', 'page' , 'jquery' , 'bootstrap')
+	    'deps'=> array('FoowdAPI','templates', 'elgg', 'page' , 'jquery')
 	]);
 
 	elgg_define_js('ProductDetailController', [
@@ -124,8 +123,7 @@ function AMD(){
 	]);
 
 	elgg_define_js('NavbarController', [
-	    'src' => '/mod/foowd_theme/lib/js/foowd/NavbarController.js',
-	    'deps'=> array('FoowdAPI')
+	    'src' => '/mod/foowd_theme/lib/js/foowd/NavbarController.js'
 	]);
 	
 	elgg_define_js('UserBoardController', [

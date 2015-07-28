@@ -1,16 +1,11 @@
 define(function(require){
 
-	//API foowd
 	var API = require('FoowdAPI');
-	//templates handlebars
+	var Navbar = require('NavbarController');
 	var templates = require('templates');
-	//elgg utility
-	var elgg = require('elgg');
-	//jQuery
 	var $ = require('jquery');
-	//util library
 	var utils = require('Utils');
-	//creo il controller della pagina dettaglio
+	
 	var ProductDetailController = (function(){
 
 		//id html del contenitore dei dettagli prodotto
@@ -27,14 +22,29 @@ define(function(require){
    				Qt : "",
    		};
 
+   		//controllo dello stato
+   		function _stateCheck(){
+			switch(document.readyState){
+				case "loading":
+					document.onreadystatechange = function (){
+						_stateCheck();
+					}
+				break;
+				case "interactive":
+				case "complete": 
+					_init();
+				break;
+			}
+		}
+
    		//inizializzo il controller
    		function _init(){
    			//prendo lo user id
-   			userId = elgg.get_logged_in_user_guid() === 0 ? null : elgg.get_logged_in_user_guid();
+   			userId = utils.getUserId();
+   			//load navbar
+   			Navbar.loadNavbar();
    			//carico il template del prodotto con i dati
    			getDetailsOf();
-   			//carico la barra di navigazione
-   			utils.loadNavbar();
    		}
 
    		function _fillProductDetail(content){
@@ -60,40 +70,25 @@ define(function(require){
 		}
 
 		function getDetailsOf(){
-			//prendo l'id del prodotto dall'url
-			var queryUrl = elgg.parse_url(window.location.href).query;
-			if(utils.isValid(queryUrl)){
-				//splitto i vari parametri dell'url
-				var sURLVariables = queryUrl.split('&');
-				//creo l'oggeto finale
-				var queryObject = {};
-				//aggiungo i parametri all'oggetto
-				for(var i = 0; i < sURLVariables.length ; i++){
-				  var args = sURLVariables[i].split('=');
-				  queryObject[args[0]] = args[1];
-				}
-				//controllo che tra i parametri ci sia l'id del prodotto
-				if(queryObject.productId){
-					//richiamo la API per i dettagli del prodotto
-					API.getProduct(queryObject.productId).then(function(data){
-						//parso in JSON il risultato
-						var rawProduct = data.body[0];
-						var parsedProduct = _applyProductContext(rawProduct);
-						_fillProductDetail(parsedProduct);
+			var queryObject = utils.getUrlArgs();
+			//controllo che tra i parametri ci sia l'id del prodotto
+			if(utils.isValid(queryObject.productId)){
+				//richiamo la API per i dettagli del prodotto
+				API.getProduct(queryObject.productId).then(function(data){
+					//parso in JSON il risultato
+					var rawProduct = data.body[0];
+					var parsedProduct = _applyProductContext(rawProduct);
+					_fillProductDetail(parsedProduct);
 
-						$(document).trigger('detail-template-loaded');
+					$(document).trigger('detail-template-loaded');
 
-					}, function(error){
-						//gestico l'errore
-						console.log(error);
-					});
-				}else{
-					//reindirizzo alla pagina del wall
-				  	elgg.forward("/");
-				}
+				}, function(error){
+					//gestico l'errore
+					console.log(error);
+				});
 			}else{
 				//reindirizzo alla pagina del wall
-				elgg.forward("/");
+			 	utils.goTo();
 			}
 		};
 
@@ -112,10 +107,6 @@ define(function(require){
 			});
 
 		}
-
-		$(document).ready(function(){
-			_init();
-		});
 
 		$(document).on('detail-template-loaded',function(){
 
@@ -156,8 +147,8 @@ define(function(require){
 
 
 		return{
-			getDetailsOf : getDetailsOf,
-			addPreference : addPreference
+			init 			: _stateCheck,
+			addPreference   : addPreference,
 		};
 	})();
 

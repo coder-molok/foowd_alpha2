@@ -65,15 +65,8 @@
 
 <script type="text/javascript">
 require(['ProductDetailController', 'helpers', 'templates'], function(){
-  //handlebars helpers
-  var helpers = require('helpers');
-  //template di handlebars
-  var templates = require('templates');
-  //controller della pagina
   window.ProductDetailController = require('ProductDetailController');
-  //funzioni di utilità
-  window.utils = require('Utils');
-
+  window.ProductDetailController.init();
 });
 </script>
 </body>

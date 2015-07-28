@@ -1,7 +1,7 @@
 define(function(require){
 
       var $ = require('jquery');
-      var Utils = require('Utils');
+      var utils = require('Utils');
       var settings = require('utility-settings');
 
       //modulo per la chiamata delle API  foowd
@@ -21,6 +21,9 @@ define(function(require){
       			date  : "&order=Created,asc"
       		}
       	};
+      var userActions = {
+          search : "user?type=search",
+      };
    		//imposto l'url di base delle mie chiamate
    		function setUrl(url){
    			baseUrl = url;
@@ -51,19 +54,19 @@ define(function(require){
              var requestURL = baseUrl + offers.search;
              var deferred = $.Deferred();
              
-             requestURL = Utils.isValid(userId)    ? requestURL + "&ExternalId=" + userId           :requestURL;
-             requestURL = Utils.isValid(publisher) ? requestURL + "&Publisher=" + publisher         :requestURL;
-             requestURL = Utils.isValid(tags)      ? requestURL + "&Tag=" + tags                    :requestURL;
-             requestURL = Utils.isValid(order)     ? requestURL + "&order=" + order                 :requestURL;
-             requestURL = Utils.isValid(match)     ? requestURL + '&match={"name":"' + match + '"}' :requestURL;
+             requestURL = utils.isValid(userId)    ? requestURL + "&ExternalId=" + userId           :requestURL;
+             requestURL = utils.isValid(publisher) ? requestURL + "&Publisher=" + publisher         :requestURL;
+             requestURL = utils.isValid(tags)      ? requestURL + "&Tag=" + tags                    :requestURL;
+             requestURL = utils.isValid(order)     ? requestURL + "&order=" + order                 :requestURL;
+             requestURL = utils.isValid(match)     ? requestURL + '&match={"name":"' + match + '"}' :requestURL;
 
-             if(Utils.isValid(min)){
+             if(utils.isValid(min)){
              		baseUrl += '&Id={"min":' + min;
-             		if(Utils.isValid(max)){
+             		if(utils.isValid(max)){
              			baseUrl += ',"max":' + max + '}';
              		}
              }else{
-             		if(Utils.isValid(max)){
+             		if(utils.isValid(max)){
              			baseUrl += '&Id={"max":' + max +'}';
              		}
              }
@@ -99,11 +102,30 @@ define(function(require){
          getUserPreferences : function(userId){
             var deferred = $.Deferred();
             var requestURL = baseUrl + offers.getPreferences;
-
-            requestURL = Utils.isValid(userId) ? requestURL + "&ExternalId=" + userId : requestURL;
-
+            requestURL = utils.isValid(userId) ? requestURL + "&ExternalId=" + userId : requestURL;
             $.get(requestURL, function(data){ deferred.resolve(data); });
+            return deferred.promise();
+         },
+         getUserDetails : function(userId){
+            var deferred = $.Deferred();
+            var requestURL = baseUrl + userActions.search;
+            var requestData = {};
+            requestData.type = "search";
+            requestData.ExternalId = userId;
 
+            $.ajax({
+                type : "POST",
+                url : requestURL,
+                contentType : "application/json; charset=utf-8",
+                data : JSON.stringify(requestData),
+                dataType : "json",
+                success : function(data, status, jqXHR) {
+                   deferred.resolve(data);
+                },
+                error : function(jqXHR, status) {
+                   console.log("error: "+status);
+                }
+             });
             return deferred.promise();
          },
      };

@@ -3,17 +3,15 @@
         <figure class="tint">
             <img src="{{picture}}">
         </figure>
-        {{#if logged}}
         <span class="heart-overlay foowd-icons foowd-icon-heart-full"
-              onclick="WallController.addPreference({{Id}},1)">
+              onclick="window.addPreference({{Id}},1)">
         </span>
-        {{/if}}
         <div class="product-post-menu">
-            <div onclick="utils.goProductDetail({{Id}})">
+            <div onclick="utils.go2('detail', 'productId', {{Id}})">
                <span class = "foowd-icons foowd-icon-len">
                </span>
             </div>
-            <div onclick="utils.goTo('producer')">
+            <div onclick="utils.go2('producer', 'producerId', {{Publisher}})">
                <span class = "foowd-icons foowd-icon-blade">
                </span>
             </div>
