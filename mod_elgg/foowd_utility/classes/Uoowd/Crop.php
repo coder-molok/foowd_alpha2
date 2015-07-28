@@ -211,7 +211,8 @@ class Crop{
 
 		// dimensioni di default thumbnail
 		$imsize['small'] = 100;
-		$imsize['medium'] = 400;
+		$imsize['medium'] = 250;
+		$imsize['big'] = 400;
 
 
 		// ora svolgo il crop e salvo le immagini
