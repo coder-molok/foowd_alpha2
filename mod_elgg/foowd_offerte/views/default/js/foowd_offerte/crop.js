@@ -252,8 +252,14 @@ function start(){
     var div = $('img#sorgente');
 
     // pulsanti per fare lo switch delle proporzioni
-    var strg = '<div id="ratio"><div data-ratio="2:3">2:3</div><div data-ratio="3:2">3:2<div/></div>';
+    var strg = '<div id="ratio"><div>ruota la finestra di selezione cliccando sul formato larghezza:altezza</div><div data-ratio="2:3">2:3</div><div data-ratio="3:2">3:2<div/></div>';
     $('<div/>',{'html':strg}).css({'position':'absolute'}).insertBefore(div)
+
+    var mystyle =   ' #ratio{max-width:100px;} #ratio [data-ratio]{ margin:15px ; padding: 5px; background-color:#FAE6EF; display: flex; justify-content: center; align-items: center;  }  #ratio [data-ratio]:hover{  background-color:silver;  } #ratio [data-ratio]:active{  background-color:steelblue;  } #ratio [data-ratio="2:3"]{width: 20px; height:30px;} #ratio [data-ratio="3:2"]{width: 30px; height:20px;}';
+    if (!$('style#foowd-crop-js').length) $('<style/>',{
+            "id":"foowd-crop-js",
+            "text": mystyle
+        }).appendTo("head");
 
     if(!div.length) alert('div not exists');
     var src = div.attr('src');
@@ -304,16 +310,19 @@ function start(){
         if(val === ''){
             // faccio in modo che la finestra sia centrata nell'immagine
             var l = Math.min($img.width, $img.height);
-            var x = Math.round( $img.width*r[ratio].w  );
-            var y = Math.round( $img.width*r[ratio].h  );
+            console.log(r[ratio])
+            console.log(l + ' w:'+$img.width+' h:'+$img.height)
+            var x = Math.round( l*r[ratio].w  );
+            var y = Math.round( l*r[ratio].h  );
+            console.log('x: '+x +' y:'+y)
             switch(tmp){
                 // case 'x1': oldCrop.x1 = Math.round( ($img.width - scale.l) / 2 ); break;
                 // case 'x2': oldCrop.x2 = Math.round( scale.l + oldCrop.x1 ); break;
                 // case 'y1': oldCrop.y1 = Math.round( ($img.height - scale.l) / 2 ); break;
                 // case 'y2': oldCrop.y2 = Math.round( scale.l + oldCrop.y1 ); break;
-                case 'x1': oldCrop.x1 = Math.round( (l - x) / 2 ); break;
+                case 'x1': oldCrop.x1 = Math.round( ($img.width - x) / 2 ); break;
                 case 'x2': oldCrop.x2 = Math.round( x + oldCrop.x1 ); break;
-                case 'y1': oldCrop.y1 = Math.round( (l - y) / 2 ); break;
+                case 'y1': oldCrop.y1 = Math.round( ($img.height - y) / 2 ); break;
                 case 'y2': oldCrop.y2 = Math.round( y + oldCrop.y1 ); break;
             }
 
@@ -323,10 +332,11 @@ function start(){
         }
     }
 
+    console.log(oldCrop)
     // instance of image area select: used to force aspect ratio in onSelectChange event
     $ias = div.imgAreaSelect({instance: true});    
     //$ias.setOptions({/* aspectRatio: '1:1',*/ handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 30, minHeight: 30});    
-    $ias.setOptions({aspectRatio: '2:3', handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 30, minHeight: 30});    
+    $ias.setOptions({aspectRatio: ratio, handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 30, minHeight: 30});    
     
     // per fare lo switch delle proporzioni
     $('div[data-ratio]').on('click', function(){
@@ -548,6 +558,9 @@ var LoadPop =  function(){
     // lightbox
     this.div=document.createElement("div");
     this.div.className = 'foowd-lightbox';
+    this.div.ondblclick = function(){
+        this.remove();
+    }
     document.body.appendChild(this.div);
 
     // container progress
@@ -568,6 +581,28 @@ var LoadPop =  function(){
     this.t.innerHTML = '0 %';
     this.box.appendChild(this.t);
     
+    // la scritta 
+    this.c = document.createElement("span");
+    this.c.className = 'close-box';
+    this.c.innerHTML = 'Chiudi X';
+    this.c.style.textDecoration = 'underline';
+    this.c.style.color = 'white';
+    this.c.style.position = 'absolute';
+    this.c.style.top = '20px';
+    this.c.style.right = '20px';
+    this.c.style.cursor = 'pointer';
+    var that =  this.div;
+    this.c.onclick=function(){
+        that.remove();
+    }
+    this.c.onmouseover=function(){
+        this.style.fontWeight = 'bold';
+        this.style.color = 'green';
+    }
+    this.c.onmouseout=function(){
+        this.style.color = 'white';
+    }
+    this.div.appendChild(this.c);
 
     // infine sistemo il box centrandolo
     this.box.style.left = ($wSize.w - this.box.offsetWidth)/2 +'px';

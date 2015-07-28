@@ -70,7 +70,7 @@
         <column name="site" phpName="Site" type="VARCHAR" size="255" required="false" />
         <column name="piva" phpName="Piva" type="VARCHAR" size="11" required="false" />
         <column name="email" phpName="Email" type="VARCHAR" size="50" required="false" />
-        <column name="phone" phpName="Phone" type="VARCHAR" size="11" required="false" />
+        <column name="phone" phpName="Phone" type="VARCHAR" size="15" required="false" />
         <column name="address" phpName="Address" type="VARCHAR" size="150" required="false" />
         <column name="company" phpName="Company" type="VARCHAR" size="100" required="false" />
 

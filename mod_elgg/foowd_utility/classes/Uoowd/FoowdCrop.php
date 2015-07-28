@@ -122,7 +122,7 @@ class FoowdCrop{
 	// }
 	
 	public function saveImgEach($directory, $guid, $form = 'generic', $input){
-		\Uoowd\Logger::addError('inizio dentro a saveImgEach');
+		// \Uoowd\Logger::addError('inizio dentro a saveImgEach');
 
 		// a questo punto posso impostare i parametri di salvataggio
 		$dir = str_replace('\\', '/', \Uoowd\Param::imgStore());

@@ -3,14 +3,14 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
-    return define(['elgg', 'jquery', 'handlebars', 'crop', 'foowdFormCheck', 'foowdCropLightbox'], factory);
+    return define(['elgg', 'jquery', 'handlebars', 'crop', 'foowdFormCheck', 'foowdCropLightbox', 'foowd_utenti/file'], factory);
   } else if (typeof exports === 'object') {
     return module.exports = factory();
   } else {
     return root.returnExports = factory();
   }
 })(this, function() {
-  var $, Jform, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, crop, elgg, fct, flds, form, i, init, init2, len, needAr, noNeedAr, setNeed, test, va;
+  var $, Jform, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, crop, elgg, fct, file, flds, form, i, len, needAr, noNeedAr, setNeed, va;
   elgg = require('elgg');
   $ = require('jquery');
   crop = require('foowdCropLightbox');
@@ -23,27 +23,11 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
     display: 'none'
   });
   Jgenre.val('standard');
-  init2 = {
-    urlF: document.getElementById('url').href,
-    fileInput: '[name="file1"]',
-    css: ['mod/foowd_utility/js/imgareaselect/css/imgareaselect-default.css', 'mod/foowd_utility/js/foowd-crop/foowd-crop.css'],
-    loadedImgContainer: '#file1-container',
-    sourceImg: '#file1-sorgente',
-    imgContainer: '#file1-image-container',
-    imgAreaPrefix: 'file1'
-  };
-  crop.create().initialize(init2);
-  init = {
-    urlF: document.getElementById('url').href,
-    fileInput: '[name="file2"]',
-    css: ['mod/foowd_utility/js/imgareaselect/css/imgareaselect-default.css', 'mod/foowd_utility/js/foowd-crop/foowd-crop.css'],
-    loadedImgContainer: '#file2-container',
-    imgAreaPrefix: 'file2',
-    sourceImg: '#file2-sorgente',
-    imgContainer: '#file2-image-container'
-  };
-  crop.create().initialize(init);
-  test = new Text();
+  file = require('foowd_utenti/file');
+  crop.create().initialize(file.fileCropInit());
+  $(document).on("foowd:update:file", function(e, mydata) {
+    crop.create().initialize(file.fileCropInit());
+  });
   fct = form.factory();
   ar = [];
   flds = ['email', 'username', 'name', 'password'];
@@ -80,15 +64,6 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
       })(this)
     });
   };
-  ar.push({
-    cls: 'Text',
-    obj: {
-      inpt: 'form.elgg-form-register input[name="name"]',
-      key: 'name',
-      el: 'form.elgg-form-register [name="name"]',
-      msg: 'foowd:user:name:error'
-    }
-  });
   ar.push({
     cls: 'Email',
     obj: {
@@ -170,8 +145,17 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
     });
   };
   setNeed(false);
+  $('.mtm').css({
+    'display': 'none'
+  });
   form.submit('form.elgg-form-register', function() {
-    var pwd, pwd2;
+    var Jname, pwd, pwd2;
+    Jname = $('form.elgg-form-register [name="name"]').val($('form.elgg-form-register [name="username"]').val());
+    if (Jgenre.val() === 'offerente') {
+      if (!file.atLeastOne()) {
+        alert("Devi inserire almeno un'immagine");
+      }
+    }
     pwd = $('form.elgg-form-register [name="password"]').val();
     pwd2 = $('form.elgg-form-register [name="password2"]').val();
     if (pwd.length <= 5) {

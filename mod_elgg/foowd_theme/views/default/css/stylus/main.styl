@@ -1,0 +1,34 @@
+// <path>\views\default\css> stylus -p .\stylus\main.styl > .\elements\layout_ext.php
+// <path>\views\default\css> stylus .\stylus\main.styl --out ./ --watch
+
+@import '../../../lib/css/styl/variables.styl'
+
+foowdTopbar = rgb(200, 16, 99)
+
+
+.elgg-page-header
+	background-color: foowdPink;
+	background-image: none;
+
+	// centro la scritta foowd_
+	& > .elgg-inner 
+		display: flex;
+		align-items: center;
+
+
+.elgg-page-topbar
+	background-image: none;
+	background-color: foowdTopbar;
+	//border-bottom: 0;
+
+
+.foowd-header
+	text-decoration: none;
+	color: #000;
+	font-family: AkkuratBold;
+	font-size: 24pt;
+	line-height: 24pt;
+	letter-spacing: -1.5pt;
+	
+
+// elgg menu item da topbar

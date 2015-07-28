@@ -2,6 +2,63 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 27/07/2015
+
+- adattata [issue#111](https://github.com/coder-molok/foowd_alpha2/issues/111)
+
+- corretta [issue#109](https://github.com/coder-molok/foowd_alpha2/issues/108)
+
+- corretta [issue#108](https://github.com/coder-molok/foowd_alpha2/issues/108)
+
+- corretta [issue#104](https://github.com/coder-molok/foowd_alpha2/issues/104)
+
+- svolta [issue#70](https://github.com/coder-molok/foowd_alpha2/issues/70)
+
+
+
+### 22/07/2015
+
+- in [start.php](../mod_elgg/foowd_utenti/start.php) impostata a *italiano* la lingua di default per i nuovi iscritti
+
+
+
+
+### 20/07/2015
+
+- Disattivazione Plugin:
+    + Blog 1.9
+    + Bookmarks 1.9
+    + Log Browser 1.9
+    + Log Rotate 1.9
+    + File 1.9
+    + Groups 1.9
+    + Invite Friends 1.9
+    + Likes 1.9
+    + Members 1.9
+    + Message Board 1.9
+    + Messages 1.9
+    + Pages 1.9
+    + Search 1.9
+    + Reported Content 1.9
+    + The Wire 1.9
+    + Zaudio
+    + Notifications 1.9
+    
+
+- Plugin Attivi:
+    + foowd_*
+    + HTMLawed 1.9
+    + Garbage Collector 1.9
+    + Elgg Developer Tools 1.9
+    + CKEditor 1.9
+    + User Validation By Email 1.9
+    + Profile 1.9
+
+
+### 17/07/2015
+
+- corretta [issue#88](https://github.com/coder-molok/foowd_alpha2/issues/88)
+
 
 ### 16/07/2015
 

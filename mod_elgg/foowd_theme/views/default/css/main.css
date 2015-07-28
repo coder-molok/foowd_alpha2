@@ -1,0 +1,20 @@
+.elgg-page-header {
+  background-color: #fae6ef;
+  background-image: none;
+}
+.elgg-page-header > .elgg-inner {
+  display: flex;
+  align-items: center;
+}
+.elgg-page-topbar {
+  background-image: none;
+  background-color: #c81063;
+}
+.foowd-header {
+  text-decoration: none;
+  color: #000;
+  font-family: AkkuratBold;
+  font-size: 24pt;
+  line-height: 24pt;
+  letter-spacing: -1.5pt;
+}

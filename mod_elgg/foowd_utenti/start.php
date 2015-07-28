@@ -18,6 +18,9 @@ function utenti_init(){
     $user->form = 'register';
     elgg_register_plugin_hook_handler('register', 'user', array($user, 'register'));
 
+    // wrap new user creation settings it's default lang
+    elgg_register_event_handler('create','user', "set_def_lang");
+
     // se volessi rimuovere l'hook
     // elgg_unregister_plugin_hook_handler('register', 'user', array('\Foowd\User', 'register'));
 
@@ -96,6 +99,14 @@ function foowd_utenti_handler($segments){
 
 }
 
+
+/**
+ *  imposto italiano come lingua di default
+ */
+function set_def_lang ($event, $object_type, $object) {
+    $object->set("language", "it");
+    return true;
+}
 
 function checkUser(){
     $user = elgg_get_logged_in_user_entity();

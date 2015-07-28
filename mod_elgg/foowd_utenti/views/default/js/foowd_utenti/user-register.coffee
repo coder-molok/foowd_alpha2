@@ -3,7 +3,7 @@
 
     if typeof define is 'function' and define.amd
         # AMD. Register as an anonymous module.
-        define(['elgg','jquery', 'handlebars', 'crop', 'foowdFormCheck', 'foowdCropLightbox'], factory);
+        define(['elgg','jquery', 'handlebars', 'crop', 'foowdFormCheck', 'foowdCropLightbox', 'foowd_utenti/file'], factory);
     else if typeof exports is 'object'
         module.exports = factory();
     else
@@ -30,53 +30,16 @@
     Jhook.css {display: 'none'}
     Jgenre.val('standard')
 
-
-    init2 =
-        # ricavo l'url
-        urlF : document.getElementById('url').href
-        # l'id del campo input che immagazzina i file, ovvero le immagini
-        fileInput : '[name="file1"]'
-        css: [
-            'mod/foowd_utility/js/imgareaselect/css/imgareaselect-default.css',
-            'mod/foowd_utility/js/foowd-crop/foowd-crop.css'
-        ]
-        # deve esistere, e li dentro verra' immagazzinata l'immagine, se gia' non esiste
-        loadedImgContainer : '#file1-container'
-
-        
-        # l'id del tag img che funge da sorgente. Se esiste lo carica in $img privata del plugin, altrimenti lo creera' col caricamento dell'immagine
-        sourceImg: '#file1-sorgente'
-        # id del box che contiene tutte le immagini: appeso dopo $init.fileInput
-        imgContainer:'#file1-image-container',
-        imgAreaPrefix: 'file1'
     
-    crop.create().initialize(init2)
+    # vedere come istanziato init di crop dentro a file
+    file = require('foowd_utenti/file')  
+    crop.create().initialize(file.fileCropInit())
+    # evento alla fine del caricamento
+    $( document ).on "foowd:update:file", (e, mydata)->
+        crop.create().initialize(file.fileCropInit())
+        return
 
-    ## parto con l'impostare i parametri di crop
-    #  NB: tutti gli ID sono impostati senza il query selector, ovvero con solo il nome puro
-    init =
-        # ricavo l'url
-        urlF : document.getElementById('url').href
-        # l'id del campo input che immagazzina i file, ovvero le immagini
-        fileInput : '[name="file2"]'
-        css: [
-            'mod/foowd_utility/js/imgareaselect/css/imgareaselect-default.css',
-            'mod/foowd_utility/js/foowd-crop/foowd-crop.css'
-        ]
-        # deve esistere, e li dentro verra' immagazzinata l'immagine, se gia' non esiste
-        loadedImgContainer : '#file2-container'
-        imgAreaPrefix: 'file2'
 
-        
-        # l'id del tag img che funge da sorgente. Se esiste lo carica in $img privata del plugin, altrimenti lo creera' col caricamento dell'immagine
-        sourceImg: '#file2-sorgente'
-        # id del box che contiene tutte le immagini: appeso dopo $init.fileInput
-        imgContainer:'#file2-image-container'
-    
-    crop.create().initialize(init)
-
-    test = new Text()
-    
     # for each input
     fct = form.factory();
     ar = []
@@ -119,7 +82,7 @@
 
 
     # NB: il campo "name" non e' univoco: utenti differenti possono avere lo stesso Name
-    ar.push({cls:'Text', obj:{inpt:'form.elgg-form-register input[name="name"]', key:'name', el:'form.elgg-form-register [name="name"]', msg: 'foowd:user:name:error'} })
+    # ar.push({cls:'Text', obj:{inpt:'form.elgg-form-register input[name="name"]', key:'name', el:'form.elgg-form-register [name="name"]', msg: 'foowd:user:name:error'} })
     ar.push({cls:'Email', obj:{inpt:'form.elgg-form-register [name="email"]', key:'email', el:'form.elgg-form-register [name="email"]', msg: 'foowd:user:email:error', 'afterCheck': ajaxCheck} })
     
     # almeno di 4 lettere
@@ -150,9 +113,18 @@
     setNeed(false)
 
 
+    # nascondo il campo "name" in quanto forviante
+    $('.mtm').css({'display':'none'})
     
     form.submit 'form.elgg-form-register',
         ()->
+
+            # impongo che nome visualizzato sia il nick name
+            Jname = $('form.elgg-form-register [name="name"]').val($('form.elgg-form-register [name="username"]').val())
+
+            if Jgenre.val() is 'offerente'
+                if not file.atLeastOne() then alert "Devi inserire almeno un'immagine"
+
             pwd = $('form.elgg-form-register [name="password"]').val()
             pwd2 = $('form.elgg-form-register [name="password2"]').val()
             
@@ -181,7 +153,6 @@
                 ()->
                     $(this).val('')
             )
-
-    
+ 
 
 );

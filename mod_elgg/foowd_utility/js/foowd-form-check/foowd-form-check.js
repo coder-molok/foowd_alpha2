@@ -215,7 +215,7 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
 
     Phone.prototype.check = function() {
       var re, v;
-      re = new RegExp(/^\d{9,11}$/);
+      re = new RegExp(/^\+?\d{8,14}$/);
       v = this.el.val().trim();
       if (re.test(v)) {
         return true;

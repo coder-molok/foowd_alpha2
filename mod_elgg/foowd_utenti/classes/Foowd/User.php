@@ -128,11 +128,17 @@ class User {
 		
 		// \Uoowd\Logger::addError($data);
 		// if(get_input('file')!=='') $data['Image']=get_input('file');
-		\Uoowd\Logger::addError("prima di offerente: il genere e' ".$genre);
+		// \Uoowd\Logger::addError("prima di offerente: il genere e' ".$genre);
 		if($genre === 'offerente'){
-			\Uoowd\Logger::addError("dentro a offerente");
+			// \Uoowd\Logger::addError("dentro a offerente");
 			$crop = new \Uoowd\FoowdCrop();
 			$dir = 'User-'.$extId.'/profile/';
+			// \Uoowd\Logger::addError($_FILES);
+			// prima di inviare, tolgo i campi Files con nome vuoto, perche' equivalgono a input non riempiti
+			foreach ($_FILES as $key => $value) {
+				if($value['name']=='') unset($_FILES[$key]);
+			}
+			\Uoowd\Logger::addError($_FILES);
 			$crop->saveImgEach($dir, $extId, $form, $input);
 	
 			if(!$crop->cropCheck()){
@@ -144,7 +150,7 @@ class User {
 			// $data['Image'] = $crop->base64();
 		}
 
-		\Uoowd\Logger::addError("dopo offerente");
+		// \Uoowd\Logger::addError("dopo offerente");
 
 		$r = \Uoowd\API::Request('user', 'POST', $data);
 

@@ -100,6 +100,7 @@
         
         # quando carico un'immagine
         @JfileInput.on 'change', (e)->
+            _Jthat = $(this)
             # controllo sui formati
             if(! this.value.match(/\.(jpg|jpeg|png|gif)$/i) )
                  alert('Sono validi solo formati jpg - jpeg - png - gif');
@@ -130,7 +131,7 @@
             xhr.addEventListener('progress', (e) ->
                 done = e.position || e.loaded
                 total = e.totalSize || e.total;
-                percent = Math.floor(done/total*1000)#10;
+                percent = Math.floor(done/total*100)#10;
                 if(!isFinite(percent)) then percent = 100;
                 pop.progress(percent);
                 # console.log('xhr progress: ' + (Math.floor(done#total*1000)#10) + '%');
@@ -139,12 +140,12 @@
                 xhr.upload.onprogress = (e)->
                     done = e.position || e.loaded
                     total = e.totalSize || e.total;
-                    percent = Math.floor(done/total*1000)#10;
+                    percent = Math.floor(done/total*100)#10;
                     if(!isFinite(percent)) then percent = 100;
                     pop.progress(percent);
                     # console.log('xhr.upload progress: ' + done + ' # ' + total + ' = ' + percent + '%');
             
-            xhr.onreadystatechange = (e)->         
+            xhr.onreadystatechange = (e)->     
                 if ( 4 == this.readyState ) 
                     pop.complete();
                     console.log(['xhr upload complete', e]);
@@ -157,6 +158,11 @@
         
                     if not obj? then return
 
+                    # memorizzo il vecchio contenuto, in modo da poter eventualmente ripristinare
+                    # NB: visto che gli elementi vengono cancellati, non posso usare direttamente i J.... memorizzati
+                    oldContent = $(that.loadedImgContainer).wrap( "<div></div>" ).parent().html()
+                    $(that.loadedImgContainer).unwrap()
+                                        
                     that.Jimg = $('<img/>').attr('src', obj.preSrc+obj.src).load(
                         ()->
                             w = 400;
@@ -165,31 +171,37 @@
 
                             $(this).css({'width': this.width, 'height': this.height})
                             that.JimgContainer.css({'display' : ''})
-                            div = that.JloadedImgContainer;
+                            div = $(that.loadedImgContainer);
                             # lo svuoto nel caso vi siano altre immagini
                             div.html('');
                             $(this).appendTo(div)
-                            $( document ).trigger( "foowd:update:file" )  
+                            $( document ).trigger( "foowd:update:file", {Jinput : _Jthat } )  
 
+                            this_default = ()->
+                                div.parent().parent().html(oldContent)
+                                return
 
-                            # prevBox = $('#' + that.imgAreaPrefix + '-lightbox');
-                            # if !prevBox.length
-                            #    ## alert('nada')
-                            #    prevBox = $('<div/>', {
-                            #        'id': that.imgAreaPrefix + '-lightbox',
-                            #    }).css({'position':'fixed', 'background-color':'silver', 'left':'0', 'top':'0', 'width':'100%', 'height':'100%', 'overflow':'scroll', 'z-index': '3'})
-                            # div.wrap(prevBox)
+                            prevBox = $('#' + that.imgAreaPrefix + '-lightbox');
+                            if !prevBox.length
+                               ## alert('nada')
+                               prevBox = $('<div/>', {
+                                   'id': that.imgAreaPrefix + '-lightbox',
+                               }).css({'position':'fixed', 'background-color':'black', 'color':'white','left':'0', 'top':'0', 'width':'100%', 'height':'100%', 'overflow':'scroll', 'z-index': '3'})
+                            div.wrap(prevBox)
+                            div.on 'dblclick', ()->
+                                this_default()
+
+                            lol=$('<div/>',{
+                                id: that.imgAreaPrefix + '-close'
+                                html:'<span>Chiudi</span>'
+                                })
+                            div.prepend(lol)
                             
-                            # lol=$('<div/>',{
-                            #     id: that.imgAreaPrefix + '-close'
-                            #     html:'<span>Chiudi</span>'
-                            #     })
-                            # div.prepend(lol)
-                            
-                            # $('#'+that.imgAreaPrefix + '-close')
-                            #     .css({'position':'absolute','top':'0','right':'0'})
-                            #     .on 'click', ()->
-                            #         $(` this `).parent().parent().css({'display':'none'})
+                            $('#'+that.imgAreaPrefix + '-close')
+                                .css({'position':'absolute','top':'20px','right':'20px','font-style':'underline'})
+                                .on 'click', ()->
+                                    # $(` this `).parent().parent().css({'display':'none'})
+                                    this_default()
 
                             that.start()
 
@@ -383,8 +395,6 @@
 
         @crop = oldCrop
             
-        
-
 
         if (@Jimg.width() > @Jimg.height())
             ratio = '3:2'

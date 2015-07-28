@@ -207,7 +207,7 @@
 
     class Phone extends Input
         check: ->
-            re = new RegExp(/^\d{9,11}$/)
+            re = new RegExp(/^\+?\d{8,14}$/)
             v = @el.val().trim()  
             if re.test(v) then true else false
 
