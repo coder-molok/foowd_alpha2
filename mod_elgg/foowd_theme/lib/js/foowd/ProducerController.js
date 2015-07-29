@@ -82,7 +82,7 @@ define(function(require){
 			var result = "";
 			context.map(function(el) {
 				//aggiungo l'immmagine
-				el = utils.addPicture(el);
+				el = utils.addPicture(el, utils.randomPictureSize());
 				//se l'utente è loggato aggiungo un dato al contesto
 				el = utils.setLoggedFlag(el, userId);
 				//l'array prefer contiene tutti gli utenti che hanno espresso la preferenza sull'offerta
