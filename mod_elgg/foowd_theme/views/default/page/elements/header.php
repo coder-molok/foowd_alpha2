@@ -1,4 +1,24 @@
-<div class="foowd-header">foowd_</div>
+<!-- <div class="foowd-header">foowd_</div> -->
+
+<!-- <div class="foowd-navbar">
+</div> -->
+
+<script type="text/javascript">
+require([ 
+	'jquery',
+  	'NavbarController',
+  ],function(){
+
+    require('NavbarController').loadNavbar();
+    var $ = require('jquery');
+
+    $('.foowd-navbar').css({
+    	// 'position':'relative',
+    	// 'z-index': '-1'
+    });
+
+});
+</script>
 
 <?php
 // link back to main site.
