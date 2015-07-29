@@ -179,7 +179,7 @@ define(function(require){
 			    progress = progress > barSize ? barSize : progress;
 
 			    
-			    $(this).css('background-position-x', (halfBar + progress) + 'px');
+			    $(this).css('background-position', (halfBar + progress) + 'px 0');
 			});
 		}
 	   
