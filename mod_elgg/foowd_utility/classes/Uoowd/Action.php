@@ -125,7 +125,7 @@ abstract class Action {
 			?>
 			<div>
 			    <label for="<?php echo $field; ?>"><?php echo elgg_echo($label); ?></label><div style="color:red">
-			    <?php echo elgg_echo($this->{$field.'Error'} );?></div><br />
+			    <?php echo elgg_echo($this->{$field.'Error'} );?></div>
 			    <?php 
 			    	$method = 'hookCreate'.$field;
 			    	if(method_exists($this, $method)){

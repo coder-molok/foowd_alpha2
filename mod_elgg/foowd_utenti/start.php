@@ -28,7 +28,7 @@ function utenti_init(){
     elgg_register_page_handler('foowd_utenti', 'foowd_utenti_handler');
 
     // modifico la registrazione lato admin: non servira' quasi mai
-    elgg_extend_view('forms/useradd', 'register/extend');
+    // elgg_extend_view('forms/useradd', 'register/extend');
 
     // NB: eliminare utente e' un'opzione deprecata da elgg 0.9
     // link utile per implementare https://github.com/Elgg/Elgg/blob/master/actions/avatar/remove.php
@@ -38,14 +38,14 @@ function utenti_init(){
     // sovrascrivo la registrazione lato elgg
     elgg_register_action("useradd", __DIR__ . "/actions/useradd.php", "admin");
 
-    elgg_extend_view('page/elements/sidebar', 'extend/sidebar');
+    // elgg_extend_view('page/elements/sidebar', 'extend/sidebar');
 
     // estensione della sidebar
     elgg_extend_view('forms/login', 'login/extend_social' /*, 450*/);
 
     // pagina del profilo
     // elgg_view_exists('profile/detai');
-    elgg_extend_view('profile/details', 'extend/profile');
+    // elgg_extend_view('profile/details', 'extend/profile');
 
 
     // Carico il mio css di default

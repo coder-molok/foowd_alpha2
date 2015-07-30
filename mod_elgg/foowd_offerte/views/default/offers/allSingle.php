@@ -70,8 +70,7 @@ $of['Description'] = $string;
 
 
 ?>
-
-
+<div class="foowd-offers-single">
 <table class="foowd-all-single-container"><!-- single container -->
 	<tr>
 	<td class="foowd-all-img"><?php echo $img; ?></td>
@@ -94,4 +93,6 @@ $of['Description'] = $string;
 <?php 
 
 	echo $str;
+?>
+</div><!-- foowd-offers-single -->
 

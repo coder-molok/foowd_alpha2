@@ -253,13 +253,18 @@ function start(){
 
     // pulsanti per fare lo switch delle proporzioni
     var strg = '<div id="ratio"><div>ruota la finestra di selezione cliccando sul formato larghezza:altezza</div><div data-ratio="2:3">2:3</div><div data-ratio="3:2">3:2<div/></div>';
-    $('<div/>',{'html':strg}).css({'position':'absolute'}).insertBefore(div)
+    var JratioWrap = $('<div/>',{'html':strg, 'id':'ratio-wrap'}).css({'position':'absolute'}).insertBefore(div)
+
 
     var mystyle =   ' #ratio{max-width:100px;} #ratio [data-ratio]{ margin:15px ; padding: 5px; background-color:#FAE6EF; display: flex; justify-content: center; align-items: center;  }  #ratio [data-ratio]:hover{  background-color:silver;  } #ratio [data-ratio]:active{  background-color:steelblue;  } #ratio [data-ratio="2:3"]{width: 20px; height:30px;} #ratio [data-ratio="3:2"]{width: 30px; height:20px;}';
     if (!$('style#foowd-crop-js').length) $('<style/>',{
             "id":"foowd-crop-js",
             "text": mystyle
         }).appendTo("head");
+    
+    // allineo il box
+    var divleft = div.position().left - JratioWrap.width() - 30;
+    JratioWrap.css({left: divleft })
 
     if(!div.length) alert('div not exists');
     var src = div.attr('src');
@@ -446,10 +451,9 @@ var PrevWindow = function(size ,div, scale){
      // racchiudo tutto in un box che non ha proprieta
      this.Jpre.wrap('<div class=\'prev-single-container\' style="display:inline;"></div>');
      this.prevSingle = $('.prev-single-container').css({'display':'inline-block'});
-     var title = $('<div>Preview '+size+'</div>').css({
+     var title = $('<div class="foowd-back-soft">Preview '+size+'</div>').css({
         'class':"prev-title",
          'style' :"margin-top: 5px, padding: 2px",
-         'background-color': 'rgba(70, 144, 214, 0.8)',
          'width' : this.Jpre.width()
      });
      this.Jpre.parent().css({

@@ -1,9 +1,24 @@
 // <path>\views\default\css> stylus -p .\stylus\main.styl > .\elements\layout_ext.php
-// <path>\views\default\css> stylus .\stylus\main.styl --out ./ --watch
+// <path>\views\default\css> stylus -u nib .\stylus\main.styl --out ./ --watch
 
+@import 'nib'
 @import '../../../lib/css/styl/variables.styl'
 
 foowdTopbar = rgb(200, 16, 99)
+foowdButtonBackground = foowdTopbar
+
+body
+	font-family: AkkuratRegular
+
+h2, h3
+	color: #000000
+
+.foowd-back-strong
+	background-color: foowdTopbar
+
+.foowd-back-soft
+	background-color: foowdPink
+
 
 
 .elgg-page-header
@@ -15,13 +30,6 @@ foowdTopbar = rgb(200, 16, 99)
 		display: flex;
 		align-items: center;
 
-
-.elgg-page-topbar
-	background-image: none;
-	background-color: foowdTopbar;
-	//border-bottom: 0;
-
-
 .foowd-header
 	text-decoration: none;
 	color: #000;
@@ -29,6 +37,102 @@ foowdTopbar = rgb(200, 16, 99)
 	font-size: 24pt;
 	line-height: 24pt;
 	letter-spacing: -1.5pt;
+
+.elgg-page-topbar
+	background-image: none;
+	background-color: foowdTopbar;
+	border-bottom: 0;
+
+
+	
+.elgg-page-body, .foowd-elements-footer
+	padding-top: 20 px
+	width: 60%
+	min-width: 400px
+	margin: auto
+	
+.foowd-elements-footer
+	margin-top: 5px
+	
+	.foowd-footer
+		text-align: center
+		margin: auto
+		border-collapse: collapse // niente spazi tra le celle
+		
+		td
+			border-left: 1px solid black;
+			border-right: 1px solid black;
+			padding: 5px
+			padding-top: 0
+			padding-bottom: 0
+			&:first-child
+				border-left: none
+			&:last-child
+				border-right: none
+
+
+a
+	color: foowdTopbar
+
+
+.elgg-button
+	border-radius: 0px;
+	background: none;
+	background-color: foowdButtonBackground
+	border none
+	text-shadow: none
+	box-shadow: none
+	margin-right: 10px
+	color: #ffffff
+	
+	&:hover 
+		background: none;
+		background-color: foowdPink
+		border none
+		text-shadow: none
+		box-shadow: none
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="file"],
+textarea
+	border-radius: 0
+	&:focus
+		background-color foowdPink
+		border-color: foowdTopbar
+		
+
+
+// Pagina Add
+
+.foowd-page-add,
+.foowd-page-single
+	width: 500px
+	margin: auto
+	
+	.chosen-container-multi
+		width: 150px
+		
+	input[name="Quota"]
+		width: 90px
+		
+	input[name="Price"]
+		width: 120px
+		
+	input[name="Minqt"],
+	input[name="Maxqt"]
+		width: 150px
+		
+	
+	input[name="UnitExtra"]
+		width: 265px
+
+		
+
+	
+	
 	
 
 // elgg menu item da topbar

@@ -13,12 +13,12 @@
 }
 .elgg-form-foowd-offerte-add #quota-preview,
 .elgg-form-foowd-offerte-update #quota-preview {
-  margin: 10px;
-  padding: 5px 10px 5px 15px;
+  padding: 5px;
+  height: 31px;
   font-style: italic;
   background-color: rgba(36, 153, 236, 0.1);
   color: gray;
-  display: inline-block;
+  border: 1px solid #CCC;
 }
 
 .foowd-Tag input {
@@ -74,8 +74,8 @@ div.foowd-all-single-container > div {
 .foowd-title {
   font-weight: bold;
   margin-bottom: 5px;
-  color: #519DD0;
-  font-size: 1.1em;
+  color: #C81063;
+  font-size: 1.2em;
 }
 
 .foowd-description {

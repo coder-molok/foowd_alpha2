@@ -117,12 +117,13 @@ $content .= elgg_view_form($form, array('enctype'=>'multipart/form-data'), $vars
 $sidebar = "";
 
 // layout the page one_sidebar
-$body = elgg_view_layout('one_sidebar', array(
-   'content' => $content
-));
+// $body = elgg_view_layout('one_sidebar', array(
+//    'content' => $content
+// ));
+$body = $content;
 
 // draw the page
-echo elgg_view_page($title, $body);
+echo elgg_view_page($title, '<div class="foowd-page-single">'.$body.'</div>');
 
 
 unset($_SESSION['sticky_forms'][$form]);

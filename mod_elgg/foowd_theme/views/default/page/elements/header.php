@@ -13,8 +13,8 @@ require([
     var $ = require('jquery');
 
     $('.foowd-navbar').css({
-    	// 'position':'relative',
-    	// 'z-index': '-1'
+    	'position':'relative',
+    	'z-index': '0'
     });
 
 });

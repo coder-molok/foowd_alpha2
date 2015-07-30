@@ -20,6 +20,7 @@ $css_url = 'mod/foowd_theme/lib/css/style.css';
 elgg_register_css('special', $css_url);
 elgg_load_css('special');
 
+// my foowd-side style: override default elgg where I need
 $css_url = 'mod/foowd_theme/views/default/css/main.css';
 elgg_register_css('fcore', $css_url);
 elgg_load_css('fcore');
