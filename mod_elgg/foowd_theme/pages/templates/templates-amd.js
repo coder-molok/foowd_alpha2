@@ -1,13 +1,21 @@
 define(['handlebars.runtime'], function(Handlebars) {
   Handlebars = Handlebars["default"];  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['navbar'] = template({"1":function(depth0,helpers,partials,data) {
-    return "          <input type=\"text\" id=\"searchText\" onkeypress=\"window.searchProducts(event)\">\n";
+    return "  <div class=\"navbar-section reverse\" id = \"logo\">\n      <div class=\"foowd-brand reverse\">\n       <span onClick=\"utils.goTo('')\">foowd_</span>\n      </div>\n  </div>\n  <div class = \"navbar-section reverse\" id=\"user-menu-section\">\n      <div id = \"user-menu\">\n          <span onClick=\"utils.goTo('board')\" \n                class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link reverse\">\n          </span>\n          <span onClick = \"utils.goTo('panel')\"\n                class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link reverse\">\n          </span>\n          <span id=\"close-overlay\" \n                class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link reverse\">\n          </span>\n      </div>\n  </div>\n";
+},"3":function(depth0,helpers,partials,data) {
+    var stack1;
+
+  return "  <div class=\"navbar-section\" id = \"logo\">\n      <div class=\"foowd-brand\">\n       <span onClick=\"utils.goTo('')\">foowd_</span>\n"
+    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.search : depth0),{"name":"if","hash":{},"fn":this.program(4, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "      </div>\n  </div>\n  <div class = \"navbar-section\" id=\"user-menu-section\">\n      <div id = \"user-menu\">\n          <span onClick=\"utils.goTo('board')\" \n                class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link\">\n          </span>\n          <span onClick = \"utils.goTo('panel')\"\n                class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link\">\n          </span>\n          <span id=\"trigger-overlay\" \n                class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link\">\n          </span>\n      </div>\n  </div>\n";
+},"4":function(depth0,helpers,partials,data) {
+    return "        <input type=\"text\" id=\"searchText\" onkeypress=\"window.searchProducts(event)\">\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var stack1;
 
-  return "<div class=\"foowd-navbar\">\n    <div class=\"navbar-section\" id = \"logo\">\n        <div id=\"foowd-brand\">\n         <span onClick=\"utils.goTo('')\">foowd_</span>\n"
-    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.search : depth0),{"name":"if","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + "        </div>\n    </div>\n    <div class = \"navbar-section\" id=\"user-menu-section\">\n        <div id = \"user-menu\">\n            <span onClick=\"utils.goTo('board')\" \n                  class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link\">\n            </span>\n            <span onClick = \"NavbarController.goToUserProfile()\"\n                  class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link\">\n            </span>\n            <span id=\"menu\" \n                  class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link\">\n            </span>\n        </div>\n    </div>\n</div>";
+  return ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.reverse : depth0),{"name":"if","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.regular : depth0),{"name":"if","hash":{},"fn":this.program(3, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "");
 },"useData":true});
 templates['preferenceAccountDetails'] = template({"1":function(depth0,helpers,partials,data) {
     var stack1;

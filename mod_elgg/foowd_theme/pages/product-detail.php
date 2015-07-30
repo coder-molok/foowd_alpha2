@@ -62,7 +62,20 @@
 <!--main-->
 <div id="product-detail-main">
 </div>
-
+<div class="overlay overlay-hugeinc">
+  <div class="reverse foowd-navbar">
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Work</a></li>
+      <li><a href="#">Clients</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+</div>
+<script type="text/javascript" src="mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
 <script type="text/javascript">
 require(['ProductDetailController', 'helpers', 'templates'], function(){
   window.ProductDetailController = require('ProductDetailController');

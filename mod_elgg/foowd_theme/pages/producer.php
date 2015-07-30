@@ -70,9 +70,34 @@
 <ul class="grid effect-1" id="producer-wall">
 
 </ul>
+<div class="overlay overlay-hugeinc">
+  <div class="reverse foowd-navbar">
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Work</a></li>
+      <li><a href="#">Clients</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+</div>
+<div class="overlay overlay-hugeinc">
+  <div class="reverse foowd-navbar">
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Work</a></li>
+      <li><a href="#">Clients</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+</div>
 <div class="foowd-alert" role="alert" id="foowd-success"></div>
 <div class="foowd-alert" role="alert" id="foowd-error"></div>
-<script type="text/javascript" src="mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
 <script type="text/javascript" src="mod/foowd_theme/assets/owl.carusel/owl.carousel.min.js"></script>
 <script type="text/javascript">
 require([  
