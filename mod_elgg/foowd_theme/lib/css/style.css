@@ -320,6 +320,12 @@
 .action-minus {
   background: #ebebeb;
 }
+.action-buy {
+  background: #0c5b0d;
+}
+.action-buy i {
+  color: #fff !important;
+}
 #section1 {
   padding: 20px 20px 0 0;
 }

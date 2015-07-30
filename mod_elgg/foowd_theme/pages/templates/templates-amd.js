@@ -93,13 +93,17 @@ templates['productDetail'] = template({"1":function(depth0,helpers,partials,data
     + alias3(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Id","hash":{},"data":data}) : helper)))
     + ", -1)\"></i>\n                </li>\n            </ul>\n";
 },"5":function(depth0,helpers,partials,data) {
-    var helper, alias1=helpers.helperMissing, alias2=this.escapeExpression;
+    var stack1, helper, alias1=helpers.helperMissing, alias2=this.escapeExpression;
 
   return "                <div class = \"commercial-menu-item\">\n                    <div class=\"item-container\">\n                        <span class=\"foowd-icons foowd-icon-heart-edge item-icon\">\n                        </span>\n                        <span class = \"item-title\">carrello</span>\n                        <span class = \"item-data\">x"
     + alias2(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias1),(typeof helper === "function" ? helper.call(depth0,{"name":"totalQt","hash":{},"data":data}) : helper)))
     + "</span>\n                    </div>\n                </div>\n                <div class = \"commercial-menu-item\">\n                    <div class=\"item-container\">\n                        <span class=\"foowd-icons foowd-icon-cart item-icon\"></span>\n                        <span class = \"item-title\">tot</span>\n                        <span class = \"item-data\">\n                            "
     + alias2((helpers.math || (depth0 && depth0.math) || alias1).call(depth0,(depth0 != null ? depth0.totalQt : depth0),"*",(depth0 != null ? depth0.Price : depth0),{"name":"math","hash":{},"data":data}))
-    + "\n                            <span class = \"apex\">€</span>\n                        </span>\n                    </div>\n                </div>\n";
+    + "\n                            <span class = \"apex\">€</span>\n                        </span>\n                    </div>\n                </div>\n"
+    + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias1).call(depth0,(depth0 != null ? depth0.Minqt : depth0),(depth0 != null ? depth0.totalQt : depth0),{"name":"canbuy","hash":{},"fn":this.program(6, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "\n";
+},"6":function(depth0,helpers,partials,data) {
+    return "                    <div class = \"commercial-menu-item\">\n                        <ul class=\"action-icons menu-section\" id = \"preference-action\">\n                            <li class=\"action-buy\">\n                                <i class=\"foowd-icons foowd-icon-plus\"></i>\n                            </li>\n                        </ul>\n                    </div>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var stack1, helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
@@ -158,7 +162,9 @@ templates['productPost'] = template({"1":function(depth0,helpers,partials,data) 
     + ((stack1 = ((helper = (helper = helpers.Description || (depth0 != null ? depth0.Description : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Description","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "\n    </div>\n</li>";
 },"useData":true});
-templates['userPreference'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+templates['userPreference'] = template({"1":function(depth0,helpers,partials,data) {
+    return "                <li class=\"action-buy\">\n                    <i class=\"foowd-icons foowd-icon-plus\"></i>\n                </li>\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var stack1, helper, alias1=this.lambda, alias2=this.escapeExpression, alias3=helpers.helperMissing;
 
   return "<div class=\"preference\">\n   <span class = \"preference-progress-bar\">\n        <span class = \"progress\" \n          data-unit = \"1\"\n          data-progress = \""
@@ -177,7 +183,9 @@ templates['userPreference'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":
     + alias2(((helper = (helper = helpers.Qt || (depth0 != null ? depth0.Qt : depth0)) != null ? helper : alias3),(typeof helper === "function" ? helper.call(depth0,{"name":"Qt","hash":{},"data":data}) : helper)))
     + "</li>\n                <li><span class =\"number-description\">carrello</span></li>\n            </ul>\n            <ul class=\"number-block preference-detail\">\n                <li>"
     + alias2((helpers.math || (depth0 && depth0.math) || alias3).call(depth0,(depth0 != null ? depth0.Qt : depth0),"*",((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Price : stack1),{"name":"math","hash":{},"data":data}))
-    + "€</li>\n                <li><span class =\"number-description\">tot.spesa</span></li>\n            </ul>\n        </div>\n        <div class=\"user-preference-actions user-preference-section\">\n            <ul class=\"action-icons menu-section\" id = \"preference-action\">\n                <li class=\"action-heart\">\n                    <i  class=\"foowd-icons foowd-icon-heart-edge\" \n                        onClick = \"UserBoardController.addPreference("
+    + "€</li>\n                <li><span class =\"number-description\">tot.spesa</span></li>\n            </ul>\n        </div>\n        <div class=\"user-preference-actions user-preference-section\">\n            <ul class=\"action-icons menu-section\" id = \"preference-action\">\n"
+    + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias3).call(depth0,((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.totalQt : stack1),((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Minqt : stack1),{"name":"canbuy","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + "                <li class=\"action-heart\">\n                    <i  class=\"foowd-icons foowd-icon-heart-edge\" \n                        onClick = \"UserBoardController.addPreference("
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
     + ", 1)\"></i>\n                </li>\n                <li class=\"action-minus\">\n                    <i class=\"foowd-icons foowd-icon-minus fw-menu-icon\" \n                       onClick = \"UserBoardController.addPreference("
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
