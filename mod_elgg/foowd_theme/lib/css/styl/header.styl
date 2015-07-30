@@ -9,8 +9,8 @@
   width : 100%
   position : fixed
   top : 0
-  z-index: 10000;
-  box-shadow: 0 0 20px 0 #f0f0f0;
+  z-index: 9000;
+  vendor(box-shadow, 0 0 20px 0 #f0f0f0);
 
 .navbar-section
   column(1/2, cycle: 2)
@@ -18,12 +18,12 @@
   height:100%;
   +below(bp)
     stack()
-    background-color:red;
+    //background-color:red;
 
 #logo
   background-color: foowdPink;
 
-#foowd-brand
+.foowd-brand
   column(1/2)  
   align(vertical)
   margin-left:20px;
@@ -78,5 +78,20 @@
 #price-section
   height: 100%;
   background:trasparent;
+/* REVERSE HEADER (per l'overlay nero)*/
 
-/* Fine stile nuovo header*/
+.reverse
+  vendor(box-shadow, 0 0 0 0 #000000 !important)
+  color: white !important
+  background-color : black !important
+  
+
+
+
+
+
+
+
+
+
+

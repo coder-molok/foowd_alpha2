@@ -1,23 +1,44 @@
-<div class="foowd-navbar">
-    <div class="navbar-section" id = "logo">
-        <div id="foowd-brand">
-         <span onClick="utils.goTo('')">foowd_</span>
-         {{#if search}}
-          <input type="text" id="searchText" onkeypress="window.searchProducts(event)">
-         {{/if}}
-        </div>
-    </div>
-    <div class = "navbar-section" id="user-menu-section">
-        <div id = "user-menu">
-            <span onClick="utils.goTo('board')" 
-                  class="foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link">
-            </span>
-            <span onClick = "NavbarController.goToUserProfile()"
-                  class="foowd-icons foowd-icon-user fw-menu-icon profile-link">
-            </span>
-            <span id="menu" 
-                  class="foowd-icons foowd-icon-menu fw-menu-icon menu-link">
-            </span>
-        </div>
-    </div>
-</div>
+{{#if reverse}}
+  <div class="navbar-section reverse" id = "logo">
+      <div class="foowd-brand reverse">
+       <span onClick="utils.goTo('')">foowd_</span>
+      </div>
+  </div>
+  <div class = "navbar-section reverse" id="user-menu-section">
+      <div id = "user-menu">
+          <span onClick="utils.goTo('board')" 
+                class="foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link reverse">
+          </span>
+          <span onClick = "utils.goTo('panel')"
+                class="foowd-icons foowd-icon-user fw-menu-icon profile-link reverse">
+          </span>
+          <span id="close-overlay" 
+                class="foowd-icons foowd-icon-menu fw-menu-icon menu-link reverse">
+          </span>
+      </div>
+  </div>
+{{/if}}
+
+{{#if regular}}
+  <div class="navbar-section" id = "logo">
+      <div class="foowd-brand">
+       <span onClick="utils.goTo('')">foowd_</span>
+       {{#if search}}
+        <input type="text" id="searchText" onkeypress="window.searchProducts(event)">
+       {{/if}}
+      </div>
+  </div>
+  <div class = "navbar-section" id="user-menu-section">
+      <div id = "user-menu">
+          <span onClick="utils.goTo('board')" 
+                class="foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link">
+          </span>
+          <span onClick = "utils.goTo('panel')"
+                class="foowd-icons foowd-icon-user fw-menu-icon profile-link">
+          </span>
+          <span id="trigger-overlay" 
+                class="foowd-icons foowd-icon-menu fw-menu-icon menu-link">
+          </span>
+      </div>
+  </div>
+{{/if}}

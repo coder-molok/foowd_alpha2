@@ -61,7 +61,7 @@ define(function(require){
 				//parso il JSON dei dati ricevuti
 				var rawProducts = data.body;
 				//utilizo il template sui dati che ho ottenuto
-				var parsedProducts = _applyProductContext(rawProducts, templates.productPost);
+				var parsedProducts = _applyProductContext(rawProducts);
 				//riempio il wall con i prodotti 
 				_fillWall(parsedProducts);
 				$(document).trigger('wall-products-loaded');
@@ -73,12 +73,12 @@ define(function(require){
 		/*
 		 * Funzione che applica il template ripetutamente ai dati di contesto
 		 */
-		function _applyProductContext(context, myTemplate) {
+		function _applyProductContext(context) {
 			var result = "";
 			var userId = utils.getUserId();
 			context.map(function(el) {
 				//aggiungo l'immmagine
-				el = utils.addPicture(el);
+				el = utils.addPicture(el, utils.randomPictureSize());
 				//se l'utente è loggato aggiungo un dato al contesto
 				el = utils.setLoggedFlag(el, userId);
 				//l'array prefer contiene tutti gli utenti che hanno espresso la preferenza sull'offerta
@@ -179,7 +179,7 @@ define(function(require){
 			    progress = progress > barSize ? barSize : progress;
 
 			    
-			    $(this).css('background-position-x', (halfBar + progress) + 'px');
+			    $(this).css('background-position', (halfBar + progress) + 'px 0');
 			});
 		}
 	   

@@ -57,14 +57,27 @@ define(function(require){
                 elgg.forward("/" + page);
             }
 		}
+       /*
+        * Generatore casuale delle dimensioni delle immagini del wall
+        */
+        function randomPictureSize(){
+            var rand = Math.floor(Math.random() * 2);
+            if(rand === 0){
+                return 'medium';
+            }
+            if(rand === 1){
+                return 'big';
+            }
+        }
 
        /*
         * Funzione che aggiunge ad una offerta il membro picture, utilizzato nel template
         */
-        function addPicture(offer){
+        function addPicture(offer, pictureSize){
             var newObj = offer;
+            pictureSize = isValid(pictureSize) ? pictureSize : 'big';
             if(isValid(newObj)){
-                newObj.picture = page.offerFolder + '/User-' + newObj.Publisher + '/' + newObj.Id + '/medium/' + newObj.Id + '.jpg';
+                newObj.picture = page.offerFolder + '/User-' + newObj.Publisher + '/' + newObj.Id + '/' + pictureSize + '/' + newObj.Id + '.jpg';
             }
             return newObj;
         }
@@ -119,15 +132,16 @@ define(function(require){
         }
 
         return{
-        	isValid        : isValid,
-            singleElToObj  : singleElToObj,
-            go2            : go2,
-        	goTo           : goTo,
-            addPicture     : addPicture,
-            setLoggedFlag  : setLoggedFlag,
-            getUserId      : getUserId,
-            isUserLogged   : isUserLogged,
-            getUrlArgs     : getUrlArgs,
+        	isValid           : isValid,
+            singleElToObj     : singleElToObj,
+            go2               : go2,
+        	goTo              : goTo,
+            randomPictureSize : randomPictureSize,
+            addPicture        : addPicture,
+            setLoggedFlag     : setLoggedFlag,
+            getUserId         : getUserId,
+            isUserLogged      : isUserLogged,
+            getUrlArgs        : getUrlArgs,
         };
 
 	})();

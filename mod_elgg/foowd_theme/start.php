@@ -16,6 +16,8 @@ function foowd_theme_init() {
 	elgg_register_page_handler('detail', 'foowd_product_detail_page_handler');
 	elgg_register_page_handler('board', 'foowd_user_preference_page_handler');
 	elgg_register_page_handler('producer', 'foowd_producer_page_handler');
+	elgg_register_page_handler('panel', 'foowd_panel_page_handler');
+
 
 	// caricamento dei moduli Javascript
 	AMD();
@@ -43,6 +45,15 @@ function foowd_producer_page_handler(){
 function foowd_user_preference_page_handler(){
 	if(elgg_get_logged_in_user_entity() != 0){
 		if (!include_once(dirname(__FILE__) . "/pages/user-preferences.php"))
+			return false;
+		return true;
+	}
+	forward("login");
+	return true;
+}
+function foowd_panel_page_handler(){
+	if(elgg_get_logged_in_user_entity() != 0){
+		if (!include_once(dirname(__FILE__) . "/pages/panel.php"))
 			return false;
 		return true;
 	}
