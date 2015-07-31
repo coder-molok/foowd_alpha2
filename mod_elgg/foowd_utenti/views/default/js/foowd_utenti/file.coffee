@@ -21,6 +21,8 @@
 
     fileField = (num)->
         Jrefr = $('label[for="Description"]').parent();
+        if !Jrefr.length then Jrefr = $('.file-box-hook')
+        if !Jrefr.length then alert 'errore'
         content = $('#fileTmpl').html()
         Jrefr.append(content.replace(/-num_par/g, num));
         return

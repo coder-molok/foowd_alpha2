@@ -83,7 +83,9 @@ class ApiOffer extends \Foowd\FApi{
 	public function create($data){
 
 		$offer = new \Offer();
-		// if(!isset($data->Created)) $data->Created = date('Y-m-d H:i:s');
+		date_default_timezone_set('Europe/Rome');
+		if(!isset($data->Created)) $data->Created = date('Y-m-d H:i:s');
+		if(!isset($data->Modified)) $data->Modified = date('Y-m-d H:i:s');
 		$this->ExtToId($data);
 		return $this->offerManager($data, $offer);
 
@@ -173,8 +175,8 @@ class ApiOffer extends \Foowd\FApi{
 		// $offer->setModified('');
 		// \OfferQuery::create()->filterById($data->Id)->update(array('Name'=>$data->Name));
 
-		//date_timezone_set('Europe/Rome');
-		// if(!isset($data->Modified)) $data->Modified = date('Y-m-d H:i:s');
+		date_default_timezone_set('Europe/Rome');
+		if(!isset($data->Modified)) $data->Modified = date('Y-m-d H:i:s');
 		
 		return $this->offerManager($data, $offer);
 	}

@@ -28,11 +28,6 @@ elgg_load_css('fcore');
 
 
 
-
-
-
-
-
 // backward compatability support for plugins that are not using the new approach
 // of routing through admin. See reportedcontent plugin for a simple example.
 if (elgg_get_context() == 'admin') {

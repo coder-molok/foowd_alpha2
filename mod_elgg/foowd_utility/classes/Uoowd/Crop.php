@@ -31,6 +31,7 @@ class Crop{
 		$sticky = $this->sticky;
 
 		if(!is_null($empty)) return;
+
 		
 		// system_message($form);
 
@@ -94,18 +95,23 @@ class Crop{
 		}
 
 		// a questo punto posso impostare i parametri di salvataggio
-		$dir = str_replace('\\', '/', \Uoowd\Param::imgStore());
-		$dir .= 'User-'.elgg_get_logged_in_user_guid().'/';
-		$saveDir = $dir.$guid.'/';
+		// $dir = str_replace('\\', '/', \Uoowd\Param::imgStore());
+		// $dir .= 'User-'.elgg_get_logged_in_user_guid().'/';
+		// $saveDir = $dir.$guid.'/';
+		$saveDir = \Uoowd\Param::pathStore(elgg_get_logged_in_user_guid(),'offers').'/'.$guid.'/';
 		// if (!file_exists($saveDir)) {
 		//     mkdir($saveDir, 0777, true);
 		// }
-		if(! $this->createDir($saveDir)) return;
 
 		// utile da richiamare nel caso voglia cancellare la directory per via di errori successivi
 		// vedi metodo removeDir() e crop() 
-		$this->saveDir = $saveDir;
-
+		if(!isset($this->saveDir)){
+			$this->saveDir = $saveDir;
+		}else{
+			$saveDir = $this->saveDir;
+		}
+		
+		if(! $this->createDir($this->saveDir)) return;
 
 
 		// recupero il file salvato col costruttore
@@ -118,7 +124,12 @@ class Crop{
 		// \Uoowd\Logger::addError($target_file);
 
 		// per il metodo crop()
-		$this->target = $target_file;
+		if(!isset($this->target)){ 
+			$this->target = $target_file;
+		}else{
+			$target_file = $this->target;
+		}
+
 
 		if (move_uploaded_file($File["tmp_name"], $target_file)) {
 		    $r['message'] = "File ". basename( $target_file). " salvato con successo.";
@@ -158,12 +169,15 @@ class Crop{
 	 */
 	public function crop(){
 
+
 		$sticky = $this->sticky;
 		$saveDir = $this->saveDir;
 
 		// se sono qui, allora il salvataggio dell'immagine in saveImg() e' andato bene
 		$target_file = $this->target;
 
+		// elimino i limiti di memoria
+		\ini_set('memory_limit', '-1');
 		// recupero il file, come una string per non farmi problemi in merito al formato
 		$img = imagecreatefromstring(file_get_contents($target_file)); 
 
@@ -308,7 +322,7 @@ class Crop{
 			if($fileInfo->isDot()) continue;
 
 			if($fileInfo->isDir()  && !rmdir($fileInfo->getPathname()) ){
-				\unlinkDir($fileInfo->getPathname());
+				$this->removeDir($fileInfo->getPathname());
 			} 
 
 		    unlink($fileInfo->getPathname());

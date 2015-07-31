@@ -25,7 +25,7 @@ $fadd->createField('Description', 'foowd:description:need', 'input/longtext');
 $fadd->createField('file', 'foowd:file:need', 'input/file', array('id'=>'loadedFile', 'value'=>''));
 
 // div image se esiste img
-$dir = \Uoowd\Param::imgStore().'User-'.$vars['guid'].'/'.$vars['Id'].'/';
+$dir = \Uoowd\Param::pathStore($vars['guid'],'offers').$vars['Id'].'/';
 // echo $dir;
 $style = 'style="display:none;"';
 

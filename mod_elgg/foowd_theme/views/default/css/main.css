@@ -48,6 +48,10 @@ h3 {
   width: 60%;
   min-width: 400px;
   margin: auto;
+  margin-bottom: 40px;
+}
+.elgg-layout .elgg-sidebar {
+  margin-left: 50px;
 }
 .foowd-elements-footer {
   margin-top: 5px;

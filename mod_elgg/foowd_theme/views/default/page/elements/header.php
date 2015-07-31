@@ -3,6 +3,8 @@
 <!-- <div class="foowd-navbar">
 </div> -->
 
+<script type="text/javascript" src="mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
+
 <script type="text/javascript">
 require([ 
 	'jquery',
@@ -10,15 +12,14 @@ require([
   ],function(){
 
     require('NavbarController').loadNavbar();
-    var $ = require('jquery');
-
-    $('.foowd-navbar').css({
-    	'position':'relative',
-    	'z-index': '0'
-    });
-
 });
 </script>
+<style>
+.foowd-navbar{
+	position: relative;
+	z-index:0;
+}
+</style>
 
 <?php
 // link back to main site.

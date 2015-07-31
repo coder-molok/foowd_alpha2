@@ -13,6 +13,10 @@ elgg_register_event_handler('init', 'system', 'utenti_init');
 
 function utenti_init(){
 
+    elgg_register_action("foowd-avatar", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-avatar.php');
+    elgg_register_action("foowd-gallery", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-gallery.php');
+    elgg_register_action("foowd-dati", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-dati.php');
+
     //Triggered after user registers. Return false to delete the user.
 	$user = new \Foowd\User();
     $user->form = 'register';
@@ -75,7 +79,7 @@ function utenti_init(){
  */
 function foowd_utenti_handler($segments){
 
-    forward(REFERER);
+    // forward(REFERER);
     //var_dump($segments);
 
      // test per eventuale login con google+
@@ -92,6 +96,31 @@ function foowd_utenti_handler($segments){
         require(AUTH); 
         // questo require in realta' esegue dei redirect, 
         //pertanto il return sarebbe inutile
+        return true;
+    }
+
+    if($segments[0] === 'profilo'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/profilo.php';
+        return true;
+    }
+
+    if($segments[0] === 'avatar'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/avatar.php';
+        return true;
+    }
+
+    if($segments[0] === 'dati'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/dati.php';
+        return true;
+    }
+
+    if($segments[0] === 'gallery'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/gallery.php';
+        return true;
+    }
+
+    if($segments[0] === 'success'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/success.php';
         return true;
     }
 

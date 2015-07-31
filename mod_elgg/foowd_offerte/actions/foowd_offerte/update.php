@@ -40,7 +40,7 @@ if($_FILES['file']['error']>0){
 	// se e' cambiato imposto il nuovo crop, atrimenti metto un default che non fa nulla
 	$crop = new \Uoowd\Crop('random');
 	if($change){
-		$crop->saveDir = \Uoowd\Param::imgStore().'User-'.get_input('guid').'/'.get_input('Id').'/';
+		$crop->saveDir = \Uoowd\Param::pathStore(get_input('guid'),'offers').get_input('Id').'/';
 		$crop->target = $crop->saveDir.get_input('fileBasename');
 	}
 

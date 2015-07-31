@@ -19,7 +19,9 @@ define(
 		"success": "foowd_offerte/success", /* pagina di redirect in caso di salvataggio andato a buon fine */
 		"single": "foowd_offerte/single",	// visualizzazione singola offerta
 		"profile": "profile",
-		"offerFolder": "../OfferImg/", 		// directory contenente le immagini delle offerte
-		"auth": "foowd_utenti/auth" 		// pagina utilizzata per il login mediante socials
+		"foowdStorage": "../FoowdStorage/",	// directory contenente le immagini delle offerte
+		"auth": "foowd_utenti/auth", 		// pagina utilizzata per il login mediante socials
+		"profile":"foowd_utenti/profilo",	// pagina del profilo
+		"panel": "panel" 					// pagina del pannello
 	}
 );

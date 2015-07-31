@@ -10,6 +10,7 @@ $Pid = \Uoowd\Param::pid(); //plugin id
 $str = '';
 if($r->response){
 	$afterTitle = ", <br/>ecco le offerte che hai pubblicato";
+	// var_dump($r->body);
 	foreach($r->body as $key ){
 		$str .= elgg_view('offers/allSingle',array('single' => (array)$key,'pid'=>$Pid ,'guid'=>elgg_get_logged_in_user_guid()) );
 	}

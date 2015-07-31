@@ -102,11 +102,11 @@ function utility_page_handler($segments) {
 		case 'image-tmp':
 		    include elgg_get_plugins_path() . 'foowd_utility/pages/image-tmp.php';
 		    break;
+		case 'image-path':
+		    include elgg_get_plugins_path() . 'foowd_utility/pages/image-path.php';
+		    break;
 		case 'user-check':
 		    include elgg_get_plugins_path() . 'foowd_utility/pages/user-check.php';
-		    break;
-		case 'panel':
-		    include elgg_get_plugins_path() . 'foowd_utility/pages/panel.php';
 		    break;
 		default:
 			$check = false;

@@ -4,15 +4,15 @@ gatekeeper();
 
 // set the title
 // for distributed plugins, be sure to use elgg_echo() for internationalization
-$title = "Offerta Pubblicata";
+$title = "Dati Salvati";
 
 // start building the main column of the page
 $content = elgg_view_title($title);
 
 
 //$content .= elgg_view('foowd_offerte/add', array(), $vars);
-$content .= '<p>complimenti, hai pullicato la tua offerta con successo.</p>';
-$content .= '<p>Sarai reindirizzato alla lista delle tue offerte entro <span id="counter">5</span> secondi.</p>';
+$content .= '<p>I tuoi dati sono stati modificati con successo.</p>';
+$content .= '<p>Sarai reindirizzato al tuo pannello utente entro <span id="counter">5</span> secondi.</p>';
 ?>
 
 
@@ -20,7 +20,7 @@ $content .= '<p>Sarai reindirizzato alla lista delle tue offerte entro <span id=
 <?php
 $content .= '<p>Se non vuoi attendere oppure non vieni reindirizzato puoi cliccare ';
 $content .= elgg_view('output/url', array(
-				'href' => elgg_get_site_url() . \Uoowd\Param::pid()."/all",
+				'href' => elgg_get_site_url() . \Uoowd\Param::page()->panel,
 			    'text' => elgg_echo('qui'),
 			    // 'class' => 'elgg-button elgg-button-delete',
 		    ))."</p>\n\r<br/>";
@@ -49,7 +49,7 @@ require(['page', 'elgg'], function(page, elgg){
 	    var i = document.getElementById('counter');
 	    i.innerHTML = parseInt(i.innerHTML)-1;
 	    if (parseInt(i.innerHTML)<=0) {
-	        location.href = elgg.get_site_url()+page.all;
+	        location.href = elgg.get_site_url()+page.panel;
 	    }
 	}
 	setInterval(function(){ countdown(); },1000);

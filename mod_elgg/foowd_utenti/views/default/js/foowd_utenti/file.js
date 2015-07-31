@@ -13,6 +13,12 @@
   fileField = function(num) {
     var Jrefr, content;
     Jrefr = $('label[for="Description"]').parent();
+    if (!Jrefr.length) {
+      Jrefr = $('.file-box-hook');
+    }
+    if (!Jrefr.length) {
+      alert('errore');
+    }
     content = $('#fileTmpl').html();
     Jrefr.append(content.replace(/-num_par/g, num));
   };
