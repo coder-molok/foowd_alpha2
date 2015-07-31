@@ -61,7 +61,7 @@
                 {{{Description}}}
             </div>
             <div id="commercial-menu">
-                {{#if logged}}
+            {{#if logged}}
                 <div class = "commercial-menu-item">
                     <div class="item-container">
                         <span class="foowd-icons foowd-icon-heart-edge item-icon">
@@ -80,7 +80,17 @@
                         </span>
                     </div>
                 </div>
-                {{/if}}
+                {{#canbuy Minqt totalQt}}
+                    <div class = "commercial-menu-item">
+                        <ul class="action-icons menu-section" id = "preference-action">
+                            <li class="action-buy">
+                                <i class="foowd-icons foowd-icon-plus"></i>
+                            </li>
+                        </ul>
+                    </div>
+                {{/canbuy}}
+
+            {{/if}}
             </div>
         </div>
     </div>

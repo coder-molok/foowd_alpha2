@@ -30,4 +30,10 @@ define(function(require){
     		return options.fn(this);
     	}
 	});
+
+	Handlebars.registerHelper('canbuy', function(qt, tot, options) {
+		if(qt >= tot){
+			return options.fn(this);
+		}
+	});
 });

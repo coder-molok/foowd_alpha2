@@ -33,6 +33,11 @@
         </div>
         <div class="user-preference-actions user-preference-section">
             <ul class="action-icons menu-section" id = "preference-action">
+            {{#canbuy Offer.totalQt Offer.Minqt}}
+                <li class="action-buy">
+                    <i class="foowd-icons foowd-icon-plus"></i>
+                </li>
+            {{/canbuy}}
                 <li class="action-heart">
                     <i  class="foowd-icons foowd-icon-heart-edge" 
                         onClick = "UserBoardController.addPreference({{Offer.Id}}, 1)"></i>
