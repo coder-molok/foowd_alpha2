@@ -24,7 +24,7 @@ if(!isset($_POST[$par])){
 
 
 
-$dirImg = trim(\Uoowd\Param::userStore($data),'/');
+$dirImg = "/".trim(\Uoowd\Param::userStore($data),'/');
 
 $imgAr = array();
 
@@ -48,7 +48,7 @@ function trovaImg($root, &$img, $dir=null, $deep = null){
 			// var_dump($f);
 
 			$i = $fe[0];
-			if($i === 'avatar') $img['avatar'] = $f;
+			if($i === 'avatar') $img['avatar'][] = $f;
 			if($i === 'profile') $img['profile'][] = $f;
 			if($i === 'offers') $img['offers'][] = $f;
 		}
