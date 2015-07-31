@@ -9,7 +9,6 @@ define(function(require){
 	var Navbar = require('NavbarController');
 	var templates = require('templates');
 	var utils = require('Utils');
-	var WallController = require('WallController');
 
 	var ProducerController = (function(){
 
@@ -20,6 +19,7 @@ define(function(require){
 		var producerInfoContainer = "#producer-profile";
 		var producerWallContainer = "#producer-wall";
 		var postProgressBarClass = ".mini-progress";
+		var carouselId = "#producer-carousel";
 		//userId reference
    		var userId = null;		
 		//prototipo di una prefereza
@@ -57,8 +57,6 @@ define(function(require){
 			_getProducerInfo();
 			//carico il wall con i template
 			_getProducerWall();
-			//carico il carosello immagini
-			_initCarousel();
 			$(document).trigger('producer-page-loaded');
 		}
 
@@ -110,15 +108,19 @@ define(function(require){
 
 		function _getProducerInfo(){
 			var producer = utils.getUrlArgs();
-			if (utils.isValid(producer.producerId)){
-				API.getUserDetails(producer.producerId).then(function(data){
-					var userData = data.body;
-					var parsedUserData = _applyProducerProfleContext(userData);
-					_fillProducerProfile(parsedUserData);
-				}, function(error){	
-					console.log(error);
-				});
-			}
+			API.getUserDetails(producer.producerId).then(function(data){
+				
+				var userData = data.body;
+				
+				userData.slides = _getCarouselItems();
+				
+				var parsedUserData = _applyProducerProfleContext(userData);
+				
+				_fillProducerProfile(parsedUserData);
+			
+			}, function(error){	
+				console.log(error);
+			});
 		}
 
 		function _applyProducerProfleContext(producerData){
@@ -129,6 +131,46 @@ define(function(require){
 			$(producerInfoContainer).html(content);
 			$(document).trigger('producer-info-loaded');
 		}
+
+		function _getCarouselItems(){
+			//TODO : chiamare l'API per ottenere le immagini del carosello
+			var context ={ 
+					"slides" : [
+							{
+								"slide" : "mod/foowd_theme/img/carousel/slide-1.jpg"
+							},{
+								"slide" : "mod/foowd_theme/img/carousel/slide-2.jpg"
+							},{
+								"slide" : "mod/foowd_theme/img/carousel/slide-3.jpg"
+							},{
+								"slide" : "mod/foowd_theme/img/carousel/slide-4.jpg"
+							},{
+								"slide" : "mod/foowd_theme/img/carousel/slide-5.jpg"
+							},
+						]};
+			return context.slides;
+		}
+
+		function _addPreference(offerId, qt) {
+			if(utils.isUserLogged()){
+	    		//setto i parametri della mia preferenza
+				preference.OfferId = offerId;
+				preference.ExternalId = utils.getUserId();
+				preference.Qt = qt;
+				//richiamo l'API per settare la preferenza
+				API.addPreference(preference).then(function(data){
+					_getProducerWall();
+					$(document).trigger('preferenceAdded');
+				}, function(error){
+					$(document).trigger('preferenceError');
+					console.log(error);
+				});
+			}else{
+				utils.goTo('login');
+			}
+
+		}
+
 		/*
 		 * Funzione che riempe le barre di progresso dei prodotti
 		 */
@@ -208,20 +250,23 @@ define(function(require){
 			_fillProgressBars(postProgressBarClass);
 		});
 
+		$(document).on('producer-info-loaded', function(){
+			_initCarousel();
+		});
+
 		//questo evento viene dal plugin che aggiusta il wall nelle colonne desiderate
 		//significa che tutti i post sono stati caricati
 		$(producerWallContainer).on('images-loaded',function(){
 			_adjustOverlays();
 		});
 	   /* Export ----------- */
-	   	window.addPreference = WallController.addPreference;
+	   	window.addPreference = _addPreference;
 	   /*
 		* METODI PUBBLICI ------------------------------------------------------------------------
 		*/
 
 		return{
-			init: 			_stateCheck,
-			addPreference: 	addPreference,
+			init : _stateCheck,
 		};
 
 	})();

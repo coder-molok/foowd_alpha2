@@ -233,16 +233,6 @@ define(function(require){
 				$('#foowd-error').text('La tua ricerca non ha prodotto risultati');
 				$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
 			});
-			//notifica positiva nel caso la preferenza è stata aggiunta correttamente
-			$(document).on('preferenceAdded', function(e){
-				$('#foowd-success').text('La tua preferenza è stata aggiunta');
-				$('#foowd-success').fadeIn(500).delay(3000).fadeOut(500);
-			});
-			//notifica di errore nel caso la preferenza non fosse stata aggiunta
-			$(document).on('preferenceError', function(e){
-				$('#foowd-error').text("C'è stato un errore durante l'aggiuta della tua preferenza");
-				$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
-			});
 		});
 
 		//questo evento viene dal plugin che aggiusta il wall nelle colonne desiderate

@@ -77,7 +77,15 @@ define(function(require){
             var newObj = offer;
             pictureSize = isValid(pictureSize) ? pictureSize : 'big';
             if(isValid(newObj)){
-                newObj.picture = page.offerFolder + '/User-' + newObj.Publisher + '/' + newObj.Id + '/' + pictureSize + '/' + newObj.Id + '.jpg';
+                newObj.picture = page.foowdStorage + '/User-' + newObj.Publisher + '/offers/' + newObj.Id + '/' + pictureSize + '/' + newObj.Id + '.jpg';
+            }
+            return newObj;
+        }
+
+        function addProfilePicture(obj, pic){
+            var newObj = obj;
+            if (isValid(newObj)){
+                newObj.avatar = page.foowdStorage + '/User-' + newObj.Publisher + '/' + pic; 
             }
             return newObj;
         }
@@ -138,6 +146,7 @@ define(function(require){
         	goTo              : goTo,
             randomPictureSize : randomPictureSize,
             addPicture        : addPicture,
+            addProfilePicture : addProfilePicture,
             setLoggedFlag     : setLoggedFlag,
             getUserId         : getUserId,
             isUserLogged      : isUserLogged,
