@@ -1,44 +1,46 @@
 <li class="product-post">
-    <div class="product-post-image-thumbnail">
-        <figure class="tint">
-            <img src="{{picture}}">
-        </figure>
-        <span class="heart-overlay foowd-icons foowd-icon-heart-full"
-              onclick="window.addPreference({{Id}},1)">
-        </span>
-        <div class="product-post-menu">
-            <div onclick="utils.go2('detail', 'productId', {{Id}})">
-               <span class = "foowd-icons foowd-icon-len">
-               </span>
-            </div>
-            <div onclick="utils.go2('producer', 'producerId', {{Publisher}})">
-               <span class = "foowd-icons foowd-icon-blade">
-               </span>
-            </div>
-        </div>
-    </div>
-    <div class="product-post-header">
-        <div class="product-post-name">
-            {{Name}}
-            <br/>
-            <br/>
-            <span class="product-post-unit-price">
-                {{Quota}} {{Unit}} {{UnitExtra}}
-                <br/>
-                {{Price}}€
+    <div class="post-container">
+        <div class="product-post-image-thumbnail">
+            <figure class="tint">
+                <img src="{{picture}}">
+            </figure>
+            <span class="heart-overlay foowd-icons foowd-icon-heart-full"
+                  onclick="window.addPreference({{Id}},1)">
             </span>
-        </div>
-        {{#if logged}}
-            <span class="mini-progress-bar">
-                <span class="mini-progress" data-unit="1" data-progress="{{prefer.Qt}}" data-total="{{Minqt}}"></span>
-            </span>  
-            <div class="product-post-progress-price">
-            {{math totalQt '*' Price}}
-                <span class="apex">€</span>
+            <div class="product-post-menu">
+                <div onclick="utils.go2('detail', 'productId', {{Id}})">
+                   <span class = "foowd-icons foowd-icon-len">
+                   </span>
+                </div>
+                <div onclick="utils.go2('producer', 'producerId', {{Publisher}})">
+                   <span class = "foowd-icons foowd-icon-blade">
+                   </span>
+                </div>
             </div>
-        {{/if}}
-    </div>
-    <div class="product-post-body">
-            {{{Description}}}
+        </div>
+        <div class="product-post-header">
+            <div class="product-post-name">
+                {{Name}}
+                <br/>
+                <br/>
+                <span class="product-post-unit-price">
+                    {{Quota}} {{Unit}} {{UnitExtra}}
+                    <br/>
+                    {{Price}}€
+                </span>
+            </div>
+            {{#if logged}}
+                <span class="mini-progress-bar">
+                    <span class="mini-progress" data-unit="1" data-progress="{{prefer.Qt}}" data-total="{{Minqt}}"></span>
+                </span>  
+                <div class="product-post-progress-price">
+                {{math totalQt '*' Price}}
+                    <span class="apex">€</span>
+                </div>
+            {{/if}}
+        </div>
+        <div class="product-post-body">
+                {{{shortDesc Description}}}
+        </div>
     </div>
 </li>

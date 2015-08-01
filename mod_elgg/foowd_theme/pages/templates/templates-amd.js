@@ -139,39 +139,39 @@ templates['productDetail'] = template({"1":function(depth0,helpers,partials,data
 templates['productPost'] = template({"1":function(depth0,helpers,partials,data) {
     var stack1, helper, alias1=this.escapeExpression, alias2=helpers.helperMissing;
 
-  return "            <span class=\"mini-progress-bar\">\n                <span class=\"mini-progress\" data-unit=\"1\" data-progress=\""
+  return "                <span class=\"mini-progress-bar\">\n                    <span class=\"mini-progress\" data-unit=\"1\" data-progress=\""
     + alias1(this.lambda(((stack1 = (depth0 != null ? depth0.prefer : depth0)) != null ? stack1.Qt : stack1), depth0))
     + "\" data-total=\""
     + alias1(((helper = (helper = helpers.Minqt || (depth0 != null ? depth0.Minqt : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(depth0,{"name":"Minqt","hash":{},"data":data}) : helper)))
-    + "\"></span>\n            </span>  \n            <div class=\"product-post-progress-price\">\n            "
+    + "\"></span>\n                </span>  \n                <div class=\"product-post-progress-price\">\n                "
     + alias1((helpers.math || (depth0 && depth0.math) || alias2).call(depth0,(depth0 != null ? depth0.totalQt : depth0),"*",(depth0 != null ? depth0.Price : depth0),{"name":"math","hash":{},"data":data}))
-    + "\n                <span class=\"apex\">€</span>\n            </div>\n";
+    + "\n                    <span class=\"apex\">€</span>\n                </div>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var stack1, helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
-  return "<li class=\"product-post\">\n    <div class=\"product-post-image-thumbnail\">\n        <figure class=\"tint\">\n            <img src=\""
+  return "<li class=\"product-post\">\n    <div class=\"post-container\">\n        <div class=\"product-post-image-thumbnail\">\n            <figure class=\"tint\">\n                <img src=\""
     + alias3(((helper = (helper = helpers.picture || (depth0 != null ? depth0.picture : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"picture","hash":{},"data":data}) : helper)))
-    + "\">\n        </figure>\n        <span class=\"heart-overlay foowd-icons foowd-icon-heart-full\"\n              onclick=\"window.addPreference("
+    + "\">\n            </figure>\n            <span class=\"heart-overlay foowd-icons foowd-icon-heart-full\"\n                  onclick=\"window.addPreference("
     + alias3(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Id","hash":{},"data":data}) : helper)))
-    + ",1)\">\n        </span>\n        <div class=\"product-post-menu\">\n            <div onclick=\"utils.go2('detail', 'productId', "
+    + ",1)\">\n            </span>\n            <div class=\"product-post-menu\">\n                <div onclick=\"utils.go2('detail', 'productId', "
     + alias3(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Id","hash":{},"data":data}) : helper)))
-    + ")\">\n               <span class = \"foowd-icons foowd-icon-len\">\n               </span>\n            </div>\n            <div onclick=\"utils.go2('producer', 'producerId', "
+    + ")\">\n                   <span class = \"foowd-icons foowd-icon-len\">\n                   </span>\n                </div>\n                <div onclick=\"utils.go2('producer', 'producerId', "
     + alias3(((helper = (helper = helpers.Publisher || (depth0 != null ? depth0.Publisher : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Publisher","hash":{},"data":data}) : helper)))
-    + ")\">\n               <span class = \"foowd-icons foowd-icon-blade\">\n               </span>\n            </div>\n        </div>\n    </div>\n    <div class=\"product-post-header\">\n        <div class=\"product-post-name\">\n            "
+    + ")\">\n                   <span class = \"foowd-icons foowd-icon-blade\">\n                   </span>\n                </div>\n            </div>\n        </div>\n        <div class=\"product-post-header\">\n            <div class=\"product-post-name\">\n                "
     + alias3(((helper = (helper = helpers.Name || (depth0 != null ? depth0.Name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Name","hash":{},"data":data}) : helper)))
-    + "\n            <br/>\n            <br/>\n            <span class=\"product-post-unit-price\">\n                "
+    + "\n                <br/>\n                <br/>\n                <span class=\"product-post-unit-price\">\n                    "
     + alias3(((helper = (helper = helpers.Quota || (depth0 != null ? depth0.Quota : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Quota","hash":{},"data":data}) : helper)))
     + " "
     + alias3(((helper = (helper = helpers.Unit || (depth0 != null ? depth0.Unit : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Unit","hash":{},"data":data}) : helper)))
     + " "
     + alias3(((helper = (helper = helpers.UnitExtra || (depth0 != null ? depth0.UnitExtra : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"UnitExtra","hash":{},"data":data}) : helper)))
-    + "\n                <br/>\n                "
+    + "\n                    <br/>\n                    "
     + alias3(((helper = (helper = helpers.Price || (depth0 != null ? depth0.Price : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Price","hash":{},"data":data}) : helper)))
-    + "€\n            </span>\n        </div>\n"
+    + "€\n                </span>\n            </div>\n"
     + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-    + "    </div>\n    <div class=\"product-post-body\">\n            "
-    + ((stack1 = ((helper = (helper = helpers.Description || (depth0 != null ? depth0.Description : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Description","hash":{},"data":data}) : helper))) != null ? stack1 : "")
-    + "\n    </div>\n</li>";
+    + "        </div>\n        <div class=\"product-post-body\">\n                "
+    + ((stack1 = (helpers.shortDesc || (depth0 && depth0.shortDesc) || alias1).call(depth0,(depth0 != null ? depth0.Description : depth0),{"name":"shortDesc","hash":{},"data":data})) != null ? stack1 : "")
+    + "\n        </div>\n    </div>\n</li>";
 },"useData":true});
 templates['userPreference'] = template({"1":function(depth0,helpers,partials,data) {
     var stack1, helper, alias1=this.lambda, alias2=this.escapeExpression, alias3=helpers.helperMissing;

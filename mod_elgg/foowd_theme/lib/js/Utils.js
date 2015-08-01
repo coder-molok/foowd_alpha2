@@ -60,12 +60,13 @@ define(function(require){
        /*
         * Generatore casuale delle dimensioni delle immagini del wall
         */
-        function randomPictureSize(){
-            var rand = Math.floor(Math.random() * 2);
+        function randomPictureSize(offerId){
+            offerId = isValid(offerId) ? offerId : 0;
+            var monthDay = new Date().getDate();
+            var rand = (offerId + monthDay) % 3;
             if(rand === 0){
                 return 'medium';
-            }
-            if(rand === 1){
+            }else{
                 return 'big';
             }
         }

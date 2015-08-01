@@ -78,7 +78,7 @@ define(function(require){
 			var userId = utils.getUserId();
 			context.map(function(el) {
 				//aggiungo l'immmagine
-				el = utils.addPicture(el, utils.randomPictureSize());
+				el = utils.addPicture(el, utils.randomPictureSize(el.Id));
 				//se l'utente è loggato aggiungo un dato al contesto
 				el = utils.setLoggedFlag(el, userId);
 				//l'array prefer contiene tutti gli utenti che hanno espresso la preferenza sull'offerta
@@ -199,7 +199,7 @@ define(function(require){
 				$(this).css('width',container.width());
 				$(this).css('margin',margins);
 
-
+				$(this).parent().parent().css('width', container.width());
 			});
 		}
 	   /*

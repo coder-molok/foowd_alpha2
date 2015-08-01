@@ -73,6 +73,13 @@ define(function(require){
 		return new Handlebars.SafeString(result);
 	});
 
+	Handlebars.registerHelper('shortDesc', function(text){
+		//clean from html tags
+		var realText = $(text).text();
+		var words = realText.split(' ');
+		return words.splice(0, 30).join(' ').concat("...");
+	});
+
 	Handlebars.registerPartial('carouselItem', function(slide){
 		var context = {"slide" : slide};
 		return Handlebars.templates.carouselItem(context);

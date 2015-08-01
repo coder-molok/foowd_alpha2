@@ -8,7 +8,6 @@
 @require 'variables'
 @require 'mixins'
 
-
 // 1. Wall alignment -------------------------------------------------
 
 .grid
@@ -22,7 +21,7 @@
 .grid li
 	float: left;
 	width: productSize
-	margin: 0px productMargin stdMargin productMargin !important;
+	margin: 10px productMargin stdMargin productMargin !important;
 	opacity: 0;
 
 
@@ -50,6 +49,11 @@
 // 2. Product Post ---------------------------------
 
 postZindexBase = 50
+
+
+.post-container
+	display: table
+	position: relative
 
 .product-post-image-thumbnail
 	display: table
@@ -86,7 +90,7 @@ postZindexBase = 50
 
 .product-post-header
 	top: 0px;
-	span(1)
+	width: 100%
 	position: absolute;
 	z-index: postZindexBase * 3
 
@@ -148,6 +152,12 @@ postZindexBase = 50
 			font-size : 22pt;
 			line-height: 22pt;
 			color: black
+
+.product-post-body
+	font-family: AkkuratRegular
+	font-size: 10pt
+	line-height: 14pt
+	font-align: justify
 	
 
 
