@@ -115,21 +115,24 @@ namespace Uoowd;
 			if (!file_exists($store)) {
 			    mkdir($store, 0777, true);
 			}
-			return $store;
+			return str_replace('\\', '/', $store);
 		}
 
-		public static function userStore($guid){
-			$store = self::imgStore();
+		public static function userStore($guid, $web = null){
+			if($web == null){
+				$store = self::imgStore();
+			}else{
+				$store = elgg_get_site_url().self::page()->foowdStorage;
+			}
 			$store .= 'User-'.$guid.'/';	
-			return $store;
+			return str_replace('\\', '/', $store);
 		}
 
-		public static function pathStore($guid , $str){
-			$ds = DIRECTORY_SEPARATOR;
+		public static function pathStore($guid , $str, $web = null){
 			if($str === 'profile') $dir='profile';
 			if($str === 'avatar') $dir='avatar';
 			if($str === 'offers') $dir='offers';
-			return self::userStore($guid).$dir.$ds;
+			return self::userStore($guid, $web).$dir.'/';
 		}
 
 

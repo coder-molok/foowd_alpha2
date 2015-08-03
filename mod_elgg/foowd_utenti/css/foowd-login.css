@@ -1,0 +1,35 @@
+@import "icomoon/style.css";
+.soc {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.soc li {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+.soc [class^="soc-"] {
+  font-family: 'icomoon';
+  text-decoration: none;
+  margin: 10px;
+}
+.soc [class^="soc-"]:before {
+  font-size: 2em;
+}
+.soc [class^="soc-"]:hover {
+  color: #afdef3;
+}
+.soc .soc-google {
+  color: #d34836;
+}
+.soc .soc-google:before {
+  content: "\ea89";
+}
+.soc .soc-facebook {
+  color: #3b5998;
+}
+.soc .soc-facebook:before {
+  content: "\ea8d";
+}

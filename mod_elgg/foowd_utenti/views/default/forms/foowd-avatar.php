@@ -64,7 +64,6 @@ echo '<div id="image">'.$img.'</div></div></center>';
 <link href="<?php echo elgg_get_site_url ();?>mod/foowd_utility/js/imgareaselect/css/imgareaselect-default.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo elgg_get_site_url ();?>mod/foowd_utility/js/imgareaselect/scripts/jquery.imgareaselect.pack.js"></script>
 
-
 <?php
 
 // elgg_require_js('foowd_utenti/file');

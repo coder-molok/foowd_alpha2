@@ -230,8 +230,18 @@ class FoowdCrop{
 	/**
 	 * se non e' fornito il crop, lo svolge in automatico
 	 * @return [type] [description]
+	 *
+	 * parametri da istanziare alla classe se la si usa come semplice funzione:
+	 * target, il file sorgente... target e' un nome errato, ma ormai lo tengo
+	 * saveDir, directory contenente il file originale
+	 * cropSize , l'array dei crop contenente x1, x2, y1, y2
+	 *
+	 * opzionale:
+	 * baseFile, il nome del file privo di estensione. se non impostato usa il nome del target
 	 */
 	public function crop(){
+
+		$this->status = true;
 
 		$sticky = $this->sticky;
 		$saveDir = $this->saveDir;
@@ -239,6 +249,8 @@ class FoowdCrop{
 		// se sono qui, allora il salvataggio dell'immagine in saveImg() e' andato bene
 		$target_file = $this->target;
 
+		// elimino i limiti di memoria
+		\ini_set('memory_limit', '-1');
 		// recupero il file, come una string per non farmi problemi in merito al formato
 		$img = imagecreatefromstring(file_get_contents($target_file)); 
 
@@ -253,6 +265,7 @@ class FoowdCrop{
 		    return;
 		}
 		
+
 		$w = imagesx($img);
 		$h = imagesy($img);
 
@@ -282,11 +295,13 @@ class FoowdCrop{
 
 		// salvo i dati del crop in formato json nella directory dell'immagine 
 		// utile per riformarla quando si modifica un'offerta
+		// var_dump($saveDir.pathinfo ( $target_file , PATHINFO_FILENAME).'-crop.json');
 		file_put_contents($saveDir.pathinfo ( $target_file , PATHINFO_FILENAME).'-crop.json', json_encode($crop));
 
 		// dimensioni di default thumbnail
 		$imsize['small'] = 100;
-		$imsize['medium'] = 400;
+		$imsize['medium'] = 250;
+		$imsize['big'] = 400;
 
 
 		// ora svolgo il crop e salvo le immagini
@@ -307,7 +322,7 @@ class FoowdCrop{
 		    imagecopyresampled ( $thumb , $img , 0 , 0 , (int)($crop['x1']*$w) , (int)($crop['y1']*$h) , $l , $l*$cropRatio, (int) ($crop['w']*$w) , (int) ($crop['h']*$h) );
 		    
 		    // $Fname = $sdir.basename($target_file);
-		    $Fname = $sdir.$this->baseFile.'.jpg';
+		    $Fname = isset($this->baseFile) ? $sdir.$this->baseFile.'.jpg' : $sdir.basename($target_file);
 		    imagejpeg( $thumb , $Fname );
 
 		    if(!$this->emptyDirBut($sdir, basename($Fname))) return;

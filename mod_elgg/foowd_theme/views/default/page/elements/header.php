@@ -3,15 +3,15 @@
 <!-- <div class="foowd-navbar">
 </div> -->
 
-<script type="text/javascript" src="mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
+<script type="text/javascript" src="<?php echo elgg_get_site_url();?>/mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
 
 <script type="text/javascript">
 require([ 
-	'jquery',
   	'NavbarController',
   ],function(){
 
     require('NavbarController').loadNavbar();
+
 });
 </script>
 <style>

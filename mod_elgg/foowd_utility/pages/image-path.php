@@ -23,8 +23,7 @@ if(!isset($_POST[$par])){
 
 
 
-
-$dirImg = "/".trim(\Uoowd\Param::userStore($data),'/');
+$dirImg = rtrim(\Uoowd\Param::userStore($data),'/');
 
 $imgAr = array();
 

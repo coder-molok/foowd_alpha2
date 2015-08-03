@@ -119,8 +119,6 @@ document.getElementById('loadedFile').addEventListener('change', function(e) {
                 
         if ( 4 == this.readyState ) {
             
-            pop.complete();
-            
             console.log(['xhr upload complete', e]);
             // console.log(JSON.stringify(xhr.responseText));
 
@@ -146,6 +144,7 @@ document.getElementById('loadedFile').addEventListener('change', function(e) {
             // alert($img.width + ' x ' + $img.height);
 
             img.onload = function(){
+                pop.complete();
 
                 // assegno alla variablie globale che verra' utilizzata in start();
                 $img = this;
@@ -486,7 +485,40 @@ function preview(img, selection) {
 }
 
 
-// vedere foowd_offerte.css per gli elementi
+// carico un css di default
+var thisCss = 'foowd-avatar-crop-css';
+if( $('#'+thisCss).length <= 0){
+    $("head").append("<style id=\""+thisCss+"\"></style>");
+
+    /* lightbox loader image in crop.js */
+    var mystyle =   '.foowd-lightbox { '
+                    +   'background-color: rgba(30, 20, 30, 0.8);'
+                    +   'background: rgba(30, 20, 30, 0.8);'
+                    +   'color: rgba(30, 20, 30, 0.8);'
+                    +   'position: fixed;'
+                    +   'top: 0;'
+                    +   'width: 100%;'
+                    +   'height: 100%;'
+                    +   'z-index: 5;'
+                    +   '}'
+        
+                    +'.progress-container {'
+                    +   'position: relative;'
+                    +   'width: auto;'
+                    +   'display: inline;'
+                    +   'text-align: center;'
+                    +   '}'
+        
+                    +'.progress-value {'
+                    +   'margin-left: 15px;'
+                    +   'font-weight: bold;'
+                    +   'color: #34BD34;'
+                    +   '}'
+    ;
+    
+    $("#"+thisCss).text(mystyle);
+}
+
 var LoadPop =  function(){
 
     // lightbox

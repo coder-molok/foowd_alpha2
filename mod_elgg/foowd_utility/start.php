@@ -20,6 +20,8 @@ function utility_init(){
 	// quando salvo i settings del plugin
 	elgg_register_plugin_hook_handler('setting', 'plugin', 'update_json');
 
+	// wrap home pages
+	elgg_register_page_handler('cookie-policy','foowd_policy_page_handler');
 	// wrap plugin pages
 	elgg_register_page_handler('foowd_utility', 'utility_page_handler');
 
@@ -56,6 +58,12 @@ function utility_init(){
 	elgg_define_js('foowdCropLightbox',[
 	    'src' => '/mod/foowd_utility/js/foowd-crop-lightbox/foowd-crop-lightbox.js',
 	    'deps'=> array('jquery', 'elgg')
+	]);
+
+	// gestione del form
+	elgg_define_js('foowdCookiePolicy',[
+	    'src' => '/mod/foowd_utility/js/foowd-cookie-policy/foowdCookiePolicy.js',
+	    'deps'=> array('jquery')
 	]);
 
 }
@@ -105,6 +113,9 @@ function utility_page_handler($segments) {
 		case 'image-path':
 		    include elgg_get_plugins_path() . 'foowd_utility/pages/image-path.php';
 		    break;
+		case 'image-profile':
+		    include elgg_get_plugins_path() . 'foowd_utility/pages/image-profile.php';
+		    break;
 		case 'user-check':
 		    include elgg_get_plugins_path() . 'foowd_utility/pages/user-check.php';
 		    break;
@@ -115,4 +126,10 @@ function utility_page_handler($segments) {
 
 	return $check;
 
+}
+
+
+function foowd_policy_page_handler($segments) {
+	include elgg_get_plugins_path() . 'foowd_utility/pages/cookie-policy.php';
+	return true;
 }

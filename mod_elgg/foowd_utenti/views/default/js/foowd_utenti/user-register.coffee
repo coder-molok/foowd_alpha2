@@ -3,7 +3,7 @@
 
     if typeof define is 'function' and define.amd
         # AMD. Register as an anonymous module.
-        define(['elgg','jquery', 'handlebars', 'crop', 'foowdFormCheck', 'foowdCropLightbox', 'foowd_utenti/file'], factory);
+        define(['elgg','jquery', 'handlebars', 'crop', 'foowdFormCheck', 'foowd_utenti/gallery-crop-lightbox', 'foowd_utenti/file'], factory);
     else if typeof exports is 'object'
         module.exports = factory();
     else
@@ -17,7 +17,8 @@
     elgg = require('elgg')
     $ = require('jquery')
     # crop = require('crop')
-    crop = require('foowdCropLightbox')
+    # crop = require('foowdCropLightbox')
+    crop = require('foowd_utenti/gallery-crop-lightbox')
     form = require('foowdFormCheck')
 
     Jhook = $('#offer-hook')

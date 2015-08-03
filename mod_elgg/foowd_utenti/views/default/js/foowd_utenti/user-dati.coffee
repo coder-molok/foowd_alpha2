@@ -21,7 +21,7 @@
     form = require('foowdFormCheck')
 
     Jhook = $('#offer-hook')
-    Jform = Jhook.parents('form:first')
+    # Jform = Jhook.parents('form:first')
     Jgenre = $('[name=Genre]')
     
 
@@ -31,7 +31,7 @@
 
     # preimpostati
     # fielsd
-    flds = ['email', 'username', 'name' , 'password']
+    flds = ['Email', 'username', 'name' , 'password']
     for va in flds
         JmailLabel = $('[name="'+va+'"]').prevUntil('','label');
         JmailLabel.attr({'for': va})
@@ -43,10 +43,11 @@
     ajaxCheck = ()->
 
         v = @el.val().trim()
-        url=elgg.get_site_url()+'foowd_utility/user-check?'+@key+'='+v
+        url=elgg.get_site_url()+'foowd_utility/user-check?foowd-dati=true&guid='+elgg.get_logged_in_user_guid()+'&'+@key+'='+v
         console.log v
         elgg.get(url, {
             success: (resultText, success, xhr)=>
+                console.log(resultText)
                 obj = JSON.parse(resultText)
                 if typeof obj is 'object'
                     # console.log obj
@@ -68,10 +69,10 @@
 
     # NB: il campo "name" non e' univoco: utenti differenti possono avere lo stesso Name
     # ar.push({cls:'Text', obj:{inpt:'form.elgg-form-foowd-dati input[name="name"]', key:'name', el:'form.elgg-form-foowd-dati [name="name"]', msg: 'foowd:user:name:error'} })
-    ar.push({cls:'Email', obj:{inpt:'form.elgg-form-foowd-dati [name="email"]', key:'email', el:'form.elgg-form-foowd-dati [name="email"]', msg: 'foowd:user:email:error', 'afterCheck': ajaxCheck} })
+    # ar.push({cls:'Email', obj:{inpt:'form.elgg-form-foowd-dati [name="Email"]', key:'Email', el:'form.elgg-form-foowd-dati [name="Email"]', msg: 'foowd:user:email:error', 'afterCheck': ajaxCheck} })
     
     # almeno di 4 lettere
-    ar.push({cls:'Text', obj:{inpt:'form.elgg-form-foowd-dati [name="username"]', key:'username', el:'form.elgg-form-foowd-dati [name="username"]', msg: 'foowd:user:username:error', 'afterCheck': ajaxCheck} })
+    # ar.push({cls:'Text', obj:{inpt:'form.elgg-form-foowd-dati [name="username"]', key:'username', el:'form.elgg-form-foowd-dati [name="username"]', msg: 'foowd:user:username:error', 'afterCheck': ajaxCheck} })
     
     # ar.push({cls:'Text', obj:{inpt:'form.elgg-form-foowd-dati [name="password"]', key:'password', el:'form.elgg-form-foowd-dati [name="password"]', msg: 'foowd:user:password:error', 'afterCheck': ajaxCheck} })
     ar.push({cls:'Phone', obj:{inpt:'form.elgg-form-foowd-dati [name="Phone"]', key:'Phone', el:'form.elgg-form-foowd-dati [name="Phone"]', msg: 'foowd:user:phone:error'} })
@@ -82,7 +83,8 @@
     fct.pushFromArray(ar)
     # di default nessuno di questi e' obbligatorio
 
-    needAr = ['email', 'username','name']
+    # needAr = ['email', 'username','name']
+    needAr = ['Piva', 'Phone', 'Location', 'Address', 'company']
     noNeedAr = ['Site']
     setNeed = (bool)->
         fct.each( ()->
@@ -101,32 +103,11 @@
     # nascondo il campo "name" in quanto forviante
     $('.mtm').css({'display':'none'})
     
-    form.submit 'form.elgg-form-foowd-dati',
-        ()->
-            alert('sub')
-
-            # impongo che nome visualizzato sia il nick name
-            Jname = $('form.elgg-form-foowd-dati [name="name"]').val($('form.elgg-form-foowd-dati [name="username"]').val())
-
-
-            pwd = $('form.elgg-form-foowd-dati [name="password"]').val()
-            pwd2 = $('form.elgg-form-foowd-dati [name="password2"]').val()
-            
-            if pwd.length <= 5  
-                alert "La password deve contentere almeno 6 caratteri"
-                return false
-
-            if pwd isnt pwd2 
-                alert "Attenzione, le password non combaciano"
-                return false
-
-            return true
+    form.submit 'form.elgg-form-foowd-dati'
 
     
-
-
-    Jgenre.on "change", ()->
-        if $(this).val() is 'offerente'
+    checkGenre = ()->
+        if this.val() is 'offerente'
             Jhook.fadeIn('slow')
             setNeed(true)
         else
@@ -135,8 +116,14 @@
             # procedura di azzeramento del form extra
             $('#offer-hook').find('[type="text"]').each(
                 ()->
-                    $(this).val('')
+                    this.val('')
             )
- 
+
+    checkGenre.call(Jgenre)
+    
+    Jgenre.on "change", ()->
+        checkGenre.call($(this))
+
+
 
 );

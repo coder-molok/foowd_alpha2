@@ -81,6 +81,75 @@ return array(
 	// utility
 	// 'foowd:offer:image-tmp' => 'foowd_offerte/image-tmp',
 	'foowd:image-tmp' => 'foowd_utility/image-tmp',
+	'foowd:image-profile' => 'foowd_utility/image-profile',
+
+
+
+/**
+ * Account
+ */
+
+	'account' => "Account",
+	'settings' => "Settings",
+	'tools' => "Tools",
+	'settings:edit' => 'Edit settings',
+
+	'register' => "Register",
+	'registerok' => "You have successfully registered for %s.",
+	'registerbad' => "Your registration was unsuccessful because of an unknown error.",
+	'registerdisabled' => "Registration has been disabled by the system administrator",
+	'register:fields' => 'All fields are required',
+
+	'registration:notemail' => 'The email address you provided does not appear to be a valid email address.',
+	'registration:userexists' => 'That username already exists',
+	'registration:usernametooshort' => 'Your username must be a minimum of %u characters long.',
+	'registration:usernametoolong' => 'Your username is too long. It can have a maximum of %u characters.',
+	'registration:passwordtooshort' => 'The password must be a minimum of %u characters long.',
+	'registration:dupeemail' => 'This email address has already been registered.',
+	'registration:invalidchars' => 'Sorry, your username contains the character %s which is invalid. The following characters are invalid: %s',
+	'registration:emailnotvalid' => 'Sorry, the email address you entered is invalid on this system',
+	'registration:passwordnotvalid' => 'Sorry, the password you entered is invalid on this system',
+	'registration:usernamenotvalid' => 'Sorry, the username you entered is invalid on this system',
+
+	'adduser' => "Aggiungi utente",
+	'adduser:ok' => "Hai aggiunto con successo un nuovo utente.",
+	'adduser:bad' => "Non e' possibile creare il nuovo utente.",
+
+	'user:set:name' => "Account name settings",
+	'user:name:label' => "Nome visualizzato",
+	'user:name:success' => "Cambiato con successo il nome visualizzato nel sistema.",
+	'user:name:fail' => "Non e' possibile cambiare il nome visualizzato nel sistema.",
+
+	'user:set:password' => "Password dell'account",
+	'user:current_password:label' => 'Password corrente',
+	'user:password:label' => "Nuova password",
+	'user:password2:label' => "Nuova password ancora",
+	'user:password:success' => "Password modificata",
+	'user:password:fail' => "Non puoi cambiare la tua password di system.",
+	'user:password:fail:notsame' => "Le due password non sono uguali!",
+	'user:password:fail:tooshort' => "La password e' troppo corta!",
+	'user:password:fail:incorrect_current_password' => "La password inserita e' errata.",
+	'user:changepassword:unknown_user' => 'Utente non valido.',
+	'user:changepassword:change_password_confirm' => "Questo cambiera' la tua password.",
+
+	'user:set:language' => "Impostazioni di Lingua",
+	'user:language:label' => "Lingua",
+	'user:language:success' => "Language settings have been updated.",
+	'user:language:fail' => "Language settings could not be saved.",
+
+	'user:username:notfound' => 'Username %s non trovato.',
+
+	'user:password:lost' => 'Password smarrita',
+	'user:password:changereq:success' => 'Successfully requested a new password, email sent',
+	'user:password:changereq:fail' => 'Could not request a new password.',
+
+	'user:password:text' => 'To request a new password, enter your username or email address below and click the Request button.',
+
+	'user:persistent' => 'Remember me',
+
+	'walled_garden:welcome' => 'Welcome to',
+
+
 
 
 
@@ -117,7 +186,7 @@ return array(
  * Errors
  */
 
-	'exception:title' => "Errore Fatale.",
+	'exception:title' => "Fatal Error.",
 	'exception:contact_admin' => 'An unrecoverable error has occurred and has been logged. Contact the site administrator with the following information:',
 
 	'actionundefined' => "The requested action (%s) was not defined in the system.",
@@ -421,14 +490,14 @@ return array(
 /**
  * Notifications
  */
-	'notifications:usersettings' => "Notification settings",
+	'notifications:usersettings' => "Impostazioni notifiche",
 	'notification:method:email' => 'Email',
 
-	'notifications:usersettings:save:ok' => "Notification settings were successfully saved.",
-	'notifications:usersettings:save:fail' => "There was a problem saving the notification settings.",
+	'notifications:usersettings:save:ok' => "Impostazioni notifiche modificate con successo.",
+	'notifications:usersettings:save:fail' => "E' avvenuto un problema nel salvataggio delle impostazioni delle notifiche.",
 
 	'notification:subject' => 'Notification about %s',
-	'notification:body' => 'View the new activity at %s',
+	'notification:body' => "Visualizza le attivita' a %s",
 
 /**
  * Search
@@ -456,70 +525,6 @@ return array(
 	'group:search:finishblurb' => "To view more, click here.",
 	'search:go' => 'Go',
 	'userpicker:only_friends' => 'Only friends',
-
-/**
- * Account
- */
-
-	'account' => "Account",
-	'settings' => "Settings",
-	'tools' => "Tools",
-	'settings:edit' => 'Edit settings',
-
-	'register' => "Register",
-	'registerok' => "You have successfully registered for %s.",
-	'registerbad' => "Your registration was unsuccessful because of an unknown error.",
-	'registerdisabled' => "Registration has been disabled by the system administrator",
-	'register:fields' => 'All fields are required',
-
-	'registration:notemail' => 'The email address you provided does not appear to be a valid email address.',
-	'registration:userexists' => 'That username already exists',
-	'registration:usernametooshort' => 'Your username must be a minimum of %u characters long.',
-	'registration:usernametoolong' => 'Your username is too long. It can have a maximum of %u characters.',
-	'registration:passwordtooshort' => 'The password must be a minimum of %u characters long.',
-	'registration:dupeemail' => 'This email address has already been registered.',
-	'registration:invalidchars' => 'Sorry, your username contains the character %s which is invalid. The following characters are invalid: %s',
-	'registration:emailnotvalid' => 'Sorry, the email address you entered is invalid on this system',
-	'registration:passwordnotvalid' => 'Sorry, the password you entered is invalid on this system',
-	'registration:usernamenotvalid' => 'Sorry, the username you entered is invalid on this system',
-
-	'adduser' => "Add User",
-	'adduser:ok' => "You have successfully added a new user.",
-	'adduser:bad' => "The new user could not be created.",
-
-	'user:set:name' => "Account name settings",
-	'user:name:label' => "Display name",
-	'user:name:success' => "Successfully changed display name on the system.",
-	'user:name:fail' => "Could not change display name on the system.",
-
-	'user:set:password' => "Account password",
-	'user:current_password:label' => 'Current password',
-	'user:password:label' => "New password",
-	'user:password2:label' => "New password again",
-	'user:password:success' => "Password changed",
-	'user:password:fail' => "Could not change your password on the system.",
-	'user:password:fail:notsame' => "The two passwords are not the same!",
-	'user:password:fail:tooshort' => "Password is too short!",
-	'user:password:fail:incorrect_current_password' => 'The current password entered is incorrect.',
-	'user:changepassword:unknown_user' => 'Invalid user.',
-	'user:changepassword:change_password_confirm' => 'This will change your password.',
-
-	'user:set:language' => "Language settings",
-	'user:language:label' => "Language",
-	'user:language:success' => "Language settings have been updated.",
-	'user:language:fail' => "Language settings could not be saved.",
-
-	'user:username:notfound' => 'Username %s not found.',
-
-	'user:password:lost' => 'Lost password',
-	'user:password:changereq:success' => 'Successfully requested a new password, email sent',
-	'user:password:changereq:fail' => 'Could not request a new password.',
-
-	'user:password:text' => 'To request a new password, enter your username or email address below and click the Request button.',
-
-	'user:persistent' => 'Remember me',
-
-	'walled_garden:welcome' => 'Welcome to',
 
 /**
  * Administration
@@ -933,7 +938,7 @@ These changes will only affect new users on the site.',
 	'makeadmin' => "Make admin",
 	'removeadmin' => "Remove admin",
 
-	'option:yes' => "Yes",
+	'option:yes' => "Si",
 	'option:no' => "No",
 
 	'unknown' => 'Unknown',
@@ -1228,16 +1233,16 @@ Once you have logged in, we highly recommend that you change your password.
  * Emails
  */
 		
-	'email:from' => 'From',
-	'email:to' => 'To',
-	'email:subject' => 'Subject',
-	'email:body' => 'Body',
+	'email:from' => 'Da',
+	'email:to' => 'A',
+	'email:subject' => 'Oggetto',
+	'email:body' => 'Corpo',
 	
-	'email:settings' => "Email settings",
-	'email:address:label' => "Email address",
+	'email:settings' => "Impostazioni email",
+	'email:address:label' => "Indirizzo email",
 
-	'email:save:success' => "New email address saved. Verification is requested.",
-	'email:save:fail' => "New email address could not be saved.",
+	'email:save:success' => "Nuovo indirizzo email salvato con successo. E' richiesta la verifica.",
+	'email:save:fail' => "Il nuovo indirizzo email non puo' essere salvato.",
 
 	'friend:newfriend:subject' => "%s has made you a friend!",
 	'friend:newfriend:body' => "%s has made you a friend!

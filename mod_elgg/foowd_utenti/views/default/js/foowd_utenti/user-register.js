@@ -3,7 +3,7 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
-    return define(['elgg', 'jquery', 'handlebars', 'crop', 'foowdFormCheck', 'foowdCropLightbox', 'foowd_utenti/file'], factory);
+    return define(['elgg', 'jquery', 'handlebars', 'crop', 'foowdFormCheck', 'foowd_utenti/gallery-crop-lightbox', 'foowd_utenti/file'], factory);
   } else if (typeof exports === 'object') {
     return module.exports = factory();
   } else {
@@ -13,7 +13,7 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
   var $, Jform, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, crop, elgg, fct, file, flds, form, i, len, needAr, noNeedAr, setNeed, va;
   elgg = require('elgg');
   $ = require('jquery');
-  crop = require('foowdCropLightbox');
+  crop = require('foowd_utenti/gallery-crop-lightbox');
   form = require('foowdFormCheck');
   Jhook = $('#offer-hook');
   Jform = Jhook.parents('form:first');

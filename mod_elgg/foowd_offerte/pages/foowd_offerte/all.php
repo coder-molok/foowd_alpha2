@@ -8,7 +8,8 @@ $r = \Uoowd\API::Request('offer?'.$appendUrl, 'GET');
 $Pid = \Uoowd\Param::pid(); //plugin id
 
 $str = '';
-if($r->response){
+
+if($r->response && !empty($r->body)){
 	$afterTitle = ", <br/>ecco le offerte che hai pubblicato";
 	// var_dump($r->body);
 	foreach($r->body as $key ){
@@ -29,7 +30,7 @@ $title = 'foowd-all';
 
 
 // start building the main column of the page
-$content = elgg_view_title($user->name.$afterTitle.'<br/><br/>');
+$content = elgg_view_title($user->username.$afterTitle.'<br/><br/>');
 
 //$content .= get_config('limit').'test';
 

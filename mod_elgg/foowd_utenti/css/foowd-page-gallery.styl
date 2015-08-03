@@ -1,0 +1,43 @@
+@import '../../foowd_theme/lib/css/styl/variables.styl'
+
+.foowd-page-gallery
+	
+	#gallery-container
+		
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	
+		.single
+			display: inline-block;
+			position: relative;
+			margin 10px
+			
+			img
+				max-height: 135px;
+				border: 1px solid foowdTopbar
+
+			a
+				display: none;
+				position: absolute;
+				z-index: 1;
+
+			.delete
+				position: absolute;
+				bottom: 0;
+				left:0;
+				width: 50%;
+			
+			.change
+				position: absolute;
+				bottom: 0;
+				left:50%;
+				width: 50%;
+		
+			.change, .delete
+				border 1px solid foowdTopbar
+				text-align: center;
+			
+	.file-box-hook
+		max-width 400px
+		margin-top 20px

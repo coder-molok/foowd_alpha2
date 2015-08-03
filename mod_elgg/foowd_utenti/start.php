@@ -50,12 +50,11 @@ function utenti_init(){
     // pagina del profilo
     // elgg_view_exists('profile/detai');
     // elgg_extend_view('profile/details', 'extend/profile');
-
-
+    
     // Carico il mio css di default
-    $css =  'mod/'.\Uoowd\Param::pid()."/css/foowd_utenti.css";
-    elgg_register_css('userFoowdCss', $css );
-    elgg_load_css('userFoowdCss');  // If you uncomment this, the css will load every page a user views
+    $css =  'mod/'.\Uoowd\Param::pid()."/css/foowd-utenti.css";
+    elgg_register_css('foowd-utenti', $css );
+    elgg_load_css('foowd-utenti');
 
 
     // dipendenze
@@ -96,6 +95,7 @@ function foowd_utenti_handler($segments){
         require(AUTH); 
         // questo require in realta' esegue dei redirect, 
         //pertanto il return sarebbe inutile
+        \Uoowd\Logger::addError('dopo require auth');
         return true;
     }
 

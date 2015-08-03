@@ -20,6 +20,7 @@ class SocialLogin{
 			$text = 'Risulti gia\' loggato. A breve verrai indirizzato alla Home Page.';
 			$text .= '<script>window.setTimeout(function(){location.href = "'.elgg_get_site_url().'"}, 5000);</script>';
 			echo elgg_view_page('Redirect', $text);
+			system_message('Risulti gia\' loggato.');
 			sleep(5);
 		} 
 
@@ -163,7 +164,8 @@ class SocialLogin{
 			login($user[0]  , true/* , $persistent = false */  );
 			$user[0]->save();
 			system_message('Login effettuato con successo!');
-			forward();// to homepage
+			// reindirizzo per via del successo della chiamata
+			forward(elgg_get_site_url().\Uoowd\Param::page()->panel);// to homepage
 		}
 
 	}

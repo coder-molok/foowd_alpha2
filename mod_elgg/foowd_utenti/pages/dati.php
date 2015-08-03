@@ -1,13 +1,15 @@
 <?php
 
 ob_start();
-var_dump($_SESSION['sticky_forms']['foowd-dati']);
+// var_dump($_SESSION['sticky_forms']['foowd-dati']);
 unset($_SESSION['sticky_forms']['foowd-dati']);
 
 $guid=elgg_get_logged_in_user_guid();
 
+$user = elgg_get_logged_in_user_entity();
+
 $form = 'foowd-dati';
-$f = new \Foowd\Action\UserSave($vars);
+$f = new \Foowd\Action\UserSave();
 
 // prendo i valori del vecchio post e li carico nel form
 $data['type']='search';
@@ -33,8 +35,10 @@ if($r->response){
 
 $vars = $f->prepare_form_vars($form);
 $vars['guid']=$guid;
+$vars['Email'] = $user->email;
 
-var_dump($vars);
+// var_dump($user);
+// var_dump($vars);
 
 
 echo elgg_view_form('foowd-dati', array(), $vars);
@@ -43,4 +47,7 @@ $body = ob_get_contents();
 
 ob_end_clean();
 
+$body = '<div class="foowd-page-dati">'.$body.'</div>';
+
 echo elgg_view_page('Settings',$body);
+

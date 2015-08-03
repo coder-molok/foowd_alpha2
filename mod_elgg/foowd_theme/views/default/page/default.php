@@ -21,12 +21,12 @@ elgg_register_css('special', $css_url);
 elgg_load_css('special');
 
 // my foowd-side style: override default elgg where I need
-$css_url = 'mod/foowd_theme/views/default/css/main.css';
-elgg_register_css('fcore', $css_url);
-elgg_load_css('fcore');
+$css_url = 'mod/foowd_theme/views/css/foowd-main.css';
+elgg_register_css('foowd-main', $css_url);
+elgg_load_css('foowd-main');
 
 
-
+elgg_require_js('foowd-main');
 
 // backward compatability support for plugins that are not using the new approach
 // of routing through admin. See reportedcontent plugin for a simple example.

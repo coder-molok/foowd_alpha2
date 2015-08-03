@@ -10,16 +10,15 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
     return root.returnExports = factory();
   }
 })(this, function() {
-  var $, Jform, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, elgg, fct, flds, form, i, len, needAr, noNeedAr, setNeed, va;
+  var $, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, checkGenre, elgg, fct, flds, form, i, len, needAr, noNeedAr, setNeed, va;
   elgg = require('elgg');
   $ = require('jquery');
   form = require('foowdFormCheck');
   Jhook = $('#offer-hook');
-  Jform = Jhook.parents('form:first');
   Jgenre = $('[name=Genre]');
   fct = form.factory();
   ar = [];
-  flds = ['email', 'username', 'name', 'password'];
+  flds = ['Email', 'username', 'name', 'password'];
   for (i = 0, len = flds.length; i < len; i++) {
     va = flds[i];
     JmailLabel = $('[name="' + va + '"]').prevUntil('', 'label');
@@ -30,12 +29,13 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
   ajaxCheck = function() {
     var url, v;
     v = this.el.val().trim();
-    url = elgg.get_site_url() + 'foowd_utility/user-check?' + this.key + '=' + v;
+    url = elgg.get_site_url() + 'foowd_utility/user-check?foowd-dati=true&guid=' + elgg.get_logged_in_user_guid() + '&' + this.key + '=' + v;
     console.log(v);
     return elgg.get(url, {
       success: (function(_this) {
         return function(resultText, success, xhr) {
           var obj, ret;
+          console.log(resultText);
           obj = JSON.parse(resultText);
           if (typeof obj === 'object') {
             ret = obj[_this.key];
@@ -53,26 +53,6 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
       })(this)
     });
   };
-  ar.push({
-    cls: 'Email',
-    obj: {
-      inpt: 'form.elgg-form-foowd-dati [name="email"]',
-      key: 'email',
-      el: 'form.elgg-form-foowd-dati [name="email"]',
-      msg: 'foowd:user:email:error',
-      'afterCheck': ajaxCheck
-    }
-  });
-  ar.push({
-    cls: 'Text',
-    obj: {
-      inpt: 'form.elgg-form-foowd-dati [name="username"]',
-      key: 'username',
-      el: 'form.elgg-form-foowd-dati [name="username"]',
-      msg: 'foowd:user:username:error',
-      'afterCheck': ajaxCheck
-    }
-  });
   ar.push({
     cls: 'Phone',
     obj: {
@@ -119,7 +99,7 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
     }
   });
   fct.pushFromArray(ar);
-  needAr = ['email', 'username', 'name'];
+  needAr = ['Piva', 'Phone', 'Location', 'Address', 'company'];
   noNeedAr = ['Site'];
   setNeed = function(bool) {
     return fct.each(function() {
@@ -137,32 +117,21 @@ var indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i 
   $('.mtm').css({
     'display': 'none'
   });
-  form.submit('form.elgg-form-foowd-dati', function() {
-    var Jname, pwd, pwd2;
-    alert('sub');
-    Jname = $('form.elgg-form-foowd-dati [name="name"]').val($('form.elgg-form-foowd-dati [name="username"]').val());
-    pwd = $('form.elgg-form-foowd-dati [name="password"]').val();
-    pwd2 = $('form.elgg-form-foowd-dati [name="password2"]').val();
-    if (pwd.length <= 5) {
-      alert("La password deve contentere almeno 6 caratteri");
-      return false;
-    }
-    if (pwd !== pwd2) {
-      alert("Attenzione, le password non combaciano");
-      return false;
-    }
-    return true;
-  });
-  return Jgenre.on("change", function() {
-    if ($(this).val() === 'offerente') {
+  form.submit('form.elgg-form-foowd-dati');
+  checkGenre = function() {
+    if (this.val() === 'offerente') {
       Jhook.fadeIn('slow');
       return setNeed(true);
     } else {
       Jhook.fadeOut('slow');
       setNeed(false);
       return $('#offer-hook').find('[type="text"]').each(function() {
-        return $(this).val('');
+        return this.val('');
       });
     }
+  };
+  checkGenre.call(Jgenre);
+  return Jgenre.on("change", function() {
+    return checkGenre.call($(this));
   });
 });

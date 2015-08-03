@@ -5,6 +5,17 @@ h2,
 h3 {
   color: #000;
 }
+.elgg-system-messages li[class*="elgg-state-"] {
+  padding: 20px;
+}
+.elgg-system-messages li.elgg-state-success {
+  color: #008000;
+  background-color: #cfffd8;
+}
+.elgg-system-messages li.elgg-state-error {
+  color: #f00;
+  background-color: #fae6ef;
+}
 .foowd-back-strong {
   background-color: #c81063;
 }
@@ -74,8 +85,32 @@ h3 {
 .foowd-elements-footer .foowd-footer td:last-child {
   border-right: none;
 }
-a {
+a,
+a:link,
+a:visited,
+a:active {
   color: #c81063;
+}
+a.elgg-button,
+a:link.elgg-button,
+a:visited.elgg-button,
+a:active.elgg-button,
+a.elgg-menu-content,
+a:link.elgg-menu-content,
+a:visited.elgg-menu-content,
+a:active.elgg-menu-content {
+  color: #fff;
+}
+a.elgg-button:hover,
+a:link.elgg-button:hover,
+a:visited.elgg-button:hover,
+a:active.elgg-button:hover,
+a.elgg-menu-content:hover,
+a:link.elgg-menu-content:hover,
+a:visited.elgg-menu-content:hover,
+a:active.elgg-menu-content:hover {
+  color: #c81063;
+  background-color: #fae6ef;
 }
 .elgg-button {
   -webkit-border-radius: 0px;

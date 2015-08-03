@@ -76,6 +76,16 @@
         alert('rivedere questa parte');
       };
     })(this));
+    $(document).unbind('foowd:load:img').on('foowd:load:img', function(e, obj) {
+      var Jimg, pop;
+      Jimg = $(obj.imgSelector);
+      obj.Jbox = Jimg;
+      obj.action = 'update';
+      pop = new LoadPop();
+      obj.preSrc = '';
+      obj.src = Jimg.attr('data-host');
+      return that.loadSrc(obj, pop);
+    });
     this.JfileInput.on('change', function(e) {
       var _Jthat, file, formData, key, pop, ref, value, xhr;
       _Jthat = $(this);
@@ -119,9 +129,7 @@
         };
       }
       xhr.onreadystatechange = function(e) {
-        var oldContent;
         if (4 === this.readyState) {
-          pop.complete();
           try {
             obj = JSON.parse(this.responseText);
           } catch (_error) {
@@ -135,68 +143,93 @@
           if (!obj.response) {
             console.log(obj.msg);
           }
-          oldContent = $(that.loadedImgContainer).wrap("<div></div>").parent().html();
-          $(that.loadedImgContainer).unwrap();
-          return that.Jimg = $('<img/>').attr('src', obj.preSrc + obj.src).load(function() {
-            var div, lol, prevBox, this_default, w;
-            w = 400;
-            this.height *= w / this.width;
-            this.width = w;
-            $(this).css({
-              'width': this.width,
-              'height': this.height
-            });
-            that.JimgContainer.css({
-              'display': ''
-            });
-            div = $(that.loadedImgContainer);
-            div.html('');
-            $(this).appendTo(div);
-            $(document).trigger("foowd:update:file", {
-              Jinput: _Jthat
-            });
-            this_default = function() {
-              div.parent().parent().html(oldContent);
-            };
-            prevBox = $('#' + that.imgAreaPrefix + '-lightbox');
-            if (!prevBox.length) {
-              prevBox = $('<div/>', {
-                'id': that.imgAreaPrefix + '-lightbox'
-              }).css({
-                'position': 'fixed',
-                'background-color': 'black',
-                'color': 'white',
-                'left': '0',
-                'top': '0',
-                'width': '100%',
-                'height': '100%',
-                'overflow': 'scroll',
-                'z-index': '3'
-              });
-            }
-            div.wrap(prevBox);
-            div.on('dblclick', function() {
-              return this_default();
-            });
-            lol = $('<div/>', {
-              id: that.imgAreaPrefix + '-close',
-              html: '<span>Chiudi</span>'
-            });
-            div.prepend(lol);
-            $('#' + that.imgAreaPrefix + '-close').css({
-              'position': 'absolute',
-              'top': '20px',
-              'right': '20px',
-              'font-style': 'underline'
-            }).on('click', function() {
-              return this_default();
-            });
-            that.start();
-          });
+          obj.Jbox = _Jthat;
+          obj.action = 'add';
+          return that.loadSrc(obj, pop);
         }
       };
       xhr.open('post', that.urlF, true);
       xhr.send(formData);
+    });
+  };
+  Gobj.prototype.loadSrc = function(obj, pop) {
+    var oldContent, that;
+    that = this;
+    oldContent = $(that.loadedImgContainer).wrap("<div></div>").parent().html();
+    $(that.loadedImgContainer).unwrap();
+    if (typeof obj.src === void 0) {
+      console.log('sorgente non definita');
+      return;
+    }
+    return that.Jimg = $('<img/>').attr('src', obj.preSrc + obj.src).load(function() {
+      var div, lol, prevBox, this_default, w;
+      pop.complete();
+      w = 400;
+      this.height *= w / this.width;
+      this.width = w;
+      $(this).css({
+        'width': this.width,
+        'height': this.height
+      });
+      that.JimgContainer.css({
+        'display': ''
+      });
+      div = $(that.loadedImgContainer);
+      div.html('');
+      $(this).appendTo(div);
+      $(document).trigger("foowd:update:file", {
+        Jinput: obj.Jbox
+      });
+      this_default = function() {
+        div.parent().parent().html(oldContent);
+      };
+      prevBox = $('#' + that.imgAreaPrefix + '-lightbox');
+      if (!prevBox.length) {
+        prevBox = $('<div/>', {
+          'id': that.imgAreaPrefix + '-lightbox'
+        }).css({
+          'position': 'fixed',
+          'background-color': 'black',
+          'color': 'white',
+          'left': '0',
+          'top': '0',
+          'width': '100%',
+          'height': '100%',
+          'overflow': 'scroll',
+          'z-index': '3'
+        });
+      }
+      div.wrap(prevBox);
+      div.on('dblclick', function() {
+        return this_default();
+      });
+      lol = $('<div/>', {
+        id: that.imgAreaPrefix + '-close',
+        html: '<span class="lightbox-hover">Chiudi</span>'
+      });
+      div.prepend(lol);
+      $('#' + that.imgAreaPrefix + '-close').css({
+        'position': 'absolute',
+        'top': '20px',
+        'right': '20px',
+        'font-style': 'underline'
+      }).on('click', function() {
+        var Jbox;
+        obj.crop = {};
+        if (!obj.src.match(/^http/)) {
+          obj.src = null;
+        }
+        Jbox = div.parent().parent().parent();
+        Jbox.find('[data-crop]').each(function() {
+          var key, val;
+          key = $(this).attr('data-crop');
+          val = $(this).val();
+          return obj.crop[key] = val;
+        });
+        $(document).trigger('foowd:lightbox:close', obj);
+        return this_default();
+      });
+      that.start();
     });
   };
   scale = {
@@ -214,36 +247,41 @@
     }
   };
   LoadPop = function() {
-    var thisCss;
+    var that, thisCss;
     thisCss = 'foowd-avatar-crop-css';
     if ($('#' + thisCss).length <= 0) {
       $("head").append("<style id=\"" + thisCss + "\"></style>");
       
-            var mystyle =   '.foowd-lightbox { '
-                            +   'background-color: rgba(30, 20, 30, 0.8);'
-                            +   'background: rgba(30, 20, 30, 0.8);'
-                            +   'color: rgba(30, 20, 30, 0.8);'
-                            +   'position: fixed;'
-                            +   'top: 0;'
-                            +   'width: 100%;'
-                            +   'height: 100%;'
-                            +   'z-index: 5;'
-                            +   '}'
-                
-                            +'.progress-container {'
-                            +   'position: relative;'
-                            +   'width: auto;'
-                            +   'display: inline;'
-                            +   'text-align: center;'
-                            +   '}'
-                
-                            +'.progress-value {'
-                            +   'margin-left: 15px;'
-                            +   'font-weight: bold;'
-                            +   'color: #34BD34;'
-                            +   '}'
-            ;
-            ;
+			var mystyle =   '.foowd-lightbox { '
+							+   'background-color: rgba(30, 20, 30, 0.8);'
+							+   'background: rgba(30, 20, 30, 0.8);'
+							+   'color: rgba(30, 20, 30, 0.8);'
+							+   'position: fixed;'
+							+   'top: 0;'
+							+   'width: 100%;'
+							+   'height: 100%;'
+							+   'z-index: 5;'
+							+   '}'
+				
+							+'.progress-container {'
+							+   'position: relative;'
+							+   'width: auto;'
+							+   'display: inline;'
+							+   'text-align: center;'
+							+   '}'
+				
+							+'.progress-value {'
+							+   'margin-left: 15px;'
+							+   'font-weight: bold;'
+							+   'color: #34BD34;'
+							+   '}'
+
+							+'.lightbox-hover:hover {'
+							+	'cursor: pointer;'
+							+	'cursor: hand;'
+							+   '}'
+			;
+			;
       $("#" + thisCss).text(mystyle);
     }
     if (!(this instanceof LoadPop)) {
@@ -273,6 +311,10 @@
     this.complete = function() {
       this.div.remove();
     };
+    that = this;
+    $(this.div).dblclick(function() {
+      return that.complete();
+    });
   };
   $wSize = (function() {
     var d, e, g, w, x, y;
@@ -288,7 +330,7 @@
     };
   })();
   Gobj.prototype.start = function() {
-    var ar, decimals, i, j, len, oldCrop, opts, ratio, src, tmp, val, variable, x;
+    var ar, decimals, i, j, l, len, oldCrop, opts, r, ratio, src, tmp, val, variable, x, y;
     decimals = 100000;
     if (this.Jimg.width() >= this.Jimg.height()) {
       scale.x = Math.round(decimals * this.Jimg.width() / this.Jimg.height()) / decimals;
@@ -306,55 +348,50 @@
     }
     i = this.preWindows.length;
     while(i--){
-            this.preWindows[i].remove();
-            this.preWindows.splice(i);
-        };
+			this.preWindows[i].remove();
+			this.preWindows.splice(i);
+		};
     scale.setScale(100);
     this.preWindows.push(new PrevWindow('small', this.Jimg, scale, this));
     scale.setScale(250);
     this.preWindows.push(new PrevWindow('medium', this.Jimg, scale, this));
     x = document.querySelectorAll('[class^=imgareaselect]');
     for ( i = 0; i < x.length; i++) {
-            x[i].remove();
-        };
+			x[i].remove();
+		};
     scale.setL(this.Jimg.width(), this.Jimg.height());
     ar = ['x1', 'x2', 'y1', 'y2'];
     oldCrop = {};
+    ratio = '5:3';
+    r = [];
+    r['5:3'] = {
+      'h': 0.54,
+      'w': 0.9
+    };
     this.Jcrop = {};
     for (i = j = 0, len = ar.length; j < len; i = ++j) {
       variable = ar[i];
       tmp = ar[i];
       val = $('input[name="crop_' + this.JfileInput.attr('name') + '[' + tmp + ']"]').val();
       this.Jcrop[tmp] = $('input[name="crop_' + this.JfileInput.attr('name') + '[' + tmp + ']"]');
-      if (val === '') {
-        switch (tmp) {
-          case 'x1':
-            oldCrop.x1 = Math.round((this.Jimg.width() - scale.l) / 2);
-            break;
-          case 'x2':
-            oldCrop.x2 = Math.round(scale.l + oldCrop.x1);
-            break;
-          case 'y1':
-            oldCrop.y1 = Math.round((this.Jimg.height() - scale.l) / 2);
-            break;
-          case 'y2':
-            oldCrop.y2 = Math.round(scale.l + oldCrop.y1);
-        }
-      } else {
-        if (tmp === 'x1' || tmp === 'x2') {
-          oldCrop[tmp] = val * this.Jimg.width();
-        }
-        if (tmp === 'y1' || tmp === 'y2') {
-          oldCrop[tmp] = val * this.Jimg.height();
-        }
+      l = Math.min(this.Jimg.width(), this.Jimg.height());
+      x = Math.round(l * r[ratio].w);
+      y = Math.round(l * r[ratio].h);
+      switch (tmp) {
+        case 'x1':
+          oldCrop.x1 = Math.round((this.Jimg.width() - x) / 2);
+          break;
+        case 'x2':
+          oldCrop.x2 = oldCrop.x2 = Math.round(x + oldCrop.x1);
+          break;
+        case 'y1':
+          oldCrop.y1 = Math.round((this.Jimg.height() - y) / 2);
+          break;
+        case 'y2':
+          oldCrop.y2 = Math.round(y + oldCrop.y1);
       }
     }
     this.crop = oldCrop;
-    if (this.Jimg.width() > this.Jimg.height()) {
-      ratio = '3:2';
-    } else {
-      ratio = '2:3';
-    }
     this.Jimg.parent().css({
       'position': 'relative'
     });
@@ -455,8 +492,8 @@
   };
   preview = function(img, selection) {
     for( i in this.preWindows){
-            this.preWindows[i].draw(img, selection);
-        };
+			this.preWindows[i].draw(img, selection);
+		};
     var normalized, property, value;
     normalized = {};
     normalized.x1 = selection.x1 / img.width;

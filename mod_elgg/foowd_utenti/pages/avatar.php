@@ -13,4 +13,6 @@ $body = ob_get_contents();
 
 ob_end_clean();
 
+$body = '<div class="foowd-page-avatar">'.$body.'</div>';
+
 echo elgg_view_page('Avatar',$body);

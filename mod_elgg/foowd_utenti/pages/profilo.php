@@ -70,7 +70,22 @@ echo elgg_view('output/url', array(
 ?>
 </div>
 
+
+<div>
+<?php
+echo '<h3>Impostazioni</h3>';
+echo '<p>visualizza e modifica le impostazioni del tuo profilo, come password e email.</p>';
+echo elgg_view('output/url', array(
+		// associate to the action
+		'href' => elgg_get_site_url().'settings/user/'.elgg_get_logged_in_user_entity()->username,
+	    'text' => elgg_echo('Impostazioni'),
+	    'class' => 'elgg-button',
+    ));
+?>
 </div>
+
+
+</div><!-- box -->
 
 </div><!-- foowd-profilo-container -->
 <?php

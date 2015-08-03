@@ -2,6 +2,20 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+
+### 02/08/2015
+
+- completamento iss #70, #99,#107, #108, #111
+
+- inserimento pagine di navigazione
+
+- inserimento cookie policy e riabilitazione social logins 
+
+- personalizzazione stili principali
+
+
+
+
 ### 27/07/2015
 
 - adattata [issue#111](https://github.com/coder-molok/foowd_alpha2/issues/111)

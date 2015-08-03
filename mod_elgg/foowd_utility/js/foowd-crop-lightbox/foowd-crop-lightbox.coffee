@@ -37,6 +37,7 @@
     ##### prima parte:  reperimento di url, spedizione a quest'ultimo e ritorno dell'immagine 
     #                   che viene inserita in un div
     
+    # formData
 
     Gobj.prototype.setInit = (obj)->
         this.nocss = false
@@ -113,6 +114,13 @@
             # preparo i dati da inviare
             formData = new FormData();
             formData.append(this.name, file);
+
+            # extra parameter passed via init
+            if that.formData?
+                # console.log 'formdata'
+                for key, value of that.formData
+                    formData.append(key, value)
+
             # console.log(JSON.stringify(formData));
         
             #guid = document.querySelector('input[name=guid]');
@@ -148,15 +156,20 @@
             xhr.onreadystatechange = (e)->     
                 if ( 4 == this.readyState ) 
                     pop.complete();
-                    console.log(['xhr upload complete', e]);
+                    # console.log(['xhr upload complete', e]);
+                    # console.log this.responseText
                     # console.log(JSON.stringify(xhr.responseText));
     
                     try
                         obj = JSON.parse(this.responseText)
                     catch e
                        alert('invalid json')
+                       console.log this.responseText
         
                     if not obj? then return
+
+                    if not obj.response then console.log obj.msg
+
 
                     # memorizzo il vecchio contenuto, in modo da poter eventualmente ripristinare
                     # NB: visto che gli elementi vengono cancellati, non posso usare direttamente i J.... memorizzati
@@ -256,6 +269,43 @@
 
     # funzione/classe globale
     LoadPop =  ()->
+
+         # carico un css di default
+        thisCss = 'foowd-avatar-crop-css';
+        if( $('#'+thisCss).length <= 0)
+            $("head").append("<style id=\""+thisCss+"\"></style>");
+
+            # /* lightbox loader image in crop.js */
+            `
+            var mystyle =   '.foowd-lightbox { '
+                            +   'background-color: rgba(30, 20, 30, 0.8);'
+                            +   'background: rgba(30, 20, 30, 0.8);'
+                            +   'color: rgba(30, 20, 30, 0.8);'
+                            +   'position: fixed;'
+                            +   'top: 0;'
+                            +   'width: 100%;'
+                            +   'height: 100%;'
+                            +   'z-index: 5;'
+                            +   '}'
+                
+                            +'.progress-container {'
+                            +   'position: relative;'
+                            +   'width: auto;'
+                            +   'display: inline;'
+                            +   'text-align: center;'
+                            +   '}'
+                
+                            +'.progress-value {'
+                            +   'margin-left: 15px;'
+                            +   'font-weight: bold;'
+                            +   'color: #34BD34;'
+                            +   '}'
+            ;
+            `
+            
+            $("#"+thisCss).text(mystyle);
+
+
         # nel caso lo voglia utilizzare come una funzione
         if (!(this instanceof LoadPop))
                 return new LoadPop()
