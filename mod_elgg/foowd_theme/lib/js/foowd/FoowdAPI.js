@@ -9,6 +9,7 @@ define(function(require){
 
       //url di base delle API
       var baseUrl = settings.api;
+      var siteUrl = elgg.get_site_url();
 
       //struttura della chiamata alle offerete 
       var offers = {
@@ -128,6 +129,29 @@ define(function(require){
              });
             return deferred.promise();
          },
+         
+         getUserPics : function(userId){
+            var deferred = $.Deferred();
+            var requestURL = siteUrl + "foowd_utility/image-path/";
+            var requestData = {};
+            requestData.ExternalId = userId;
+
+            $.ajax({
+                type : "POST",
+                url : requestURL,
+                contentType : "application/json; charset=utf-8",
+                data : JSON.stringify(requestData),
+                dataType : "json",
+                success : function(data, status, jqXHR) {
+                   deferred.resolve(data);
+                },
+                error : function(jqXHR, status) {
+                   console.log("error: "+status);
+                }
+             });
+            return deferred.promise();
+
+         }
      };
   })();
 

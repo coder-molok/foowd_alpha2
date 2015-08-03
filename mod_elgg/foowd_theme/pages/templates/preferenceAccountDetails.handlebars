@@ -1,5 +1,10 @@
 <div id = "user-details">
-    <img src="../profile.png" id = "user-avatar">
+{{#if user.avatar}}
+    <img src="{{user.avatar}}" id = "user-avatar">
+{{/if}}
+{{#unless user.avatar}}
+    <img src="mod/foowd_theme/img/placeholder-user.jpg" id = "user-avatar">
+{{/unless}}
     <div id="user-info">
         <div id="username">
             {{user.name}}

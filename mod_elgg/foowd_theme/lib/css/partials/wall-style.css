@@ -18,7 +18,7 @@
 .grid li {
   float: left;
   width: 318px;
-  margin: 0px 10px 20px 10px !important;
+  margin: 10px 10px 20px 10px !important;
   opacity: 0;
 }
 .grid li.shown,
@@ -37,6 +37,10 @@
   100% {
     opacity: 1;
   }
+}
+.post-container {
+  display: table;
+  position: relative;
 }
 .product-post-image-thumbnail {
   display: table;
@@ -92,23 +96,9 @@
 }
 .product-post-header {
   top: 0px;
-  *zoom: 1;
-  float: left;
-  clear: none;
-  text-align: inherit;
   width: 100%;
-  margin-left: 0%;
-  margin-right: 0%;
   position: absolute;
   z-index: 150;
-}
-.product-post-header:before,
-.product-post-header:after {
-  content: '';
-  display: table;
-}
-.product-post-header:after {
-  clear: both;
 }
 .product-post-name {
   *zoom: 1;
@@ -200,6 +190,12 @@
   font-size: 22pt;
   line-height: 22pt;
   color: #000;
+}
+.product-post-body {
+  font-family: AkkuratRegular;
+  font-size: 10pt;
+  line-height: 14pt;
+  font-align: justify;
 }
 @-moz-keyframes fadeIn {
   100% {

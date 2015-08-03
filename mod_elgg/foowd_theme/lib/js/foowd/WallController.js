@@ -78,7 +78,7 @@ define(function(require){
 			var userId = utils.getUserId();
 			context.map(function(el) {
 				//aggiungo l'immmagine
-				el = utils.addPicture(el, utils.randomPictureSize());
+				el = utils.addPicture(el, utils.randomPictureSize(el.Id));
 				//se l'utente è loggato aggiungo un dato al contesto
 				el = utils.setLoggedFlag(el, userId);
 				//l'array prefer contiene tutti gli utenti che hanno espresso la preferenza sull'offerta
@@ -199,7 +199,7 @@ define(function(require){
 				$(this).css('width',container.width());
 				$(this).css('margin',margins);
 
-
+				$(this).parent().parent().css('width', container.width());
 			});
 		}
 	   /*
@@ -231,16 +231,6 @@ define(function(require){
 			//notifica errore nel caso la ricerca testuale non ha prodotto risultati
 			$(document).on('failedSearch', function(e){
 				$('#foowd-error').text('La tua ricerca non ha prodotto risultati');
-				$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
-			});
-			//notifica positiva nel caso la preferenza è stata aggiunta correttamente
-			$(document).on('preferenceAdded', function(e){
-				$('#foowd-success').text('La tua preferenza è stata aggiunta');
-				$('#foowd-success').fadeIn(500).delay(3000).fadeOut(500);
-			});
-			//notifica di errore nel caso la preferenza non fosse stata aggiunta
-			$(document).on('preferenceError', function(e){
-				$('#foowd-error').text("C'è stato un errore durante l'aggiuta della tua preferenza");
 				$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
 			});
 		});

@@ -22,26 +22,36 @@ infoHeight = 75px
     display: block;
     width: 100%;
     height: auto;
+    background: rgba(0,0,0,0.8);
 }
 .owl-controls
-	position: relative
-	height : 50px
-	top: -120px
+	background: rgba(0,0,0,0.2);
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 0 !important;
+	padding :0;
+	width: 100%;
+	height: 100%;
+	align-items: flex-end
+
 .owl-nav
 	position:relative
-	top: -140px
+	
 .owl-prev, .owl-next
+	column(1/2)
 	color: white
 	font-size:70pt
+	margin-top:150px
 .owl-prev
-	column(1/2)
 	text-align:left
 .owl-next
-	column(1/2)
 	text-align:right
 .owl-dots
-	height : 100%
-
+	height: 15px;
+	width: 100%;
+	position: absolute;
+	bottom: 5px;
 .owl-dot
 	height: 15px
 	width: 15px

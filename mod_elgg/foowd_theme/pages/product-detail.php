@@ -62,6 +62,8 @@
 <!--main-->
 <div id="product-detail-main">
 </div>
+<!-- Pezzo che deve essere comune a tutte le pagine -->
+
 <div class="overlay overlay-hugeinc">
   <div class="reverse foowd-navbar">
   </div>
@@ -75,6 +77,16 @@
     </ul>
   </nav>
 </div>
+
+<!-- ############################################### -->
+
+<!-- Pezzo che deve essere presente se viene aggiuntao tolta un preferenza -->
+
+<div class="foowd-alert" role="alert" id="foowd-success"></div>
+<div class="foowd-alert" role="alert" id="foowd-error"></div>
+
+<!-- ############################################### -->
+
 <script type="text/javascript" src="mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
 <script type="text/javascript">
 require(['ProductDetailController', 'helpers', 'templates'], function(){

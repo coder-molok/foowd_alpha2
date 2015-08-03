@@ -48,6 +48,17 @@ define(function(require){
             });
             //carico l'overlay sul menu
             _loadOverlay();
+            //metto acluni listener per gli eventi di aggiunta delle preferenze
+			//notifica positiva nel caso la preferenza è stata aggiunta correttamente
+			$(document).on('preferenceAdded', function(e){
+				$('#foowd-success').text('La tua preferenza è stata aggiunta');
+				$('#foowd-success').fadeIn(500).delay(3000).fadeOut(500);
+			});
+			//notifica di errore nel caso la preferenza non fosse stata aggiunta
+			$(document).on('preferenceError', function(e){
+				$('#foowd-error').text("C'è stato un errore durante l'aggiuta della tua preferenza");
+				$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
+			});
         }
 
         function _loadOverlay(){

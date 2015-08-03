@@ -54,13 +54,6 @@
 <div class="foowd-navbar">
 </div>
 <div id="producer-container">
-  <div id = "producer-carousel" class="owl-carousel">
-    <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-1.jpg"></div>
-    <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-2.jpg"></div>
-    <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-3.jpg"></div>
-    <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-4.jpg"></div>
-    <div class="item"><img class = "owl-lazy" data-src = "mod/foowd_theme/img/carousel/slide-5.jpg"></div>
-  </div>
   <div id = "producer-profile">
   </div>
   <div id = "producer-products">
@@ -70,6 +63,8 @@
 <ul class="grid effect-1" id="producer-wall">
 
 </ul>
+<!-- Pezzo che deve essere comune a tutte le pagine -->
+
 <div class="overlay overlay-hugeinc">
   <div class="reverse foowd-navbar">
   </div>
@@ -83,21 +78,16 @@
     </ul>
   </nav>
 </div>
-<div class="overlay overlay-hugeinc">
-  <div class="reverse foowd-navbar">
-  </div>
-  <nav>
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Work</a></li>
-      <li><a href="#">Clients</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </nav>
-</div>
+
+<!-- ############################################### -->
+
+<!-- Pezzo che deve essere presente se viene aggiuntao tolta un preferenza -->
+
 <div class="foowd-alert" role="alert" id="foowd-success"></div>
 <div class="foowd-alert" role="alert" id="foowd-error"></div>
+
+<!-- ############################################### -->
+
 <script type="text/javascript" src="mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
 <script type="text/javascript" src="mod/foowd_theme/assets/owl.carusel/owl.carousel.min.js"></script>
 <script type="text/javascript">

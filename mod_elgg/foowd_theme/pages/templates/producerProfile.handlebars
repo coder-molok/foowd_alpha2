@@ -1,10 +1,15 @@
+<div id = "producer-carousel" class="owl-carousel">
+	{{#each slides}}
+		{{> carouselItem slide}}
+	{{/each}}
+</div>
 <div id = "producer-header">
 	<div id = "producer-name">
 		{{Name}}
 		<span>{{Site}}</span>
 	</div>
 </div>
-<div id = "producer-info">
+{{!-- <div id = "producer-info">
 	{{#if followers}}
 	<ul class="number-block">
         <li>{{followers}}5</li>
@@ -17,16 +22,16 @@
         <li><span class ="number-description">visualizations</span></li>
     </ul>
     {{/if}}
-</div>
+</div> --}}
 <div id = "producer-description">
 	<div class = "about">
 		About us
 	</div>
 	<div class = "about-description">
-		{{Description}}
+		{{desc1 Description}}
 	</div>
 	<div class = "about-description">
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum non pulvinar risus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas ullamcorper rutrum lorem, ac consectetur tortor rhoncus eu. Vestibulum lobortis felis in ultricies dignissim. Vestibulum a neque quis dolor venenatis ultricies sed nec nisi. Vestibulum suscipit elementum efficitur. Cras in odio bibendum, tempor libero eget, elementum elit. Mauris interdum nisi vitae sem gravida condimentum. Nullam quis nunc id arcu euismod imperdiet. Praesent accumsan tellus eget ullamcorper eleifend. Etiam sed iaculis nisi. Aliquam feugiat nibh orci, in scelerisque magna gravida at. Aenean placerat, erat non fermentum vulputate, sem nunc efficitur erat, et convallis lacus metus sed arcu. Morbi nunc nisi, fringilla molestie luctus et, fermentum efficitur ex. Vestibulum convallis, ex quis dictum fringilla, tortor sapien eleifend erat, sit amet facilisis metus ipsum id mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+		{{desc2 Description}}
 	</div>
 	<div>&nbsp;</div>
 </div>

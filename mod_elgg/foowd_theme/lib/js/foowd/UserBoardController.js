@@ -37,18 +37,31 @@ define(function(require) {
    		//controller init
    		function _init(){
    			//prendo lo user id
-   			userId = elgg.get_logged_in_user_guid() === 0 ? null : elgg.get_logged_in_user_guid();
+   			userId = utils.getUserId();
    			//carico la barra di navigazione
    			Navbar.loadNavbar();
    			//carico i template
-   			getUserPreferences();
+   			_getUserPreferences();
+   			_getUserInfo();
    		}
 
-   		function _applyProductContext(context) {
+   		function _getUserPreferences(){
+			API.getUserPreferences(userId).then(function(data){
+				var rawData = data;
+				var parsedProducts = _applyPreferencesContext(rawData.body);
+				_fillBoard(parsedProducts);
+				$(document).trigger('preferences-loaded');
+			},function(e){
+				console.log(e);
+			});
+
+		}
+
+   		function _applyPreferencesContext(context) {
 			var result = "";
 			context.map(function(el) {
 				//aggiungo l'immagine al json di contesto
-				utils.addPicture(el.Offer);
+				utils.addPicture(el.Offer, 'small');
 				//ottengo l'html dal template + contesto
 				var htmlComponent = templates.userPreference(el);
 				//concateno
@@ -57,19 +70,29 @@ define(function(require) {
 
 			return result;
 		}
-
-		function _applyUserContext(preferenceData){
-			var context = {};
-			context.user = {
-				"name" : elgg.get_logged_in_user_entity().name,
-				"likes" : preferenceData.length,
-			}
-
-			return templates.preferenceAccountDetails(context);
-		}
-		
 		function _fillBoard(content) {
 			$(preferencesContainerId).html(content);
+		}
+
+		function _getUserInfo(){
+			API.getUserPics(userId).then(function(data){
+				var avatar = data.avatar[3];
+				var parsedProducts = _applyUserContext(avatar);
+				_fillUserDetails(parsedProducts);
+			}, function(error){
+				console.log(error);
+			});
+		}
+
+		function _applyUserContext(avatar){
+			var context = {};
+			context.user = {
+				"name"  : elgg.get_logged_in_user_entity().name,
+				"Publisher" : userId,
+				"likes" : $('.preference').length,
+			}
+			context.user = utils.addProfilePicture(context.user,avatar);
+			return templates.preferenceAccountDetails(context);
 		}
 
 		function _fillUserDetails(content){
@@ -89,23 +112,7 @@ define(function(require) {
 			});
 		}
 
-		function getUserPreferences(){
-			API.getUserPreferences(userId).then(function(data){
-				
-				var rawData = data;
-				var parsedProducts = _applyProductContext(rawData.body);
-				var parsedUserData = _applyUserContext(rawData.body);
-				_fillBoard(parsedProducts);
-				_fillUserDetails(parsedUserData);
-
-				$(document).trigger('preferences-loaded');
-			},function(e){
-				console.log(e);
-			});
-
-		}
-
-		function addPreference(offerId, qt) {
+		function _addPreference(offerId, qt) {
     		//setto i parametri della mia preferenza
 			preference.OfferId = offerId;
 			preference.ExternalId = userId;
@@ -125,12 +132,13 @@ define(function(require) {
 		});
 
 		$(document).on('preferenceAdded', function(){
-			getUserPreferences();
+			_getUserPreferences();
+			_getUserInfo();
 		});
 
 		return{
 			init 		  : _stateCheck, 
-			addPreference : addPreference,
+			addPreference : _addPreference,
 		};
 
 	})();

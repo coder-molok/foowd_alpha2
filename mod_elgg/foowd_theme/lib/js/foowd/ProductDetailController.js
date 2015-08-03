@@ -114,7 +114,6 @@ define(function(require){
 			
 			$('#action-heart').mouseenter(function(){
 				var bar = $('.preview-bar').find('.progress');
-				
 				var unit = bar.data('unit');
 			    var progress = bar.data('progress');
 			    var total = bar.data('total');

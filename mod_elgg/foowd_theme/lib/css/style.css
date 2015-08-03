@@ -754,65 +754,61 @@ h5 {
   display: block;
   width: 100%;
   height: auto;
+  background: rgba(0,0,0,0.8);
 }
 .owl-controls {
-  position: relative;
-  height: 50px;
-  top: -120px;
+  background: rgba(0,0,0,0.2);
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0 !important;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  align-items: flex-end;
 }
 .owl-nav {
   position: relative;
-  top: -140px;
 }
 .owl-prev,
 .owl-next {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 48.5%;
+  margin-left: 0%;
+  margin-right: 3%;
   color: #fff;
   font-size: 70pt;
-}
-.owl-prev {
-  *zoom: 1;
-  float: left;
-  clear: none;
-  text-align: inherit;
-  width: 48.5%;
-  margin-left: 0%;
-  margin-right: 3%;
-  text-align: left;
+  margin-top: 150px;
 }
 .owl-prev:before,
-.owl-prev:after {
-  content: '';
-  display: table;
-}
-.owl-prev:after {
-  clear: both;
-}
-.owl-prev:last-child {
-  margin-right: 0%;
-}
-.owl-next {
-  *zoom: 1;
-  float: left;
-  clear: none;
-  text-align: inherit;
-  width: 48.5%;
-  margin-left: 0%;
-  margin-right: 3%;
-  text-align: right;
-}
 .owl-next:before,
+.owl-prev:after,
 .owl-next:after {
   content: '';
   display: table;
 }
+.owl-prev:after,
 .owl-next:after {
   clear: both;
 }
+.owl-prev:last-child,
 .owl-next:last-child {
   margin-right: 0%;
 }
+.owl-prev {
+  text-align: left;
+}
+.owl-next {
+  text-align: right;
+}
 .owl-dots {
-  height: 100%;
+  height: 15px;
+  width: 100%;
+  position: absolute;
+  bottom: 5px;
 }
 .owl-dot {
   height: 15px;
@@ -1550,7 +1546,7 @@ h5 {
 .grid li {
   float: left;
   width: 318px;
-  margin: 0px 10px 20px 10px !important;
+  margin: 10px 10px 20px 10px !important;
   opacity: 0;
 }
 .grid li.shown,
@@ -1569,6 +1565,10 @@ h5 {
   100% {
     opacity: 1;
   }
+}
+.post-container {
+  display: table;
+  position: relative;
 }
 .product-post-image-thumbnail {
   display: table;
@@ -1624,23 +1624,9 @@ h5 {
 }
 .product-post-header {
   top: 0px;
-  *zoom: 1;
-  float: left;
-  clear: none;
-  text-align: inherit;
   width: 100%;
-  margin-left: 0%;
-  margin-right: 0%;
   position: absolute;
   z-index: 150;
-}
-.product-post-header:before,
-.product-post-header:after {
-  content: '';
-  display: table;
-}
-.product-post-header:after {
-  clear: both;
 }
 .product-post-name {
   *zoom: 1;
@@ -1732,6 +1718,12 @@ h5 {
   font-size: 22pt;
   line-height: 22pt;
   color: #000;
+}
+.product-post-body {
+  font-family: AkkuratRegular;
+  font-size: 10pt;
+  line-height: 14pt;
+  font-align: justify;
 }
 @-moz-keyframes fadeIn {
   100% {
