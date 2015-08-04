@@ -90,6 +90,10 @@ document.getElementById('loadedFile').addEventListener('change', function(e) {
     // console.log(guid.value);
     formData.append(guid.name, guid.value);
 
+    var id = document.querySelector('input[name=Id]');
+    // console.log(id.value);
+    if(id) formData.append(id.name, id.value);
+
     // classe per visualizzare una piccola progressbar
     var pop = new LoadPop();
     

@@ -98,7 +98,8 @@ class Crop{
 		// $dir = str_replace('\\', '/', \Uoowd\Param::imgStore());
 		// $dir .= 'User-'.elgg_get_logged_in_user_guid().'/';
 		// $saveDir = $dir.$guid.'/';
-		$saveDir = \Uoowd\Param::pathStore(elgg_get_logged_in_user_guid(),'offers').'/'.$guid.'/';
+		$saveDir = \Uoowd\Param::pathStore(elgg_get_logged_in_user_guid(),'offers').$guid.'/';
+
 		// if (!file_exists($saveDir)) {
 		//     mkdir($saveDir, 0777, true);
 		// }
@@ -112,6 +113,7 @@ class Crop{
 		}
 		
 		if(! $this->createDir($this->saveDir)) return;
+		// error_log($saveDir .' in '.__FILE__);
 
 
 		// recupero il file salvato col costruttore
@@ -158,6 +160,18 @@ class Crop{
 		// pertanto non mi rimane che croppare
 		
 		$this->crop();
+
+		if(!isset($guid) || $guid === '') return;
+		$base = \Uoowd\Param::pathStore(elgg_get_logged_in_user_guid(),'offers');
+		// error_log('elimino '.$base.' , from '.__FILE__);
+		// prima di salvare tolgo eventual file temporanei presenti
+		foreach (new \DirectoryIterator($base) as $fileInfo) {
+			$match = preg_match('@^tmp-@', $fileInfo->getFilename());
+		    if($fileInfo->isFile() && $match) {
+				// error_log('cancello '.$target_file);
+		        unlink($fileInfo->getPathname());
+		    }
+		}
 
 		// $this->status = false;
 
@@ -281,6 +295,7 @@ class Crop{
 			return false;
 		}
 
+		// error_log('elimino '.$dir);
 		foreach (new \DirectoryIterator($dir) as $fileInfo) {
 		    if(!$fileInfo->isDot() && $fileInfo->getBasename()!=$baseName) {
 		        unlink($fileInfo->getPathname());

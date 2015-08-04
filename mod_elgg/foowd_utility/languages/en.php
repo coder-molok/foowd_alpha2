@@ -81,6 +81,7 @@ return array(
 	// utility
 	// 'foowd:offer:image-tmp' => 'foowd_offerte/image-tmp',
 	'foowd:image-tmp' => 'foowd_utility/image-tmp',
+	'foowd:image-profile' => 'foowd_utility/image-profile',
 
 
 

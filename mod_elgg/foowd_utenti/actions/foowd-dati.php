@@ -20,8 +20,8 @@ $r = \Uoowd\API::Request('user', 'POST', $data);
 \Uoowd\Logger::addError($r);
 if($r->response){
 	elgg_clear_sticky_form($form);
-	system_message(elgg_echo("aggiornato post ".$data['Id']));
-	forward(\Uoowd\Param::pid().'/success');
+	system_message(elgg_echo("Hai aggiornato con successo i tuoi dati."));
+	forward(\Uoowd\Param::page()->profile);
 }else{
 	$_SESSION['sticky_forms'][$form]['apiError']=$r;
 

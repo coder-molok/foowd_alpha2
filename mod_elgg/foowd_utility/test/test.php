@@ -2,6 +2,7 @@
 
 admin_gatekeeper();
 
+
 $user = get_user_by_email('scardoni.simone@gmail.com')[0];
 $guid = $user->guid;
 

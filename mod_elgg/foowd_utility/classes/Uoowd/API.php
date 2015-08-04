@@ -16,7 +16,7 @@ class API{
 	//  * @return [type] [description]
 	//  */
 
-	public static function Request($url, $method , array $params){
+	public static function Request($url, $method , $params= array() ){
 		
 		// CURL check
 		if(is_callable('curl_init')){
@@ -33,6 +33,10 @@ class API{
 		
 		// converto tutti i dati in un array da passare in formato json via curl
 		$numeric = array('Price', 'Minqt','Maxqt');
+		if(!is_array($params)){
+			$params = array();
+			\Uoowd\Logger::addError("Attenzione, errore nel passaggio di $params. Dati $url , $method");
+		} 
 		foreach($params as $field => $value){
 			// elimino gli spazi inutili
 			$value = trim($value);
@@ -91,14 +95,17 @@ class API{
 		
 		$returned = json_decode($output);
 
-
 		// i prezzi li visualizzo con la virgola
-		foreach ($returned->body as $key => $value) {
-			foreach($value as $field => $var){
-				// i valori numerici per convenzione hanno la virgola come separatore decimale
-				if(in_array($field, $numeric)){
-					// $returned->body[$key]->{$field} = preg_replace('@\.@', ',', $var);
-				}	
+		if(isset($returned->body)){
+			$body = json_decode(json_encode($returned->body), true);
+			foreach ($body as $key => $value) {
+				if(!is_array($value) && !is_object($value) ) continue;
+				foreach($value as $field => $var){
+					// i valori numerici per convenzione hanno la virgola come separatore decimale
+					if(in_array($field, $numeric)){
+						// $returned->body[$key]->{$field} = preg_replace('@\.@', ',', $var);
+					}	
+				}
 			}
 		}
 

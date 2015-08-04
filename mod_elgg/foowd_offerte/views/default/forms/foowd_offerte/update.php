@@ -78,6 +78,7 @@ $fadd->createField('Maxqt', 'foowd:maxqt', 'input/text', array('maxlength'=>"9")
 // variabile per il controllo su cambiamenti dell'immagine di default
 echo elgg_view('input/hidden', array('name' => 'fileBasename', 'value' => basename($path)) ); 
 
+
 ?>
 
 <div>

@@ -17,13 +17,13 @@ function generate(){
 	}
 	
 	
-	$list = array();
+	$list = array(0);
 	
 	foreach ($iter as $f) {
 		$name = $f->getBasename();
 		if(strpos($name, $prefix) !== false ) array_push($list, str_replace($prefix, '', $name));
 	}
-	
+
 	$m = max($list) ? max($list) : 0;
 	$Fname = $prefix.++$m;
 	$targetDir = $profile.$Fname;
@@ -132,7 +132,7 @@ $info = pathinfo($src);
 
 $cropCl = new \Uoowd\FoowdCrop();
 $cropCl->target = $src;
-$cropCl->saveDir = rtrim($info['dirname']).'/';
+$cropCl->saveDir = rtrim($info['dirname'],'/').'/';
 $cropCl->cropSize = $crop;
 
 $cropCl->crop();
@@ -169,10 +169,10 @@ if($subdir === "profile"){
 	$dir = $dir[0];
 
 	// ora scrivo la directory che realmente devo cancellare
-	$dir = $profile.'/'.$dir;
+	$dir = $profile.$dir;
 
-	// NB: il passaggio e' tortuoso, ma cosi' garantisco di cancellare soltanto directory superflue
-	$base = trim(\Uoowd\Param::page()->foowdStorage , '..');
+	// NB: il passaggio e' tortuoso, ma cosi' garantisco di cancellare soltanto directory ammesse
+	$base = preg_replace('@^\.\.@','' , \Uoowd\Param::page()->foowdStorage);
 	if(strpos($dir, $base) !== false){
 
 

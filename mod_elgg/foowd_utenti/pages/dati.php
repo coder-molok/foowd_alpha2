@@ -14,6 +14,7 @@ $f = new \Foowd\Action\UserSave();
 // prendo i valori del vecchio post e li carico nel form
 $data['type']='search';
 $data['ExternalId'] = $guid;
+
 $r = \Uoowd\API::Request('user','POST', $data);
 
 // se sono qui la validazione lato elgg e' andata bene

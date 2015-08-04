@@ -113,8 +113,9 @@ if($r->response){
 	// sempre cancellare dopo un successo,
 	// in modo da forzare, secondo il mio algoritmo, il ricaricamento dei dati
 	elgg_clear_sticky_form($form);
-	system_message(elgg_echo("aggiornato post ".$data['Id']));
-	forward('foowd_offerte/success');
+	system_message(elgg_echo("Aggiornata con succeso l'offerta ".$data['Id']));
+	// forward('foowd_offerte/success');
+	forward(\Uoowd\Param::page()->all);
 }else{
 	$_SESSION['sticky_forms'][$form]['apiError']=$r;
 

@@ -1,8 +1,12 @@
+<!-- pagina header.php -->
+
+
+
 <!-- <div class="foowd-header">foowd_</div> -->
 
 <!-- <div class="foowd-navbar">
 </div> -->
-
+<!--
 <script type="text/javascript" src="<?php echo elgg_get_site_url();?>/mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
 
 <script type="text/javascript">
@@ -10,6 +14,7 @@ require([
   	'NavbarController',
   ],function(){
 
+    alert('lol')
     require('NavbarController').loadNavbar();
 
 });
@@ -20,6 +25,7 @@ require([
 	z-index:0;
 }
 </style>
+-->
 
 <?php
 // link back to main site.

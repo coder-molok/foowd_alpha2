@@ -47,3 +47,8 @@ echo "aggiorno api_foowd"
 SRC=$REPO"api_foowd/"                  
 DST=$SITE"api_foowd"                   
 $CMD $SRC $DST    
+
+
+### Aggiorno i permessi, per sicurezza
+echo -e "\n\e[45m Update Permission part \e[m" 
+chmod -R ug+rwx "$SITE"

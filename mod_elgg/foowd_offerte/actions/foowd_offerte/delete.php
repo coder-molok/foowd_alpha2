@@ -21,7 +21,7 @@ if($r->response){
 	// $dir .= 'User-'.elgg_get_logged_in_user_guid().'/';
 	// $dir = $dir.$data['Id'].'/';
 	// register_error($dir);
-	$dir = \Uoowd\Param::pathStore(elgg_get_logged_in_user_guid(),'offers').'/'.$data['Id'].'/';
+	$dir = \Uoowd\Param::pathStore(elgg_get_logged_in_user_guid(),'offers').$data['Id'].'/';
 	unlinkDir($dir);
 
 }else{
@@ -41,7 +41,7 @@ function unlinkDir($dir){
 		// se e' dot la ignoro
 		if($fileInfo->isDot()) continue;
 
-		if($fileInfo->isDir()  && !rmdir($fileInfo->getPathname()) ){
+		if($fileInfo->isDir()  && !@rmdir($fileInfo->getPathname()) ){
 			unlinkDir($fileInfo->getPathname());
 		} 
 

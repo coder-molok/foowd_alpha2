@@ -88,7 +88,9 @@ if ($f->status && $crop->status ) {
 		elgg_clear_sticky_form($form);
 		
 		// rimando alla pagina di successo
-		forward(\Uoowd\Param::pid().'/success');	
+		system_message('Nuova offerta aggiunta con successo.');
+		// forward(\Uoowd\Param::pid().'/success');	
+		forward(\Uoowd\Param::page()->all);
 
 	}else{
 		

@@ -38,7 +38,7 @@ foreach($value as $category => $obj){
 	// var_dump($category);
 	$i = 0;
 	foreach($obj as $single){
-		if(in_array( $single, $vars['Tag'] )){
+		if(is_array($vars['Tag']) && in_array( $single, $vars['Tag'] )){
 		    $checked = true;
 		}else{
 		    $checked = false;
