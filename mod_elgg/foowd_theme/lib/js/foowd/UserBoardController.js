@@ -76,8 +76,9 @@ define(function(require) {
 
 		function _getUserInfo(){
 			API.getUserPics(userId).then(function(data){
-				var avatar = utils.isValid(data.avatar) ? data.avatar[3] : "";
-				var parsedProducts = _applyUserContext(avatar);
+				var user = {};
+				user.avatar = utils.isValid(data.avatar) ? data.avatar[3] : null;
+				var parsedProducts = _applyUserContext(user);
 				_fillUserDetails(parsedProducts);
 			}, function(error){
 				console.log(error);
