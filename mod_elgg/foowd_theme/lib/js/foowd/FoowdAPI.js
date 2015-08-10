@@ -35,8 +35,10 @@ define(function(require){
     		/*
     		 * Funzione che ritorna tutti i dati relativi ad un singolo prodotto.
     		 */
-    		getProduct : function(productId){
+    		getProduct : function(productId, publisher){
              var requestURL = baseUrl + offers.search + '&Id={"min":' + productId + ', "max":' + productId + '}';
+             requestURL = utils.isValid(publisher) ? requestURL + "&Publisher=" + publisher : requestURL;
+             
              var deferred = $.Deferred();
              $.get(requestURL, function(data){ deferred.resolve(data); });
              return deferred.promise();

@@ -112,11 +112,30 @@ define(function(require){
 				
 				var userData = data.body;
 				
-				userData.slides = _getCarouselItems();
+				API.getUserPics(userId).then(function(data){
+					var slides = [];
+					$.each(data.profile, function(index, slide){
+						if(slide.indexOf("big") > -1){
+							slides.push({
+								"slide" : "../FoowdStorage/User-" + userId + "/" + slide
+							});
+						}
+					});
+
+					userData.slides = slides;
+
+					console.log(userData);
+
+					var parsedUserData = _applyProducerProfleContext(userData);
 				
-				var parsedUserData = _applyProducerProfleContext(userData);
-				
-				_fillProducerProfile(parsedUserData);
+					_fillProducerProfile(parsedUserData);
+
+
+					$(document).trigger("producer-info-loaded");
+
+				}, function(error){
+					console.log(error);
+				});
 			
 			}, function(error){	
 				console.log(error);
@@ -129,26 +148,6 @@ define(function(require){
 
 		function _fillProducerProfile(content){
 			$(producerInfoContainer).html(content);
-			$(document).trigger('producer-info-loaded');
-		}
-
-		function _getCarouselItems(){
-			//TODO : chiamare l'API per ottenere le immagini del carosello
-			var context ={ 
-					"slides" : [
-							{
-								"slide" : "mod/foowd_theme/img/carousel/slide-1.jpg"
-							},{
-								"slide" : "mod/foowd_theme/img/carousel/slide-2.jpg"
-							},{
-								"slide" : "mod/foowd_theme/img/carousel/slide-3.jpg"
-							},{
-								"slide" : "mod/foowd_theme/img/carousel/slide-4.jpg"
-							},{
-								"slide" : "mod/foowd_theme/img/carousel/slide-5.jpg"
-							},
-						]};
-			return context.slides;
 		}
 
 		function _addPreference(offerId, qt) {
