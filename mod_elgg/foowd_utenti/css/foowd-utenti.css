@@ -2,6 +2,7 @@
 @import 'foowd-page-avatar.css';
 @import 'foowd-page-gallery.css';
 @import 'foowd-page-dati.css';
+@import 'foowd-register.css';
 [class^="foowd-page-"] {
   margin: auto;
 }

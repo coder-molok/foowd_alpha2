@@ -104,6 +104,9 @@ function utility_page_handler($segments) {
 		case 'log':
 			\Uoowd\Logger::displayLog();
 			break;
+		// case 'change-profile-name':
+		//     include elgg_get_plugins_path() . 'foowd_utility/test/change-profile-name.php';
+		//     break;
 		case 'test':
 		    include elgg_get_plugins_path() . 'foowd_utility/test/test.php';
 		    break;

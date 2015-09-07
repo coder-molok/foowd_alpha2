@@ -1,6 +1,15 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+### 05/09/2015
+
+- risolta iss#125
+
+- aggiustati colori schermata di login/registrazione
+
+- impostata proporzione 5:2 nella galleria utente
+
+- risolto errata visualizzazione immagini caricate alla registrazione
 
 
 ### 02/08/2015

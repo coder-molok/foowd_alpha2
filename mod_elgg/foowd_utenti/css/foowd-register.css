@@ -1,0 +1,4 @@
+fieldset #offer-hook > div,
+fieldset #offer-hook [id*="cke_elgg"] {
+  margin-bottom: 15px;
+}

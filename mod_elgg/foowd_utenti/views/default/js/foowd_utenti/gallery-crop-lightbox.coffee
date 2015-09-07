@@ -235,24 +235,42 @@
 					div.parent().parent().html(oldContent)
 					return
 
+				# ovvero il lightbox
 				prevBox = $('#' + that.imgAreaPrefix + '-lightbox');
 				if !prevBox.length
 				   ## alert('nada')
 				   prevBox = $('<div/>', {
 					   'id': that.imgAreaPrefix + '-lightbox',
-				   }).css({'position':'fixed', 'background-color':'black', 'color':'white','left':'0', 'top':'0', 'width':'100%', 'height':'100%', 'overflow':'scroll', 'z-index': '3'})
+				   }).css({'position':'fixed', 'background-color':'black', 'color':'white','left':'0', 'top':'0', 'width':'100%', 'height':'100%', 'overflow':'scroll', 'z-index': '3', 'padding-top':'15px'})
 				div.wrap(prevBox)
-				div.on 'dblclick', ()->
-					this_default()
+				# div.on 'dblclick', ()->
+				# 	this_default()
 
-				lol=$('<div/>',{
+				# close
+				cls=$('<div/>',{
 					id: that.imgAreaPrefix + '-close'
 					html:'<span class="lightbox-hover">Chiudi</span>'
 					})
-				div.prepend(lol)
+				# div.append(cls)
+
+				# close
+				sv=$('<div/>',{
+					id: that.imgAreaPrefix + '-save'
+					html:'<span class="lightbox-hover">Salva</span>'
+					})
+				# div.append(sv)
+				# alert sv.attr('id')
 				
-				$('#'+that.imgAreaPrefix + '-close')
-					.css({'position':'absolute','top':'20px','right':'20px','font-style':'underline'})
+				btns =$('<div/>',{ id: 'buttons-actions'}).append(sv).append(cls).appendTo(div)
+				# assegno degli stili
+				btns.find('div').css({
+						'display': 'inline-block',
+						'margin': '15px'
+					})
+				btns.find('span').addClass('elgg-button')
+				
+				$('#'+that.imgAreaPrefix + '-save')
+					# .css({'position':'absolute','top':'20px','right':'20px','font-style':'underline'})
 					.on 'click', ()->
 						obj.crop = {}
 						# ritorno solo i path assoluti http
@@ -263,10 +281,13 @@
 							key = $(this).attr('data-crop');
 							val = $(this).val()
 							obj.crop[key] = val
-						# console.log 'crop di ritorno'
+						console.log 'crop di ritorno'
 						# console.log obj.crop
 						$(document).trigger('foowd:lightbox:close', obj)
 						this_default()
+
+				$('#'+that.imgAreaPrefix + '-close').on 'click', ()->
+					this_default()
 				
 				that.start()
 				
@@ -451,9 +472,12 @@
 		
 		oldCrop = {}
 
-		ratio = '5:3'
-		r = [];
-		r['5:3']={'h': 0.54, 'w': 0.9};
+		ratio = '5:2'
+		r = []
+		f_width = (n,d)->
+			return (n/d).toPrecision(4);
+		r['5:2']={'h': f_width(2,5) , 'w': 0.9}
+		
 		
 		@Jcrop = {}
 		for variable,i in ar
@@ -550,9 +574,9 @@
 		title = $('<div>Preview '+size+'</div>').css({
 			'class':"prev-title",
 			'style' :"margin-top: 5px, padding: 2px",
-			'background-color': 'rgba(70, 144, 214, 0.8)',
+			#'background-color': 'rgba(70, 144, 214, 0.8)',
 			'width' : this.Jpre.width()
-		});
+		}).addClass('foowd-back-strong')
 		this.Jpre.parent().css({
 			## 'float': 'left', 
 			position:'relative', margin: thisObj.margin

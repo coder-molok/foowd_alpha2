@@ -64,10 +64,10 @@ if (elgg_is_logged_in()) {
 			$topbar
 		</div>
 	</div>
-		<div class="foowd-navbar"></div>
 __BODY;
 }	
 $body .= <<<__BODY
+	<div class="foowd-navbar"></div>
 	<div class="elgg-page-header">
 		<!-- <div class="elgg-inner"> -->
 			$header

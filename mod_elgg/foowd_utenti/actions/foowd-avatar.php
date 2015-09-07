@@ -32,7 +32,7 @@ if($_FILES['file']['error']>0){
 
 
 
-	// se e' cambiato imposto il nuovo crop, atrimenti metto un default che non fa nulla
+	// se e' cambiato imposto il nuovo crop, altrimenti metto un default che non fa nulla
 	$crop = new \Uoowd\Crop('random');
 	if($change){
 		// \Uoowd\Logger::addError('dentro if');

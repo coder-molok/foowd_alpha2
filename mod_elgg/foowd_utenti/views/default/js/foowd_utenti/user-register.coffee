@@ -30,7 +30,6 @@
     Jform.attr('enctype','multipart/form-data');
     Jhook.css {display: 'none'}
     Jgenre.val('standard')
-
     
     # vedere come istanziato init di crop dentro a file
     file = require('foowd_utenti/file')  

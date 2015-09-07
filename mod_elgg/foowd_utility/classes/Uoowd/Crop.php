@@ -162,8 +162,9 @@ class Crop{
 		$this->crop();
 
 		if(!isset($guid) || $guid === '') return;
-		$base = \Uoowd\Param::pathStore(elgg_get_logged_in_user_guid(),'offers');
-		// error_log('elimino '.$base.' , from '.__FILE__);
+		// $base = \Uoowd\Param::pathStore(elgg_get_logged_in_user_guid(),'offers');
+		$base = $this->saveDir;
+		error_log('elimino '.$base.' , from '.__FILE__);
 		// prima di salvare tolgo eventual file temporanei presenti
 		foreach (new \DirectoryIterator($base) as $fileInfo) {
 			$match = preg_match('@^tmp-@', $fileInfo->getFilename());

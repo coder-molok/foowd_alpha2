@@ -7,7 +7,7 @@ $fadd = new \Foowd\Action\UserSave($vars);
 // name non ha controlli
 // $fadd->createField('Name','Nome', 'input/text');
 
-$fadd->createField('Location','Luogo', 'input/text');
+// $fadd->createField('Location','Luogo', 'input/text');
 
 // devo fare un chek
 // $fadd->createField('Email','Email', 'input/text');

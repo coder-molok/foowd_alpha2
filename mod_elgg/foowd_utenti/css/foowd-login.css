@@ -1,4 +1,14 @@
 @import "icomoon/style.css";
+.elgg-menu-item-register a,
+.elgg-menu-item-forgotpassword a,
+.elgg-menu-item-register a:link,
+.elgg-menu-item-forgotpassword a:link,
+.elgg-menu-item-register a:visited,
+.elgg-menu-item-forgotpassword a:visited,
+.elgg-menu-item-register a:active,
+.elgg-menu-item-forgotpassword a:active {
+  color: #c81063 !important;
+}
 .soc {
   overflow: hidden;
   margin: 0;

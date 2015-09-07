@@ -145,6 +145,31 @@ class User {
 				\Uoowd\Logger::addError("qualcosa e' andato storto nel crop");
 				$crop->removeDir(\Uoowd\Param::imgStore().'User-'.$extId);
 				return false;
+			}else{
+				// se tutto e' andato a buon fine, modifico i nomi dei file togliendo la parola "file"
+				$path = \Uoowd\Param::pathStore($extId,'profile');
+				foreach( new \DirectoryIterator($path) as $fileInfo){
+					// dentro directory file#
+					if($fileInfo->isDir() && !$fileInfo->isDot() ){
+						foreach(new \DirectoryIterator($fileInfo->getPathname()) as $file){
+							if($file->isFile()){
+								$dir = $file->getPath() . DIRECTORY_SEPARATOR;
+								$newName = str_replace('file', '', $file->getFilename());
+								rename($file->getPathname(), $dir.$newName);
+							}
+							// dentro file#/small, big o medium
+							if($file->isDir() && !$file->isDot() ){
+								foreach(new \DirectoryIterator($file->getPathname()) as $f){
+									if($f->isFile()){
+										$dir = $f->getPath() . DIRECTORY_SEPARATOR;
+										$newName = str_replace('file', '', $f->getFilename());
+										rename($f->getPathname(), $dir.$newName);
+									}
+								}	
+							}
+						}	
+					}
+				}
 			}
 			// se volessi salvare l'immagine
 			// $data['Image'] = $crop->base64();
