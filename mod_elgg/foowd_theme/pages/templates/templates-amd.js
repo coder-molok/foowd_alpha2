@@ -174,37 +174,37 @@ templates['productPost'] = template({"1":function(depth0,helpers,partials,data) 
     + "\n        </div>\n    </div>\n</li>";
 },"useData":true});
 templates['userPreference'] = template({"1":function(depth0,helpers,partials,data) {
-    var stack1, helper, alias1=this.lambda, alias2=this.escapeExpression, alias3=helpers.helperMissing;
+    var stack1, helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression, alias4=this.lambda;
 
   return "    <div class=\"preference\">\n       <span class = \"preference-progress-bar\">\n            <span class = \"progress\" \n              data-unit = \"1\"\n              data-progress = \""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.totalQt : stack1), depth0))
+    + alias3(((helper = (helper = helpers.Qt || (depth0 != null ? depth0.Qt : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Qt","hash":{},"data":data}) : helper)))
     + "\" \n              data-total = \""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Minqt : stack1), depth0))
+    + alias3(alias4(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Minqt : stack1), depth0))
     + "\">\n            </span>    \n        </span>\n        <div class=\"user-preference\">\n            <div class=\"user-preference-section\">\n                <img src=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.picture : stack1), depth0))
+    + alias3(alias4(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.picture : stack1), depth0))
     + "\" class = \"user-preference-image\" \n                     onclick=\"utils.go2('detail', 'productId',"
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
+    + alias3(alias4(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
     + ")\">    \n            </div>\n            <div class=\"user-preference-name user-preference-section\">\n                <ul class=\"number-block\">\n                    <li>"
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Name : stack1), depth0))
+    + alias3(alias4(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Name : stack1), depth0))
     + "</li>\n                </ul>\n            </div>\n            <div class=\"user-preference-details user-preference-section\">\n                <ul class=\"number-block preference-detail\">\n                    <li>"
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Price : stack1), depth0))
+    + alias3(alias4(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Price : stack1), depth0))
     + "€</li>\n                    <li><span class =\"number-description\">Prezzo unità</span></li>\n                </ul>\n                <ul class=\"number-block preference-detail\">\n                    <li>x"
-    + alias2(((helper = (helper = helpers.Qt || (depth0 != null ? depth0.Qt : depth0)) != null ? helper : alias3),(typeof helper === "function" ? helper.call(depth0,{"name":"Qt","hash":{},"data":data}) : helper)))
+    + alias3(((helper = (helper = helpers.Qt || (depth0 != null ? depth0.Qt : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"Qt","hash":{},"data":data}) : helper)))
     + "</li>\n                    <li><span class =\"number-description\">carrello</span></li>\n                </ul>\n                <ul class=\"number-block preference-detail\">\n                    <li>"
-    + alias2((helpers.math || (depth0 && depth0.math) || alias3).call(depth0,(depth0 != null ? depth0.Qt : depth0),"*",((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Price : stack1),{"name":"math","hash":{},"data":data}))
+    + alias3((helpers.math || (depth0 && depth0.math) || alias1).call(depth0,(depth0 != null ? depth0.Qt : depth0),"*",((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Price : stack1),{"name":"math","hash":{},"data":data}))
     + "€</li>\n                    <li><span class =\"number-description\">tot.spesa</span></li>\n                </ul>\n            </div>\n            <div class=\"user-preference-actions user-preference-section\">\n                <ul class=\"action-icons menu-section\" id = \"preference-action\">\n"
-    + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias3).call(depth0,((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.totalQt : stack1),((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Minqt : stack1),{"name":"canbuy","hash":{},"fn":this.program(2, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias1).call(depth0,(depth0 != null ? depth0.Qt : depth0),((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Minqt : stack1),{"name":"canbuy","hash":{},"fn":this.program(2, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
     + "                    <li class=\"action-heart\">\n                        <i  class=\"foowd-icons foowd-icon-heart-edge\" \n                            onClick = \"UserBoardController.addPreference("
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
+    + alias3(alias4(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
     + ", 1)\"></i>\n                    </li>\n                    <li class=\"action-minus\">\n                        <i class=\"foowd-icons foowd-icon-minus fw-menu-icon\" \n                           onClick = \"UserBoardController.addPreference("
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
+    + alias3(alias4(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
     + ", -1)\"></i>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n";
 },"2":function(depth0,helpers,partials,data) {
     return "                    <li class=\"action-buy\">\n                        <i class=\"foowd-icons foowd-icon-plus\"></i>\n                    </li>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var stack1;
 
-  return ((stack1 = helpers['if'].call(depth0,((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.totalQt : stack1),{"name":"if","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "");
+  return ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.Qt : depth0),{"name":"if","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "");
 },"useData":true});
 return templates;
 });

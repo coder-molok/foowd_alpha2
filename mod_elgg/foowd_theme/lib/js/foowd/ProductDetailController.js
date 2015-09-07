@@ -74,7 +74,7 @@ define(function(require){
 			//controllo che tra i parametri ci sia l'id del prodotto
 			if(utils.isValid(queryObject.productId)){
 				//richiamo la API per i dettagli del prodotto
-				API.getProduct(queryObject.productId).then(function(data){
+				API.getProduct(queryObject.productId, userId).then(function(data){
 					//parso in JSON il risultato
 					var rawProduct = data.body[0];
 					var parsedProduct = _applyProductContext(rawProduct);

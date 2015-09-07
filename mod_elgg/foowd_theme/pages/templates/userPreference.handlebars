@@ -1,9 +1,9 @@
-{{#if Offer.totalQt}}
+{{#if Qt}}
     <div class="preference">
        <span class = "preference-progress-bar">
             <span class = "progress" 
               data-unit = "1"
-              data-progress = "{{Offer.totalQt}}" 
+              data-progress = "{{Qt}}" 
               data-total = "{{Offer.Minqt}}">
             </span>    
         </span>
@@ -34,7 +34,7 @@
             </div>
             <div class="user-preference-actions user-preference-section">
                 <ul class="action-icons menu-section" id = "preference-action">
-                {{#canbuy Offer.totalQt Offer.Minqt}}
+                {{#canbuy Qt Offer.Minqt}}
                     <li class="action-buy">
                         <i class="foowd-icons foowd-icon-plus"></i>
                     </li>
