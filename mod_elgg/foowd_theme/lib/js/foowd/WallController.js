@@ -235,6 +235,8 @@ define(function(require){
 			});
 		});
 
+
+		//CORE MODIFIED:
 		//questo evento viene dal plugin che aggiusta il wall nelle colonne desiderate
 		//significa che tutti i post sono stati caricati
 		$(wallId).on('images-loaded',function(){

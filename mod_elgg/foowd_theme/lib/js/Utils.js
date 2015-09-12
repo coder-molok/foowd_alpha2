@@ -6,8 +6,6 @@
  * in modo da non utilizzarle direttamente nei controller
  * (aumentare il disaccopiamento)
  *
- * Beta : all'interno ci sono alcune funzioni per caricare la barra di ricerca del sito
- * appena trovo una soluzione migliore dovranno essere spostate
  *
  */
 
