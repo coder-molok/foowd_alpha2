@@ -16,11 +16,17 @@ $icon-facebook3= "\ea8e";
 
 
 // see http://designpieces.com/2012/12/google-plus-colour-palette/
+
+// altezza icona e contenitore social
+$soc-size = 2em
+
 .soc 
-    overflow: hidden
+    // overflow: visible
     margin: 0
+    margin-top: 3px;
     padding: 0
     list-style: none
+    height: $soc-size
 
     li
         display: inline-block
@@ -35,7 +41,7 @@ $icon-facebook3= "\ea8e";
         text-decoration: none
         margin: 10px
         &:before
-            font-size: 2em
+            font-size: $soc-size
         &:hover
             color: #AFDEF3
     

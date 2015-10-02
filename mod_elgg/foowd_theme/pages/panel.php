@@ -75,13 +75,56 @@ echo elgg_view('output/url', array(
 ?>
 </div>
 
+
+<div>
+<?php
+echo '<h3>Gestisci Amicizie</h3>';
+echo '<p>Per controllare le richieste di amicizia che hai ricevuto, per effettuarne o per eliminare amicizie.</p>';
+echo elgg_view('output/url', array(
+		// associate to the action
+		'href' => \Uoowd\Param::page()->friendsManage,
+	    'text' => elgg_echo('Amicizie'),
+	    'class' => 'elgg-button',
+    ));
+?>
+</div>
+
+
 </div>
 </div><!-- end foowd-panel-container -->
 <?php
+
+// $address = "scardoni.simone@gmail.com";
+
+// $subject = 'Test email.';
+
+// $body = 'Elgg!';
+
+// $header = 'From: cs@kursus-ol.com' . "\r\n" . //header email
+// 'Reply-To: cs@kursus-ol.com' . "\r\n" .
+// 'X-Mailer: PHP/' . phpversion();
+
+// echo "Attempting to email $address...<br />";
+
+// if (mail($address, $subject, $body, $header)) {
+//         echo 'SUCCESS!  PHP successfully delivered email to your MTA.  If you don\'t see the email in your inbox in a few minutes, there is a problem with your MTA.';
+// } else {
+//         echo 'ERROR!  PHP could not deliver email to your MTA.  Check that your PHP settings are correct for your MTA and your MTA will deliver email.';
+// }
+
+
 
 $body = ob_get_contents();
 ob_end_clean();
 
 echo elgg_view_page($title, '<div class="foowd-page-panel">'.$body.'</div>');
-
-?>
+//foowd utenti
+//
+//
+//you have been logged in
+//mail sent
+//
+//success
+//
+//
+//invite friends al network

@@ -1,6 +1,23 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+
+
+### 02/10/2015
+
+- risolte iss #133, #136, #139
+
+- attivato plugin Friends Request
+
+- attivato plugin Search Advanced (necessita attivazione del plugin base Serach)
+
+- sovrascritta la view del profilo
+
+- sovrascritti alcuni menu utente
+
+
+
+
 ### 05/09/2015
 
 - risolta iss#125

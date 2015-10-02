@@ -17,6 +17,7 @@
 .foowd-profilo-container #box {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 .foowd-panel-container #box div,
 .foowd-profilo-container #box div {

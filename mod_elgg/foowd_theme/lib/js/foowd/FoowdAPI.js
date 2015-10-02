@@ -33,10 +33,13 @@ define(function(require){
         		setBaseUrl : setUrl,
         		/*
         		 * Funzione che ritorna tutti i dati relativi ad un singolo prodotto.
+             *
+             * SS: se la chiamata riguarda il singolo prodotto, allora basta conoscere solo il suo id: del suo publisher non ci importa.
+             * 
         		 */
-        		getProduct : function(productId, publisher){
+        		getProduct : function(productId /* SS:, publisher */ ){
                  var requestURL = baseUrl + offers.search + '&Id={"min":' + productId + ', "max":' + productId + '}';
-                 requestURL = utils.isValid(publisher) ? requestURL + "&Publisher=" + publisher : requestURL;
+                 /*SS: requestURL = utils.isValid(publisher) ? requestURL + "&Publisher=" + publisher : requestURL;*/
                  
                  var deferred = $.Deferred();
                  $.get(requestURL, function(data){ deferred.resolve(data); });

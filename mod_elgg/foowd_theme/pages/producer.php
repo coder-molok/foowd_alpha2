@@ -1,56 +1,18 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <title>Foowd</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<?php
 
-    <!-- Vendor Style Libraries -->
-    <link href="mod/foowd_theme/lib/css/reset.css">
-    <!-- Vendor Style Libraries -->
-    <link href="mod/foowd_theme/vendor/animate.css/animate.css" rel="stylesheet">
-    <link href="mod/foowd_theme/assets/owl.carusel/owl.carousel.css" rel="stylesheet">
-    <link href="mod/foowd_theme/assets/owl.carusel/owl.theme.css" rel="stylesheet">
-    <link href="mod/foowd_theme/vendor/animate.css/animate.css" rel="stylesheet">
-     <!-- Custom CSS -->
-    <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
-    <!-- Flavicons (not avaiable yet) -->
-    <!-- elgg -->
-    <?php
+  elgg_load_css('foowd-theme-reset');
+  elgg_load_css('foowd-theme-animate');
+  elgg_load_css('owl-carousel');
+  elgg_load_css('owl-theme');
+  
+  // custom CSS
+  elgg_load_css('foowd-theme-style');
 
-        // coi seguenti comandi elgg carica l'head proprio come farebbe in una view
-        
-        $js = elgg_get_loaded_js('head');
-        $css = elgg_get_loaded_css();
-        $elgg_init = elgg_view('js/initialize_elgg');
+  ob_start();
 
-        // \Fprint::r($elgg_init);
+?>
 
-        $html5shiv_url = elgg_normalize_url('vendors/html5shiv.js');
-        $ie_url = elgg_get_simplecache_url('css', 'ie');
 
-        ?>
-
-            
-
-        <?php
-
-        foreach ($css as $url) {
-            echo elgg_format_element('link', array('rel' => 'stylesheet', 'href' => $url));
-        }
-
-        ?>
-            
-
-            <script><?php echo $elgg_init; ?></script>
-        <?php
-        foreach ($js as $url) {
-            echo elgg_format_element('script', array('src' => $url));
-        }
-      ?>
-</head>
-<body>
 <div class="foowd-navbar">
 </div>
 <div id="producer-container">
@@ -110,5 +72,11 @@ require([
 });
 </script>
 
+<?php
+  
+  $body = ob_get_contents();
+  ob_end_clean();
 
-</body>
+  echo elgg_view_page('Foowd-Producer', $body, 'foowdThemeFront', $vars);
+ 
+

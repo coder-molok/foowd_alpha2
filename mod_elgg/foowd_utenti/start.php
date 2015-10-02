@@ -31,6 +31,11 @@ function utenti_init(){
     //register a new page handler: solo di prova.
     elgg_register_page_handler('foowd_utenti', 'foowd_utenti_handler');
 
+    // forgot password
+    // elgg_register_plugin_hook_handler('action', 'user/requestnewpassword', 'pwd_smarrita', 99999999999999999999999999);
+    // 'forward, system'
+    // elgg_register_plugin_hook_handler('get_sql', 'access', 'smarrita', 99999999);
+
     // modifico la registrazione lato admin: non servira' quasi mai
     // elgg_extend_view('forms/useradd', 'register/extend');
 
@@ -53,7 +58,7 @@ function utenti_init(){
     
     // Carico il mio css di default
     $css =  'mod/'.\Uoowd\Param::pid()."/css/foowd-utenti.css";
-    elgg_register_css('foowd-utenti', $css );
+    elgg_register_css('foowd-utenti', $css , 509);
     elgg_load_css('foowd-utenti');
 
 
@@ -84,14 +89,14 @@ function foowd_utenti_handler($segments){
      // test per eventuale login con google+
     if($segments[0] === 'auth'){
         // include elgg_get_plugins_path() . 'foowd_utenti/pages/auth.php';
+        \Uoowd\Logger::addError($segments[0]);
         new \Foowd\SocialLogin();
         return true;
     }
     if($segments[0] === 'indexauth'){
         define('AUTH',__DIR__.'/vendor/hybridauth/hybridauth/hybridauth/index.php' );
         // include elgg_get_plugins_path() . 'foowd_utenti/pages/indexauth.php';
-        // \Uoowd\Logger::addError('ora sono prima di require auth');
-        
+        \Uoowd\Logger::addError($segments[0]);
         require(AUTH); 
         // questo require in realta' esegue dei redirect, 
         //pertanto il return sarebbe inutile
@@ -116,6 +121,11 @@ function foowd_utenti_handler($segments){
 
     if($segments[0] === 'gallery'){
         require elgg_get_plugins_path() . 'foowd_utenti/pages/gallery.php';
+        return true;
+    }
+
+    if($segments[0] === 'social'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/social.php';
         return true;
     }
 
@@ -198,3 +208,20 @@ function checkUser(){
     }
 
 }
+
+// function pwd_smarrita($hook, $type, $value, $params){
+//     error_log('***************************************');
+//     error_log(print_r(func_get_args(), true ));
+//     // forward('login');
+// }
+
+
+// function smarrita($hook, $type, $value, $params){
+//     error_log('*************************************** smarrita **** ');
+//     error_log(print_r(func_get_args(), true ));
+//     // if(preg_match("/requestnewpassword/i",$params['current_url'])){
+//     //     error_log(__FILE__.' : Foowd, reindirizzamento');
+//     //     // \Fprint::r('Reindirizzamento post recupero password.');
+//          // forward('login');
+//     //  }
+// }

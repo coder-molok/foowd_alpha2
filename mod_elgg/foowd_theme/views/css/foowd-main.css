@@ -5,6 +5,10 @@ h2,
 h3 {
   color: #000;
 }
+.elgg-system-messages {
+  z-index: 10000;
+  font-size: 12px;
+}
 .elgg-system-messages li[class*="elgg-state-"] {
   padding: 20px;
 }
@@ -62,7 +66,7 @@ h3 {
   margin-bottom: 40px;
 }
 .elgg-layout .elgg-sidebar {
-  margin-left: 50px;
+  background-color: #fae6ef;
 }
 .foowd-elements-footer {
   margin-top: 5px;
@@ -94,25 +98,22 @@ a:active {
 a.elgg-button,
 a:link.elgg-button,
 a:visited.elgg-button,
-a:active.elgg-button,
-a.elgg-menu-content,
-a:link.elgg-menu-content,
-a:visited.elgg-menu-content,
-a:active.elgg-menu-content {
+a:active.elgg-button {
   color: #fff;
 }
 a.elgg-button:hover,
 a:link.elgg-button:hover,
 a:visited.elgg-button:hover,
-a:active.elgg-button:hover,
-a.elgg-menu-content:hover,
-a:link.elgg-menu-content:hover,
-a:visited.elgg-menu-content:hover,
-a:active.elgg-menu-content:hover {
+a:active.elgg-button:hover {
   color: #c81063;
   background-color: #fae6ef;
 }
-.elgg-button {
+.elgg-sidebar a.elgg-menu-content,
+.elgg-sidebar a:link.elgg-menu-content {
+  color: #c81063;
+}
+.elgg-button,
+.elgg-button-submit {
   -webkit-border-radius: 0px;
   border-radius: 0px;
   background: none;
@@ -124,13 +125,18 @@ a:active.elgg-menu-content:hover {
   margin-right: 10px;
   color: #fff;
 }
-.elgg-button:hover {
+.elgg-button:hover,
+.elgg-button-submit:hover,
+.elgg-button:focus,
+.elgg-button-submit:focus {
+  outline: none !important;
   background: none;
   background-color: #fae6ef;
-  border: none;
+  border: 0px;
+  color: #c81063;
   text-shadow: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+  -webkit-box-shadow: 0 0 3px #c81063;
+  box-shadow: 0 0 3px #c81063;
 }
 input[type="text"],
 input[type="email"],

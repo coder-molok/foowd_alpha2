@@ -9,7 +9,7 @@ function detectRequestBody() {
 
     return $tempStream;
 }
-
+\Uoowd\Logger::addDebug('Dati post inviati: ');
 
 $par = 'ExternalId';
 
@@ -22,8 +22,23 @@ if(!isset($_POST[$par])){
 }
 
 
+if(is_null($data)){
+	$j['response']	= false;
+	$j['msg'] = 'Errore $_POST: non hai fornito alcun ExternalId';
+	echo json_encode($j);
+	return;
+}
 
+
+// recuper la directory
 $dirImg = rtrim(\Uoowd\Param::userStore($data),'/');
+
+if(!file_exists($dirImg)){
+	$j['response'] = false;
+	$j['msg'] = "Purtoppo l'Id $data non corrisponde ad alcun path di ricerca.";
+	echo json_encode($j);
+	return;
+}
 
 $imgAr = array();
 

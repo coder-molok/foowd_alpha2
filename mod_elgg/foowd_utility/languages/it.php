@@ -16,6 +16,7 @@ return array(
 
 	'foowd:description' => 'Descrivi il tuo prodotto',
 	'foowd:description:need' => 'Descrivi il tuo prodotto *',
+	'foowd:description:error' => 'Manca la descrizione del prodotto',
 
 	'foowd:file' => 'Carica l\'immagine',
 	'foowd:file:need' => 'Carica l\'immagine *',
@@ -49,6 +50,8 @@ return array(
 
 	'foowd:user:description' => 'Inserisci una descrizione per farti conoscere',
 	'foowd:user:description:need' => 'Inserisci una descrizione per farti conoscere **',
+
+	'foowd:user:username:error' => 'Lo username non &egrave; valido',
 	
 	'foowd:user:site' => 'Sito Internet',
 	'foowd:user:site:optional' => 'Sito Internet *',
@@ -83,7 +86,108 @@ return array(
 	'foowd:image-tmp' => 'foowd_utility/image-tmp',
 	'foowd:image-profile' => 'foowd_utility/image-profile',
 
+	'developers:event_log_msg' => 'messaggio di log da sviluppatore',
 
+	/**
+	 * plugin reportedcontent
+	 */
+	
+	'reportedcontent:user' => 'Segnala utente',
+
+	/**
+	 * plugin friend request
+	 */
+	
+		'friend_request' => "Friends Request",
+		'friend_request:menu' => "Richieste d'amicizia",
+		'friend_request:title' => "Richieste d'amicizia per: %s",
+
+		'friend_request:new' => "Nuova richiesta d'amicizia",
+		
+		'friend_request:friend:add:pending' => "Richiesta d'amiciza in sospeso",
+		
+		'friend_request:newfriend:subject' => "%s vuole essere tuo amico!",
+		'friend_request:newfriend:body' => "%s vogliono essere tuoi amici! Ma stanno attendendo che tu approvi la loro richiesta... loggati per poterla approvare!
+
+	Puoi vedere le tue richieste in sospeso a:
+	%s
+
+	Assicurati di aver effettuato l'accesso al sito prima di cliccare sul seguente link, altrimenti sarai reindirizzato alla pagina di log in.
+
+	(Non puoi rispondere a questa mail.)",
+			
+		// Actions
+		// Add request
+		'friend_request:add:failure' => "Spiacenti, a causa di un errore di sistema non &egrave; possibile completare la richiesta. Sei pregato di riprovare.",
+		'friend_request:add:successful' => "Hai mandato una richiesta d'amicizia a %s. E' necessario attendere l'approvazione prima di poter visualizzare i nuovi amici nella tua lista di amcizie.",
+		'friend_request:add:exists' => "Hai gi&agrave; richiesto l'amicizia a %s.",
+		
+		// Approve request
+		'friend_request:approve' => "Approva",
+		'friend_request:approve:subject' => "%s ha accettato la tua richiesta d'amicizia.",
+		'friend_request:approve:message' => "Utente %s:,
+
+	%s ha accettato di diventare tuo amico.",
+		'friend_request:approve:successful' => "%s &egrave; ora un amico.",
+		'friend_request:approve:fail' => "Errore nella creazione dell'amicizia con %s",
+
+		// Decline request
+		'friend_request:decline' => "Declina",
+		'friend_request:decline:subject' => "%s ha declinato la tua richiesta d'amicizia",
+		'friend_request:decline:message' => "Utente %s,
+
+	%s ha declinato la tua richiesta d'amicizia.",
+		'friend_request:decline:success' => "Richiesta d'amicizia declinata con successo",
+		'friend_request:decline:fail' => "Errore durante la declinazione della richiesta d'amicizia, sei pregato di riprovare.",
+		
+		// Revoke request
+		'friend_request:revoke' => "Revoca",
+		'friend_request:revoke:success' => "Richiesta d'amicizia revocata con successo.",
+		'friend_request:revoke:fail' => "Errore nella revoca della richiesta d'amicizia, sei pregato di riprovare.",
+
+		// Views
+		// Received
+		'friend_request:received:title' => "Richieste d'amicizia ricevute",
+		'friend_request:received:none' => "Non vi sono richieste ricevute in attesa di essere approvate.",
+
+		// Sent
+		'friend_request:sent:title' => "Richieste d'amicizia inviate",
+		'friend_request:sent:none' => "Non vi sono richieste inviate in attesa di essere approvate.",
+
+
+	/**
+	 * Plugin Invite Friends
+	 */
+	
+			'friends:invite' => 'Invita Amici',
+			
+			'invitefriends:registration_disabled' => 'La registrazione di nuovi utenti su questo sito &egrave; stata disabilitata; non puoi invitare nuovi utenti.',
+			
+			'invitefriends:introduction' => 'Per invitare amici a collegarsi a questo network, inserisci i loro indirizzi email e un messaggio che riceveranno assieme al tuo invito.',
+			'invitefriends:emails' => 'Indirizzi Email (uno per riga)',
+			'invitefriends:message' => 'Messaggio',
+			'invitefriends:subject' => 'Invito a collegarsi a %s',
+
+			'invitefriends:success' => 'I tuoi amici sono stati invitati.',
+			'invitefriends:invitations_sent' => 'Inviti spediti: %s. Sono avvenuti i seguenti problemi:',
+			'invitefriends:email_error' => 'I seguenti indirizzi non sono validi: %s',
+			'invitefriends:already_members' => 'I seguenti sono gi&agrave; membri: %s',
+			'invitefriends:noemails' => 'Non hai inserito l\'indirizzo email.',
+			
+			'invitefriends:message:default' => 'Ciao,
+
+		sei invitato a collegarti al mio network su %s.',
+
+			'invitefriends:email' => 'Hai ricevuto un invito per collegarti a %s da %s. E\' stato incluso il seguente messaggio:
+
+		%s
+
+		Per collegarti clicca sul link seguente:
+
+		%s
+
+		Saranno automaticamente aggiunti alle tue amicizie appena avrai creato il tuo account.',
+			
 
 /**
  * Account
@@ -94,11 +198,11 @@ return array(
 	'tools' => "Tools",
 	'settings:edit' => 'Edit settings',
 
-	'register' => "Register",
-	'registerok' => "You have successfully registered for %s.",
-	'registerbad' => "Your registration was unsuccessful because of an unknown error.",
-	'registerdisabled' => "Registration has been disabled by the system administrator",
-	'register:fields' => 'All fields are required',
+	'register' => "Registrati",
+	'registerok' => "Ti sei registrato con successo come %s.",
+	'registerbad' => "La tua registrazione non &egrave; andata a buon fine a causa di un errore sconosciuto.",
+	'registerdisabled' => "La registrazione &egrave; stata disabilitata dagli Amministratori",
+	'register:fields' => 'Sono richiesti tutti i campi',
 
 	'registration:notemail' => 'The email address you provided does not appear to be a valid email address.',
 	'registration:userexists' => 'That username already exists',
@@ -140,10 +244,10 @@ return array(
 	'user:username:notfound' => 'Username %s non trovato.',
 
 	'user:password:lost' => 'Password smarrita',
-	'user:password:changereq:success' => 'Successfully requested a new password, email sent',
-	'user:password:changereq:fail' => 'Could not request a new password.',
+	'user:password:changereq:success' => 'Richiesta nuova password avvenuta con successo. Riceverai a breve una mail.',
+	'user:password:changereq:fail' => 'Non &egrave; possibile richiedere una nuova password.',
 
-	'user:password:text' => 'To request a new password, enter your username or email address below and click the Request button.',
+	'user:password:text' => 'Per richiedere una nuova password, inserisci il tuo username o indirizzo email nel campo sottostante e clicca sul bottone di richiesta.',
 
 	'user:persistent' => 'Remember me',
 
@@ -336,25 +440,25 @@ return array(
  * Groups
  */
 
-	'group' => "Group",
-	'item:group' => "Groups",
+	'group' => "Grouppo",
+	'item:group' => "Grouppi",
 
 /**
  * Users
  */
 
-	'user' => "User",
-	'item:user' => "Users",
+	'user' => "Utente",
+	'item:user' => "Utenti",
 
 /**
  * Friends
  */
 
-	'friends' => "Friends",
-	'friends:yours' => "Your friends",
-	'friends:owned' => "%s's friends",
-	'friend:add' => "Add friend",
-	'friend:remove' => "Remove friend",
+	'friends' => "Amici",
+	'friends:yours' => "Tue amicizie",
+	'friends:owned' => "Il tuo amico %s",
+	'friend:add' => "Aggiungi amico",
+	'friend:remove' => "Rimuovi amico",
 
 	'friends:add:successful' => "You have successfully added %s as a friend.",
 	'friends:add:failure' => "We couldn't add %s as a friend.",
@@ -372,9 +476,9 @@ return array(
 
 	'friends:of:owned' => "People who have made %s a friend",
 
-	'friends:of' => "Friends of",
-	'friends:collections' => "Friend collections",
-	'collections:add' => "New collection",
+	'friends:of' => "Amici di",
+	'friends:collections' => "Collezioni di Amici",
+	'collections:add' => "Nuova collezione",
 	'friends:collections:add' => "New friends collection",
 	'friends:addfriends' => "Select friends",
 	'friends:collectionname' => "Collection name",
@@ -866,61 +970,61 @@ These changes will only affect new users on the site.',
  * Generic action words
  */
 
-	'save' => "Save",
+	'save' => "Salva",
 	'reset' => 'Reset',
-	'publish' => "Publish",
-	'cancel' => "Cancel",
-	'saving' => "Saving ...",
-	'update' => "Update",
+	'publish' => "Pubblica",
+	'cancel' => "Cancella",
+	'saving' => "Sto salvando ...",
+	'update' => "Aggiorna",
 	'preview' => "Preview",
-	'edit' => "Edit",
-	'delete' => "Delete",
-	'accept' => "Accept",
-	'reject' => "Reject",
-	'decline' => "Decline",
-	'approve' => "Approve",
-	'activate' => "Activate",
-	'deactivate' => "Deactivate",
-	'disapprove' => "Disapprove",
-	'revoke' => "Revoke",
-	'load' => "Load",
-	'upload' => "Upload",
-	'download' => "Download",
-	'ban' => "Ban",
-	'unban' => "Unban",
-	'banned' => "Banned",
-	'enable' => "Enable",
-	'disable' => "Disable",
-	'request' => "Request",
-	'complete' => "Complete",
-	'open' => 'Open',
-	'close' => 'Close',
-	'hide' => 'Hide',
-	'show' => 'Show',
-	'reply' => "Reply",
-	'more' => 'More',
-	'more_info' => 'More info',
-	'comments' => 'Comments',
-	'import' => 'Import',
-	'export' => 'Export',
-	'untitled' => 'Untitled',
+	'edit' => "Modifica",
+	'delete' => "Elimina",
+	'accept' => "Accetta",
+	'reject' => "Rifiuta",
+	'decline' => "Declina",
+	'approve' => "Approva",
+	'activate' => "Attiva",
+	'deactivate' => "Disattiva",
+	'disapprove' => "Disapprova",
+	'revoke' => "Revoca",
+	'load' => "Carica",
+	'upload' => "Carica",
+	'download' => "Scarica",
+	'ban' => "Banna",
+	'unban' => "Rimuovi banner",
+	'banned' => "Bannato",
+	'enable' => "Abilita",
+	'disable' => "Disabilita",
+	'request' => "Richiedi",
+	'complete' => "Completato",
+	'open' => 'Apri',
+	'close' => 'Chiudi',
+	'hide' => 'Nascondi',
+	'show' => 'Mostra',
+	'reply' => "Rispondi",
+	'more' => 'Altro',
+	'more_info' => 'Ulteriori informazioni',
+	'comments' => 'Commenti',
+	'import' => 'Importa',
+	'export' => 'Esporta',
+	'untitled' => 'Senza titolo',
 	'help' => 'Help',
-	'send' => 'Send',
+	'send' => 'Invia',
 	'post' => 'Post',
 	'submit' => 'Submit',
-	'comment' => 'Comment',
-	'upgrade' => 'Upgrade',
-	'sort' => 'Sort',
-	'filter' => 'Filter',
-	'new' => 'New',
-	'add' => 'Add',
-	'create' => 'Create',
-	'remove' => 'Remove',
-	'revert' => 'Revert',
+	'comment' => 'Commenta',
+	'upgrade' => 'Aggiorna',
+	'sort' => 'Ordina',
+	'filter' => 'Filtra',
+	'new' => 'Nuovo',
+	'add' => 'Aggiungi',
+	'create' => 'Crea',
+	'remove' => 'Rimuovi',
+	'revert' => 'Inverti',
 
-	'site' => 'Site',
-	'activity' => 'Activity',
-	'members' => 'Members',
+	'site' => 'Sito',
+	'activity' => 'Attivit&agrave;',
+	'members' => 'Membri',
 	'menu' => 'Menu',
 
 	'up' => 'Up',
@@ -931,18 +1035,18 @@ These changes will only affect new users on the site.',
 	'left' => 'Left',
 	'back' => 'Back',
 
-	'invite' => "Invite",
+	'invite' => "Invita",
 
-	'resetpassword' => "Reset password",
-	'changepassword' => "Change password",
-	'makeadmin' => "Make admin",
-	'removeadmin' => "Remove admin",
+	'resetpassword' => "Azzera password",
+	'changepassword' => "Cambia password",
+	'makeadmin' => "Rendi Amministratore",
+	'removeadmin' => "Rimuovi Amministratore",
 
 	'option:yes' => "Si",
 	'option:no' => "No",
 
-	'unknown' => 'Unknown',
-	'never' => 'Never',
+	'unknown' => 'Sconosciuto',
+	'never' => 'Mai',
 
 	'active' => 'Active',
 	'total' => 'Total',

@@ -1,6 +1,5 @@
 
 ( (root, factory)-> 
-
     if typeof define is 'function' and define.amd
         # AMD. Register as an anonymous module.
         define(['elgg','jquery'], factory);
@@ -17,7 +16,6 @@
 
 
 ()->
-
 
     loom = this
 
@@ -40,7 +38,14 @@
         constructor: (@obj) ->
             # console.log(@Jselector)
 
-            @el = $(@obj.el)
+            # posso passare o query string o elementi jqueryi direttamente
+            if typeof @obj.el is 'object'
+                @el = @obj.el
+                console.log('oggetto')
+                console.log @obj
+            else
+                @el = $(@obj.el)
+
             @inpt = $(@obj.inpt)
             @key = @obj.key
 
@@ -70,12 +75,13 @@
             
 
             #vincoli da rispettare
-            @inpt .on "focusout mouseout keyup", ()->
+            @inpt .on "focusout mouseout keyup", ( inptOn = ()->
                 if !first
                     if not that.check()  
                         that.error()
                     else 
                         that.clean()
+            )
             
             ###
             @inpt .on "mouseout", ()->
@@ -140,7 +146,7 @@
 
             Min = $("[name*=Minqt]").val().trim()
             if Min is ''
-                @msg = 'Devi prima inserire la quantit&agrave; massima'
+                @msg = 'Devi prima inserire la quantit&agrave; minima'
                 @el.val('')
                 return false
 
@@ -160,6 +166,17 @@
         check: ->
             v = @el.val().trim()
             if not v then false else true
+
+    class IframeText extends Input
+        check: ->
+            v = $('iframe[class*="cke_wys"]').contents().find('body').first().text().trim()
+            # alert(v)
+            if v is '' 
+                return false 
+            else
+                @clean()
+                return true
+
 
     ###
     class Larger extends Input   
@@ -195,7 +212,7 @@
 
         input =
             'Name': ['Text']
-            #'Description': ['Text', 'Il campo non puo\' essere vuoto']
+            'Description': ['IframeText']
             #'Minqt-integer':['Price', 'Il campo e\' obbligatorio']
             #'Maxqt-integer':['Larger', 'La quantita\' massima deve superare o eguagliare quella minima.<br/>    Se non vuoi inserire un massimo, cancella i numeri dal campo sottostante. ']
             #'Price-integer':['Price',  'Il campo e\' obbligatorio']
@@ -207,13 +224,14 @@
             #'Tag': ['Div', 'Devi selezionare almeno un tag', '.search-choice', 'foowd:update:tag']
             'Tag': ['Div', '.search-choice', 'foowd:update:tag']# l'ultimo e' il trigger event impostato con chosen
             'file' : ['Div',  '#sorgente']#, 'foowd:update:file']
-
+            
         constructor: ->
             @factory = []
             for key,cls of input 
                 tmp = cls[0].toString()
                 inpt = 'input[name*='+key+']'
                 selector = '[name*='+key+']'
+                if key is 'Description' then selector = 'iframe[class*="cke_wys"]'
                 if key is 'Tag' then inpt = '.chosen-choices'
                 if key is 'Unit' then inpt = 'select[name=Unit]'
                 #else if key is 'file' then selector = '"#sorgente"'
@@ -261,15 +279,27 @@
                 if not inpt.check()
                     check = false
                     inpt.error()
+
+            # controllo esplicito del campo description
+            # descTxt = $('iframe[class*="cke_wys"]').contents().find('body').text() 
+            # if descTxt is ''
+            #     alert('txt empty')
+            #     check = false
+
             return check
             
     
     fac = new InputFactory()
 
-    $('form').on 'submit', (e)->
+    $('form').unbind();
 
+    $('form').on 'submit', (e)->
+        # e.preventDefault()
         if not fac.checkAll() 
              e.preventDefault()
              alert 'Devi finire di compilare dei campi'
+             # tolgo il focus dal bottone del form
+             $(this).find('[type="submit"]').blur()
+             
 
 );

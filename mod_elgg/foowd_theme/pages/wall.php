@@ -1,56 +1,15 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <title>Foowd</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <!-- Vendor Style Libraries -->
-    <link href="mod/foowd_theme/lib/css/reset.css">
-    <!-- Vendor Style Libraries -->
-    <link href="mod/foowd_theme/vendor/animate.css/animate.css" rel="stylesheet">
-     <!-- Custom CSS -->
-    <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
-    <!-- Flavicons (not avaiable yet) -->
-    <!-- elgg -->
-    <?php
+<?php
+  // css specifici
+  elgg_load_css('foowd-theme-reset');
 
-        // coi seguenti comandi elgg carica l'head proprio come farebbe in una view
-        
-        $js = elgg_get_loaded_js('head');
-        $css = elgg_get_loaded_css();
-        $elgg_init = elgg_view('js/initialize_elgg');
 
-        // \Fprint::r($elgg_init);
+  // catturo l'output
+  ob_start();
+?>
 
-        $html5shiv_url = elgg_normalize_url('vendors/html5shiv.js');
-        $ie_url = elgg_get_simplecache_url('css', 'ie');
-
-        ?>
-
-            
-
-        <?php
-
-        foreach ($css as $url) {
-            echo elgg_format_element('link', array('rel' => 'stylesheet', 'href' => $url));
-        }
-
-        ?>
-            
-
-            <script><?php echo $elgg_init; ?></script>
-        <?php
-        foreach ($js as $url) {
-            echo elgg_format_element('script', array('src' => $url));
-        }
-      ?>
-</head>
-<body>
 <div class="foowd-navbar">
 </div>
-
 <ul class="grid effect-1" id="wall">
 
 </ul>
@@ -105,4 +64,10 @@ require([
 });
 </script>
 
-</body>
+<?php
+  
+  $body = ob_get_contents();
+  ob_end_clean();
+
+  echo elgg_view_page('Foowd Home', $body, 'foowdThemeFront', $vars);
+ 

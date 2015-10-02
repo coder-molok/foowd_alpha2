@@ -32,8 +32,14 @@ class SocialLogin{
 		 // $authPage = dirname($authPage).'/indexauth';
 		 
 
+		$host = $_SERVER['HTTP_HOST'];
 		$redirect = elgg_get_site_url().'foowd_utenti/indexauth';
-		// \Uoowd\Logger::addError('redirect page: '.$redirect);
+		// utilizzo l'ip impostato col servisio no-ip: necessario per testare l'app google
+		// l'app di google richieste di passare il nome di un host, non un indirizzo ip!
+		if(filter_var($host , FILTER_VALIDATE_IP)){ 
+			$redirect = 'http://http-foowd.ddns.net/foowd_utenti/indexauth';
+		}
+		// \Uoowd\Logger::addError('redirect : '.$redirect);
 				
 		// configurazione di bybridAuth
 		$config = array(
@@ -69,14 +75,15 @@ class SocialLogin{
 		    
 		    $hybridauth = new \Hybrid_Auth( $config );
 		    
-		    // \Uoowd\Logger::addError('dopo hybrid');
+		    // svolgo l'autenticazione presso il provider
+		    \Uoowd\Logger::addError('dopo hybrid');
 		    $adapter = $hybridauth->authenticate( $provider );
 
 		    // se sono arrivato sino a qui, vuol dire che l'autenticazione e' andata bene,
-		    // pertanto procedo col recuperare i dati e posso procedere con l'autenticazione lato Elgg		    
-		    // \Uoowd\Logger::addError('dopo authenticate');
+		    // pertanto procedo col recuperare i dati tramite la APP e posso procedere con l'autenticazione lato Elgg		    
+		    \Uoowd\Logger::addError('dopo authenticate');
 		    $user_profile = $adapter->getUserProfile();
-
+		    \Uoowd\Logger::addError($user_profile);
 		    $this->userProfile = $user_profile;
 		    $this->idt = $provider.'-'.$user_profile->identifier;
 		    $this->metadata = 'idAuth'.$provider;

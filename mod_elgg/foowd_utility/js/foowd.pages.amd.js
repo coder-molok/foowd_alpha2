@@ -22,6 +22,7 @@ define(
 		"foowdStorage": "../FoowdStorage/",	// directory contenente le immagini delle offerte
 		"auth": "foowd_utenti/auth", 		// pagina utilizzata per il login mediante socials
 		"profile":"foowd_utenti/profilo",	// pagina del profilo
-		"panel": "panel" 					// pagina del pannello
+		"panel": "panel", 					// pagina del pannello
+		"friendsManage": "friend_request"	// pagina del plugin friend request
 	}
 );

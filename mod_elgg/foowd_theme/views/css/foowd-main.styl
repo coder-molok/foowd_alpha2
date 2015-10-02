@@ -20,6 +20,9 @@ h2, h3
 
 .elgg-system-messages
 	
+	z-index 10000
+	font-size 12px
+	
 	li[class*="elgg-state-"]
 		padding: 20px;
 	
@@ -74,7 +77,6 @@ h2, h3
 	background-color: foowdTopbar;
 	border-bottom: 0;
 
-
 	
 .elgg-page-body, 
 .foowd-elements-footer
@@ -87,7 +89,10 @@ h2, h3
 	
 .elgg-layout
 	.elgg-sidebar
-		margin-left: 50px
+		background-color: foowdPink
+		// margin-left: 50px
+		// position absolute
+		// top 20px
 	
 .foowd-elements-footer
 	margin-top: 5px
@@ -112,7 +117,8 @@ h2, h3
 a, a:link ,a:visited, a:active
 	color: foowdTopbar
 	
-	&.elgg-button, &.elgg-menu-content
+	&.elgg-button//, &.elgg-menu-content
+		// background-color purple
 		color: #ffffff
 		
 		&:hover
@@ -122,8 +128,14 @@ a, a:link ,a:visited, a:active
 		// &:active, &:visited
 		// 	color: foowdPink
 
+.elgg-sidebar
+	a, a:link
+		
+		&.elgg-menu-content
+			color foowdTopbar
 
-.elgg-button
+
+.elgg-button, .elgg-button-submit
 	border-radius: 0px;
 	background: none;
 	background-color: foowdButtonBackground
@@ -133,12 +145,17 @@ a, a:link ,a:visited, a:active
 	margin-right: 10px
 	color: #ffffff
 	
-	&:hover 
+	&:hover, &:focus
+		outline none !important
 		background: none;
 		background-color: foowdPink
-		border none
+		border 0px
+		color foowdButtonBackground
 		text-shadow: none
-		box-shadow: none
+		box-shadow: 0 0 3px foowdButtonBackground
+	
+	
+
 
 input[type="text"],
 input[type="email"],
