@@ -1,4 +1,5 @@
 # Foowd Theme
+
 Questo è un tema sviluupato con **Elgg** per la piattforma **Foowd**. In particolare gestisce le pagine di 
 > Wall dei prodotti
 > Dettaglio di un prodotto
