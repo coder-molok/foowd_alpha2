@@ -63,16 +63,13 @@ Per prima cosa è necessario quando si lavora poter richiamare lo scrip `propel`
 
 Questa cartella dovrebbe esistere se finito correttamente passo precedente. 
 
+spostartsi su `./data/`
 
 Poi è necessario creare su Mysql un database  `foowd_api` dando tutti i permessi a `foowd` con psw `mangioBENE`
 
 	create database foowd_api
 	GRANT ALL ON foowd_api TO 'foowd'@'localhost' IDENTIFIED BY 'mangioBENE'
 
-E' poi necessario aggiungere un'opzione nella tabella offers, pertanto sempre da mysql digitare
-
-	 USE `foowd_api`; 
-	 ALTER TABLE `offer` CHANGE `modified` `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 
 A questo punto possiamo prima di tutto creare gli script `sql` lanciando da  `<workspace>/foowd_alpha2/api_offerte/data/`
 
@@ -101,17 +98,12 @@ che crea la cartella `generated-config`
 
 Il file `index.php` richiama per funzionare il codice cosi generato.
 
+E' poi necessario aggiungere un'opzione nella tabella offers, pertanto sempre da mysql digitare
 
+	 USE `foowd_api`; 
+	 ALTER TABLE `offer` CHANGE `modified` `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 
-## Testare funzionamento 
-
-A questo punto dovrebbe essere sufficiente copiare la cartella `api_offerte` nell'apache `htdocs`
-
-Per verificare il funzionamento di SLIM andare al link 
-
-	http://localhost/api_offerte/public_html/
-
-Dovrebbe apparire una pagina di test con un pulsante per creare delle offerte random, e un link per vedere il json di tutte le offerte. 
+ 
 
 ## Ricapitolando
 
@@ -125,8 +117,7 @@ Al momento per il modulo api_offerte ho scelto di usare
 # Installazione Elgg
 
 
-Seguire le indicazioni del tutorial [ufficiale](http://learn.elgg.org/en/latest/intro/install.html) creando prima il database vuoto per elgg in mysql
-
+[vedi](installazione_elgg.md)
 
 
 # installazione Ambiente per sviluppo Elgg
