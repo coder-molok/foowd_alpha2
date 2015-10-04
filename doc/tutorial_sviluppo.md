@@ -36,7 +36,7 @@ E' necessario installare un piccolo script queste le [info complete](https://get
 In breve su windows scaricare ed installare [Composer-Setup.exe](https://getcomposer.org/Composer-Setup.exe) 
 
 
-Entrare nella cartella `<workspace>/foowd_alpha2/api_offerte/app/` e lancuiare su linux il comando 
+Entrare nella cartella `<workspace>/foowd_alpha2/api_foowd/app/` e lancuiare su linux il comando 
 
 	 composer install
 
