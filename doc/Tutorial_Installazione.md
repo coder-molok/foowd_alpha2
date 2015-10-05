@@ -158,10 +158,10 @@ verificare la presenza di .htacces in /var/www/html/elgg e che contenga la corre
 
 restartare apache2
 
-# Pluins 
+# Plugins 
 
 
-I plugin sono quattro
+I plugin sono quattro, in ordine di attivazione
 
 * foowd_utility
 * foowd_offerte
@@ -177,7 +177,7 @@ L'installazione consiste nel:
 
 Infine i plugin devono essere attivati in ordine
 
-
+//
 
 
 
