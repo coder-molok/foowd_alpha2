@@ -1,14 +1,25 @@
-# Tutorial Per sviluppatori
+# Tutorial Installazione 
 
-## Prerquisiti
+I macro step per l'installazione sono 
+
+
+* installazione API_foowd
+* installazione elgg
+* installazione e attivazione pluings
+
+# Prerquisiti
 
 * php 5.4
 * git command line client  ([Windows Link](http://git-scm.com/download/win) )
 * apache server
 * mysql server
+* [node.js](https://nodejs.org/en/)
+* [bower](http://bower.io/)
 
-# Installazione Ambiente per sviluppo api_offerte 
 
+
+
+# API_foowd
 
 ## Clone del repository 
 
@@ -117,26 +128,60 @@ Al momento per il modulo api_offerte ho scelto di usare
 # Installazione Elgg
 
 
-[vedi](installazione_elgg.md)
 
 
-# installazione Ambiente per sviluppo Elgg
+Elgg puo essere installato dove vuoi, ovviamente a partire dalla  htdocs.
+segui le istruzioni in [tutorial](http://learn.elgg.org/en/1.10/intro/install.html) 
+
+per ora la 1.10 poi vedremo.
+
+Le estensioni di elgg devono essere poi inserite in `<path installazione elgg>/mod` ad esempiop  `/var/www/htdocs/elgg/mod/` 
+ e poi attivati dal pannello amministatore elgg. Vedi tutorial elgg su [plugin](http://learn.elgg.org/en/latest/admin/plugins.html#installation)
 
 
-# Installazione Aptana
+## Per mod_rewite
 
-Per lo sviluppo sia della parte offerte sia della parte elgg consiglio [Aptana](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&uact=8&ved=0CCYQjBAwAQ&url=http%3A%2F%2Fwww.aptana.com%2Fproducts%2Fstudio3%2Fdownload.html&ei=F2zRVLeFFM_gao7pgtAP&usg=AFQjCNFwqD4EHGmRf4gh1vER5GUE-aO4mg&sig2=sw2OZbG1KhhYA8Krrbck6A&bvm=bv.85142067,bs.1,d.bGQ)
+Assicurarsi che apache2 abbia montato il modulo mod_revrite (Le istruzioni sono per debian)
+
+	a2enmod rewrite
+	
+permettere override. in debian `/etc/apache2/apache2.conf/`
+
+	<Directory /var/www/>
+		Options Indexes FollowSymLinks
+		#Cambiato per elgg da	AllowOverride None
+		AllowOverride All
+		Require all granted
+	</Directory>
+	
+verificare la presenza di .htacces in /var/www/html/elgg e che contenga la corretta linea `Rewrite /elgg/`
+
+restartare apache2
+
+# Pluins 
+
+
+I plugin sono quattro
+
+* foowd_utility
+* foowd_offerte
+* foowd_utenti
+* foowd_utility
+
+L'installazione consiste nel:
+
+1. scaricare il codice del plugin. 
+2. Generare il codice php con composer se necessario, 
+3. generare il codice js con bower
+4. se necessario e copiare nella cartella `mod` di *Elgg* 
+
+Infine i plugin devono essere attivati in ordine
 
 
 
-# Inserire Utente
 
-Provvisoriamente per inserire un nuovo utente facendo in modo che il tutto risulti coerente coi parametri del DB:
 
-1.	Trovare Id Utente,
-	 il modo piu' rapido e' reperirlo via phpMyAdmin andando nella tabella `elgg_users_entity`
-2. Inserire via API,
-	utilizzando POSTMAN, caricare il file in `foowd_alpha2/api_foowd/app/test/postman/User.json`. Fatto questo utilizzare il metodo Crea Utente della collezione appena caricata.
+# Altro 
 
 
 # Elenco Comandi
@@ -176,6 +221,6 @@ il numero **1** dentro la quadra indica che deve essere lanciato il comando 1 di
 
 
 
-## Installare Aptana
-## Scaricare repository
-## Settare project transfer
+
+
+
