@@ -2,6 +2,50 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 06/10/2015
+
+- create **API**:
+    + `group`, che partendo da una specifica offerta e una lista di id, ritorna la medesima offerta con le preferenze che matchano gli id passati
+    + 'commonOffers' che dato un gruppo di id ritorna tutte le offerte che li riguardano, specificando per quascuna quali id l'hanno preferita
+
+- ampliata descrizione nel [Tutorial_installazione.md](Tutorial_installazione.md)
+
+
+
+### 05/10/2015
+
+- estesa la visualizzazione della pagina `friends` grazie alla view `foowd_utenti/view/default/object/summary/extend`
+
+- aggiunte funzionalita' a `foowd-service.js` e relativo `services.php`
+
+- modificato `UserBoardController.js` per consentire la visualizzazione della board degli amici
+
+
+
+
+### 04/10/2015
+
+- creato `foowd-services.js`: modulo di servizio per richieste specifiche verso elgg( ad esempio check delle amicizie)
+
+- impostato routing pagina amicizie: sovrascritta quella originale di elgg
+
+- modificato script della board per renderla visualizzabile da altri utenti (amici)
+
+
+
+
+### 03/10/2015
+
+- migliorata interfaccia grafica sidebar
+
+- sistemato problema caricamento dei settings
+
+- personzalizzata pagina profilo di elgg
+
+- traduzioni dei plugin
+
+
+
 
 ### 02/10/2015
 
@@ -29,6 +73,8 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 - risolto errata visualizzazione immagini caricate alla registrazione
 
 
+
+
 ### 02/08/2015
 
 - completamento iss #70, #99,#107, #108, #111
@@ -53,6 +99,7 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 - corretta [issue#104](https://github.com/coder-molok/foowd_alpha2/issues/104)
 
 - svolta [issue#70](https://github.com/coder-molok/foowd_alpha2/issues/70)
+
 
 
 

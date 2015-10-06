@@ -59,14 +59,23 @@ h3 {
 }
 .elgg-page-body,
 .foowd-elements-footer {
+  padding: 0;
   padding-top: 20px;
-  width: 60%;
+  width: 100%;
   min-width: 400px;
-  margin: auto;
+  margin: 0;
   margin-bottom: 40px;
 }
-.elgg-layout .elgg-sidebar {
-  background-color: #fae6ef;
+.elgg-inner {
+  margin: 0;
+  padding: 0;
+}
+.elgg-inner .elgg-main {
+  max-width: 60%;
+  margin: auto;
+}
+.elgg-layout-one-sidebar {
+  background: none;
 }
 .foowd-elements-footer {
   margin-top: 5px;
@@ -108,9 +117,18 @@ a:active.elgg-button:hover {
   color: #c81063;
   background-color: #fae6ef;
 }
+.elgg-sidebar {
+  background-color: #86385b;
+}
 .elgg-sidebar a.elgg-menu-content,
 .elgg-sidebar a:link.elgg-menu-content {
   color: #c81063;
+}
+.elgg-sidebar a:hover {
+  background-color: #fae6ef;
+}
+.elgg-sidebar li.elgg-state-selected > a {
+  background-color: #cf8bcd;
 }
 .elgg-button,
 .elgg-button-submit {
@@ -137,6 +155,20 @@ a:active.elgg-button:hover {
   text-shadow: none;
   -webkit-box-shadow: 0 0 3px #c81063;
   box-shadow: 0 0 3px #c81063;
+}
+.elgg-module-info > .elgg-head {
+  padding: 5px 5px 2px 0px;
+  margin-top: 20px;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  background: none;
+}
+.elgg-module-info > .elgg-head h3 {
+  border-color: #85385a;
+  padding-bottom: 5px;
+}
+.elgg-module-info .elgg-body {
+  padding-left: 10px;
 }
 input[type="text"],
 input[type="email"],
@@ -182,4 +214,32 @@ textarea:focus {
 .foowd-page-add input[name="UnitExtra"],
 .foowd-page-single input[name="UnitExtra"] {
   width: 265px;
+}
+form.elgg-search {
+  border: 1px solid #c81063;
+  height: 20px;
+}
+.elgg-search-header {
+  position: relative;
+}
+.search-advanced-type-selection > li > a {
+  background-color: #c81063;
+  height: 19px;
+}
+.elgg-search input[type="text"].search-input {
+  border: 0px;
+  width: 100%;
+  background-position: right -917px;
+  background-color: #fff;
+}
+.elgg-search input[type="text"]:focus,
+.elgg-search input[type="text"]:active {
+  color: #c81063;
+  border: 1px solid #c81063;
+}
+.search-advanced-type-selection-dropdown {
+  border: 0px;
+}
+.search-advanced-type-selection-dropdown a:hover {
+  background-color: #c81063;
 }

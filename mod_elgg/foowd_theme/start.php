@@ -145,7 +145,7 @@ function AMD(){
 	
 	elgg_define_js('UserBoardController', [
 	    'src' => '/mod/foowd_theme/lib/js/foowd/UserBoardController.js',
-	    'deps'=> array('FoowdAPI')
+	    'deps'=> array('FoowdAPI', 'foowdServices')
 	]);
 
 	elgg_define_js('ProducerController', [

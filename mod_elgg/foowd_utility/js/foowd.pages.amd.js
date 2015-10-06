@@ -23,6 +23,7 @@ define(
 		"auth": "foowd_utenti/auth", 		// pagina utilizzata per il login mediante socials
 		"profile":"foowd_utenti/profilo",	// pagina del profilo
 		"panel": "panel", 					// pagina del pannello
-		"friendsManage": "friend_request"	// pagina del plugin friend request
+		"friendsManage": "friend_request",	// pagina del plugin friend request
+		"services" : "foowd_utility/services" // pagina servizi che comunicano con foowd-services.js
 	}
 );

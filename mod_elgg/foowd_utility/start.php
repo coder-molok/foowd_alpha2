@@ -66,6 +66,12 @@ function utility_init(){
 	    'deps'=> array('jquery')
 	]);
 
+	// gestione del form
+	elgg_define_js('foowdServices',[
+	    'src' => '/mod/foowd_utility/js/foowd-services.js',
+	    'deps'=> array('elgg', 'page', 'jquery')
+	]);
+
 }
 
 
@@ -121,6 +127,9 @@ function utility_page_handler($segments) {
 		    break;
 		case 'user-check':
 		    include elgg_get_plugins_path() . 'foowd_utility/pages/user-check.php';
+		    break;
+		case 'services':
+		    include elgg_get_plugins_path() . 'foowd_utility/pages/services.php';
 		    break;
 		default:
 			$check = false;

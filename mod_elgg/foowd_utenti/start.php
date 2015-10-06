@@ -31,6 +31,8 @@ function utenti_init(){
     //register a new page handler: solo di prova.
     elgg_register_page_handler('foowd_utenti', 'foowd_utenti_handler');
 
+    
+
     // forgot password
     // elgg_register_plugin_hook_handler('action', 'user/requestnewpassword', 'pwd_smarrita', 99999999999999999999999999);
     // 'forward, system'
@@ -60,6 +62,9 @@ function utenti_init(){
     $css =  'mod/'.\Uoowd\Param::pid()."/css/foowd-utenti.css";
     elgg_register_css('foowd-utenti', $css , 509);
     elgg_load_css('foowd-utenti');
+
+    $css =  'mod/'.\Uoowd\Param::pid()."/css/foowd-profile.css";
+    elgg_register_css('foowd-profile', $css , 509);
 
 
     // dipendenze
@@ -224,4 +229,8 @@ function checkUser(){
 //     //     // \Fprint::r('Reindirizzamento post recupero password.');
 //          // forward('login');
 //     //  }
+// }
+// 
+// function _elgg_friends_page_handler($segments, $handler) {
+
 // }

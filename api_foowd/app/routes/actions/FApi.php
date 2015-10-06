@@ -179,6 +179,18 @@ abstract class FApi{
 			
 	}
 
+	
+	protected static function ExtToId($elggId){
+		// echo 'lol*'.$elggId;
+
+
+		$userId = \UserQuery::Create()->filterByExternalId($elggId)->findOne();
+		// var_dump($userId);
+		// eventualmente implementare un log: ci sarebbero articoli con utente indefinito...
+		if($userId)	return $userId->getId();
+			
+	}	
+
 
 
 

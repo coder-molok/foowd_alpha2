@@ -68,6 +68,7 @@ $imgs = \Uoowd\API::pathPics($user->guid);
 
 if(!$imgs->avatar){
 	$avatar = null; // usare icona di default
+	$icon = elgg_view_entity_icon($user, 'medium');
 }
 else{
 	foreach ($imgs->avatar as $value) {
@@ -75,34 +76,38 @@ else{
 				$avatar = $value;
 			}
 		}	
+	//\Fprint::r($url);
+	$url = elgg_get_site_url() . \Uoowd\Param::page()->foowdStorage . 'User-' . $user->guid . '/' . $avatar;
+	$icon = '<img src="' .$url.'"/>';
 }
 
-$url = elgg_get_site_url() . \Uoowd\Param::page()->foowdStorage . 'User-' . $user->guid . '/' . $avatar;
 
+elgg_load_css('foowd-profile');
+
+elgg_require_js('foowdServices');
 
 echo <<<HTML
-<style>
-
-.circular{
-	width:100px;
-	border-radius: 50px;
-	height: 100px;
-	overflow: hidden;
-	box-shadow: 0 0 8px rgba(0, 0, 0, .8);
-}
-
-
-</style>
 
 
 <div class="circular">
-<img src="$url"/>
-</div>
-<div id="profile-owner-block">
 	$icon
+</div>
+<!-- previous id="profile-owner-block" -->
+<center>
+<div  class="foowd-profile-style">
 	$profile_actions
 	$content_menu
 	$admin_links
 </div>
+</center>
 
+<script type="text/javascript">
+require([ 
+    'foowdServices'
+  ],function(serv){
+    
+   
+
+ });
+</script>
 HTML;

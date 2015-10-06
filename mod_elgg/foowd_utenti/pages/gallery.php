@@ -17,23 +17,26 @@ if(!file_exists($dir)){
 	if(!mkdir($dir)) echo 'impossibile creare la directory';
 }
 
-
-
 echo '<div id="gallery-container">';
 
-$iter = new DirectoryIterator($dir);
-foreach ($iter as $key => $value) {
-	// echo $iter->getPathname().'<br/>';
-	if($iter->isDir() && !$iter->isDot()){
-		$path = pathinfo($iter->getPathname());
-		$name = $path['basename'];
-		$baseUrl = \Uoowd\Param::pathStore($vars['guid'],'profile','host').$name.'/';
-		$num = str_replace('file','', $name);
-		$img = str_replace('\\', '/', $baseUrl.'medium/'.$num.'.jpg' );
-
-		$host = str_replace('\\', '/', $baseUrl.$num.'.jpg' );
-
-		$original =str_replace('\\', '/', $iter->getPathname().'/'.$num.'.jpg');
+$ite=new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
+// il recursiveiteratoriterator mi applica un each su tutta la tree,
+// e puo' essere utilizzato solo con oggetti di ripo recursiveiterator, come ad esempio recursivedirectoryiterator
+// http://stackoverflow.com/questions/12077177/how-does-recursiveiteratoriterator-work-in-php
+foreach( new RecursiveIteratorIterator($ite) as $it){
+	$file = $it->getPathname();
+	if(preg_match('@/medium/@', $file )){
+		// path del file relativo alla directory dir, ovvero quella profile dell'utente
+		$baseTree = str_replace($dir, '', $file);
+		// directory profile dello user tramite http
+		$http = \Uoowd\Param::pathStore($vars['guid'],'profile','host');
+		// path http dell'immagine medium
+		$img = $http.$baseTree;
+		// path http immagine originale
+		$host = str_replace('medium/', '', $img);
+		// path OS immagine originale
+		$original = str_replace('medium/', '', $file);
+		// echo $img . '<br/>' . $original .' ////////// '.$host;
 		?>
 		<div class="hook" data-src="<?php echo $img;?>" data-original="<?php echo $original;?>" data-host="<?php echo $host;?>" style="display:none;"></div>
 		<?php
@@ -41,6 +44,15 @@ foreach ($iter as $key => $value) {
 }
 
 echo '</div>'; // chiudo gallery-container
+
+// $bytestotal=0;
+// $nbfiles=0;
+// foreach (new RecursiveIteratorIterator($ite) as $filename=>$cur) {
+//     $filesize=$cur->getSize();
+//     $bytestotal+=$filesize;
+//     $nbfiles++;
+//     echo "$filename => $filesize\n";
+// }
 
 
 

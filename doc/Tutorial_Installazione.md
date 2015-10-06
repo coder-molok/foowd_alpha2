@@ -81,7 +81,6 @@ Poi è necessario creare su Mysql un database  `foowd_api` dando tutti i permess
 	create database foowd_api
 	GRANT ALL ON foowd_api TO 'foowd'@'localhost' IDENTIFIED BY 'mangioBENE'
 
-
 A questo punto possiamo prima di tutto creare gli script `sql` lanciando da  `<workspace>/foowd_alpha2/api_offerte/data/`
 
 	propel sql:build
@@ -186,13 +185,43 @@ L'installazione consiste nel:
 3. generare il codice js con bower
 4. se necessario e copiare nella cartella `mod` di *Elgg* 
 
-Infine i plugin devono essere attivati in ordine
+Il primo plugin da attivare e' `foowd_utility`, mentre per gli altri non e' importante l'ordine.
 
-//
+### ATTENZIONE!
+
+Elgg carica i plugin in ordine di visualizzazione della `Dashboard` del pannello d'amministrazione, da quello piu alto a quello piu basso.
+
+Poiche' i plugin `foowd_*` sovrascrivono le view e anche altre funzionalita' del `core` di elgg e' necessario **TENERLI TUTTI AL BOTTOM** della pagina dei plugin, seguendo l'ordine (dal piu basso):
+
+1. foowd_utility (deve essere l'ultimo plugin dell'elenco)
+2. foowd_theme
+3. foowd_utenti
+4. foowd_offerte
+
+### Step Aggiuntivo
+
+dopo aver attivato i plugin e' **IMPORTANTISSIMO** accedere alle opzioni di `foowd_utility`, pertanto dal pannello di controllo cercare e cliccare `Configure > Settings > Utility Foowd`.
+
+Si accedera' cosi' ad una pagina nella quale e' possibile impostare
+- url servizio API
+- elenco dei tags e sottoclassi relativamente alle offerte
+- parametri per il dialogo con le social api di `Facebook`, `Google+`, etc.
+
+Infine ricordarsi di salvare
+
+>NB:
+	e' strettamente necessario svolgere un salvataggio la prima volta, poiche' tale azione permette di generare automaticamente il file `utility.settings.amd.js`, necessario per accedere alle configurazioni anche mediante moduli requirejs.
+
+### Altri Plugin
+
+Vanno inoltre installati i plugin:
+
+ - [friend_request](https://elgg.org/plugins/384965)
+ - [search advanced](https://elgg.org/plugins/2261455)
+
+Dopo averli installati andare nella sezione `plugin` del *pannello d'amministrazione*, assicurarsi che gli appena citati plugin si trovino **SOPRA** i plugin `foowd_*` e attivarli.
 
 
-
-# Altro 
 
 
 # Elenco Comandi
