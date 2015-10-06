@@ -114,7 +114,18 @@ E' poi necessario aggiungere un'opzione nella tabella offers, pertanto sempre da
 	 USE `foowd_api`; 
 	 ALTER TABLE `offer` CHANGE `modified` `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 
- 
+## Registrazione autogenerate
+
+Dopo aver generato le class con propel dovrebbe essere presente la cartella `<api-root>/data/genereted-classes`
+
+A questo punto rilanciare 
+
+		propel update
+		
+per registrare le nuove classi generate con propel.
+
+		
+
 
 ## Ricapitolando
 
