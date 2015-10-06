@@ -69,11 +69,6 @@ Poi è necessario creare su Mysql un database  `foowd_api` dando tutti i permess
 	create database foowd_api
 	GRANT ALL ON foowd_api TO 'foowd'@'localhost' IDENTIFIED BY 'mangioBENE'
 
-E' poi necessario aggiungere un'opzione nella tabella offers, pertanto sempre da mysql digitare
-
-	 USE `foowd_api`; 
-	 ALTER TABLE `offer` CHANGE `modified` `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
-
 A questo punto possiamo prima di tutto creare gli script `sql` lanciando da  `<workspace>/foowd_alpha2/api_offerte/data/`
 
 	propel sql:build

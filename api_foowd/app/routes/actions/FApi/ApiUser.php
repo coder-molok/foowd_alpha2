@@ -236,5 +236,74 @@ class ApiUser extends \Foowd\FApi{
 	}
 
 
+		/**
+		 *
+		 * @api {get} /user commonOffers
+		 * @apiName commonOffers
+		 * @apiGroup User
+		 * 
+	 	 * @apiDescription Crea un nuovo utente. 
+		 * 
+		 * @apiParam {String} 		type 		metodo da chiamare (commonOffers)
+		 * @apiParam {Integer}  	ExternalId 	gruppo di Id dei quali si vogliono trovare le offerte comuni e non
+		 * 
+	 	 * 
+		 * @apiParamExample {json} Request-Example:
+		 *  {
+		 *   "type":"create",
+		 *   "ExternalId":"54,63"
+		 *  }
+		 *
+		 *
+		 * 
+		 * @apiParam (Response) {Bool}				response 		false, in caso di errore
+	 	 * @apiParam (Response) {String/json}		[errors] 		json contenente i messaggi di errore
+	 	 * @apiParam (Response) {String/json}		body 			json contenente i parametri da ritornare in funzione della richiesta. Il parametro offers contiene le preferenze con aggiunto il parametro "friends" che e' l'array con gli id matchanti. I dati relativi agli Id (
+		 * @apiParam (Response) {array}				[body-offers]  	array aggiunto a ciascuna offerta e contenente gli id matchanti con l'elenco ExternalId 			
+		 *     
+		 */	
+		public $needle_commonOffers = "ExternalId";
+		public function commonOffers($data){
+
+			$r['response'] = true;
+
+			// apidId
+			$apiUsers = array_map( function($u){return $this->ExtToId($u); } , explode(',', $data->ExternalId) );
+			$elggUsers = explode(',', $data->ExternalId);
+
+			$offers = array();
+
+
+			$o = \OfferQuery::Create()
+					->usePreferQuery()
+						->filterByUserId($apiUsers)
+					->endUse()
+				->find();
+
+			// var_dump($o);
+			foreach($o as $of){
+				$oId = $of->getId();
+				
+				if(array_key_exists($oId, $offers)) continue;
+
+				$ar = $of->toArray();
+
+				// ora aggiungo un array contenente solo la lista degli utenti che matchano con le preferenze
+				// NB: la lista e' gia' con ExternalId (elggId)
+				foreach($of->getPrefers() as $p){
+					$ar['friends'][] = $this->IdToExt( $p->getUserId() );
+				}
+				// ritorno solo quelli che matchano
+				$ar['friends'] = array_intersect($ar['friends'], $elggUsers);
+				$offers[$oId] = $ar;
+			}
+
+			// NB: la chiave associativa di $offers mi serviva solo per evitare di ripetere l'operazione su eventuali offerte duplicate restituite dalla query
+			$r['body']['offers'] = array_values($offers);
+			
+			return $r;
+		}
+
+
 }
 

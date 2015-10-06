@@ -89,6 +89,12 @@ return array(
 	'developers:event_log_msg' => 'messaggio di log da sviluppatore',
 
 	/**
+	 * Plugin search
+	 */
+	
+	'search:results' => 'Risultati per %s',
+
+	/**
 	 * plugin reportedcontent
 	 */
 	
@@ -109,7 +115,7 @@ return array(
 		'friend_request:newfriend:subject' => "%s vuole essere tuo amico!",
 		'friend_request:newfriend:body' => "%s vogliono essere tuoi amici! Ma stanno attendendo che tu approvi la loro richiesta... loggati per poterla approvare!
 
-	Puoi vedere le tue richieste in sospeso a:
+	Puoi vedere le tue richieste in sospeso al link:
 	%s
 
 	Assicurati di aver effettuato l'accesso al sito prima di cliccare sul seguente link, altrimenti sarai reindirizzato alla pagina di log in.
@@ -125,7 +131,7 @@ return array(
 		// Approve request
 		'friend_request:approve' => "Approva",
 		'friend_request:approve:subject' => "%s ha accettato la tua richiesta d'amicizia.",
-		'friend_request:approve:message' => "Utente %s:,
+		'friend_request:approve:message' => "Utente %s,
 
 	%s ha accettato di diventare tuo amico.",
 		'friend_request:approve:successful' => "%s &egrave; ora un amico.",
@@ -188,6 +194,60 @@ return array(
 
 		Saranno automaticamente aggiunti alle tue amicizie appena avrai creato il tuo account.',
 			
+	/**
+	 * Plugin UserValidationByEmail
+	 */
+			'admin:users:unvalidated' => 'Non validato',
+			
+			'email:validate:subject' => "%s ti chiediamo gentilmente di confermare il tuo indirizzo email per %s!",
+			'email:validate:body' => "%s,
+
+		Prima di iniziare a utilizzare %s, e' necessario confermare il proprio indirizzo.
+
+		A tal fine ti chiediamo di cliccare sul link sottostante:
+
+		%s
+
+		Se non puoi cliccare, copia e incolla il link nella barra del browser.
+
+		%s
+		%s
+		",
+			'email:confirm:success' => "Hai confermato il tuo indirizzo email!",
+			'email:confirm:fail' => "Il tuo indirizzo email non puo' essere verificato...",
+
+			'uservalidationbyemail:emailsent' => "Email spedita a <em>%s</em>",
+			'uservalidationbyemail:registerok' => "Per attivare il tuo account sei invitato a confermare il tuo indirizzo email cliccando sul link che troverai nalla mail che ti abbiamo spedito.",
+			'uservalidationbyemail:login:fail' => "Il tuo account non &egrave; validato, pertanto il tentativo di log in &egrave; fallito. E' stata spedita un'altra email di validazione.",
+
+			'uservalidationbyemail:admin:no_unvalidated_users' => 'Non ci sono Utenti in attesa di validazione.',
+
+			'uservalidationbyemail:admin:unvalidated' => 'Unvalidated',
+			'uservalidationbyemail:admin:user_created' => 'Registrato %s',
+			'uservalidationbyemail:admin:resend_validation' => 'Rispedita validazione',
+			'uservalidationbyemail:admin:validate' => 'Valida',
+			'uservalidationbyemail:confirm_validate_user' => 'Validare %s?',
+			'uservalidationbyemail:confirm_resend_validation' => 'Rispedire email di validazione a %s?',
+			'uservalidationbyemail:confirm_delete' => 'Eliminare %s?',
+			'uservalidationbyemail:confirm_validate_checked' => 'Validare gli utenti selezionati?',
+			'uservalidationbyemail:confirm_resend_validation_checked' => 'Rispedire la validazione agli utenti selezionati?',
+			'uservalidationbyemail:confirm_delete_checked' => 'Eliminare gli utenti selezionati?',
+			
+			'uservalidationbyemail:errors:unknown_users' => 'Utenti sconosciuti',
+			'uservalidationbyemail:errors:could_not_validate_user' => 'Non &egrave; possibile validare l\'utente.',
+			'uservalidationbyemail:errors:could_not_validate_users' => 'Non &egrave; possibile validare tutti gli utenti selezionati.',
+			'uservalidationbyemail:errors:could_not_delete_user' => 'Non &egrave; possibile eliminare l\'utente.',
+			'uservalidationbyemail:errors:could_not_delete_users' => 'Non &egrave; possibile eliminare tutti gli utenti selezionati.',
+			'uservalidationbyemail:errors:could_not_resend_validation' => 'Non &egrave; possibile rispedire la richiesta di validazione.',
+			'uservalidationbyemail:errors:could_not_resend_validations' => 'Non &egrave; possibile inviare la richiesta di validazione a tutti gli utenti selezionati.',
+
+			'uservalidationbyemail:messages:validated_user' => 'Utente validato.',
+			'uservalidationbyemail:messages:validated_users' => 'Validati tutti gli utenti selezionati.',
+			'uservalidationbyemail:messages:deleted_user' => 'Utente eliminato.',
+			'uservalidationbyemail:messages:deleted_users' => 'Eliminati tutti gli utenti selezionati.',
+			'uservalidationbyemail:messages:resent_validation' => 'Richiesta di validazione inviata.',
+			'uservalidationbyemail:messages:resent_validations' => 'Richiesta di validazione inviata a tutti gli utenti selezionati.',
+
 
 /**
  * Account
@@ -440,8 +500,8 @@ return array(
  * Groups
  */
 
-	'group' => "Grouppo",
-	'item:group' => "Grouppi",
+	'group' => "Gruppo",
+	'item:group' => "Gruppi",
 
 /**
  * Users
@@ -455,24 +515,24 @@ return array(
  */
 
 	'friends' => "Amici",
-	'friends:yours' => "Tue amicizie",
-	'friends:owned' => "Il tuo amico %s",
+	'friends:yours' => "I tuoi amici",
+	'friends:owned' => "Amici di %s",
 	'friend:add' => "Aggiungi amico",
 	'friend:remove' => "Rimuovi amico",
 
-	'friends:add:successful' => "You have successfully added %s as a friend.",
+	'friends:add:successful' => "Hai aggiunto con successo l'utente %s come tuo amico.",
 	'friends:add:failure' => "We couldn't add %s as a friend.",
 
 	'friends:remove:successful' => "You have successfully removed %s from your friends.",
 	'friends:remove:failure' => "We couldn't remove %s from your friends.",
 
-	'friends:none' => "No friends yet.",
-	'friends:none:you' => "You don't have any friends yet.",
+	'friends:none' => "Ancora non hai amici.",
+	'friends:none:you' => "Non hai ancora alcun amico.",
 
-	'friends:none:found' => "No friends were found.",
+	'friends:none:found' => "Non sono stati trovati amici.",
 
-	'friends:of:none' => "Nobody has added this user as a friend yet.",
-	'friends:of:none:you' => "Nobody has added you as a friend yet. Start adding content and fill in your profile to let people find you!",
+	'friends:of:none' => "Nessuno ha ancora aggiunto questo utente come amico.",
+	'friends:of:none:you' => "Nessuno ti ha ancora aggiunto come amico. Inizia con l'aggiungere contenuti e riempire il tuo profilo per consentire alle altre persone di trovarti!",
 
 	'friends:of:owned' => "People who have made %s a friend",
 
@@ -569,27 +629,27 @@ return array(
  * River
  */
 	'river' => "River",
-	'river:friend:user:default' => "%s is now a friend with %s",
-	'river:update:user:avatar' => '%s has a new avatar',
+	'river:friend:user:default' => "%s &egrave; ora amico di %s",
+	'river:update:user:avatar' => '%s ha un nuovo avatar',
 	'river:update:user:profile' => '%s has updated their profile',
-	'river:noaccess' => 'You do not have permission to view this item.',
+	'river:noaccess' => 'Non hai i permessi per visualizzare questa opzione.',
 	'river:posted:generic' => '%s posted',
 	'riveritem:single:user' => 'a user',
 	'riveritem:plural:user' => 'some users',
-	'river:ingroup' => 'in the group %s',
-	'river:none' => 'No activity',
-	'river:update' => 'Update for %s',
+	'river:ingroup' => 'nel gruppo %s',
+	'river:none' => 'Nessuna attivit&acute;',
+	'river:update' => 'Aggiornamento per %s',
 	'river:delete' => 'Remove this activity item',
 	'river:delete:success' => 'River item has been deleted',
 	'river:delete:fail' => 'River item could not be deleted',
-	'river:subject:invalid_subject' => 'Invalid user',
-	'activity:owner' => 'View activity',
+	'river:subject:invalid_subject' => 'Utente non valido',
+	'activity:owner' => 'Visualizza attivit&agrave;',
 
-	'river:widget:title' => "Activity",
+	'river:widget:title' => "Attivit&agrave;",
 	'river:widget:description' => "Display latest activity",
 	'river:widget:type' => "Type of activity",
 	'river:widgets:friends' => 'Friends activity',
-	'river:widgets:all' => 'All site activity',
+	'river:widgets:all' => 'Tutte le attivit&agrave; del Sito',
 
 /**
  * Notifications
@@ -940,11 +1000,11 @@ These changes will only affect new users on the site.',
  * Activity river
  */
 		
-	'river:all' => 'All Site Activity',
+	'river:all' => 'Tutte le attivit&agrave; del Sito',
 	'river:mine' => 'My Activity',
 	'river:owner' => 'Activity of %s',
 	'river:friends' => 'Friends Activity',
-	'river:select' => 'Show %s',
+	'river:select' => 'Mostra %s',
 	'river:comments:more' => '+%u more',
 	'river:generic_comment' => 'commented on %s %s',
 
@@ -1100,17 +1160,17 @@ These changes will only affect new users on the site.',
  * Generic data words
  */
 
-	'title' => "Title",
-	'description' => "Description",
+	'title' => "Titolo",
+	'description' => "Descrizione",
 	'tags' => "Tags",
-	'all' => "All",
-	'mine' => "Mine",
+	'all' => "Tutto",
+	'mine' => "Mie",
 
 	'by' => 'by',
 	'none' => 'none',
 
-	'annotations' => "Annotations",
-	'relationships' => "Relationships",
+	'annotations' => "Annotazioni",
+	'relationships' => "Relazioni",
 	'metadata' => "Metadata",
 	'tagcloud' => "Tag cloud",
 
@@ -1171,21 +1231,21 @@ Once you have logged in, we highly recommend that you change your password.
  * Time
  */
 
-	'friendlytime:justnow' => "just now",
-	'friendlytime:minutes' => "%s minutes ago",
-	'friendlytime:minutes:singular' => "a minute ago",
-	'friendlytime:hours' => "%s hours ago",
-	'friendlytime:hours:singular' => "an hour ago",
-	'friendlytime:days' => "%s days ago",
-	'friendlytime:days:singular' => "yesterday",
+	'friendlytime:justnow' => "proprio adesso",
+	'friendlytime:minutes' => "%s minuti fa",
+	'friendlytime:minutes:singular' => "un minuto fa",
+	'friendlytime:hours' => "%s ore fa",
+	'friendlytime:hours:singular' => "un'ora fa",
+	'friendlytime:days' => "%s giorni fa",
+	'friendlytime:days:singular' => "ieri",
 	'friendlytime:date_format' => 'j F Y @ g:ia',
 	
-	'friendlytime:future:minutes' => "in %s minutes",
-	'friendlytime:future:minutes:singular' => "in a minute",
-	'friendlytime:future:hours' => "in %s hours",
-	'friendlytime:future:hours:singular' => "in an hour",
-	'friendlytime:future:days' => "in %s days",
-	'friendlytime:future:days:singular' => "tomorrow",
+	'friendlytime:future:minutes' => "tra %s minuti",
+	'friendlytime:future:minutes:singular' => "tra un minuto",
+	'friendlytime:future:hours' => "tra %s ore",
+	'friendlytime:future:hours:singular' => "tra un'ora",
+	'friendlytime:future:days' => "tra %s giorni",
+	'friendlytime:future:days:singular' => "domani",
 
 	'date:month:01' => 'January %s',
 	'date:month:02' => 'February %s',
@@ -1390,8 +1450,8 @@ If you requested this, click on the link below. Otherwise ignore this email.
  * Comments
  */
 
-	'comments:count' => "%s comments",
-	'item:object:comment' => 'Comments',
+	'comments:count' => "%s commenti",
+	'item:object:comment' => 'Commenti',
 
 	'river:comment:object:default' => '%s commented on %s',
 

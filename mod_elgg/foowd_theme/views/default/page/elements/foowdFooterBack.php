@@ -15,6 +15,27 @@
 
 <script type="text/javascript" src="mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
 
+
+
+
+<script type="text/javascript">
+require([ 
+    'NavbarController',
+  ],function(){
+    
+    require('NavbarController').loadNavbar();
+
+});
+</script>
+<style>
+.foowd-navbar{
+  position: relative;
+  z-index:0;
+}
+</style>
+
+
+
 <script type="text/javascript">
 
 
@@ -47,4 +68,5 @@ require([
 
 });
 </script>
+
 

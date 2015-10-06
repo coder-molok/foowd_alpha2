@@ -12,7 +12,11 @@
  *
  */
 
+echo elgg_view('search/search_box', array('class' => 'elgg-search-header'));
+
 elgg_push_context('owner_block');
+
+// manu di ricerca del plugin search advance
 
 // groups and other users get owner block
 $owner = elgg_get_page_owner_entity();
@@ -30,5 +34,6 @@ if ($owner instanceof ElggGroup || $owner instanceof ElggUser) {
 		'class' => 'elgg-owner-block',
 	));
 }
+
 
 elgg_pop_context();

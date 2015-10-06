@@ -58,7 +58,7 @@ $body .= <<<__BODY
 			$header
 		<!-- </div> -->
 	</div>
-	<div class="elgg-page-body">
+	<div class="elgg-page-body elgg-main">
 		<div class="elgg-inner">
 			$content
 		</div>

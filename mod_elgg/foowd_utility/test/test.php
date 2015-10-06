@@ -1,6 +1,15 @@
 <?php
 
+/**
+ * Links utili
+ *     - http://learn.elgg.org/en/latest/design/database.html , per visualizzare basi elgg su entity, e relationship
+ *     - http://learn.elgg.org/en/latest/guides/database.html , tutorial pratico su entita via OOP
+ *     
+ */
+
+
 admin_gatekeeper();
+
 
 
 $user = get_user_by_email('scardoni.simone@gmail.com')[0];
@@ -30,6 +39,7 @@ function my_get_entity_callback($row)
 {
 
     $user = get_entity($row->guid);
+    echo '<h1>'.$user->name.'</h1>';
 
     \Fprint::r($user->fake);
     \Fprint::r($user->guid);
@@ -38,6 +48,26 @@ function my_get_entity_callback($row)
     \Fprint::r($user->email);
     \Fprint::r($user->Genre);
     \Fprint::r($user->idAuth);
+
+    /**
+     * SUi metadata:
+     *
+     * - se uso un metadata custom, ovvero personalizzato, il metadata viene sovrascritto e salvato nel DB di elgg
+     * - INVECE se uso un metadata di built in, ovvero uno di quelli gia' presenti nella struttura dell'entita', 
+     *     allora per sovrascriverlo DEVO SALVARLO ESPLICITAMENTE!!!
+     */
+    $metadata = elgg_get_metadata(array(
+        'metadata_owner_guid' => $user->guid,
+        'limit' => 0,
+    ));
+    // \Fprint::r($meta);
+    foreach($metadata as $meta) echo 'Metadata: ' .$meta->name .' e valore: ' . $meta->value.'<br/>';
+
+
+    echo '<h3>Relationship</h3>';
+    $relationship = get_entity_relationships($user->guid);
+    foreach($relationship as $rel) echo 'Utente Owner id ' .$rel->guid_one . ' in relazione "' . $rel->relationship .'" con oggetto id ' .$rel->guid_two . '<br/?>';
+
 
     echo '<br>';
 

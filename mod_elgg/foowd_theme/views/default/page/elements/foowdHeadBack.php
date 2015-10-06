@@ -43,22 +43,3 @@ $vars['metas']['charset']['content'] = 'utf-8';
 $head = elgg_view('page/elements/head', $vars);
 
 echo $head;
-
-?>
-
-<script type="text/javascript">
-require([ 
-  	'NavbarController',
-  ],function(){
-  	
-    require('NavbarController').loadNavbar();
-
-});
-</script>
-<style>
-.foowd-navbar{
-	position: relative;
-	z-index:0;
-}
-</style>
-
