@@ -9,10 +9,11 @@ fi
               
               
 ### Directory principali               
-REPO="/usr/share/repo/foowd_alpha2/"   
-SITE="/var/www/html/"                  
-ModPath=$SITE"elgg-1.10.4/mod/"        
-CMD="rsync -a --chown=http-web:http-web "                       
+REPO="/var/Workspace/Code/Progetti/foowd/foowd_alpha2/"   
+SITE="/var/www/html/elgg/"                  
+API="/var/www/html/api_foowd"
+ModPath=$SITE"/mod/"        
+CMD="rsync -a --chown=www-data:www-data"                       
               
               
 ### Git       
@@ -31,7 +32,7 @@ for D in $REPO"mod_elgg/"*; do
         DST=`basename ${D}`    
         if [[ "${D}" == *theme ]]; then                 
             TMP="$CMD$DEL $SRC $ModPath$DST ; (cd $ModPath$DST; echo 'runno  
-bower...'; bower install --allow-root >/dev/null)"              
+bower...'; /opt/node/bin/bower install --allow-root >/dev/null)"              
         else                   
             TMP="$CMD $SRC $ModPath$DST"   
         fi                     
@@ -45,7 +46,7 @@ done
 echo -e "\n\e[45m Api_Foowd part \e[m" 
 echo "aggiorno api_foowd"              
 SRC=$REPO"api_foowd/"                  
-DST=$SITE"api_foowd"                   
+DST="$API"            
 $CMD $SRC $DST    
 
 
