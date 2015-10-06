@@ -8,6 +8,8 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
     + `group`, che partendo da una specifica offerta e una lista di id, ritorna la medesima offerta con le preferenze che matchano gli id passati
     + 'commonOffers' che dato un gruppo di id ritorna tutte le offerte che li riguardano, specificando per quascuna quali id l'hanno preferita
 
+- ampliata descrizione nel [Tutorial_installazione.md](Tutorial_installazione.md)
+
 
 
 ### 05/10/2015
