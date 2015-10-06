@@ -27,7 +27,7 @@ class API{
 			\Uoowd\Logger::addDebug('Url API: ' . $url);
 		}else{
 			register_error(elgg_echo("Impossibile eseguire l'azione"));
-			// qui eventualmente generare il log per avvisare che curl non funziona
+			\Uoowd\Logger::addError('Errore CURL not installed');
 		   	return false;
 		}
 		
@@ -53,7 +53,8 @@ class API{
 		$testPost = (isset($ar['type']) && $method==="POST" );
 		$testGet = (preg_match('@type@i', $url) && $method==="GET");
 		if(!$testPost && !$testGet){
-			register_error(elgg_echo('Error: undefined type'));
+			register_error(elgg_echo('Errore: tipo non definito'));
+			\Uoowd\Logger::addError('Errore: tipo non definito');
 			return false;
 		}
 

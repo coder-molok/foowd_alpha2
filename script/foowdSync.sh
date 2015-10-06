@@ -17,8 +17,8 @@ CMD="rsync -a --chown=www-data:www-data"
               
               
 ### Git       
-echo -e "\n\e[45m Git part \e[m"       
-(cd "$REPO"; git status; git pull)     
+echo -e "\n\e[45m copying from repo in $REPO \e[m"       
+#(cd "$REPO"; git status; git pull)     
               
               
 ### MOD_ELGG  
