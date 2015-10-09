@@ -376,19 +376,17 @@ class ApiOffer extends \Foowd\FApi{
 			$ext = new \stdClass();
 			$ext->OfferId = $single->getId();
 			$prefer = \Foowd\FApi\ApiPrefer::search($ext);
-			$totalQ = 0;
-			if($prefer['response'] && count($prefer['body'])>0){
-				foreach($prefer['body'] as $pf){
-					$totalQ += $pf['Qt'];
-				}
-			}
+			$ar['totalQt'] = 0;
+			//if($prefer['response'] && count($prefer['body'])>0){
+			//	foreach($prefer['body'] as $pf){
+			//		$totalQ += $pf['Qt'];
+			//	}
+			//}
 
 			// Restituisco l'id esterno dell'utente, ovvero quello utilizzato da Elgg
 			$ar['Publisher'] = $this->IdToExt($ar['Publisher']);
 			$ar['UserId'] = $this->IdToExt($ar['Publisher']);
 
-			// carico l'ordinazione totale
-			$ar['totalQt'] = $totalQ;
 
 			// se l'utente ha espresso una preferenza per questo prodotto, allora la aggiungo come prefer, altrimenti risulta null
 			if(isset($ExternalId)){
@@ -399,6 +397,9 @@ class ApiOffer extends \Foowd\FApi{
 				if(count($prefer>0) && isset($prefer['body'][0]['Id'])){
 				unset($prefer['body'][0]['Offer']);
 				 $ar['prefer']=$prefer['body'];
+				// carico l'ordinazione totale
+				$ar['totalQt'] = $prefer['body'][0]['Qt'];
+
 			}
 			}
 
