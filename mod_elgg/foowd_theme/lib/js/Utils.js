@@ -84,7 +84,7 @@ define(function(require){
         function addProfilePicture(obj, pic){
             var newObj = obj;
             if (isValid(newObj)){
-                newObj.avatar = page.foowdStorage + '/User-' + newObj.Publisher + '/' + pic; 
+                newObj.avatar = (pic.avatar !== null) ? page.foowdStorage + 'User-' + newObj.Publisher + '/' + pic.avatar : elgg.get_site_url() + '_graphics/icons/user/defaultmedium.gif';
             }
             return newObj;
         }
