@@ -177,7 +177,7 @@ I plugin sono quattro, in ordine di attivazione
 * foowd_utility
 * foowd_offerte
 * foowd_utenti
-* foowd_utility
+* foowd_theme
 
 L'installazione consiste nel:
 
