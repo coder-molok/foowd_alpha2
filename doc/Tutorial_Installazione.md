@@ -86,7 +86,8 @@ A questo punto possiamo prima di tutto creare gli script `sql` lanciando da  `<w
 	propel sql:build
 
 questo dovrebbe creare una cartella `generated-sql\ ` con all interno gli script per generare il database.
-con 	
+con
+
 	propel sql:insert
 
 se tutto è ok dovrebbero generarsi le tabelle.
