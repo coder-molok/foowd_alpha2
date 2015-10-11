@@ -120,9 +120,9 @@ Dopo aver generato le class con propel dovrebbe essere presente la cartella `<ap
 
 A questo punto rilanciare 
 
-		propel update
+		composer update
 		
-per registrare le nuove classi generate con propel.
+per registrare le nuove classi generate con propel con composer.
 
 		
 
