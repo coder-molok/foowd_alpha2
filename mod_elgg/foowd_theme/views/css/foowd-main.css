@@ -66,6 +66,9 @@ h3 {
   margin: 0;
   margin-bottom: 40px;
 }
+.elgg-page-footer {
+  z-index: -17;
+}
 .elgg-inner {
   margin: 0;
   padding: 0;
