@@ -9,7 +9,7 @@ I macro step per l'installazione sono
 
 # Prerquisiti
 
-* php 5.4
+* php 5.4       (modulo GD, libreria ext_curl)
 * git command line client  ([Windows Link](http://git-scm.com/download/win) )
 * apache server
 * mysql server
@@ -183,8 +183,8 @@ L'installazione consiste nel:
 
 1. scaricare il codice del plugin. 
 2. Generare il codice php con composer se necessario, 
-3. generare il codice js con bower
-4. se necessario e copiare nella cartella `mod` di *Elgg* 
+3. generare il codice js con bower se necessario
+4. copiare nella cartella `mod` di *Elgg* 
 
 Il primo plugin da attivare e' `foowd_utility`, mentre per gli altri non e' importante l'ordine.
 
