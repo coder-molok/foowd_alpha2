@@ -135,6 +135,17 @@ Al momento per il modulo api_offerte ho scelto di usare
 * Propel come ORM
 * Composer per il build e il caricamento delle librerie
 
+## Verifica funzionamento API.
+
+Puo essere utile testare le chiamate alle API senza passare da ELGG.
+A questo scopo esistono diversi client REST quello piu usato è postman. Plugin applicazione Chrome [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop).
+
+A questo indirizzo puoi trovare i file json da importare e preconfigurano le chiamate in postman.
+
+https://github.com/coder-molok/foowd_alpha2/tree/dev/api_foowd/app/test/postman
+
+chiaramente bisognerà cambiare gli indirizzi e i parametri delle chiamate, ma la struttura degli url è corretta.
+
 
 # Installazione Elgg
 
