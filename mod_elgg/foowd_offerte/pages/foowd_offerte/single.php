@@ -109,8 +109,7 @@ $vars['guid']=elgg_get_logged_in_user_guid();
 $vars['sticky']=$form;
 
 $vars = array_merge($vars, (array) $session);
-// var_dump($vars);
-
+// \Fprint::r($vars);
 $content .= elgg_view_form($form, array('enctype'=>'multipart/form-data'), $vars);
 
 // optionally, add the content for the sidebar

@@ -74,6 +74,8 @@ $fadd->createField('Minqt', 'foowd:minqt:need', 'input/text', array('maxlength'=
 // $fadd->createField('Maxqt', 'Quantita\' massima', 'input/spinner', array("decimal"=>3, "integer"=>5));
 $fadd->createField('Maxqt', 'foowd:maxqt', 'input/text', array('maxlength'=>"9"));
 
+// il javascript e la struttura sono in FormAdd: hookCreateExpiration
+$fadd->createField('Expiration', 'foowd:expiration', '', array('Expiration'=>$vars['Expiration']));
 
 // variabile per il controllo su cambiamenti dell'immagine di default
 echo elgg_view('input/hidden', array('name' => 'fileBasename', 'value' => basename($path)) ); 

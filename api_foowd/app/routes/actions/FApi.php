@@ -153,6 +153,7 @@ abstract class FApi{
 			//date_default_timezone_set("Europe/Rome");
 			if(isset($single['Modified']))	$obj['body'][$key]['Modified'] =  date("Y-m-d H:i:s", strtotime($single['Modified']) );
 			if(isset($single['Created']))	$obj['body'][$key]['Created'] =  date("Y-m-d H:i:s", strtotime($single['Created']) );
+			if(isset($single['Expiration'])) $obj['body'][$key]['Expiration'] =  date("Y-m-d H:i:s", strtotime($single['Expiration']) );
 		}
 		return $obj;
 	}

@@ -27,7 +27,6 @@ $data = $f->manageForm($form);
 $data['Publisher']=elgg_get_logged_in_user_guid();
 
 
-
 // se non ho uploadato un nuovo file allora e' maggiore di zero
 if($_FILES['file']['error']>0){
 	// controllo se sono avvenuti dei cambiamenti
@@ -55,7 +54,7 @@ if(!$f->status || !$crop->status) forward(REFERER);
 
 // se tutto va a buon fine, proseguo con le API esterne
 $data['type']='update';
-// \Uoowd\Logger::addError($data);
+\Uoowd\Logger::addError($data);
 $r = \Uoowd\API::Request('offer', 'POST', $data);
 
 if($r->response){

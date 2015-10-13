@@ -109,10 +109,7 @@ che crea la cartella `generated-config`
 
 Il file `index.php` richiama per funzionare il codice cosi generato.
 
-E' poi necessario aggiungere un'opzione nella tabella offers, pertanto sempre da mysql digitare
 
-	 USE `foowd_api`; 
-	 ALTER TABLE `offer` CHANGE `modified` `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 
 ## Registrazione autogenerate
 
@@ -136,9 +133,8 @@ Al momento per il modulo api_offerte ho scelto di usare
 * Composer per il build e il caricamento delle librerie
 
 
+
 # Installazione Elgg
-
-
 
 
 Elgg puo essere installato dove vuoi, ovviamente a partire dalla  htdocs.
@@ -174,7 +170,7 @@ restartare apache2
 
 I plugin sono quattro, in ordine di attivazione
 
-* foowd_utility
+* foowd_utility (leggi *Prima Installazione* [Read.me](../mod_elgg/foowd_utility/Readme.md))
 * foowd_offerte
 * foowd_utenti
 * foowd_utility
@@ -185,6 +181,7 @@ L'installazione consiste nel:
 2. Generare il codice php con composer se necessario, 
 3. generare il codice js con bower
 4. se necessario e copiare nella cartella `mod` di *Elgg* 
+
 
 Il primo plugin da attivare e' `foowd_utility`, mentre per gli altri non e' importante l'ordine.
 
@@ -222,6 +219,16 @@ Vanno inoltre installati i plugin:
 
 Dopo averli installati andare nella sezione `plugin` del *pannello d'amministrazione*, assicurarsi che gli appena citati plugin si trovino **SOPRA** i plugin `foowd_*` e attivarli.
 
+
+### Elenco plugin da Attivare
+
+.... lo scrivero' prossimamente ....
+
+
+
+# Troubleshoots
+
+e' possibile cercare la soluzione di alcuni problemi tipici alla pagina [troubleshoots](troubleshoots.md).
 
 
 

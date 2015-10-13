@@ -26,6 +26,7 @@ namespace Foowd\Action;
 			'Unit'			=> '',
 			'UnitExtra'		=> '',
 			'Quota'			=> '',
+			'Expiration'	=> '',
 			'Tag'			=> '', 	// extra non appartenente alla tabella sql,
 									// ma in ogni caso necessario nella compilazione del form
 
@@ -63,6 +64,7 @@ namespace Foowd\Action;
 			'Minqt'		=> 'isQt',
 			'Maxqt'		=> 'isMax',
 			'Quota'		=> 'isQt',
+			'Expiration'=> 'isDateTime'
 		);
 
 		
@@ -205,6 +207,70 @@ namespace Foowd\Action;
 			<?php
 
 		}
+
+		/**
+		 * Schema per il timedatepicker, ovvero per la scadenza
+		 * @param  [type] $a    [description]
+		 * @param  [type] $vars [description]
+		 * @return [type]       [description]
+		 */
+		public function hookCreateExpiration($a, $vars){
+			// \Fprint::r(func_get_args());
+			elgg_load_css('jquery.datetimepicker');
+			elgg_require_js('jquery.datetimepicker');
+			?>
+			<script>
+			    requirejs(['jquery.datetimepicker'], function(){
+			        var Gdate = {} ; // oggetto per memorizzare i parametri di mio interesse
+			        var Gdiv = $('[name="Expiration"]');
+			        var Gdt = new Date();
+			        Gdt.setTime(Gdt.getTime() + (24 * 60 * 60 * 1000));
+			        // inserisco lo zero davanti alle cifre a una unita'
+			        var sanitize_Date = function(obj){
+			        	for(var i in obj){
+			        		if(i !== 'Y') obj[i] = ('0' + obj[i]).slice(-2);
+			        	}
+			        }
+
+			        // con afterInject riesco sempre a ottenere l'istanza, 
+			        $('#datepicker').datetimepicker({
+			            timeFormat: "HH:mm",
+			            currentText: 'adesso',
+			            separator: ' @ ',
+			            dateFormat: 'dd MM yy',
+			            showButtonPanel: true, 
+			            defaultValue: Gdiv.val(),
+			            parse: 'loose',
+			            minDate: Gdt, // la scadenza e' almeno al giorno dopo!
+			            // quando chiudo la finestra aggiorno i dati nel div
+			            onSelect: function(datetimeText, datepickerInstance){
+			                var inst = datepickerInstance;
+			                Gdate.Y = inst.selectedYear || Gdate.Y
+			                Gdate.M = inst.selectedMonth || Gdate.M // incremento perche' il plugin fa partire i mesi da zero
+			                Gdate.D = inst.selectedDay || Gdate.D
+			                Gdate.h = inst.hour || Gdate.h
+			                Gdate.m = inst.minute || Gdate.m
+			                Gdate.s = inst.second || Gdate.s
+			                sanitize_Date(Gdate);
+			                var M = parseInt(Gdate.M) + 1;
+			                M = ('0' + M).slice(-2);
+			                var str =  Gdate.Y + "-" + M + "-" + Gdate.D + " " + Gdate.h + ':' + Gdate.m + ":" + Gdate.s;
+			                Gdiv.val(str);        
+			            },
+			            // memorizzo i dati presenti quanto apro la finestra
+			            afterInject: function(){
+			                var t = this, i = t.inst;
+			                Gdate.Y = i.selectedYear, Gdate.M = i.selectedMonth, Gdate.D = i.selectedDay;
+			                Gdate.h = t.hour, Gdate.m = t.minute, Gdate.s = '00';
+			            }
+			        });
+			    })
+			</script>
+			<input type="text" id="datepicker" value="<?php echo $vars['Expiration']; ?>"/>
+			<input  name="Expiration" value="<?php echo $vars['Expiration']; ?>"/>
+			<?php
+		}
+
 
 	}
 

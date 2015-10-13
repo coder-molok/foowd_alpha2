@@ -191,6 +191,9 @@ textarea:focus {
   background-color: #fae6ef;
   border-color: #c81063;
 }
+.ui-datepicker th {
+  color: #c81063;
+}
 .foowd-page-add,
 .foowd-page-single {
   width: 500px;

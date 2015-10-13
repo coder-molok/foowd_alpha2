@@ -181,6 +181,9 @@ function foowd_theme_register(){
 	$css_url = 'mod/foowd_theme/views/css/foowd-main.css';
 	elgg_register_css('foowd-theme-main', $css_url, 507);
 
+	//----- jquery ui
+	$css_url = '/mod/foowd_theme/views/css/jquery-ui-1.10.4.custom/css/ui-theme-foowd/jquery-ui-1.10.4.custom.css';
+	elgg_register_css('jquery.ui.foowd', $css_url, 507);
 
 	//----- wall e producer
 	//<!-- Vendor Style Libraries -->
@@ -194,6 +197,7 @@ function foowd_theme_register(){
 
 	$css_url = 'mod/foowd_theme/assets/owl.carusel/owl.theme.css';
 	elgg_register_css('owl-theme', $css_url, 507);
+
 
 
 }	

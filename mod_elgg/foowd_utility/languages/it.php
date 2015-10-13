@@ -45,6 +45,8 @@ return array(
 	'foowd:maxqt:error' => 'Massimo 5 cifre + 3 decimali separate da un punto',
 	'foowd:maxqt:error:larger' => 'La quantit&agrave; massima deve superare o eguagliare quella minima.<br/>Se non vuoi inserire un massimo, cancella i numeri dal campo sottostante.',
 
+	'foowd:expiration' => 'Scadenza',
+
 	
 	// user form
 

@@ -2,6 +2,30 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+
+
+### 12/10/2015
+
+- aggiornamento alcuni readme dei plugin
+
+- Attivazione plugin `web services 1.9` per servizio API
+
+- Introduzione di `PhpMailer` come servizio SMTP di test
+
+- Aggiunta scadenza alle offerte a al DB (`Expiration`)
+
+- Aggiunto Plugin jquery.ui: `jqueryui-timepicker-addon`
+
+
+
+
+### 11/10/2015
+
+- Correzione Issues  #138 #139 #141
+
+
+
+
 ### 06/10/2015
 
 - create **API**:

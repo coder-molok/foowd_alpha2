@@ -15,6 +15,7 @@
         <!-- defaultExpr="CURRENT_TIMESTAMP" rimosso per precauzione -->
         <column name="created" phpName="Created" type="TIMESTAMP"  required="false"/>
         <column name="modified" phpName="Modified" type="TIMESTAMP" required="false"/>
+        <column name="expiration" phpName="Expiration" type="TIMESTAMP" required="false"/>
         <!-- aggiunto -->
         <column name="state" phpName="State" type="VARCHAR" size="10" required="false"/>
         <foreign-key foreignTable="user">

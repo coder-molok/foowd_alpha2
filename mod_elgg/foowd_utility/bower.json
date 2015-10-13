@@ -15,6 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "chosen": "harvesthq/bower-chosen#~1.4.2"
+    "chosen": "harvesthq/bower-chosen#~1.4.2",
+    "jqueryui-timepicker-addon": "~1.5.5"
   }
 }

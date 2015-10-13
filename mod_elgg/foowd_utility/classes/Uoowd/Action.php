@@ -188,6 +188,7 @@ abstract class Action {
 					$str = $key.'Error';
 					$err = 'Il campo e\' obbligatorio';
 					$this->manageSticky(array($str=>$err), $sticky_form);
+					\Uoowd\Logger::error($err);
 					$this->status = false; 
 				}
 			}
@@ -326,6 +327,22 @@ abstract class Action {
 			}
 			return true;
 		}
+
+		/**
+		 * check if is date in format yyyy-MM-dd hh:mm:ss
+		 * @param  [type]  $var [description]
+		 * @return boolean      [description]
+		 */
+		public function isDateTime($var){
+			error_log('isdatetime');
+			if( preg_match('@^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}@', $var) || $var === '' ){
+				return true;
+			}
+			$str = 'Data di scadenza non valida: ' . $var;
+			\Uoowd\Logger::addError($str);
+			register_error($str);
+			return false;
+		}		
 
 
 

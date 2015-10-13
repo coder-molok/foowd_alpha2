@@ -58,6 +58,9 @@ function trovaImg($root, &$img, $dir=null, $deep = null){
 			$f = trim($f, DIRECTORY_SEPARATOR);
 			$fe = explode( DIRECTORY_SEPARATOR , $f);
 
+			//SS: extra per chi testa in locale su windows: il directory_separator va assestato...
+			$f = str_replace('\\', '/', $f);
+
 			// var_dump($fe[0]);
 			// var_dump($f);
 
