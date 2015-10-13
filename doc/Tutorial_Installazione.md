@@ -37,6 +37,9 @@ Per il funzionameno di Slim è necessario attivare il module Rewrite.
 
 Vedi [tutorial](http://www.webdevdoor.com/php/mod_rewrite-windows-apache-url-rewriting/)
 
+per il funzionamento di Elgg è necessario il modulo [php-gd](https://packages.debian.org/wheezy/php5-gd)
+per il funzionamento delle API_Foowd dai plugin Elgg sono necessari il plugin [php-curl ](http://stackoverflow.com/questions/20073676/how-do-i-install-php-curl-on-linux-debian)
+
 
 ## Installazione delle librerie php
 
@@ -134,6 +137,9 @@ Al momento per il modulo api_offerte ho scelto di usare
 * SLIM per la gestione delle chiamate REST
 * Propel come ORM
 * Composer per il build e il caricamento delle librerie
+
+per la connessione alle API da i plugin Elgg ricordarsi che è necessario installare 
+per il funzionamento delle API_Foowd dai plugin Elgg sono necessari il plugin [php-curl ](http://stackoverflow.com/questions/20073676/how-do-i-install-php-curl-on-linux-debian)
 
 ## Verifica funzionamento API.
 
@@ -272,7 +278,9 @@ Per rendere meno prolissi i messaggi del commit, consiglio di esplicitare i coma
 il numero **1** dentro la quadra indica che deve essere lanciato il comando 1 di questa lista, ovvero quello per l'aggiornamento dell'autoload di composer.
 
 
+## Chiamate a API.
 
+per il funzionamento delle API_Foowd dai plugin Elgg sono necessari il plugin [php-curl ](http://stackoverflow.com/questions/20073676/how-do-i-install-php-curl-on-linux-debian)
 
 
 
