@@ -1,0 +1,138 @@
+
+@import 'jeet'
+@require 'variables'
+
+
+headerHeigth = 124px 
+infoHeight = 75px
+
+#producer-container
+	column(1)
+	span(1)
+	margin-top: contentMargin;
+	padding 0;
+	+below(bp)
+		margin-top : contentMargin * 2;
+
+#producer-carousel
+	margin : 5px 0 0 0;
+	width:100%
+	
+#producer-carousel .item img{
+    display: block;
+    width: 100%;
+    height: auto;
+    background: rgba(0,0,0,0.8);
+}
+.owl-controls
+	background: rgba(0,0,0,0.2);
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 0 !important;
+	padding :0;
+	width: 100%;
+	height: 100%;
+	align-items: flex-end
+
+.owl-nav
+	position:relative
+	
+.owl-prev, .owl-next
+	column(1/2)
+	color: white
+	font-size:70pt
+	margin-top:150px
+.owl-prev
+	text-align:left
+.owl-next
+	text-align:right
+.owl-dots
+	height: 15px;
+	width: 100%;
+	position: absolute;
+	bottom: 5px;
+.owl-dot
+	height: 15px
+	width: 15px
+	background-color: rgb(94,94,94)
+	display: inline-block
+	border-radius: 50%
+	margin: 0 15px
+
+.active
+	background-color: white
+	
+#producer-header
+	column(1)
+	span(1)
+	padding : 10px
+	height : headerHeigth;
+
+#producer-name
+	display: block;
+	margin : auto
+	font-family : AkkuratBold
+	font-size : 20pt
+	line-height: 22pt
+	letter-spacing : -1pt	
+	text-align: center
+	span
+		display:block
+		font-family: AkkuratRegular
+		font-size : 12pt
+		line-height : 20pt
+		opacity : .5
+		&:hover
+			text-decoration : underline
+#producer-info
+	column(1)
+	span(1)
+	height : infoHeight
+	border-top: 1px solid #d0d0d0; 
+	padding : 15px 20px
+	ul
+		display: inline-block
+
+#producer-description
+	column(1)
+	span(1)
+	border-top: 1px solid #d0d0d0;
+	padding: 20px 20px
+	div:first-child
+		column(1/8)
+	div
+		column(3/8)
+	div:last-child
+		column(1/8)
+		
+.about
+	font-family: AkkuratRegular
+	font-size: 13pt
+	line-height: 20pt
+	letter-spacing : -1pt
+
+.about-description
+	font-family: AkkuratRegular
+	font-size: 15pt
+	line-height: 17pt
+	letter-spacing : -1pt
+
+#producer-products
+	column(1)
+	span(1)
+	border-top: 1px solid #d0d0d0;
+	padding : 20px
+	.about
+		column(1)
+		span(1)
+		text-align: left
+
+#producer-wall
+	column(1)
+	span(1)
+	
+	
+	
+
+

@@ -1,0 +1,9 @@
+.foowd-page-dati {
+  min-width: 300px;
+  max-width: 500px;
+}
+.foowd-page-dati label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}

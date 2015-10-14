@@ -2,6 +2,10 @@
 @import 'jeet'
 @require 'variables'
 
+preferenceHeight = 120px;
+preferenceTopBottomMargins = 10px 
+preferenceRightLeftMargins = stdMargin
+preferenceSectionTopMargin = 30px
 
 #account-menu
 	height: 300px;
@@ -41,19 +45,19 @@
 	+below(bp)
 		span(1/6)
 
-#preference-container
+#preferences-container
 	column(1)
 
 .preference
 	column(1)
-	height: 120px
+	height: preferenceHeight
 	+below(bp)
-		height:240px;
+		height: preferenceHeight * 2
 
 .preference-progress-bar
 	position: absolute;
 	left: 0;
-	height: 120px
+	height: preferenceHeight
 	width: 100%
 	z-index : -100
 	.progress
@@ -62,28 +66,29 @@
 		z-index : -100
 		background-color: rgb(250,230,239);
 	+below(bp)
-		height:240px
+		height: preferenceHeight*2
 
 .user-preference
 	column(1)
-	height: 120px;
+	height: preferenceHeight
 	border-top: 1px solid #d0d0d0;
+	padding : preferenceTopBottomMargins preferenceRightLeftMargins preferenceTopBottomMargins preferenceRightLeftMargins
 	+below(bp)
-		height:240px;
+		height: 2*preferenceHeight - 2*preferenceTopBottomMargins
 	
 .user-preference-section
 	column(1/4)
 	span(1/4)
+	height: preferenceHeight - 2*preferenceTopBottomMargins
 	+below(bp)
 		column(1/2, cycle: 2)
 		span(1/2)
 
 .user-preference-image
-	margin-top: 10px;
-	margin-left : 20px;
 	width:100px;
 	height:100px;
 	border-radius:50%;
+	cursor: pointer;
 
 .user-preference-name
 	shift(-1/12)
@@ -91,8 +96,7 @@
 		span(1/2)
 		shift(-1/6)
 	ul
-		margin-left:20px;
-		margin-top:35px;
+		margin-top : preferenceSectionTopMargin
 		width:100%;
 
 .user-preference-details
@@ -101,7 +105,7 @@
 		
 .preference-detail
 	span(1/3)
-	margin-top:35px;
+	margin-top : preferenceSectionTopMargin
 	display:inline-block;
 	li
 		+below(bp)
@@ -111,5 +115,9 @@
 	+below(bp)
 		span(1/2)
 	ul
-		margin-top :30px;
-	
+		margin-top : preferenceSectionTopMargin - 10px
+		width : 100%
+		height : 100%
+		
+
+

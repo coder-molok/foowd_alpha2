@@ -14,8 +14,8 @@
  */
 define(
 	{
-		"massa": {"kilogrammi":"kg","etti":"hg","grammi":"g"},
-		"volume": {"litri":"l","centilitri":"cl","decimetri_cubi":"dm<sup>3</sup>"},
-		"formati": {"scatole":"scatole","bicchieri":"bicchieri","bottiglie":"bottiglie","forme":"forme"}
+		"massa": {"kilogrammi":"kg","grammi":"g"},
+		"volume": {"litri":"l","centilitri":"cl"}
+		// "formati": {"bicchieri":"bicchieri","bottiglie":"bottiglie","forme":"forme"}
 	}
 );

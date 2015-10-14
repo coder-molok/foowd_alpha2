@@ -32,9 +32,10 @@ $content .= elgg_view('output/url', array(
 $sidebar = "";
 
 // layout the page one_sidebar
-$body = elgg_view_layout('one_sidebar', array(
-   'content' => $content
-));
+// $body = elgg_view_layout('one_sidebar', array(
+//    'content' => $content
+// ));
+$body = $content;
 
 // draw the page
 echo elgg_view_page($title, $body);

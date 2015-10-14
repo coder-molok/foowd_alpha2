@@ -13,14 +13,18 @@ elgg_gatekeeper();
 // $sticky = new \Uoowd\Sticky($form);
 
 // guid dello USER
-$guid = 'User-'.get_input('guid');
+$guid = get_input('guid');
+// id offerta: lo stesso di quello foowd_api
+$id = get_input('Id');
+
 // il post non e' vuoto, get contiene solo la uri
 // $sticky->setV(array('get'=>$_GET, 'post'=>$_POST, 'files'=>$_FILES, 'prova'=>'provo'));
 // solo adesso che sono in fase di test
 // $sticky->setV(array('dir'=>$saveDir, 'guid'=>$guid));
+//$dir = str_replace('\\', '/', \Uoowd\Param::imgStore());
 
-$dir = str_replace('\\', '/', \Uoowd\Param::imgStore());
-$saveDir = $dir.$guid.'/';
+$saveDir = \Uoowd\Param::pathStore($guid,'offers').$id.'/';
+// error_log(print_r($saveDir, true));
 
 if (!file_exists($saveDir)) {
     if(!mkdir($saveDir, 0777, true)) \Uoowd\Logger::addError('Impossibile creare: '.$saveDir);
@@ -34,19 +38,22 @@ if (!file_exists($saveDir)) {
 
 // salvo gli originali
 foreach($_FILES as $file){
-
-	$fname = 'tmp-' . $file['name'];
+	$prefix = 'tmp-';
+	$fname = $prefix . $file['name'];
 	$target_file = $saveDir . $fname;
 
+	// prima di salvare tolgo eventual file temporanei presenti
+	foreach (new DirectoryIterator($saveDir) as $fileInfo) {
+		$match = preg_match('@^'.$prefix.'@', $fileInfo->getFilename());
+	    if($fileInfo->isFile() && $match) {
+			// error_log('cancello '.$target_file);
+	        unlink($fileInfo->getPathname());
+	    }
+	}
 	
 	if (move_uploaded_file($file["tmp_name"], $target_file)) {
 
 		// per il momento decido di tenere un solo file per volta
-		foreach (new DirectoryIterator($saveDir) as $fileInfo) {
-		    if(!$fileInfo->isDot() && $fileInfo->getBasename()!=$fname) {
-		        unlink($fileInfo->getPathname());
-		    }
-		}
 
         $r['message'] = "File ". basename( $target_file). " salvato con successo.";
         $r['response'] = true;

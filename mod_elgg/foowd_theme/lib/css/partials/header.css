@@ -1,13 +1,15 @@
-/* Stile Nuovo Header*/
-/*----- Fine variabili utili -----*/
 .foowd-navbar {
   *zoom: 1;
   height: 60px;
   width: 100%;
   position: fixed;
   top: 0;
-  z-index: 10000;
-  box-shadow: 0 0px 20px 0px #f0f0f0;
+  z-index: 9000;
+  -webkit-box-shadow: 0 0 20px 0 #f0f0f0;
+  -moz-box-shadow: 0 0 20px 0 #f0f0f0;
+  -ms-box-shadow: 0 0 20px 0 #f0f0f0;
+  -o-prorp: 0 0 20px 0 #f0f0f0;
+  box-shadow: 0 0 20px 0 #f0f0f0;
 }
 .foowd-navbar:before,
 .foowd-navbar:after {
@@ -65,7 +67,6 @@
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    background-color: #f00;
   }
   .navbar-section:first-child {
     margin-left: auto;
@@ -77,7 +78,7 @@
 #logo {
   background-color: #fae6ef;
 }
-#foowd-brand {
+.foowd-brand {
   *zoom: 1;
   float: left;
   clear: none;
@@ -97,18 +98,21 @@
   line-height: 24pt;
   letter-spacing: -1.5pt;
 }
-#foowd-brand:before,
-#foowd-brand:after {
+.foowd-brand:before,
+.foowd-brand:after {
   content: '';
   display: table;
 }
-#foowd-brand:after {
+.foowd-brand:after {
   clear: both;
 }
-#foowd-brand:last-child {
+.foowd-brand:last-child {
   margin-right: 0%;
 }
-#foowd-brand input {
+.foowd-brand span {
+  cursor: pointer;
+}
+.foowd-brand input {
   width: 40%;
   background-color: #fae6ef;
   outline: none;
@@ -119,21 +123,51 @@
 }
 #user-menu {
   position: relative;
-  float: right;
-  display: inline-block;
-  margin-top: 20px;
-  font-size: 12pt;
+  right: 0;
+  margin: 0 20px 0 0;
+  display: flex;
+  font-size: 24pt;
+  position: absolute;
+  transform-style: preserve-3d;
+  top: 50%;
+  transform: translateY(-50%);
 }
-#user-menu a {
-  margin-right: 10px;
+#user-menu span {
+  margin: 0 0 0 10px;
+  display: inline-flex;
+  flex-basis: auto;
+  justify-content: flex-end;
+}
+.preferences-link {
+  font-size: 20pt;
+  line-height: 16pt;
+  cursor: pointer;
+}
+.profile-link {
+  font-size: 20pt;
+  line-height: 16pt;
+  cursor: pointer;
+}
+.menu-link {
+  font-size: 26pt;
+  line-height: 16pt;
+  cursor: pointer;
 }
 .fw-menu-icon {
-  text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
   cursor: pointer;
-  color: #fff;
+  color: #000;
 }
 #price-section {
   height: 100%;
   background: trasparent;
 }
-/* Fine stile nuovo header*/
+/* REVERSE HEADER (per l'overlay nero)*/
+.reverse {
+  -webkit-box-shadow: 0 0 0 0 #000 !important;
+  -moz-box-shadow: 0 0 0 0 #000 !important;
+  -ms-box-shadow: 0 0 0 0 #000 !important;
+  -o-prorp: 0 0 0 0 #000 !important;
+  box-shadow: 0 0 0 0 #000 !important;
+  color: #fff !important;
+  background-color: #000 !important;
+}

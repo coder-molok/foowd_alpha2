@@ -38,7 +38,7 @@ foreach($value as $category => $obj){
 	// var_dump($category);
 	$i = 0;
 	foreach($obj as $single){
-		if(in_array( $single, $vars['Tag'] )){
+		if(is_array($vars['Tag']) && in_array( $single, $vars['Tag'] )){
 		    $checked = true;
 		}else{
 		    $checked = false;
@@ -86,9 +86,10 @@ $content .= elgg_view_form($form, array('enctype'=>'multipart/form-data'), $vars
 $sidebar = "";
 
 // layout the page one_sidebar
-$body = elgg_view_layout('one_sidebar', array(
-   'content' => $content
-));
+// $body = elgg_view_layout('one_sidebar', array(
+//    'content' => $content
+// ));
+$body = '<div class="foowd-page-add">'.$content.'</div>';
 
 // draw the page
 echo elgg_view_page($title, $body);

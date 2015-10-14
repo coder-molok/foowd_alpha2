@@ -1,108 +1,58 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <title>Foowd</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<?php
 
-    <!-- Vendor Style Libraries -->
-    <link href="mod/foowd_theme/vendor/animate.css/animate.css" rel="stylesheet">
+  elgg_load_css('foowd-theme-animate');
+  elgg_load_css('foowd-theme-style');
+  
+  ob_start();
 
-    <!-- Flavicons (not avaiable yet) -->
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="mod/foowd_theme/lib/css/style.css">
-    <?php
-
-        // coi seguenti comandi elgg carica l'head proprio come farebbe in una view
-        
-        $js = elgg_get_loaded_js('head');
-        $css = elgg_get_loaded_css();
-        $elgg_init = elgg_view('js/initialize_elgg');
-
-        // \Fprint::r($elgg_init);
-
-        $html5shiv_url = elgg_normalize_url('vendors/html5shiv.js');
-        $ie_url = elgg_get_simplecache_url('css', 'ie');
-
-        ?>
-
-            <!--[if lt IE 9]>
-                <script src="<?php echo $html5shiv_url; ?>"></script>
-            <![endif]-->
-
-        <?php
-
-        foreach ($css as $url) {
-            echo elgg_format_element('link', array('rel' => 'stylesheet', 'href' => $url));
-        }
-
-        ?>
-            <!--[if gt IE 8]>
-                <link rel="stylesheet" href="<?php echo $ie_url; ?>" />
-            <![endif]-->
-
-            <script><?php echo $elgg_init; ?></script>
-        <?php
-        foreach ($js as $url) {
-            echo elgg_format_element('script', array('src' => $url));
-        }
-      ?>
-
-    </head>
-<body>
+?>
 
 <div class="foowd-navbar">
-    
 </div>
 <div id = "account-menu">
-    <div id = "user-details">
-        <img src="../profile.png" id = "user-avatar">
-        <div id="user-info">
-            <div id="username">
-                
-            </div>
-            <div id = "board">
-                my board
-            </div>
-        </div>
-    </div>
-    <div id="account-info">
-        <ul class="number-block account-info-section">
-            <li>26</li>
-            <li><span class ="number-description">followers</span></li>
-        </ul>
-        <ul class="number-block account-info-section">
-            <li>74</li>
-            <li><span class ="number-description">following</span></li>
-        </ul>
-        <ul class="number-block account-info-section">
-            <li>7</li>
-            <li><span class ="number-description">products</span></li>
-        </ul>
-    </div>
 </div>
-
 <div id="preferences-container">
-    
 </div>
 
+<!-- Pezzo che deve essere comune a tutte le pagine -->
+
+<div class="overlay overlay-hugeinc">
+  <div class="reverse foowd-navbar">
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Work</a></li>
+      <li><a href="#">Clients</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+</div>
+
+<!-- ############################################### -->
+
+<!-- Pezzo che deve essere presente se viene aggiuntao tolta un preferenza -->
+
+<div class="foowd-alert" role="alert" id="foowd-success"></div>
+<div class="foowd-alert" role="alert" id="foowd-error"></div>
+
+<!-- ############################################### -->
+
+<script type="text/javascript" src="mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
 <script type="text/javascript">
-    require([
-        'templates',
-        'Utils',
-        'UserBoardController'], function(){
-      //utils function
-      window.utils = require('Utils');
-      //handlebars helpers
-      var templates = require('templates');
+require(['Utils', 'UserBoardController'], function(){
+  window.UserBoardController = require('UserBoardController');
+  window.UserBoardController.init();
 
-      $('.foowd-navbar').html(templates.simpleNavbar(""));
-
-      window.UserBoardController = require('UserBoardController');
-
-    });
+});
 </script>
-</body>
-</html>
+
+
+<?php
+  
+  $body = ob_get_contents();
+  ob_end_clean();
+
+  echo elgg_view_page('Foowd-Preferences', $body, 'foowdThemeFront', $vars);
+ 

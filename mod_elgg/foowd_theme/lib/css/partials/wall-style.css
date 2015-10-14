@@ -1,16 +1,24 @@
+/*
+ * About Wall Page Style
+ */
 .grid {
   margin-top: 80px;
   list-style: none;
-  padding: 0;
+  padding: 0 10px 0 10px;
   position: absolute;
   transform-style: preserve-3d;
   left: 50%;
   transform: translateX(-50%);
 }
+@media only screen and (max-width: 900px) {
+  .grid {
+    margin-top: 140px;
+  }
+}
 .grid li {
   float: left;
   width: 318px;
-  margin: 0px 20px 20px 20px !important;
+  margin: 10px 10px 20px 10px !important;
   opacity: 0;
 }
 .grid li.shown,
@@ -20,6 +28,9 @@
 }
 .grid.effect-1 li.animate {
   -webkit-animation: fadeIn 0.65s ease forwards;
+  -moz-animation: fadeIn 0.65s ease forwards;
+  -ms-animation: fadeIn 0.65s ease forwards;
+  -o-prorp: fadeIn 0.65s ease forwards;
   animation: fadeIn 0.65s ease forwards;
 }
 @-webkit-keyframes fadeIn {
@@ -27,8 +38,15 @@
     opacity: 1;
   }
 }
+.post-container {
+  display: table;
+  position: relative;
+}
+.product-post-image-thumbnail {
+  display: table;
+  z-index: -50;
+}
 .product-post-image-thumbnail img {
-  -webkit-filter: contrast(70%);
   *zoom: 1;
   float: left;
   clear: none;
@@ -36,6 +54,8 @@
   width: 100%;
   margin-left: 0%;
   margin-right: 0%;
+  position: relative;
+  z-index: -1;
 }
 .product-post-image-thumbnail img:before,
 .product-post-image-thumbnail img:after {
@@ -45,50 +65,40 @@
 .product-post-image-thumbnail img:after {
   clear: both;
 }
-.heart-overlay {
-  opacity: 0;
+.tint {
   position: relative;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  height: 298px;
-  width: 298px;
-  background-color: trasparent;
-  background-image: url("../../img/white-heart.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: table;
+  background: rgba(0,0,0,0.2);
+}
+.heart-overlay {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  z-index: 150;
+  top: 0;
+  left: 0;
+  text-align: center;
+  font-size: 72pt;
+  background: none;
+  color: #fff;
+  opacity: 0;
   -webkit-transition: opacity 0.15s ease;
   -moz-transition: opacity 0.15s ease;
   -ms-transition: opacity 0.15s ease;
-  -o-transition: opacity 0.15s ease;
+  -o-prorp: opacity 0.15s ease;
   transition: opacity 0.15s ease;
 }
 .heart-overlay:hover {
-  opacity: 0.5;
+  opacity: 1;
 }
 .product-post-header {
   top: 0px;
-  *zoom: 1;
-  float: left;
-  clear: none;
-  text-align: inherit;
   width: 100%;
-  margin-left: 0%;
-  margin-right: 0%;
   position: absolute;
-}
-.product-post-header:before,
-.product-post-header:after {
-  content: '';
-  display: table;
-}
-.product-post-header:after {
-  clear: both;
-}
-.product-post-header div {
-  padding: 10px;
+  z-index: 150;
 }
 .product-post-name {
   *zoom: 1;
@@ -98,10 +108,12 @@
   width: 48.5%;
   margin-left: 0%;
   margin-right: 3%;
+  padding: 10px 0 0 10px;
   color: #fff;
   font-family: AkkuratBold;
-  font-size: 14pt;
-  line-height: 16pt;
+  font-size: 12pt;
+  line-height: 14pt;
+  letter-spacing: -0.5pt;
   z-index: 100;
 }
 .product-post-name:before,
@@ -117,41 +129,30 @@
 }
 .product-post-unit-price {
   font-size: 12pt;
-  line-height: 12pt;
+  line-height: 14pt;
+  letter-spacing: -0.5pt;
 }
 .product-post-progress-price {
-  *zoom: 1;
-  float: left;
-  clear: none;
-  text-align: inherit;
-  width: 31.33333333333333%;
-  margin-left: 0%;
-  margin-right: 3%;
-  position: relative;
-  left: 4.291666666666666%;
+  padding: 5px 10px 0 0;
   color: #fff;
   font-family: AkkuratBold;
-  font-size: 24pt;
-  line-height: 16pt;
-  letter-spacing: -2.5pt;
-  text-align: right !important;
+  font-size: 18pt;
+  line-height: 14pt;
+  letter-spacing: -1.5pt;
+  text-align: right;
 }
-.product-post-progress-price:before,
-.product-post-progress-price:after {
-  content: '';
-  display: table;
+.mini-progress-bar {
+  position: absolute;
+  width: 40px;
+  top: 25px;
+  right: 90px;
+  height: 4px;
 }
-.product-post-progress-price:after {
-  clear: both;
-}
-.product-post-progress-price:last-child {
-  margin-right: 0%;
-}
-.product-post-progress-price .apex {
-  font-size: 11pt;
-  vertical-align: super;
-}
-.product-post-menu {
+.mini-progress {
+  background-image: url("../../img/barra-bianca.png");
+  background-repeat: no-repeat;
+  background-position: left top;
+  height: 100%;
   *zoom: 1;
   float: left;
   clear: none;
@@ -159,27 +160,42 @@
   width: 100%;
   margin-left: 0%;
   margin-right: 0%;
-  padding: 10px;
-  margin-top: -35px;
-  background: none;
 }
-.product-post-menu:before,
-.product-post-menu:after {
+.mini-progress:before,
+.mini-progress:after {
   content: '';
   display: table;
 }
-.product-post-menu:after {
+.mini-progress:after {
   clear: both;
 }
+.product-post-menu {
+  position: relative;
+  float: left;
+  margin: -40px 0 0 0;
+  vertical-align: baseline;
+  padding: 0 0 0 10px;
+  background: none;
+  z-index: 150;
+}
 .product-post-menu div {
-  display: inline-block;
+  display: inline-flex;
+  background-color: #fae6ef;
+  border-radius: 50%;
+  padding: 0;
 }
-.like {
-  font-size: 12pt;
-  line-height: 12pt;
+.product-post-menu div span {
+  padding: 0;
+  margin: 0;
+  font-size: 22pt;
+  line-height: 22pt;
+  color: #000;
 }
-.red-heart {
-  color: #f00;
+.product-post-body {
+  font-family: AkkuratRegular;
+  font-size: 10pt;
+  line-height: 14pt;
+  font-align: justify;
 }
 @-moz-keyframes fadeIn {
   100% {

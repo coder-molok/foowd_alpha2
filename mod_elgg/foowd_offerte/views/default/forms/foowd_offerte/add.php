@@ -39,9 +39,14 @@ $fadd->createField('Minqt', 'foowd:minqt:need', 'input/text', array('maxlength'=
 // $fadd->createField('Minqt', 'Quantita\' minima *', 'input/spinner', array("decimal"=>3, "integer"=>5));
 $fadd->createField('Maxqt', 'foowd:maxqt', 'input/text', array('maxlength'=>"9"));
 // $fadd->createField('Maxqt', 'Quantita\' massima', 'input/spinner', array("decimal"=>3, "integer"=>5));
+// $fadd->createField('Expiration', 'foowd:expiration', 'input/date', array('timestamp'=>true));
+// echo elgg_view('input/date', array('timestamp'=>true, 'name'=>'lol', 'value'=>'1255'));
 
+// il javascript e la struttura sono in FormAdd: hookCreateExpiration
+$fadd->createField('Expiration', 'foowd:expiration', '', array('Expiration'=>$vars['Expiration']));
 
 ?>
+
 
 <div class="elgg-foot">
     <?php 

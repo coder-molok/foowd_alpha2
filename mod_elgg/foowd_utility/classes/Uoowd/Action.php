@@ -71,7 +71,7 @@ abstract class Action {
 		 * 
 		 * @return array array con tutti i valori del form: vuoto nel caso il form non sia sitcky
 		 */
-		public function prepare_form_vars(string $action) {
+		public function prepare_form_vars($action) {
 			// controllo se e' uno sticky form
 			if (elgg_is_sticky_form($action)) {
 				// ottengo tutti gli stricky value precedentemente salvati
@@ -110,7 +110,7 @@ abstract class Action {
 			</div>
 			<?php
 		}*/
-		public function createField($field, $label, $type, array $extra){
+		public function createField($field, $label, $type, $extra=array()){
 			// se non e' creato, crelo lo sticky
 			if(!is_object($this->sticky)) $this->sticky = new \Uoowd\Sticky($this->vars['sticky']);
 
@@ -125,7 +125,7 @@ abstract class Action {
 			?>
 			<div>
 			    <label for="<?php echo $field; ?>"><?php echo elgg_echo($label); ?></label><div style="color:red">
-			    <?php echo elgg_echo($this->{$field.'Error'} );?></div><br />
+			    <?php echo elgg_echo($this->{$field.'Error'} );?></div>
 			    <?php 
 			    	$method = 'hookCreate'.$field;
 			    	if(method_exists($this, $method)){
@@ -146,10 +146,13 @@ abstract class Action {
 		 * @param  string $name il nome del campio 
 		 * @return void       
 		 */
-		public function __get(string $name){
+		public function __get($name){
+			if(!is_array($this->vars)) return null;
+			if(!is_array($this->par)) return null;
 			if(array_key_exists($name, $this->par)){
 				return elgg_extract($name, $this->vars, $this->par[$name]);
 			}else{
+				if(!is_array($this->par)) return null;
 				return elgg_extract($name, $this->vars, '');
 			}
 
@@ -161,7 +164,7 @@ abstract class Action {
 		 * @param  string $sticky_form [description]
 		 * @return [type]              [description]
 		 */
-		public function manageForm(string $sticky_form){
+		public function manageForm($sticky_form){
 			$this->status = true;
 			// metodo specifico della classe, utile per fare un pre assestamento dei dati input
 			if(method_exists($this,'hookManage')) $this->hookManage($sticky_form);
@@ -185,6 +188,7 @@ abstract class Action {
 					$str = $key.'Error';
 					$err = 'Il campo e\' obbligatorio';
 					$this->manageSticky(array($str=>$err), $sticky_form);
+					\Uoowd\Logger::error($err);
 					$this->status = false; 
 				}
 			}
@@ -323,6 +327,22 @@ abstract class Action {
 			}
 			return true;
 		}
+
+		/**
+		 * check if is date in format yyyy-MM-dd hh:mm:ss
+		 * @param  [type]  $var [description]
+		 * @return boolean      [description]
+		 */
+		public function isDateTime($var){
+			error_log('isdatetime');
+			if( preg_match('@^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}@', $var) || $var === '' ){
+				return true;
+			}
+			$str = 'Data di scadenza non valida: ' . $var;
+			\Uoowd\Logger::addError($str);
+			register_error($str);
+			return false;
+		}		
 
 
 

@@ -16,7 +16,7 @@ class API{
 	//  * @return [type] [description]
 	//  */
 
-	public static function Request($url, $method , array $params){
+	public static function Request($url, $method , $params= array() ){
 		
 		// CURL check
 		if(is_callable('curl_init')){
@@ -27,12 +27,16 @@ class API{
 			\Uoowd\Logger::addDebug('Url API: ' . $url);
 		}else{
 			register_error(elgg_echo("Impossibile eseguire l'azione"));
-			// qui eventualmente generare il log per avvisare che curl non funziona
+			\Uoowd\Logger::addError('Errore CURL not installed');
 		   	return false;
 		}
 		
 		// converto tutti i dati in un array da passare in formato json via curl
 		$numeric = array('Price', 'Minqt','Maxqt');
+		if(!is_array($params)){
+			$params = array();
+			\Uoowd\Logger::addError("Attenzione, errore nel passaggio di $params. Dati $url , $method");
+		} 
 		foreach($params as $field => $value){
 			// elimino gli spazi inutili
 			$value = trim($value);
@@ -49,7 +53,8 @@ class API{
 		$testPost = (isset($ar['type']) && $method==="POST" );
 		$testGet = (preg_match('@type@i', $url) && $method==="GET");
 		if(!$testPost && !$testGet){
-			register_error(elgg_echo('Error: undefined type'));
+			register_error(elgg_echo('Errore: tipo non definito'));
+			\Uoowd\Logger::addError('Errore: tipo non definito');
 			return false;
 		}
 
@@ -91,18 +96,84 @@ class API{
 		
 		$returned = json_decode($output);
 
-
 		// i prezzi li visualizzo con la virgola
-		foreach ($returned->body as $key => $value) {
-			foreach($value as $field => $var){
-				// i valori numerici per convenzione hanno la virgola come separatore decimale
-				if(in_array($field, $numeric)){
-					// $returned->body[$key]->{$field} = preg_replace('@\.@', ',', $var);
-				}	
+		if(isset($returned->body)){
+			$body = json_decode(json_encode($returned->body), true);
+			foreach ($body as $key => $value) {
+				if(!is_array($value) && !is_object($value) ) continue;
+				foreach($value as $field => $var){
+					// i valori numerici per convenzione hanno la virgola come separatore decimale
+					if(in_array($field, $numeric)){
+						// $returned->body[$key]->{$field} = preg_replace('@\.@', ',', $var);
+					}	
+				}
 			}
 		}
 
 		return $returned;
 	}
+
+
+	public static function httpCall($url, $method , $params= array() ){
+
+			// CURL check
+			if(is_callable('curl_init')){
+				$ch = curl_init($url);
+				\Uoowd\Logger::addDebug('Url API: ' . $url);
+			}else{
+				register_error(elgg_echo("Impossibile eseguire l'azione"));
+				// qui eventualmente generare il log per avvisare che curl non funziona
+			   	return false;
+			}
+			
+
+			// set Headers
+			$now = (new \DateTime(null, new \DateTimeZone("UTC")))->format('U');
+			$headers = array('Content-Type: application/json', 'F-Time:'.$now);
+			// se il metodo e' post, allora implemento un piccolo controllo
+			if($testPost || true){
+				array_push($headers, 'F-Check:'.hash_hmac('sha256', $now, 'KFOOWD'));
+			}
+			
+			// utile per debug tramite POSTMAN
+			//register_error(json_encode($url));
+			\Uoowd\Logger::addDebug('Dati post inviati: '.json_encode($params));
+
+
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		    // curl_setopt($ch, CURLOPT_URL, $URL);
+		    // curl_setopt($ch, CURLOPT_USERAGENT, $this->_agent);
+		    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		    // curl_setopt($this->ch, CURLOPT_COOKIEFILE, $this->_cookie_file_path);
+		    // curl_setopt($this->ch, CURLOPT_COOKIEJAR, $this->_cookie_file_path);
+		    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+		    curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
+		    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+		    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+
+		    // utile per debug tramite POSTMAN
+		    //register_error(json_encode($ar));
+
+			// dovrebbe ritornare un formato json
+			$output=curl_exec($ch);
+			
+			//$_SESSION['my']=json_encode($url);
+			//register_error($output);
+			\Uoowd\Logger::addInfo('Responso API: '.$output);
+			
+			$returned = json_decode($output);
+
+			return $returned;
+
+		}
+
+
+	public static function pathPics($id){
+		$url = elgg_get_site_url() . 'foowd_utility/image-path';
+		return self::httpCall($url,'POST', array('ExternalId'=> $id));
+	}
+
 
 }

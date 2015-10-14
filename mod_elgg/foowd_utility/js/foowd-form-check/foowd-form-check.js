@@ -51,6 +51,8 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
     Input.prototype.action = function() {
       if (!this.check()) {
         this.error();
+      } else {
+        this.clean();
       }
       if (this.allCheck()) {
         this.clean();
@@ -213,7 +215,7 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
 
     Phone.prototype.check = function() {
       var re, v;
-      re = new RegExp(/^\d{9,11}$/);
+      re = new RegExp(/^\+?\d{8,14}$/);
       v = this.el.val().trim();
       if (re.test(v)) {
         return true;
@@ -352,7 +354,9 @@ var extend = function(child, parent) { for (var key in parent) { if (hasProp.cal
       ref = this.factory;
       for (key in ref) {
         inpt = ref[key];
-        if (!inpt.allCheck()) {
+        if ((inpt.status != null) && inpt.status) {
+
+        } else if (!inpt.allCheck()) {
           check = false;
           inpt.action();
         }

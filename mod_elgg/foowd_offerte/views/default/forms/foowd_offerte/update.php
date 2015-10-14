@@ -25,7 +25,7 @@ $fadd->createField('Description', 'foowd:description:need', 'input/longtext');
 $fadd->createField('file', 'foowd:file:need', 'input/file', array('id'=>'loadedFile', 'value'=>''));
 
 // div image se esiste img
-$dir = \Uoowd\Param::imgStore().'User-'.$vars['guid'].'/'.$vars['Id'].'/';
+$dir = \Uoowd\Param::pathStore($vars['guid'],'offers').$vars['Id'].'/';
 // echo $dir;
 $style = 'style="display:none;"';
 
@@ -74,9 +74,12 @@ $fadd->createField('Minqt', 'foowd:minqt:need', 'input/text', array('maxlength'=
 // $fadd->createField('Maxqt', 'Quantita\' massima', 'input/spinner', array("decimal"=>3, "integer"=>5));
 $fadd->createField('Maxqt', 'foowd:maxqt', 'input/text', array('maxlength'=>"9"));
 
+// il javascript e la struttura sono in FormAdd: hookCreateExpiration
+$fadd->createField('Expiration', 'foowd:expiration', '', array('Expiration'=>$vars['Expiration']));
 
 // variabile per il controllo su cambiamenti dell'immagine di default
 echo elgg_view('input/hidden', array('name' => 'fileBasename', 'value' => basename($path)) ); 
+
 
 ?>
 

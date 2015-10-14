@@ -109,20 +109,20 @@ $vars['guid']=elgg_get_logged_in_user_guid();
 $vars['sticky']=$form;
 
 $vars = array_merge($vars, (array) $session);
-// var_dump($vars);
-
+// \Fprint::r($vars);
 $content .= elgg_view_form($form, array('enctype'=>'multipart/form-data'), $vars);
 
 // optionally, add the content for the sidebar
 $sidebar = "";
 
 // layout the page one_sidebar
-$body = elgg_view_layout('one_sidebar', array(
-   'content' => $content
-));
+// $body = elgg_view_layout('one_sidebar', array(
+//    'content' => $content
+// ));
+$body = $content;
 
 // draw the page
-echo elgg_view_page($title, $body);
+echo elgg_view_page($title, '<div class="foowd-page-single">'.$body.'</div>');
 
 
 unset($_SESSION['sticky_forms'][$form]);

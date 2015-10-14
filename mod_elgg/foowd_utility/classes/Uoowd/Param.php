@@ -10,7 +10,7 @@ namespace Uoowd;
 			'apiDom'	=> 'http://localhost/api_foowd/public_html/api/',	// path to API
 			'uid'		=> 'foowd_utility',									// id del plugin
 			'dbg'		=> 0,												// per visualizzare messaggi di errore fronthand (scritte rosse). Definito anche nel pannello utente, come apiDom
-			'imgStore'	=> 'OfferImg',										// folder in cui salvare le immagini
+			'imgStore'	=> 'FoowdStorage',									// folder in cui salvare le immagini
 			'tags'		=> 'tags.json',										// dove salvare il json contenente i tags
 			'utilAMD'	=> 'mod/foowd_utility/js/utility.settings.amd.js',	// file js contenente i settings e che viene aggiornato ad ogni salvataggio
 			'pageAMD' 	=> '/mod/foowd_utility/js/foowd.pages.amd.js',		// file js contenente l'elenco delle pagine di navigazione
@@ -115,7 +115,24 @@ namespace Uoowd;
 			if (!file_exists($store)) {
 			    mkdir($store, 0777, true);
 			}
-			return $store;
+			return str_replace('\\', '/', $store);
+		}
+
+		public static function userStore($guid, $web = null){
+			if($web == null){
+				$store = self::imgStore();
+			}else{
+				$store = elgg_get_site_url().self::page()->foowdStorage;
+			}
+			$store .= 'User-'.$guid.'/';	
+			return str_replace('\\', '/', $store);
+		}
+
+		public static function pathStore($guid , $str, $web = null){
+			if($str === 'profile') $dir='profile';
+			if($str === 'avatar') $dir='avatar';
+			if($str === 'offers') $dir='offers';
+			return self::userStore($guid, $web).$dir.'/';
 		}
 
 

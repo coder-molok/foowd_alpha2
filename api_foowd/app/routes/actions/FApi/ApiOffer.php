@@ -83,8 +83,10 @@ class ApiOffer extends \Foowd\FApi{
 	public function create($data){
 
 		$offer = new \Offer();
-		// if(!isset($data->Created)) $data->Created = date('Y-m-d H:i:s');
-		$this->ExtToId($data);
+		date_default_timezone_set('Europe/Rome');
+		if(!isset($data->Created)) $data->Created = date('Y-m-d H:i:s');
+		if(!isset($data->Modified)) $data->Modified = date('Y-m-d H:i:s');
+		$this->Ext2Id($data);
 		return $this->offerManager($data, $offer);
 
 	}
@@ -128,7 +130,7 @@ class ApiOffer extends \Foowd\FApi{
 	public $needle_update = "Name, Description, Price, Minqt, Publisher, Tag";
 	protected function update($data){
 
-		$this->ExtToId($data);
+		$this->Ext2Id($data);
 
 		// recupero il post originale
 		$offer = \OfferQuery::create()
@@ -173,8 +175,8 @@ class ApiOffer extends \Foowd\FApi{
 		// $offer->setModified('');
 		// \OfferQuery::create()->filterById($data->Id)->update(array('Name'=>$data->Name));
 
-		//date_timezone_set('Europe/Rome');
-		// if(!isset($data->Modified)) $data->Modified = date('Y-m-d H:i:s');
+		date_default_timezone_set('Europe/Rome');
+		if(!isset($data->Modified)) $data->Modified = date('Y-m-d H:i:s');
 		
 		return $this->offerManager($data, $offer);
 	}
@@ -247,7 +249,7 @@ class ApiOffer extends \Foowd\FApi{
 	protected function search($data){
 
 		// converto il Publisher con Id elgg in Publisher con Id User
-		$this->ExtToId($data, 1);
+		$this->Ext2Id($data, 1);
 
 		// unset($data->type);
 		// unset($data->method);
@@ -374,19 +376,17 @@ class ApiOffer extends \Foowd\FApi{
 			$ext = new \stdClass();
 			$ext->OfferId = $single->getId();
 			$prefer = \Foowd\FApi\ApiPrefer::search($ext);
-			$totalQ = 0;
-			if($prefer['response'] && count($prefer['body'])>0){
-				foreach($prefer['body'] as $pf){
-					$totalQ += $pf['Qt'];
-				}
-			}
+			$ar['totalQt'] = 0;
+			//if($prefer['response'] && count($prefer['body'])>0){
+			//	foreach($prefer['body'] as $pf){
+			//		$totalQ += $pf['Qt'];
+			//	}
+			//}
 
 			// Restituisco l'id esterno dell'utente, ovvero quello utilizzato da Elgg
 			$ar['Publisher'] = $this->IdToExt($ar['Publisher']);
 			$ar['UserId'] = $this->IdToExt($ar['Publisher']);
 
-			// carico l'ordinazione totale
-			$ar['totalQt'] = $totalQ;
 
 			// se l'utente ha espresso una preferenza per questo prodotto, allora la aggiungo come prefer, altrimenti risulta null
 			if(isset($ExternalId)){
@@ -394,7 +394,13 @@ class ApiOffer extends \Foowd\FApi{
 				$ext->ExternalId = $ExternalId;
 				$prefer = \Foowd\FApi\ApiPrefer::search($ext);
 				// se esiste la preferenza e non e' vuota
-				if(count($prefer>0) && isset($prefer['body'][0]['Id'])) $ar['prefer']=$prefer['body'];
+				if(count($prefer>0) && isset($prefer['body'][0]['Id'])){
+				unset($prefer['body'][0]['Offer']);
+				 $ar['prefer']=$prefer['body'];
+				// carico l'ordinazione totale
+				$ar['totalQt'] = $prefer['body'][0]['Qt'];
+
+			}
 			}
 
 			// ora lavoro sui tags
@@ -436,6 +442,82 @@ class ApiOffer extends \Foowd\FApi{
 		
 	}
 
+		/**
+		 *
+		 * @api {get} /offers group
+		 * @apiName group
+		 * @apiGroup Offers
+		 * 
+	 	 * @apiDescription Per ottenere la lista delle offerte mediante filtri, in particolare cerca solo le intersezioni dei filtri.
+		 * 
+		 * @apiParam {String} 		type 			metodo da chiamare (group)
+		 * @apiParam {Int}	  		OfferId 		Id dell'offerta
+		 * @apiParam {String} 		ExternalId 		stringa formata da uno o piu Id utenti (Id lato elgg) separati da virgola. Per ciascun utente ritorna la sua preferenza su tale offerta.
+		 *
+		 * @apiParamExample {url} URL-Example:
+		 * 
+		 * {{host}}offer?type=group&OfferId=1&ExternalId=52,37
+		 * 
+		 * @apiParam (Response) {Bool}				response 		false, in caso di errore
+	 	 * @apiParam (Response) {String/json}		[errors] 		json contenente i messaggi di errore
+	 	 * @apiParam (Response) {String/json}		[body] 			json contenente i parametri da ritornare in funzione della richiesta. Il parametro prefer impostato nel ritorno contiene eventuali preferenze che metchano gli ExternalId passati con la chiamata. I dati relativi agli Id (UserId, Publisher, ExternalId, etc.) sono ritornati come elggId.
+		 * 
+		 */
+		public $needle_group = "OfferId, ExternalId";
+		protected function group($data){
+
+			// converto il Publisher con Id elgg in Publisher con Id User
+			// $this->Ext2Id($data, 1);
+			$r['response'] = false;
+			
+			
+			$offer = \OfferQuery::create()
+			  		->filterById($data->OfferId)
+			  		->findOne();
+
+			if(!$offer){
+				$r['errors'] = 'L\' OfferId non corrisponde ad alcuna offerta.';
+			}else{
+				$of = $offer->toArray();
+				$of['Publisher'] = $this->IdToExt( $of['Publisher'] );
+
+				$prefers = array();
+				$r['response'] = true;
+				$ids = explode(',', $data->ExternalId);
+				
+				foreach($ids as $extId){
+					// var_dump($extId);
+					$uid = $this->ExtToId($extId);
+					// var_dump($extId);
+					$pref = \PreferQuery::create()
+							->filterByOfferId($data->OfferId)
+							->filterByUserId($uid)
+							->findOne();
+					if($pref){
+						$p = $pref->toArray();
+						unset($p['Id']);
+						unset($p['UserId']);
+						$p['ExternalId'] = $extId;
+						$prefers[] = $p;
+					}
+				}
+
+				$r['body']['prefers'] = $prefers;
+				$r['body']['offer'] = $of;
+
+
+			}
+			// var_dump(json_encode($r));
+
+			// echo json_encode($r);
+
+			return $r;
+			
+		}
+
+
+
+
 
 
 	/**
@@ -463,7 +545,7 @@ class ApiOffer extends \Foowd\FApi{
 	public $needle_delete = "Publisher, Id";// State
 	protected function delete($data){
 
-		$this->ExtToId($data);
+		$this->Ext2Id($data);
 
 		$offer = \OfferQuery::create()
 		  	->filterById($data->Id)
@@ -593,11 +675,11 @@ class ApiOffer extends \Foowd\FApi{
 	
 	/**
 	 * tutti i Publisher che arrivano da ELGG in realta' sono gli ExternalId,
-	 * pertanto ridefinisco il Publisher in mase all' ID associato nella tabella User.
+	 * pertanto ridefinisco il Publisher in base all' ID associato nella tabella User.
 	 * @param [type] $data [description]
 	 * @param [type] $noEr se impostato, gli dico di non considerare errore la non corrispondenza(vedi Search)
 	 */
-	protected function ExtToId($data, $noEr =null){
+	protected function Ext2Id($data, $noEr =null){
 
 		if(isset($data->Publisher)){
 			$data->Publisher = \UserQuery::Create()->filterByExternalId($data->Publisher)->findOne();
@@ -616,6 +698,7 @@ class ApiOffer extends \Foowd\FApi{
 	}
 
 
+	
 
 	protected function hookFSave($obj){
 

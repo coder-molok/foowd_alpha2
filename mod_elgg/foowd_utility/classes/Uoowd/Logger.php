@@ -27,7 +27,10 @@ class Logger{
 		$func = '\Monolog\Logger::'.$level;
 		// create a log channel
 		$log = new \Monolog\Logger('ElggUtilityFoowd');
-		$log->pushHandler(new \Monolog\Handler\StreamHandler(elgg_get_plugins_path().\Uoowd\Param::uid().'/log//'.date("y-m-d").'.log', constant($func)    ));
+		// $targetFile = elgg_get_plugins_path().\Uoowd\Param::uid().'/log/'.date("y-m-d").'.log';
+		$targetFile = elgg_get_plugins_path().'foowd_utility'.'/log/'.date("y-m-d").'.log';
+		// error_log($targetFile);
+		$log->pushHandler(new \Monolog\Handler\StreamHandler( $targetFile , constant($func) )  );
 
 		return $log;
 	}
@@ -45,7 +48,10 @@ class Logger{
 			$dbg = debug_backtrace()[1];
 			if(is_object($arguments[0]) || is_array($arguments[0])) $arguments[0] = json_encode($arguments[0]);
 			$str = $arguments[0].' [File: '.$dbg['file'].' ][Line: '.$dbg['line'].' ]';
-			self::init()->{$name}($str);	
+			self::init()->{$name}($str);
+
+			// loggo anche in apache
+			error_log($str);
 		} 
 	}
 

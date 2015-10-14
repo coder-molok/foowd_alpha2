@@ -1,0 +1,1 @@
+handlebars pages/templates/*.handlebars -f pages/templates/templates-amd.js --amd

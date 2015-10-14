@@ -17,10 +17,11 @@ if($r->response){
 	system_message(elgg_echo("eliminato il post ".$data['Id']));
 
 	// elimino anche la directory che contiene i suoi files
-	$dir = str_replace('\\', '/', \Uoowd\Param::imgStore());
-	$dir .= 'User-'.elgg_get_logged_in_user_guid().'/';
-	$dir = $dir.$data['Id'].'/';
+	// $dir = str_replace('\\', '/', \Uoowd\Param::imgStore());
+	// $dir .= 'User-'.elgg_get_logged_in_user_guid().'/';
+	// $dir = $dir.$data['Id'].'/';
 	// register_error($dir);
+	$dir = \Uoowd\Param::pathStore(elgg_get_logged_in_user_guid(),'offers').$data['Id'].'/';
 	unlinkDir($dir);
 
 }else{
@@ -40,7 +41,7 @@ function unlinkDir($dir){
 		// se e' dot la ignoro
 		if($fileInfo->isDot()) continue;
 
-		if($fileInfo->isDir()  && !rmdir($fileInfo->getPathname()) ){
+		if($fileInfo->isDir()  && !@rmdir($fileInfo->getPathname()) ){
 			unlinkDir($fileInfo->getPathname());
 		} 
 

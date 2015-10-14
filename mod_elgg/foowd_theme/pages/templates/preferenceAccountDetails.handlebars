@@ -1,0 +1,34 @@
+<div id = "user-details">
+{{#if user.avatar}}
+    <img src="{{user.avatar}}" id = "user-avatar">
+{{/if}}
+{{#unless user.avatar}}
+    <img src="mod/foowd_theme/img/placeholder-user.jpg" id = "user-avatar">
+{{/unless}}
+    <div id="user-info">
+        <div id="username">
+            {{user.name}}
+        </div>
+        <div id = "board">
+            my board
+        </div>
+    </div>
+</div>
+<div id="account-info">
+    {{#if user.followers}}
+    <ul class="number-block account-info-section">
+        <li>{{user.followers}}</li>
+        <li><span class ="number-description">followers</span></li>
+    </ul>
+    {{/if}}
+    {{#if user.following}}
+    <ul class="number-block account-info-section">
+        <li>{{user.following}}</li>
+        <li><span class ="number-description">following</span></li>
+    </ul>
+    {{/if}}
+    <ul class="number-block account-info-section">
+        <li>{{user.likes}}</li>
+        <li><span class ="number-description">products</span></li>
+    </ul>
+</div>

@@ -13,10 +13,17 @@ elgg_register_event_handler('init', 'system', 'utenti_init');
 
 function utenti_init(){
 
+    elgg_register_action("foowd-avatar", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-avatar.php');
+    elgg_register_action("foowd-gallery", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-gallery.php');
+    elgg_register_action("foowd-dati", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-dati.php');
+
     //Triggered after user registers. Return false to delete the user.
 	$user = new \Foowd\User();
     $user->form = 'register';
     elgg_register_plugin_hook_handler('register', 'user', array($user, 'register'));
+
+    // wrap new user creation settings it's default lang
+    elgg_register_event_handler('create','user', "set_def_lang");
 
     // se volessi rimuovere l'hook
     // elgg_unregister_plugin_hook_handler('register', 'user', array('\Foowd\User', 'register'));
@@ -24,8 +31,15 @@ function utenti_init(){
     //register a new page handler: solo di prova.
     elgg_register_page_handler('foowd_utenti', 'foowd_utenti_handler');
 
+    
+
+    // forgot password
+    // elgg_register_plugin_hook_handler('action', 'user/requestnewpassword', 'pwd_smarrita', 99999999999999999999999999);
+    // 'forward, system'
+    // elgg_register_plugin_hook_handler('get_sql', 'access', 'smarrita', 99999999);
+
     // modifico la registrazione lato admin: non servira' quasi mai
-    elgg_extend_view('forms/useradd', 'register/extend');
+    // elgg_extend_view('forms/useradd', 'register/extend');
 
     // NB: eliminare utente e' un'opzione deprecata da elgg 0.9
     // link utile per implementare https://github.com/Elgg/Elgg/blob/master/actions/avatar/remove.php
@@ -35,20 +49,22 @@ function utenti_init(){
     // sovrascrivo la registrazione lato elgg
     elgg_register_action("useradd", __DIR__ . "/actions/useradd.php", "admin");
 
-    elgg_extend_view('page/elements/sidebar', 'extend/sidebar');
+    // elgg_extend_view('page/elements/sidebar', 'extend/sidebar');
 
     // estensione della sidebar
     elgg_extend_view('forms/login', 'login/extend_social' /*, 450*/);
 
     // pagina del profilo
     // elgg_view_exists('profile/detai');
-    elgg_extend_view('profile/details', 'extend/profile');
-
-
+    // elgg_extend_view('profile/details', 'extend/profile');
+    
     // Carico il mio css di default
-    $css =  'mod/'.\Uoowd\Param::pid()."/css/foowd_utenti.css";
-    elgg_register_css('userFoowdCss', $css );
-    elgg_load_css('userFoowdCss');  // If you uncomment this, the css will load every page a user views
+    $css =  'mod/'.\Uoowd\Param::pid()."/css/foowd-utenti.css";
+    elgg_register_css('foowd-utenti', $css , 509);
+    elgg_load_css('foowd-utenti');
+
+    $css =  'mod/'.\Uoowd\Param::pid()."/css/foowd-profile.css";
+    elgg_register_css('foowd-profile', $css , 509);
 
 
     // dipendenze
@@ -72,23 +88,54 @@ function utenti_init(){
  */
 function foowd_utenti_handler($segments){
 
-    forward(REFERER);
+    // forward(REFERER);
     //var_dump($segments);
 
      // test per eventuale login con google+
     if($segments[0] === 'auth'){
         // include elgg_get_plugins_path() . 'foowd_utenti/pages/auth.php';
+        \Uoowd\Logger::addError($segments[0]);
         new \Foowd\SocialLogin();
         return true;
     }
     if($segments[0] === 'indexauth'){
         define('AUTH',__DIR__.'/vendor/hybridauth/hybridauth/hybridauth/index.php' );
         // include elgg_get_plugins_path() . 'foowd_utenti/pages/indexauth.php';
-        // \Uoowd\Logger::addError('ora sono prima di require auth');
-        
+        \Uoowd\Logger::addError($segments[0]);
         require(AUTH); 
         // questo require in realta' esegue dei redirect, 
         //pertanto il return sarebbe inutile
+        \Uoowd\Logger::addError('dopo require auth');
+        return true;
+    }
+
+    if($segments[0] === 'profilo'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/profilo.php';
+        return true;
+    }
+
+    if($segments[0] === 'avatar'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/avatar.php';
+        return true;
+    }
+
+    if($segments[0] === 'dati'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/dati.php';
+        return true;
+    }
+
+    if($segments[0] === 'gallery'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/gallery.php';
+        return true;
+    }
+
+    if($segments[0] === 'social'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/social.php';
+        return true;
+    }
+
+    if($segments[0] === 'success'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/success.php';
         return true;
     }
 
@@ -96,6 +143,14 @@ function foowd_utenti_handler($segments){
 
 }
 
+
+/**
+ *  imposto italiano come lingua di default
+ */
+function set_def_lang ($event, $object_type, $object) {
+    $object->set("language", "it");
+    return true;
+}
 
 function checkUser(){
     $user = elgg_get_logged_in_user_entity();
@@ -158,3 +213,24 @@ function checkUser(){
     }
 
 }
+
+// function pwd_smarrita($hook, $type, $value, $params){
+//     error_log('***************************************');
+//     error_log(print_r(func_get_args(), true ));
+//     // forward('login');
+// }
+
+
+// function smarrita($hook, $type, $value, $params){
+//     error_log('*************************************** smarrita **** ');
+//     error_log(print_r(func_get_args(), true ));
+//     // if(preg_match("/requestnewpassword/i",$params['current_url'])){
+//     //     error_log(__FILE__.' : Foowd, reindirizzamento');
+//     //     // \Fprint::r('Reindirizzamento post recupero password.');
+//          // forward('login');
+//     //  }
+// }
+// 
+// function _elgg_friends_page_handler($segments, $handler) {
+
+// }

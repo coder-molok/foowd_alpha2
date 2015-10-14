@@ -7,7 +7,7 @@ $of = $vars['single'];
 
 
 // div image se esiste img
-$dir = \Uoowd\Param::imgStore().'User-'.$vars['guid'].'/'.$of['Id'].'/small/';
+$dir = \Uoowd\Param::pathStore($vars['guid'],'offers').$of['Id'].'/small/';
 if(file_exists($dir)){
 	foreach( new \DirectoryIterator($dir) as $single){
 		// non faccio controlli particolari per ora
@@ -70,8 +70,7 @@ $of['Description'] = $string;
 
 
 ?>
-
-
+<div class="foowd-offers-single">
 <table class="foowd-all-single-container"><!-- single container -->
 	<tr>
 	<td class="foowd-all-img"><?php echo $img; ?></td>
@@ -94,4 +93,6 @@ $of['Description'] = $string;
 <?php 
 
 	echo $str;
+?>
+</div><!-- foowd-offers-single -->
 

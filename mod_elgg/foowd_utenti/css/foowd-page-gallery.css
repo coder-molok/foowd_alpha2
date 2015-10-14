@@ -1,0 +1,40 @@
+.foowd-page-gallery #gallery-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.foowd-page-gallery #gallery-container .single {
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+}
+.foowd-page-gallery #gallery-container .single img {
+  max-height: 135px;
+  border: 1px solid #c81063;
+}
+.foowd-page-gallery #gallery-container .single a {
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+.foowd-page-gallery #gallery-container .single .delete {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+}
+.foowd-page-gallery #gallery-container .single .change {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 50%;
+}
+.foowd-page-gallery #gallery-container .single .change,
+.foowd-page-gallery #gallery-container .single .delete {
+  border: 1px solid #c81063;
+  text-align: center;
+}
+.foowd-page-gallery .file-box-hook {
+  max-width: 400px;
+  margin-top: 20px;
+}

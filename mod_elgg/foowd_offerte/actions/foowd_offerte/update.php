@@ -27,7 +27,6 @@ $data = $f->manageForm($form);
 $data['Publisher']=elgg_get_logged_in_user_guid();
 
 
-
 // se non ho uploadato un nuovo file allora e' maggiore di zero
 if($_FILES['file']['error']>0){
 	// controllo se sono avvenuti dei cambiamenti
@@ -40,7 +39,7 @@ if($_FILES['file']['error']>0){
 	// se e' cambiato imposto il nuovo crop, atrimenti metto un default che non fa nulla
 	$crop = new \Uoowd\Crop('random');
 	if($change){
-		$crop->saveDir = \Uoowd\Param::imgStore().'User-'.get_input('guid').'/'.get_input('Id').'/';
+		$crop->saveDir = \Uoowd\Param::pathStore(get_input('guid'),'offers').get_input('Id').'/';
 		$crop->target = $crop->saveDir.get_input('fileBasename');
 	}
 
@@ -55,7 +54,7 @@ if(!$f->status || !$crop->status) forward(REFERER);
 
 // se tutto va a buon fine, proseguo con le API esterne
 $data['type']='update';
-// \Uoowd\Logger::addError($data);
+\Uoowd\Logger::addError($data);
 $r = \Uoowd\API::Request('offer', 'POST', $data);
 
 if($r->response){
@@ -113,8 +112,9 @@ if($r->response){
 	// sempre cancellare dopo un successo,
 	// in modo da forzare, secondo il mio algoritmo, il ricaricamento dei dati
 	elgg_clear_sticky_form($form);
-	system_message(elgg_echo("aggiornato post ".$data['Id']));
-	forward('foowd_offerte/success');
+	system_message(elgg_echo("Aggiornata con succeso l'offerta ".$data['Id']));
+	// forward('foowd_offerte/success');
+	forward(\Uoowd\Param::page()->all);
 }else{
 	$_SESSION['sticky_forms'][$form]['apiError']=$r;
 

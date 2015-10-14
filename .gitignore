@@ -24,6 +24,7 @@ api_foowd/sftp-config.json
 */foowd_utility/**/backup/
 */foowd_utility/bower_components
 */foowd_utility/js/utility.settings.amd.js
+.Trash*
 
 # linee aggiunte da Marco Predari
 # io uso webstorm e aggiungo la cartella del progetto che crea il programma
@@ -36,3 +37,4 @@ mod_elgg/foowd_theme/composer.phar
 mod_elgg/foowd_utility/composer.phar
 mod_elgg/foowd_utility/composer.phar
 mod_elgg/foowd_theme/node_modules
+**/.project

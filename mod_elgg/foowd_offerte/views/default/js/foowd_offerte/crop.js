@@ -90,6 +90,10 @@ document.getElementById('loadedFile').addEventListener('change', function(e) {
     // console.log(guid.value);
     formData.append(guid.name, guid.value);
 
+    var id = document.querySelector('input[name=Id]');
+    // console.log(id.value);
+    if(id) formData.append(id.name, id.value);
+
     // classe per visualizzare una piccola progressbar
     var pop = new LoadPop();
     
@@ -252,8 +256,19 @@ function start(){
     var div = $('img#sorgente');
 
     // pulsanti per fare lo switch delle proporzioni
-    var strg = '<div id="ratio"><div data-ratio="2/3">2:3</div><div data-ratio="3/2">3:2<div/></div>';
-    $('<div/>',{'html':strg}).css({'position':'absolute'}).insertBefore(div)
+    var strg = '<div id="ratio"><div>ruota la finestra di selezione cliccando sul formato larghezza:altezza</div><div data-ratio="2:3">2:3</div><div data-ratio="3:2">3:2<div/></div>';
+    var JratioWrap = $('<div/>',{'html':strg, 'id':'ratio-wrap'}).css({'position':'absolute'}).insertBefore(div)
+
+
+    var mystyle =   ' #ratio{max-width:100px;} #ratio [data-ratio]{ margin:15px ; padding: 5px; background-color:#FAE6EF; display: flex; justify-content: center; align-items: center;  }  #ratio [data-ratio]:hover{  background-color:silver;  } #ratio [data-ratio]:active{  background-color:steelblue;  } #ratio [data-ratio="2:3"]{width: 20px; height:30px;} #ratio [data-ratio="3:2"]{width: 30px; height:20px;}';
+    if (!$('style#foowd-crop-js').length) $('<style/>',{
+            "id":"foowd-crop-js",
+            "text": mystyle
+        }).appendTo("head");
+    
+    // allineo il box
+    var divleft = div.position().left - JratioWrap.width() - 30;
+    JratioWrap.css({left: divleft })
 
     if(!div.length) alert('div not exists');
     var src = div.attr('src');
@@ -288,16 +303,36 @@ function start(){
     // recupero eventuali valori di crop iniziali
     var ar = ['x1', 'x2', 'y1', 'y2'];
     var oldCrop = {};
+    var ratio ;
+    if ($img.width > $img.height){
+        ratio = '3:2';
+    }else{
+        ratio = '2:3';
+    }
+    var r = [];
+    r['2:3']={'h': 0.9, 'w': 0.6};
+    r['3:2']={'h': 0.6, 'w': 0.9};
+
     for(var i in ar){
         var tmp = ar[i];
         var val = $('input[name*='+tmp+']').val();
         if(val === ''){
             // faccio in modo che la finestra sia centrata nell'immagine
+            var l = Math.min($img.width, $img.height);
+            console.log(r[ratio])
+            console.log(l + ' w:'+$img.width+' h:'+$img.height)
+            var x = Math.round( l*r[ratio].w  );
+            var y = Math.round( l*r[ratio].h  );
+            console.log('x: '+x +' y:'+y)
             switch(tmp){
-                case 'x1': oldCrop.x1 = Math.round( ($img.width - scale.l) / 2 ); break;
-                case 'x2': oldCrop.x2 = Math.round( scale.l + oldCrop.x1 ); break;
-                case 'y1': oldCrop.y1 = Math.round( ($img.height - scale.l) / 2 ); break;
-                case 'y2': oldCrop.y2 = Math.round( scale.l + oldCrop.y1 ); break;
+                // case 'x1': oldCrop.x1 = Math.round( ($img.width - scale.l) / 2 ); break;
+                // case 'x2': oldCrop.x2 = Math.round( scale.l + oldCrop.x1 ); break;
+                // case 'y1': oldCrop.y1 = Math.round( ($img.height - scale.l) / 2 ); break;
+                // case 'y2': oldCrop.y2 = Math.round( scale.l + oldCrop.y1 ); break;
+                case 'x1': oldCrop.x1 = Math.round( ($img.width - x) / 2 ); break;
+                case 'x2': oldCrop.x2 = Math.round( x + oldCrop.x1 ); break;
+                case 'y1': oldCrop.y1 = Math.round( ($img.height - y) / 2 ); break;
+                case 'y2': oldCrop.y2 = Math.round( y + oldCrop.y1 ); break;
             }
 
         }else{
@@ -306,53 +341,69 @@ function start(){
         }
     }
 
+    console.log(oldCrop)
     // instance of image area select: used to force aspect ratio in onSelectChange event
     $ias = div.imgAreaSelect({instance: true});    
     //$ias.setOptions({/* aspectRatio: '1:1',*/ handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 30, minHeight: 30});    
-    
-    var ratio ;
-    if ($img.width > $img.height){
-        ratio = '3:2'
-    }else{
-        ratio = '2:3'
-    }
-
-    $ias.setOptions({aspectRatio: '2:3', handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 30, minHeight: 30});    
+    $ias.setOptions({aspectRatio: ratio, handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 30, minHeight: 30});    
     
     // per fare lo switch delle proporzioni
     $('div[data-ratio]').on('click', function(){
-        var txt = $(this).text();
+        
         var ratio = $(this).attr('data-ratio')
-        ratio = eval(ratio)
 
-        $ias.update()
-        var x1 = $ias.getOptions().x1;
-        var x2 = $ias.getOptions().x2;
-        var y1 = $ias.getOptions().y1;
-        var y2 = $ias.getOptions().y2;
-        var w = x2-x1;
-        var h = y2-y1;
-        var xc = (x1+x2)/2
-        var yc = (y1+y2)/2
+        
+
+        // $ias.update()
+        // var x1 = $ias.getOptions().x1;
+        // var x2 = $ias.getOptions().x2;
+        // var y1 = $ias.getOptions().y1;
+        // var y2 = $ias.getOptions().y2;
+        // var w = x2-x1;
+        // var h = y2-y1;
+        // var xc = (x1+x2)/2
+        // var yc = (y1+y2)/2
 
         var tmp = {}
-        if(ratio > 1){ // ovvero se e' piu largo che lungo
-            tmp.x = Math.max(w,h)
-            tmp.y = Math.min(w,h)
-        }else{
-            tmp.x = Math.min(w,h)
-            tmp.y = Math.max(w,h)
-        }
+        // if(ratio > 1){ // ovvero se e' piu largo che lungo
+        //     console.log('>1')
+        //     tmp.x = Math.max(w,h);
+        //     tmp.y = Math.min(w,h);
+        // }else{
+        //     console.log('<1')
+        //     tmp.x = Math.min(w,h);
+        //     tmp.y = Math.max(w,h);
+        // }
+        
+        
+        // x1 = xc - tmp.x/2
+        // x2 = x1 + tmp.x
+        // y1 = yc - tmp.y/2
+        // y2 = y1 + tmp.y
+        
+        var l = Math.min($img.width, $img.height);
+
+
+        var x = Math.round( l*r[ratio].w  );
+        var y = Math.round( l*r[ratio].h  );
+        tmp.x1 = Math.round( ($img.width - x) / 2 ); 
+        tmp.x2 = Math.round( x + tmp.x1 ); 
+        tmp.y1 = Math.round( ($img.height - y) / 2 );
+        tmp.y2 = Math.round( y + tmp.y1 ); 
+        
+        tmp.width = tmp.x2-tmp.x1;
+        tmp.height = tmp.y2-tmp.y1;
+        
         // console.log(JSON.stringify(tmp))
-            x1 = xc - tmp.x/2
-            x2 = x1 + tmp.x
-            y1 = yc - tmp.y/2
-            y2 = y1 + tmp.y
-        // console.log(x1 + ' ' + x2 + ' ' + y1 + ' ' + y2)
-        $ias.setSelection(x1, y1, x2, y2);
-        $ias.setOptions({aspectRatio: txt/*, x1:x1, x2:x2, y1:y1, y2:y2*/})
-        // console.log(ratio + txt)
-        $ias.update()
+        $ias.setSelection(tmp.x1, tmp.y1, tmp.x2, tmp.y2);
+        // var obj = {aspectRatio: ratio, x1:tmp.x1, x2:tmp.x2, y1:tmp.y1, y2:tmp.y2}
+        // console.log(JSON.stringify(obj))
+        $ias.setOptions({aspectRatio: ratio, x1:tmp.x1, x2:tmp.x2, y1:tmp.y1, y2:tmp.y2})
+        $ias.update();
+        
+        // aggiorno le preview    
+        preview($img, tmp);
+    
     })
 }   
 
@@ -404,10 +455,9 @@ var PrevWindow = function(size ,div, scale){
      // racchiudo tutto in un box che non ha proprieta
      this.Jpre.wrap('<div class=\'prev-single-container\' style="display:inline;"></div>');
      this.prevSingle = $('.prev-single-container').css({'display':'inline-block'});
-     var title = $('<div>Preview '+size+'</div>').css({
+     var title = $('<div class="foowd-back-soft">Preview '+size+'</div>').css({
         'class':"prev-title",
          'style' :"margin-top: 5px, padding: 2px",
-         'background-color': 'rgba(70, 144, 214, 0.8)',
          'width' : this.Jpre.width()
      });
      this.Jpre.parent().css({
@@ -465,7 +515,8 @@ var PrevWindow = function(size ,div, scale){
 function preview(img, selection) {
     
     // console.log($ias.getOptions().x1);
-    // console.log(selection)
+    // console.log(JSON.stringify(selection))
+    // console.log(JSON.stringify(img))
 
     // forzo l'aspect ratio in modo che la larghezza non superi l'altezza 
     // e l'altezza non sia il doppio della larghezza
@@ -515,6 +566,9 @@ var LoadPop =  function(){
     // lightbox
     this.div=document.createElement("div");
     this.div.className = 'foowd-lightbox';
+    this.div.ondblclick = function(){
+        this.remove();
+    }
     document.body.appendChild(this.div);
 
     // container progress
@@ -535,6 +589,28 @@ var LoadPop =  function(){
     this.t.innerHTML = '0 %';
     this.box.appendChild(this.t);
     
+    // la scritta 
+    this.c = document.createElement("span");
+    this.c.className = 'close-box';
+    this.c.innerHTML = 'Chiudi X';
+    this.c.style.textDecoration = 'underline';
+    this.c.style.color = 'white';
+    this.c.style.position = 'absolute';
+    this.c.style.top = '20px';
+    this.c.style.right = '20px';
+    this.c.style.cursor = 'pointer';
+    var that =  this.div;
+    this.c.onclick=function(){
+        that.remove();
+    }
+    this.c.onmouseover=function(){
+        this.style.fontWeight = 'bold';
+        this.style.color = 'green';
+    }
+    this.c.onmouseout=function(){
+        this.style.color = 'white';
+    }
+    this.div.appendChild(this.c);
 
     // infine sistemo il box centrandolo
     this.box.style.left = ($wSize.w - this.box.offsetWidth)/2 +'px';

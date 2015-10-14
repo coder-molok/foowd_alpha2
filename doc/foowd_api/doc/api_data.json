@@ -201,6 +201,74 @@
   {
     "type": "get",
     "url": "/offers",
+    "title": "group",
+    "name": "group",
+    "group": "Offers",
+    "description": "<p>Per ottenere la lista delle offerte mediante filtri, in particolare cerca solo le intersezioni dei filtri.</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>metodo da chiamare (group)</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Int",
+            "optional": false,
+            "field": "OfferId",
+            "description": "<p>Id dell&#39;offerta</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "ExternalId",
+            "description": "<p>stringa formata da uno o piu Id utenti (Id lato elgg) separati da virgola. Per ciascun utente ritorna la sua preferenza su tale offerta.</p> "
+          }
+        ],
+        "Response": [
+          {
+            "group": "Response",
+            "type": "Bool",
+            "optional": false,
+            "field": "response",
+            "description": "<p>false, in caso di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "errors",
+            "description": "<p>json contenente i messaggi di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "body",
+            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta. Il parametro prefer impostato nel ritorno contiene eventuali preferenze che metchano gli ExternalId passati con la chiamata. I dati relativi agli Id (UserId, Publisher, ExternalId, etc.) sono ritornati come elggId.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "URL-Example:",
+          "content": "\n{{host}}offer?type=group&OfferId=1&ExternalId=52,37",
+          "type": "url"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiOffer.php",
+    "groupTitle": "Offers"
+  },
+  {
+    "type": "get",
+    "url": "/offers",
     "title": "search",
     "name": "search",
     "group": "Offers",
@@ -720,6 +788,74 @@
     "version": "0.0.0",
     "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiPrefer.php",
     "groupTitle": "Prefer"
+  },
+  {
+    "type": "get",
+    "url": "/user",
+    "title": "commonOffers",
+    "name": "commonOffers",
+    "group": "User",
+    "description": "<p>Crea un nuovo utente.</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>metodo da chiamare (commonOffers)</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "ExternalId",
+            "description": "<p>gruppo di Id dei quali si vogliono trovare le offerte comuni e non</p> "
+          }
+        ],
+        "Response": [
+          {
+            "group": "Response",
+            "type": "Bool",
+            "optional": false,
+            "field": "response",
+            "description": "<p>false, in caso di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "errors",
+            "description": "<p>json contenente i messaggi di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": false,
+            "field": "body",
+            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta. Il parametro offers contiene le preferenze con aggiunto il parametro &quot;friends&quot; che e&#39; l&#39;array con gli id matchanti. I dati relativi agli Id (</p> "
+          },
+          {
+            "group": "Response",
+            "type": "array",
+            "optional": true,
+            "field": "body-offers",
+            "description": "<p>array aggiunto a ciascuna offerta e contenente gli id matchanti con l&#39;elenco ExternalId</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n \"type\":\"create\",\n \"ExternalId\":\"54,63\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiUser.php",
+    "groupTitle": "User"
   },
   {
     "type": "post",

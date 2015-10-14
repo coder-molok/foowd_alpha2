@@ -2,9 +2,199 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+
+
+### 12/10/2015
+
+- aggiornamento alcuni readme dei plugin
+
+- Attivazione plugin `web services 1.9` per servizio API
+
+- Introduzione di `PhpMailer` come servizio SMTP di test
+
+- Aggiunta scadenza alle offerte a al DB (`Expiration`)
+
+- Aggiunto Plugin jquery.ui: `jqueryui-timepicker-addon`
+
+
+
+
+### 11/10/2015
+
+- Correzione Issues  #138 #139 #141
+
+
+
+
+### 06/10/2015
+
+- create **API**:
+    + `group`, che partendo da una specifica offerta e una lista di id, ritorna la medesima offerta con le preferenze che matchano gli id passati
+    + 'commonOffers' che dato un gruppo di id ritorna tutte le offerte che li riguardano, specificando per quascuna quali id l'hanno preferita
+
+- ampliata descrizione nel [Tutorial_installazione.md](Tutorial_installazione.md)
+
+
+
+### 05/10/2015
+
+- estesa la visualizzazione della pagina `friends` grazie alla view `foowd_utenti/view/default/object/summary/extend`
+
+- aggiunte funzionalita' a `foowd-service.js` e relativo `services.php`
+
+- modificato `UserBoardController.js` per consentire la visualizzazione della board degli amici
+
+
+
+
+### 04/10/2015
+
+- creato `foowd-services.js`: modulo di servizio per richieste specifiche verso elgg( ad esempio check delle amicizie)
+
+- impostato routing pagina amicizie: sovrascritta quella originale di elgg
+
+- modificato script della board per renderla visualizzabile da altri utenti (amici)
+
+
+
+
+### 03/10/2015
+
+- migliorata interfaccia grafica sidebar
+
+- sistemato problema caricamento dei settings
+
+- personzalizzata pagina profilo di elgg
+
+- traduzioni dei plugin
+
+
+
+
+### 02/10/2015
+
+- risolte iss #133, #136, #139
+
+- attivato plugin Friends Request
+
+- attivato plugin Search Advanced (necessita attivazione del plugin base Serach)
+
+- sovrascritta la view del profilo
+
+- sovrascritti alcuni menu utente
+
+
+
+
+### 05/09/2015
+
+- risolta iss#125
+
+- aggiustati colori schermata di login/registrazione
+
+- impostata proporzione 5:2 nella galleria utente
+
+- risolto errata visualizzazione immagini caricate alla registrazione
+
+
+
+
+### 02/08/2015
+
+- completamento iss #70, #99,#107, #108, #111
+
+- inserimento pagine di navigazione
+
+- inserimento cookie policy e riabilitazione social logins 
+
+- personalizzazione stili principali
+
+
+
+
+### 27/07/2015
+
+- adattata [issue#111](https://github.com/coder-molok/foowd_alpha2/issues/111)
+
+- corretta [issue#109](https://github.com/coder-molok/foowd_alpha2/issues/108)
+
+- corretta [issue#108](https://github.com/coder-molok/foowd_alpha2/issues/108)
+
+- corretta [issue#104](https://github.com/coder-molok/foowd_alpha2/issues/104)
+
+- svolta [issue#70](https://github.com/coder-molok/foowd_alpha2/issues/70)
+
+
+
+
+### 22/07/2015
+
+- in [start.php](../mod_elgg/foowd_utenti/start.php) impostata a *italiano* la lingua di default per i nuovi iscritti
+
+
+
+
+### 20/07/2015
+
+- Disattivazione Plugin:
+    + Blog 1.9
+    + Bookmarks 1.9
+    + Log Browser 1.9
+    + Log Rotate 1.9
+    + File 1.9
+    + Groups 1.9
+    + Invite Friends 1.9
+    + Likes 1.9
+    + Members 1.9
+    + Message Board 1.9
+    + Messages 1.9
+    + Pages 1.9
+    + Search 1.9
+    + Reported Content 1.9
+    + The Wire 1.9
+    + Zaudio
+    + Notifications 1.9
+    
+
+- Plugin Attivi:
+    + foowd_*
+    + HTMLawed 1.9
+    + Garbage Collector 1.9
+    + Elgg Developer Tools 1.9
+    + CKEditor 1.9
+    + User Validation By Email 1.9
+    + Profile 1.9
+
+
+### 17/07/2015
+
+- corretta [issue#88](https://github.com/coder-molok/foowd_alpha2/issues/88)
+
+
+### 16/07/2015
+
+- inserito script [foowdSync.sh](../script/foowdSync.sh)
+
+- modificato header di risposta API
+
+- modificato ritorno API offer
+
+
+
+### 15/07/2015
+
+- primi test su personalizzazione layout elgg
+
+- migliorato crop delle offerte
+
+- risolto errori ajax nel form di autenticazione
+
+
+
 ### 10/07/2015
 
 - implementata API user per sincronizzazione nuovi dati utenti
+
 
 ### 07/07/2015
 

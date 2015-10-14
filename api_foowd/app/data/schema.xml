@@ -12,8 +12,10 @@
         <column name="quota" phpName="Quota" type="DECIMAL" size="8" scale="3" phpType="double" required="true"/>
         <column name="unit"  phpName="Unit"  type="VARCHAR" size="20" required="true" />
         <column name="unitextra"  phpName="UnitExtra"  type="VARCHAR" size="30" required="false" />
-        <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP" required="false"/>
-        <column name="modified" phpName="Modified" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP" required="false"/>
+        <!-- defaultExpr="CURRENT_TIMESTAMP" rimosso per precauzione -->
+        <column name="created" phpName="Created" type="TIMESTAMP"  required="false"/>
+        <column name="modified" phpName="Modified" type="TIMESTAMP" required="false"/>
+        <column name="expiration" phpName="Expiration" type="TIMESTAMP" required="false"/>
         <!-- aggiunto -->
         <column name="state" phpName="State" type="VARCHAR" size="10" required="false"/>
         <foreign-key foreignTable="user">
@@ -70,7 +72,7 @@
         <column name="site" phpName="Site" type="VARCHAR" size="255" required="false" />
         <column name="piva" phpName="Piva" type="VARCHAR" size="11" required="false" />
         <column name="email" phpName="Email" type="VARCHAR" size="50" required="false" />
-        <column name="phone" phpName="Phone" type="VARCHAR" size="11" required="false" />
+        <column name="phone" phpName="Phone" type="VARCHAR" size="15" required="false" />
         <column name="address" phpName="Address" type="VARCHAR" size="150" required="false" />
         <column name="company" phpName="Company" type="VARCHAR" size="100" required="false" />
 

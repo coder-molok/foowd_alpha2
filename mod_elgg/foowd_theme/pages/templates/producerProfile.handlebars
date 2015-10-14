@@ -1,0 +1,37 @@
+<div id = "producer-carousel" class="owl-carousel">
+	{{#each slides}}
+		{{> carouselItem slide}}
+	{{/each}}
+</div>
+<div id = "producer-header">
+	<div id = "producer-name">
+		{{Name}}
+		<span>{{Site}}</span>
+	</div>
+</div>
+{{!-- <div id = "producer-info">
+	{{#if followers}}
+	<ul class="number-block">
+        <li>{{followers}}5</li>
+        <li><span class ="number-description">followers</span></li>
+    </ul>
+    {{/if}}
+    {{#if views}}
+    <ul class="number-block">
+        <li>{{views}}240</li>
+        <li><span class ="number-description">visualizations</span></li>
+    </ul>
+    {{/if}}
+</div> --}}
+<div id = "producer-description">
+	<div class = "about">
+		About us
+	</div>
+	<div class = "about-description">
+		{{desc1 Description}}
+	</div>
+	<div class = "about-description">
+		{{desc2 Description}}
+	</div>
+	<div>&nbsp;</div>
+</div>

@@ -3,7 +3,6 @@ var $root = this;
 define(function(require){
 
 
-
 var $ = require('jquery');
 
 var $startHook = $('#tags-hook');
@@ -13,7 +12,21 @@ var $evtKey=false;
 
 // NB: anzitutto riempire tree se gia' presenti i valori...
 
-$(window).on('load', function(){
+(function _stateCheck(){
+  switch(document.readyState){
+    case "loading":
+      document.onreadystatechange = function (){
+        setTimeout(_stateCheck, 1000);
+      }
+    break;
+    case "interactive":
+    case "complete": 
+      my_start()
+    break;
+  }
+})();
+
+function my_start(){
   initBox();
   var obj = JSON.parse($('#tags').val());
   if(typeof obj !== 'object' ) return;
@@ -24,7 +37,7 @@ $(window).on('load', function(){
         createGroupBody(group, obj[i][j]);
     }
   }
-});
+}
 
 function initBox(){
   // <div id="create-group">Crea Gruppo</div>

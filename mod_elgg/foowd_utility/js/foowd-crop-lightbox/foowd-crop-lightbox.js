@@ -77,7 +77,8 @@
       };
     })(this));
     this.JfileInput.on('change', function(e) {
-      var file, formData, pop, xhr;
+      var _Jthat, file, formData, key, pop, ref, value, xhr;
+      _Jthat = $(this);
       if (!this.value.match(/\.(jpg|jpeg|png|gif)$/i)) {
         alert('Sono validi solo formati jpg - jpeg - png - gif');
         this.value = '';
@@ -86,13 +87,20 @@
       file = this.files[0];
       formData = new FormData();
       formData.append(this.name, file);
+      if (that.formData != null) {
+        ref = that.formData;
+        for (key in ref) {
+          value = ref[key];
+          formData.append(key, value);
+        }
+      }
       pop = new LoadPop();
       xhr = new XMLHttpRequest();
       xhr.addEventListener('progress', function(e) {
         var done, percent, total;
         done = e.position || e.loaded;
         total = e.totalSize || e.total;
-        percent = Math.floor(done / total * 1000);
+        percent = Math.floor(done / total * 100);
         if (!isFinite(percent)) {
           percent = 100;
         }
@@ -103,7 +111,7 @@
           var done, percent, total;
           done = e.position || e.loaded;
           total = e.totalSize || e.total;
-          percent = Math.floor(done / total * 1000);
+          percent = Math.floor(done / total * 100);
           if (!isFinite(percent)) {
             percent = 100;
           }
@@ -111,20 +119,26 @@
         };
       }
       xhr.onreadystatechange = function(e) {
+        var oldContent;
         if (4 === this.readyState) {
           pop.complete();
-          console.log(['xhr upload complete', e]);
           try {
             obj = JSON.parse(this.responseText);
           } catch (_error) {
             e = _error;
             alert('invalid json');
+            console.log(this.responseText);
           }
           if (obj == null) {
             return;
           }
+          if (!obj.response) {
+            console.log(obj.msg);
+          }
+          oldContent = $(that.loadedImgContainer).wrap("<div></div>").parent().html();
+          $(that.loadedImgContainer).unwrap();
           return that.Jimg = $('<img/>').attr('src', obj.preSrc + obj.src).load(function() {
-            var div, w;
+            var div, lol, prevBox, this_default, w;
             w = 400;
             this.height *= w / this.width;
             this.width = w;
@@ -135,10 +149,48 @@
             that.JimgContainer.css({
               'display': ''
             });
-            div = that.JloadedImgContainer;
+            div = $(that.loadedImgContainer);
             div.html('');
             $(this).appendTo(div);
-            $(document).trigger("foowd:update:file");
+            $(document).trigger("foowd:update:file", {
+              Jinput: _Jthat
+            });
+            this_default = function() {
+              div.parent().parent().html(oldContent);
+            };
+            prevBox = $('#' + that.imgAreaPrefix + '-lightbox');
+            if (!prevBox.length) {
+              prevBox = $('<div/>', {
+                'id': that.imgAreaPrefix + '-lightbox'
+              }).css({
+                'position': 'fixed',
+                'background-color': 'black',
+                'color': 'white',
+                'left': '0',
+                'top': '0',
+                'width': '100%',
+                'height': '100%',
+                'overflow': 'scroll',
+                'z-index': '3'
+              });
+            }
+            div.wrap(prevBox);
+            div.on('dblclick', function() {
+              return this_default();
+            });
+            lol = $('<div/>', {
+              id: that.imgAreaPrefix + '-close',
+              html: '<span>Chiudi</span>'
+            });
+            div.prepend(lol);
+            $('#' + that.imgAreaPrefix + '-close').css({
+              'position': 'absolute',
+              'top': '20px',
+              'right': '20px',
+              'font-style': 'underline'
+            }).on('click', function() {
+              return this_default();
+            });
             that.start();
           });
         }
@@ -162,6 +214,38 @@
     }
   };
   LoadPop = function() {
+    var thisCss;
+    thisCss = 'foowd-avatar-crop-css';
+    if ($('#' + thisCss).length <= 0) {
+      $("head").append("<style id=\"" + thisCss + "\"></style>");
+      
+            var mystyle =   '.foowd-lightbox { '
+                            +   'background-color: rgba(30, 20, 30, 0.8);'
+                            +   'background: rgba(30, 20, 30, 0.8);'
+                            +   'color: rgba(30, 20, 30, 0.8);'
+                            +   'position: fixed;'
+                            +   'top: 0;'
+                            +   'width: 100%;'
+                            +   'height: 100%;'
+                            +   'z-index: 5;'
+                            +   '}'
+                
+                            +'.progress-container {'
+                            +   'position: relative;'
+                            +   'width: auto;'
+                            +   'display: inline;'
+                            +   'text-align: center;'
+                            +   '}'
+                
+                            +'.progress-value {'
+                            +   'margin-left: 15px;'
+                            +   'font-weight: bold;'
+                            +   'color: #34BD34;'
+                            +   '}'
+            ;
+            ;
+      $("#" + thisCss).text(mystyle);
+    }
     if (!(this instanceof LoadPop)) {
       return new LoadPop();
     }

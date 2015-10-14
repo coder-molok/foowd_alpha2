@@ -153,6 +153,7 @@ abstract class FApi{
 			//date_default_timezone_set("Europe/Rome");
 			if(isset($single['Modified']))	$obj['body'][$key]['Modified'] =  date("Y-m-d H:i:s", strtotime($single['Modified']) );
 			if(isset($single['Created']))	$obj['body'][$key]['Created'] =  date("Y-m-d H:i:s", strtotime($single['Created']) );
+			if(isset($single['Expiration'])) $obj['body'][$key]['Expiration'] =  date("Y-m-d H:i:s", strtotime($single['Expiration']) );
 		}
 		return $obj;
 	}
@@ -178,6 +179,18 @@ abstract class FApi{
 		if($elggId)	return $elggId->getExternalId();
 			
 	}
+
+	
+	protected static function ExtToId($elggId){
+		// echo 'lol*'.$elggId;
+
+
+		$userId = \UserQuery::Create()->filterByExternalId($elggId)->findOne();
+		// var_dump($userId);
+		// eventualmente implementare un log: ci sarebbero articoli con utente indefinito...
+		if($userId)	return $userId->getId();
+			
+	}	
 
 
 

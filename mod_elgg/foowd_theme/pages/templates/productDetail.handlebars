@@ -1,5 +1,6 @@
 <div id="detail-menu">
     <div class="detail-menu-section" id="price-section">
+    {{#if logged}}
         <span class = "detail-progress-bar">
             <span class = "progress" 
               data-unit = "1"
@@ -14,6 +15,7 @@
               data-total = "{{Minqt}}">
             </span>    
         </span>
+    {{/if}}
         <div class="price-detail">
             <ul class="number-block" id="unit-price">
                 <li>{{Price}}<span class="apex">€</span></li>
@@ -29,7 +31,7 @@
         </div>
     </div>
     <div class="detail-menu-section" id ="menu-close">
-        <span class="glyphicon glyphicon-remove-circle fw-menu-icon" id ="close-detail" onClick="utils.goTo('')"></span>
+        <span class="foowd-icons foowd-icon-close" id ="close-detail" onClick="utils.goTo('')"></span>
     </div>
 </div>
 <div id="product-menu">
@@ -42,12 +44,12 @@
             
             {{#if logged}}
             <ul class="action-icons menu-section" id = "preference-action">
-                <li id="action-heart">
-                    <i  class="glyphicon glyphicon-heart fw-menu-icon" 
+                <li class="action-heart">
+                    <i  class="foowd-icons foowd-icon-heart-edge" 
                         onClick = "ProductDetailController.addPreference({{Id}}, 1)"></i>
                 </li>
-                <li id="action-minus">
-                    <i class="glyphicon glyphicon-minus fw-menu-icon" 
+                <li class="action-minus">
+                    <i class="foowd-icons foowd-icon-minus fw-menu-icon" 
                        onClick = "ProductDetailController.addPreference({{Id}}, -1)"></i>
                 </li>
             </ul>
@@ -55,20 +57,40 @@
 
         </div>
         <div class="product-info-menu" id = "section2">
-            <div class = "menu-section" id="product-description">
+            <div id="product-description">
                 {{{Description}}}
             </div>
-            <div class = "menu-section" id="product-commercial-info">
-                <ul id="commercial-menu">
-                    <li>
-                        <i id="" class="glyphicon glyphicon-heart fw-menu-icon"></i>
-                        carrello
-                    </li>
-                    <li>
-                        <i id="" class="glyphicon glyphicon-unchecked fw-menu-icon"></i>
-                        tot
-                    </li>
-                </ul>
+            <div id="commercial-menu">
+            {{#if logged}}
+                <div class = "commercial-menu-item">
+                    <div class="item-container">
+                        <span class="foowd-icons foowd-icon-heart-edge item-icon">
+                        </span>
+                        <span class = "item-title">carrello</span>
+                        <span class = "item-data">x{{totalQt}}</span>
+                    </div>
+                </div>
+                <div class = "commercial-menu-item">
+                    <div class="item-container">
+                        <span class="foowd-icons foowd-icon-cart item-icon"></span>
+                        <span class = "item-title">tot</span>
+                        <span class = "item-data">
+                            {{math totalQt '*' Price}}
+                            <span class = "apex">€</span>
+                        </span>
+                    </div>
+                </div>
+                {{#canbuy totalQt Minqt}}
+                    <div class = "commercial-menu-item">
+                        <ul class="action-icons menu-section" id = "preference-action">
+                            <li class="action-buy">
+                                <i class="foowd-icons foowd-icon-plus"></i>
+                            </li>
+                        </ul>
+                    </div>
+                {{/canbuy}}
+
+            {{/if}}
             </div>
         </div>
     </div>

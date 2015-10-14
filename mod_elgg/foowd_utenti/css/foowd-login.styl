@@ -1,0 +1,57 @@
+@import "icomoon/style.css"
+
+$icon-google-plus= "\ea88";
+$icon-google-plus2= "\ea89";
+$icon-google-plus3= "\ea8a";
+$icon-facebook= "\ea8c";
+$icon-facebook2= "\ea8d";
+$icon-facebook3= "\ea8e";
+
+@import '../../foowd_theme/lib/css/styl/variables.styl'
+
+
+.elgg-menu-item-register, .elgg-menu-item-forgotpassword
+    a, a:link, a:visited, a:active
+        color: foowdTopbar !important
+
+
+// see http://designpieces.com/2012/12/google-plus-colour-palette/
+
+// altezza icona e contenitore social
+$soc-size = 2em
+
+.soc 
+    // overflow: visible
+    margin: 0
+    margin-top: 3px;
+    padding: 0
+    list-style: none
+    height: $soc-size
+
+    li
+        display: inline-block
+        *display: inline
+        zoom: 1
+        // a
+        //     &:hover
+        //         color: red
+
+    [class^="soc-"]
+        font-family: 'icomoon'
+        text-decoration: none
+        margin: 10px
+        &:before
+            font-size: $soc-size
+        &:hover
+            color: #AFDEF3
+    
+    .soc-google
+        color: #d34836
+        &:before
+            content: $icon-google-plus2
+
+    .soc-facebook
+        color: #3b5998
+        &:before
+            content: $icon-facebook2
+

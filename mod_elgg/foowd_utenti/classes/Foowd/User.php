@@ -128,23 +128,54 @@ class User {
 		
 		// \Uoowd\Logger::addError($data);
 		// if(get_input('file')!=='') $data['Image']=get_input('file');
-		\Uoowd\Logger::addError("prima di offerente: il genere e' ".$genre);
+		// \Uoowd\Logger::addError("prima di offerente: il genere e' ".$genre);
 		if($genre === 'offerente'){
-			\Uoowd\Logger::addError("dentro a offerente");
+			// \Uoowd\Logger::addError("dentro a offerente");
 			$crop = new \Uoowd\FoowdCrop();
 			$dir = 'User-'.$extId.'/profile/';
+			// \Uoowd\Logger::addError($_FILES);
+			// prima di inviare, tolgo i campi Files con nome vuoto, perche' equivalgono a input non riempiti
+			foreach ($_FILES as $key => $value) {
+				if($value['name']=='') unset($_FILES[$key]);
+			}
+			\Uoowd\Logger::addError($_FILES);
 			$crop->saveImgEach($dir, $extId, $form, $input);
 	
 			if(!$crop->cropCheck()){
 				\Uoowd\Logger::addError("qualcosa e' andato storto nel crop");
 				$crop->removeDir(\Uoowd\Param::imgStore().'User-'.$extId);
 				return false;
+			}else{
+				// se tutto e' andato a buon fine, modifico i nomi dei file togliendo la parola "file"
+				$path = \Uoowd\Param::pathStore($extId,'profile');
+				foreach( new \DirectoryIterator($path) as $fileInfo){
+					// dentro directory file#
+					if($fileInfo->isDir() && !$fileInfo->isDot() ){
+						foreach(new \DirectoryIterator($fileInfo->getPathname()) as $file){
+							if($file->isFile()){
+								$dir = $file->getPath() . DIRECTORY_SEPARATOR;
+								$newName = str_replace('file', '', $file->getFilename());
+								rename($file->getPathname(), $dir.$newName);
+							}
+							// dentro file#/small, big o medium
+							if($file->isDir() && !$file->isDot() ){
+								foreach(new \DirectoryIterator($file->getPathname()) as $f){
+									if($f->isFile()){
+										$dir = $f->getPath() . DIRECTORY_SEPARATOR;
+										$newName = str_replace('file', '', $f->getFilename());
+										rename($f->getPathname(), $dir.$newName);
+									}
+								}	
+							}
+						}	
+					}
+				}
 			}
 			// se volessi salvare l'immagine
 			// $data['Image'] = $crop->base64();
 		}
 
-		\Uoowd\Logger::addError("dopo offerente");
+		// \Uoowd\Logger::addError("dopo offerente");
 
 		$r = \Uoowd\API::Request('user', 'POST', $data);
 
