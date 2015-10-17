@@ -38,3 +38,11 @@ mod_elgg/foowd_utility/composer.phar
 mod_elgg/foowd_utility/composer.phar
 mod_elgg/foowd_theme/node_modules
 **/.project
+
+# aggiunte di Molok
+api_foowd/.deployWeb
+mod_elgg/foowd_offerte/.deployWeb
+mod_elgg/foowd_theme/.deployWeb
+mod_elgg/foowd_utenti/.deployWeb
+mod_elgg/foowd_utility/.deployWeb
+
