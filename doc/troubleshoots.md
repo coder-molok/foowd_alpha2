@@ -3,6 +3,14 @@ TroubleShoot
 
 Raccolta di problemi e risoluzioni che possono avvenire.
 
+Site
+-----
+
+#### errore 404 su <sito>/mod/foowd_utility/js/utility.settings.amd.js
+
+quando si verifica questo errore e' perche' alla prima installazione e' necessario salvare almeno una volta i setting si **foowd_utility**. Per dettagli vedi [Tutorial installazione#step-aggiuntivo](Tutorial_installazione.md#step-aggiuntivo)
+
+
 Propel
 ------
 

@@ -267,7 +267,7 @@ namespace Foowd\Action;
 			    })
 			</script>
 			<input type="text" id="datepicker" value="<?php echo $vars['Expiration']; ?>"/>
-			<input  name="Expiration" value="<?php echo $vars['Expiration']; ?>"/>
+			<input type="hidden" name="Expiration" value="<?php echo $vars['Expiration']; ?>"/>
 			<?php
 		}
 

@@ -5,20 +5,20 @@ elgg_register_classes(elgg_get_plugins_path().'foowd_utility/classes');
 
 \Uoowd\Param::checkFoowdPlugins();
 
+include_once(elgg_get_plugins_path().'foowd_utility/functions/exposeAPI.php');
+
 elgg_register_event_handler('init', 'system', 'utility_init');
+
 
 function utility_init(){
 	
-	// $oldGet = $_GET; 
-	// var_dump($_GET);
-	// $_GET['json']='';
-	// include(elgg_get_plugins_path().'foowd_utility/js/pages.php') ;
-	// $_GET= $oldGet;
-	// var_dump($_GET);
-
+	
 	// Inizializzo il wrap della mail e PhpMailer
 	// hook all'invio di email
-	// elgg_register_plugin_hook_handler('email', 'system', 'foowd_utility_mail');
+	$mailer = elgg_get_plugin_setting('phpmailer-enable', \Uoowd\Param::pid());
+	if($mailer){
+		elgg_register_plugin_hook_handler('email', 'system', 'foowd_utility_mail');
+	}
 
 	// quando salvo i settings del plugin
 	elgg_register_plugin_hook_handler('setting', 'plugin', 'update_json');
@@ -157,6 +157,9 @@ function utility_page_handler($segments) {
 		case 'services':
 		    include elgg_get_plugins_path() . 'foowd_utility/pages/services.php';
 		    break;
+		case 'checkInit':
+		    include elgg_get_plugins_path() . 'foowd_utility/views/default/plugins/foowd_utility/checkInit.php';
+		    break;
 		default:
 			$check = false;
 			break;
@@ -177,59 +180,49 @@ function foowd_utility_mail($hook, $type, $return, $params){
 
 	// \Uoowd\Logger::error(func_get_args());
 	// error_log(json_encode( func_get_args() ));
+	
 
 	$adrs = $return['to'];
 	$subj = $return['subject'];
 	$body = $return['body'];
 
 	$mail = new \Uoowd\FoowdMailer();
+	
 	$mail->addAddress($adrs, "Recepient Name");
 	$mail->Subject = $subj;//"Subject Text";
-	$mail->Body = $body;
-	$mail->AltBody = "This is the plain text version of the email content. Yeah!";
 
+	$bodyHtml = str_replace(PHP_EOL, '<br/>', $body);
+	$bodyHtml = preg_replace('@  @i', ' &emsp;', $bodyHtml);
+	
+	$bodyAlt = str_replace(PHP_EOL, "\n", $body);
+	$bodyAlt = preg_replace('@< *br */? *>@i', "\n", $bodyAlt);
+
+	$mail->Body = $bodyHtml;
+	$mail->AltBody = $bodyAlt;//"This is the plain text version of the email content. Yeah!";
+
+	// \Fprint::r($bodyAlt);
+	// return false;
 	// effettuare redirect
-	// if(!$mail->send()) 
-	// {
-	//     \Fprint::r("Mailer Error: " . $mail->ErrorInfo);
-	//     // $mail->copyToFolder(); // Will save into inbox
-	// } 
-	// else 
-	// {
-	//     // $mail->copyToFolder("FoowdDev"); // Will save into Sent folder
-	//     \Fprint::r( "Message has been sent successfully");
-	// }
+	if(!$mail->send()){
+	    \Uoowd\Logger::addError("Mailer Error: " . $mail->ErrorInfo);
+	    // register_error("Errore nell'invio della mail, ci scusiamo per il disagio.");
+	    // \Fprint::r( "Message error");
+	    return false;
+	    // $mail->copyToFolder(); // Will save into inbox
+	} 
+	else{
+	    // $mail->copyToFolder("FoowdDev"); // Will save into Sent folder
+	    // \Fprint::r( "Message has been sent successfully");
+	    // message_system('Email inviata con successo');
+	    return true;
+	}
 	
 		
 	// cosa ritornare agli altri hook
 	// false evita che vengano eseguiti gli hook successivi (quindi l'invio tramite la funzione mail() di php)
 	// $return se voglio che la funzione mail() abbia i parametri per essere inviata
 	// return false;
-	return $return;
+	// return $return;
 }
 
 
-// see https://github.com/markharding/elgg-web-services-deprecated/blob/master/lib/user.php
-// elgg_ws_expose_function("foowd.users.active",
-//                 "count_active_users",
-//                  array("minutes" => array('type' => 'int',
-//                                           'required' => false),
-//                  		'greeting' => array(
-//                  		                        'type' => 'string',
-//                  		                        'required' => false,
-//                  		                        'default' => 'Hello',
-//                  		                        'description' => 'Greeting to be used, e.g. "Good day" or "Hi"',
-//                  		                    )
-//                  ),
-//                  'Number of users who have used the site in the past x minutes',
-//                  'GET',
-//                  false,
-//                  false
-//                 );
-
-function count_active_users($minutes=10) {
-    $seconds = 60 * $minutes;
-    $count = count(find_active_users($seconds, 9999));
-    $count = array('count'=>'count', 'mio'=>'random');
-    return $count;
-}

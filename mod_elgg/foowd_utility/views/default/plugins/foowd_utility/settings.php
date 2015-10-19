@@ -7,6 +7,16 @@
   //      avviene per 'forceActiveAll' creato in fondo
 ?>
 
+<!--------------- Test Iniziale ------------------>
+<p>
+  <?php echo '<h1>Test Iniziale</h1><br/>';  ?>
+  <p>Cliccando puoi verificare che siano abilitati i principali servizi necessari per l'utilizzo dei plugin foowd.</p>
+   <a class="elgg-button elgg-button-submit" href="<?php echo elgg_get_site_url().\Uoowd\Param::pid(); ?>/checkInit">Test</a>
+</p>
+<br/>
+
+
+
 <!--------------- API ------------------>
 
 <?php 
@@ -44,11 +54,18 @@
 			// echo 'carico';
 			$value =  file_get_contents($json);
 		}else{
-			$value = '';
+			$value = '""';
 		}
 	} 
 
+  // per precauzione controllo che sia un formato json, altrimenti lo imposto come stringa vuota
+  // questo serve per la parte javascript
 
+  json_decode($value);
+  if(json_last_error() !== JSON_ERROR_NONE){
+    $value = '""';
+    echo '<div style="background-color:red; margin:10px;">Tags non presenti o salvati in maniera errata.</div>';
+  }
 
 	// registro un hook a questo submit
 
@@ -79,7 +96,7 @@ elgg_load_css('plugin-settings');
 
 
 
-<!--------------- API ------------------>
+<!--------------- SOCIALS ------------------>
 <h1>Socials</h1>
 <br/>
 <?php 
@@ -99,9 +116,59 @@ elgg_load_css('plugin-settings');
 
 
 
+<!--------------- PHPMAILER ------------------>
+<style>
+.mailer p{
+  width: 50%;
+  float: left;
+}
+
+.mailer p input{
+  width: 90%;
+}
+</style>
+<br/>
+<h1>PhpMailer</h1>
+<br/>
+<?php
+$p = 'phpmailer-enable';
+$value = elgg_get_plugin_setting($p, \Uoowd\Param::pid() );
+// se non e' impostato, lo imposto
+$value = ($value) ? $value : \Uoowd\Param::$par['dbg']; 
+
+$checked = ($value) ? true : false ;
+
+echo elgg_view("input/checkbox", array(
+    'label' => 'spunta per attivare l\'invio tramite phpmailer',
+    'name'  => "params[$p]",
+    'checked' => $checked
+  ));
+?>
+<div>
+  NB: l'invio tramite smpt sostituira' l'invio tramite la funzione <b><i>mail()</i></b> di PHP.
+</div>
+<br/>
+<div class="mailer">
+<?php 
+  $mailcfgs = array('Host', 'Username','Password', 'From', 'FromName', 'SMTPSecure', 'Port', 'SMTPAuth');
+
+  foreach($mailcfgs as $s){
+    $p = 'phpmailer-' . $s;
+    $value = elgg_get_plugin_setting($p, \Uoowd\Param::pid() );
+
+    echo '<p>'.
+          '<label>'.$s.'</label><br/>'.
+          '<input class="phpmailer" type="text" name="params['.$p.']" size="80" value="'.$value.'" />'.
+          '</p>';       
+
+  }
+   
+?>
+</div>
+<br/>
 
 
-
+<!--------------- DEVELOPERS ------------------>
 <br>
 <h1>Per Sviluppatori</h1>
 <br>

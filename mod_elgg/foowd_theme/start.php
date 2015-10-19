@@ -222,7 +222,7 @@ function foowd_theme_elgg_manage(){
 	// inutile perche' ho sovrascritto la view owner_block.php
 	// rimuovo menu : quello con le pagine, i blog etc. dell'utente
 	// elgg_register_plugin_hook_handler('register', 'module:owner_block', function(){ return '' ;} );
-	 
+	elgg_register_plugin_hook_handler("register", "menu:search_type_selection", 'foowd_search_type_selection');
 
 }
 /*
@@ -239,6 +239,36 @@ function custom_topbarmenu_setup ($hook, $type, $return, $params) {
             unset($return[$key]);
         }
     }
+
+    return $return;
+}
+
+
+/**
+ * personalizzo il menu del plugin advanced research concedendo come unica opzione la ricerca sugli utenti.
+ *
+ * NB: una buona modifica viene anche implementata in owner_block.php presente nelle views di questo plugin.
+ * 
+ * @param  [type] $hook   [description]
+ * @param  [type] $type   [description]
+ * @param  [type] $return [description]
+ * @param  [type] $params [description]
+ * @return [type]         [description]
+ */
+function foowd_search_type_selection($hook, $type, $return, $params) {
+	$remove = array('all', 'item:group', 'item:comment', 'item:object:comment');
+
+    foreach($return as $key => $item) {
+        if (in_array($item->getName(), $remove)) {
+            unset($return[$key]);
+        }else{
+        	// \Fprint::r($item->getName());
+        	// $item->setContext('item:user');
+        }
+    }
+
+
+    // \Fprint::r($return);
 
     return $return;
 }

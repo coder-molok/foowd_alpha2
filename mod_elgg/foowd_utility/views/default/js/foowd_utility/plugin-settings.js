@@ -28,8 +28,11 @@ var $evtKey=false;
 
 function my_start(){
   initBox();
-  var obj = JSON.parse($('#tags').val());
-  if(typeof obj !== 'object' ) return;
+
+  // nel form se non e' un json, val viene impostato a stringa vuota                          
+  var obj = $('#tags').val();
+  obj = (obj === '') ? {} : JSON.parse(obj);
+  if(typeof obj !== 'object' ) alert('Errore inatteso');
   for(var i in obj){
     var group = i;
     createGroupHead(group);

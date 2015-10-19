@@ -62,6 +62,23 @@ echo elgg_view('output/url', array(
 salto:
 ?>
 
+
+
+<div>
+<?php
+// echo '<h3>Visualizza Preferenze</h3>';
+// echo '<p>cliccando potrai visualizzare l\'elenco delle tue offerte e vedere chi tra i tuoi vi ha aderito. Se vorrai potrai anche lanciare l\'ordinazione una volta raggiunta la quantita\' minima.</p>';
+// echo elgg_view('output/url', array(
+// 		// associate to the action
+// 		'href' => \Uoowd\Param::page()->userPreferences,
+// 	    'text' => elgg_echo('Preferenze'),
+// 	    'class' => 'elgg-button',
+//     ));
+?>
+
+</div>
+
+
 <div>
 <?php
 echo '<h3>Vedi Profilo</h3>';

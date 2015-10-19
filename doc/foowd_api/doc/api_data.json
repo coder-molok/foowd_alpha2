@@ -795,7 +795,7 @@
     "title": "commonOffers",
     "name": "commonOffers",
     "group": "User",
-    "description": "<p>Crea un nuovo utente.</p> ",
+    "description": "<p>Trova le offerte comuni a un gruppo di utenti.</p> ",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -811,7 +811,7 @@
             "type": "Integer",
             "optional": false,
             "field": "ExternalId",
-            "description": "<p>gruppo di Id dei quali si vogliono trovare le offerte comuni e non</p> "
+            "description": "<p>gruppo di Id (separati da virgola) dei quali si vogliono trovare le offerte comuni e non</p> "
           }
         ],
         "Response": [
@@ -834,14 +834,14 @@
             "type": "String/json",
             "optional": false,
             "field": "body",
-            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta. Il parametro offers contiene le preferenze con aggiunto il parametro &quot;friends&quot; che e&#39; l&#39;array con gli id matchanti. I dati relativi agli Id (</p> "
+            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta. Il parametro offers contiene la proprieta&#39; &quot;friends&quot;: array contenente le preferenze matchanti la lista di ExternalId</p> "
           },
           {
             "group": "Response",
             "type": "array",
             "optional": true,
             "field": "body-offers",
-            "description": "<p>array aggiunto a ciascuna offerta e contenente gli id matchanti con l&#39;elenco ExternalId</p> "
+            "description": "<p>array aggiunto a ciascuna offerta e contenente le preferenze degli id matchanti con l&#39;elenco ExternalId</p> "
           }
         ]
       },

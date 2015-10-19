@@ -10,8 +10,8 @@
 
 admin_gatekeeper();
 
-$to = 'simoneguerriero84@yahoo.it';
-elgg_send_email('foowd',$to,'random','Email di prova.', array());
+// $to = 'simoneguerriero84@yahoo.it';
+// elgg_send_email('foowd',$to,'random','Email di prova.', array());
 
 $user = get_user_by_email('scardoni.simone@gmail.com')[0];
 $guid = $user->guid;
@@ -67,7 +67,7 @@ function my_get_entity_callback($row)
 
     echo '<h3>Relationship</h3>';
     $relationship = get_entity_relationships($user->guid);
-    foreach($relationship as $rel) echo 'Utente Owner id ' .$rel->guid_one . ' in relazione "' . $rel->relationship .'" con oggetto id ' .$rel->guid_two . '<br/?>';
+    foreach($relationship as $rel) echo 'Utente Owner id ' .$rel->guid_one . ' in relazione "' . $rel->relationship .'" con oggetto id ' .$rel->guid_two . '<br/>';
 
 
     echo '<br>';

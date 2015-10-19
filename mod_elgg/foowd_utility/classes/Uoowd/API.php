@@ -129,7 +129,7 @@ class API{
 
 			// set Headers
 			$now = (new \DateTime(null, new \DateTimeZone("UTC")))->format('U');
-			$headers = array('Content-Type: application/json', 'F-Time:'.$now);
+			$headers = array(/*'Content-Type: application/json',*/ 'F-Time:'.$now);
 			// se il metodo e' post, allora implemento un piccolo controllo
 			if($testPost || true){
 				array_push($headers, 'F-Check:'.hash_hmac('sha256', $now, 'KFOOWD'));
@@ -150,7 +150,7 @@ class API{
 		    // curl_setopt($this->ch, CURLOPT_COOKIEJAR, $this->_cookie_file_path);
 		    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 		    curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
-		    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+		    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
 		    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 
 		    // utile per debug tramite POSTMAN

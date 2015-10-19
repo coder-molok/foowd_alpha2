@@ -242,10 +242,10 @@ class ApiUser extends \Foowd\FApi{
 		 * @apiName commonOffers
 		 * @apiGroup User
 		 * 
-	 	 * @apiDescription Crea un nuovo utente. 
+	 	 * @apiDescription Trova le offerte comuni a un gruppo di utenti. 
 		 * 
 		 * @apiParam {String} 		type 		metodo da chiamare (commonOffers)
-		 * @apiParam {Integer}  	ExternalId 	gruppo di Id dei quali si vogliono trovare le offerte comuni e non
+		 * @apiParam {Integer}  	ExternalId 	gruppo di Id (separati da virgola) dei quali si vogliono trovare le offerte comuni e non
 		 * 
 	 	 * 
 		 * @apiParamExample {json} Request-Example:
@@ -258,9 +258,9 @@ class ApiUser extends \Foowd\FApi{
 		 * 
 		 * @apiParam (Response) {Bool}				response 		false, in caso di errore
 	 	 * @apiParam (Response) {String/json}		[errors] 		json contenente i messaggi di errore
-	 	 * @apiParam (Response) {String/json}		body 			json contenente i parametri da ritornare in funzione della richiesta. Il parametro offers contiene le preferenze con aggiunto il parametro "friends" che e' l'array con gli id matchanti. I dati relativi agli Id (
-		 * @apiParam (Response) {array}				[body-offers]  	array aggiunto a ciascuna offerta e contenente gli id matchanti con l'elenco ExternalId 			
-		 *     
+	 	 * @apiParam (Response) {String/json}		body 			json contenente i parametri da ritornare in funzione della richiesta. Il parametro offers contiene la proprieta' "friends": array contenente le preferenze matchanti la lista di ExternalId
+		 * @apiParam (Response) {array}				[body-offers]  	array aggiunto a ciascuna offerta e contenente le preferenze degli id matchanti con l'elenco ExternalId      
+		 * 
 		 */	
 		public $needle_commonOffers = "ExternalId";
 		public function commonOffers($data){
@@ -283,18 +283,27 @@ class ApiUser extends \Foowd\FApi{
 			// var_dump($o);
 			foreach($o as $of){
 				$oId = $of->getId();
-				
+				$friends = array();
+
 				if(array_key_exists($oId, $offers)) continue;
 
 				$ar = $of->toArray();
+				// il publisher deve essere ritornato come id di Elgg
+				$ar['Publisher'] = $this->IdToExt( $ar['Publisher'] );
 
 				// ora aggiungo un array contenente solo la lista degli utenti che matchano con le preferenze
 				// NB: la lista e' gia' con ExternalId (elggId)
 				foreach($of->getPrefers() as $p){
-					$ar['friends'][] = $this->IdToExt( $p->getUserId() );
+					$friends[] = /*$this->IdToExt(*/ $p->getUserId() /*)*/;
 				}
 				// ritorno solo quelli che matchano
-				$ar['friends'] = array_intersect($ar['friends'], $elggUsers);
+				$common = array_intersect($friends, $apiUsers);
+				// ora ottengo per ciascuno la specifica prefrenza, e poi la incollo
+				foreach($common as $v ){
+					$pref = \PreferQuery::Create()->filterByOfferId($oId)->filterByUserId($v)->findOne()->toArray();
+					$pref['UserId'] = $this->IdToExt($pref['UserId']);
+					$ar['friends'][] = $pref;
+				}
 				$offers[$oId] = $ar;
 			}
 

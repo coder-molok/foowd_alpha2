@@ -2,6 +2,33 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 19/10/2015
+
+- inserita possibilita' di configurazione di `PhpMailer` dai settings 
+
+- impostati test per invio mail
+
+
+
+
+### 18/10/2015
+
+- ridotte opzioni di ricerca nella sidebar ai soli `user`
+
+- sistemato check formato json nei settings di `foowd_utility`
+
+- aggiunta pagina `test` richiamabile dai settings di `foowd_utility`
+
+- aggiornato `Readme.md` di `foowd_utility`
+
+
+
+
+### 16/10/2015
+
+- pagina `my-preferences` per testare Api Foowd
+
+
 
 
 ### 12/10/2015

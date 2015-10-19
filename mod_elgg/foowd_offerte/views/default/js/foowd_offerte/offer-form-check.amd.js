@@ -12,7 +12,7 @@
       return root.returnExports = factory();
     }
   })(this, function() {
-    var $, Div, IframeText, Input, InputFactory, Maxqt, Minqt, Price, Text, elgg, fac, loom;
+    var $, Div, IframeText, Input, InputFactory, Maxqt, Minqt, Price, Text, elgg, fac, frame, frameLoaded, loom, sanitizePase;
     loom = this;
     $ = require('jquery');
     elgg = require('elgg');
@@ -323,6 +323,42 @@
       return InputFactory;
 
     })();
+    frame = {
+      el: $('iframe[class*="cke_wys"]').contents().find('body')
+    };
+    (frameLoaded = function() {
+      console.log(frame.length);
+      if (frame.el.length >= 1) {
+        return sanitizePase(frame.el);
+      } else {
+        frame.el = $('iframe[class*="cke_wys"]').contents().find('body');
+        return setTimeout(frameLoaded, 2000);
+      }
+    })();
+    sanitizePase = function(el) {
+      return el.parent().on('paste', function(e) {
+        var _this, before;
+        console.log(e);
+        _this = $(this).find('body');
+        before = _this.html();
+        before = before.replace(/<span data-cke-bookmark.+>.+<\/span>/gi, '');
+        console.log('prima: \t:' + before);
+        return setTimeout(function() {
+          var after, pasted, pos1, pos2, replace, replaced;
+          after = _this.html();
+          pos1 = -1;
+          pos2 = -1;
+          for (var i=0; i<after.length; i++) {
+                    if (pos1 == -1 && before.substr(i, 1) != after.substr(i, 1)) pos1 = i;
+                    if (pos2 == -1 && before.substr(before.length-i-1, 1) != after.substr(after.length-i-1, 1)) pos2 = i;
+                };
+          pasted = after.substr(pos1 - 1, after.length - pos2 - pos1 + 2);
+          replace = pasted.replace(/<[^>]+>/g, '');
+          replaced = after.substr(0, pos1 - 1) + replace + after.substr(pos1 - 1 + pasted.length);
+          _this.html(replaced);
+        }, 100);
+      });
+    };
     fac = new InputFactory();
     $('form').unbind();
     return $('form').on('submit', function(e) {

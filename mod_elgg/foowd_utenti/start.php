@@ -139,6 +139,11 @@ function foowd_utenti_handler($segments){
         return true;
     }
 
+    if($segments[0] === 'my-preferences'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/prefers.php';
+        return true;
+    }
+
     return false;
 
 }
