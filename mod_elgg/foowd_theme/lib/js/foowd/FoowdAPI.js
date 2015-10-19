@@ -37,8 +37,8 @@ define(function(require){
              * SS: se la chiamata riguarda il singolo prodotto, allora basta conoscere solo il suo id: del suo publisher non ci importa.
              * 
         		 */
-        		getProduct : function(productId /* SS:, publisher */ ){
-                 var requestURL = baseUrl + offers.search + '&Id={"min":' + productId + ', "max":' + productId + '}';
+        	 getProduct : function(productId ,userId ){
+                 var requestURL = baseUrl + offers.search + '&Id='+productId+'&ExternalId='+userId;
                  /*SS: requestURL = utils.isValid(publisher) ? requestURL + "&Publisher=" + publisher : requestURL;*/
                  
                  var deferred = $.Deferred();
