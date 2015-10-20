@@ -2,6 +2,15 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 20/10/2015
+
+- implementata logica pagina preferenze con esempio concreto
+
+- scritta action per chiusura di un ordine
+
+
+
+
 ### 19/10/2015
 
 - inserita possibilita' di configurazione di `PhpMailer` dai settings 

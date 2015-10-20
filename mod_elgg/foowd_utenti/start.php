@@ -16,6 +16,7 @@ function utenti_init(){
     elgg_register_action("foowd-avatar", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-avatar.php');
     elgg_register_action("foowd-gallery", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-gallery.php');
     elgg_register_action("foowd-dati", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-dati.php');
+    elgg_register_action("foowd-order-manager", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-order-manager.php');
 
     //Triggered after user registers. Return false to delete the user.
 	$user = new \Foowd\User();
@@ -163,27 +164,25 @@ function checkUser(){
 
     // se e' un utente loggato, allora continuo coi check
     if($user){
-        if(!isset($user->Genre)){
+        if(!isset($user->Genre) || !$user->apiSetted){
 
-            \Uoowd\Logger::addWarning('Utente '.$guid.' : il genere non e\' impostato');
-
-            // se non ha il genere probabilmente non e' registrato nel DB API
+            \Uoowd\Logger::addWarning('Utente '.$guid.' : il genere non e\' impostato oppure non risulta salvato nel DB API');
             
             // anzitutto controllo se esiste
             $data['type']= "search";
             $data['ExternalId'] = $guid;
             $r = \Uoowd\API::Request('user', 'POST', $data);
-            // var_dump($r);
             
             // se esiste nelle API salvo il suo genere e sono ok
             if( $r->response ){
                 // nel caso non sia impostato il genere nelle API
-                if(!$r->Genre){
+                if(!$r->body->Genre){
                   \Uoowd\Logger::addError('Utente '.$guid.' , e\' registrato ma non ha Genre specificato');
                   return false;
                 } 
                 // se tutto e' andato a buon fine, allora posso salvare
-                $user->Genre = $r->Genre;
+                $user->Genre = $r->body->Genre;
+                $user->apiSetted = true;
                 return true;
             }
 
@@ -193,7 +192,11 @@ function checkUser(){
             // altrimenti non lo faccio
 
             // gli amministratori li imposto come offerenti, perche' devono accedere a tutto
-            if($user->admin){
+            if(isset($user->Genre)){
+               $Genre = $user->Genre;
+               \Uoowd\Logger::addError("Provo a salvare utente $guid, che non era presente nelle API DB"); 
+            }
+            else if($user->admin){
                 $Genre = 'offerente';
             }else{
                 $Genre = 'standard';
@@ -202,6 +205,7 @@ function checkUser(){
             $data['type']= "create";
             $data['ExternalId'] = $guid;
             $data['Name'] = $user->name;
+            $data['Email'] = $user->email;
             $data['Genre'] = $Genre;
 
             $r = \Uoowd\API::Request('user', 'POST', $data);
@@ -211,8 +215,8 @@ function checkUser(){
                 return false;
             }
 
-            $user->Genre = $Genre;
-
+            $user->Genre = $r->body->Genre;
+            $user->apiSetted = true;
             return true;
         }
     }

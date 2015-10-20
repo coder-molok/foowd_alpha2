@@ -10,7 +10,6 @@ class tmpUser {
 		$this->img = $this->dirAvatar . "small/$id.jpg";
 		$this->username = $this->entity->username;
 		$this->htmlAvatar = '<img src="' . $this->img . '"/>';
-		$this->viewUser = '<div class="single-user">'. $this->htmlAvatar .'<div>'.$this->username.'</div></div>';
 		// \Fprint::r($this->htmlAvatar);
 	}
 }
@@ -33,7 +32,14 @@ ob_start();
 echo 'Di seguito puoi vedere l\'elenco delle tue preferenze assieme agli amici che ne hanno aderito.<br/> Se tu e i tuoi amici avete raggiunto la quota minima, allora puoi decidere di diventare capogruppo e far partire la spedizione, ma prima contatta i tuoi amici!';
 
 // ottengo il guid dell'utente loggato
-$guid=elgg_get_logged_in_user_guid();
+$currentUser = elgg_get_logged_in_user_entity();
+$guid=$currentUser->guid;
+
+if(!$guid){
+	register_error('Spiacenti, ma la pagina cercata non e\' accessibile.');
+	forward('');
+	exit(-1);
+} 
 
 // Trovo gli id degli amici
 $entities = elgg_get_entities_from_relationship(array(
@@ -63,6 +69,10 @@ $r = \Uoowd\API::Request('user','POST', $data);
 $offers = $r->body->offers;
 
 
+?>
+<table>
+<?php
+
 
 
 // per ogni offerta calcolo il totale delle preferenze (sommo le preferenze mie e dei miei amici)
@@ -71,41 +81,104 @@ foreach($offers as $of){
 
 	$oid = $of->Id;
 	$owner = $of->Publisher;
+	$publisher = get_user($owner);
 
 	// ottengo l'immagine dell'offerta
 	$img = \Uoowd\Param::pathStore($owner, 'offers', 'web') . "$oid/medium/$oid.jpg";
-	$img = "<img src=\"$img\"/>";
-
-
-	?>
-	<table>
-		<tr>
-			<td> <?php echo "$img"; ?> </td>
-			<td class="img-list">
-	<?php
-
 	
+	$data = sprintf('publisher="%s" groupmanager="%s" offerid="%s"', $publisher->username, $currentUser->username, $oid); 
+	$img = "<img class=\"single-offer\" $data src=\"$img\"/>";
+
 	$friendsQt = 0; // semplice contatore
 	$prefs = $of->friends; // array con l'elenco delle preferenze espresse dagli amici
-	// visualizzo le preferenze di questa offerta
-	// \Fprint::r($prefs);
-	foreach($prefs as $p){ 
-		$friendsQt += $p->Qt;
-		echo $farm->farm[$p->UserId]->viewUser;
-	}
-	?>
-		</td>
-		<td>
-	<?php
-	echo "Preferenze espresse dal gruppo $friendsQt, su una quota minima di ".$of->Minqt . '<br/>';
-	?>
-		</td>
-		</tr>
-	</table>
-	<?php
-}
+	
+	// contantore di preferenze: dato che Qt puo' valere 0, nel caso sia cosi' per tutte, allora evito di scrivere l'offerta
+	$countPref = 0;
 
+	// visualizzo le preferenze di questa offerta raccogliendole in una stringa
+	$displayFriends = '';
+	foreach($prefs as $p){ 
+		if($p->Qt <= 0) continue;
+		$countPref++;
+		$friendsQt += $p->Qt;
+		$usr = $farm->farm[$p->UserId];
+		// \Fprint::r($p);
+		$data = sprintf(' data-username="%s" data-offerid="%s" data-qt="%s" ', $usr->username, $p->OfferId, $p->Qt);
+		$displayFriends .= '<div class="single-user" '. $data .'>'. $usr->htmlAvatar .'<div>'.$usr->username.'</div></div>';
+	}
+
+	if($countPref > 0){
+	?>
+			<tr>
+				<td> <?php echo "$img"; ?> </td>
+				<td class="img-list">
+				<?php echo $displayFriends; ?>	
+			</td>
+			<td>
+		<?php
+		echo "Preferenze espresse dal gruppo $friendsQt, su una quota minima di ".$of->Minqt . '<br/>';
+		echo "<div class=\"elgg-button elgg-button-submit ordina\">Ordina</div>";
+		?>
+			</td>
+			</tr>
+	<?php
+	}// end di $countPref>0
+}
 ?>
+</table>
+
+<!-- esempio di javascript per effettuare l'ordinazione al click -->
+<script type="text/javascript">
+require(['jquery'], function($){
+	$('.ordina').on('click', function(){
+		// il td che contiene il bottone
+		var td = $(this).parent();
+		// la riga: ciascuna riga di questa tabella e' in corrispondenza iniettiva con una offerta
+		// 			inoltre dentro a ogni riga sono presenti, per ciascun utente, i campi 'data' che utilizzo per ottenere i dati da mandare alla action.
+		var tr = td.parent();
+		var send =  {};
+		send.prefers = [];
+		// per ciascun utente raccolgo i dati necessari
+		tr.find('.single-user').each(function(){
+			// console.log(this.attributes)
+			// loop su tutti gli attributi
+			var pref = null;
+			$.each(this.attributes, function(idx, attr){
+				var rx = /data-/ ;
+				if(attr.name.match(rx)){
+					if( pref === null ) pref = {}
+					var prop = attr.name.replace(rx, '');
+					pref[prop] = attr.value;
+				}
+			});
+			if(typeof pref === 'object') send.prefers.push(pref)
+		});
+		var of = tr.find('.single-offer');
+		send.publisher = of.attr('publisher');
+		send.groupmanager= of.attr('groupmanager');
+		send.offerid = of.attr('offerid');
+		// invio i dati alla action
+		// L'invio avviene tramite metodo POST
+		elgg.action('foowd-order-manager', {
+		   data: send,
+		   // sui dati ritornati non e' necessario eseguire un parser, perche' ci pensa gia' elgg
+		   success: function(json) {
+		   		// in json.output sono presenti i dati ritornati dalla action invocata
+		   		var data = json.output;
+		   		// console.log(json.output);
+		   		// se il responso e' positivo vuol dire che sono stati cambiati dei valori, pertanto riaggiorno la pagina
+		   		// 			o eventualmente la copro con della trasparenza
+		   		if(data.response){
+		   			// location.reload();
+		   			tr.addClass('row'); // lo copro con un messaggio di successo
+		   		} 
+		   		// NB: se durante l'esecuzione della action avvengono errori, allora viene in automatico ripristinato tutto
+		   }
+		});
+	});
+	// $('.ordina').first().trigger('click');
+})
+</script>
 
 <style>
 	.img-list img{
@@ -129,8 +202,34 @@ foreach($offers as $of){
 		margin: 10px;
 	}
 
+	table tr{
+		position: relative;
+		display: flex;
+	}
+
 	table {
+		margin: auto;
 		margin-top: 20px;
+	}
+
+	.row{
+		position: relative;
+	}
+
+	.row::before{
+		background-color: rgba(72, 162, 79, 0.4);
+		content: 'Ordine Creato!';
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 4em;
+		color:white;
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		z-index: 3;
 	}
 
 </style>

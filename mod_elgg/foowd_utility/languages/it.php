@@ -22,7 +22,7 @@ return array(
 	'foowd:file:need' => 'Carica l\'immagine *',
 	'foowd:file:error' => 'Non hai aggiunto alcuna immagine',
 
-	'foowd:quota:need' => 'Quota *',
+	'foowd:quota:need' => 'Quantit&agrave per Quota *',
 	'foowd:quota:error' => 'Massimo 5 cifre + 3 decimali separate da un punto',
 	'foowd:quota:preview' => 'Ecco come verr&agrave; visualizzata la tua quota',
 
@@ -37,11 +37,11 @@ return array(
 	'foowd:tag:need' => 'Tags (selezionane almeno uno) *',
 	'foowd:tag:error' => 'Devi selezionale almeno un tag',
 	
-	'foowd:minqt' => 'Quantit&agrave; minima',
-	'foowd:minqt:need' => 'Quantit&agrave; minima *',
+	'foowd:minqt' => 'Numero minimo di Quote',
+	'foowd:minqt:need' => 'Numero minimo di Quote *',
 	'foowd:minqt:error' => 'Massimo 5 cifre + 3 decimali separate da un punto',
 
-	'foowd:maxqt' => 'Quantit&agrave; massima',
+	'foowd:maxqt' => 'Numero massimo di Quote',
 	'foowd:maxqt:error' => 'Massimo 5 cifre + 3 decimali separate da un punto',
 	'foowd:maxqt:error:larger' => 'La quantit&agrave; massima deve superare o eguagliare quella minima.<br/>Se non vuoi inserire un massimo, cancella i numeri dal campo sottostante.',
 
