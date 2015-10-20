@@ -2,18 +2,18 @@
               
               
 # run only as root                     
-if [[ $EUID -ne 0 ]]; then             
-   echo -e "\e[41m This script must be run as root \e[m" 1>&2   
-   exit 1     
-fi            
+#if [[ $EUID -ne 0 ]]; then             
+#   echo -e "\e[41m This script must be run as root \e[m" 1>&2   
+#   exit 1     
+#fi            
               
               
 ### Directory principali               
-REPO="/var/Workspace/Code/Progetti/foowd/foowd_alpha2/"   
-SITE="/var/www/html/elgg/"                  
+REPO=""   
+SITE="/var/www/html/elgg-1.10.4/"
 API="/var/www/html/api_foowd"
 ModPath=$SITE"/mod/"        
-CMD="rsync -a --chown=www-data:www-data"                       
+CMD="sudo rsync -a -v --chown=www-data:www-data"                       
               
               
 ### Git       
@@ -32,7 +32,7 @@ for D in $REPO"mod_elgg/"*; do
         DST=`basename ${D}`    
         if [[ "${D}" == *theme ]]; then                 
             TMP="$CMD$DEL $SRC $ModPath$DST ; (cd $ModPath$DST; echo 'runno  
-bower...'; /opt/node/bin/bower install --allow-root >/dev/null)"              
+bower...'; bower install --allow-root )"              
         else                   
             TMP="$CMD $SRC $ModPath$DST"   
         fi                     
@@ -52,4 +52,4 @@ $CMD $SRC $DST
 
 ### Aggiorno i permessi, per sicurezza
 echo -e "\n\e[45m Update Permission part \e[m" 
-chmod -R ug+rwx "$SITE"
+sudo chmod -R ug+rwx "$SITE"
