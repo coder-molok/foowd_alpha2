@@ -31,7 +31,7 @@ return array(
 	'foowd:unit:extra' => 'Aggiungi ulteriori specifiche alla quota',
 
 	'foowd:price' => 'Prezzo per quota',
-	'foowd:price:need' => 'Prezzo per quota *',
+	'foowd:price:need' => 'Prezzo per quota (&euro;) *',
 	'foowd:price:error' => 'Massimo 8 cifre + 2 decimali separate da un punto',
 	
 	'foowd:tag:need' => 'Tags (selezionane almeno uno) *',

@@ -2,6 +2,18 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+
+### 21/10/2015
+
+- migliorata pagina temporanea `my-preferences`
+
+- creata classe `MessageEmail` per messaggi email in formato vsprintf, con HtmlBody e AltBody (per PHPMailer)
+
+- inserito testo migliorato per messaggi html lato foowd
+
+
+
+
 ### 20/10/2015
 
 - implementata logica pagina preferenze con esempio concreto

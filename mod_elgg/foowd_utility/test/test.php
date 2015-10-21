@@ -10,8 +10,9 @@
 
 admin_gatekeeper();
 
-// $to = 'simoneguerriero84@yahoo.it';
-// elgg_send_email('foowd',$to,'random','Email di prova.', array());
+// $to = '';
+// $m = elgg_send_email('foowd',$to,'random',$html , array('htmlBody'=> $html) );
+
 
 $user = get_user_by_email('scardoni.simone@gmail.com')[0];
 $guid = $user->guid;

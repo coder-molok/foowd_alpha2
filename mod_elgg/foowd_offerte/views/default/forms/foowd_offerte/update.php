@@ -58,6 +58,8 @@ echo '<center><div id="image-container" '.$style.' >';
 
 echo '<div id="image">'.$img.'</div></div></center>';
 
+// $fadd->createField('Tag', 'Tags (selezionane almeno uno) *', 'input/checkbox', array('inputs' => $vars['Tag'], 'attributes' =>$vars['TagAttributes']) );
+$fadd->createField('Tag', 'foowd:tag:need', 'input/checkbox', array('inputs' => $vars['Tag'], 'attributes' =>$vars['TagAttributes']) );
 // $fadd->createField('Price', 'Importo', 'input/spinner', array("decimal"=>2, "integer"=>"8"));
 $fadd->createField('Quota', 'foowd:quota:need', 'input/text', array('maxlength'=>"9"));
 $fadd->createField('Unit','foowd:unit:need', 'input/select', $vars['_Unit']);
@@ -67,8 +69,6 @@ $fadd->createField('UnitExtra','foowd:unit:extra', 'input/text', array('maxlengt
 <div id="quota-preview"></div>
 <?php
 $fadd->createField('Price','foowd:price:need', 'input/text', array('maxlength'=>"11"));
-// $fadd->createField('Tag', 'Tags (selezionane almeno uno) *', 'input/checkbox', array('inputs' => $vars['Tag'], 'attributes' =>$vars['TagAttributes']) );
-$fadd->createField('Tag', 'foowd:tag:need', 'input/checkbox', array('inputs' => $vars['Tag'], 'attributes' =>$vars['TagAttributes']) );
 // $fadd->createField('Minqt', 'Quantita\' minima', 'input/spinner', array("decimal"=>3, "integer"=>5));
 $fadd->createField('Minqt', 'foowd:minqt:need', 'input/text', array('maxlength'=>"9"));
 // $fadd->createField('Maxqt', 'Quantita\' massima', 'input/spinner', array("decimal"=>3, "integer"=>5));

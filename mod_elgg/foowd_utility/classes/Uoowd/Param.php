@@ -135,6 +135,14 @@ namespace Uoowd;
 			return self::userStore($guid, $web).$dir.'/';
 		}
 
+		public static function offerUrl($id){
+			return elgg_get_site_url().'detail?productId='.$id;
+		}
+
+		public static function publisherUrl($id){
+			return elgg_get_site_url().'producer?producerId='.$id;	
+		}
+
 
 		public static function tags(){
 			return elgg_get_plugins_path().'foowd_utility/views/default/plugins/foowd_utility/'.self::$par['tags'];

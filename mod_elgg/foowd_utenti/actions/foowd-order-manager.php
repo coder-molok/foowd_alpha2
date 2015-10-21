@@ -12,69 +12,8 @@ $j['response'] = false;
 
 
 $orderError = 'Errore di aggiornamento dell\'ordine, ci scusiamo per il disguido.';
+$messenger = new \Uoowd\MessageEmail();
 
-// username, offerName, manageruserName
-$userMsg ='Salve %s,
-
-il tuo amico %s si e\' preso carico di gestire la spedizione relativa all\'offerta
-    
-    %s
-
-per la quale avevi espresso gradimento.
-In seguito a questa operazione il sistema ha automaticamente azzerato le tue preferenze per quest\'offerta, ma puoi tranquillamente esprimerne di nuove.
-Hai espresso:
-
-preferenze: %s 
-a:          %s &euro; Cad.
---------------------------
-Totale:     %s &euro;
-
-Per maggiori dettagli devi contattare %s all\'indirizzo %s .
-
-Cordialmente,
-Foowd
-';
-
-// publisherusername, offername, managerusername
-$publisherMsg ='Salve %s,
-
-l\'utente %s ha deciso di prendere in carico l\'ordinazione relativa all\'offerta 
-
-    %s
-
-secondo quanto specificato:
-
-Quote totali    :  %s
-Prezzo per quota:  %s &euro; Cad.
-----------------  ------
-Totale:            %s &euro;
-
-
-Per maggiori dettagli deve contattare %s all\'indirizzo %s .
-
-Cordialmente,
-Foowd
-';
-
-
-
-
-// managerusername, offername, userlists, publishername
-$managerMsg = 'Salve %s, 
-
-l\'offerta %s e\' stata presa in carico con successo. 
-
-Di seguito riepiloghiamo i dettagli:
-
-%s
-
-Per completare le procedure di pagamento e riscossione deve contattare il promotore dell\'offerta all\'indirizzo
-
-   %s
-
-Cordialmente,
-Foowd
-';
 
 // I processi da svolgere sono 2:
 // 
@@ -195,8 +134,15 @@ foreach($farm as $s){
 
 	if($r->response){
 		// email a utente
-		$tot = $pref->Qt * $offerPrice;
-		$msg = vsprintf($userMsg, array($ent->username, $manager->username , $offerName, $pref->Qt, $offerPrice, $tot, $manager->username, $manager->email) );
+		$ar = array();
+		$ar['singleUsr'] = $ent->username;
+		$ar['mngrUsr'] = $manager->username;
+		$ar['mngrEmail'] = $manager->email;
+		$ar['ofName'] = $offerName;
+		$ar['ofId'] = $oId;
+		$ar['qt'] = $pref->Qt;
+		$ar['price'] = $offerPrice;
+		$msg = $messenger->userOrderMsg( $ar );
 		// eventuali parametri da restaurare
 		$data['Qt'] = $pref->Qt;
 		$restore[] = $data;
@@ -206,7 +152,13 @@ foreach($farm as $s){
 		$ntf->msg = $msg;
 		$notify[] = $ntf;
 		// salvo per il riepilogo del manager
-		$manager_recap[] = "\t - quantita': ".$pref->Qt." X prezzo(euro/cad): $offerPrice \t= $tot \t, utente: ".$ent->username." \n";	
+		$v = array();
+		$v['qt'] = $pref->Qt;
+		$v['price'] =  $offerPrice;
+		$v['singleUsr'] = $ent->username;
+		$row = $messenger->managerSingleOrderMsg($v);
+		$manager_recap_alt[] = $row->altMsg;
+		$manager_recap_html[] = $row->htmlMsg;
 
 		// incremento per il controllo
 		$testTotalQt += $pref->Qt;
@@ -247,22 +199,37 @@ $j['response'] = true;
 
 
 foreach($notify as $ntf){
-	elgg_send_email('Foowd Site', $ntf->emailTo, '', $ntf->msg, array());
+	elgg_send_email('Foowd Site', $ntf->emailTo, 'Qualcuno ha preso in carico una tua offerta', $ntf->msg->altMsg, array('htmlBody'=>$ntf->msg->htmlMsg));
 }
 
 // SE TUTTO E" ANDATO BENE MANDO LA MAIL A PRODUTTORE E MANAGER
 // Mail To Publisher
-$tot = $totalQt * $offerPrice;
-$msg = vsprintf($publisherMsg, array($publisher->username, $manager->username, $offerName, $totalQt, $offerPrice, $tot, $manager->username, $manager->email) );
+$ar = array();
+$ar['pubUsr'] = $publisher->username;
+$ar['mngrUsr'] = $manager->username;
+$ar['mngrMail'] = $manager->email;
+$ar['ofName'] = $offerName;
+$ar['ofId'] = $oId;
+$ar['qt'] = $totalQt;
+$ar['price'] = $offerPrice;
+$msg = $messenger->publisherOrderMsg ($ar);
 // pri($msg);
-elgg_send_email('Foowd Site',$publisher->email,'Offerta: ordine', $msg, array());
+elgg_send_email('Foowd Site',$publisher->email,'Offerta: ordine', $msg->altMsg, array('htmlBody'=>$msg->htmlMsg));
 
 
 // Mail To Manager
-$manager_recap = implode($manager_recap, "\n");
-$msg = vsprintf($managerMsg, array($manager->username, $offerName, $manager_recap, $publisher->email) );
+$ar = array();
+$ar['mngrUsr'] = $manager->username;
+$ar['pubEmail'] = $publisher->email;
+$ar['ofName'] = $offerName;
+$ar['ofId'] = $oId;
+
+$ar['detailsRowAlt'] = implode($manager_recap_alt, "\n");
+$ar['detailsRowHtml'] = implode($manager_recap_html, "\n");
+
+$msg = $messenger->managerOrderMsg( $ar );
 // pri($msg);
-elgg_send_email('Foowd Site',$manager->email,'Offerta presa in carico', $msg, array());
+elgg_send_email('Foowd Site',$manager->email,'Offerta presa in carico', $msg->htmlAlt, array('htmlBody'=>$msg->htmlMsg));
 
 
 

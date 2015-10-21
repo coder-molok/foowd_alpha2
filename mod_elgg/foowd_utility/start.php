@@ -191,8 +191,16 @@ function foowd_utility_mail($hook, $type, $return, $params){
 	$mail->addAddress($adrs, "Recepient Name");
 	$mail->Subject = $subj;//"Subject Text";
 
-	$bodyHtml = str_replace(PHP_EOL, '<br/>', $body);
-	$bodyHtml = preg_replace('@  @i', ' &emsp;', $bodyHtml);
+	$par = $params['params'];
+
+	// per non sovrascrivere l'invio base dei plugin di elgg, 
+	// decido che le mail specifiche di foowd sono passate soto forma ti parametro htmlBody e altBody
+	if(isset($params['params']['htmlBody'])){
+		$bodyHtml = $par['htmlBody'];
+	}else{
+		$bodyHtml = str_replace(PHP_EOL, '<br/>', $body);
+		$bodyHtml = preg_replace('@  @i', ' &emsp;', $bodyHtml);
+	}
 	
 	$bodyAlt = str_replace(PHP_EOL, "\n", $body);
 	$bodyAlt = preg_replace('@< *br */? *>@i', "\n", $bodyAlt);
@@ -200,9 +208,12 @@ function foowd_utility_mail($hook, $type, $return, $params){
 	$mail->Body = $bodyHtml;
 	$mail->AltBody = $bodyAlt;//"This is the plain text version of the email content. Yeah!";
 
+
+
 	// \Fprint::r($bodyAlt);
 	// return false;
 	// effettuare redirect
+	// \Fprint::r($params['params']);
 	if(!$mail->send()){
 	    \Uoowd\Logger::addError("Mailer Error: " . $mail->ErrorInfo);
 	    // register_error("Errore nell'invio della mail, ci scusiamo per il disagio.");

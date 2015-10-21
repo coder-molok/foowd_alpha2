@@ -136,6 +136,17 @@ require(['jquery'], function($){
 		// la riga: ciascuna riga di questa tabella e' in corrispondenza iniettiva con una offerta
 		// 			inoltre dentro a ogni riga sono presenti, per ciascun utente, i campi 'data' che utilizzo per ottenere i dati da mandare alla action.
 		var tr = td.parent();
+
+		// scrivo un messaggio di esecuzione
+		tr.addClass('row-attend');
+		var t = {"text": 'In esecuzione\n\n .', "tmp": 0};
+		tr.attr('data-content', t.text);
+		var timer = setInterval(function(){
+			tr.attr('data-content', t.text + ".".repeat(t.tmp%10) );
+			t.tmp++;
+		}, 1000);
+
+		// raccolgo i dati da inviare alla pagina action
 		var send =  {};
 		send.prefers = [];
 		// per ciascun utente raccolgo i dati necessari
@@ -163,13 +174,18 @@ require(['jquery'], function($){
 		   data: send,
 		   // sui dati ritornati non e' necessario eseguire un parser, perche' ci pensa gia' elgg
 		   success: function(json) {
+		   		// rimuovo .row-attend e blocco il timer
+		   		clearInterval(timer);
+		   		tr.removeClass('row-attend')
+		   		
 		   		// in json.output sono presenti i dati ritornati dalla action invocata
 		   		var data = json.output;
-		   		// console.log(json.output);
+		   		console.log(json.output);
 		   		// se il responso e' positivo vuol dire che sono stati cambiati dei valori, pertanto riaggiorno la pagina
 		   		// 			o eventualmente la copro con della trasparenza
 		   		if(data.response){
 		   			// location.reload();
+		   			tr.attr('data-content', 'Ordine Creato!');
 		   			tr.addClass('row'); // lo copro con un messaggio di successo
 		   		} 
 		   		// NB: se durante l'esecuzione della action avvengono errori, allora viene in automatico ripristinato tutto
@@ -212,13 +228,13 @@ require(['jquery'], function($){
 		margin-top: 20px;
 	}
 
-	.row{
+	.row, .row-attend{
 		position: relative;
 	}
 
-	.row::before{
+	.row::before, .row-attend::before{
 		background-color: rgba(72, 162, 79, 0.4);
-		content: 'Ordine Creato!';
+		content: attr(data-content);
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -230,6 +246,13 @@ require(['jquery'], function($){
 		height: 100%;
 		width: 100%;
 		z-index: 3;
+	}
+
+	.row-attend::before{
+		background-color: rgba(162, 72, 72, 0.4);
+		content: attr(data-content);
+		white-space:pre;
+		text-align: center;
 	}
 
 </style>
