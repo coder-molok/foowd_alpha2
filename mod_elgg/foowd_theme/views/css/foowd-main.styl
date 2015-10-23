@@ -238,11 +238,11 @@ textarea
 
 // sidebar
 
-// plugin search
-searchHeight = 19px
+// plugin search-advanced
+// searchHeight = 19px
 form.elgg-search
-	border 1px solid foowdTopbar
-	height (searchHeight + 1px)
+	// border 1px solid foowdTopbar
+	// height (searchHeight + 1px)
 
 .elgg-search-header
 	position: relative
@@ -251,6 +251,18 @@ form.elgg-search
 	background-color foowdTopbar
 	height: searchHeight
 	
+
+.elgg-sidebar
+	.foowd-search-title
+		color white
+		margin-bottom 13px
+		font-size: 1.1em
+		
+	.foowd-little-search-title
+		color white
+		font-size 0.9em
+		padding-left 10px
+	
 .elgg-search 
 	
 	input[type="text"]
@@ -258,12 +270,13 @@ form.elgg-search
 		&.search-input
 			border 0px
 			width: 100%
-			background-position right -917px // e' uno sprite
+			background-position 3px -917px // e' uno sprite
 			background-color white
 
 		&:focus, &:active
 			color foowdTopbar
-			border 1px solid foowdTopbar
+			// border 1px solid foowdTopbar
+			border 0px
 			
 	
 	

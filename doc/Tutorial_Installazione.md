@@ -232,7 +232,6 @@ Infine ricordarsi di salvare
 Vanno inoltre installati i plugin:
 
  - [friend_request](https://elgg.org/plugins/384965)
- - [search advanced](https://elgg.org/plugins/2261455)
 
 Dopo averli installati andare nella sezione `plugin` del *pannello d'amministrazione*, assicurarsi che gli appena citati plugin si trovino **SOPRA** i plugin `foowd_*` e attivarli.
 

@@ -221,27 +221,33 @@ textarea:focus {
 .foowd-page-single input[name="UnitExtra"] {
   width: 265px;
 }
-form.elgg-search {
-  border: 1px solid #c81063;
-  height: 20px;
-}
 .elgg-search-header {
   position: relative;
 }
 .search-advanced-type-selection > li > a {
   background-color: #c81063;
-  height: 19px;
+  height: searchHeight;
+}
+.elgg-sidebar .foowd-search-title {
+  color: #fff;
+  margin-bottom: 13px;
+  font-size: 1.1em;
+}
+.elgg-sidebar .foowd-little-search-title {
+  color: #fff;
+  font-size: 0.9em;
+  padding-left: 10px;
 }
 .elgg-search input[type="text"].search-input {
   border: 0px;
   width: 100%;
-  background-position: right -917px;
+  background-position: 3px -917px;
   background-color: #fff;
 }
 .elgg-search input[type="text"]:focus,
 .elgg-search input[type="text"]:active {
   color: #c81063;
-  border: 1px solid #c81063;
+  border: 0px;
 }
 .search-advanced-type-selection-dropdown {
   border: 0px;

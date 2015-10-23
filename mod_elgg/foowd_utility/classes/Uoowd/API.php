@@ -114,6 +114,21 @@ class API{
 	}
 
 
+	/**
+	 * Nota importante sulle chiamate al WebService:
+	 *
+	 * Con curl_http (estensione di php) le chiamate vengono svolte dal server e non dal browser,
+	 * e questo implica dei punti importanti da sottolineare:
+	 *
+	 * (-) 	essendo dal server, le chiamate non comportano richieste dati dal device dell'utente(cell, browser, etc)
+	 * 
+	 * (-) 	essendo svolta dal server, le chiamate agli API SERVICE di ELGG  sono "in incognito", nel senso che il server per elgg non e' l'utente loggato,
+	 * 		di conseguenza a meno di non creare dei tokens o degl oAuth, le funzioni elgg_get_logged_in_user_entity() non vedranno mai un utente loggato!!!
+	 * 	 	Proprio per questo motivo  se ho bisogno di farmi riconoscere come utente, devo utilizzare javascript, dato che e' nel device (browser, smartphone, etc)
+	 * 	 	che sono presenti i cookies, localstorage ed altri metodi di verifica automatica della sessione!!!
+	 */
+
+
 	public static function httpCall($url, $method , $params= array() ){
 
 			// CURL check
@@ -161,12 +176,18 @@ class API{
 			
 			//$_SESSION['my']=json_encode($url);
 			//register_error($output);
-			\Uoowd\Logger::addInfo('Responso API: '.$output);
-			
+			// \Uoowd\Logger::addInfo('Responso API: '.$output);
+
+
 			$returned = json_decode($output);
-
-			return $returned;
-
+			if(json_last_error() == JSON_ERROR_NONE){
+				return $returned;
+			}
+			else{
+				$j['response'] = false;
+				$j['msg'] = $output;
+				return $j;
+			}
 		}
 
 

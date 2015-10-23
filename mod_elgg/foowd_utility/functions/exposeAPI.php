@@ -1,46 +1,36 @@
 <?php
 
 // see https://github.com/markharding/elgg-web-services-deprecated/blob/master/lib/user.php
-// elgg_ws_expose_function("foowd.users.active",
-//                 "count_active_users",
-//                  array("minutes" => array('type' => 'int',
-//                                           'required' => false),
-//                  		'greeting' => array(
-//                  		                        'type' => 'string',
-//                  		                        'required' => false,
-//                  		                        'default' => 'Hello',
-//                  		                        'description' => 'Greeting to be used, e.g. "Good day" or "Hi"',
-//                  		                    )
-//                  ),
-//                  'Number of users who have used the site in the past x minutes',
-//                  'GET',
-//                  false,
-//                  false
-//                 );
 
-// function count_active_users($minutes=10) {
-//     $seconds = 60 * $minutes;
-//     $count = count(find_active_users($seconds, 9999));
-//     $count = array('count'=>'count', 'mio'=>'random');
-//     return $count;
-// }
+//  Using $jsonexport to produce json output has been deprecated
 
 
 
-elgg_ws_expose_function("user.friendsOf",
-                "ffriendsOf",
-                 array("guid" => array('type' => 'int')),
+elgg_ws_expose_function("foowd.user.friendsOf",
+                "foowd_friendsOf",
+                 array(
+                        "guid" => array(
+                                'type' => 'string',
+                                'required' => true,
+                                'description' => 'Name of the person to be greeted by the API',
+                                )),
                  'Dato un id utente ritorno la lista dei sui amici',
                  'POST',
                  false,
                  false
                 );
 
+function foowd_friendsOf($guid){
+        $j['response'] = false;
+        $user = elgg_get_logged_in_user_entity();
 
-function ffriendsOf($guid){
-	// error_log($guid);
-	// error_log($_GET);
+        // \Uoowd\Logger::addError($user);
 
-	$j['lol']= 'bella';
+        if(!$user){
+                $j['msg'] = 'Questa richiesta puo\' avvenire solo dal sito e mentre sei loggato';
+        }else{
+                $j['msg'] = "Salve $user->username, hai guid $user->guid e mi chiedi di $guid";
+        }
+
 	return $j;
 }

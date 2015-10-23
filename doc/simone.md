@@ -2,6 +2,19 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 23/10/2015
+
+- disattivazione plugin 'advanced search'
+
+- personalizzazione delle ricerche introducendo classe `\Uoowd\FoowdSearch`
+
+- ricerche secondo iss#149
+
+- attivare "invitefriends" se non ancora attivato
+
+- introdotta classe `FoowdNeedleDependencies` che controlla la presenza di determinati plugin, e qualora non presenti visualizza un allert `SOLO AGLI AMMINISTRATORI`
+
+
 
 ### 21/10/2015
 

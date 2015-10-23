@@ -30,6 +30,13 @@ function utility_init(){
 	// wrap plugin pages
 	elgg_register_page_handler('foowd_utility', 'utility_page_handler');
 
+	// registro con la classe Uoowd\Search per svolgere ricerche specifiche
+	\Uoowd\FoowdSearch::register();
+
+	// controllo se specifici plugin sono attivati
+	new \Uoowd\FoowdNeedleDependencies();
+	
+
 	// note the view name does not include ".php"
 	// elgg_register_simplecache_view('js/foowd_utility/utility-settings');
 	elgg_define_js('utility-settings', [

@@ -90,6 +90,8 @@ return array(
 
 	'developers:event_log_msg' => 'messaggio di log da sviluppatore',
 
+	'search_types:foowd-username-email' => 'Username/Email',
+
 	/**
 	 * Plugin search
 	 */
