@@ -23,13 +23,13 @@ classi elgg:
 $user = elgg_get_logged_in_user_entity();
 
 
-
-if($user->Genre !== "offerente") goto salto;
-
-
 echo '<p class="pll">Salve '.$user->username.',<br/> scegli cosa vorresti fare:</p>';
 ?>
 <div id="box">
+
+<?php
+if($user->Genre !== "offerente") goto salto;
+?>
 
 <div>
 <?php
@@ -64,8 +64,8 @@ salto:
 
 
 
-<div>
 <?php
+// echo '<div>';
 // echo '<h3>Visualizza Preferenze</h3>';
 // echo '<p>cliccando potrai visualizzare l\'elenco delle tue offerte e vedere chi tra i tuoi vi ha aderito. Se vorrai potrai anche lanciare l\'ordinazione una volta raggiunta la quantita\' minima.</p>';
 // echo elgg_view('output/url', array(
@@ -74,9 +74,9 @@ salto:
 // 	    'text' => elgg_echo('Preferenze'),
 // 	    'class' => 'elgg-button',
 //     ));
+// echo '</div>';
 ?>
 
-</div>
 
 
 <div>

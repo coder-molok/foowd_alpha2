@@ -4,6 +4,15 @@ ob_start();
 // var_dump($_SESSION['sticky_forms']['foowd-avatar']);
 unset($_SESSION['sticky_forms']['foowd-gallery']);
 
+$user = elgg_get_logged_in_user_entity();
+
+$genre = 'offerente';
+if(!$user || $user->Genre !== $genre){
+	$str = 'Siamo spiacenti ma devi essere un "%s" per visualizzare la pagina gallery';
+	register_error(sprintf($str, $genre));
+	forward(REFERER);
+}
+
 $vars['guid']=elgg_get_logged_in_user_guid();
 
 

@@ -66,9 +66,6 @@ h3 {
   margin: 0;
   margin-bottom: 40px;
 }
-.elgg-page-footer {
-  z-index: -17;
-}
 .elgg-inner {
   margin: 0;
   padding: 0;
@@ -254,4 +251,7 @@ textarea:focus {
 }
 .search-advanced-type-selection-dropdown a:hover {
   background-color: #c81063;
+}
+.elgg-page-footer-frontend {
+  z-index: -17;
 }

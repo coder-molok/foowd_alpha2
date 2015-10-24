@@ -12,7 +12,7 @@
       return root.returnExports = factory();
     }
   })(this, function() {
-    var $, Div, IframeText, Input, InputFactory, Maxqt, Minqt, Price, Text, elgg, fac, frame, frameLoaded, loom, sanitizePase;
+    var $, Div, IframeText, Input, InputFactory, Maxqt, Minqt, Price, Text, desc, elgg, fac, krDecodeEntities, krEncodeEntities, loom, monitorInput, prepareInput, sanitizeInput;
     loom = this;
     $ = require('jquery');
     elgg = require('elgg');
@@ -192,7 +192,7 @@
 
       IframeText.prototype.check = function() {
         var v;
-        v = $('iframe[class*="cke_wys"]').contents().find('body').first().text().trim();
+        v = $('[name="Description"]').val().trim();
         if (v === '') {
           return false;
         } else {
@@ -323,45 +323,43 @@
       return InputFactory;
 
     })();
-    frame = {
-      el: $('iframe[class*="cke_wys"]').contents().find('body')
+    krEncodeEntities = function(s) {
+      return $("<div/>").text(s).html();
     };
-    (frameLoaded = function() {
-      console.log(frame.length);
-      if (frame.el.length >= 1) {
-        return sanitizePase(frame.el);
-      } else {
-        frame.el = $('iframe[class*="cke_wys"]').contents().find('body');
-        return setTimeout(frameLoaded, 2000);
-      }
-    })();
-    sanitizePase = function(el) {
-      return el.parent().on('paste', function(e) {
-        var _this, before;
-        console.log(e);
-        _this = $(this).find('body');
-        before = _this.html();
-        before = before.replace(/<span data-cke-bookmark.+>.+<\/span>/gi, '');
-        console.log('prima: \t:' + before);
-        return setTimeout(function() {
-          var after, pasted, pos1, pos2, replace, replaced;
-          after = _this.html();
-          pos1 = -1;
-          pos2 = -1;
-          for (var i=0; i<after.length; i++) {
-                    if (pos1 == -1 && before.substr(i, 1) != after.substr(i, 1)) pos1 = i;
-                    if (pos2 == -1 && before.substr(before.length-i-1, 1) != after.substr(after.length-i-1, 1)) pos2 = i;
-                };
-          pasted = after.substr(pos1 - 1, after.length - pos2 - pos1 + 2);
-          replace = pasted.replace(/<[^>]+>/g, '');
-          replaced = after.substr(0, pos1 - 1) + replace + after.substr(pos1 - 1 + pasted.length);
-          _this.html(replaced);
-        }, 100);
+    krDecodeEntities = function(s) {
+      return $("<div/>").html(s).text();
+    };
+    desc = $('[name="Description"]');
+    sanitizeInput = function(Jel) {
+      var text;
+      text = Jel.val();
+      text = text.replace(/<[^>]+>/g, '');
+      return Jel.val(text);
+    };
+    monitorInput = function(Jel) {
+      Jel.on('paste', function() {
+        return (function(J) {
+          return setTimeout(function() {
+            return sanitizeInput(J);
+          }, 100);
+        })($(this));
       });
+      return Jel.on('keyup', function() {
+        return sanitizeInput($(this));
+      });
+    };
+    monitorInput(desc);
+    prepareInput = function(Jel) {
+      var html, rx, text;
+      text = Jel.val();
+      rx = /\n/g;
+      html = krDecodeEntities(text);
+      return Jel.val(html + 'stringa di test');
     };
     fac = new InputFactory();
     $('form').unbind();
     return $('form').on('submit', function(e) {
+      prepareInput(desc);
       if (!fac.checkAll()) {
         e.preventDefault();
         alert('Devi finire di compilare dei campi');

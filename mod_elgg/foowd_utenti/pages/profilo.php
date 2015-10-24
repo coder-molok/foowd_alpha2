@@ -1,5 +1,8 @@
 <?php
 
+// pagina accessibile solo ai loggati
+elgg_gatekeeper();
+
 ob_start();
 
 // elgg_unregister_menu_item('topbar', 'administration');
@@ -43,8 +46,11 @@ echo elgg_view('output/url', array(
 ?>
 </div>
 
-<div>
 <?php
+$genre = 'offerente';
+if ($user->Genre !== $genre) goto __SKIP_NOT_OFFER;
+
+echo '<div>';
 echo '<h3>Gallery</h3>';
 echo '<p>cliccando potrai visualizzare una pagina con l\'elenco delle tue offerte, ed eventualmente modifcarle.</p>';
 echo elgg_view('output/url', array(
@@ -53,9 +59,11 @@ echo elgg_view('output/url', array(
 	    'text' => elgg_echo('Gallery'),
 	    'class' => 'elgg-button',
     ));
-?>
 
-</div>
+echo '</div>';
+
+__SKIP_NOT_OFFER:
+?>
 
 <div>
 <?php

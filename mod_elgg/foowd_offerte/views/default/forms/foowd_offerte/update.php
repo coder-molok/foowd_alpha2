@@ -18,7 +18,7 @@ if($vars['Id']==='' || $vars['guid']==='' ){
 $fadd->createField('Name', 'foowd:name:need', 'input/text');
 
 // $fadd->createField('Description', 'Descrivi il tuo prodotto', 'input/longtext');
-$fadd->createField('Description', 'foowd:description:need', 'input/longtext');
+$fadd->createField('Description', 'foowd:description:need', 'input/foowd_textarea');
 
 // la prima volta non dovrebbe essere impostato niente, e visualizzo soltanto il form di caricamento
 // $fadd->createField('file', 'Carica l\'immagine', 'input/file', array('id'=>'loadedFile', 'value'=>''));

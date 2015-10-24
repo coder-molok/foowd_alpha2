@@ -236,6 +236,45 @@ Vanno inoltre installati i plugin:
 Dopo averli installati andare nella sezione `plugin` del *pannello d'amministrazione*, assicurarsi che gli appena citati plugin si trovino **SOPRA** i plugin `foowd_*` e attivarli.
 
 
+
+
+## Abilitazione di `CRON`
+
+per poter eseguire gli `hook cron` dei plugin e' necessario abilitare l'uso di un *job scheduler*: essendo il server di tipo `Unix` l'opzione piu' naturale risulta quella d'impiegare `Cron`.
+
+Se non presente, installare `cron` col comando
+````
+apt-get install cron  // eventualmente con permessi d'amministratore e anteponendo "sudo"
+````
+
+Seguendo la documentazione ufficiale a 
+	 [http://learn.elgg.org/en/latest/admin/cron.html](http://learn.elgg.org/en/latest/admin/cron.html)
+
+ho creato il file [crontab.config](../script/crontab.config): gli unici parametri da personalizzare sono:
+
+- `ELGG` : l'url completo al proprio sito
+- `WGET` : path per lo script `wget` ( generalmente installato di default )
+
+fatto questo, dobbiamo ora abilitare il cronjob:
+
+- comando `crontab -e` (ho scelto `vim` come editor di default, ma e' soggettivo)
+- in questo file, inserire il contenuto di [crontab.config](../script/crontab.config), avendo cura di aver personalizzato i dovuti parametri
+
+>NB: leggere tutti i commenti scritti nella seconda parte di `crontab.config`
+
+- comando `/etc/init.d/cron restart` per far partire il servizio
+
+In caso di errori, un comando utile per controllare l'output di `cron` e'
+
+````
+grep CRON /var/log/syslog
+````
+
+
+
+
+
+
 ### Elenco plugin da Attivare
 
 .... lo scrivero' prossimamente ....

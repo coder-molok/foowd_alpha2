@@ -89,9 +89,6 @@ h2, h3
 	margin: 0
 	margin-bottom: 40px
 
-.elgg-page-footer
-	z-index: -17 // introdotto perché altrimenti il footer va a sormontare alcune parti del frontEnd, rendendo incliccabili i pulsanti (il forntEnd in genere svolge posizionamenti fixed...)
-
 .elgg-inner
 	margin: 0
 	padding: 0
@@ -289,4 +286,6 @@ form.elgg-search
 	
 	
 
-// elgg menu item da topbar
+////////////////////// Compatibilita' frontend
+.elgg-page-footer-frontend
+	z-index: -17 // introdotto perché altrimenti il footer va a sormontare alcune parti del frontEnd, rendendo incliccabili i pulsanti (il forntEnd in genere svolge posizionamenti fixed...)

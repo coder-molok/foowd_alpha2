@@ -1,6 +1,19 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+### 24/10/2015
+
+- bloccato accesso pagina `gallery` per gli utenti non `offerenti` : iss #157
+
+- risolta iss #152
+
+- abilitazione `cron jobs`
+
+- aggiunta classe `FoowdCron`
+
+
+
+
 
 ### 23/10/2015
 
@@ -13,6 +26,7 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 - attivare "invitefriends" se non ancora attivato
 
 - introdotta classe `FoowdNeedleDependencies` che controlla la presenza di determinati plugin, e qualora non presenti visualizza un allert `SOLO AGLI AMMINISTRATORI`
+
 
 
 

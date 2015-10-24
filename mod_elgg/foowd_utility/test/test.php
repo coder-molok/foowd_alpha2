@@ -10,6 +10,18 @@
 
 admin_gatekeeper();
 
+
+echo '<div>File Crontab di test:</div>';
+foreach(new DirectoryIterator(__DIR__) as $it){
+    if($it->isFile()){
+        $name = $it->getFilename();
+        if(preg_match('@.txt@', $name)){
+            // $url = 
+            echo "<div><a href=\"\">$name</a></div>";
+        }
+    }   
+}
+
 $me = elgg_get_logged_in_user_entity();
 
 /////////////////////////////
@@ -24,14 +36,6 @@ $me = elgg_get_logged_in_user_entity();
 //     \Fprint::r('plugin non attivo');
 // }
 ////////////////////////////////////
-
-
-
-
-
-
-
-
 
 
 

@@ -23,10 +23,9 @@ function utility_init(){
 	// quando salvo i settings del plugin
 	elgg_register_plugin_hook_handler('setting', 'plugin', 'update_json');
 
-	
-
 	// wrap home pages
 	elgg_register_page_handler('cookie-policy','foowd_policy_page_handler');
+
 	// wrap plugin pages
 	elgg_register_page_handler('foowd_utility', 'utility_page_handler');
 
@@ -35,6 +34,9 @@ function utility_init(){
 
 	// controllo se specifici plugin sono attivati
 	new \Uoowd\FoowdNeedleDependencies();
+
+	// cron job
+	\Uoowd\FoowdCron::register();
 	
 
 	// note the view name does not include ".php"

@@ -37,7 +37,7 @@ $body .= <<<__BODY
 
 			$content
 
-	<div class="elgg-page-footer">
+	<div class="elgg-page-footer-frontend">
 		<div class="elgg-inner">
 			$footer
 		</div>
