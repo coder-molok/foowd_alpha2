@@ -63,7 +63,9 @@ define(function(require){
 			var username = urlPar.owner || false
 			var user = {}
 
-			if(username){
+			/* 	il false e' stato introdotto per impedire la visualizzazione della board di altri utenti, anche se amici.
+				Tengo questo codice perche' reputo alta la probabilita' di doverlo reintrodurre nelle prossime fasi */
+			if(false && username){
 				// ritorno il deferred
 				return currentIsFriendOf(username).then(function(data){
 					 user.guid = (data.relationship) ? data.subject : null ;

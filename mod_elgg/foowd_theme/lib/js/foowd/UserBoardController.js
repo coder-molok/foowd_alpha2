@@ -43,8 +43,8 @@ define(function(require) {
    				se tutto va a buon fine "us.guid" e' l'id dell'utente del quale si vuole visualizzare il wall, e "us.userName" il suo username.
    				Nel caso non vada a buon fine, i valori sono null.
 
-   				NB: attenzione ai pulsanti: in teoria quelli non dovrebbero essere visualizzabili: forse cliccandoci sopra si rischia di esprimere le preferenze 
-   				come se si fosse nei panni del possessore della board: rivedere questa azione.
+   				NB: attenzione ai pulsanti.
+   				NB2: ora che si e' deciso di rimandare la questione della visualizzazione delle board altrui, ritorna semplicemente l'utente attualmente loggato
    			*/
    			$.when(service.getIdToBoard()).done(function(us){
    				//prendo lo user id

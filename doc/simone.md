@@ -1,6 +1,17 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+
+### 25/10/2015
+
+- implementate API Elgg Service  `foowd.picture.get` per ottenere le immagini senza esporre il path fisico delle stesse
+
+- risolta iss#145 impedendo la visualizzazione di board altrui
+
+
+
+
+
 ### 24/10/2015
 
 - bloccato accesso pagina `gallery` per gli utenti non `offerenti` : iss #157

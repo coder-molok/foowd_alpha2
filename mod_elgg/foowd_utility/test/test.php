@@ -10,6 +10,9 @@
 
 admin_gatekeeper();
 
+echo '<img src="'.elgg_get_site_url().'services/api/rest/json/?method=foowd.picture.get"/>';
+echo elgg_get_site_url().'foowd_utility/picture';
+
 
 echo '<div>File Crontab di test:</div>';
 foreach(new DirectoryIterator(__DIR__) as $it){
