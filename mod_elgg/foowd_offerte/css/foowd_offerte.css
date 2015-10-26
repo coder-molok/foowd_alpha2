@@ -109,3 +109,34 @@ table.foowd-all-single-container td:nth-child(4) {
   cursor: pointer;
   cursor: hand;
 }
+/******* Form TextArea foowd *******/
+table.foowd-editor-table {
+  width: 100%;
+  margin: 1em 0 auto 0;
+  padding: 4px 10px 3px 10px;
+  padding-top: 3px;
+}
+table.foowd-editor-table textarea,
+table.foowd-editor-table .div_textarea {
+  resize: none;
+  min-height: 17em;
+  width: 100%;
+}
+table.foowd-editor-table .div_textarea {
+  padding: 10px;
+  background-color: rgba(237,235,233,0.48);
+}
+table.foowd-editor-table td {
+  width: 50%;
+}
+table.foowd-editor-table [class^="foowd-editor"] {
+  font-size: 0.9em;
+}
+table.foowd-editor-table [class^="foowd-editor"]:first-child {
+  background-color: #c81063;
+  color: #fff;
+  text-align: center;
+}
+table.foowd-editor-table [class^="foowd-editor"]:nth-child(2) {
+  text-align: right;
+}

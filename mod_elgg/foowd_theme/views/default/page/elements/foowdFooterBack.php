@@ -40,8 +40,13 @@ require([
 
 
 require([ 
-	'jquery',
-  ],function(){
+	'jquery', 'foowd-main'
+  ],function($, m){
+
+    $('.foowd-alert-disabled').on('click', function(e){
+      e.preventDefault();
+      window.foowdAlert( 'Questa funzione sarà attivata a breve' , 'Inattiva')
+    });
 
   	// var $ = require('jquery');
    //  $(document).ready( function(){

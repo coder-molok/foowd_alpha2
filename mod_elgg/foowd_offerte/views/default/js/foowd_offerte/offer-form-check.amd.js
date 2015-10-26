@@ -12,7 +12,7 @@
       return root.returnExports = factory();
     }
   })(this, function() {
-    var $, Div, IframeText, Input, InputFactory, Maxqt, Minqt, Price, Text, desc, elgg, fac, krDecodeEntities, krEncodeEntities, loom, monitorInput, prepareInput, sanitizeInput;
+    var $, Div, IframeText, Input, InputFactory, Maxqt, Minqt, Price, Text, elgg, fac, loom;
     loom = this;
     $ = require('jquery');
     elgg = require('elgg');
@@ -323,39 +323,6 @@
       return InputFactory;
 
     })();
-    krEncodeEntities = function(s) {
-      return $("<div/>").text(s).html();
-    };
-    krDecodeEntities = function(s) {
-      return $("<div/>").html(s).text();
-    };
-    desc = $('[name="Description"]');
-    sanitizeInput = function(Jel) {
-      var text;
-      text = Jel.val();
-      text = text.replace(/<[^>]+>/g, '');
-      return Jel.val(text);
-    };
-    monitorInput = function(Jel) {
-      Jel.on('paste', function() {
-        return (function(J) {
-          return setTimeout(function() {
-            return sanitizeInput(J);
-          }, 100);
-        })($(this));
-      });
-      return Jel.on('keyup', function() {
-        return sanitizeInput($(this));
-      });
-    };
-    monitorInput(desc);
-    prepareInput = function(Jel) {
-      var html, rx, text;
-      text = Jel.val();
-      rx = /\n/g;
-      html = krDecodeEntities(text);
-      return Jel.val(html + 'stringa di test');
-    };
     fac = new InputFactory();
     $('form').unbind();
     return $('form').on('submit', function(e) {

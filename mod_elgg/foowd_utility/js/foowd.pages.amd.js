@@ -26,6 +26,6 @@ define(
 		"panel": "panel", 					// pagina del pannello
 		"friendsManage": "friend_request",	// pagina del plugin friend request
 		"services" : "foowd_utility/services", // pagina servizi che comunicano con foowd-services.js
-		"foowdAPI": "services/api/rest/json/?method=" // pagina API REST di foowd
+		"elggAPI": "services/api/rest/json/?method=" // pagina API REST di foowd
 	}
 );

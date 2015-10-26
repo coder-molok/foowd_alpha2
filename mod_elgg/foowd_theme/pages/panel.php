@@ -130,7 +130,6 @@ echo elgg_view('output/url', array(
 // }
 
 
-
 $body = ob_get_contents();
 ob_end_clean();
 

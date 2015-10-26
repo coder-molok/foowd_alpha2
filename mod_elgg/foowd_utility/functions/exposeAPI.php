@@ -6,21 +6,19 @@
 //  
 
 function foowd_find_match_first($baseImgs, $match){
-    $file = false;
+    $fileMatch = false;
     $it = new RecursiveDirectoryIterator($baseImgs, RecursiveDirectoryIterator::SKIP_DOTS); 
     $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
     foreach($files as $file) {
         $name = $file->getPathname();
         if ($file->isFile() && preg_match($match, $name) ){
             // \Fprint::r($file->getPathname());
-            $file = $file->getPathname();
+            $fileMatch = $file->getPathname();
             break;
         }
     }
 
-    // \Fprint::r($file);
-
-    return $file;
+    return $fileMatch;
 
 }
 
@@ -40,15 +38,32 @@ elgg_ws_expose_function("foowd.user.friendsOf",
 		);
 
 function foowd_friendsOf($guid){
-	$j['response'] = false;
+	// in primis controllo che l'utente che svolge la richiesta sia loggato
 	$user = elgg_get_logged_in_user_entity();
-
-	// \Uoowd\Logger::addError($user);
+	$j['response'] = false;
+	$j['userId'] = $guid;
 
 	if(!$user){
 		$j['msg'] = 'Questa richiesta puo\' avvenire solo dal sito e mentre sei loggato';
-	}else{
-		$j['msg'] = "Salve $user->username, hai guid $user->guid e mi chiedi di $guid";
+		return $j;
+	}
+
+	// ora controllo se l'id e' associata ad un utente esistente
+	$user = get_user($guid);
+	if(!$user){
+		$j['msg'] = 'Utente inesistente';
+		return $j;
+	}
+
+	$j['response'] = true;
+	$entities = elgg_get_entities_from_relationship(array(
+	    'relationship' => 'friend',
+	    'relationship_guid' => $guid,
+	));
+
+	$j['friends'] = array();
+	foreach ($entities as $ent) {
+		if($ent->type === 'user') $j['friends'][] = $ent->guid;
 	}
 
 	return $j;
@@ -89,7 +104,7 @@ elgg_ws_expose_function("foowd.picture.get",
                 'description' => 'Sottodirectory dopo type',
                 ),
 		),
-		'Dato un id utente ritorno la lista dei sui amici',
+		'Passando un\'opportuna combinazione di fields visualizza l\'immagine corrispondente',
 		'GET',
 		false,
 		false
@@ -138,10 +153,10 @@ function foowd_picture_get(){
 
     }
 
-	/** Impostando lo header : se la voglio utilizzare come sorgente*/
-	$info = getimagesize($file);
 
 	if(file_exists($file)){
+		/** Impostando lo header : se la voglio utilizzare come sorgente*/
+		$info = getimagesize($file);
 		
         $j['response'] = true;
 

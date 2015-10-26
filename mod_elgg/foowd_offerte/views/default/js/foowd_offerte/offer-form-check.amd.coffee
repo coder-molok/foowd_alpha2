@@ -281,47 +281,47 @@
 
             return check
     
-    # Encode/decode htmlentities
-    krEncodeEntities = (s)->
-        return $("<div/>").text(s).html();
+    # # Encode/decode htmlentities
+    # krEncodeEntities = (s)->
+    #     return $("<div/>").text(s).html();
 
-    # da codice la trasforma in visualizzazione
-    krDecodeEntities = (s)->
-        return $("<div/>").html(s).text();
+    # # da codice la trasforma in visualizzazione
+    # krDecodeEntities = (s)->
+    #     return $("<div/>").html(s).text();
 
-    # controllo dinamico sul form input   
-    desc = $('[name="Description"]')  
-    # desc.css('background-color', 'red')
-    sanitizeInput = (Jel)->
-        text = Jel.val()
-        # rimuovo html
-        text = text.replace(/<[^>]+>/g, '');
-        Jel.val(text);
+    # # controllo dinamico sul form input   
+    # desc = $('[name="Description"]')  
+    # # desc.css('background-color', 'red')
+    # sanitizeInput = (Jel)->
+    #     text = Jel.val()
+    #     # rimuovo html
+    #     text = text.replace(/<[^>]+>/g, '');
+    #     Jel.val(text);
 
-    monitorInput = (Jel)->
-        Jel.on 'paste', ()->
-            # alert $(this).val()
-            ((J)->
-                setTimeout ()->
-                    sanitizeInput(J) 
-                , 100 
-            )($(this))
+    # monitorInput = (Jel)->
+    #     Jel.on 'paste', ()->
+    #         # alert $(this).val()
+    #         ((J)->
+    #             setTimeout ()->
+    #                 sanitizeInput(J) 
+    #             , 100 
+    #         )($(this))
 
-        Jel.on 'keyup', ()->
-            # alert $(this).val()
-            sanitizeInput($(this))
+    #     Jel.on 'keyup', ()->
+    #         # alert $(this).val()
+    #         sanitizeInput($(this))
 
-    monitorInput(desc)
+    # monitorInput(desc)
     
 
-    prepareInput = (Jel)->
-        text = Jel.val()
-        rx = /\n/g ;
-        # text = text.replace(rx, '')
-        html = krDecodeEntities(text)
-        # alert html
-        # se voglio salvare in formato codificato
-        Jel.val(html+'stringa di test')
+    # prepareInput = (Jel)->
+    #     text = Jel.val()
+    #     rx = /\n/g ;
+    #     # text = text.replace(rx, '')
+    #     html = krDecodeEntities(text)
+    #     # alert html
+    #     # se voglio salvare in formato codificato
+    #     Jel.val(html+'stringa di test')
 
 
 

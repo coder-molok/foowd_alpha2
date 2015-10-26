@@ -151,6 +151,9 @@ function utility_page_handler($segments) {
 		case 'test':
 		    include elgg_get_plugins_path() . 'foowd_utility/test/test.php';
 		    break;
+		case 'testPage':
+		    include elgg_get_plugins_path() . 'foowd_utility/test/testPage.php';
+		    break;
 		case 'image-tmp':
 		    include elgg_get_plugins_path() . 'foowd_utility/pages/image-tmp.php';
 		    break;

@@ -2,6 +2,17 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+
+
+### 26/10/2015
+
+- ampliato modulo `foowdServices` aggiungendo metodo POST `getFriendsOf()`
+
+- scritta pagina wiki per riferimento 
+
+
+
+
 ### 25/10/2015
 
 - implementate API Elgg Service  `foowd.picture.get` per ottenere le immagini senza esporre il path fisico delle stesse
