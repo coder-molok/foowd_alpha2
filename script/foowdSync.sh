@@ -13,7 +13,7 @@ REPO=""
 SITE="/var/www/html/elgg-1.10.4/"
 API="/var/www/html/api_foowd"
 ModPath=$SITE"/mod/"        
-CMD="sudo rsync -a -v --chown=www-data:www-data"                       
+CMD="sudo rsync -a -v --chown=http-web:http-web"                       
               
               
 ### Git       
@@ -50,6 +50,3 @@ DST="$API"
 $CMD $SRC $DST    
 
 
-### Aggiorno i permessi, per sicurezza
-echo -e "\n\e[45m Update Permission part \e[m" 
-sudo chmod -R ug+rwx "$SITE"
