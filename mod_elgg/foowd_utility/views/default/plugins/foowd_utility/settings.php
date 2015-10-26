@@ -170,8 +170,44 @@ echo elgg_view("input/checkbox", array(
 
 <!--------------- DEVELOPERS ------------------>
 <br>
-<h1>Per Sviluppatori</h1>
+<style>
+.separator{
+  display: inline;  
+  min-height: 10px;
+  width: 100%;
+  background-color: plum;
+}
+.sep-loom{
+  width: 100%;
+  background-color: plum; 
+}
+</style>
+<div class="sep-loom"> 
+<h1 class="separator">Per Sviluppatori</h1>
+</div>
 <br>
+
+
+<!--------------- MAINTENANCE ------------------>
+<p>
+  <!-- quando e' checked salva il valore impostato, altrimenti non fa nulla -->
+<?php 
+
+  echo '<h3>In Manutenzione:</h3>(utilizzato per visualizzare un alert sullo stato di manutenzione)<br/><br/>'; 
+  $value = elgg_get_plugin_setting('foowdMaintenance', \Uoowd\Param::pid() );
+  $checked = ($value) ? true : false ;
+  echo elgg_view("input/checkbox", array(
+      'label' => 'spunta per attivare il popup relativo allo stato di manutenzione del sito',
+      'name'  => "params[foowdMaintenance]",
+      'checked' => $checked
+    ));
+
+
+?>
+</p>
+
+
+
 
 <!--------------- LOG LEVEL ------------------>
 

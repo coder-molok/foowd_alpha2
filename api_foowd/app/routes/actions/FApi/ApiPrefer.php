@@ -34,7 +34,7 @@ class ApiPrefer extends \Foowd\FApi{
 	 * @apiName create
 	 * @apiGroup Prefer
 	 * 
- 	 * @apiDescription Crea una nuova offerta, o incrementa/decrementa della quantita' specificata se gia' presente. 
+ 	 * @apiDescription Crea una nuova offerta (state "newest"), o incrementa/decrementa della quantita' l'offerta con stato ('pending' o 'newest') lasciando inalterate quelle in status 'solved'. 
 	 * 
 	 * @apiParam {String} 		type 		metodo da chiamare
 	 * @apiParam {Integer}  	OfferId 	id dell'offerta
@@ -55,8 +55,9 @@ class ApiPrefer extends \Foowd\FApi{
 	public $needle_create = "OfferId, ExternalId, Qt";
 	public function create($data){
 
-		// recupero l'id dell'utente
+		// recupero l'id dell'utente: solo uno!
 		$UserId = \UserQuery::Create()->filterByExternalId($data->ExternalId)->findOne();
+
 
 
 		if(!$UserId){
@@ -73,8 +74,24 @@ class ApiPrefer extends \Foowd\FApi{
 		$prefer = \PreferQuery::Create()
 				->filterByOfferId($data->OfferId)
 				->filterByUserId($UserId)
-				->findOne();
+				->find();
 
+		// foreach($UserId as $);
+		// var_dump($prefer);
+		
+		$editablePref = array();
+		$editable = array('pending', 'newest');
+		foreach($prefer as $pref){
+			if(in_array($pref->getState(), $editable) ) $editablePref[] = $pref;
+		}
+
+		// creo una nuova
+		if(count($editablePref) === 0) $prefer = false;
+		// modifico quella gia' esistente
+		if(count($editablePref) === 1) $prefer = $editablePref[0];
+
+		// TODO: eventualmente aggiungere un controllo per essere certi che non vi siano piu offerte in stato pending o newest
+		
 		if($prefer){
 
 			$value = $prefer->getQt() + $data->Qt;
@@ -173,19 +190,19 @@ class ApiPrefer extends \Foowd\FApi{
 	 * @apiName search
 	 * @apiGroup Prefer
 	 * 
- 	 * @apiDescription Oltre a svolgere una ricerca nella tabella preferenze, ritorna anche il parametro extra "<strong>Offer</strong>" contenente l'offerta a cui si riferisce, in formato JSON.
+ 	 * @apiDescription Oltre a svolgere una ricerca nella tabella preferenze, ritorna anche il parametro extra "<strong>Offer</strong>" contenente l'offerta (in formato JSON) a cui ciascuna preferenza si riferisce.
  	 *
  	 * Strutturato in questo modo, cerca solo le intersezioni dei filtri.
 	 * 
 	 * @apiParam {String} 		type 			search
 	 * @apiParam {Str/Num}		[ExternalId] 	numero intero o sequenza di interi separati da virgola
+	 * @apiParam {Mixed}	  	[State]         Puo' essere 'all' se non voglio filtrare per stato, 'editable' se sono interessato agli stati 'pending' o 'newest', oppure elenco di stati reali (es. pending, newest, solved) separati con virgola.<br/> Se non specificato di default e' impostato a "editable".
 	 * @apiParam {Mixed}	  	[qualunque] 	qualunque colonna. Il valore puo' essere una STRINGA o un ARRAY come stringa-JSON con chiavi "max" e/o "min" (lettere minuscole).
 	 * @apiParam {String} 		[order] 		stringa per specificare l'ordinamento. Il primo elemento e' la colonna php. Si puo' specificare se 'asc' o 'desc' inserendo uno di questi dopo una virgola. Generalmente saranno Name, Price, Created, Modified
 	 * @apiParam {Mixed}	  	[offset] 		Il valore puo' essere un INTERO per selezionare i primi N elementi trovati o un ARRAY come stringa-JSON con chiavi "page" e "maxPerPage" per sfruttare la paginazione di propel.
-	 *
 	 * @apiParamExample {url} URL-Example:
 	 * 
-	 * http://localhost/api_offerte/public_html/api/prefer?OfferId=38&type=search&ExternalId=37,52
+	 * http://localhost/api_offerte/public_html/api/prefer?OfferId=38&type=search&ExternalId=37,52&State=newest,solved
 	 * 
 	 * @apiUse MyResponsePrefer
 	 * 
@@ -216,6 +233,22 @@ class ApiPrefer extends \Foowd\FApi{
 			}
 		}
 
+		// trasformo la lista ti stati in array
+		// se non specificato, ricerco solo quelli con stato "newest"
+		// eventualmente si puo' specificare State=all
+		$editable = array('newest', 'pending');
+		if(isset($data->State)){
+			$state = $data->State;
+			if(is_string($state) && preg_match('@,@', $state)) $data->State = array_map('trim' , explode( ',', $data->State) );
+			if($state === 'editable') $data->State = $editable;
+			if($state === 'all') unset($data->State);
+		}else{
+			$data->State = $editable;
+		}
+
+		// TODO controllare eventualmente il numero di preferenze ritornate in caso 'editable'
+
+
 		if(isset($data->order)){
 			$order = array_map('trim' , explode( ',', $data->order) );
 			// imposto asc come default
@@ -240,7 +273,6 @@ class ApiPrefer extends \Foowd\FApi{
 		foreach($data as $key => $value){
 			//echo "$key";
 			if(is_string($value) && preg_match('@{.+}@',$value)) $value = (array) json_decode($value);
-			//var_dump($value);
 			$obj = $obj->{'filterBy'.$key}($value);
 		}
 		

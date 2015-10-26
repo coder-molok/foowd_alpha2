@@ -4,6 +4,16 @@ admin_gatekeeper();
 
 ob_start();
 
+// test permissions
+// $dirTest =  __DIR__.'/'.time();
+// echo $dirTest;
+// if (!mkdir($dirTest)) {
+//     die('Failed to create folders...');
+// }
+// user php is running
+// echo exec('whoami');
+// echo 'Current script owner: ' . get_current_user();
+
 // elgg_unregister_menu_item('topbar', 'administration');
 
 elgg_require_js('foowdServices');

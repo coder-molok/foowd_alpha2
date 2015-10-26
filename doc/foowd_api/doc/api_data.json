@@ -602,7 +602,7 @@
     "title": "create",
     "name": "create",
     "group": "Prefer",
-    "description": "<p>Crea una nuova offerta, o incrementa/decrementa della quantita&#39; specificata se gia&#39; presente.</p> ",
+    "description": "<p>Crea una nuova offerta (state &quot;newest&quot;), o incrementa/decrementa della quantita&#39; l&#39;offerta con stato (&#39;pending&#39; o &#39;newest&#39;) lasciando inalterate quelle in status &#39;solved&#39;.</p> ",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -699,7 +699,7 @@
     "title": "search",
     "name": "search",
     "group": "Prefer",
-    "description": "<p>Oltre a svolgere una ricerca nella tabella preferenze, ritorna anche il parametro extra &quot;<strong>Offer</strong>&quot; contenente l&#39;offerta a cui si riferisce, in formato JSON.</p> <p>Strutturato in questo modo, cerca solo le intersezioni dei filtri.</p> ",
+    "description": "<p>Oltre a svolgere una ricerca nella tabella preferenze, ritorna anche il parametro extra &quot;<strong>Offer</strong>&quot; contenente l&#39;offerta (in formato JSON) a cui ciascuna preferenza si riferisce.</p> <p>Strutturato in questo modo, cerca solo le intersezioni dei filtri.</p> ",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -716,6 +716,13 @@
             "optional": true,
             "field": "ExternalId",
             "description": "<p>numero intero o sequenza di interi separati da virgola</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Mixed",
+            "optional": true,
+            "field": "State",
+            "description": "<p>Puo&#39; essere &#39;all&#39; se non voglio filtrare per stato, &#39;editable&#39; se sono interessato agli stati &#39;pending&#39; o &#39;newest&#39;, oppure elenco di stati reali (es. pending, newest, solved) separati con virgola.<br/> Se non specificato di default e&#39; impostato a &quot;editable&quot;.</p> "
           },
           {
             "group": "Parameter",
@@ -780,7 +787,7 @@
       "examples": [
         {
           "title": "URL-Example:",
-          "content": "\nhttp://localhost/api_offerte/public_html/api/prefer?OfferId=38&type=search&ExternalId=37,52",
+          "content": "\nhttp://localhost/api_offerte/public_html/api/prefer?OfferId=38&type=search&ExternalId=37,52&State=newest,solved",
           "type": "url"
         }
       ]

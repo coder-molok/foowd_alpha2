@@ -12,6 +12,11 @@ elgg_register_event_handler('init', 'system', 'utility_init');
 
 function utility_init(){
 	
+	// messaggio d'instabilita'
+	$maintenance = elgg_get_plugin_setting('foowdMaintenance', \Uoowd\Param::pid());
+	if($maintenance){
+		register_error('Il sito potrebbe risultare instabile a causa di lavori di manutenzione.');	
+	}
 	
 	// Inizializzo il wrap della mail e PhpMailer
 	// hook all'invio di email

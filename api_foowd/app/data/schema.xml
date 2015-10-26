@@ -17,7 +17,7 @@
         <column name="modified" phpName="Modified" type="TIMESTAMP" required="false"/>
         <column name="expiration" phpName="Expiration" type="TIMESTAMP" required="false"/>
         <!-- aggiunto -->
-        <column name="state" phpName="State" type="VARCHAR" size="10" required="false"/>
+        <column name="state" phpName="State" type="VARCHAR" size="10" defaultValue="open" required="false"/>
         <foreign-key foreignTable="user">
             <reference local="publisher" foreign="id"/>
         </foreign-key>
@@ -34,6 +34,7 @@
         <column name="offerid" phpName="OfferId" type="INTEGER"/>
         <column name="created" phpName="Created" type="TIMESTAMP"/>
         <column name="qt" phpName="Qt" type="INTEGER" phpType="double" required="false"/>
+        <column name="state" phpName="State" type="VARCHAR" size="10" defaultValue="newest" required="false"/>
         <!-- lego le chiavi -->
         <!-- onDelete="cascade": se elimino una riga da una foreign Table, allora viene eliminata anche nella presente tabella (prefer) -->
         <foreign-key foreignTable="offer" onDelete="cascade">
@@ -44,6 +45,7 @@
         </foreign-key>
         <behavior name="validate">
             <parameter name="Qt" value="{column: qt, validator: NotBlank}" />
+            <parameter name="State" value="{column: state, validator: PropelFoowd, options: {type: enum, list:'newest,pending,solved'}}" />
         </behavior>
     </table>
     <table name="tag" phpName="Tag">

@@ -10,6 +10,10 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 
 - scritta pagina wiki per riferimento 
 
+- aggiornata tabella `prefer` e script che ne competono
+
+- introdotta opzione per alert di `manutenzione`
+
 
 
 
