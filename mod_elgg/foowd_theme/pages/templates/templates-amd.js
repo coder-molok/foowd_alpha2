@@ -76,7 +76,7 @@ templates['producerProfile'] = template({"1":function(container,depth0,helpers,p
     + alias4((helpers.desc1 || (depth0 && depth0.desc1) || alias2).call(alias1,(depth0 != null ? depth0.Description : depth0),{"name":"desc1","hash":{},"data":data}))
     + "\n	</div>\n	<div class = \"about-description\">\n		"
     + alias4((helpers.desc2 || (depth0 && depth0.desc2) || alias2).call(alias1,(depth0 != null ? depth0.Description : depth0),{"name":"desc2","hash":{},"data":data}))
-    + "\n	</div>\n	<div>&nbsp;</div>\n</div>";
+    + "\n	</div>\n	<div>&nbsp;</div>\n</div>\n";
 },"usePartial":true,"useData":true});
 templates['productDetail'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
