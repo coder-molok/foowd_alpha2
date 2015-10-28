@@ -22,8 +22,7 @@
 
     Jhook = $('#offer-hook')
     # Jform = Jhook.parents('form:first')
-    Jgenre = $('[name=Genre]')
-    
+    Jgenre = $('[name="Genre"]')
 
     # for each input
     fct = form.factory();
@@ -118,6 +117,9 @@
                 ()->
                     this.val('')
             )
+
+
+    # if Jgenre.lenght is 1 
 
     checkGenre.call(Jgenre)
     

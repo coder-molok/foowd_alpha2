@@ -34,7 +34,7 @@ class ApiPrefer extends \Foowd\FApi{
 	 * @apiName create
 	 * @apiGroup Prefer
 	 * 
- 	 * @apiDescription Crea una nuova offerta (state "newest"), o incrementa/decrementa della quantita' l'offerta con stato ('pending' o 'newest') lasciando inalterate quelle in status 'solved'. 
+ 	 * @apiDescription Crea una nuova offerta (state "newest"), o incrementa/decrementa della quantita' l'offerta con stato ('pending' o 'newest') lasciando inalterate quelle in status 'solved'. <br/> Se l'offerta raggiunge la Quota zero o inferiore allora viene eliminata.
 	 * 
 	 * @apiParam {String} 		type 		metodo da chiamare
 	 * @apiParam {Integer}  	OfferId 	id dell'offerta
@@ -95,12 +95,23 @@ class ApiPrefer extends \Foowd\FApi{
 		if($prefer){
 
 			$value = $prefer->getQt() + $data->Qt;
-			if($value<0){
+			if($value <= 0 ){
 				$value = 0;
 				//$Json['errors']['Qt'] = "Raggiunta la soglia minima dello zero";
+				$prefer->delete();
+				$Json['response'] = true;
+				$Json['msg'] = "Preferenza Eliminata";
+				return $Json;
 			}
 			$prefer->setQt( $value );
-		}else{ 
+		}else{
+
+			// se la creo, devo crearla solo quando la quantita' e' strettamente positiva
+			if($data->Qt <= 0){
+				$Json['response'] = true;
+				$Json['msg'] = "La nuova preferenza viene creata solo se si passa una quantita' positiva";
+				return $Json;	
+			}
 
 			//check foreign constraint
 			$of = \OfferQuery::Create()->filterById($data->OfferId)->findOne();

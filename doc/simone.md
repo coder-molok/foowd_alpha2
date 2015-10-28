@@ -2,6 +2,27 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 28/10/2015
+
+- completamento giro crontab con partenza dell'ordine dopo 24 h
+
+
+
+
+### 27/10/2015
+
+- creazione tabella `purchase` e tabella di join `purchase_prefer`
+
+- implementazione API `purchase` con metodi `create` , `search` e `close`
+
+- gestione ordine mediante classe `FoowdPurchase`
+
+- implementato invio di email in caso di errore nella chiusura
+
+- implementato crontab per controllo periodico su esistenza di ordini da chiudere
+
+
+
 
 
 ### 26/10/2015

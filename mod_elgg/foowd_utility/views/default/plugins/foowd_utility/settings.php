@@ -118,13 +118,16 @@ elgg_load_css('plugin-settings');
 
 <!--------------- PHPMAILER ------------------>
 <style>
+.mailer{
+  display: flex;
+  flex-wrap: wrap;
+}
 .mailer p{
   width: 50%;
-  float: left;
 }
 
 .mailer p input{
-  width: 90%;
+  width: 93%;
 }
 </style>
 <br/>
@@ -172,19 +175,16 @@ echo elgg_view("input/checkbox", array(
 <br>
 <style>
 .separator{
-  display: inline;  
-  min-height: 10px;
   width: 100%;
-  background-color: plum;
+  background-color: black;
+  border: 4px groove plum;
+  padding: 10px;
+  color: white;
 }
-.sep-loom{
-  width: 100%;
-  background-color: plum; 
-}
+
 </style>
-<div class="sep-loom"> 
+
 <h1 class="separator">Per Sviluppatori</h1>
-</div>
 <br>
 
 

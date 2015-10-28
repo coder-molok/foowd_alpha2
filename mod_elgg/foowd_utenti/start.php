@@ -16,7 +16,7 @@ function utenti_init(){
     elgg_register_action("foowd-avatar", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-avatar.php');
     elgg_register_action("foowd-gallery", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-gallery.php');
     elgg_register_action("foowd-dati", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-dati.php');
-    elgg_register_action("foowd-order-manager", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-order-manager.php');
+    elgg_register_action("foowd-purchase-leader", elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-purchase-leader.php');
 
     //Triggered after user registers. Return false to delete the user.
 	$user = new \Foowd\User();

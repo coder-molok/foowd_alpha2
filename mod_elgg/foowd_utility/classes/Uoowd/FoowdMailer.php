@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Questa classe viene richiamata mediante un hook invio mail per funzione elgg_send_mail()
+ */
+
 namespace Uoowd;
 
 require_once(elgg_get_plugins_path().\Uoowd\Param::uid().'/vendor/autoload.php');

@@ -48,6 +48,12 @@ $app = new \Slim\Slim(array(
 // evito di visualizzare gli errori
 ini_set('display_errors', '0');
 
+
+//
+//Di default scrivo gli errori nel log di php. Inoltre uso anche il Rotating giornaliero.
+//
+
+
 // ritorno e salvo in formato json gli errori dovuti alle eccezioni 
 $app->error(function (\Exception $e) use ($app) {
     // http://www.xml.com/pub/a/2004/12/01/restful-web.html
@@ -67,8 +73,8 @@ $app->error(function (\Exception $e) use ($app) {
     $errors['msg'] = $e->getMessage();
     $errors['line'] = $e->getLine();
     $errors['file'] = $e->getFile();
-    $app->getLog()->error(json_encode($errors));
-    echo json_encode(array('errors'=>$errors, "response"=>false));   
+
+    myPrintLog($app, $errors);
 });
 
 // ritorno e salvo in formato json i Fatal Error
@@ -89,8 +95,7 @@ register_shutdown_function(function() use($app){
         $lastError['msg'] = 'Fatal Error (system): '.$lastError['message'];
         unset($lastError['message']);
 
-        $app->getLog()->error(json_encode($lastError));
-        echo json_encode(array("errors"=>$lastError, "response"=>false));
+        myPrintLog($app, $lastError);
     }
 
 });
@@ -100,11 +105,21 @@ $app->notFound(function () use ($app) {
     $lastError['msg'] = 'Route '.$app->request()->getResourceUri().' not Found';
     $lastError['response'] = false;
     //var_dump($app->request());
-    $app->getLog()->error(json_encode($lastError));
-    echo json_encode(array("errors"=>$lastError, "response"=>false));
+    myPrintLog($app, $lastError);
 });
 //------------------------------------------------------------------ fine gestione LOG ERRORI
 
+
+function myPrintLog($app, $lastError){
+    $app->getLog()->error(json_encode($lastError));
+
+    $data = isset($_SESSION['foowd']['data']) ? $_SESSION['foowd']['data'] : null;
+    $lastError = isset($_SESSION['foowd']['errors']) ?  array_merge($lastError, $_SESSION['foowd']['errors']) : $lastError;
+    
+    $myLog = json_encode(array('errors'=>$lastError, "response"=>false, "request"=>$data));
+    error_log('ApiFoowd: ' . $myLog);
+    echo $myLog;
+}
 
 // classe creata per aggiungere un controllo di sicurezza
 // se non sono in localhost, verifico l'attendibilita' della sorgente:

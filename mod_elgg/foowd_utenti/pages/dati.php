@@ -1,10 +1,12 @@
 <?php
 
+elgg_gatekeeper();
+
 ob_start();
 // var_dump($_SESSION['sticky_forms']['foowd-dati']);
 unset($_SESSION['sticky_forms']['foowd-dati']);
 
-$guid=elgg_get_logged_in_user_guid();
+$guid = elgg_get_logged_in_user_guid();
 
 $user = elgg_get_logged_in_user_entity();
 
@@ -31,7 +33,7 @@ if($r->response){
 	$f->manageSticky($input, $form);
 }else{
 	$_SESSION['sticky_forms'][$form]['apiError']=$r;
-	register_error(elgg_echo('Non riesco a caricare l\'offerta'));
+	register_error(elgg_echo('Non riesco a caricare i dati'));
 }
 
 $vars = $f->prepare_form_vars($form);

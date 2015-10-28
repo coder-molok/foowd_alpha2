@@ -48,6 +48,39 @@
             <parameter name="State" value="{column: state, validator: PropelFoowd, options: {type: enum, list:'newest,pending,solved'}}" />
         </behavior>
     </table>
+    <table name="purchase" phpName="Purchase">
+        <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="offerid" phpName="OfferId" type="INTEGER"/>
+        <column name="leaderid" phpName="LeaderId" type="INTEGER"/>
+        <column name="created" phpName="Created" type="TIMESTAMP"/>
+        <column name="modifed" phpName="Modified" type="TIMESTAMP"/>
+        <column name="state" phpName="State" type="VARCHAR" size="11" defaultValue="opened" required="false"/>
+        <!-- lego le chiavi -->
+        <!-- onDelete="cascade": se elimino una riga da una foreign Table, allora viene eliminata anche nella presente tabella (prefer) -->
+        <foreign-key foreignTable="offer">
+            <reference local="offerid" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user">
+            <reference local="leaderid" foreign="id"/>
+        </foreign-key>
+        <behavior name="validate">
+            <parameter name="PurchaseState" value="{column: state, validator: PropelFoowd, options: {type: enum, list:'opened,pending,solved,troublesome,delivering'}}" />
+        </behavior>
+    </table>
+    <!-- relazione molti a molti -->
+    <table name="purchase_prefer" isCrossRef="true">
+        <column name="purchaseid" phpName="PurchaseId" type="integer" primaryKey="true"/>
+        <column name="preferid" phpName="PreferId" type="integer" primaryKey="true"/>
+        <!-- onDelete necessario per sfruttare le potenzialita' di propel  -->
+        <!-- se elimino un purchased allora vengono eliminati i sui rispettivi valori in purchase_prefer, ma non vengono eliminate le preferenze!-->
+        <!-- questo perche' onDelete="cascade": se elimini qualcosa dalla foreignTable, allora i rispetivi campi li elimini da questa tabella di join. Non vale il contrario. -->
+        <foreign-key foreignTable="purchase" onDelete="cascade">
+            <reference local="purchaseid" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="prefer" onDelete="cascade">
+            <reference local="preferid" foreign="id"/>
+        </foreign-key>
+    </table>
     <table name="tag" phpName="Tag">
         <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
         <column name="name" phpName="Name" type="VARCHAR" size="255" required="true" />
@@ -56,7 +89,6 @@
     <table name="offer_tag" isCrossRef="true">
         <column name="offerid" phpName="OfferId" type="integer" primaryKey="true"/>
         <column name="tagid" phpName="TagId" type="integer" primaryKey="true"/>
-        <!-- onDelete necessario per sfruttare le potenzialita' di propel  -->
         <foreign-key foreignTable="offer" onDelete="cascade">
             <reference local="offerid" foreign="id"/>
         </foreign-key>

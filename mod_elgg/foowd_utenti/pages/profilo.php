@@ -62,7 +62,6 @@ echo elgg_view('output/url', array(
 
 echo '</div>';
 
-__SKIP_NOT_OFFER:
 ?>
 
 <div>
@@ -78,6 +77,9 @@ echo elgg_view('output/url', array(
 ?>
 </div>
 
+<?php
+__SKIP_NOT_OFFER:
+?>
 
 <div>
 <?php

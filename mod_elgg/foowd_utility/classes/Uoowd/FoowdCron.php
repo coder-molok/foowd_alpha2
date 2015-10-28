@@ -9,13 +9,23 @@ class FoowdCron{
 		);
 
 	public static function register(){
-		
+
+		// ottengo il nome di questa classe
+		$thisClass = get_called_class();
+
 		// lo uso solamente per testare TUTTI i crontab: scrivo su specifici file
 		foreach(self::$types as $typ){
-			elgg_register_plugin_hook_handler('cron', $typ, array('\Uoowd\FoowdCron', 'logTest') );	
+			elgg_register_plugin_hook_handler('cron', $typ, array($thisClass, 'logTest') );	
+			
+			$method = $typ . 'Collection';
+			if(method_exists($thisClass, $method)){
+				elgg_register_plugin_hook_handler('cron', $typ, array($thisClass, $method) );		
+			}
+			
 		}
 
 	}
+
 
 	/**
 	 * Funzione per testare il funzionamento di tutti i crontab
@@ -34,6 +44,21 @@ class FoowdCron{
 		file_put_contents($file, $text, FILE_APPEND);
 		// \Uoowd\Logger::addError(func_get_args());
 		// ["cron","minute","",{"time":1445696701}] 
+	}
+
+
+	/**
+	 * raccolgo tutte le funzioni da eseguire ogni quarto d'ora
+	 * @param  [type] $hook   [description]
+	 * @param  [type] $type   [description]
+	 * @param  [type] $return [description]
+	 * @param  [type] $params [description]
+	 * @return [type]         [description]
+	 */
+	public static function fifteenminCollection($hook, $type, $return, $params){
+		// controllo lo stato degli ordini per l'invio, in questo caso dopo 15 minuti
+		$solve = new \Uoowd\FoowdPurchase();
+		$solve->check();
 	}
 
 }

@@ -26,6 +26,9 @@ define(
 		"panel": "panel", 					// pagina del pannello
 		"friendsManage": "friend_request",	// pagina del plugin friend request
 		"services" : "foowd_utility/services", // pagina servizi che comunicano con foowd-services.js
-		"elggAPI": "services/api/rest/json/?method=" // pagina API REST di foowd
+		"elggAPI": "services/api/rest/json/?method=", 	// pagina API REST di foowd
+		"action" : {
+			"initPurchase" : "foowd-purchase-leader"	// action per far partire l'ordine
+		}
 	}
 );

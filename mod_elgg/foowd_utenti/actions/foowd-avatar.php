@@ -1,6 +1,7 @@
 <?php 
 
-gatekeeper();
+elgg_gatekeeper();
+
 $form='foowd-avatar';
 elgg_clear_sticky_form($form);
 

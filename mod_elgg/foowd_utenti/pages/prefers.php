@@ -86,7 +86,7 @@ foreach($offers as $of){
 	// ottengo l'immagine dell'offerta
 	$img = \Uoowd\Param::pathStore($owner, 'offers', 'web') . "$oid/medium/$oid.jpg";
 	
-	$data = sprintf('publisher="%s" groupmanager="%s" offerid="%s"', $publisher->username, $currentUser->username, $oid); 
+	$data = sprintf('publisher="%s" leader="%s" offerid="%s"', $publisher->username, $currentUser->username, $oid); 
 	$img = "<img class=\"single-offer\" $data src=\"$img\"/>";
 
 	$friendsQt = 0; // semplice contatore
@@ -98,18 +98,23 @@ foreach($offers as $of){
 	// visualizzo le preferenze di questa offerta raccogliendole in una stringa
 	$displayFriends = '';
 	foreach($prefs as $p){ 
-		if($p->Qt <= 0) continue;
+		if($p->Qt <= 0 || $p->State === 'solved') continue;
 		$countPref++;
 		$friendsQt += $p->Qt;
 		$usr = $farm->farm[$p->UserId];
 		// \Fprint::r($p);
-		$data = sprintf(' data-username="%s" data-offerid="%s" data-qt="%s" ', $usr->username, $p->OfferId, $p->Qt);
+		// $data = sprintf(' data-username="%s" data-offerid="%s" data-qt="%s" ', $usr->username, $p->OfferId, $p->Qt);
+		$data = sprintf(' data-preferid="%s" data-username="%s" ', $p->Id, $usr->username);
 		$displayFriends .= '<div class="single-user" '. $data .'>'. $usr->htmlAvatar .'<div>'.$usr->username.'</div></div>';
 	}
 
+	$purchable = ($friendsQt >= $of->Minqt);
+
+	$trClass = $purchable ? "purchable" : "normal" ;
+
 	if($countPref > 0){
 	?>
-			<tr>
+			<tr class=" <?php echo $trClass;?>">
 				<td> <?php echo "$img"; ?> </td>
 				<td class="img-list">
 				<?php echo $displayFriends; ?>	
@@ -117,7 +122,8 @@ foreach($offers as $of){
 			<td>
 		<?php
 		echo "Preferenze espresse dal gruppo $friendsQt, su una quota minima di ".$of->Minqt . '<br/>';
-		echo "<div class=\"elgg-button elgg-button-submit ordina\">Ordina</div>";
+
+		if($purchable) echo "<div class=\"elgg-button elgg-button-submit ordina\">Ordina</div>";
 		?>
 			</td>
 			</tr>
@@ -129,7 +135,7 @@ foreach($offers as $of){
 
 <!-- esempio di javascript per effettuare l'ordinazione al click -->
 <script type="text/javascript">
-require(['jquery'], function($){
+require(['jquery', 'page'], function($, _page){
 	$('.ordina').on('click', function(){
 		// il td che contiene il bottone
 		var td = $(this).parent();
@@ -166,11 +172,13 @@ require(['jquery'], function($){
 		});
 		var of = tr.find('.single-offer');
 		send.publisher = of.attr('publisher');
-		send.groupmanager= of.attr('groupmanager');
+		send.leader= of.attr('leader');
 		send.offerid = of.attr('offerid');
 		// invio i dati alla action
 		// L'invio avviene tramite metodo POST
-		elgg.action('foowd-order-manager', {
+		console.log('dati inviati')
+		console.log(send)
+		elgg.action( _page.action.initPurchase , {
 		   data: send,
 		   // sui dati ritornati non e' necessario eseguire un parser, perche' ci pensa gia' elgg
 		   success: function(json) {
@@ -226,6 +234,18 @@ require(['jquery'], function($){
 	table {
 		margin: auto;
 		margin-top: 20px;
+	}
+
+	tr.normal, tr.purchable{
+		margin-top: 7px;
+	}
+
+	tr.normal{
+		background-color: rgba(195, 194, 197, 0.37);
+	}
+
+	tr.purchable{
+		background-color: rgba(128, 126, 0, 0.18);
 	}
 
 	.row, .row-attend{

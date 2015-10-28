@@ -1,5 +1,7 @@
 <?php
 
+elgg_gatekeeper();
+
 ob_start();
 // var_dump($_SESSION['sticky_forms']['foowd-avatar']);
 unset($_SESSION['sticky_forms']['foowd-avatar']);

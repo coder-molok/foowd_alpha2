@@ -10,7 +10,8 @@ function foowd_find_match_first($baseImgs, $match){
     $it = new RecursiveDirectoryIterator($baseImgs, RecursiveDirectoryIterator::SKIP_DOTS); 
     $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
     foreach($files as $file) {
-        $name = $file->getPathname();
+        // compatibilita' con windows
+        $name = str_replace(DIRECTORY_SEPARATOR, '/',  $file->getPathname());
         if ($file->isFile() && preg_match($match, $name) ){
             // \Fprint::r($file->getPathname());
             $fileMatch = $file->getPathname();

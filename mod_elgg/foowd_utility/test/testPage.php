@@ -16,7 +16,30 @@ ob_start();
 
 // elgg_unregister_menu_item('topbar', 'administration');
 
+
+// Trigger cronjob
+$cron = array('minute', 'fiveminute', 'fifteenmin', 'halfhour', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'reboot');
+echo "<ul>";
+foreach($cron as $c){
+	$str = '<li><a class="cron-trigger" href="%scron/%s">cron %s</a></li>';
+	echo sprintf($str, elgg_get_site_url(), $c, $c);
+}
+echo "<ul>";
+elgg_require_js('jquery');
+?>
+<script type="text/javascript">
+require(['jquery'], function($){
+	$('.cron-trigger').on('click', function(e){
+		var url = $(this).attr('href');
+		$.ajax({'url':url, 'type': 'get'});
+		e.preventDefault();
+	}); 
+});	
+</script>
+<?php
+
 elgg_require_js('foowdServices');
+
 ?>
 
 <script>
@@ -24,7 +47,7 @@ elgg_require_js('foowdServices');
 require(['foowdServices', 'jquery'], function(serv, $){
 	var _page = $('.foowd-page-testPage');
 
-	var obj = { offerId: 54, size: 'small' };
+	var obj = { offerId: 3, size: 'small' };
 	$.when(serv.getPictureUrl(obj)).then(function(data){
 		// alert('done')
 		console.log(data)

@@ -602,7 +602,7 @@
     "title": "create",
     "name": "create",
     "group": "Prefer",
-    "description": "<p>Crea una nuova offerta (state &quot;newest&quot;), o incrementa/decrementa della quantita&#39; l&#39;offerta con stato (&#39;pending&#39; o &#39;newest&#39;) lasciando inalterate quelle in status &#39;solved&#39;.</p> ",
+    "description": "<p>Crea una nuova offerta (state &quot;newest&quot;), o incrementa/decrementa della quantita&#39; l&#39;offerta con stato (&#39;pending&#39; o &#39;newest&#39;) lasciando inalterate quelle in status &#39;solved&#39;. <br/> Se l&#39;offerta raggiunge la Quota zero o inferiore allora viene eliminata.</p> ",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -795,6 +795,259 @@
     "version": "0.0.0",
     "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiPrefer.php",
     "groupTitle": "Prefer"
+  },
+  {
+    "type": "post",
+    "url": "/purchase",
+    "title": "create",
+    "name": "create",
+    "group": "Purchase",
+    "description": "<p>Crea un nuova ordine assegnandogli stato &quot;pending&quot; di default.</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>create</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Numeric",
+            "optional": false,
+            "field": "OfferId",
+            "description": "<p>id dell&#39;offerta</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Numeric",
+            "optional": false,
+            "field": "LeaderId",
+            "description": "<p>id esterno del capogruppo</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "prefersList",
+            "description": "<p>lista delle preferenze associate all&#39;offerta</p> "
+          }
+        ],
+        "Response": [
+          {
+            "group": "Response",
+            "type": "Bool",
+            "optional": false,
+            "field": "response",
+            "description": "<p>false, in caso di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "Id",
+            "description": "<p>se il metodo e&#39; update o create, allora l&#39;id dell&#39;offerta</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "errors",
+            "description": "<p>json contenente i messaggi di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "body",
+            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "msg",
+            "description": "<p>messaggi ritornati</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n\t\t\"type\":\"create\",\n\t\t\"OfferId\":\"1\",\n  \t\"LeaderId\": \"38\",\n    \t\"prefersList\": \"5,7\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiPurchase.php",
+    "groupTitle": "Purchase"
+  },
+  {
+    "type": "post",
+    "url": "/purchase",
+    "title": "search",
+    "name": "search",
+    "group": "Purchase",
+    "description": "<p>ritorna tutte le ordinazioni filtrandole per stato.</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>create</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Numeric",
+            "optional": false,
+            "field": "OfferId",
+            "description": "<p>id dell&#39;offerta</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Numeric",
+            "optional": false,
+            "field": "LeaderId",
+            "description": "<p>id esterno del capogruppo</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "prefersList",
+            "description": "<p>lista delle preferenze associate all&#39;offerta</p> "
+          }
+        ],
+        "Response": [
+          {
+            "group": "Response",
+            "type": "Bool",
+            "optional": false,
+            "field": "response",
+            "description": "<p>false, in caso di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "Id",
+            "description": "<p>se il metodo e&#39; update o create, allora l&#39;id dell&#39;offerta</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "errors",
+            "description": "<p>json contenente i messaggi di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "body",
+            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "msg",
+            "description": "<p>messaggi ritornati</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n  \"type\":\"search\"\n  \"state\":\"pending, opened\",\n  \"Publisher\":\"37\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiPurchase.php",
+    "groupTitle": "Purchase"
+  },
+  {
+    "type": "post",
+    "url": "/purchase",
+    "title": "solve",
+    "name": "solve",
+    "group": "Purchase",
+    "description": "<p>Dato l&#39;id di un ordine lo chiude attualizzando le preferenze. <br/> Viene utilizzato un solo ordine per volta in modo da garantire una semplice e lineare gestione degli errori, preferendo svolgere piu chiamate di chiusura, avendo considerato che la chiusura di un&#39;ordine e&#39; un&#39;operazione che non avviene poi cosi&#39; di frequente.</p> ",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>solve</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Numeric",
+            "optional": false,
+            "field": "PurchaseId",
+            "description": "<p>id dell&#39;ordine</p> "
+          }
+        ],
+        "Response": [
+          {
+            "group": "Response",
+            "type": "Bool",
+            "optional": false,
+            "field": "response",
+            "description": "<p>false, in caso di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "Id",
+            "description": "<p>se il metodo e&#39; update o create, allora l&#39;id dell&#39;offerta</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "errors",
+            "description": "<p>json contenente i messaggi di errore</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String/json",
+            "optional": true,
+            "field": "body",
+            "description": "<p>json contenente i parametri da ritornare in funzione della richiesta</p> "
+          },
+          {
+            "group": "Response",
+            "type": "String",
+            "optional": true,
+            "field": "msg",
+            "description": "<p>messaggi ritornati</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n  \"type\":\"solve\",\n  \"PurchaseId\" : \"158\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "foowd_alpha2/api_foowd/app/routes/actions/FApi/ApiPurchase.php",
+    "groupTitle": "Purchase"
   },
   {
     "type": "get",

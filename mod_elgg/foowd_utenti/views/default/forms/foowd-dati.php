@@ -52,6 +52,9 @@ $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars)
 
 if($vars['Genre']==='offerente'){
 	$fadd->createField('Genre','', 'input/hidden', $vars);
+}else{
+	register_error(elgg_echo('noaccess') );
+	forward(REFERER);
 }
 
 ?>

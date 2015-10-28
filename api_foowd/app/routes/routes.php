@@ -57,4 +57,12 @@ $app->group('/api', function() use ($app){
 
 		});
 
+		// gestione ordine
+		$app->post('/purchase', function() use ($app){
+
+			$returned = new Foowd\FApi\ApiPurchase($app, 'post');
+
+		});
+		
+
 });

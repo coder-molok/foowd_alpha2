@@ -1,5 +1,9 @@
-
 <?php
+
+/**
+ * PAGINA AD ESCLUSIVO USO DI BACKUP/PROMEMORIA
+ */
+
 
 // funzione di comodita', del tutto superflua. 
 // La utilizzo per scrive nell'error log e controllare i dati
