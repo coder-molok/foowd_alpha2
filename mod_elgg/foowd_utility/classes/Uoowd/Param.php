@@ -97,7 +97,8 @@ namespace Uoowd;
 			$bt =  debug_backtrace();
 			foreach($bt as $trace){
 				// \Fprint::r($trace['file']);
-				if(!preg_match('@foowd_.*@',$trace['file'])) break;
+				// if(!preg_match('@foowd_.*@',$trace['file'])) break;
+				if(!isset($trace['file']) || !preg_match('@foowd_.*@',$trace['file'])) break;
 				$check = $trace;
 			}
 			// \Fprint::r($bt);

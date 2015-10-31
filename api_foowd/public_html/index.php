@@ -24,6 +24,7 @@ $logger = new \Flynsarmy\SlimMonolog\Log\MonologWriter(array(
 	'name' => 'ApiFoowd',
     'handlers' => array(
         new \Monolog\Handler\RotatingFileHandler(__DIR__.'/../log/api.log'),
+        new \Monolog\Handler\ErrorLogHandler(),
     ),
     'processors' => array(
      	        	function ($record) {
@@ -111,13 +112,14 @@ $app->notFound(function () use ($app) {
 
 
 function myPrintLog($app, $lastError){
-    $app->getLog()->error(json_encode($lastError));
 
     $data = isset($_SESSION['foowd']['data']) ? $_SESSION['foowd']['data'] : null;
     $lastError = isset($_SESSION['foowd']['errors']) ?  array_merge($lastError, $_SESSION['foowd']['errors']) : $lastError;
     
     $myLog = json_encode(array('errors'=>$lastError, "response"=>false, "request"=>$data));
-    error_log('ApiFoowd: ' . $myLog);
+    // error_log('ApiFoowd: ' . $myLog);
+    // il log scrive automaticamente nell'error log, per come l'ho configurato
+    $app->getLog()->error($myLog);
     echo $myLog;
 }
 
@@ -133,6 +135,9 @@ require '../app/routes/routes.php';
 
 // set response data
 $app->response->headers->set('Content-Type', 'application/json; charset=utf-8');
+
+// $app->getLog()->warning('Host: ' . $app->request->headers->Host);
+// $app->getLog()->warning('Origin: ' . $app->request->headers->Origin);
 
 $app->run();
 

@@ -1,6 +1,32 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+### 30/10/2015
+
+- impostato obbligo inserimento quantita' massima (0 in caso non si voglia inserire un tetto)
+
+- aggiunto handler a `Monolog` per `error_log`
+
+- aggiunte traduzioni `italiano`
+
+- risolte issues di testo
+
+- risolto warning di `backtrace` in `Uoowd\Param`
+
+- risolto warning `elgg_echo` nel form offerte
+
+- aggiunto `Modernizr` ai path di `definejs`
+
+
+
+### 29/10/2015
+
+- aggiunto controllo su preferenze per il non superamento maxqt offerta
+
+- inserito controllo nell'ordine: la `quantita' totale d'ordine`  non puo' superare la `Maxqt` dell'offerta
+
+- assestate `ApiUser` per adattamento alla non univocita' della preferenza
+
 
 ### 28/10/2015
 

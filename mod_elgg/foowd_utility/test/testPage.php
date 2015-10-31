@@ -4,6 +4,26 @@ admin_gatekeeper();
 
 ob_start();
 
+// ottengo il logger: inserito nella factory !!!
+// see http://reference.elgg.org/ServiceProvider_8php_source.html
+// $logger = _elgg_services()->__get('logger');
+// $levels = array(
+// 	0 => 'OFF',
+// 	200 => 'INFO',
+// 	250 => 'NOTICE',
+// 	300 => 'WARNING',
+// 	400 => 'ERROR',
+// );
+// echo "Log level: " . $levels[$logger->getLevel()];
+
+
+
+
+
+// \Fprint::r($this);
+
+
+//////////////////////////////////////////////////////////////////
 // test permissions
 // $dirTest =  __DIR__.'/'.time();
 // echo $dirTest;
@@ -16,7 +36,24 @@ ob_start();
 
 // elgg_unregister_menu_item('topbar', 'administration');
 
+/////////////////////////////////////////////////////////////////
+// cookie di sessione PHP e JAVASCRIPT
 
+\Fprint::r($_SESSION);
+
+\Fprint::r($_COOKIE);
+
+?>
+
+<div id = "cookie-javascript"></div>
+<script>
+var cookie = document.cookie;
+var el = document.getElementById('cookie-javascript');
+el.innerHTML = cookie;
+</script>
+
+<?php
+//////////////////////////////////////////////////////////////////
 // Trigger cronjob
 $cron = array('minute', 'fiveminute', 'fifteenmin', 'halfhour', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'reboot');
 echo "<ul>";
@@ -38,6 +75,11 @@ require(['jquery'], function($){
 </script>
 <?php
 
+
+
+
+////////////////////////////////////////////////////////////////////
+/// Test API Elgg
 elgg_require_js('foowdServices');
 
 ?>
@@ -53,7 +95,24 @@ require(['foowdServices', 'jquery'], function(serv, $){
 		console.log(data)
 		console.log(data.result.picture)
 		_page.append('<img src="'+data.result.picture+'"/>')
+	});
+
+	$.ajax({
+		url: 'http://5.196.228.146/elgg-1.10.4/services/api/rest/json/?method=foowd.user.friendsOf&guid=54',
+		type: 'GET',
+		success: function(data){
+			console.log(data)
+		},
+		error: function(a, b, c){
+			console.log(a)
+			console.log(b)
+			console.log(c)
+			alert(a.responseText)
+		}
 	})
+
+
+
 	// $.when(serv.getFriendsOf()).then(function(data){
 	// 	// alert('done')
 	// 	console.log(data)
@@ -62,6 +121,31 @@ require(['foowdServices', 'jquery'], function(serv, $){
 	// })
 });
 
+</script>
+
+
+<?php
+//////////////////////////////////////////////////////////////////////
+/// Test document ready
+?>
+<script type="text/javascript">
+	require(['jquery'], function($){
+		$ = require('jquery');
+
+		// var pro = $.Deferred(function() { $(this.resolve); }).promise();
+
+		// setTimeout(function(){
+		// 	pro.then(function(){alert(document.readyState)})
+		// }, 10000)
+		// setTimeout(function(){
+		// 	// viene triggerata quando lo stato passa a complete
+		// 	console.log('onready');
+		// 	$(document).on('ready',function(){ alert(document.readyState);});
+		// 	// viene triggerata in ogni caso, come una promise
+		// 	console.log('ready');
+		// 	$(document).ready(function(){ alert(document.readyState);});
+		// },10000);
+	});
 </script>
 
 

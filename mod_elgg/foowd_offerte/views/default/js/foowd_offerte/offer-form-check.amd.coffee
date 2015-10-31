@@ -142,11 +142,14 @@
             re = new RegExp(/^\d{1,5}(\.\d{0,3})?$/)
             Max = @el.val().trim()
 
-            if Max is '' then return true
-
             Min = $("[name*=Minqt]").val().trim()
             if Min is ''
                 @msg = 'Devi prima inserire la quantit&agrave; minima'
+                @el.val('')
+                return false
+
+            if Max is ''
+                @msg = 'Devi prima inserire la quantit&agrave; Massima ( 0 se non vuoi impostare un massimo)'
                 @el.val('')
                 return false
 
@@ -155,6 +158,10 @@
                 return false
 
             # console.log "#{Min} e #{Max}"
+
+            if parseFloat(Max) == 0
+                return true
+
             if parseFloat(Min) > parseFloat(Max)
                 @msg = 'foowd:' +@key.toLowerCase()+':error:larger' 
                 return false
@@ -333,7 +340,10 @@
     $('form').unbind();
 
     $('form').on 'submit', (e)->
-        prepareInput(desc)
+
+        if prepareInput?
+            prepareInput(desc)
+
         # e.preventDefault()
         if not fac.checkAll() 
              e.preventDefault()

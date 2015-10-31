@@ -55,7 +55,7 @@ class FoowdCron{
 	 * @param  [type] $params [description]
 	 * @return [type]         [description]
 	 */
-	public static function fifteenminCollection($hook, $type, $return, $params){
+	public static function halfhourCollection($hook, $type, $return, $params){
 		// controllo lo stato degli ordini per l'invio, in questo caso dopo 15 minuti
 		$solve = new \Uoowd\FoowdPurchase();
 		$solve->check();

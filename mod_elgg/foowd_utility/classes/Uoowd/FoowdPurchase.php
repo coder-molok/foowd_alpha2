@@ -26,8 +26,9 @@ class FoowdPurchase{
 			$deltaT = $now->diff($t);
 			$deltaT->seconds = $now->getTimestamp() - $t->getTimestamp();
 			
-			// $trigger = 24 * 60 * 60;
-			$trigger = 10 * 60 ;
+			// delta t
+			$trigger = 24 * 60 * 60; // 24 h
+			// $trigger = 10 * 60 ; // 10 min
 
 			// non e' ancora passato abbastanza tempo
 			if($trigger > $deltaT->seconds) continue;

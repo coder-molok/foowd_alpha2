@@ -161,6 +161,13 @@ function AMD(){
 	]);
 
 
+	/* by SS */
+	elgg_define_js('Modernizr', [
+	    'src' => '/mod/foowd_theme/vendor/modernizr/modernizr.js',
+	    'exports' => 'Modernizr'
+	]);
+
+
 }
 
 // -------------------- Da qui in poi sono tutte modifiche apportate da Simone Scardoni
@@ -215,7 +222,7 @@ function foowd_theme_elgg_manage(){
 
 	//---- Sidebar
 	// rimuovo menu extras: quello coi simboli dei feed
-	elgg_register_plugin_hook_handler('register', 'menu:extras', function(){ return '' ;} );
+	elgg_register_plugin_hook_handler('register', 'menu:extras', function(){ return array();} );
 
 	// elgg_register_plugin_hook_handler('register', 'menu:page', function(){ return '' ; } );
 	

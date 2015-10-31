@@ -244,14 +244,16 @@ class ApiUser extends \Foowd\FApi{
 		 * 
 	 	 * @apiDescription Trova le offerte comuni a un gruppo di utenti. 
 		 * 
-		 * @apiParam {String} 		type 		metodo da chiamare (commonOffers)
-		 * @apiParam {Integer}  	ExternalId 	gruppo di Id (separati da virgola) dei quali si vogliono trovare le offerte comuni e non
+		 * @apiParam {String} 		type 			metodo da chiamare (commonOffers)
+		 * @apiParam {Integer}  	ExternalId 		gruppo di Id (separati da virgola) dei quali si vogliono trovare le offerte comuni e non
+		 * @apiParam {String}    	prefersState 	Filtro preferenze per stato, o lista di stati separati da virgola. Puo' anche essere usato "editable" per sottintendere "newest, pending"
 		 * 
 	 	 * 
 		 * @apiParamExample {json} Request-Example:
 		 *  {
 		 *   "type":"create",
-		 *   "ExternalId":"54,63"
+		 *   "ExternalId":"54,63",
+		 *   "prefersState":"editable"
 		 *  }
 		 *
 		 *
@@ -270,6 +272,15 @@ class ApiUser extends \Foowd\FApi{
 			// apidId
 			$apiUsers = array_map( function($u){return $this->ExtToId($u); } , explode(',', $data->ExternalId) );
 			$elggUsers = explode(',', $data->ExternalId);
+
+			if(isset($data->prefersState)){
+				$s = $data->prefersState;
+				if($s === 'editable'){
+					$prefState = array('pending', 'newest');
+				}else{
+					$prefState = explode(',', $s );
+				}
+			}
 
 			$offers = array();
 
@@ -293,17 +304,21 @@ class ApiUser extends \Foowd\FApi{
 
 				// ora aggiungo un array contenente solo la lista degli utenti che matchano con le preferenze
 				// NB: la lista e' gia' con ExternalId (elggId)
+				$ar['friends'] = array();
 				foreach($of->getPrefers() as $p){
-					$friends[] = /*$this->IdToExt(*/ $p->getUserId() /*)*/;
+					// $friends[] = /*$this->IdToExt(*/ $p->getUserId() /*)*/;
+					$pid = $p->getId();
+					$puid = $p->getUserId();
+					if( ! in_array($puid, $apiUsers ) ) continue;
+					if(isset($prefState) && !in_array($p->getState(),$prefState)) continue;
+					$p = $p->toArray();
+					$p['UserId'] = $this->IdToExt($p['UserId']);
+					$ar['friends'][] = $p;
 				}
-				// ritorno solo quelli che matchano
-				$common = array_intersect($friends, $apiUsers);
-				// ora ottengo per ciascuno la specifica prefrenza, e poi la incollo
-				foreach($common as $v ){
-					$pref = \PreferQuery::Create()->filterByOfferId($oId)->filterByUserId($v)->findOne()->toArray();
-					$pref['UserId'] = $this->IdToExt($pref['UserId']);
-					$ar['friends'][] = $pref;
-				}
+
+				// nel caso non vi siano preferenze, cosa che data la query iniziale non dovrebbe avvenire
+				if(count($ar) <=0 ) continue;
+
 				$offers[$oId] = $ar;
 			}
 

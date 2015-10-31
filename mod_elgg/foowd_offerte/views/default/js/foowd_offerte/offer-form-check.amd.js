@@ -140,18 +140,23 @@
         var Max, Min, re;
         re = new RegExp(/^\d{1,5}(\.\d{0,3})?$/);
         Max = this.el.val().trim();
-        if (Max === '') {
-          return true;
-        }
         Min = $("[name*=Minqt]").val().trim();
         if (Min === '') {
           this.msg = 'Devi prima inserire la quantit&agrave; minima';
           this.el.val('');
           return false;
         }
+        if (Max === '') {
+          this.msg = 'Devi prima inserire la quantit&agrave; Massima ( 0 se non vuoi impostare un massimo)';
+          this.el.val('');
+          return false;
+        }
         if (!re.test(Max)) {
           this.msg = 'foowd:' + this.key.toLowerCase() + ':error';
           return false;
+        }
+        if (parseFloat(Max) === 0) {
+          return true;
         }
         if (parseFloat(Min) > parseFloat(Max)) {
           this.msg = 'foowd:' + this.key.toLowerCase() + ':error:larger';
@@ -326,7 +331,9 @@
     fac = new InputFactory();
     $('form').unbind();
     return $('form').on('submit', function(e) {
-      prepareInput(desc);
+      if (typeof prepareInput !== "undefined" && prepareInput !== null) {
+        prepareInput(desc);
+      }
       if (!fac.checkAll()) {
         e.preventDefault();
         alert('Devi finire di compilare dei campi');

@@ -79,7 +79,7 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiUse MyResponseOffer
 	 *     
 	 */	
-	public $needle_create = "Name, Description, Price, Minqt, Publisher, Tag";
+	public $needle_create = "Name, Description, Price, Minqt, Maxqt, Publisher, Tag";
 	public function create($data){
 
 		$offer = new \Offer();
@@ -127,7 +127,7 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiUse MyResponseOffer
 	 *     
 	 */
-	public $needle_update = "Name, Description, Price, Minqt, Publisher, Tag";
+	public $needle_update = "Name, Description, Price, Minqt, Maxqt, Publisher, Tag";
 	protected function update($data){
 
 		$this->Ext2Id($data);
@@ -705,7 +705,7 @@ class ApiOffer extends \Foowd\FApi{
 		// faccio un controllo sulle quantita' prima del salvataggio: 
 		// la minima non deve superare la massima
 		$maxQt = $obj->getMaxqt();
-		if(!is_null($maxQt)){
+		if(!is_null($maxQt) && $maxQt != 0){
 			$minQt = $obj->getMinqt();
 			if($minQt > $maxQt){
 				$Json['response']= false;

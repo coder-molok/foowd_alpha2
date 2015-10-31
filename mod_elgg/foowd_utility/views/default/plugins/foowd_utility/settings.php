@@ -244,7 +244,7 @@ echo elgg_view("input/checkbox", array(
 
 <p>
   <?php 
-    echo '<h3>Debug LEVEL: </h3><br/>'; 
+    echo '<h3>Log LEVEL: </h3><br/>'; 
     echo 'Valore Attuale: '. $value ; 
     echo elgg_view('input/select',array(
       'name' => 'params[LEVEL]',
