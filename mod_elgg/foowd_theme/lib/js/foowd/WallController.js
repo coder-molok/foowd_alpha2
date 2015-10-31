@@ -17,6 +17,7 @@ define(function(require){
 		*/
 		var wallId = "#wall";
 		var searchBox = "#searchText";
+		var group = false;
 		var postProgressBarClass = ".mini-progress";
 		
 		var preference = {
@@ -52,13 +53,14 @@ define(function(require){
 			searchProducts();
 		}
 		
+	    
 		
-		function searchProducts(search,group){
+		function searchProducts(){
 			var userId = utils.getUserId();
 			if(userId!=null && group){
-				_getWallProductsGroup(userId,search);
+				_getWallProductsGroup(userId,_getSearchText());
 			}else{
-				_getWallProducts(userId,search);
+				_getWallProducts(userId,_getSearchText());
 			}
 			
 		}
@@ -148,14 +150,11 @@ define(function(require){
 		}
 
 	   /*
-		* Ricerca dei prodotti in base alla chiave testuale
+		* Funzione esportata
 		*/
-		function _searchProducts(e){
+		function searchProductsKey(e){
 			if(e.keyCode == 13){
-				var textSearch = _getSearchText();
-				var userId = utils.getUserId();
-				
-				searchProducts(textSearch,false);
+				searchProducts();
 /*
 				API.getProducts(userId, textSearch).then(function(data){
 					//parso il JSON dei dati ricevuti
@@ -190,7 +189,7 @@ define(function(require){
 				//richiamo l'API per settare la preferenza
 				API.addPreference(preference).then(function(data){
 					//TODO metterci search
-					searchProducts(_getSearchText());
+					searchProducts();
 					$(document).trigger('preferenceAdded');
 				}, function(error){
 					$(document).trigger('preferenceError');
@@ -253,6 +252,13 @@ define(function(require){
 			} );
 		}
 
+
+		function toggleGroup(){
+			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
+			group=!group;
+		}
+
+
 	   /*
 		* GESTIONE EVENTI ------------------------------------------------------------------------
 		*/
@@ -284,14 +290,15 @@ define(function(require){
 		});
 	   /* Export---------------- */
 	   	window.addPreference = _addPreference;
-	   	window.searchProducts = _searchProducts;
+	   	window.searchProductsKey = searchProductsKey;
+	   	window.toggleGroup = toggleGroup;
 	   /*
 		* METODI PUBBLICI ------------------------------------------------------------------------
 		*/
 
 		return{
 			init           : _stateCheck,
-			searchProducts : _searchProducts,
+			searchProductsKey : searchProductsKey,
 			addPreference  : addPreference,
 		};
 
