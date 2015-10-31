@@ -14,9 +14,9 @@ templates['navbar'] = template({"1":function(container,depth0,helpers,partials,d
 
   return "  <div class=\"navbar-section\" id = \"logo\">\n      <div class=\"foowd-brand\">\n       <span onClick=\"utils.goTo('')\">foowd_</span>\n"
     + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.search : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "      </div>\n  </div>\n  <div class = \"navbar-section\" id=\"user-menu-section\">\n      <div id = \"user-menu\">\n          <span onClick=\"utils.goTo('board')\" \n                class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link\">\n          </span>\n          <span onClick = \"utils.goTo('panel')\"\n                class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link\">\n          </span>\n          <span id=\"trigger-overlay\" \n                class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link\">\n          </span>\n      </div>\n  </div>\n";
+    + "      </div>\n  </div>\n  <div class = \"navbar-section\" id=\"user-menu-section\">\n      <div id = \"user-menu\">\n      \n      	 <span id=\"groupBtn\" onClick=\"window.toggleGroup()\" \n                class=\"foowd-icons  foowd-icon-user fw-menu-icon preferences-link\">\n          </span>\n          <span onClick=\"utils.goTo('board')\" \n                class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link\">\n          </span>\n          <span onClick = \"utils.goTo('panel')\"\n                class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link\">\n          </span>\n          <span id=\"trigger-overlay\" \n                class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link\">\n          </span>\n      </div>\n  </div>\n";
 },"4":function(container,depth0,helpers,partials,data) {
-    return "        <input type=\"text\" id=\"searchText\" onkeypress=\"window.searchProducts(event)\">\n";
+    return "        <input type=\"text\" id=\"searchText\" onkeypress=\"window.searchProductsKey(event)\">\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 

@@ -17,6 +17,7 @@ define(function(require){
 		*/
 		var wallId = "#wall";
 		var searchBox = "#searchText";
+		var group = false;
 		var postProgressBarClass = ".mini-progress";
 		
 		var preference = {
@@ -49,24 +50,53 @@ define(function(require){
 			//carico l'header 
 			Navbar.loadNavbar(true);
 			//carico il wall con i template
-			_getWallProducts();
+			searchProducts();
 		}
+		
+	    
+		
+		function searchProducts(){
+			var userId = utils.getUserId();
+			if(userId!=null && group){
+				_getWallProductsGroup(userId,_getSearchText());
+			}else{
+				_getWallProducts(userId,_getSearchText());
+			}
+			
+		}
+		
 		
 		/*
 		 * Funzione che riempie il wall con i prododtti del database
 		 */
-		function _getWallProducts(){
-			var userId = utils.getUserId();
-			API.getProducts(userId).then(function(data){
+		function _getWallProducts(userId,search){
+			API.getProducts(userId,search).then(function(data){
 				//parso il JSON dei dati ricevuti
 				var rawProducts = data.body;
 				//utilizo il template sui dati che ho ottenuto
-				var parsedProducts = _applyProductContext(rawProducts);
-				//riempio il wall con i prodotti 
-				_fillWall(parsedProducts);
-				$(document).trigger('wall-products-loaded');
+					if(rawProducts.length > 0){
+						//utilizo il template sui dati che ho ottenuto
+						var parsedProducts = _applyProductContext(rawProducts);
+						//riempio il wall con i prodotti 
+						_fillWall(parsedProducts);
+						$(document).trigger('wall-products-loaded');
+					}else{
+						$(document).trigger('failedSearch');
+					}
 			},function(error){
 				console.log(error);
+			});
+		}
+		
+		function _getWallProductsGroup(userId,search){
+			API.getFriend(userId).then(function(data){
+				var friendsStr='';
+				if(data.result && data.result.friends){
+					 friendsStr = data.result.friends.join();
+				}
+				_getWallProducts(userId+','+friendsStr,search);
+			},function(error){
+					console.log(error);
 			});
 		}
 
@@ -85,10 +115,17 @@ define(function(require){
 				//in questo caso specificando sempre l'ExternaId nella richiesta quindi mi ritornerà 
 				//sempre un solo utente. Per comodità converto l'array contenente il singolo utente
 				//in un oggetto con i dati dell'utente
-				if(el.logged){
-					el.prefer = utils.singleElToObj(el.prefer)
-				}
+				// if(el.logged){
+					// el.prefer = utils.singleElToObj(el.prefer)
+				// }
+				var totalPrefer=0;
+				if(el.prefer){
+					for(var i=0;i<el.prefer.length;i++){
+						totalPrefer+=el.prefer[i].Qt;
+					}
 
+				}
+				el.totalPrefer=totalPrefer;
 				result += templates.productPost(el);
 
 			});
@@ -113,12 +150,12 @@ define(function(require){
 		}
 
 	   /*
-		* Ricerca dei prodotti in base alla chiave testuale
+		* Funzione esportata
 		*/
-		function _searchProducts(e){
+		function searchProductsKey(e){
 			if(e.keyCode == 13){
-				var textSearch = _getSearchText();
-				var userId = utils.getUserId();
+				searchProducts();
+/*
 				API.getProducts(userId, textSearch).then(function(data){
 					//parso il JSON dei dati ricevuti
 					var rawProducts = data;
@@ -135,7 +172,8 @@ define(function(require){
 
 				},function(error){
 					console.log(error);
-				});
+				});*/
+// 
 			}
 		}
 
@@ -150,7 +188,8 @@ define(function(require){
 				preference.Qt = qt;
 				//richiamo l'API per settare la preferenza
 				API.addPreference(preference).then(function(data){
-					_getWallProducts();
+					//TODO metterci search
+					searchProducts();
 					$(document).trigger('preferenceAdded');
 				}, function(error){
 					$(document).trigger('preferenceError');
@@ -213,6 +252,13 @@ define(function(require){
 			} );
 		}
 
+
+		function toggleGroup(){
+			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
+			group=!group;
+		}
+
+
 	   /*
 		* GESTIONE EVENTI ------------------------------------------------------------------------
 		*/
@@ -244,14 +290,15 @@ define(function(require){
 		});
 	   /* Export---------------- */
 	   	window.addPreference = _addPreference;
-	   	window.searchProducts = _searchProducts;
+	   	window.searchProductsKey = searchProductsKey;
+	   	window.toggleGroup = toggleGroup;
 	   /*
 		* METODI PUBBLICI ------------------------------------------------------------------------
 		*/
 
 		return{
 			init           : _stateCheck,
-			searchProducts : _searchProducts,
+			searchProductsKey : searchProductsKey,
 			addPreference  : addPreference,
 		};
 

@@ -24,12 +24,16 @@
       <div class="foowd-brand">
        <span onClick="utils.goTo('')">foowd_</span>
        {{#if search}}
-        <input type="text" id="searchText" onkeypress="window.searchProducts(event)">
+        <input type="text" id="searchText" onkeypress="window.searchProductsKey(event)">
        {{/if}}
       </div>
   </div>
   <div class = "navbar-section" id="user-menu-section">
       <div id = "user-menu">
+      
+      	 <span id="groupBtn" onClick="window.toggleGroup()" 
+                class="foowd-icons  foowd-icon-user fw-menu-icon preferences-link">
+          </span>
           <span onClick="utils.goTo('board')" 
                 class="foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link">
           </span>

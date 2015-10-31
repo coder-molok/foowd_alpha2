@@ -25,12 +25,12 @@ define(function(require){
               search : "user?type=search",
           };
        		//imposto l'url di base delle mie chiamate
-       		function setUrl(url){
-       			baseUrl = url;
-       		}      
+       		// function setUrl(url){
+       			// baseUrl = url;
+       		// }      
        		//ritorno il modulo
         	return{
-        		setBaseUrl : setUrl,
+        		// setBaseUrl : setUrl,
         		/*
         		 * Funzione che ritorna tutti i dati relativi ad un singolo prodotto.
              *
@@ -89,6 +89,28 @@ define(function(require){
                     url : baseUrl + offers.prefer,
                     contentType : "application/json; charset=utf-8",
                     data : JSON.stringify(preference),
+                    dataType : "json",
+                    success : function(data, status, jqXHR) {
+                       deferred.resolve(data);
+                    },
+                    error : function(jqXHR, status) {
+                       console.log("error: "+status);
+                    }
+                 });
+
+                 return deferred.promise();
+
+        	  },
+        	  
+        	  /*
+               * Funzione che imposta una preferenza su un prodotto.
+               */
+        	  getFriend : function(userId) {
+                 var deferred = $.Deferred();
+                 $.ajax({
+                    type : "GET",
+                    url : siteUrl + "/services/api/rest/json/method?method=foowd.user.friendsOf&guid="+userId,
+                    contentType : "application/json; charset=utf-8",
                     dataType : "json",
                     success : function(data, status, jqXHR) {
                        deferred.resolve(data);
