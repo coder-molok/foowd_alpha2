@@ -30,24 +30,26 @@ elgg_ws_expose_function("foowd.user.friendsOf",
 			"guid" => array(
 				'type' => 'string',
 				'required' => true,
-				'description' => 'Name of the person to be greeted by the API',
+				'description' => 'Guid dell`utente per sui si vuole lista amici',
 				)),
 		 'Dato un id utente ritorno la lista dei sui amici',
-		 'POST',
+		 'GET',
 		 false,
 		 false
 		);
 
 function foowd_friendsOf($guid){
 	// in primis controllo che l'utente che svolge la richiesta sia loggato
-	$user = elgg_get_logged_in_user_entity();
+//	$user = elgg_get_logged_in_user_entity();
 	$j['response'] = false;
 	$j['userId'] = $guid;
 
+/*
 	if(!$user){
 		$j['msg'] = 'Questa richiesta puo\' avvenire solo dal sito e mentre sei loggato';
 		return $j;
-	}
+	}*/
+
 
 	// ora controllo se l'id e' associata ad un utente esistente
 	$user = get_user($guid);

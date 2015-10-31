@@ -49,24 +49,52 @@ define(function(require){
 			//carico l'header 
 			Navbar.loadNavbar(true);
 			//carico il wall con i template
-			_getWallProducts();
+			searchProducts();
 		}
+		
+		
+		function searchProducts(search,group){
+			var userId = utils.getUserId();
+			if(userId!=null && group){
+				_getWallProductsGroup(userId,search);
+			}else{
+				_getWallProducts(userId,search);
+			}
+			
+		}
+		
 		
 		/*
 		 * Funzione che riempie il wall con i prododtti del database
 		 */
-		function _getWallProducts(){
-			var userId = utils.getUserId();
-			API.getProducts(userId).then(function(data){
+		function _getWallProducts(userId,search){
+			API.getProducts(userId,search).then(function(data){
 				//parso il JSON dei dati ricevuti
 				var rawProducts = data.body;
 				//utilizo il template sui dati che ho ottenuto
-				var parsedProducts = _applyProductContext(rawProducts);
-				//riempio il wall con i prodotti 
-				_fillWall(parsedProducts);
-				$(document).trigger('wall-products-loaded');
+					if(rawProducts.length > 0){
+						//utilizo il template sui dati che ho ottenuto
+						var parsedProducts = _applyProductContext(rawProducts);
+						//riempio il wall con i prodotti 
+						_fillWall(parsedProducts);
+						$(document).trigger('wall-products-loaded');
+					}else{
+						$(document).trigger('failedSearch');
+					}
 			},function(error){
 				console.log(error);
+			});
+		}
+		
+		function _getWallProductsGroup(userId,search){
+			API.getFriend(userId).then(function(data){
+				var friendsStr='';
+				if(data.result && data.result.friends){
+					 friendsStr = data.result.friends.join();
+				}
+				_getWallProducts(userId+','+friendsStr,search);
+			},function(error){
+					console.log(error);
 			});
 		}
 
@@ -85,10 +113,17 @@ define(function(require){
 				//in questo caso specificando sempre l'ExternaId nella richiesta quindi mi ritornerà 
 				//sempre un solo utente. Per comodità converto l'array contenente il singolo utente
 				//in un oggetto con i dati dell'utente
-				if(el.logged){
-					el.prefer = utils.singleElToObj(el.prefer)
-				}
+				// if(el.logged){
+					// el.prefer = utils.singleElToObj(el.prefer)
+				// }
+				var totalPrefer=0;
+				if(el.prefer){
+					for(var i=0;i<el.prefer.length;i++){
+						totalPrefer+=el.prefer[i].Qt;
+					}
 
+				}
+				el.totalPrefer=totalPrefer;
 				result += templates.productPost(el);
 
 			});
@@ -119,6 +154,9 @@ define(function(require){
 			if(e.keyCode == 13){
 				var textSearch = _getSearchText();
 				var userId = utils.getUserId();
+				
+				searchProducts(textSearch,false);
+/*
 				API.getProducts(userId, textSearch).then(function(data){
 					//parso il JSON dei dati ricevuti
 					var rawProducts = data;
@@ -135,7 +173,8 @@ define(function(require){
 
 				},function(error){
 					console.log(error);
-				});
+				});*/
+// 
 			}
 		}
 
@@ -150,7 +189,8 @@ define(function(require){
 				preference.Qt = qt;
 				//richiamo l'API per settare la preferenza
 				API.addPreference(preference).then(function(data){
-					_getWallProducts();
+					//TODO metterci search
+					searchProducts(_getSearchText());
 					$(document).trigger('preferenceAdded');
 				}, function(error){
 					$(document).trigger('preferenceError');
