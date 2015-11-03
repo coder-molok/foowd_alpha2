@@ -58,8 +58,6 @@ class ApiPrefer extends \Foowd\FApi{
 		// recupero l'id dell'utente: solo uno!
 		$UserId = \UserQuery::Create()->filterByExternalId($data->ExternalId)->findOne();
 
-
-
 		if(!$UserId){
 			$Json['errors']['ExternalId']="ExternalId not match nothing";
 			$Json['response'] = false;
@@ -76,6 +74,7 @@ class ApiPrefer extends \Foowd\FApi{
 				->filterByUserId($UserId)
 				->find();
 
+
 		// foreach($UserId as $);
 		// var_dump($prefer);
 		
@@ -91,10 +90,11 @@ class ApiPrefer extends \Foowd\FApi{
 		if(count($editablePref) === 1) $prefer = $editablePref[0];
 
 		// TODO: eventualmente aggiungere un controllo per essere certi che non vi siano piu offerte in stato pending o newest
-		
+
 		if($prefer){
 
 			$value = $prefer->getQt() + $data->Qt;
+
 			if($value <= 0 ){
 				$value = 0;
 				//$Json['errors']['Qt'] = "Raggiunta la soglia minima dello zero";
@@ -102,6 +102,10 @@ class ApiPrefer extends \Foowd\FApi{
 				$Json['response'] = true;
 				$Json['msg'] = "Preferenza Eliminata";
 				return $Json;
+			}elseif($value > $prefer->getOffer()->getMaxqt() && $prefer->getOffer()->getMaxqt() != 0 ){
+				// $value = $prefer->getOffer()->getMaxqt();
+				$Json['warings']['Maxqt'] = "La Qt della singola preferenza non puo' superare la Maxqt dell'offerta";
+				// $value = $prefer->getOffer()->getMaxqt();
 			}
 			$prefer->setQt( $value );
 		}else{
@@ -117,11 +121,17 @@ class ApiPrefer extends \Foowd\FApi{
 			$of = \OfferQuery::Create()->filterById($data->OfferId)->findOne();
 			if(!$of) $Json['errors']['OfferId']="L' ID non combiacia con alcuna offerta";
 
+
 			if(isset($Json)){
 				$Json['response'] = false;
 				return $Json;
 			}
 			
+			if($data->Qt > $of->getMaxqt() && $of->getMaxqt() != 0){
+				// $data->Qt = $of->getMaxqt();
+				$Json['warnings']['Maxqt'] = "La Qt della singola preferenza non puo' superare la Maxqt dell'offerta";
+				return;
+			}
 
 			$prefer = new \prefer();
 

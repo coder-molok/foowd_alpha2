@@ -41,10 +41,10 @@ class API{
 			// elimino gli spazi inutili
 			$value = trim($value);
 			// se e' vuoto, evito di mandarlo
-			if(empty($value)) continue;
+			// if(empty($value)) continue;
 			// modifico automaticamente le virgole in punti, 
 			// in modo da passare il corretto formato per salvataggio mysql.
-			if(in_array($field, $numeric)) $value = preg_replace('@,@', '.', $value);			
+			// if(in_array($field, $numeric)) $value = preg_replace('@,@', '.', $value);			
 			$ar[$field] = $value;
 		}
 

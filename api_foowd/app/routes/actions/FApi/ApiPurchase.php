@@ -116,6 +116,8 @@ class ApiPurchase extends \Foowd\FApi{
 			$prefs[] = $p;
 		}
 
+		$this->app->getLog()->warning($offer->toJson());
+
 		if( count($prlist) > 0 ){
 			$j['errors']['prefersList'] = "prefersList : gli id {".implode($prlist, ',')."} non corrispondono a preferenze salvate o editabili";
 		}elseif($prCount !== $prefers->count()){
@@ -124,6 +126,8 @@ class ApiPurchase extends \Foowd\FApi{
 			$j['errors']['prefersList'] = "prefersList : la lista conta di $prCount elementi, mentre la ricerca mysql ne ha prodotti $num. Elementi non processabili: {".implode($prlist, ',')."}";
 		}elseif($totalQt <= 0){
 			$j['errors']['totalQt'] = "Errore nella quantita' totale conteggiata nelle preferenze. Risulta essere $totalQt";
+		}elseif($totalQt > $offer->getMaxqt() && $offer->getMaxqt() > 0 ){ // se maxqt = 0 allora si presume illimitata
+			$j['errors']['totalQt'] = "Errore nella quantita' totale conteggiata nelle preferenze. Risulta essere $totalQt, mentre la massima ordinabile e' ". $offer->getMaxqt();
 		}
 
 		if(isset($j['errors'])){

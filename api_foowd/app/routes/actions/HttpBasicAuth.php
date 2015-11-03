@@ -37,6 +37,11 @@ class HttpBasicAuth extends \Slim\Middleware {
     public function __construct($PKey = 'KFOOWD'){
         $this->prkey = $PKey;
     }
+
+    /**
+     * Controlla autenticazione curando:
+     * - A replay attack (also known as playback attack)
+     */
  
     public function authenticate() {
         $errors['check'] = false;
@@ -55,6 +60,8 @@ class HttpBasicAuth extends \Slim\Middleware {
             // differenza in secondi:
             //var_dump($date_utc->diff($received));
             // se passano piu' di cinque minuti da quando la richiesta e' stata emessa, a quando mi giunge, la giudico inattendibile
+            // NB: 5 minuti sono troppi, lo sto usando solo di esempio
+            // NB2: filtrare successive chiamate tramite elgg per garantire rapidita' nell'invio, essendo le chiamate in localhost
             $elapsed = $date_utc->format('U') - $received->format('U');
             if($elapsed < 0 || $elapsed>360){
                 $errors['elapsed'] = "E' passato troppo tempo dall'ultima richiesta: piu' di 5 minuti";
@@ -96,3 +103,9 @@ class HttpBasicAuth extends \Slim\Middleware {
         $this->next->call();
     }
 }
+
+
+// Letture di spunto per slim framework
+// http://www.lornajane.net/posts/2013/oauth-middleware-for-slim
+// http://www.sitepoint.com/best-practices-rest-api-scratch-introduction/
+// http://alexbilbie.com/2013/02/securing-your-api-with-oauth-2/

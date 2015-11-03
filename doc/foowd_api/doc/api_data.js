@@ -1072,6 +1072,13 @@ define({ "api": [
             "optional": false,
             "field": "ExternalId",
             "description": "<p>gruppo di Id (separati da virgola) dei quali si vogliono trovare le offerte comuni e non</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "prefersState",
+            "description": "<p>Filtro preferenze per stato, o lista di stati separati da virgola. Puo&#39; anche essere usato &quot;editable&quot; per sottintendere &quot;newest, pending&quot;</p> "
           }
         ],
         "Response": [
@@ -1108,7 +1115,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Request-Example:",
-          "content": "{\n \"type\":\"create\",\n \"ExternalId\":\"54,63\"\n}",
+          "content": "{\n \"type\":\"create\",\n \"ExternalId\":\"54,63\",\n \"prefersState\":\"editable\"\n}",
           "type": "json"
         }
       ]

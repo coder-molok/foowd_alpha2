@@ -36,7 +36,8 @@ namespace Foowd\Action;
 		private $needle = array(
 			"Price",
 			"Tag",
-			"Minqt"
+			"Minqt",
+			"Maxqt"
 		);
 
 		/**
@@ -62,7 +63,7 @@ namespace Foowd\Action;
 			'Price'		=> 'isCash',
 			'Tag'		=> 'isTag',
 			'Minqt'		=> 'isQt',
-			'Maxqt'		=> 'isMax',
+			// 'Maxqt'		=> 'isMax',
 			'Quota'		=> 'isQt',
 			'Expiration'=> 'isDateTime'
 		);

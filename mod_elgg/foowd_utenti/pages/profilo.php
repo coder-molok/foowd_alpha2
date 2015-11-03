@@ -29,14 +29,14 @@ $par['entity']=$user;
 
 $pid = 'foowd_utenti/';
 
-echo '<p class="pll"><h2>Salve '.$user->username.',</h2> scegli cosa vorresti fare:</p>';
+echo '<p class="pll"><h2>Salve '.$user->username.',</h2> scegli cosa fare:</p>';
 ?>
 <div id="box">
 
 <div>
 <?php
-echo '<h3>Modifica Avatar</h3>';
-echo '<p>per aggiungere/modificare il tuo avatar.</p>';
+echo '<h3>Avatar</h3>';
+echo '<p>per inserire o modificare il tuo avatar.</p>';
 echo elgg_view('output/url', array(
 		// associate to the action
 		'href' => $pid.'avatar',
@@ -66,8 +66,8 @@ echo '</div>';
 
 <div>
 <?php
-echo '<h3>DATI</h3>';
-echo '<p>visualizza e modifica le informazioni relative al tuo profilo.</p>';
+echo '<h3>Profilo</h3>';
+echo '<p>visualizza e modifica le impostazioni del profilo (password, email, etc.).</p>';
 echo elgg_view('output/url', array(
 		// associate to the action
 		'href' => $pid.'dati',

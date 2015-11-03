@@ -47,6 +47,7 @@ $entities = elgg_get_entities_from_relationship(array(
     'relationship_guid' => $guid,
 ));
 // array con gli id per trovare i match lato API foowd
+// inserisco l'utente attuale e poi i suoi amici
 $friends = array($guid);
 foreach($entities as $ent) array_push($friends, $ent->guid);
 
@@ -78,6 +79,7 @@ $offers = $r->body->offers;
 // per ogni offerta calcolo il totale delle preferenze (sommo le preferenze mie e dei miei amici)
 // inoltre visualizzo l'immagine dell'offerta e gli avatar degli amici che vi hanno aderito
 foreach($offers as $of){
+	// \Fprint::r($offers);
 
 	$oid = $of->Id;
 	$owner = $of->Publisher;
@@ -122,6 +124,7 @@ foreach($offers as $of){
 			<td>
 		<?php
 		echo "Preferenze espresse dal gruppo $friendsQt, su una quota minima di ".$of->Minqt . '<br/>';
+		echo "Quota Massima ordinabile: " . $of->Maxqt . "<br/>";
 
 		if($purchable) echo "<div class=\"elgg-button elgg-button-submit ordina\">Ordina</div>";
 		?>

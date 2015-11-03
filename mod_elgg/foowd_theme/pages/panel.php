@@ -23,7 +23,7 @@ classi elgg:
 $user = elgg_get_logged_in_user_entity();
 
 
-echo '<p class="pll">Salve '.$user->username.',<br/> scegli cosa vorresti fare:</p>';
+echo '<p class="pll">Salve '.$user->username.',<br/> scegli cosa fare:</p>';
 ?>
 <div id="box">
 
@@ -81,8 +81,8 @@ salto:
 
 <div>
 <?php
-echo '<h3>Vedi Profilo</h3>';
-echo '<p>visualizza e modifica le informazioni relative al tuo profilo.</p>';
+echo '<h3>Profilo</h3>';
+echo '<p>visualizza e modifica le informazioni del profilo.</p>';
 echo elgg_view('output/url', array(
 		// associate to the action
 		'href' => \Uoowd\Param::page()->profile,
@@ -95,8 +95,8 @@ echo elgg_view('output/url', array(
 
 <div>
 <?php
-echo '<h3>Gestisci Amicizie</h3>';
-echo '<p>Per controllare le richieste di amicizia che hai ricevuto, per effettuarne o per eliminare amicizie.</p>';
+echo '<h3>Amicizie</h3>';
+echo '<p>gestisci le richieste di amicizia ricevute o inviate, e i tuoi amici attuali.</p>';
 echo elgg_view('output/url', array(
 		// associate to the action
 		'href' => \Uoowd\Param::page()->friendsManage,

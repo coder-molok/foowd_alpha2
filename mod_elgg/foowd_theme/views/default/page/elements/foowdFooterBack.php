@@ -7,22 +7,21 @@
 <table class="foowd-footer">
 <tr>
 	<td><a href="<?php echo elgg_get_site_url();?>">Home</a></td>
-	<td><a href="<?php echo elgg_get_site_url().'cookie-policy';?>">Cookie-Policy</a></td>
+	<td><a href="http://www.foowd.it/disclaimer.html">Cookie-Policy</a></td>
 </tr>
 </table>
 
 </div>
 
-<script type="text/javascript" src="mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
-
-
 
 
 <script type="text/javascript">
 require([ 
-    'NavbarController',
+    'NavbarController', 'Modernizr'
   ],function(){
-    
+    Modernizr = require('Modernizr');
+    console.log(Modernizr)
+
     require('NavbarController').loadNavbar();
 
 });

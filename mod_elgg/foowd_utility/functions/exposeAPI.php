@@ -3,7 +3,9 @@
 // see https://github.com/markharding/elgg-web-services-deprecated/blob/master/lib/user.php
 
 //  Using $jsonexport to produce json output has been deprecated
-//  
+
+// piccolo tutorial
+// see https://www.marcus-povey.co.uk/2009/08/25/using-elggs-rest-like-api/
 
 function foowd_find_match_first($baseImgs, $match){
     $fileMatch = false;

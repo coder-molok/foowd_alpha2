@@ -118,8 +118,8 @@ abstract class Action {
 			if(!isset($this->{$field}) || $this->{$field}=='') $this->{$field} = $this->sticky->getV($field);
 			
 			if(!isset($this->{$field.'Error'}) || $this->{$field.'Error'}=='') $this->{$field.'Error'} = $this->sticky->getV($field.'Error');
-			
-			$settings = array('name' => $field, 'value' => elgg_echo($this->{$field}) );
+			$setVal = is_string($this->{$field}) ? $this->{$field} : '' ;
+			$settings = array('name' => $field, 'value' => elgg_echo($setVal) );
 			if(isset($extra)) $settings = array_merge($settings,$extra);
 			// var_dump($settings);
 			?>
@@ -334,7 +334,6 @@ abstract class Action {
 		 * @return boolean      [description]
 		 */
 		public function isDateTime($var){
-			error_log('isdatetime');
 			if( preg_match('@^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}@', $var) || $var === '' ){
 				return true;
 			}
