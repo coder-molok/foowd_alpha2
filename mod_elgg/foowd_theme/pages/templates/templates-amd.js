@@ -10,13 +10,17 @@ templates['carouselItem'] = template({"compiler":[7,">= 4.0.0"],"main":function(
 templates['navbar'] = template({"1":function(container,depth0,helpers,partials,data) {
     return "  <div class=\"navbar-section reverse\" id = \"logo\">\n      <div class=\"foowd-brand reverse\">\n       <span onClick=\"utils.goTo('')\">foowd_</span>\n      </div>\n  </div>\n  <div class = \"navbar-section reverse\" id=\"user-menu-section\">\n      <div id = \"user-menu\">\n          <span onClick=\"utils.goTo('board')\" \n                class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link reverse\">\n          </span>\n          <span onClick = \"utils.goTo('panel')\"\n                class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link reverse\">\n          </span>\n          <span id=\"close-overlay\" \n                class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link reverse\">\n          </span>\n      </div>\n  </div>\n";
 },"3":function(container,depth0,helpers,partials,data) {
-    var stack1;
+    var stack1, alias1=depth0 != null ? depth0 : {};
 
   return "  <div class=\"navbar-section\" id = \"logo\">\n      <div class=\"foowd-brand\">\n       <span onClick=\"utils.goTo('')\">foowd_</span>\n"
-    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.search : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "      </div>\n  </div>\n  <div class = \"navbar-section\" id=\"user-menu-section\">\n      <div id = \"user-menu\">\n      \n      	 <span id=\"groupBtn\" onClick=\"window.toggleGroup()\" \n                class=\"foowd-icons  foowd-icon-user fw-menu-icon preferences-link\">\n          </span>\n          <span onClick=\"utils.goTo('board')\" \n                class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link\">\n          </span>\n          <span onClick = \"utils.goTo('panel')\"\n                class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link\">\n          </span>\n          <span id=\"trigger-overlay\" \n                class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link\">\n          </span>\n      </div>\n  </div>\n";
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.search : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "      </div>\n  </div>\n  <div class = \"navbar-section\" id=\"user-menu-section\">\n      <div id = \"user-menu\">\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "          <span onClick=\"utils.goTo('board')\" \n                class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link\">\n          </span>\n          <span onClick = \"utils.goTo('panel')\"\n                class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link\">\n          </span>\n          <span id=\"trigger-overlay\" \n                class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link\">\n          </span>\n      </div>\n  </div>\n";
 },"4":function(container,depth0,helpers,partials,data) {
     return "        <input type=\"text\" id=\"searchText\" onkeypress=\"window.searchProductsKey(event)\">\n";
+},"6":function(container,depth0,helpers,partials,data) {
+    return "	      	 <span id=\"groupBtn\" onClick=\"window.toggleGroup()\" \n	                class=\"foowd-icons  foowd-icon-user fw-menu-icon preferences-link\">\n	          </span>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
@@ -132,14 +136,14 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
     + "\"/>\n    </div>\n</div>\n";
 },"useData":true});
 templates['productPost'] = template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : {}, alias3=helpers.helperMissing;
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "                <span class=\"mini-progress-bar\">\n                    <span class=\"mini-progress\" data-unit=\"1\" data-progress=\""
-    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.prefer : depth0)) != null ? stack1.Qt : stack1), depth0))
+    + alias4(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
     + "\" data-total=\""
-    + alias1(((helper = (helper = helpers.Minqt || (depth0 != null ? depth0.Minqt : depth0)) != null ? helper : alias3),(typeof helper === "function" ? helper.call(alias2,{"name":"Minqt","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.Minqt || (depth0 != null ? depth0.Minqt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Minqt","hash":{},"data":data}) : helper)))
     + "\"></span>\n                </span>  \n                <div class=\"product-post-progress-price\">\n                "
-    + alias1((helpers.math || (depth0 && depth0.math) || alias3).call(alias2,(depth0 != null ? depth0.totalQt : depth0),"*",(depth0 != null ? depth0.Price : depth0),{"name":"math","hash":{},"data":data}))
+    + alias4((helpers.math || (depth0 && depth0.math) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),"*",(depth0 != null ? depth0.Price : depth0),{"name":"math","hash":{},"data":data}))
     + "\n                    <span class=\"apex\">€</span>\n                </div>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;

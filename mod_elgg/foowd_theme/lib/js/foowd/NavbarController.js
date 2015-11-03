@@ -33,6 +33,7 @@ define(function(require){
 		    };
             //carico il template della barra di navigazione
             $(navbarContainer).each(function(i,el){
+            	context.logged= utils.isUserLogged();
             	if(classie.hasClass(el, 'reverse')){
             		if(utils.isValid(context.regular)){
             			delete context.regular;

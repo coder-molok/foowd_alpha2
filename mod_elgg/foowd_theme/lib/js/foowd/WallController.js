@@ -256,6 +256,7 @@ define(function(require){
 		function toggleGroup(){
 			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
 			group=!group;
+			searchProducts();
 		}
 
 
