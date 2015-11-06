@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * action richiamata all'aggiunta di una nuova offerta
+ */
+
 gatekeeper();
 
 $form = \Uoowd\Param::pid().'/add';

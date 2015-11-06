@@ -1,28 +1,58 @@
 /**
  * IN GENERALE
- *
+ * <pre>
  * 		preferisco scambiare gli username come parametri al posto degli id: questo perche' a mio avviso e' piu sicuro trasferire il nome utente,
  * 		che rimane come parametro pubblico, al posto dell'id, anche se di fatto non cambia molto...
+ * </pre>
+ *
+ * 
+ * @module  foowdServices
+ * @requires {@link module:pages}
+ * @requires elgg
+ * @requires jquery
  */
 
 
 define(function(require){
 
 	var foowdService = (function(){
-		// oggetto che ritornera' il modulo
+		/**
+		  * oggetto che ritornera' il modulo.
+		  * 
+		  * @constructor
+		  * @alias module:foowdServices
+		  */
 		var serviceObj = {};
 
 		var page = require('page');
 		var $ = require('jquery');
 		var elgg = require('elgg');
 
-		// variabile privata
-		var servUrl = elgg.get_site_url()+page.services;
-		var elggAPI = elgg.get_site_url()+page.elggAPI;
+		/**
+		 * classe privata statica
+		 * @constructor module:foowdServices._pr
+		 *
+		 * @property {string} 	servUrl		- url pagina di servizi locale
+		 * @property {string}  	elggAPI		- url pagina di Elgg Web Services
+		 * @property {function} userGuid	- ottenere userGuid
+		 * @property {function} userEntity	- ottenere userEntity
+		 */
+		var _pr = {
+			servUrl : elgg.get_site_url()+page.services,
+			/**
+			 * path completo per le API Elgg Web Services
+			 * 
+			 */
+			elggAPI : elgg.get_site_url()+page.elggAPI,
+			/** ottengo l'id dell'utente loggato */
+			userGuid : function(){ return elgg.get_logged_in_user_guid(); },
+			/** ottengo l'entia' dell'utente loggato */
+			userEntity : function(){ return elgg.get_logged_in_user_entity(); },
+			
+		}
+		/** @property {mixed} test ciao */
+		_pr.test = 'lol'
 
-		// recupero utente
-		var userGuid = function(){ return elgg.get_logged_in_user_guid(); }
-		var userEntity = function(){ return elgg.get_logged_in_user_entity(); }
 
 		/**
 		 * Ricordando che le relationship non sono bidirezionali,
@@ -36,7 +66,7 @@ define(function(require){
 			var guid1 = username;
 			var guid2 = elgg.get_logged_in_user_entity().username;
 			var relationship = 'friend';
-			var myUrl = servUrl //+'?subject=' + guid1 + '&verb=' + relationship +'&target=' + guid2
+			var myUrl = _pr.servUrl //+'?subject=' + guid1 + '&verb=' + relationship +'&target=' + guid2
 			var data = {
 				subject: guid1,
 				verb: relationship,
@@ -46,6 +76,11 @@ define(function(require){
 			return $.ajax({ type : 'POST',	url: myUrl,	'data': data });
 		}
 
+		/**
+		 * prende l'attuale url riportando la querystring in forma di oggetto
+		 * @alias module:foowdServices.urlPar
+		 * @private
+		 */
 		var urlPar = (function(){
 			var match,
 			pl     = /\+/g,  // Regex for replacing addition symbol with a space
@@ -90,16 +125,18 @@ define(function(require){
 
 
 		/**
-		 * prende un oggetto e trasforma tutti le poprieta - valori in : &prop=value
+		 * prende un oggetto e trasforma tutte le poprieta:valori in "&prop=value"
+		 * @alias module:foowdServices.getUrl
+		 * @private
 		 */
 		var getUrl = function(obj){
-			var str = elggAPI + obj.method;
+			var str = _pr.elggAPI + obj.method;
 			for(prop in obj.get) str += '&'+prop+'='+obj.get[prop];
 			return str;
 		}
 
 		
-		/* ritorna la chiamata ajax */
+		/** ritorna la chiamata ajax */
 		serviceObj.getPicture = function(obj){
 			data = {'method' : 'foowd.picture.get', 'get': obj }
 			// filtro la risposta in modo che venga ritornata secondo le convenzioni del web service
@@ -112,7 +149,7 @@ define(function(require){
 			});
 		}
 
-		/* ritorna l'url src da inserire nel tag <img> */
+		/** ritorna l'url src da inserire nel tag <img> */
 		serviceObj.getPictureUrl = function(obj){
 			data = {'method' : 'foowd.picture.get', 'get': obj }
 			var obj ={ 'status': 0, 'result': {'picture': getUrl(data)} };
@@ -127,10 +164,13 @@ define(function(require){
 		 *
 		 * 	- nessuno: ottiene i dati dell'utente loggato
 		 * 	- stringa id : ottiene i dati dell'utente di cui id specificato
+		 *
 		 * 
+		 * @param  {mixed} userId  stringa o numero contenente id
+		 * @return {deferred}        deferred
 		 */
 		serviceObj.getFriendsOf =  function( userId ){
-			userId = (typeof userId === 'undefined') ? userGuid() : userId ;
+			userId = (typeof userId === 'undefined') ? _pr.userGuid() : userId ;
 			if(userId){
 				var dt = {'method': 'foowd.user.friendsOf'}
 				var dat = {'guid': userId} ;

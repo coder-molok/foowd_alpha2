@@ -77,10 +77,16 @@
             #vincoli da rispettare
             @inpt .on "focusout mouseout keyup", ( inptOn = ()->
                 if !first
-                    if not that.check()  
-                        that.error()
-                    else 
-                        that.clean()
+                    # aggiungo il controllo in differita di un secondo dall'utlima immissione
+                    # per rendere meno stressante il controllo
+                    clearTimeout(that.timeout);
+                    that.timeout = setTimeout ()->
+                        if not that.check()  
+                            that.error()
+                        else 
+                            that.clean()
+
+                    , 1000
             )
             
             ###

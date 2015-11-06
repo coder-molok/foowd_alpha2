@@ -3,6 +3,8 @@
 // classe di default
 elgg_register_classes(elgg_get_plugins_path().'foowd_utility/classes');
 
+require_once(elgg_get_plugins_path().\Uoowd\Param::pid().'/vendor/autoload.php');
+
 \Uoowd\Param::checkFoowdPlugins();
 
 // carico i namespace composer di questo plugin
@@ -94,16 +96,42 @@ function foowd_utenti_handler($segments){
 
      // test per eventuale login con google+
     if($segments[0] === 'auth'){
+
+        $actualUrl = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+        $siteUrl = \Uoowd\Param::pageIP()->auth .'?' . parse_url($actualUrl,  PHP_URL_QUERY);
+        if($actualUrl !== $siteUrl){
+            \Uoowd\Logger::addError('differenti '.$siteUrl);
+            header('Location: ' . $siteUrl , true, 302);
+            exit;
+        }
+
+
         // include elgg_get_plugins_path() . 'foowd_utenti/pages/auth.php';
         \Uoowd\Logger::addError($segments[0]);
         new \Foowd\SocialLogin();
         return true;
     }
     if($segments[0] === 'indexauth'){
-        define('AUTH',__DIR__.'/vendor/hybridauth/hybridauth/hybridauth/index.php' );
+        $actualUrl = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+        $siteUrl = \Uoowd\Param::pageIP()->indexauth .'?' . parse_url($actualUrl,  PHP_URL_QUERY);
+        if($actualUrl !== $siteUrl){
+            \Uoowd\Logger::addError('differenti '.$siteUrl);
+            header('Location: ' . $siteUrl , true, 302);
+            exit;
+        }
+        define('HAUTH',__DIR__.'/vendor/hybridauth/hybridauth/hybridauth/index.php' );
         // include elgg_get_plugins_path() . 'foowd_utenti/pages/indexauth.php';
         \Uoowd\Logger::addError($segments[0]);
-        require(AUTH); 
+        try{
+            require(HAUTH); 
+        }
+        catch(Exception $e){
+            // \Uoowd\Logger::addError(get_class_methods($e));
+            // \Fprint::r($e);
+            \Uoowd\Logger::addError('errore: '.$e->getMessage() . ' , codice '.$e->getCode());
+            register_error('Siamo Spiacenti, ma l\'accesso mediante social e\' temporaneamente sospeso per manutenzione.');
+            forward(REFERER);
+        }
         // questo require in realta' esegue dei redirect, 
         //pertanto il return sarebbe inutile
         \Uoowd\Logger::addError('dopo require auth');

@@ -1,8 +1,18 @@
 
 <?php
 
-// funzione di comodita', del tutto superflua. 
-// La utilizzo per scrive nell'error log e controllare i dati
+/**
+ * action richiamata quando il leader si prende in carico un ordine
+ */
+
+
+/**
+ * funzione di comodita', del tutto superflua.
+ * La utilizzo per scrive nell'error log e controllare i dati.
+ * 
+ * @param  [type] $str [description]
+ * @return [type]      [description]
+ */
 function pri($str){
 	\Uoowd\Logger::addError($str);
 }

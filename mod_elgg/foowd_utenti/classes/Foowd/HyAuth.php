@@ -1,17 +1,42 @@
 <?php
 
+/**
+ * file di richiamo a HyAuth
+ */
+
 namespace Foowd;
 
-use \Hybrid_Exception as Hybrid_Exception;
+require_once(elgg_get_plugins_path().\Uoowd\Param::pid().'/vendor/autoload.php');
 
+//use \Hybrid_Exception as Hybrid_Exception;
+
+
+/**
+ * Classe per l'implementazione di hybrid_auth
+ */
 class HyAuth{
 
+	/**
+	 * array di url 
+	 * @var $base_urls
+	 */
 	public $base_urls = array();
 
+	/**
+	 * istanza classe HybridAuth
+	 * @var [type]
+	 */
+	public $hybridauth;
+
+	/**
+	 * imposto le configurazioni e se necessario svolge l'autenticazione.
+	 * 
+	 */
 	public function __construct(){
 		// carico le classi
-		require_once(elgg_get_plugins_path().\Uoowd\Param::pid().'/vendor/autoload.php');
-
+		
+		\Uoowd\Logger::addError(__FILE__);
+		
 		$this->setConfig();
 
 		if(isset($_GET['auth'])){
@@ -136,19 +161,24 @@ class HyAuth{
 	}
 
 
-	// set config and create hybrid instance
+	/**
+	 * set config and create hybrid instance
+	 * @param string $redirect (default null) eventuale url di redirect dopo aver ottenuto i token dal provider
+	 */
 	public function setConfig($redirect = null){
 		if(is_null($redirect)){
 			// error_log('redirect nullo');
 			$host = $_SERVER['HTTP_HOST'];
 			$redirect = elgg_get_site_url().'foowd_utenti/indexauth';
-			array_push($this->base_urls, $redirect);
+			if($_GET['provider'] === 'Google') $redirect = \Uoowd\Param::pageDNS()->indexauth;
 			// utilizzo l'ip impostato col servisio no-ip: necessario per testare l'app google
 			// l'app di google richieste di passare il nome di un host, non un indirizzo ip!
-			if(filter_var($host , FILTER_VALIDATE_IP)){ 
-				$redirect = 'http://http-foowd.ddns.net/foowd_utenti/indexauth';
-				array_push($this->base_urls, $redirect);
-			}
+			// if(filter_var($host , FILTER_VALIDATE_IP)){ 
+			// 	// host temporaneo per test
+			// 	$redirect = 'http://foowd.accaso.eu/elgg-1.10.4/foowd_utenti/indexauth';
+			// 	array_push($this->base_urls, $redirect);
+			// }
+			array_push($this->base_urls, $redirect);
 		}
 		// \Uoowd\Logger::addError('redirect : '.$redirect);
 				
