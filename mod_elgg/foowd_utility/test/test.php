@@ -10,20 +10,6 @@
 
 admin_gatekeeper();
 
-echo '<img src="'.elgg_get_site_url().'services/api/rest/json/?method=foowd.picture.get"/>';
-echo elgg_get_site_url().'foowd_utility/picture';
-
-
-echo '<div>File Crontab di test:</div>';
-foreach(new DirectoryIterator(__DIR__) as $it){
-    if($it->isFile()){
-        $name = $it->getFilename();
-        if(preg_match('@.txt@', $name)){
-            // $url = 
-            echo "<div><a href=\"\">$name</a></div>";
-        }
-    }   
-}
 
 $me = elgg_get_logged_in_user_entity();
 
@@ -102,15 +88,28 @@ $user = elgg_get_entities_from_metadata(
 //\Fprint::r($user);
 
 
+$admins =elgg_get_admins();
 
 
-elgg_get_entities(array('types'=>'user','callback'=>'my_get_entity_callback'));
+$users = elgg_get_entities(array('types'=>array('user','admins')) );
+
+$allUsers = array_merge($admins, $users);
+
+foreach ($allUsers as $single) {
+    my_get_entity_callback($single);
+}
+
+
+
+// elgg_get_entities(array('type'=>array('user','admins'),'callback'=>'my_get_entity_callback'));
 function my_get_entity_callback($row)
 
 {
 
     $user = get_entity($row->guid);
     echo '<h1>'.$user->name.'</h1>';
+
+    // \Fprint::r($user);
 
     \Fprint::r($user->fake);
     \Fprint::r($user->guid);
@@ -144,6 +143,10 @@ function my_get_entity_callback($row)
 
 }
 
+
+// molok e' presente in entrambi gli array...
+// probabilmente perche' gli utenti registrati direttamente come admin in qualche modo non sono pienamente rintracciabili come users,
+// mentre quelli registrati normalmente e poi elevati ad admin probabilmente vengono registrati anche come normali utenti.
 
 // public function cleanAndRename(){
 // 	\Uoowd\Logger::addError($this->saveDir);

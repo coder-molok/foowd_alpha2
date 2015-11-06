@@ -1,6 +1,18 @@
 <?php
 
+/**
+ * tricks per gestione offerte
+ */
+
 namespace Foowd\Action;
+
+	/**
+	 * Gestione form offerte.
+	 *
+	 * In particolare vengono implementate la gestione dei dati passati all'action e eventuali errori, ritornati in $_SESSION.
+	 * Attualmente i controlli non risultano particolarmente utili in quanto si e' deciso di utilizzare javascript
+	 * 
+	 */
 
 	class FormAdd extends \Uoowd\Action{
 		
@@ -32,7 +44,10 @@ namespace Foowd\Action;
 
 		);
 
-
+		/**
+		 * array contenente i parametri che saranno obblicatori
+		 * @var array
+		 */
 		private $needle = array(
 			"Price",
 			"Tag",
@@ -68,7 +83,10 @@ namespace Foowd\Action;
 			'Expiration'=> 'isDateTime'
 		);
 
-		
+		/**
+		 * Costruttore che richiama a sua volta il costruttore del parent.
+		 * @param array|null $ar [description]
+		 */
 		public function __construct(array $ar = null){
 			// passo i parametri al padre
 			 parent::__construct(get_object_vars($this), $ar);
@@ -102,6 +120,13 @@ namespace Foowd\Action;
 		// 	}
 		// }
 
+		/**
+		 * Hook chiamato quando viene creato un Tag tramite createField().
+		 * 
+		 * @param  [type] $type  [description]
+		 * @param  [type] $input [description]
+		 * @return [type]        [description]
+		 */
 		public function hookCreateTag($type , $input){
 			// echo '<div '.elgg_format_attributes($input['attributes']).' >';
 			// foreach ($input['inputs'] as $val){

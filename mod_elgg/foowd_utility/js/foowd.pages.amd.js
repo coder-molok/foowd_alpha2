@@ -1,15 +1,18 @@
 /**
+ * 
  * Questo file e' di tipo AMD.
  * In ogni caso sara' letto anche via php mediante il metodo
- *
+ * <pre>
  * 		\Uoowd\Param::page(<nome_pagine>);
- *
+ * </pre>
  * affinche' cio' avvenga e' necessario che:
- * 	
+ * <pre>	
  * 	- il "define(" sia posto all'inizio della riga senza essere seguito da nulla
  * 	- la chiusura del define ");" sia sull'ultima riga del file
- *
+ * </pre>
  * Vedere l'implementazione del metodo sopra citato per eventuali dubbi.
+ *
+ * @module pages
  * 
  */
 define(
@@ -22,6 +25,7 @@ define(
 		"profile": "profile",
 		"foowdStorage": "../FoowdStorage/",	// directory contenente le immagini delle offerte
 		"auth": "foowd_utenti/auth", 		// pagina utilizzata per il login mediante socials
+		"indexauth": "foowd_utenti/indexauth", 		// pagina utilizzata per il login mediante socials
 		"profile":"foowd_utenti/profilo",	// pagina del profilo
 		"panel": "panel", 					// pagina del pannello
 		"friendsManage": "friend_request",	// pagina del plugin friend request

@@ -174,9 +174,52 @@ namespace Uoowd;
 			return $json;
 		}
 
+		/**
+		 * oggetto ottenuto dal plugin javascript foowd.pages.amd.js
+		 * @return object oggetto stdClass (lo stesso del plugin js)
+		 */
 		public static function page(){
 			$file = file(elgg_get_root_path().\Uoowd\Param::pageAMD());
 			return self::JSON_AMD($file);
+		}
+
+		/**
+		 * ritorna un oggetto come page, ma all'indirizzo IP sostituisco i dns
+		 * (e' un giro contorto per testare funzionalita' socials)
+		 * 
+		 * @return objet stdClass con path dns
+		 */
+		public static function pageDNS(){
+			$dns = 'foowd.accaso.eu';
+			// impostato come web redirect a 5.196.228.146/elgg-1.10.4  (no slash finale)
+			// $dns = 'web-foowd.ddns.net';
+			$site = elgg_get_site_url();
+			// sostituisco ip con $dns
+			$site = preg_replace('@(\d{1,3}\.){3,}\d{1,3}@',$dns,$site);
+			$pages = self::page(); 
+			foreach ($pages as $key => $value) {
+				if(is_string($value)){
+					$pages->{$key} = $site . $value;
+				} 
+			}
+			return $pages;
+		}
+
+		/**
+		 * ritorna un oggetto come page e IP 
+		 * 
+		 * @return objet stdClass con path http://IP
+		 */
+		public static function pageIP(){
+			$dns = 'foowd.accaso.eu';
+			$site = elgg_get_site_url();
+			$pages = self::page(); 
+			foreach ($pages as $key => $value) {
+				if(is_string($value)){
+					$pages->{$key} = $site . $value;
+				} 
+			}
+			return $pages;
 		}
 
 		public static function unit(){

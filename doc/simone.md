@@ -1,6 +1,28 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+
+### 06/11/2015
+
+- svolto prove OAuth e inseriti redirect per compatibilita' con Google provider
+
+- visionato documentazione [phpdocumentor](http://www.phpdoc.org/) per php e [usejsdoc](http://usejsdoc.org/) per moduli javascript
+
+
+
+#### 04/11/2015
+
+- lavoro esterno: verificata ownership del redirect di google al link [https://console.developers.google.com/apis/credentials/domainverification](https://console.developers.google.com/apis/credentials/domainverification)
+
+
+
+### 01/11/2015
+
+- risolta iss#154
+
+
+
+
 ### 30/10/2015
 
 - impostato obbligo inserimento quantita' massima (0 in caso non si voglia inserire un tetto)

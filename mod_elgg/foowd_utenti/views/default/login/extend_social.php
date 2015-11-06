@@ -22,7 +22,7 @@ $style .='"';
 
 <ul class="soc foowd-alert-disabled">
     <li><a class="soc-facebook" <?php echo $style; ?> href="<?php echo \Uoowd\Param::page()->auth; ?>?provider=Facebook"></a></li>
-    <li><a class="soc-google soc-icon-last" <?php echo $style; ?> href="<?php echo \Uoowd\Param::page()->auth; ?>?provider=Google"></a></li>
+    <li><a class="soc-google soc-icon-last" <?php echo $style; ?> href="<?php echo \Uoowd\Param::pageDNS()->auth; ?>?provider=Google"></a></li>
 </ul>
 
 

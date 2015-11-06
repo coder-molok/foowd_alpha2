@@ -8,15 +8,30 @@
 	label
 		position: relative
 
+		errorBackground = #B98686
 		[class^=error-]
-			// position: absolute
+			position: absolute
+			top: -4px
 			// top: 0
 			// left: 150px
 			margin-left: 20px
-			color: red
+			padding: 3px 7px
+			background-color: errorBackground
+			color: white //red
 			white-space: nowrap
 			font-style: italic
 			font-size: 0.9em
+		
+			&:before
+				width: 0
+				height: 0
+				border-top: 10px solid transparent
+				border-right: 21px solid errorBackground
+				border-bottom: 10px solid transparent
+				content: ''
+				position: absolute
+				left: -20px
+				top 0px
 
 	#quota-preview
 		// margin: 10px

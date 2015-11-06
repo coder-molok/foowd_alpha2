@@ -46,11 +46,14 @@
         }
         this.inpt.on("focusout mouseout keyup", (inptOn = function() {
           if (!first) {
-            if (!that.check()) {
-              return that.error();
-            } else {
-              return that.clean();
-            }
+            clearTimeout(that.timeout);
+            return that.timeout = setTimeout(function() {
+              if (!that.check()) {
+                return that.error();
+              } else {
+                return that.clean();
+              }
+            }, 1000);
           }
         }));
 

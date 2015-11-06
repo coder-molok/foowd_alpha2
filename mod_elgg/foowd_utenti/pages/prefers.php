@@ -1,8 +1,18 @@
 <?php
 
+/**
+ * pagina di esempio per preferenze my-preferences
+ */
 
-/* classe di supporto: in realta' sarebbe superflua  */
+/**
+ * classe di supporto: in realta' sarebbe superflua
+ */
 class tmpUser {
+	/**
+	 * costruisco un tmpUser
+	 * 
+	 * @param [type] $id [description]
+	 */
 	public function __construct($id){
 		$this->id = $id;
 		$this->entity = get_user($id);
@@ -14,10 +24,19 @@ class tmpUser {
 	}
 }
 
-/* classe di supporto: in realta' sarebbe superflua  */
+/**
+ * classe di supporto: in realta' sarebbe superflua
+ */
 class userFactory{
-
+	/**
+	 * raccolta di tmpUser
+	 * @var array
+	 */
 	public $farm = array();
+	/**
+	 * aggiungo alla farm
+	 * @param [type] $arId [description]
+	 */
 	public function __construct($arId){
 		foreach($arId as $id){
 			$t = new tmpUser($id);

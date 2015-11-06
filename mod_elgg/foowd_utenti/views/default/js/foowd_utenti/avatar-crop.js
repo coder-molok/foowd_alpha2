@@ -334,11 +334,13 @@ function start(){
 
 /**
  * classe che rappresenta la finestra di zoom
+ *
+ * @constructor
  * 
- * @param  {[type]} size      small, medium, etc
- * @param  {[type]} div       il selettore jquery del box di crop
- * @param  {[type]} scale     classe che contiene i parametri delle scale
- * @return {[type]}           [description]
+ * @param  {string} size      small, medium, etc
+ * @param  {object} div       il selettore jquery del box di crop
+ * @param  {object} scale     classe che contiene i parametri delle scale
+ * @return {void}             nothing
  */
 var PrevWindow = function(size ,div, scale){
     // dimensioni immagine di crop

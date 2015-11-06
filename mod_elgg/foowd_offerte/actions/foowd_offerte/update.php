@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * action richiamata alla modifica di una offerta
+ *
+ * @todo implementare controlli su campi modificabili, e giro di email
+ * 
+ */
+
 gatekeeper();
 
 $form = \Uoowd\Param::pid().'/update';

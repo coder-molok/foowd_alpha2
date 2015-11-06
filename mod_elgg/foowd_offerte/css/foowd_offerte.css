@@ -7,11 +7,28 @@ label {
 .elgg-form-foowd-offerte-add [class^=error-],
 .elgg-form-foowd-offerte-update [class^=error-],
 label [class^=error-] {
+  position: absolute;
+  top: -4px;
   margin-left: 20px;
-  color: #f00;
+  padding: 3px 7px;
+  background-color: #b98686;
+  color: #fff;
   white-space: nowrap;
   font-style: italic;
   font-size: 0.9em;
+}
+.elgg-form-foowd-offerte-add [class^=error-]:before,
+.elgg-form-foowd-offerte-update [class^=error-]:before,
+label [class^=error-]:before {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-right: 21px solid #b98686;
+  border-bottom: 10px solid transparent;
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 0px;
 }
 #quota-preview {
   padding: 5px;

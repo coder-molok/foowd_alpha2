@@ -59,6 +59,23 @@ $body .= <<<__BODY
 		<!-- </div> -->
 	</div>
 	<div class="elgg-page-body elgg-main">
+
+		<!-- inserito per compatibilita' tema -->
+		<div class="overlay overlay-hugeinc">
+		  <div class="reverse foowd-navbar">
+		  </div>
+		  <nav>
+		    <ul>
+		      <li><a href="#">Home</a></li>
+		      <li><a href="#">About</a></li>
+		      <li><a href="#">Work</a></li>
+		      <li><a href="#">Clients</a></li>
+		      <li><a href="#">Contact</a></li>
+		    </ul>
+		  </nav>
+		</div>
+
+
 		<div class="elgg-inner">
 			$content
 		</div>

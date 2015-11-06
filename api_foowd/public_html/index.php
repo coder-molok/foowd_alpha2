@@ -15,7 +15,7 @@
 require '../app/vendor/autoload.php';
 
 // richiedo il file di configurazione per poter svolgere le connessioni
-require_once  '../app/data/generated-conf/config.php';
+// require_once  '../app/data/generated-conf/config.php';
 
 // Configuro un logger
 // http://symfony.com/it/doc/current/cookbook/logging/monolog.html

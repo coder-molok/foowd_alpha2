@@ -1,3 +1,14 @@
+<?php
+
+/**
+ * 
+ * Pagina Politica dei.
+ *
+ * E' una mera pagina php.
+ *
+ */
+
+?>
 <!DOCTYPE html>		<html>		<head>		<meta charset="UTF-8">		<title>Site Policy</title>		</head><body><style id="policy-style">
 
   body{

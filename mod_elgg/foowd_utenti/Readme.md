@@ -70,6 +70,7 @@ Per il suo utilizzo e' necessario andare nella directory del plugin `foowd_utili
 
 ````
 $ composer install
+$ composer dump-autoload --optimize
 ````
 
 ### Configurazioni
@@ -101,6 +102,53 @@ Per ciascun social e' necessario creare una rispettiva app in modo da ottenere u
 - nel caso si volesse rimuovere la propria sottoscrizione all'app (ad esempio per test vari), e' sufficiente andare al link [https://security.google.com/settings/security/permissions](https://security.google.com/settings/security/permissions).
 
 
+
+TroubleShoots
+==============
+
+durante l'utilizzo di questo plugin possono avvenire degli errori dovuti alla configurazione, sia di **HybridAuth** sia per i **redirect url** dei vari provider.
+
+Entrando nello specifico:
+
+
+#### Oophs!
+
+questo errore non si capisce bene da dove venga fuori... per iniziare a farsi un'idea conviene abilitare il debug e avere molta pazienza
+
+IN GENERALE
+-----------
+
+un problema riscontrato riguarda l'utilizzo dei dns e gli IP nei redirect url:
+
+(tabella aggiornata al 05/11/2015)
+
+|provider | IP | DNS |
+|---------|:--:|:---:|
+|Google   | NO | SI  |
+|Facebook | SI | SI  |
+
+
+questo e' importante in quanto per poter testare i servizi mentre sono sulla VPS di sviluppo, che non e' provvista di VPS, bisogna svolgere alcuni trick non banali (almeno le prime volte che si incontrano).
+
+**Per GOOGLE** ho varie opzioni (Realizzate con [No-Ip](http://www.noip.com/))
+
+- creare un **Web Redirect** ed inserire questi nella configurazione di `HybridAuth`. Ad esempio ho creato `web-foowd.ddns.net` che svolge un redirect a `5.196.228.146/elgg-1.10.4` : pertanto `web-foowd.ddns.net` va inserito nella configurazione
+- creare un **DNS HOST A** che punta all'indirizzo IP della VPS (xxx.xxx.xxx.xxx). In questo caso bisogna utilizzare due accortezze:
+    + utilizzare il `DNS HOST A` nella configurazione di `HybridAuth`
+    + fare in modo che i links indirizzati alle pagine che istanziano `HybridAuth` risultino come links del `DNS HOST A` (in sostanza fare in modo che risultino del DNS e non direttamente dell' IP).
+
+***
+(APPUNTO PERSONALE)
+
+Ma... **perche' questa differenza?**
+
+ci ho messo un po a trovare la risposta, relazionata alla lettura di [http://www.one.com/it/assistenza/guide/gestisci-le-tue-impostazioni-dns](http://www.one.com/it/assistenza/guide/gestisci-le-tue-impostazioni-dns):
+
+col **web redirect** nella barra degli indirizzi del browser il dominio cambia, ovvero il dominio finale sara' quello a cui punta il redirect, mentre con gli **Alias Web** (dns host(A) ) invece nella barra degli indirizzi del browser e' mantenuto il dominio impostato nel **Host(A)**, anche se il contenuto visualizzato e' del dominio relativo all'indirizzo **IP**.
+
+Per mia interpretazione: in Oauth i continui scambi di chiavi devono avvenire nello stesso dominio (ovvio), pertanto il dominio del redirect deve essere sempre lo stesso (come visualizzabile negli HEADER di RICHIESTA mediante i devtools del browser). Ora, questa cosa e' automatica quando si solge un `redirect`, in quanto l'url viene continuamente aggiornato, ma non avviene coi `DNS`, di conseguenza con questi ultimi devo essere piu' accorto e fare in modo che l'host di origine (di richiesta) sia sempre lo stesso (magari snellire tutto impostando un **rewrite base** in `.htaccess`).
+
+***
 
 
 Riferimenti
