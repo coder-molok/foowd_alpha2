@@ -12,7 +12,7 @@ define(function(require){
 		var productContainer = '#product-detail-main';
 		
 		//userId reference
-   		var userId = null;
+		var group = false;
 
    		//preferenza utente
    		var preference = {
@@ -39,8 +39,6 @@ define(function(require){
 
    		//inizializzo il controller
    		function _init(){
-   			//prendo lo user id
-   			userId = utils.getUserId();
    			//load navbar
    			Navbar.loadNavbar();
    			//carico il template del prodotto con i dati
@@ -53,7 +51,7 @@ define(function(require){
 
 		function _applyProductContext(context){
 			context = utils.addPicture(context);
-			context = utils.setLoggedFlag(context, userId);
+			context = utils.setLoggedFlag(context, utils.getUserId());
 			return templates.productDetail(context);
 		}
 
@@ -70,6 +68,30 @@ define(function(require){
 		}
 
 		function getDetailsOf(){
+			var userId=utils.getUserId();
+			if(group){
+				getDetailsOfGroup(userId);
+			}else{
+				getDetailsSingle(userId);
+			}
+		
+		}
+
+
+		function getDetailsOfGroup(userId){
+			API.getFriend(userId).then(function(data){
+				var friendsStr='';
+				if(data.result && data.result.friends){
+					 friendsStr = data.result.friends.join();
+				}
+				getDetailsSingle(userId+','+friendsStr);
+			},function(error){
+					console.log(error);
+			});
+		}
+
+
+		function getDetailsSingle(userId){
 			var queryObject = utils.getUrlArgs();
 			//controllo che tra i parametri ci sia l'id del prodotto
 			if(utils.isValid(queryObject.productId)){
@@ -95,11 +117,11 @@ define(function(require){
 		function addPreference(offerId, qt) {
     		//setto i parametri della mia preferenza
 			preference.OfferId = offerId;
-			preference.ExternalId = userId;
+			preference.ExternalId = utils.getUserId();
 			preference.Qt = qt;
 			//richiamo l'API per settare la preferenza
 			API.addPreference(preference).then(function(data){
-				getDetailsOf(productContainer);
+				getDetailsOf();
 				$(document).trigger('preferenceAdded');
 			}, function(error){
 				$(document).trigger('preferenceError');
@@ -107,6 +129,15 @@ define(function(require){
 			});
 
 		}
+		
+		function toggleGroup(){
+			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
+			group=!group;
+			getDetailsOf();
+		}
+
+		window.toggleGroup=toggleGroup;
+
 
 		$(document).on('detail-template-loaded',function(){
 
@@ -142,6 +173,8 @@ define(function(require){
 			    }, 200);
 
 			});
+			
+			
 		});
 
 

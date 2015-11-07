@@ -118,14 +118,14 @@ define(function(require){
 				// if(el.logged){
 					// el.prefer = utils.singleElToObj(el.prefer)
 				// }
-				var totalPrefer=0;
-				if(el.prefer){
-					for(var i=0;i<el.prefer.length;i++){
-						totalPrefer+=el.prefer[i].Qt;
-					}
-
-				}
-				el.totalPrefer=totalPrefer;
+				// var totalPrefer=0;
+				// if(el.prefer){
+					// for(var i=0;i<el.prefer.length;i++){
+						// totalPrefer+=el.prefer[i].Qt;
+					// }
+// 
+				// }
+				// el.totalPrefer=totalPrefer;
 				result += templates.productPost(el);
 
 			});

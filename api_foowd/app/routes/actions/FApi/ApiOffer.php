@@ -395,12 +395,14 @@ class ApiOffer extends \Foowd\FApi{
 				$prefer = \Foowd\FApi\ApiPrefer::search($ext);
 				// se esiste la preferenza e non e' vuota
 				if(count($prefer>0) && isset($prefer['body'][0]['Id'])){
-				unset($prefer['body'][0]['Offer']);
-				 $ar['prefer']=$prefer['body'];
-				// carico l'ordinazione totale
-				$ar['totalQt'] = $prefer['body'][0]['Qt'];
+					unset($prefer['body'][0]['Offer']);
+					 $ar['prefer']=$prefer['body'];
+					// carico l'ordinazione totale
 
+				}
 			}
+			foreach ($ar['prefer'] as $pref) {
+					$ar['totalQt'] += $pref['Qt'];
 			}
 
 			// ora lavoro sui tags
