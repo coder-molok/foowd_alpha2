@@ -400,10 +400,11 @@ class ApiOffer extends \Foowd\FApi{
 					// carico l'ordinazione totale
 
 				}
+				foreach ($ar['prefer'] as $pref) {
+						$ar['totalQt'] += $pref['Qt'];
+				}
 			}
-			foreach ($ar['prefer'] as $pref) {
-					$ar['totalQt'] += $pref['Qt'];
-			}
+			
 
 			// ora lavoro sui tags
 			$tgs = $single->getTags();

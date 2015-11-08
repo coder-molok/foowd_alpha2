@@ -42,8 +42,10 @@
                 {{Name}}
             </div>
             
-            {{#if logged}}
-            <ul class="action-icons menu-section" id = "preference-action">
+                        {{#if logged}}
+            
+            {{#unless group}}
+             <ul class="action-icons menu-section" id = "preference-action">
                 <li class="action-heart">
                     <i  class="foowd-icons foowd-icon-heart-edge" 
                         onClick = "ProductDetailController.addPreference({{Id}}, 1)"></i>
@@ -53,12 +55,14 @@
                        onClick = "ProductDetailController.addPreference({{Id}}, -1)"></i>
                 </li>
             </ul>
-            {{/if}}
+            {{/unless}}
+                        {{/if}}
+            
 
         </div>
         <div class="product-info-menu" id = "section2">
             <div id="product-description">
-                {{{Description}}}
+               {{{Description}}} 
             </div>
             <div id="commercial-menu">
             {{#if logged}}
@@ -80,6 +84,7 @@
                         </span>
                     </div>
                 </div>
+                
                 {{#canbuy totalQt Minqt}}
                     <div class = "commercial-menu-item">
                         <ul class="action-icons menu-section" id = "preference-action">

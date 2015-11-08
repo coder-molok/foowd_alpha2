@@ -52,6 +52,7 @@ define(function(require){
 		function _applyProductContext(context){
 			context = utils.addPicture(context);
 			context = utils.setLoggedFlag(context, utils.getUserId());
+			context = utils.setLoggedGroup(context, group);
 			return templates.productDetail(context);
 		}
 
