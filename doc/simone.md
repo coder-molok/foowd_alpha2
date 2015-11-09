@@ -2,6 +2,15 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 09/11/2015
+
+- adattata action purchase per accettare lista di preferenze
+
+- sistemata ApiPrefer per restituzione dati con ExternalId multipli
+
+
+
+
 ### 06/11/2015
 
 - svolto prove OAuth e inseriti redirect per compatibilita' con Google provider

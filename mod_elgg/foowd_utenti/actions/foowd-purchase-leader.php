@@ -30,6 +30,12 @@ $messenger = new \Uoowd\MessageEmail();
 // 2 - in caso di buon fine far partire l'ordine (o meglio: email a utente capogruppo e a produttore)
 
 
+//// DATI POST
+/// 	offerId
+/// 	leader (il suo id)
+/// 	publisher (dell'offerta)
+/// 	prefers (lista di id delle preferenze)
+
 $publisher = get_user_by_username( $_POST['publisher'] );
 $leader = get_user_by_username( $_POST['leader'] );
 $offerId = $_POST['offerid'];
@@ -61,10 +67,15 @@ if(!$oId){
 
 
 $prefersList = array();
-foreach($_POST['prefers'] as $p){
-	$prefersList[] = $p['preferid'];
+
+if( is_array($_POST['prefers']) ){
+	foreach($_POST['prefers'] as $p){
+		$prefersList[] = $p['preferid'];
+	}
+	$prefersList = implode( $prefersList, ',' );
+}else{
+	$prefersList = $_POST['prefers'];
 }
-$prefersList = implode( $prefersList, ',' );
 
 
 

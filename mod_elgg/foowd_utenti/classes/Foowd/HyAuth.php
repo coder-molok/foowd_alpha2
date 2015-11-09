@@ -20,144 +20,129 @@ class HyAuth{
 	 * array di url 
 	 * @var $base_urls
 	 */
-	public $base_urls = array();
+	private $base_urls = array();
 
 	/**
 	 * istanza classe HybridAuth
 	 * @var [type]
 	 */
-	public $hybridauth;
+	private $hybridauth;
 
 	/**
-	 * imposto le configurazioni e se necessario svolge l'autenticazione.
+	 * array contenente la data unix (time()) dell'ultimo aggiornamento relativo ai permessi delle app.
+	 * @var array
+	 */
+	private $lastUpdatePermissions = array(
+		"Facebook" => 1447064818,
+		"Google" => 1447064818
+	);
+
+	/**
+	 * imposto le configurazioni e setto un'istanza della classe HybridAuth.
 	 * 
 	 */
 	public function __construct(){
-		// carico le classi
 		
-		\Uoowd\Logger::addError(__FILE__);
+		// se non e' un IP, eseguo il redirect:
+		// questo perche' a google non piacciono gli IP
+		$this->autoRedirect();
 		
+		// setConfig and instantiate HyAuth class
 		$this->setConfig();
 
-		if(isset($_GET['auth'])){
-			$this->makeAuthentication($_GET['auth']);
-		}
 
-		// tramite url scelgo se Facebook o Google, almeno per il momento
-		$providers = array('Google','Facebook');
-
-		// provider a cui risulto gia' loggato
-		// per gia' loggato si intende che l'utente ha gia' dato l'ok alla app
-		$yet = $this->hybridauth->getConnectedProviders();
-
-		if(!empty($yet)){
-		 echo 'Providers collegati:';
-			$str = '';
-			foreach($yet as $y){
-				$str .= "<li><a href=\"#\" class=\"soc-" . strtolower($y) . "\"></a></li>";
-			}
-			echo '<ul class="soc">' . $str . '</ul>';
-		}
-
-		// provider non ancora autorizzati
-		$not_yet = array_diff($providers, $yet);
-		if(!empty($not_yet)){ 
-			echo 'Providers NON collegati:';
-			?>
-			<div style="font-size:10px; font-style: italic; color: silver;">
-				Cliccando una delle icone sottostanti potrai collegare il tuo profilo food al relativo social network, cosi' potrai vedere quali dei tuoi amici utilizzano gia' questa piattaforma!
-			</div>
-			<?php
-			$str = '';
-			foreach($not_yet as $y){
-				$str .= "<li><a class=\"soc-" . strtolower($y) . "\"href=\"?auth=$y\"></a></li>";
-			}
-			echo '<ul class="soc">' . $str . '</ul>';
-		}
-
-		echo '<div>Elenco delle amicizie: --> ancora da implementare <-- </div>';
-		foreach ($yet as $pro) {
-			echo "<h1>$pro</h1>";
-			$this->getProviderData($pro);
-		}
-
-		// session_unset();
 
 	}// end __construct()
 
 
-	public function getProviderData($provider){
+	private function autoRedirect( $force = false){
+		$actualUrl = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+		// echo $actualUrl;
+		if(!filter_var($_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP)){
+			$regex = '@((\d{1,3}\.){3,}\d{1,3}).*@';
+			$ip = preg_replace($regex, '$1', elgg_get_site_url());
+			$actualUrl = $ip . $_SERVER['REQUEST_URI'];
+			// echo $actualUrl;
+			// \Uoowd\Logger::addError('Risultato '. $actualUrl);
+			header('Location: '.$actualUrl, true, 302);
+			exit;
+		} 
 
+		if($force){
+			header('Location: '.$actualUrl, true, 302);
+			exit;	
+		}
+	}
+
+	/**
+	 * ritorno istanza della classe hybridAut (utile per chiamare i metodi statici)
+	 * @return [type] [description]
+	 */
+	public function getHybridAuth(){
+		return $this->hybridauth;
+	}
+
+
+	/**
+	 * prova a autenticarsi con un provider, e in caso di successo ritorna il rispettivo adapter
+	 * @param  string $provider  	provider del quale voglio ottenere le info
+	 * @return [type]           [description]
+	 */
+	public function getAdapter($provider, $elggUser = null){
+
+		$user = (!is_null($elggUser)) ? $elggUser : elgg_get_logged_in_user_entity();
 
 		try{
-		    
-			$adapter =  $this->hybridauth->getAdapter($provider);
 
-			\Fprint::r($adapter->getUserContacts());
+			$metaDate = 'auth'.$provider.'LastUpdate';
+			
+			// forzo per via del redirect url
+			$this->setConfig($provider);
+			$adapter =  $this->makeAuthentication($provider);
+			
+			// provvedo al logout dell'adapter per rimandare alla conferma dell'aggiornamento dei permessi,
+			// qualora questi siano necessari. altrimenti non visualizza alcuna facciata intermedia.
+			if(!isset($user->{$metaDate}) || $user->{$metaDate} < $this->lastUpdatePermissions[$provider] ){
+				\Uoowd\Logger::addError('inside');
+				$user->{$metaDate} = time();
+				// essendo un metadato non ho bisogno di salvarlo
+				// $user->save();
+				$adapter->logout();
+				$this->autoRedirect(true);
+			}
 
-		    // svolgo l'autenticazione presso il provider:
-		    // in questo step viene svolto il redirect alla pagina di login del provider,
-		    // e nel caso sia gia' stato effettuato il login con conseguente accettazione, allora evita di svolgere il redirect ritornando direttamente l'adapter
-		    // \Uoowd\Logger::addError('dopo hybrid');
-		    // $adapter = $this->hybridauth->authenticate( $provider );
+			/**
+			 * in questo blocco posso eventualmente aggiungere dei controlli...
+			 * per il momento mi limito ad associare all'utente il "suo" id sulla social app
+			 */
+		    $metaId = 'auth'.$provider.'UserId';
+		    $providerId = $adapter->getUserProfile()->identifier;
+		    $user->{$metaId} = $providerId;
 
-		    // se sono arrivato sino a qui, vuol dire che l'autenticazione e' andata bene,
-		    // pertanto procedo col recuperare i dati tramite la APP e posso procedere con l'autenticazione lato Elgg		    
-		    // \Uoowd\Logger::addError('dopo authenticate');
-		    $user_profile = $adapter->getUserProfile();
-		    $id = $user_profile->identifier;
-		    // echo $id;
-		    if( $provider === "Google" ){
-		    	// echo $provider;
-		    	$data = $adapter->api()->api("https://www.googleapis.com/plus/v1/people/$id/people/visible");
-		    	\Fprint::r($data);
-		    	if($data->error->message === "Insufficient Permission"){
-		    		echo "riprovo";
-		    		// $adapter->logout();
-		    		// \Fprint::r($_SESSION);
-		    		// $this->makeAuthentication($provider);
-
-		    	}
-		    }
-		    // \Uoowd\Logger::addError($user_profile);
-		    \Fprint::r($user_profile);
+		    return $adapter;
 
 		}catch(\Exception $e){
 
-			$adapter->logout();
-
-			// \Fprint::r($e);
-		  // su firefox devo forzare il logout: questo perche' se
-		  // if(isset($adapter)){
-		  //   \Uoowd\Logger::addError('ti slogghi');
-		  //   $adapter->logout();
-		  // } 
-		  // // impongo il refresh della pagina dopo il logout
-		  $page = '';//$_SERVER['PHP_SELF'];
-		  $sec = "0";
-		  header("Refresh: $sec; url=$page");
+		  if(isset($adapter)){
+		    // \Uoowd\Logger::addError('ti slogghi');
+		    $adapter->logout();
+		  } 
+		  // impongo il refresh della pagina dopo il logout
+		  // $page = '';//$_SERVER['PHP_SELF'];
+		  // $sec = "0";
+		  // header("Refresh: $sec");
 		}
 
 	}// get provider data
 
 	// attempting authentication
-	public function makeAuthentication($provider){
-		if($provider == "Facebook"){
-			// error_log('Facebook');
-			$url = elgg_get_site_url().'foowd_utenti/indexauth';
-		}else{
-			$url = 'http://http-foowd.ddns.net/foowd_utenti/indexauth';
+	protected function makeAuthentication($provider){
+		try{
+			$adapter = $this->hybridauth->authenticate($provider);
+			return $adapter;
+		}catch(\Exception $e){
+			\Uoowd\Logger::addWarning('Errore di autenticazione Provider: ' . $provider);
 		}
-
-			$this->setConfig($url);
-		
-
-			try{
-				$this->hybridauth->authenticate($provider);
-			}catch(\Exception $e){
-				echo "errore";
-			}
-
 	}
 
 
@@ -165,19 +150,12 @@ class HyAuth{
 	 * set config and create hybrid instance
 	 * @param string $redirect (default null) eventuale url di redirect dopo aver ottenuto i token dal provider
 	 */
-	public function setConfig($redirect = null){
+	private function setConfig($provider){
 		if(is_null($redirect)){
 			// error_log('redirect nullo');
 			$host = $_SERVER['HTTP_HOST'];
 			$redirect = elgg_get_site_url().'foowd_utenti/indexauth';
-			if($_GET['provider'] === 'Google') $redirect = \Uoowd\Param::pageDNS()->indexauth;
-			// utilizzo l'ip impostato col servisio no-ip: necessario per testare l'app google
-			// l'app di google richieste di passare il nome di un host, non un indirizzo ip!
-			// if(filter_var($host , FILTER_VALIDATE_IP)){ 
-			// 	// host temporaneo per test
-			// 	$redirect = 'http://foowd.accaso.eu/elgg-1.10.4/foowd_utenti/indexauth';
-			// 	array_push($this->base_urls, $redirect);
-			// }
+			if($provider === 'Google') $redirect = \Uoowd\Param::pageDNS()->indexauth;
 			array_push($this->base_urls, $redirect);
 		}
 		// \Uoowd\Logger::addError('redirect : '.$redirect);
@@ -190,10 +168,10 @@ class HyAuth{
 		    	         "enabled" => true,
 		        	      // "keys"    => array ( "id" => "108856046715-v5vl192ibtbit586p0klsp5oh0pl2elk.apps.googleusercontent.com", "secret" => "G95n2a3_dQHHXMNzgLZfvg71" ),
 		    	         "keys"    => array ( "id" => elgg_get_plugin_setting('Google-Id', \Uoowd\Param::uid() ), "secret" => elgg_get_plugin_setting('Google-Secret', \Uoowd\Param::uid() ) ),
-		            	  "scope"           => "https://www.googleapis.com/auth/userinfo.profile ". // optional
-		                                   "https://www.googleapis.com/auth/userinfo.email"   , // optional
-		                                   "https://www.googleapis.com/auth/plus.login"   , // NECESSARIO per avere la lista delle amicizie, ovvero le cerchie
-		                                   "https://www.googleapis.com/auth/plus.me"   , // NECESSARIO per avere la lista delle amicizie, ovvero le cerchie
+		            	  "scope"           => "https://www.googleapis.com/auth/userinfo.profile " . // optional
+		                                   "https://www.googleapis.com/auth/userinfo.email "   . // optional
+		                                   "https://www.googleapis.com/auth/plus.login "   . // NECESSARIO per avere la lista delle amicizie, ovvero le cerchie
+		                                   "https://www.googleapis.com/auth/plus.me "   , // NECESSARIO per avere la lista delle amicizie, ovvero le cerchie
 
 		              	// "access_type"     => "offline",   // optional
 		             	// "approval_prompt" => "force",     // optional
@@ -204,7 +182,9 @@ class HyAuth{
 		              // "keys"    => array ( "id" => "959554617440829", "secret" => "50a85f28e5edf60f51e371480cbe86b8" ),
 		              "keys"    => array ( "id" => elgg_get_plugin_setting('Facebook-Id', \Uoowd\Param::uid() ), "secret" => elgg_get_plugin_setting('Facebook-Secret', \Uoowd\Param::uid() ) ),
 		              
-		              "scope"   => "email", // optional
+		              // https://developers.facebook.com/docs/facebook-login/permissions
+		              "scope"   => "email " . // optional
+		              				"user_friends user_relationships user_relationship_details "
 		              // "display" => "popup" // optional
 		    )
 		   )

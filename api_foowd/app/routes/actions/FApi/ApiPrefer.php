@@ -236,15 +236,17 @@ class ApiPrefer extends \Foowd\FApi{
 			// recupero lo userId e poi elimino $data->ExternalId
 			$extid = $data->ExternalId;
 			unset($data->ExternalId);
-			if(is_string($extid) && preg_match('@,@', $extid)) $extid = explode(',', $extid);
-			$UserId = \UserQuery::Create()->filterByExternalId($extid)->find();
+			if(is_string($extid) /*&& preg_match('@,@', $extid)*/) $extid = explode(',', $extid);
+			$usersMatch = array_map('self::ExtToId', $extid);
+			$UserId = \UserQuery::Create()->filterByExternalId($extid[0])->findOne();
 			// se l'utente con quell'id esterno esiste, allora lo utilizzo, altrimenti blocco tutto
 			if(is_object($UserId)){
-				$data->UserId = array();
-				foreach ($UserId as $single) {
-					array_push($data->UserId, $single->getId());
-					}	
-				
+				$data->UserId = $UserId->getId();
+				// $usersMatch = array();
+				// foreach ($UserId as $single) {
+				// 	array_push($usersMatch, $single->getId());
+				// }	
+				// $data->UserId = $usersMatch[0];
 			}else{
 				$Json['response'] = false;
 				$Json['errors']['Foreign'] = "L'id passato non e' associato a nessun utente API";
@@ -326,9 +328,14 @@ class ApiPrefer extends \Foowd\FApi{
 		// }
 		
 		$return = array();
-		
+
+
+		// fino a qui ho ottenuto tutte le preferenze del primo ExternalId
+		// ora lavoro su ciascuna per risalire all'offerta ed alle preferenze che matchano usersMatch e l'offerta
 		foreach ($prefer as $single) {
 			$ar = $single->toArray();
+
+			$ar['UserId'] = self::IdToExt($ar['UserId']);
 
 			// if(isset($data->Publisher)){
 			// 	$ar = \OfferQuery::Create()		
@@ -348,12 +355,15 @@ class ApiPrefer extends \Foowd\FApi{
 			$ar['Offer'] = \OfferQuery::Create()->filterById($OfferId)->findOne()->toArray();
 			$ar['Offer']['Publisher'] = self::IdToExt($ar['Offer']['Publisher']);
 			$ar['Offer']['totalQt'] = 0;
-			$pf = \PreferQuery::Create()->filterByOfferId($OfferId)->find();
+			$pf = \PreferQuery::Create()->filterByOfferId($OfferId)->filterByUserId($usersMatch)->find();
+
+			$ar['prefers'] = array();
 
 			foreach($pf as $sing){
 				// var_dump($sing);
 				$sing = $sing->toArray();
 				$ar['Offer']['totalQt'] += $sing['Qt'];
+				$ar['prefers'][] = $sing['Id'];
 			}
 
 			array_push($return, $ar );

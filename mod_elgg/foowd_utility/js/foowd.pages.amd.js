@@ -27,6 +27,7 @@ define(
 		"auth": "foowd_utenti/auth", 		// pagina utilizzata per il login mediante socials
 		"indexauth": "foowd_utenti/indexauth", 		// pagina utilizzata per il login mediante socials
 		"profile":"foowd_utenti/profilo",	// pagina del profilo
+		"social":"foowd_utenti/social",		// pagina social: primi test sulle OAuth apps
 		"panel": "panel", 					// pagina del pannello
 		"friendsManage": "friend_request",	// pagina del plugin friend request
 		"services" : "foowd_utility/services", // pagina servizi che comunicano con foowd-services.js

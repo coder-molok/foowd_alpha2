@@ -190,7 +190,7 @@ namespace Uoowd;
 		 * @return objet stdClass con path dns
 		 */
 		public static function pageDNS(){
-			$dns = 'foowd.accaso.eu';
+			$dns = 'vps-foowd-dev.accaso.eu';
 			// impostato come web redirect a 5.196.228.146/elgg-1.10.4  (no slash finale)
 			// $dns = 'web-foowd.ddns.net';
 			$site = elgg_get_site_url();
@@ -211,7 +211,7 @@ namespace Uoowd;
 		 * @return objet stdClass con path http://IP
 		 */
 		public static function pageIP(){
-			$dns = 'foowd.accaso.eu';
+			$dns = 'vps-foowd-dev.accaso.eu';
 			$site = elgg_get_site_url();
 			$pages = self::page(); 
 			foreach ($pages as $key => $value) {

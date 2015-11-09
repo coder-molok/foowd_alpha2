@@ -2,9 +2,9 @@
 
 // TODO
 // inserire controllo utenti gia' iscritti
-
-
 ob_start();
+
+
 // var_dump($_SESSION['sticky_forms']['foowd-avatar']);
 unset($_SESSION['sticky_forms']['foowd-avatar']);
 
@@ -12,8 +12,9 @@ unset($_SESSION['sticky_forms']['foowd-avatar']);
 
 $auth = new \Foowd\HyAuth();
 
-// session_unset();
+$adapter = $auth->getAdapter('Google');
 
+\Fprint::r($adapter);
 
 
 $body = ob_get_contents();
