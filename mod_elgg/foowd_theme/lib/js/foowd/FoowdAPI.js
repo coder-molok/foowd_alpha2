@@ -38,9 +38,10 @@ define(function(require){
              * 
         		 */
         	 getProduct : function(productId ,userId ){
-                 var requestURL = baseUrl + offers.search + '&Id='+productId+'&ExternalId='+userId;
+                 var requestURL = baseUrl + offers.search + '&Id='+productId;
+                  requestURL = utils.isValid(userId)    ? requestURL + "&ExternalId=" + userId:requestURL;
+
                  /*SS: requestURL = utils.isValid(publisher) ? requestURL + "&Publisher=" + publisher : requestURL;*/
-                 
                  var deferred = $.Deferred();
                  $.get(requestURL, function(data){ deferred.resolve(data); });
                  return deferred.promise();
