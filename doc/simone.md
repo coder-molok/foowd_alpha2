@@ -2,6 +2,12 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 10/11/2015
+
+- sistemato bug in `ApiPrefer.php`
+
+
+
 ### 09/11/2015
 
 - adattata action purchase per accettare lista di preferenze

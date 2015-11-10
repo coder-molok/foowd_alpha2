@@ -355,7 +355,9 @@ class ApiPrefer extends \Foowd\FApi{
 			$ar['Offer'] = \OfferQuery::Create()->filterById($OfferId)->findOne()->toArray();
 			$ar['Offer']['Publisher'] = self::IdToExt($ar['Offer']['Publisher']);
 			$ar['Offer']['totalQt'] = 0;
-			$pf = \PreferQuery::Create()->filterByOfferId($OfferId)->filterByUserId($usersMatch)->find();
+			$pf = \PreferQuery::Create()->filterByOfferId($OfferId);
+			if(isset($usersMatch)) $pf = $pf->filterByUserId($usersMatch);
+			$pf = $pf->find();
 
 			$ar['prefers'] = array();
 

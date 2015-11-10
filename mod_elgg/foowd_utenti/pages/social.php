@@ -12,9 +12,17 @@ unset($_SESSION['sticky_forms']['foowd-avatar']);
 
 $auth = new \Foowd\HyAuth();
 
+// Facebook invite: per usare la canvas ho bisogno di ssl, ovvero protocollo https
+// una volta ottenuta la imposto da settings > + add platform
+// vedi https://subinsb.com/add-invite-facebook-friends-in-website
+
+
 $adapter = $auth->getAdapter('Google');
 
-\Fprint::r($adapter);
+// $user_contacts = $adapter->getUserContacts();
+// \Fprint::r($user_contacts);
+
+// \Fprint::r($adapter);
 
 
 $body = ob_get_contents();
