@@ -225,6 +225,12 @@ class ApiPrefer extends \Foowd\FApi{
 	 * 
 	 * http://localhost/api_offerte/public_html/api/prefer?OfferId=38&type=search&ExternalId=37,52&State=newest,solved
 	 * 
+	 * @apiParam (Response) {Bool}				response 		false, in caso di errore
+ 	 * @apiParam (Response) {String/json}		[errors] 		json contenente i messaggi di errore
+ 	 * @apiParam (Response) {String/json}		[body] 			json contenente i parametri da ritornare in funzione della richiesta. Il parametro prefer impostato nel ritorno contiene eventuali preferenze che metchano gli ExternalId passati con la chiamata.
+ 	 * @apiParam (Response) {String/json}		[body-totalQt]	Totale delle preferenze compreso quelle degli amici
+ 	 * @apiParam (Response) {String} 			[msg] 			messaggi ritornati
+	 * 
 	 * @apiUse MyResponsePrefer
 	 * 
 	 */
@@ -354,7 +360,7 @@ class ApiPrefer extends \Foowd\FApi{
 
 			$ar['Offer'] = \OfferQuery::Create()->filterById($OfferId)->findOne()->toArray();
 			$ar['Offer']['Publisher'] = self::IdToExt($ar['Offer']['Publisher']);
-			$ar['Offer']['totalQt'] = 0;
+			$ar['totalQt'] = 0;
 			$pf = \PreferQuery::Create()->filterByOfferId($OfferId);
 			if(isset($usersMatch)) $pf = $pf->filterByUserId($usersMatch);
 			$pf = $pf->find();
@@ -364,7 +370,7 @@ class ApiPrefer extends \Foowd\FApi{
 			foreach($pf as $sing){
 				// var_dump($sing);
 				$sing = $sing->toArray();
-				$ar['Offer']['totalQt'] += $sing['Qt'];
+				$ar['totalQt'] += $sing['Qt'];
 				$ar['prefers'][] = $sing['Id'];
 			}
 

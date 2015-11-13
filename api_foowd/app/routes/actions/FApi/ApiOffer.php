@@ -242,7 +242,7 @@ class ApiOffer extends \Foowd\FApi{
  	 * @apiParam (Response) {String/json}		[errors] 		json contenente i messaggi di errore
  	 * @apiParam (Response) {String/json}		[body] 			json contenente i parametri da ritornare in funzione della richiesta. Il parametro prefer impostato nel ritorno contiene eventuali preferenze che metchano gli ExternalId passati con la chiamata.
  	 * @apiParam (Response) {String/json}		[body-totalQt]	ogni preferenza ritornata contiene la Quantinta' totale ad essa associata. 0 nel caso non vi siano preferenze espresse per essa, o qualora valgano effettivamente zero.
-	 * @apiParam (Response) {Array/json}		[body-prefer]	La/LE preferenza/e espressa/e dall'utente riconosciuto tramite il parametro ExternalId passato durante la chiamata. Se non presente, allora e' un array vuoto
+	 * @apiParam (Response) {Array/json}		[body-prefer]	La preferenza con il totale gruppo ed eventualmente la lista degli id delle preferenze delgli amici se bvegono forniti piu external id
  	 * @apiParam (Response) {String} 			[msg] 			messaggi ritornati
 	 * 
 	 */
@@ -390,19 +390,20 @@ class ApiOffer extends \Foowd\FApi{
 
 			// se l'utente ha espresso una preferenza per questo prodotto, allora la aggiungo come prefer, altrimenti risulta null
 			if(isset($ExternalId)){
-				$ar['prefer']=array();
+				$ar['prefer']=null;
 				$ext->ExternalId = $ExternalId;
 				$prefer = \Foowd\FApi\ApiPrefer::search($ext);
 				// se esiste la preferenza e non e' vuota
 				if(count($prefer>0) && isset($prefer['body'][0]['Id'])){
+					$ar['totalQt'] = $prefer['body'][0]['totalQt'];
 					unset($prefer['body'][0]['Offer']);
-					 $ar['prefer']=$prefer['body'];
+					 $ar['prefer']=$prefer['body'][0];
 					// carico l'ordinazione totale
 
 				}
-				foreach ($ar['prefer'] as $pref) {
-						$ar['totalQt'] += $pref['Qt'];
-				}
+				// foreach ($ar['prefer'] as $pref) {
+				//		
+				//}
 			}
 			
 
