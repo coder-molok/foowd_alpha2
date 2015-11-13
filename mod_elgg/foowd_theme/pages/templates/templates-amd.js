@@ -114,7 +114,7 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
     + alias3(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
     + "</span>\n                    </div>\n                </div>\n                <div class = \"commercial-menu-item\">\n                    <div class=\"item-container\">\n                        <span class=\"foowd-icons foowd-icon-cart item-icon\"></span>\n                        <span class = \"item-title\">tot</span>\n                        <span class = \"item-data\">\n                            "
     + alias3((helpers.math || (depth0 && depth0.math) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),"*",(depth0 != null ? depth0.Price : depth0),{"name":"math","hash":{},"data":data}))
-    + "\n                            <span class = \"apex\">€</span>\n                        </span>\n                    </div>\n                </div>\n"
+    + "\n                            <span class = \"apex\">€</span>\n                        </span>\n                    </div>\n                </div>\n                \n"
     + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),(depth0 != null ? depth0.Minqt : depth0),{"name":"canbuy","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n";
 },"7":function(container,depth0,helpers,partials,data) {
@@ -181,7 +181,7 @@ templates['userPreference'] = template({"1":function(container,depth0,helpers,pa
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression, alias5=container.lambda;
 
   return "    <div class=\"preference\">\n       <span class = \"preference-progress-bar\">\n            <span class = \"progress\" \n              data-unit = \"1\"\n              data-progress = \""
-    + alias4(((helper = (helper = helpers.Qt || (depth0 != null ? depth0.Qt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Qt","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
     + "\" \n              data-total = \""
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Minqt : stack1), depth0))
     + "\">\n            </span>    \n        </span>\n        <div class=\"user-preference\">\n            <div class=\"user-preference-section\">\n                <img src=\""
@@ -193,22 +193,27 @@ templates['userPreference'] = template({"1":function(container,depth0,helpers,pa
     + "</li>\n                </ul>\n            </div>\n            <div class=\"user-preference-details user-preference-section\">\n                <ul class=\"number-block preference-detail\">\n                    <li>"
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Price : stack1), depth0))
     + "€</li>\n                    <li><span class =\"number-description\">Prezzo unità</span></li>\n                </ul>\n                <ul class=\"number-block preference-detail\">\n                    <li>x"
-    + alias4(((helper = (helper = helpers.Qt || (depth0 != null ? depth0.Qt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Qt","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
     + "</li>\n                    <li><span class =\"number-description\">carrello</span></li>\n                </ul>\n                <ul class=\"number-block preference-detail\">\n                    <li>"
-    + alias4((helpers.math || (depth0 && depth0.math) || alias2).call(alias1,(depth0 != null ? depth0.Qt : depth0),"*",((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Price : stack1),{"name":"math","hash":{},"data":data}))
+    + alias4((helpers.math || (depth0 && depth0.math) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),"*",((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Price : stack1),{"name":"math","hash":{},"data":data}))
     + "€</li>\n                    <li><span class =\"number-description\">tot.spesa</span></li>\n                </ul>\n            </div>\n            <div class=\"user-preference-actions user-preference-section\">\n                <ul class=\"action-icons menu-section\" id = \"preference-action\">\n"
-    + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias2).call(alias1,(depth0 != null ? depth0.Qt : depth0),((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Minqt : stack1),{"name":"canbuy","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "                    <li class=\"action-heart\">\n                        <i  class=\"foowd-icons foowd-icon-heart-edge\" \n                            onClick = \"UserBoardController.addPreference("
-    + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
-    + ", 1)\"></i>\n                    </li>\n                    <li class=\"action-minus\">\n                        <i class=\"foowd-icons foowd-icon-minus fw-menu-icon\" \n                           onClick = \"UserBoardController.addPreference("
-    + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
-    + ", -1)\"></i>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n";
+    + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Minqt : stack1),{"name":"canbuy","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.unless.call(alias1,(depth0 != null ? depth0.group : depth0),{"name":"unless","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "                </ul>\n            </div>\n        </div>\n    </div>\n";
 },"2":function(container,depth0,helpers,partials,data) {
     return "                    <li class=\"action-buy\">\n                        <i class=\"foowd-icons foowd-icon-plus\"></i>\n                    </li>\n";
+},"4":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "                \n                    <li class=\"action-heart\">\n                        <i  class=\"foowd-icons foowd-icon-heart-edge\" \n                            onClick = \"UserBoardController.addPreference("
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
+    + ", 1)\"></i>\n                    </li>\n                    <li class=\"action-minus\">\n                        <i class=\"foowd-icons foowd-icon-minus fw-menu-icon\" \n                           onClick = \"UserBoardController.addPreference("
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
+    + ", -1)\"></i>\n                    </li>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.Qt : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+  return ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.totalQt : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"useData":true});
 return templates;
 });
