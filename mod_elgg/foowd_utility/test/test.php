@@ -27,7 +27,9 @@ $me = elgg_get_logged_in_user_entity();
 ////////////////////////////////////
 
 
+// \Fprint::r( apache_request_headers() );
 
+// file_put_contents(__DIR__ .'/headerstest.txt', json_encode(apache_request_headers()));
 
 
 

@@ -19,11 +19,24 @@ $auth = new \Foowd\HyAuth();
 
 $adapter = $auth->getAdapter('Google');
 
+// Facebook
+// $response = $adapter->api()->api('/me/friends');
+// $response = $adapter->api()->api('https://www.googleapis.com/plus/v1/people/me/people/visible', 'GET');
+// \Fprint::r($response);
+
 // $user_contacts = $adapter->getUserContacts();
 // \Fprint::r($user_contacts);
 
 // \Fprint::r($adapter);
 
+?>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<g:plus action="share"></g:plus>
+
+<a href="https://plus.google.com/share?url=<?php echo elgg_get_site_url();?>" onclick="javascript:window.open(this.href,
+  '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><img
+  src="https://www.gstatic.com/images/icons/gplus-64.png" alt="Share on Google+"/></a>
+<?php
 
 $body = ob_get_contents();
 
