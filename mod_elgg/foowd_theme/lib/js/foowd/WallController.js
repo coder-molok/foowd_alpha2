@@ -111,21 +111,6 @@ define(function(require){
 				el = utils.addPicture(el, utils.randomPictureSize(el.Id));
 				//se l'utente è loggato aggiungo un dato al contesto
 				el = utils.setLoggedFlag(el, userId);
-				//l'array prefer contiene tutti gli utenti che hanno espresso la preferenza sull'offerta
-				//in questo caso specificando sempre l'ExternaId nella richiesta quindi mi ritornerà 
-				//sempre un solo utente. Per comodità converto l'array contenente il singolo utente
-				//in un oggetto con i dati dell'utente
-				// if(el.logged){
-					// el.prefer = utils.singleElToObj(el.prefer)
-				// }
-				// var totalPrefer=0;
-				// if(el.prefer){
-					// for(var i=0;i<el.prefer.length;i++){
-						// totalPrefer+=el.prefer[i].Qt;
-					// }
-// 
-				// }
-				// el.totalPrefer=totalPrefer;
 				result += templates.productPost(el);
 
 			});

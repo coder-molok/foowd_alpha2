@@ -12,7 +12,8 @@ define(function(require) {
 		var preferencesContainerId =  "#preferences-container";
 		var userDetailsContainer = "#account-menu";
 		//userId reference
-   		var userId = null;
+   		var group = false;
+
    		/* SS: parametro aggiunto ipotizzando che la board possa essere visualizzata anche da amici */
    		var userName = null;
    		//preferenza utente
@@ -39,26 +40,24 @@ define(function(require) {
 		}
    		//controller init
    		function _init(){
-   			/* SS: service.getIdToBoard() controlla la querystring per capire se al wall sta accedendo il proprietario o un amico:
-   				se tutto va a buon fine "us.guid" e' l'id dell'utente del quale si vuole visualizzare il wall, e "us.userName" il suo username.
-   				Nel caso non vada a buon fine, i valori sono null.
-
-   				NB: attenzione ai pulsanti.
-   				NB2: ora che si e' deciso di rimandare la questione della visualizzazione delle board altrui, ritorna semplicemente l'utente attualmente loggato
-   			*/
-   			$.when(service.getIdToBoard()).done(function(us){
-   				//prendo lo user id
-   				userId = us.guid;
-   				userName = us.userName;
-	   			//carico la barra di navigazione
-	   			Navbar.loadNavbar();
+				Navbar.loadNavbar(true);
 	   			//carico i template
+	   			group=false;
 	   			_getUserPreferences();
-	   			_getUserInfo();			
-   			});
+	   			_getUserInfo();		
    		}
 
    		function _getUserPreferences(){
+			var userId = utils.getUserId();
+			if(userId!=null && group){
+				_getUserPreferencesGroup(userId);
+			}else{
+				_getUserPreferencesSingle(userId);
+			}
+
+		}
+		
+		function _getUserPreferencesSingle(userId){
 			API.getUserPreferences(userId).then(function(data){
 				var rawData = data;
 				var parsedProducts = _applyPreferencesContext(rawData.body);
@@ -69,12 +68,26 @@ define(function(require) {
 			});
 
 		}
+		function _getUserPreferencesGroup(userId){
+			API.getFriend(userId).then(function(data){
+				var friendsStr='';
+				if(data.result && data.result.friends){
+					 friendsStr = data.result.friends.join();
+				}
+				_getUserPreferencesSingle(userId+','+friendsStr);
+			},function(error){
+					console.log(error);
+			});
+
+		}
 
    		function _applyPreferencesContext(context) {
 			var result = "";
 			context.map(function(el) {
 				//aggiungo l'immagine al json di contesto
 				utils.addPicture(el.Offer, 'small');
+				utils.setLoggedGroup(el, group);
+
 				//ottengo l'html dal template + contesto
 				var htmlComponent = templates.userPreference(el);
 				//concateno
@@ -88,17 +101,18 @@ define(function(require) {
 		}
 
 		function _getUserInfo(){
+			var userId = utils.getUserId();
 			API.getUserPics(userId).then(function(data){
 				var user = {};
 				user.avatar = utils.isValid(data.avatar) ? data.avatar[3] : null;
-				var parsedProducts = _applyUserContext(user);
+				var parsedProducts = _applyUserContext(user,userId);
 				_fillUserDetails(parsedProducts);
 			}, function(error){
 				console.log(error);
 			});
 		}
 
-		function _applyUserContext(avatar){
+		function _applyUserContext(avatar,userId){
 			var context = {};
 			context.user = {
 				"name"  : userName,
@@ -149,6 +163,14 @@ define(function(require) {
 			_getUserPreferences();
 			_getUserInfo();
 		});
+		function toggleGroup(){
+			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
+			group=!group;
+			_getUserPreferences();
+		}
+		
+		
+	   	window.toggleGroup = toggleGroup;
 
 		return{
 			init 		  : _stateCheck, 
