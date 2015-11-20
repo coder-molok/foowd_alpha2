@@ -178,6 +178,32 @@ define(function(require){
                  });
                 return deferred.promise();
 
+             },
+             
+             purchase: function(offerId,userId,prefersList){
+             	var deferred = $.Deferred();
+                var requestURL = siteUrl + "action/foowd-purchase-leader";
+                var requestData = {};
+                requestData.type = "create";
+                requestData.OfferId = offerId;
+                requestData.LeaderId = userId;
+                requestData.prefersList = prefersList;
+
+                $.ajax({
+                    type : "POST",
+                    url : requestURL,
+                    contentType : "application/json; charset=utf-8",
+                    data : JSON.stringify(requestData),
+                    dataType : "json",
+                    success : function(data, status, jqXHR) {
+                       deferred.resolve(data);
+                    },
+                    error : function(jqXHR, status) {
+                       console.log("error: "+status);
+                    }
+                 });
+                return deferred.promise();
+             	
              }
          };
       })();

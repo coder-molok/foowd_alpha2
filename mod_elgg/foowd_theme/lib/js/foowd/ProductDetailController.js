@@ -130,6 +130,18 @@ define(function(require){
 			});
 
 		}
+		function purchase(offerId, prefers) {
+    		//setto i parametri della mia preferenza
+			//richiamo l'API per settare la preferenza
+			API.purchase(offerId,utils.getUserId(),prefers).then(function(data){
+				getDetailsOf();
+				$(document).trigger('preferenceAdded');
+			}, function(error){
+				$(document).trigger('preferenceError');
+				console.log(error);
+			});
+
+		}
 		
 		function toggleGroup(){
 			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
@@ -182,6 +194,7 @@ define(function(require){
 		return{
 			init 			: _stateCheck,
 			addPreference   : addPreference,
+			purchase   : purchase
 		};
 	})();
 

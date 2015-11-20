@@ -118,7 +118,13 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
     + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),(depth0 != null ? depth0.Minqt : depth0),{"name":"canbuy","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n";
 },"7":function(container,depth0,helpers,partials,data) {
-    return "                    <div class = \"commercial-menu-item\">\n                        <ul class=\"action-icons menu-section\" id = \"preference-action\">\n                            <li class=\"action-buy\">\n                                <i class=\"foowd-icons foowd-icon-plus\"></i>\n                            </li>\n                        </ul>\n                    </div>\n";
+    var stack1, helper, alias1=container.escapeExpression;
+
+  return "                    <div class = \"commercial-menu-item\">\n                        <ul class=\"action-icons menu-section\" id = \"preference-action\">\n                            <li class=\"action-buy\">\n                                <i class=\"foowd-icons foowd-icon-plus\" \n                                onClick = \"ProductDetailController.purchase("
+    + alias1(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"Id","hash":{},"data":data}) : helper)))
+    + ",'"
+    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.prefer : depth0)) != null ? stack1.prefers : stack1), depth0))
+    + "')\"></i>\n                            </li>\n                        </ul>\n                    </div>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
