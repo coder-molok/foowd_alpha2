@@ -1,4 +1,3 @@
-
 <?php
 
 /**
@@ -23,7 +22,6 @@ $j['response'] = false;
 $orderError = 'Errore di aggiornamento dell\'ordine, ci scusiamo per il disguido.';
 $messenger = new \Uoowd\MessageEmail();
 
-
 // I processi da svolgere sono 2:
 // 
 // 1 - detrarre da ciascun utente le sue preferenze eventualmente rimandando messaggi d'errore, email e notifiche
@@ -36,20 +34,22 @@ $messenger = new \Uoowd\MessageEmail();
 /// 	publisher (dell'offerta)
 /// 	prefers (lista di id delle preferenze)
 
-$publisher = get_user_by_username( $_POST['publisher'] );
-$leader = get_user_by_username( $_POST['leader'] );
-$offerId = $_POST['offerid'];
+// $publisher = get_user_by_username( $_POST['publisher'] );
+
+pri($_POST);
+$leader = get_user( $_POST['LeaderId'] );
+// $offerId = $_POST['OfferId'];
 
 // id offerta
-$oId = $_POST['offerid'];
+$oId = $_POST['OfferId'];
 
 
-// controlli generici
-if(!$publisher){
-	register_error('Impossibile svolgere l\'operazione richiesta, ci scusiamo per il disagio.');
-	\Uoowd\Logger::addError('Errore durante la creazione dell\'ordine. Manca il publisher');
-	forward(REFERER);
-}
+// // controlli generici
+// if(!$publisher){
+// 	register_error('Impossibile svolgere l\'operazione richiesta, ci scusiamo per il disagio.');
+// 	\Uoowd\Logger::addError('Errore durante la creazione dell\'ordine. Manca il publisher');
+// 	forward(REFERER);
+// }
 
 if(!$leader){
 	register_error('Impossibile svolgere l\'operazione richiesta, ci scusiamo per il disagio.');
@@ -65,16 +65,16 @@ if(!$oId){
 
 
 
-
+// le preferenze possono essere o una lista di id, o una lista di Oggetti-preferenza
 $prefersList = array();
 
-if( is_array($_POST['prefers']) ){
-	foreach($_POST['prefers'] as $p){
+if( is_array($_POST['prefersList']) ){
+	foreach($_POST['prefersList'] as $p){
 		$prefersList[] = $p['preferid'];
 	}
 	$prefersList = implode( $prefersList, ',' );
 }else{
-	$prefersList = $_POST['prefers'];
+	$prefersList = $_POST['prefersList'];
 }
 
 
@@ -83,7 +83,7 @@ if( is_array($_POST['prefers']) ){
 // Purchase create
 
 $data['type'] = 'create'; // metodo commonOffers di ApiUser
-$data['OfferId'] = $offerId;
+$data['OfferId'] = $oId;
 $data['LeaderId'] = $leader->guid;
 $data['prefersList'] = $prefersList;
 $r = \Uoowd\API::Request('purchase','POST', $data);

@@ -3,6 +3,7 @@ define(function(require){
       var $ = require('jquery');
       var utils = require('Utils');
       var settings = require('utility-settings');
+      var _page = require('page');                // modulo contenente elenco delle pagine piu importanti
 
       //modulo per la chiamata delle API  foowd
       var foowdAPI = (function(){
@@ -181,29 +182,28 @@ define(function(require){
              },
              
              purchase: function(offerId,userId,prefersList){
-             	var deferred = $.Deferred();
-                var requestURL = siteUrl + "action/foowd-purchase-leader";
+             	  var deferred = $.Deferred();
+                var requestURL = _page.action.initPurchase;
                 var requestData = {};
-                requestData.type = "create";
                 requestData.OfferId = offerId;
                 requestData.LeaderId = userId;
                 requestData.prefersList = prefersList;
 
-                $.ajax({
-                    type : "POST",
-                    url : requestURL,
-                    contentType : "application/json; charset=utf-8",
-                    data : JSON.stringify(requestData),
-                    dataType : "json",
+                elgg.action( requestURL, {
+                    data : requestData,
                     success : function(data, status, jqXHR) {
+                      console.log('data ret')
+                      console.log(data)
                        deferred.resolve(data);
                     },
                     error : function(jqXHR, status) {
+                      console.log(jqXHR)
                        console.log("error: "+status);
                     }
-                 });
+
+                });
                 return deferred.promise();
-             	
+                
              }
          };
       })();

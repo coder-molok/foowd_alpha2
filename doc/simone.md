@@ -2,6 +2,12 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 21/11/2015
+
+- modificata chiamata JS per action `foowd-purchase-leader`
+
+
+
 ### 10/11/2015
 
 - sistemato bug in `ApiPrefer.php`
