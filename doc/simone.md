@@ -2,6 +2,13 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 14/12/2015
+
+- corretto bug di chiusura "troublesome" in ApiPurchase.php
+
+
+
+
 ### 21/11/2015
 
 - modificata chiamata JS per action `foowd-purchase-leader`
