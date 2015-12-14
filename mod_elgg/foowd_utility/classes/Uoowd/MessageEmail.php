@@ -197,66 +197,212 @@ class MessageEmail{
 
 
 	/**
-	 * messaggio mail che giunge a chi chiude l'ordine e si prende carico di tutto
+	 * messaggio mail che giunge a chi chiude l'ordine a 24h dalla chiusura effettiva.
 	 * @param  [type] $ar [description]
 	 * @return [type]     [description]
 	 */
-	public function managerOrderMsg($ar){
+	public function managerOrderFirstMsg($ar){
+		// $ar = array();
+		// $ar['mngrUsr'] = 'random';
+		// $ar['ofName'] = 'gran bella roba';
+		// $ar['pubName'] = 'Azienza Agricola Rnd';
+		// $ar['pubEmail'] = 'via@rnd.com';
+		// $ar['ofId'] = 2;
+		// $ar['qt'] = 22;
+		// $ar['price'] = 10.23;
+		// $ar['tqt'] = 100;
+		// $ar['$timeLimit'] = '18:30';
+		// $ar['$dateLimit'] = '15 dicembre (domani)';
+
+
+		extract($ar);
+		// prima tot e poi price!
+		$tot = number_format($qt*$price, 2, ',', ' ');
+		$ttot = number_format($tqt*$price, 2, ',', ' ');
+		$price = number_format($price, 2, ',', ' ');
+
+		$managerMsgAlt = '
+		Buongiorno %s,
+
+		Stai ricevendo questa mail perche\' hai completato un ordine su foowd.it!
+		Congratulazioni, e grazie per la tua disponibilita\'!
+		Tutti gli altri partecipanti al gruppo stanno ricevendo un messaggio dove sei nominato come riferimento per questo ordine, per qualunque necessita\' quindi non esitare a contattarci.
+
+		Qui segue il riepilogo del tuo ordine:
+
+		prodotto:          %s
+
+		preferenze: %13s 
+		a:          %13s &euro; Cad.
+		-------------------------
+		Totale:     %13s &euro;
+
+		Ti ricordiamo che hai tempo fino alle %s del %s per correggere la tua quota.
+		Passato lo scadere di queste 24 ore, l\'ordine definitivo sara\' inviato al produttore!
+
+		Segue il riepilogo temporaneo delle prenotazioni attuali, compresa anche la tua quota. Controlla il totale dovuto al produttore.
+
+		preferenze: %13s 
+		a:          %13s &euro; Cad.
+		-------------------------
+		Totale:     %13s &euro;
+
+		Ti consigliamo di iniziare a contattare gli altri partecipanti per coordinarvi con il saldo delle loro quote, anche se, per il momento, possono ancora fare delle variazioni.
+
+
+		Siamo a tua disposizione per dubbi, problemi o feedback.
+
+		Saluti da foowd, e buoni acquisti!
+		';
+		$managerMsgAlt = preg_replace("@^( {4}||\t{2})@m", '', $managerMsgAlt);
+		unset($ar);
+
+		$alt = array( $mngrUsr, $ofName, $qt, $price, $tot, $timeLimit, $dateLimit, $tqt, $price, $ttot);
+
+		$ofUrl = '<a href="'.\Uoowd\Param::offerUrl($ofId).'">'.$ofName.'</a>';
+
+		$managerMsgHtml = '
+		<p>Buongiorno <b>%s</b>,</p>
+
+		<p>Stai ricevendo questa mail perche\' hai completato un ordine su foowd.it!
+		<br>Congratulazioni, e grazie per la tua disponibilita\'!
+		<br>Tutti gli altri partecipanti al gruppo stanno ricevendo un messaggio dove <b>sei nominato come riferimento</b> per questo ordine, per qualunque necessita\' quindi non esitare a contattarci.</p>
+
+		<p>Qui segue il riepilogo del tuo ordine:
+
+		<table style="background-color: rgb(234, 228, 209); margin: 1em; border-spacing: 0.7em;"><tbody>
+			<tr>
+			<td>Prodotto:</td><td></td><td></td><td>%s</td>
+			</tr>
+			<tr>
+			<td>Preferenze:</td><td style="text-align:right;">%s</td><td>X</td>
+			</tr>
+			<tr>
+			<td>Prezzo:</td><td style="text-align:right;">%s</td><td>&euro; Cad.</td>
+			</tr>
+			<tr style="outline: thin solid;">
+			<td>Totale:</td><td style="text-align:right;">%s</td><td>&euro;</td>
+			</tr>
+			</tbody>
+		</table>
+		</p>
+		<p>Ti ricordiamo che hai tempo fino <b>alle %s del %s</b> per correggere la tua quota.
+		<br/>Passato lo scadere di queste 24 ore, l\'ordine definitivo sara\' inviato al produttore!</p>
+
+		<p>Segue il riepilogo temporaneo delle prenotazioni attuali, compresa anche la tua quota. Controlla il totale dovuto al produttore.
+		<table style="background-color: rgb(234, 228, 209); margin: 1em; border-spacing: 0.7em;"><tbody>
+			<tr>
+			<td>Preferenze:</td><td style="text-align:right;">%s</td><td>X</td>
+			</tr>
+			<tr>
+			<td>Prezzo:</td><td style="text-align:right;">%s</td><td>&euro; Cad.</td>
+			</tr>
+			<tr style="outline: thin solid;">
+			<td>Totale:</td><td style="text-align:right;">%s</td><td>&euro;</td>
+			</tr>
+			</tbody>
+		</table>
+		</p>
+
+		<p>Ti consigliamo di iniziare a contattare gli altri partecipanti per coordinarvi con il saldo delle loro quote, anche se, <strong>per il momento, possono ancora fare delle variazioni</strong>.</p>
+
+		<p>Siamo a tua disposizione per dubbi, problemi o feedback.</p>
+
+		<p><em>Saluti da foowd, e buoni acquisti!</em></p>
+		';
+
+		$html = array( $mngrUsr, $ofUrl, $qt, $price, $tot, $timeLimit, $dateLimit, $tqt, $price, $ttot);
+
+		$tmp = new \stdClass();
+		$tmp->htmlMsg = vsprintf($managerMsgHtml, $html);
+		$tmp->altMsg = vsprintf($managerMsgAlt, $alt);
+
+		return $tmp;
+	}
+
+	/**
+	 * messaggio mail che giunge al momento dell'ordine
+	 * a chi ha chiuso l'ordine e si prende carico di tutto.
+	 * @param  [type] $ar [description]
+	 * @return [type]     [description]
+	 */
+	public function managerOrderLastMsg($ar){
 		// $ar = array();
 		// $ar['mngrUsr'] = 'random';
 		// $ar['ofName'] = 'gran bella roba';
 		// $ar['pubEmail'] = 'via@rnd.com';
 		// $ar['ofId'] = 2;
-		// $ar['detailsRowAlt'] = $row->altMsg;
-		// $ar['detailsRowHtml'] = $row->htmlMsg;
+		// $ar['price'] = 10.23;
+		// $ar['tqt'] = 100;
+		// $ar['$timeLimit'] = '18:30';
+		// $ar['$dateLimit'] = '15 dicembre (domani)';
+
 
 		extract($ar);
+		// prima tot e poi price!
+		$tot = number_format($qt*$price, 2, ',', ' ');
+		$ttot = number_format($tqt*$price, 2, ',', ' ');
+		$price = number_format($price, 2, ',', ' ');
 
 		$managerMsgAlt = '
-		Salve %s, 
+		Buongiorno %s
 
-		l\'offerta "%s" e\' stata presa in carico con successo. 
+		Stai ricevendo questa mail perche\' hai completato un ordine su foowd.it!
+		Si e\' esaurito il tempo per fare correzioni! Tutti gli altri partecipanti al gruppo stanno ricevendo un riepilogo del loro ordine, e a breve riceverete dal produttore gli estremi per il pagamento.
+		Ti ricordiamo che, una volta ricevuto l\'ordine gia\' partizionato, gli altri partecipanti passeranno a ritirarlo presso di te.
 
-		Di seguito riepiloghiamo i dettagli:
+		Segue il riepilogo completo dell\'ordine, compresa anche la tua quota. Controlla il totale dovuto al produttore.
 
-		%s
+		prodotto:          %s
+		preferenze: %13s 
+		a:          %13s &euro; Cad.
+		-------------------------
+		Totale:     %13s &euro;
+		
+		Contatta il produttore all\'indirizzo %s
 
-		Per completare le procedure di pagamento e riscossione deve contattare il promotore dell\'offerta all\'indirizzo
+		Siamo a tua disposizione per dubbi, problemi o feedback.
 
-		   %s
-
-		Cordialmente,
-		Foowd
+		Saluti da foowd, e buoni acquisti!
 		';
 		$managerMsgAlt = preg_replace("@^( {4}||\t{2})@m", '', $managerMsgAlt);
 		unset($ar);
 
-		$alt = array( $mngrUsr, $ofName, $detailsRowAlt, $pubEmail );
+		$alt = array( $mngrUsr, $ofName, $qt, $price, $tot, $pubEmail);
 
 		$ofUrl = '<a href="'.\Uoowd\Param::offerUrl($ofId).'">'.$ofName.'</a>';
 
 		$managerMsgHtml = '
-		Salve <b>%s</b>,<br/> 
+		<p>Buongiorno <b>%s</b>,</p>
 
-		<p>l\'offerta <b>%s</b> e\' stata presa in carico con successo.</p> <br/>
+		<p>Stai ricevendo questa mail perche\' hai completato un ordine su foowd.it!
+		<br>Si e\' esaurito il tempo per fare correzioni! Tutti gli altri partecipanti al gruppo stanno ricevendo un riepilogo del loro ordine, e a breve riceverete dal produttore gli estremi per il pagamento.
+		<br>Ti ricordiamo che, una volta ricevuto l\'ordine gia\' partizionato, gli altri partecipanti passeranno a ritirarlo <b>presso di te</b>.</p>
 
-		Di seguito riepiloghiamo i dettagli:
-
-			<table style="background-color: rgb(234, 228, 209); margin: 1em; border-spacing: 0.7em;">
-			<tbody>
-			%s
+		<p>Segue il riepilogo completo dell\'ordine, compresa anche la tua quota. Controlla il totale dovuto al produttore.
+		<table style="background-color: rgb(234, 228, 209); margin: 1em; border-spacing: 0.7em;"><tbody>
+			<tr>
+			<td>Prodotto:</td><td></td><td></td><td>%s</td>
+			</tr>
+			<tr>
+			<td>Preferenze:</td><td style="text-align:right;">%s</td><td>X</td>
+			</tr>
+			<tr>
+			<td>Prezzo:</td><td style="text-align:right;">%s</td><td>&euro; Cad.</td>
+			</tr>
+			<tr style="outline: thin solid;">
+			<td>Totale:</td><td style="text-align:right;">%s</td><td>&euro;</td>
+			</tr>
 			</tbody>
-			</table>
+		</table>
+		</p>
 
-		Per completare le procedure di pagamento e riscossione deve contattare il promotore dell\'offerta all\'indirizzo<br/>
-
-		   <p style="margin-left: 1em; font-weight: bold;">%s</p>
-
-		Cordialmente,<br/>
-		Foowd
+		<p>Contatta il produttore all\'indirizzo <b><a href="mailto:%s">%s</a></b></p>
+		<p>Siamo a tua disposizione per dubbi, problemi o feedback.</p>
+		<p><em>Saluti da foowd, e buoni acquisti!</em></p>
 		';
 
-		$html = array( $mngrUsr, $ofUrl, $detailsRowHtml, $pubEmail );
+		$html = array( $mngrUsr, $ofUrl,  $qt, $price, $tot, $pubEmail );
 
 		$tmp = new \stdClass();
 		$tmp->htmlMsg = vsprintf($managerMsgHtml, $html);
@@ -311,12 +457,12 @@ class MessageEmail{
 	 */
 	public function publisherOrderMsg($ar){
 		// $ar['pubUsr'] = 'coso';
-		// $ar['mngrUsr'] = 'random';
-		// $ar['mngrMail'] = 'via@lemani.com';
 		// $ar['ofName'] = 'gran bella roba';
 		// $ar['ofId'] = '2';
 		// $ar['qt'] = 20;
 		// $ar['price'] = 300.25;
+		// $ar['portions'] = array('1'->'1kg','3'->'2kg','5'->'3kg');
+
 		// trasformo le chiavi in variabili... comodo!
 		extract($ar);
 		// prime tot e poi price!
@@ -324,58 +470,66 @@ class MessageEmail{
 		$price = number_format($price, 2, ',', ' ');
 
 		$publisherMsgAlt ='
-		Salve %s,
+		Per maggiori dettagli deve contattare %s all\'indirizzo %s .
 
-		l\'utente %s ha deciso di prendere in carico l\'ordinazione relativa all\'offerta 
+		Buongiorno %s,
 
-		    %s
+		Ottime notizie da foowd.it : un gruppo di acquisto ha appena chiuso un ordine dei Tuoi prodotti!
 
-		secondo quanto specificato:
+		Segue l\'ordine, con indicate le quantita\' delle diverse porzioni da spedire e i relativi partecipanti all\'acquisto di gruppo:
 
+		Prodotto :    %s
+		
 		Quote totali     :  %13s
 		Prezzo per quota :  %13s euro Cad.
 		--------------------------------
-		Totale:            %13s euro
+		Totale           :  %13s euro
 
+		Porzioni richieste:
+		%s
 
-		Per maggiori dettagli deve contattare %s all\'indirizzo %s .
+		Conferma la disponibilita\' complessiva dell\'ordine e inserisci modalita\' ed estremi di pagamento nella risposta.
+		E\' sufficente cliccare su "Rispondi" perche\' il tuo messaggio arrivi a tutti i partecipanti, ci penseremo noi.
 
-		Cordialmente,
-		Foowd
+		Saluti da foowd, e buon lavoro!
 		';
 		$publisherMsgAlt = preg_replace("@^( {4}||\t{2})@m", '', $publisherMsgAlt);
 		unset($ar);
-		$alt = array($pubUsr, $mngrUsr, $ofName, $qt, $price, $qt*$price, $mngrUsr, $mngrMail);
+		$alt = array($pubUsr, $ofName, $qt, $price, $tot, $portions);
 
 		$ofUrl = '<a href="'.\Uoowd\Param::offerUrl($ofId).'">'.$ofName.'</a>';
 
-		$publisherMsgHtml = $this->styles . '
-		Salve <b>%s</b>,
-		<br/>
-		l\'utente <b>%s</b> ha deciso di prendere in carico l\'ordinazione relativa all\'offerta 
-		    <p style="margin-left: 1em;">%s</p>
-		secondo quanto specificato:
+		$publisherMsgHtml = '
+		<p>Buongiorno <b>%s</b>,</p>
 
+		<p>Ottime notizie da foowd.it : un gruppo di acquisto ha appena chiuso un ordine dei Tuoi prodotti!</p>
+
+		<p>Segue l\'ordine, con indicate le quantita\' delle diverse porzioni da spedire e i relativi partecipanti all\'acquisto di gruppo:
 		<table style="background-color: rgb(234, 228, 209); margin: 1em; border-spacing: 0.7em;"><tbody>
 			<tr>
-			<td>Quote totali:</td><td style="text-align:right;">%s</td><td>X</td>
+			<td>Prodotto:</td><td></td><td></td><td>%s</td>
 			</tr>
 			<tr>
-			<td>Prezzo per quota:</td><td style="text-align:right;">%s</td><td>&euro; Cad.</td>
+			<td>Preferenze:</td><td style="text-align:right;">%s</td><td>X</td>
+			</tr>
+			<tr>
+			<td>Prezzo:</td><td style="text-align:right;">%s</td><td>&euro; Cad.</td>
 			</tr>
 			<tr style="outline: thin solid;">
 			<td>Totale:</td><td style="text-align:right;">%s</td><td>&euro;</td>
 			</tr>
 			</tbody>
 		</table>
+		</p>
+		<p>Porzioni richieste:<br>
+		%s
+		</p>
+		<p>Conferma la disponibilita\' complessiva dell\'ordine e inserisci modalita\' ed estremi di pagamento nella risposta.</p>
+		<p>E\' sufficente cliccare su "<code>Rispondi</code>" perche\' il tuo messaggio arrivi a tutti i partecipanti, <strong>ci penseremo noi</strong>.</p>
 
-		Per maggiori dettagli deve contattare <b>%s</b> all\'indirizzo email
-			<p style="margin-left: 1em; font-weight: bold;">%s</p>
-
-		Cordialmente,<br/>
-		Foowd
+		<p><em>Saluti da foowd, e buon lavoro!</em></p>
 		';
-		$html = array($pubUsr, $mngrUsr, $ofUrl, $qt, $price, $tot, $mngrUsr, $mngrMail);	
+		$html = array($pubUsr, $ofName, $qt, $price, $tot, $portions);	
 
 		$tmp = new \stdClass();
 		$tmp->htmlMsg = vsprintf($publisherMsgHtml, $html);
