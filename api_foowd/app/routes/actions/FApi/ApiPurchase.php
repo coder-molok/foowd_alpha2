@@ -332,7 +332,9 @@ class ApiPurchase extends \Foowd\FApi{
 
 				if($totalQt <= 0 ){
 					$_SESSION['foowd']['errors']['totalQt'] = $totalQt;
-					 throw new \Exception("Totale di quote pari a $totalQt : probabilmente tutti gli utenti hanno abbandonato l'ordine");
+					$txt = "Totale di quote pari a $totalQt : probabilmente tutti gli utenti hanno abbandonato l'ordine";
+					$txt.= "\nOra l'ordine e' impostato in stato \"troublesome\"";
+					throw new \Exception($txt);
 				}
 
 				$purch->setState('solved');
@@ -344,8 +346,8 @@ class ApiPurchase extends \Foowd\FApi{
 			}
 			catch (\Exception $e) {
 			   $con->rollback();
-
-			   // $purch->setState('troublesome');
+			   // imposto in troublesome per evitare che nel cronjob di elgg venga riprocessato 
+			   $purch->setState('troublesome');
 			   $this->Fvalidate($purch)->save(); // nota che non uso la connessione
 
 			   throw $e;
