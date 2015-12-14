@@ -141,6 +141,8 @@ define(function(require) {
 		}
 
 		function _addPreference(offerId, qt) {
+						var userId = utils.getUserId();
+
     		//setto i parametri della mia preferenza
 			preference.OfferId = offerId;
 			preference.ExternalId = userId;
