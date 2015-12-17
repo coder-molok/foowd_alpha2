@@ -1,6 +1,8 @@
 
 module.exports = function(grunt) {
   grunt.initConfig({
+  	clean: ["lib/css/style.css"],
+
     concat: {
       dist: {
         src: ['lib/css/partials/*.css'],
@@ -28,6 +30,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-notify');
 
   grunt.registerTask('default', ['concat']);
