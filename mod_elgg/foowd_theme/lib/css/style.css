@@ -155,7 +155,6 @@
 }
 .detail-progress-bar.preview-bar .progress {
   background-image: none;
-  background-color: #fae6ef;
   z-index: -2;
 }
 .price-detail {
@@ -659,10 +658,6 @@ h5 {
   color: #fff;
   -webkit-transition: color 0.2s;
   transition: color 0.2s;
-}
-.overlay ul li a:hover,
-.overlay ul li a:focus {
-  color: #fae6ef;
 }
 /* Effects */
 .overlay-hugeinc {
@@ -1711,7 +1706,6 @@ h5 {
 }
 .product-post-menu div {
   display: inline-flex;
-  background-color: #fae6ef;
   border-radius: 50%;
   padding: 0;
 }
