@@ -192,7 +192,7 @@ templates['userPreference'] = template({"1":function(container,depth0,helpers,pa
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.picture : stack1), depth0))
     + "\" class = \"user-preference-image\" \n                     onclick=\"utils.go2('detail', 'productId',"
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
-    + ")\">    \n            </div>\n            <div class=\"user-preference-name user-preference-section\">\n                <ul class=\"number-block\">\n                    <li>"
+    + ",event)\">    \n            </div>\n            <div class=\"user-preference-name user-preference-section\">\n                <ul class=\"number-block\">\n                    <li>"
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Name : stack1), depth0))
     + "</li>\n                </ul>\n            </div>\n            <div class=\"user-preference-details user-preference-section\">\n                <ul class=\"number-block preference-detail\">\n                    <li>"
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Price : stack1), depth0))
