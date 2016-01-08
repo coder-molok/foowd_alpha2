@@ -134,6 +134,19 @@ define(function(require){
 			return $(searchBox).val();
 		}
 
+		function _getProducerInfo(producerId){
+			API.getUserDetails(producer.producerId).then(function(data){
+				
+				var userData = data.body;
+				
+				
+			
+			}, function(error){	
+				console.log(error);
+			});
+		}
+
+
 	   /*
 		* Funzione esportata
 		*/
@@ -237,6 +250,18 @@ define(function(require){
 			} );
 		}
 
+		
+        function go2ProducerSite(producerId,event){
+			var producer = utils.getUrlArgs();
+			API.getUserDetailsSync(producerId).then(function(data){
+				
+				var userData = data.body;
+				var win = window.open('http://'+data.body.Site);
+			}, function(error){	
+				console.log(error);
+			});
+			event.preventDefault();
+		}
 
 		function toggleGroup(){
 			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
@@ -289,10 +314,15 @@ define(function(require){
 		$(wallId).on('images-loaded',function(){
 			_adjustOverlays();
 		});
+		
+
+		
 	   /* Export---------------- */
 	   	window.addPreference = _addPreference;
 	   	window.searchProductsKey = searchProductsKey;
 	   	window.toggleGroup = toggleGroup;
+	   		   	window.go2ProducerSite = go2ProducerSite;
+
 	   /*
 		* METODI PUBBLICI ------------------------------------------------------------------------
 		*/
@@ -300,7 +330,8 @@ define(function(require){
 		return{
 			init           : _stateCheck,
 			searchProductsKey : searchProductsKey,
-			addPreference  : addPreference,
+			addPreference  : addPreference
+
 		};
 
 	})();

@@ -1,5 +1,5 @@
 <li class="product-post">
-    <div class="post-container" onclick="utils.go2('detail', 'productId', {{Id}})">
+    <div class="post-container" onclick="utils.go2('detail', 'productId', {{Id}},event)">
         <div class="product-post-image-thumbnail">
             <figure class="tint" >
                 <img src="{{picture}}">
@@ -9,6 +9,12 @@
               <span class="heart-overlay"
                   >
             </span>
+             <div class="product-post-menu">
+                <div class="logo" onclick="window.go2ProducerSite({{Publisher}},event)">
+                   <span class = "foowd-icons foowd-icon-blade">
+                   </span>
+                </div>
+            </div>
         </div>
         <div class="product-post-header">
             <div class="product-post-name">
