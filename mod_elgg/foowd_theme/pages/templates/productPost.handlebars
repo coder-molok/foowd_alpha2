@@ -1,22 +1,14 @@
 <li class="product-post">
-    <div class="post-container">
+    <div class="post-container" onclick="utils.go2('detail', 'productId', {{Id}})">
         <div class="product-post-image-thumbnail">
-            <figure class="tint">
+            <figure class="tint" >
                 <img src="{{picture}}">
             </figure>
-            <span class="heart-overlay foowd-icons foowd-icon-heart-full"
-                  onclick="window.addPreference({{Id}},1)">
+            <!-- Questo span permette ai contenuti di allinearsi con la larghezza dell'immagine
+            In pratica detta quanto sia la larghezza del div contenitore (vedi WallController.adjustOverlays--> 
+              <span class="heart-overlay"
+                  >
             </span>
-            <div class="product-post-menu">
-                <div class="logo" onclick="utils.go2('detail', 'productId', {{Id}})">
-                   <span class = "foowd-icons foowd-icon-len">
-                   </span>
-                </div>
-                <div class="logo" onclick="utils.go2('producer', 'producerId', {{Publisher}})">
-                   <span class = "foowd-icons foowd-icon-blade">
-                   </span>
-                </div>
-            </div>
         </div>
         <div class="product-post-header">
             <div class="product-post-name">

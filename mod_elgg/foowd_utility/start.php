@@ -47,12 +47,12 @@ function utility_init(){
 	// note the view name does not include ".php"
 	// elgg_register_simplecache_view('js/foowd_utility/utility-settings');
 	elgg_define_js('utility-settings', [
-	    	'src' => \Uoowd\Param::utilAMD(),
+	    	'src' => \Uoowd\Param::utilAMD()
 	    	// 'deps' => array('jquery')
 	]);
 
 	elgg_define_js('page', [
-	    	'src' => \Uoowd\Param::pageAMD(),
+	    	'src' => \Uoowd\Param::pageAMD()
 	]);
 
 	// per il plugin crop
@@ -63,7 +63,7 @@ function utility_init(){
 
 	elgg_define_js('imgAreaSelect', [
 	    'src' => '/mod/foowd_utility/js/imgareaselect/scripts/jquery.imgareaselect.pack.js',
-	    'deps' => array('jquery'),
+	    'deps' => array('jquery')
 	    // 'exports' => 'jQuery.fn.imgAreaSelect',
 	]);
 

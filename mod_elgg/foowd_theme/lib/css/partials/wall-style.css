@@ -91,9 +91,6 @@
   -o-prorp: opacity 0.15s ease;
   transition: opacity 0.15s ease;
 }
-.heart-overlay:hover {
-  opacity: 1;
-}
 .product-post-header {
   top: 0px;
   width: 100%;
