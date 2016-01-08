@@ -43,6 +43,7 @@ define(function(require) {
 				Navbar.loadNavbar(true);
 	   			//carico i template
 	   			group=false;
+	   			_applyColor();
 	   			_getUserPreferences();
 	   			_getUserInfo();		
    		}
@@ -63,6 +64,7 @@ define(function(require) {
 				var parsedProducts = _applyPreferencesContext(rawData.body);
 				_fillBoard(parsedProducts);
 				$(document).trigger('preferences-loaded');
+				_applyColor();
 			},function(e){
 				console.log(e);
 			});
@@ -122,6 +124,21 @@ define(function(require) {
 			context.user = utils.addProfilePicture(context.user,avatar);
 			return templates.preferenceAccountDetails(context);
 		}
+		
+		function _applyColor(){
+
+				$( "#logo" ).each(function() {
+					$(this).toggleClass('logo-green',group);
+					$(this).toggleClass('logo',!group);
+
+				});
+				$( ".progress" ).each(function() {
+					$(this).toggleClass('logo',!group);
+					$(this).toggleClass('logo-green',group);
+
+				});
+			
+		}
 
 		function _fillUserDetails(content){
 			$(userDetailsContainer).html(content);
@@ -168,19 +185,8 @@ define(function(require) {
 		function toggleGroup(){
 			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
 			group=!group;
-			if(group) {
-				$( "#logo" ).each(function() {
-					$(this).toggleClass('logo');
-					$(this).toggleClass('logo-green');
-
-				});
-			}else{ 
-				$( "#logo" ).each(function() {
-					$(this).toggleClass('logo-green');
-					$(this).toggleClass('logo');
-
-				});
-			}
+			//Lo applico anche prima che carichi
+			_applyColor();
 			_getUserPreferences();
 		}
 		
