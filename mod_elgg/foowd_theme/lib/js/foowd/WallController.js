@@ -267,13 +267,13 @@ define(function(require){
 			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
 			group=!group;
 			if(group) {
-				$( ".logo" ).each(function() {
+				$( "#logo" ).each(function() {
 					$(this).toggleClass('logo');
 					$(this).toggleClass('logo-green');
 
 				});
 			}else{ 
-				$( ".logo-green" ).each(function() {
+				$( "#logo" ).each(function() {
 					$(this).toggleClass('logo-green');
 					$(this).toggleClass('logo');
 
