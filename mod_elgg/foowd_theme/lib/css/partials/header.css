@@ -79,7 +79,7 @@
   background-color: #fae6ef;
 }
 .logo-green {
-  background-color: #6f9;
+  background-color: #0c5b0d;
 }
 .foowd-brand {
   *zoom: 1;
@@ -117,7 +117,7 @@
 }
 .foowd-brand input {
   width: 40%;
-  background-color: #fae6ef;
+  background-color: transparent;
   outline: none;
   border: none;
 }
