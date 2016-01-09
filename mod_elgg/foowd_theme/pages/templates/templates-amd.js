@@ -8,11 +8,11 @@ templates['carouselItem'] = template({"compiler":[7,">= 4.0.0"],"main":function(
     + "\">\n	</div>\n</figure>";
 },"useData":true});
 templates['navbar'] = template({"1":function(container,depth0,helpers,partials,data) {
-    return "  <div class=\"navbar-section reverse\" id = \"logo\">\n      <div class=\"foowd-brand reverse\">\n       <span onClick=\"utils.goTo('')\">foowd_</span>\n      </div>\n  </div>\n  <div class = \"navbar-section reverse\" id=\"user-menu-section\">\n      <div id = \"user-menu\">\n          <span onClick=\"utils.goTo('board')\" \n                class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link reverse\">\n          </span>\n          <span onClick = \"utils.goTo('panel')\"\n                class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link reverse\">\n          </span>\n          <span id=\"close-overlay\" \n                class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link reverse\">\n          </span>\n      </div>\n  </div>\n";
+    return "  <div class=\"navbar-section reverse logo\" id = \"logo\" >\n      <div class=\"foowd-brand reverse\">\n       <span onClick=\"utils.goTo('')\">foowd_</span>\n      </div>\n  </div>\n  <div class = \"navbar-section reverse\" id=\"user-menu-section\">\n      <div id = \"user-menu\">\n          <span onClick=\"utils.goTo('board')\" \n                class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link reverse\">\n          </span>\n          <span onClick = \"utils.goTo('panel')\"\n                class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link reverse\">\n          </span>\n          <span id=\"close-overlay\" \n                class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link reverse\">\n          </span>\n      </div>\n  </div>\n";
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
-  return "  <div class=\"navbar-section\" id = \"logo\">\n      <div class=\"foowd-brand\">\n       <span onClick=\"utils.goTo('')\">foowd_</span>\n"
+  return "  <div class=\"navbar-section logo\" id = \"logo\">\n      <div class=\"foowd-brand\">\n       <span onClick=\"utils.goTo('')\">foowd_</span>\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.search : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "      </div>\n  </div>\n  <div class = \"navbar-section\" id=\"user-menu-section\">\n      <div id = \"user-menu\">\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
@@ -89,7 +89,7 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
     + alias4(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
     + "\" \n              data-total = \""
     + alias4(((helper = (helper = helpers.Minqt || (depth0 != null ? depth0.Minqt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Minqt","hash":{},"data":data}) : helper)))
-    + "\">\n            </span>    \n        </span>\n        <span class = \"detail-progress-bar preview-bar\">\n            <span class = \"progress\" \n              data-unit = \"1\"\n              data-progress = \""
+    + "\">\n            </span>    \n        </span>\n        <span class = \" detail-progress-bar preview-bar\">\n            <span class = \"progress\" \n              data-unit = \"1\"\n              data-progress = \""
     + alias4(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
     + "\" \n              data-total = \""
     + alias4(((helper = (helper = helpers.Minqt || (depth0 != null ? depth0.Minqt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Minqt","hash":{},"data":data}) : helper)))
@@ -163,9 +163,9 @@ templates['productPost'] = template({"1":function(container,depth0,helpers,parti
     + alias4(((helper = (helper = helpers.picture || (depth0 != null ? depth0.picture : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"picture","hash":{},"data":data}) : helper)))
     + "\">\n            </figure>\n            <span class=\"heart-overlay foowd-icons foowd-icon-heart-full\"\n                  onclick=\"window.addPreference("
     + alias4(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Id","hash":{},"data":data}) : helper)))
-    + ",1)\">\n            </span>\n            <div class=\"product-post-menu\">\n                <div onclick=\"utils.go2('detail', 'productId', "
+    + ",1)\">\n            </span>\n            <div class=\"product-post-menu\">\n                <div class=\"logo\" onclick=\"utils.go2('detail', 'productId', "
     + alias4(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Id","hash":{},"data":data}) : helper)))
-    + ")\">\n                   <span class = \"foowd-icons foowd-icon-len\">\n                   </span>\n                </div>\n                <div onclick=\"utils.go2('producer', 'producerId', "
+    + ")\">\n                   <span class = \"foowd-icons foowd-icon-len\">\n                   </span>\n                </div>\n                <div class=\"logo\" onclick=\"utils.go2('producer', 'producerId', "
     + alias4(((helper = (helper = helpers.Publisher || (depth0 != null ? depth0.Publisher : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Publisher","hash":{},"data":data}) : helper)))
     + ")\">\n                   <span class = \"foowd-icons foowd-icon-blade\">\n                   </span>\n                </div>\n            </div>\n        </div>\n        <div class=\"product-post-header\">\n            <div class=\"product-post-name\">\n                "
     + alias4(((helper = (helper = helpers.Name || (depth0 != null ? depth0.Name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Name","hash":{},"data":data}) : helper)))

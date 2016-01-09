@@ -75,8 +75,11 @@
     margin-right: auto;
   }
 }
-#logo {
+.logo {
   background-color: #fae6ef;
+}
+.logo-green {
+  background-color: #6f9;
 }
 .foowd-brand {
   *zoom: 1;
