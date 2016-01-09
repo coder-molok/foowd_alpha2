@@ -12,7 +12,7 @@ templates['navbar'] = template({"1":function(container,depth0,helpers,partials,d
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
-  return "  <div class=\"navbar-section logo\" id = \"logo\">\n      <div class=\"foowd-brand\">\n       <span onClick=\"utils.goTo('')\">foowd_</span>\n"
+  return "  <div class=\"navbar-section\" id =\"logo\">\n      <div class=\"foowd-brand\">\n       <span onClick=\"utils.goTo('')\">foowd_</span>\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.search : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "      </div>\n  </div>\n  <div class = \"navbar-section\" id=\"user-menu-section\">\n      <div id = \"user-menu\">\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")

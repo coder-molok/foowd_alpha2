@@ -50,6 +50,7 @@ define(function(require){
 			//carico l'header 
 			Navbar.loadNavbar(true);
 			//carico il wall con i template
+			_applyColor();
 			searchProducts();
 		}
 		
@@ -83,6 +84,7 @@ define(function(require){
 					}else{
 						$(document).trigger('failedSearch');
 					}
+				_applyColor();
 			},function(error){
 				console.log(error);
 			});
@@ -263,22 +265,18 @@ define(function(require){
 			event.preventDefault();
 		}
 
+		function _applyColor(){
+				$( "#logo" ).each(function() {
+					$(this).toggleClass('logo-green',group);
+					$(this).toggleClass('logo',!group);
+
+				});
+		}
+
 		function toggleGroup(){
 			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
 			group=!group;
-			if(group) {
-				$( "#logo" ).each(function() {
-					$(this).toggleClass('logo');
-					$(this).toggleClass('logo-green');
-
-				});
-			}else{ 
-				$( "#logo" ).each(function() {
-					$(this).toggleClass('logo-green');
-					$(this).toggleClass('logo');
-
-				});
-			}
+			_applyColor();
 			searchProducts();
 
 			
