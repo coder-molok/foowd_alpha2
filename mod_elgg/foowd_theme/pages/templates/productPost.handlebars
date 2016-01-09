@@ -5,14 +5,17 @@
                 <img src="{{picture}}">
             </figure>
             <span class="heart-overlay foowd-icons foowd-icon-heart-full"
+                  title="Clicca per aggiungere una preferenza a questo prodotto!"
                   onclick="window.addPreference({{Id}},1)">
             </span>
             <div class="product-post-menu">
-                <div onclick="utils.go2('detail', 'productId', {{Id}})">
+                <div onclick="utils.go2('detail', 'productId', {{Id}})"
+                     title="Dettagli del prodotto">
                    <span class = "foowd-icons foowd-icon-len">
                    </span>
                 </div>
-                <div onclick="utils.go2('producer', 'producerId', {{Publisher}})">
+                <div onclick="utils.go2('producer', 'producerId', {{Publisher}})"
+                     title="Dettagli del produttore">
                    <span class = "foowd-icons foowd-icon-blade">
                    </span>
                 </div>
@@ -30,7 +33,7 @@
                 </span>
             </div>
             {{#if logged}}
-                <span class="mini-progress-bar">
+                <span class="mini-progress-bar" title="Preferenze espresse rispetto al minimo necessario per un ordine">
                     <span class="mini-progress" data-unit="1" data-progress="{{totalQt}}" data-total="{{Minqt}}"></span>
                 </span>  
                 <div class="product-post-progress-price">
