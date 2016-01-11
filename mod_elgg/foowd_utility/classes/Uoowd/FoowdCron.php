@@ -4,6 +4,11 @@ namespace Uoowd;
 
 class FoowdCron{
 
+	// utile per lavorare con le date in generale
+	public static $mesi = array('1'=>'gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre','dicembre');
+
+	public static $giorni = array('domenica','lunedì','martedì','mercoledì', 'giovedì','venerdì','sabato');
+
 	public static $types = array(
 			'minute', 'fiveminute', 'fifteenmin', 'halfhour', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'reboot'
 		);
@@ -56,9 +61,9 @@ class FoowdCron{
 	 * @return [type]         [description]
 	 */
 	public static function halfhourCollection($hook, $type, $return, $params){
-		// controllo lo stato degli ordini per l'invio, in questo caso dopo 15 minuti
-		$solve = new \Uoowd\FoowdPurchase();
-		$solve->check();
+		// controllo lo stato degli ordini per l'invio: ricordarsi di assestare l'attributo $cronTab di FoowdPurchase.php
+		// $solve = new \Uoowd\FoowdPurchase();
+		// $solve->check();
 	}
 
 }

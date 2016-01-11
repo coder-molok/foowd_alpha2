@@ -41,7 +41,7 @@ function utility_init(){
 	new \Uoowd\FoowdNeedleDependencies();
 
 	// cron job
-	\Uoowd\FoowdCron::register();
+	// \Uoowd\FoowdCron::register();
 	
 
 	// note the view name does not include ".php"

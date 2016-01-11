@@ -114,7 +114,38 @@ $offerPrice = $offer->Price;
 
 $prefers = $r->body->prefers;
 
+// *********************************************************************************************/
+// Elaboro la data, impostando 24 ore arrotondate ai primi 30 minuti successivi (per via del crontab)
+$now = new DateTime();
+$purch = new \Uoowd\FoowdPurchase();
+$deltaT = $purch->trigger;
+$now->add(new DateInterval('PT'.$deltaT.'S'));
+// giorno della settimana, partendo da zero
+$D = (int) $now->format('w');
+// mese dell'anno partendo da zero
+$M = (int) $now->format('m');
+// secondi dell'orologio
+$s = (int) $now->format('s');
+// minuti dell'orologio
+$m = (int) $now->format('i');
+
+$dateLimit = sprintf("%s %s (domani)", $now->format('d'), \Uoowd\FoowdCron::$mesi[$M] );
+echo $dateLimit;
+
+// arrotondo ai primi n minuti successivi, ovvero l'orario a cui effettivamente viene eseguito il crontab
+$round = $purch->cronTab ;
+$seconds = $m * 60 + $s ;
+$nearest = ceil($seconds/$round) * $round;
+$remain = $nearest - $seconds;
+$now->add(new DateInterval('PT'.$remain.'S'));
+$timeLimit = $now->format('H:i');
+echo $timeLimit;
+//********* Fine elaborazione Data ******/
+
+
 // lavoro sui dati ritornati dalla API
+
+$totalQt = 0 ;
 
 // Mail agli Utenti
 foreach($prefers as $pr){
@@ -124,46 +155,50 @@ foreach($prefers as $pr){
 		continue;
 	}
 
-	$msg = "(messaggio di test, non quello definitivo)
+	$totalQt += $pr->Qt;
 
-		Gentile %s ,
-		sei parte di un gruppo con invio merce a breve! 
-		Stai ordinando: \n
-		%s ,\n
-		in quantia' %s a %s Cad. = %s euro.\n
-		Collegati se intendi modificare le quantità in ordine.
-	";
+	// array dei parametri
+	$data = array();
+	$data['singleUsr'] = $us->username;
+	$data['mngrUsr'] = $leader->username;
+	$data['mngrEmail'] = $leader->email;
+	$data['ofName'] = $offerName ; 
+	$data['ofId'] = $offerId ; 
+	$data['qt'] = $pr->Qt; 
+	$data['price'] = $offerPrice; 
+	$data['timeLimit'] = $timeLimit ; 
+	$data['dateLimit'] = $dateLimit ;
 
-	$qt = $pr->Qt;
-	$tot = number_format($qt*$offerPrice, 2, '.', ' ');
-	$username = $us->username;
-
-	$msg = sprintf($msg , $username, $offerName, $qt, $offerPrice, $tot);
+	$msg = $messenger->userOrderFirstMsg($data);
 
 	$emailTo = $us->email;
 	$from = 'Foowd Site';
 	$subject = 'Un tuo amico ha preso in carico un\'offerta che segui';
-	elgg_send_email($from, $emailTo, $subject, $msg, array(/*'htmlBody'=>$ntf->msg->htmlMsg*/) );
+	elgg_send_email($from, $emailTo, $subject, $msg->altMsg, array('htmlBody'=>$msg->htmlMsg) );
 }
 
 
 // Mail al leader
 // il leader so gia' chi e' e sono gia' sicuro che sia un utente valido (vedi inizio script)
 
-$msg = "(messaggio di test, non quello definitivo)
-	Gentile %s, \n
-	grazie della disponibilità a ricevere. \n
+$ar = array();
+$ar['mngrUsr'] = $leader->username;
+$ar['ofName'] = $offerName;
+// $ar['pubName'] = 'Azienza Agricola Rnd';
+// $ar['pubEmail'] = 'via@rnd.com';
+$ar['ofId'] = $offerId;
+$ar['qt'] = 22;
+$ar['price'] = $offerPrice;
+$ar['tqt'] = $totalQt;
+$ar['timeLimit'] = $timeLimit;
+$ar['dateLimit'] = $dateLimit;
 
-	Gli altri membri del gruppo stanno confermando i propri acquisti: \n
 
-	      entro 24 ore riceverai copia dell'ordine inviato al produttore";
-
-
-$msg = sprintf($msg, $leader->username);
+$msg = $messenger::managerOrderFirstMsg($ar);
 $emailTo = $leader->email;
 $from = 'Foowd Site';
 $subject = 'Offerta "'.$offerName.'" presa in carico';
-elgg_send_email($from, $emailTo, $subject, $msg, array(/*'htmlBody'=>$ntf->msg->htmlMsg*/) );
+elgg_send_email($from, $emailTo, $subject, $msg->altMsg, array('htmlBody'=>$ntf->msg->htmlMsg) );
 
 $j['response'] = true;
 

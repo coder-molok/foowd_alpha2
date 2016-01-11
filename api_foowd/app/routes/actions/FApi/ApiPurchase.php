@@ -97,7 +97,8 @@ class ApiPurchase extends \Foowd\FApi{
 		$prlist = array_map('trim', explode(',' , $data->prefersList));
 		$prCount = count($prlist);
 
-		$editable = array('newest', 'pending');
+		// avendo tolto il giro delle 24h soltanto quelle nuove sono modificabili
+		$editable = array('newest');
 
 		$prefers = \PreferQuery::Create()
 					->filterById($prlist)

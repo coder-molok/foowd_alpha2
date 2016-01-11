@@ -5,6 +5,12 @@ namespace Uoowd;
 
 class FoowdPurchase{
 
+	// dopo quanto tempo invio la mail
+	public $trigger = 86400	; // 24 h 
+
+	// ogni quanto effettuo il cronTab
+	public $cronTab = 1800 ; // 30 minuti
+
 
 	public function check(){
 
@@ -68,18 +74,15 @@ class FoowdPurchase{
 
 		$offerName = $offer->Name;
 		$offerPrice = $offer->Price;
+		$offerId = $offer->Id;
+		$publisher = get_entity($offer->Publisher);
 
-
-		// riepilogo produttore
 		$leader = get_entity($purchase->LeaderId);
-		$msg = 'complimenti leader, il tuo ordine e\' ora concluso' ;
-		$emailTo = $leader->email;
-		$from = 'Foowd Site';
-		$subject = 'Ordine "'.$offerName.'" concluso';
-		elgg_send_email($from, $emailTo, $subject, $msg, array(/*'htmlBody'=>$ntf->msg->htmlMsg*/) );
+
+		$messenger = new \Uoowd\MessageEmail();
 
 		
-		// riepilogo sincoli utenti
+		// riepilogo singoli utenti
 		$totalQt = 0;
 		foreach($prefers as $p){
 			$user = get_entity($p->UserId);
@@ -90,33 +93,66 @@ class FoowdPurchase{
 			$msg = 'complimenti %s, il tuo ordine e\' ora concluso
 			Riepilogo: offerta %s , acquistate %s a %s cad , per un totale di %s .
 			' ;
-			$qt = $p->Qt;
+			$qt = 
 			$tot = number_format($qt*$offerPrice, 2, '.', ' ');
-			$msg = sprintf($msg, $user->username, $offerName, $qt, $offerPrice , $tot );
+
+			$ar = array();
+			$ar['singleUsr'] = $user->username;
+			$ar['mngrUsr'] = $leader->username;
+			$ar['mngrEmail'] = $leader->email;
+			$ar['ofName'] = $offerName;
+			$ar['ofId'] = $offerId;
+			$ar['qt'] = $p->Qt;
+			$ar['price'] = $offerPrice;
+
+			$msg = $messenger::userOrderLastMsg($ar);
 
 			$emailTo = $user->email;
 			$from = 'Foowd Site';
 			$subject = 'Riepilogo Ordine "'.$offerName.'"';
 			// \Fprint::r($msg);
-			elgg_send_email($from, $emailTo, $subject, $msg, array(/*'htmlBody'=>$ntf->msg->htmlMsg*/) );
+			elgg_send_email($from, $emailTo, $subject, $msg->altMsg, array('htmlBody'=>$msg->htmlMsg) );
 
 		}
 
+		// riepilogo leader
+		
+		$ar = array();
+		$ar['mngrUsr'] = $leader->username;
+		$ar['pubEmail'] = $publisher->email;
+		$ar['ofName'] = $offerName;
+		$ar['ofId'] = $offerId;
+		$ar['price'] = $offerPrice;
+		$ar['tqt'] = $totalQt;
+		
+		$msg = $messenger::managerOrderLastMsg($ar);
+
+		$emailTo = $leader->email;
+		$from = 'Foowd Site';
+		$subject = 'Ordine "'.$offerName.'" concluso';
+		elgg_send_email($from, $emailTo, $subject, $msg->altMsg, array(/*'htmlBody'=>$ntf->msg->htmlMsg*/) );
+
 
 		// riepilogo publisher
-		$publisher = get_entity($offer->Publisher);
+		
 		
 		$msg = 'complimenti %s, l\'ordine e\' ora concluso.
 		Riepilogo: offerta %s , acquistate in totale %s quote a %s cad , per un totale di %s .
 		' ;
-		$qt = $totalQt;
-		$tot = number_format($qt*$offerPrice, 2, '.', ' ');
-		$msg = sprintf($msg, $publisher->username, $offerName, $qt, $offerPrice , $tot );
+		$ar['pubUsr'] = $publisher->username;
+		$ar['ofName'] = $offerName;
+		$ar['ofId'] = $offerId;
+		$ar['qt'] = $totalQt;
+		$ar['price'] = $offerPrice;
+		// $ar['portions'] = array('1'->'1kg','3'->'2kg','5'->'3kg');
+		
+		$msg = $messenger::publisherOrderMsg($ar);
+		
 		$emailTo = $publisher->email;
 		$from = 'Foowd Site';
 		$subject = 'Riepilogo Ordine "'.$offerName.'"';
 		// \Fprint::r($msg);
-		elgg_send_email($from, $emailTo, $subject, $msg, array(/*'htmlBody'=>$ntf->msg->htmlMsg*/) );
+		elgg_send_email($from, $emailTo, $subject, $msg->altMsg, array('htmlBody'=>$ntf->msg->htmlMsg) );
 
 
 
