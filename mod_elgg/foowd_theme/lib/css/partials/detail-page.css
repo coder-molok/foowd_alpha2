@@ -85,7 +85,6 @@
 }
 .detail-progress-bar.preview-bar .progress {
   background-image: none;
-  background-color: #fae6ef;
   z-index: -2;
 }
 .price-detail {

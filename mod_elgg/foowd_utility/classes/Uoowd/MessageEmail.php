@@ -8,6 +8,94 @@ class MessageEmail{
 	/**
 	 * Quando qualcuno si prende in carico l'ordinazione, 
 	 * questo messaggio giunge a ciascun utente suo amico 
+	 * nel caso di chiusura immediata.
+	 * @param  [type] $ar [description]
+	 * @return [type]     [description]
+	 */
+	public function userOrderSingleMsg($ar){
+		// $ar = array();
+		// $ar['singleUsr'] ='enomis';
+		// $ar['mngrUsr'] = 'random';
+		// $ar['mngrEmail'] = 'via@rnd.com';
+		// $ar['ofName'] = 'gran bella roba';
+		// $ar['ofId'] = 2;
+		// $ar['qt'] = 22;
+		// $ar['price'] = 10.23;
+
+		extract($ar);
+		// prima tot e poi price!
+		$tot = number_format($qt*$price, 2, ',', ' ');
+		$price = number_format($price, 2, ',', ' ');
+
+		$userMsgAlt ='
+		Buongiorno %s,
+
+		Qualcuno ha accettato di ricevere il tuo ordine su foowd.it!
+		%s si e\' reso disponibile per girare il tuo pagamento al produttore e ricevere la merce.
+
+		Qui troverai il riepilogo per la tua parte dell\'ordine: verificalo e contatta %s su %s per informazioni sul pagamento ed eventuali modifiche.
+
+		Siamo a tua disposizione per dubbi, problemi o feedback.
+
+		Saluti da foowd, e buoni acquisti!
+
+
+		Segue il riepilogo della tua parte di ordine:
+
+		prodotto:          %s
+		preferenze: %13s 
+		a:          %13s &euro; Cad.
+		-------------------------
+		Totale:     %13s &euro;
+		';
+		$userMsgAlt = preg_replace("@^( {4}||\t{2})@m", '', $userMsgAlt);
+		unset($ar);
+		$alt = array($singleUsr, $mngrUsr, $mngrUsr, $mngrEmail, $ofName, $qt, $price, $tot);
+
+		$ofUrl = '<a href="'.\Uoowd\Param::offerUrl($ofId).'">'.$ofName.'</a>';
+		$userMsgHtml ='
+		<p>Buongiorno <b>%s</b>,</p>
+
+		<p>Qualcuno ha accettato di ricevere il tuo ordine su foowd.it!
+		<br/>%s si e\' reso disponibile per girare il tuo pagamento al produttore 
+		e ricevere la merce.</p>
+		
+		<p>Qui troverai il riepilogo per la tua parte dell\'ordine: 
+		verificalo e contatta %s su %s per informazioni sul pagamento 
+		ed eventuali modifiche.</p>
+		
+		<p><b>Siamo a tua disposizione per dubbi, problemi o feedback.</b></p>
+		<p><em>Saluti da foowd, e buoni acquisti!</em></p>
+
+		<p>Segue il riepilogo della tua parte di ordine:</p>
+
+		<table style="background-color: rgb(234, 228, 209); margin: 1em; border-spacing: 0.7em;"><tbody>
+			<tr>
+			<td>Prodotto:</td><td></td><td></td><td>%s</td>
+			</tr>
+			<tr>
+			<td>Preferenze:</td><td style="text-align:right;">%s</td><td>X</td>
+			</tr>
+			<tr>
+			<td>Prezzo:</td><td style="text-align:right;">%s</td><td>&euro; Cad.</td>
+			</tr>
+			<tr style="outline: thin solid;">
+			<td>Totale:</td><td style="text-align:right;">%s</td><td>&euro;</td>
+			</tr>
+			</tbody>
+		</table>
+		';
+		$html = array($singleUsr, $mngrUsr ,$mngrUsr, $mngrEmail, $ofUrl, $qt, $price, $tot);
+
+		$tmp = new \stdClass();
+		$tmp->htmlMsg = vsprintf($userMsgHtml, $html);
+		$tmp->altMsg = vsprintf($userMsgAlt, $alt);
+
+		return $tmp;
+	}
+  /**
+	 * Quando qualcuno si prende in carico l'ordinazione, 
+	 * questo messaggio giunge a ciascun utente suo amico 
 	 * che aveva espresso la preferenza, in attesa delle 24h
 	 * @param  [type] $ar [description]
 	 * @return [type]     [description]
@@ -195,7 +283,109 @@ class MessageEmail{
 		return $tmp;
 	}
 
+	/**
+	 * messaggio mail che giunge a chi chiude l'ordine
+	 * in caso di chiusura immediata dell'ordine.
+	 * @param  [type] $ar [description]
+	 * @return [type]     [description]
+	 */
+	public function managerOrderSingleMsg($ar){
+		// $ar = array();
+		// $ar['mngrUsr'] = 'random';
+		// $ar['ofName'] = 'gran bella roba';
+		// $ar['pubName'] = 'Azienza Agricola Rnd';
+		// $ar['pubEmail'] = 'via@rnd.com';
+		// $ar['totqt'] = 100;
+		// $ar['ofId'] = 2;
+		// $ar['ofDetail'] = array -> v
+		// $v['qt'] = 22;
+		// $v['price'] = 10.23;
+		// $v['singleUsr'] = 'partecipante'
 
+		extract($ar);
+
+		$price = (count($ofDetail)>0?$ofDetail[0]['price']:0)
+		$ttot = number_format($tqt*$price, 2, ',', ' ');
+		
+		$dettaglio = array_map("managerSingleOrderMsg", $ofDetail);
+
+		$managerMsgAlt = '
+		Buongiorno %s,
+		
+		Grazie per aver chiuso un ordine coi tuoi amici!
+		
+		Gli altri partecipanti stanno ricevendo istruzioni per contattarti e girarti il pagamento (puoi scegliere la modalita\' che ti e\' piu\' comoda: al produttore dovrai pagare direttamente il totale).
+
+		Una volta completati pagamenti o eventuali modifiche ti e\' sufficiente copia/incollare l\'elenco di riepilogo riportato piu\' avanti e inviarlo a %s all\'indirizzo %s (usa come oggetto "Ordine da foowd" per garantirti una risposta piu\' rapida).
+
+		Sara\' lui/lei a indicarti gli estremi per il pagamento e tutte le informazioni (e le tempistiche) utili alla ricezione dell\'ordine.
+
+		Siamo a tua disposizione per dubbi, problemi o feedback.
+
+		Saluti da foowd, e buoni acquisti!
+
+
+		Segue il riepilogo complessivo:
+		prodotto:   %s
+
+		%s
+		
+		in totale        %5s 
+
+		-------------------------
+		Totale:     %13s &euro;
+
+		';
+		$managerMsgAlt = preg_replace("@^( {4}||\t{2})@m", '', $managerMsgAlt);
+		unset($ar);
+		
+		$det = "";
+		foreach ($dettaglio as $d) $det.=$d->altMsg;
+
+		$alt = array( $mngrUsr, $pubName, $pubEmail, $ofName, $det, $totqt, $ttot);
+
+		$ofUrl = '<a href="'.\Uoowd\Param::offerUrl($ofId).'">'.$ofName.'</a>';
+
+		$managerMsgHtml = '
+		<p>Buongiorno <b>%s</b>,</p>
+
+		<p>Grazie per aver chiuso un ordine coi tuoi amici!</p>
+		<p>Gli altri partecipanti stanno ricevendo istruzioni per contattarti e girarti il pagamento (puoi scegliere la modalita\' che ti e\' piu\' comoda: al produttore dovrai pagare direttamente il totale).</p>
+		<p>Una volta completati pagamenti o eventuali modifiche ti e\' sufficiente copia/incollare l\'elenco di riepilogo riportato piu\' avanti e inviarlo a <b>%s</b> all\'indirizzo <b>%s</b> (usa come <b>oggetto "Ordine da foowd"</b> per garantirti una risposta piu\' rapida).</p>
+		<p>Sara\' lui/lei a indicarti gli estremi per il pagamento e tutte le informazioni (e le tempistiche) utili alla ricezione dell\'ordine.</p>
+		
+		<p><b>Siamo a tua disposizione per dubbi, problemi o feedback.</b></p>
+		<p><em>Saluti da foowd, e buoni acquisti!</em></p>
+
+		<p>Segue il riepilogo complessivo:
+
+		<table style="background-color: rgb(234, 228, 209); margin: 1em; border-spacing: 0.7em;"><tbody>
+			<tr>
+			<td>Prodotto:</td><td></td><td></td><td>%s</td>
+			</tr>
+			%s
+			<tr>
+			<td>in totale:</td><td style="text-align:right;">%s</td><td></td>
+			</tr>
+			<tr style="outline: thin solid;">
+			<td>Totale:</td><td style="text-align:right;">%s</td><td>&euro;</td>
+			</tr>
+			</tbody>
+		</table>
+		</p>
+		';
+
+		$det = "";
+		foreach ($dettaglio as $d) $det.=$d->htmlMsg;
+
+		$html = array( $mngrUsr, $pubName, $pubEmail, $ofUrl, $det, $totqt, $ttot);
+
+		$tmp = new \stdClass();
+		$tmp->htmlMsg = vsprintf($managerMsgHtml, $html);
+		$tmp->altMsg = vsprintf($managerMsgAlt, $alt);
+
+		return $tmp;
+	}
 	/**
 	 * messaggio mail che giunge a chi chiude l'ordine a 24h dalla chiusura effettiva.
 	 * @param  [type] $ar [description]
