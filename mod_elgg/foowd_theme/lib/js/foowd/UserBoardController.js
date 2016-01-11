@@ -166,7 +166,8 @@ define(function(require) {
 			preference.Qt = qt;
 			//richiamo l'API per settare la preferenza
 			API.addPreference(preference).then(function(data){
-				$(document).trigger('preferenceAdded');
+				_getUserPreferences();
+				_getUserInfo();
 			}, function(error){
 				$(document).trigger('preferenceError');
 				console.log(error);
@@ -178,10 +179,6 @@ define(function(require) {
 			_fillProgressBars();
 		});
 
-		$(document).on('preferenceAdded', function(){
-			_getUserPreferences();
-			_getUserInfo();
-		});
 		function toggleGroup(){
 			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
 			group=!group;

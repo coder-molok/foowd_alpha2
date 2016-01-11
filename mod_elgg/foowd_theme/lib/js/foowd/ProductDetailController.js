@@ -125,7 +125,7 @@ define(function(require){
 			//richiamo l'API per settare la preferenza
 			API.addPreference(preference).then(function(data){
 				getDetailsOf();
-				$(document).trigger('preferenceAdded');
+				//$(document).trigger('preferenceAdded');
 			}, function(error){
 				$(document).trigger('preferenceError');
 				console.log(error);
