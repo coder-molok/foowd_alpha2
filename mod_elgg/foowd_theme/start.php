@@ -37,8 +37,12 @@ function foowd_wall_page_handler() {
 }
 
 function foowd_product_detail_page_handler(){
-	if (!include_once(dirname(__FILE__) . "/pages/product-detail.php"))
-		return false;
+	if(elgg_get_logged_in_user_entity() != 0){
+		if (!include_once(dirname(__FILE__) . "/pages/product-detail.php"))
+			return false;
+		return true;
+	}
+	forward("login");
 	return true;
 }
 
@@ -86,6 +90,10 @@ function AMD(){
 
 	elgg_define_js('bootstrap', [
     	'src' => 'mod/foowd_theme/vendor/bootstrap/dist/js/bootstrap.min.js',
+    	'deps' => array('jquery')
+	]);
+	elgg_define_js('jquery-loading-overlay', [
+    	'src' => 'mod/foowd_theme/vendor/jquery-loading-overlay/dist/loading-overlay.min.js',
     	'deps' => array('jquery')
 	]);
 	elgg_define_js('masonry', [

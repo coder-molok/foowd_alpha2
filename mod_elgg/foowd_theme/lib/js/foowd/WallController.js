@@ -9,6 +9,7 @@ define(function(require){
 	var templates = require('templates');
 	var utils = require('Utils');
 	var $ = require('jquery');
+	var loadingOverlay = require('jquery-loading-overlay');
 
 	var WallController = (function(){
 
@@ -57,6 +58,7 @@ define(function(require){
 	    
 		
 		function searchProducts(){
+			$("#wall-container").loadingOverlay();
 			var userId = utils.getUserId();
 			if(userId!=null && group){
 				_getWallProductsGroup(userId,_getSearchText());
@@ -72,6 +74,8 @@ define(function(require){
 		 */
 		function _getWallProducts(userId,search){
 			API.getProducts(userId,search).then(function(data){
+				$("#wall-container").loadingOverlay('remove');
+
 				//parso il JSON dei dati ricevuti
 				var rawProducts = data.body;
 				//utilizo il template sui dati che ho ottenuto
@@ -86,6 +90,7 @@ define(function(require){
 					}
 				_applyColor();
 			},function(error){
+				$(wallId).loadingOverlay('remove');
 				console.log(error);
 			});
 		}
