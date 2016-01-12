@@ -12,7 +12,7 @@ templates['navbar'] = template({"1":function(container,depth0,helpers,partials,d
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
-  return "  <div class=\"navbar-section logo\" id = \"logo\">\n      <div class=\"foowd-brand\">\n       <span onClick=\"utils.goTo('')\">foowd_</span>\n"
+  return "  <div class=\"navbar-section\" id =\"logo\">\n      <div class=\"foowd-brand\">\n       <span onClick=\"utils.goTo('')\">foowd_</span>\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.search : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "      </div>\n  </div>\n  <div class = \"navbar-section\" id=\"user-menu-section\">\n      <div id = \"user-menu\">\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
@@ -159,15 +159,13 @@ templates['productPost'] = template({"1":function(container,depth0,helpers,parti
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "<li class=\"product-post\">\n    <div class=\"post-container\">\n        <div class=\"product-post-image-thumbnail\">\n            <figure class=\"tint\">\n                <img src=\""
+  return "<li class=\"product-post\">\n    <div class=\"post-container\" onclick=\"utils.go2('detail', 'productId', "
+    + alias4(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Id","hash":{},"data":data}) : helper)))
+    + ",event)\">\n        <div class=\"product-post-image-thumbnail\">\n            <figure class=\"tint\" >\n                <img src=\""
     + alias4(((helper = (helper = helpers.picture || (depth0 != null ? depth0.picture : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"picture","hash":{},"data":data}) : helper)))
-    + "\">\n            </figure>\n            <span class=\"heart-overlay foowd-icons foowd-icon-heart-full\"\n                  onclick=\"window.addPreference("
-    + alias4(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Id","hash":{},"data":data}) : helper)))
-    + ",1)\">\n            </span>\n            <div class=\"product-post-menu\">\n                <div class=\"logo\" onclick=\"utils.go2('detail', 'productId', "
-    + alias4(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Id","hash":{},"data":data}) : helper)))
-    + ")\">\n                   <span class = \"foowd-icons foowd-icon-len\">\n                   </span>\n                </div>\n                <div class=\"logo\" onclick=\"utils.go2('producer', 'producerId', "
+    + "\">\n            </figure>\n            <!-- Questo span permette ai contenuti di allinearsi con la larghezza dell'immagine\n            In pratica detta quanto sia la larghezza del div contenitore (vedi WallController.adjustOverlays--> \n              <span class=\"heart-overlay\"\n                  >\n            </span>\n             <div class=\"product-post-menu\">\n                <div  onclick=\"window.go2ProducerSite("
     + alias4(((helper = (helper = helpers.Publisher || (depth0 != null ? depth0.Publisher : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Publisher","hash":{},"data":data}) : helper)))
-    + ")\">\n                   <span class = \"foowd-icons foowd-icon-blade\">\n                   </span>\n                </div>\n            </div>\n        </div>\n        <div class=\"product-post-header\">\n            <div class=\"product-post-name\">\n                "
+    + ",event)\">\n                   <span class = \"foowd-icons foowd-icon-blade\">\n                   </span>\n                </div>\n            </div>\n        </div>\n        <div class=\"product-post-header\">\n            <div class=\"product-post-name\">\n                "
     + alias4(((helper = (helper = helpers.Name || (depth0 != null ? depth0.Name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Name","hash":{},"data":data}) : helper)))
     + "\n                <br/>\n                <br/>\n                <span class=\"product-post-unit-price\">\n                    "
     + alias4(((helper = (helper = helpers.Quota || (depth0 != null ? depth0.Quota : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Quota","hash":{},"data":data}) : helper)))
@@ -194,7 +192,7 @@ templates['userPreference'] = template({"1":function(container,depth0,helpers,pa
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.picture : stack1), depth0))
     + "\" class = \"user-preference-image\" \n                     onclick=\"utils.go2('detail', 'productId',"
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
-    + ")\">    \n            </div>\n            <div class=\"user-preference-name user-preference-section\">\n                <ul class=\"number-block\">\n                    <li>"
+    + ",event)\">    \n            </div>\n            <div class=\"user-preference-name user-preference-section\">\n                <ul class=\"number-block\">\n                    <li>"
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Name : stack1), depth0))
     + "</li>\n                </ul>\n            </div>\n            <div class=\"user-preference-details user-preference-section\">\n                <ul class=\"number-block preference-detail\">\n                    <li>"
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Price : stack1), depth0))

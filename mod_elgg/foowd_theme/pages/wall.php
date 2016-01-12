@@ -13,7 +13,10 @@
 <ul class="grid effect-1" id="wall">
 
 </ul>
+<!-- server per il loader-->
+<div id="wall-container"style="width: 100%;height: 100px;padding-top: 300px;" >
 
+</div>
 <!-- Pezzo che deve essere comune a tutte le pagine -->
 
 <div class="overlay overlay-hugeinc">
@@ -50,6 +53,7 @@ require([
   'imagesLoaded',
   'classie',
   'animOnScroll',
+  'jquery-loading-overlay',
   'WallController',
   'NavbarController',
   ],function(){

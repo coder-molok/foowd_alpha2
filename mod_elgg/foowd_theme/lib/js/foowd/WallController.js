@@ -9,6 +9,7 @@ define(function(require){
 	var templates = require('templates');
 	var utils = require('Utils');
 	var $ = require('jquery');
+	var loadingOverlay = require('jquery-loading-overlay');
 
 	var WallController = (function(){
 
@@ -50,12 +51,14 @@ define(function(require){
 			//carico l'header 
 			Navbar.loadNavbar(true);
 			//carico il wall con i template
+			_applyColor();
 			searchProducts();
 		}
 		
 	    
 		
 		function searchProducts(){
+			$("#wall-container").loadingOverlay();
 			var userId = utils.getUserId();
 			if(userId!=null && group){
 				_getWallProductsGroup(userId,_getSearchText());
@@ -71,6 +74,8 @@ define(function(require){
 		 */
 		function _getWallProducts(userId,search){
 			API.getProducts(userId,search).then(function(data){
+				$("#wall-container").loadingOverlay('remove');
+
 				//parso il JSON dei dati ricevuti
 				var rawProducts = data.body;
 				//utilizo il template sui dati che ho ottenuto
@@ -83,7 +88,9 @@ define(function(require){
 					}else{
 						$(document).trigger('failedSearch');
 					}
+				_applyColor();
 			},function(error){
+				$(wallId).loadingOverlay('remove');
 				console.log(error);
 			});
 		}
@@ -133,6 +140,19 @@ define(function(require){
 		function _getSearchText() {
 			return $(searchBox).val();
 		}
+
+		function _getProducerInfo(producerId){
+			API.getUserDetails(producer.producerId).then(function(data){
+				
+				var userData = data.body;
+				
+				
+			
+			}, function(error){	
+				console.log(error);
+			});
+		}
+
 
 	   /*
 		* Funzione esportata
@@ -237,23 +257,31 @@ define(function(require){
 			} );
 		}
 
+		
+        function go2ProducerSite(producerId,event){
+			var producer = utils.getUrlArgs();
+			API.getUserDetailsSync(producerId).then(function(data){
+				
+				var userData = data.body;
+				var win = window.open('http://'+data.body.Site);
+			}, function(error){	
+				console.log(error);
+			});
+			event.preventDefault();
+		}
+
+		function _applyColor(){
+				$( "#logo" ).each(function() {
+					$(this).toggleClass('logo-green',group);
+					$(this).toggleClass('logo',!group);
+
+				});
+		}
 
 		function toggleGroup(){
 			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
 			group=!group;
-			if(group) {
-				$( ".logo" ).each(function() {
-					$(this).toggleClass('logo');
-					$(this).toggleClass('logo-green');
-
-				});
-			}else{ 
-				$( ".logo-green" ).each(function() {
-					$(this).toggleClass('logo-green');
-					$(this).toggleClass('logo');
-
-				});
-			}
+			_applyColor();
 			searchProducts();
 
 			
@@ -289,10 +317,15 @@ define(function(require){
 		$(wallId).on('images-loaded',function(){
 			_adjustOverlays();
 		});
+		
+
+		
 	   /* Export---------------- */
 	   	window.addPreference = _addPreference;
 	   	window.searchProductsKey = searchProductsKey;
 	   	window.toggleGroup = toggleGroup;
+	   		   	window.go2ProducerSite = go2ProducerSite;
+
 	   /*
 		* METODI PUBBLICI ------------------------------------------------------------------------
 		*/
@@ -300,7 +333,8 @@ define(function(require){
 		return{
 			init           : _stateCheck,
 			searchProductsKey : searchProductsKey,
-			addPreference  : addPreference,
+			addPreference  : addPreference
+
 		};
 
 	})();

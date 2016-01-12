@@ -502,7 +502,7 @@ h5 {
   background-color: #fae6ef;
 }
 .logo-green {
-  background-color: #6f9;
+  background-color: #0c5b0d;
 }
 .foowd-brand {
   *zoom: 1;
@@ -540,7 +540,7 @@ h5 {
 }
 .foowd-brand input {
   width: 40%;
-  background-color: #fae6ef;
+  background-color: transparent;
   outline: none;
   border: none;
 }
@@ -596,6 +596,90 @@ h5 {
   box-shadow: 0 0 0 0 #000 !important;
   color: #fff !important;
   background-color: #000 !important;
+}
+
+@font-face {
+  font-family: "demo";
+  src: url('fonts/icons.woff') format("woff"), url('fonts/icons.ttf') format("truetype");
+}
+
+@-moz-keyframes loadingStart {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes loadingStart {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes loadingStart {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes loadingStart {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+.loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.loading .loading-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-animation: loadingStart 3s 300ms linear 1 both;
+  -moz-animation: loadingStart 3s 300ms linear 1 both;
+  -o-animation: loadingStart 3s 300ms linear 1 both;
+  animation: loadingStart 3s 300ms linear 1 both;
+  background: rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+
+
+
+.loading .loading-text {
+  font-size: 0.875rem;
+  line-height: 1.3125rem;
+  text-shadow: white 0 0 1em, white 0 0 0.5em, white 0 0 0.25em;
+  position: relative;
+  display: block;
+  text-transform: uppercase;
+  font-weight: bold;
+  content: "Caricamento";
+}
+.loading .loading-text:after {
+  content: "...";
+}
+.loading .loading-spinner {
+  position: absolute;
+  top: 50%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: -3.9375rem auto 0;
+  color: #1a1d1d;
+  text-align: center;
 }
 
 
@@ -1302,7 +1386,6 @@ h5 {
   height: 100%;
   position: absolute;
   z-index: -100;
-  background-color: #fae6ef;
 }
 @media only screen and (max-width: 900px) {
   .preference-progress-bar {
@@ -1616,9 +1699,6 @@ h5 {
   -ms-transition: opacity 0.15s ease;
   -o-prorp: opacity 0.15s ease;
   transition: opacity 0.15s ease;
-}
-.heart-overlay:hover {
-  opacity: 1;
 }
 .product-post-header {
   top: 0px;

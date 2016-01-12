@@ -41,6 +41,7 @@ define(function(require){
    		function _init(){
    			//load navbar
    			Navbar.loadNavbar();
+   			_applyColor()
    			//carico il template del prodotto con i dati
    			getDetailsOf();
    		}
@@ -109,6 +110,7 @@ define(function(require){
 					//gestico l'errore
 					console.log(error);
 				});
+				_applyColor();
 			}else{
 				//reindirizzo alla pagina del wall
 			 	utils.goTo();
@@ -123,7 +125,7 @@ define(function(require){
 			//richiamo l'API per settare la preferenza
 			API.addPreference(preference).then(function(data){
 				getDetailsOf();
-				$(document).trigger('preferenceAdded');
+				//$(document).trigger('preferenceAdded');
 			}, function(error){
 				$(document).trigger('preferenceError');
 				console.log(error);
@@ -142,10 +144,19 @@ define(function(require){
 			});
 
 		}
-		
+		function _applyColor(){
+
+				$( "#logo" ).each(function() {
+					$(this).toggleClass('logo-green',group);
+					$(this).toggleClass('logo',!group);
+
+				});
+		}
 		function toggleGroup(){
 			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
 			group=!group;
+			
+			_applyColor()
 			getDetailsOf();
 		}
 

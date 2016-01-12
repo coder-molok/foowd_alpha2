@@ -13,7 +13,7 @@ REPO=""
 SITE="/var/www/html/elgg-1.10.4/"
 API="/var/www/html/api_foowd"
 ModPath=$SITE"/mod/"        
-CMD="sudo rsync -a -v --chown=http-web:http-web"                       
+CMD="sudo rsync -a -v  --chown=http-web:http-web"                       
               
               
 ### Git       

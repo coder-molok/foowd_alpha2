@@ -157,6 +157,30 @@ define(function(require){
                  });
                 return deferred.promise();
              },
+             //Serve per quando apro la pagina produttore, evita problemi con il popup
+             getUserDetailsSync : function(userId){
+                var deferred = $.Deferred();
+                var requestURL = baseUrl + userActions.search;
+                var requestData = {};
+                requestData.type = "search";
+                requestData.ExternalId = userId;
+
+                $.ajax({
+                	 async: false,
+                    type : "POST",
+                    url : requestURL,
+                    contentType : "application/json; charset=utf-8",
+                    data : JSON.stringify(requestData),
+                    dataType : "json",
+                    success : function(data, status, jqXHR) {
+                       deferred.resolve(data);
+                    },
+                    error : function(jqXHR, status) {
+                       console.log("error: "+status);
+                    }
+                 });
+                return deferred.promise();
+             },
              
              getUserPics : function(userId){
                 var deferred = $.Deferred();

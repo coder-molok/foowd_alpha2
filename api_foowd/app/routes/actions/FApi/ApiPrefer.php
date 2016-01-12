@@ -265,7 +265,10 @@ class ApiPrefer extends \Foowd\FApi{
 		// trasformo la lista ti stati in array
 		// se non specificato, ricerco solo quelli con stato "newest"
 		// eventualmente si puo' specificare State=all
-		$editable = array('newest', 'pending');
+		//$editable = array('newest', 'pending');
+		
+		//Prendo solo le preferenze per cui non e' stato ancora creato un ordine
+		$editable = array('newest');
 		if(isset($data->State)){
 			$state = $data->State;
 			if(is_string($state) && preg_match('@,@', $state)) $data->State = array_map('trim' , explode( ',', $data->State) );
@@ -361,7 +364,7 @@ class ApiPrefer extends \Foowd\FApi{
 			$ar['Offer'] = \OfferQuery::Create()->filterById($OfferId)->findOne()->toArray();
 			$ar['Offer']['Publisher'] = self::IdToExt($ar['Offer']['Publisher']);
 			$ar['totalQt'] = 0;
-			$pf = \PreferQuery::Create()->filterByOfferId($OfferId);
+			$pf = \PreferQuery::Create()->filterByOfferId($OfferId)->filterByState($editable);
 			if(isset($usersMatch)) $pf = $pf->filterByUserId($usersMatch);
 			$pf = $pf->find();
 

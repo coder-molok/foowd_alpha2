@@ -1,21 +1,16 @@
 <li class="product-post">
-    <div class="post-container">
+    <div class="post-container" onclick="utils.go2('detail', 'productId', {{Id}},event)">
         <div class="product-post-image-thumbnail">
-            <figure class="tint">
+            <figure class="tint" >
                 <img src="{{picture}}">
             </figure>
-            <span class="heart-overlay foowd-icons foowd-icon-heart-full"
-                  title="Clicca per aggiungere una preferenza a questo prodotto!"
-                  onclick="window.addPreference({{Id}},1)">
+            <!-- Questo span permette ai contenuti di allinearsi con la larghezza dell'immagine
+            In pratica detta quanto sia la larghezza del div contenitore (vedi WallController.adjustOverlays--> 
+              <span class="heart-overlay"
+                  >
             </span>
-            <div class="product-post-menu">
-                <div class="logo" onclick="utils.go2('detail', 'productId', {{Id}})"
-                     title="Dettagli del prodotto">
-                   <span class = "foowd-icons foowd-icon-len">
-                   </span>
-                </div>
-                <div class="logo" onclick="utils.go2('producer', 'producerId', {{Publisher}})"
-                     title="Dettagli del produttore">
+             <div class="product-post-menu">
+                <div  onclick="window.go2ProducerSite({{Publisher}},event)">
                    <span class = "foowd-icons foowd-icon-blade">
                    </span>
                 </div>
@@ -33,7 +28,7 @@
                 </span>
             </div>
             {{#if logged}}
-                <span class="mini-progress-bar" title="Preferenze espresse rispetto al minimo necessario per un ordine">
+                <span class="mini-progress-bar">
                     <span class="mini-progress" data-unit="1" data-progress="{{totalQt}}" data-total="{{Minqt}}"></span>
                 </span>  
                 <div class="product-post-progress-price">

@@ -41,11 +41,17 @@ define(function(require){
         * Re-indirizza verso una pagina specificando una parametro
         * 
         */
-		function go2(page, parameter, parameterValue){
+		function go2(page, parameter, parameterValue,event){
+			if(event.defaultPrevented){
+
+				return;
+			}
             if(isValid(page) && isValid(parameter) && isValid(parameterValue)){
                 elgg.forward("/" + page + "?" + parameter + "=" + parameterValue);  
             }
         }
+        
+
 
        /*
         * Re-indirizza verso una pagina generica
