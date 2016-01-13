@@ -391,7 +391,8 @@ class ApiOffer extends \Foowd\FApi{
 
 			// Restituisco l'id esterno dell'utente, ovvero quello utilizzato da Elgg
 			$ar['Publisher'] = $this->IdToExt($ar['Publisher']);
-			$ar['UserId'] = $this->IdToExt($ar['UserId']);
+			// $ar['UserId'] = $this->IdToExt($ar['Publisher']);
+			if(isset($ar['UserId'])) $ar['UserId'] = $this->IdToExt($ar['UserId']);
 
 
 			// se l'utente ha espresso una preferenza per questo prodotto, allora la aggiungo come prefer, altrimenti risulta null

@@ -13,7 +13,11 @@ REPO=""
 SITE="/var/www/html/elgg-1.10.4/"
 API="/var/www/html/api_foowd"
 ModPath=$SITE"/mod/"        
-CMD="sudo rsync -a -v  --chown=http-web:http-web"                       
+
+
+# excluding path
+EXCLUDE="--exclude-from=${REPO}script/rsyncExclude.config"
+CMD="sudo rsync -a -v ${EXCLUDE} --chown=http-web:http-web"                       
               
               
 ### Git       
@@ -29,15 +33,24 @@ DEL=" --delete"
 for D in $REPO"mod_elgg/"*; do         
     if [ -d "${D}" ]; then         
         SRC=`echo ${D}/`       
-        DST=`basename ${D}`    
-        if [[ "${D}" == *theme ]]; then                 
-            TMP="$CMD$DEL $SRC $ModPath$DST ; (cd $ModPath$DST; echo 'runno  
-bower...'; bower install --allow-root )"              
-        else                   
-            TMP="$CMD $SRC $ModPath$DST"   
-        fi                     
-        	eval "$TMP"            
-            #echo "$TMP"           
+        DST=`basename ${D}`
+        TMPCMD="$CMD"
+        EXTRACMD=""
+        # se la directory contiene bower.json, allora lo runno 
+        if [ -f "${D}/bower.json" ]; then                 
+            TMPCMD="$TMPCMD$DEL"
+            EXTRACMD="$EXTRACMD ; (cd $ModPath$DST; echo 'runno bower...'; bower install --allow-root )"              
+        fi
+        # se la directory contiene composer.json, allora lo runno 
+        if [ -f "${D}/composer.json" ]; then
+            TMPCMD="$TMPCMD$DEL"
+            EXTRACMD="$EXTRACMD ; (cd $ModPath$DST; echo 'runno composer...'; composer install )"              
+        fi
+
+        TMP="$TMPCMD $SRC $ModPath$DST $EXTRACMD"                        
+        
+        eval "$TMP"            
+        #echo "$TMP"           
     fi    
 done          
               
