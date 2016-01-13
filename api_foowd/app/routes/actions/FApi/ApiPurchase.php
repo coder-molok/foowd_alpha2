@@ -65,6 +65,7 @@ class ApiPurchase extends \Foowd\FApi{
 
 		// $order = new \Order();
 
+		// imposto le date per il salvataggio
 		date_default_timezone_set('Europe/Rome');
 		if(!isset($data->Created)) $data->Created = date('Y-m-d H:i:s');
 		if(!isset($data->Modified)) $data->Modified = date('Y-m-d H:i:s');
@@ -76,6 +77,7 @@ class ApiPurchase extends \Foowd\FApi{
 			$j['errors']['LeaderId']= "LeaderId esterno $data->ManagerId non presente";
 		}
 
+		// recupero l'offerta
 		$offer = 	\OfferQuery::Create()
 					->filterById($data->OfferId)
 					->find();
@@ -100,6 +102,7 @@ class ApiPurchase extends \Foowd\FApi{
 		// avendo tolto il giro delle 24h soltanto quelle nuove sono modificabili
 		$editable = array('newest');
 
+		// raccolgo le preferenze che sono editabili
 		$prefers = \PreferQuery::Create()
 					->filterById($prlist)
 					->filterByState($editable)
@@ -118,6 +121,7 @@ class ApiPurchase extends \Foowd\FApi{
 		}
 
 		$this->app->getLog()->warning($offer->toJson());
+		$offerAr = $offer->toArray();
 
 		if( count($prlist) > 0 ){
 			$j['errors']['prefersList'] = "prefersList : gli id {".implode($prlist, ',')."} non corrispondono a preferenze salvate o editabili";
@@ -129,6 +133,11 @@ class ApiPurchase extends \Foowd\FApi{
 			$j['errors']['totalQt'] = "Errore nella quantita' totale conteggiata nelle preferenze. Risulta essere $totalQt";
 		}elseif($totalQt > $offer->getMaxqt() && $offer->getMaxqt() > 0 ){ // se maxqt = 0 allora si presume illimitata
 			$j['errors']['totalQt'] = "Errore nella quantita' totale conteggiata nelle preferenze. Risulta essere $totalQt, mentre la massima ordinabile e' ". $offer->getMaxqt();
+		}
+
+		// se l'offerta e' gia' scaduta
+		if( !is_null($offerAr['Expiration']) && new \DateTime() > new \DateTime($offerAr['Expiration']) ){
+			$j['errors']['Expiration'] = 'Impossibile completare l\'ordine: offerta scaduta';
 		}
 
 		if(isset($j['errors'])){
@@ -145,7 +154,7 @@ class ApiPurchase extends \Foowd\FApi{
 
 
 		// apro un blocco try - catch
-		// in caso di errore, il rollback annulla tutte le operazioni: comodo!
+		// in caso di errore, il rollback annulla tutte le operazioni di scrittura al DB dentro il blocco try: comodo!
 		try{
 
 			$order = new \Purchase();
@@ -197,6 +206,7 @@ class ApiPurchase extends \Foowd\FApi{
 		 * @apiGroup Purchase
 		 * 
 	 	 * @apiDescription ritorna tutte le ordinazioni filtrandole per stato.
+	 	 * 					Serve per il cronTab delle 24h
 		 * 
 		 * @apiParam {String} 		type 		create
 		 * @apiParam {Numeric} 		OfferId		id dell'offerta
@@ -213,6 +223,7 @@ class ApiPurchase extends \Foowd\FApi{
 		 * @apiUse MyResponseOffer
 		 *     
 		 */	
+		/*
 		public $needle_search = "State";
 		public function search($data){
 			$j = array();
@@ -254,7 +265,7 @@ class ApiPurchase extends \Foowd\FApi{
 			return $j;
 
 
-		}
+		}*/
 
 
 
@@ -279,7 +290,7 @@ class ApiPurchase extends \Foowd\FApi{
 		 *     
 		 */	
 
-		public $needle_solve = "PurchaseId";
+		/*public $needle_solve = "PurchaseId";
 		public function solve($data){
 		
 			$j = array();
@@ -375,7 +386,7 @@ class ApiPurchase extends \Foowd\FApi{
 			return $j;
 
 
-		}
+		}*/
 
 	
 }

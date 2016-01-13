@@ -154,9 +154,6 @@ class FoowdPurchase{
 		// \Fprint::r($msg);
 		elgg_send_email($from, $emailTo, $subject, $msg->altMsg, array('htmlBody'=>$ntf->msg->htmlMsg) );
 
-
-
-
 	}
 
 

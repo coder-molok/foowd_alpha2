@@ -2,6 +2,12 @@
 
 /**
  * action richiamata quando il leader si prende in carico un ordine
+ *
+ * NB:
+ * per testare l'invio dele mail senza l'ordine mi basta commentare 
+ * 		$con->commit();
+ *
+ * in foowd-purchase-leader funzione create, intorno alla riga 170
  */
 
 
@@ -20,7 +26,6 @@ function pri($str){
 $j['response'] = false;
 
 $orderError = 'Errore di aggiornamento dell\'ordine, ci scusiamo per il disguido.';
-$messenger = new \Uoowd\MessageEmail();
 
 // I processi da svolgere sono 2:
 // 
@@ -29,16 +34,14 @@ $messenger = new \Uoowd\MessageEmail();
 
 
 //// DATI POST
-/// 	offerId
-/// 	leader (il suo id)
-/// 	publisher (dell'offerta)
-/// 	prefers (lista di id delle preferenze)
-
+/// 	OfferId
+/// 	LeaderId (il suo id)
+/// 	prefersList (lista di id delle preferenze)
 // $publisher = get_user_by_username( $_POST['publisher'] );
 
-pri($_POST);
+// pri($_POST);
 $leader = get_user( $_POST['LeaderId'] );
-// $offerId = $_POST['OfferId'];
+
 
 // id offerta
 $oId = $_POST['OfferId'];
@@ -52,17 +55,20 @@ $oId = $_POST['OfferId'];
 // }
 
 if(!$leader){
-	register_error('Impossibile svolgere l\'operazione richiesta, ci scusiamo per il disagio.');
+	$txt = 'Impossibile svolgere l\'operazione richiesta, ci scusiamo per il disagio.';
+	register_error($txt);
+	echo $txt;
 	\Uoowd\Logger::addError('Errore durante la creazione dell\'ordine. Manca il manager');
 	forward(REFERER);
 }
 
 if(!$oId){
-	register_error('Impossibile svolgere l\'operazione richiesta, ci scusiamo per il disagio.');
+	$txt = 'Impossibile svolgere l\'operazione richiesta, ci scusiamo per il disagio.';
+	register_error($txt);
+	echo $txt;
 	\Uoowd\Logger::addError('Errore durante la creazione dell\'ordine. Manca l\'offerid');
 	forward(REFERER);
 }
-
 
 
 // le preferenze possono essere o una lista di id, o una lista di Oggetti-preferenza
@@ -107,45 +113,55 @@ $offer = $b->offer;
 
 
 // raccolgo i dati per l'invio delle mail a leader e utenti
-
 $offerName = $offer->Name;
 $offerId = $offer->Id;
 $offerPrice = $offer->Price;
 
+// lista delle preferenze con dettagli
 $prefers = $r->body->prefers;
+// publisher dell'offerta
+$publisher = get_user($offer->Publisher);
 
-// *********************************************************************************************/
-// Elaboro la data, impostando 24 ore arrotondate ai primi 30 minuti successivi (per via del crontab)
-$now = new DateTime();
-$purch = new \Uoowd\FoowdPurchase();
-$deltaT = $purch->trigger;
-$now->add(new DateInterval('PT'.$deltaT.'S'));
-// giorno della settimana, partendo da zero
-$D = (int) $now->format('w');
-// mese dell'anno partendo da zero
-$M = (int) $now->format('m');
-// secondi dell'orologio
-$s = (int) $now->format('s');
-// minuti dell'orologio
-$m = (int) $now->format('i');
 
-$dateLimit = sprintf("%s %s (domani)", $now->format('d'), \Uoowd\FoowdCron::$mesi[$M] );
-echo $dateLimit;
+// // *********************************************************************************************/
+// // Elaboro la data, impostando 24 ore arrotondate ai primi 30 minuti successivi (per via del crontab)
+// $now = new DateTime();
+// $purch = new \Uoowd\FoowdPurchase();
+// $deltaT = $purch->trigger;
+// $now->add(new DateInterval('PT'.$deltaT.'S'));
+// // giorno della settimana, partendo da zero
+// $D = (int) $now->format('w');
+// // mese dell'anno partendo da zero
+// $M = (int) $now->format('m');
+// // secondi dell'orologio
+// $s = (int) $now->format('s');
+// // minuti dell'orologio
+// $m = (int) $now->format('i');
 
-// arrotondo ai primi n minuti successivi, ovvero l'orario a cui effettivamente viene eseguito il crontab
-$round = $purch->cronTab ;
-$seconds = $m * 60 + $s ;
-$nearest = ceil($seconds/$round) * $round;
-$remain = $nearest - $seconds;
-$now->add(new DateInterval('PT'.$remain.'S'));
-$timeLimit = $now->format('H:i');
-echo $timeLimit;
-//********* Fine elaborazione Data ******/
+// $dateLimit = sprintf("%s %s (domani)", $now->format('d'), \Uoowd\FoowdCron::$mesi[$M] );
+
+// // arrotondo ai primi n minuti successivi, ovvero l'orario a cui effettivamente viene eseguito il crontab
+// $round = $purch->cronTab ;
+// $seconds = $m * 60 + $s ;
+// $nearest = ceil($seconds/$round) * $round;
+// $remain = $nearest - $seconds;
+// $now->add(new DateInterval('PT'.$remain.'S'));
+// $timeLimit = $now->format('H:i');
+// // echo $timeLimit;
+// \Uoowd\Logger::addError($dateLimit.$timeLimit);
+// //********* Fine elaborazione Data ******/
 
 
 // lavoro sui dati ritornati dalla API
 
+// classe dei messaggi
+$messenger = new \Uoowd\PurchaseMessageEmail();
+
 $totalQt = 0 ;
+
+// array contenente i dati utili per la mail del leader
+$leaderAr = array();
+$leader['ofDetail'] = array();
 
 // Mail agli Utenti
 foreach($prefers as $pr){
@@ -155,7 +171,23 @@ foreach($prefers as $pr){
 		continue;
 	}
 
+	// che sia il leader o meno, la quantita' totale va incrementata
 	$totalQt += $pr->Qt;
+
+	// dettagli per riepilogo al leader
+	$v = array(
+		'qt' => $pr->Qt,
+		'price' => $offerPrice,
+		'singleUsr' => $us->username,
+	);
+	$leaderAr['ofDetail'][] = $v;
+
+	// se e' il leader, allora raccolgo i dati utili, ma non gli mando la mail da questo loop
+	if($pr->UserId === $leader->guid){
+		// leader preference
+		$leaderAr['qt'] = $pr->Qt;
+		continue;
+	}
 
 	// array dei parametri
 	$data = array();
@@ -166,10 +198,10 @@ foreach($prefers as $pr){
 	$data['ofId'] = $offerId ; 
 	$data['qt'] = $pr->Qt; 
 	$data['price'] = $offerPrice; 
-	$data['timeLimit'] = $timeLimit ; 
-	$data['dateLimit'] = $dateLimit ;
+	// $data['timeLimit'] = $timeLimit ; 
+	// $data['dateLimit'] = $dateLimit ;
 
-	$msg = $messenger->userOrderFirstMsg($data);
+	$msg = $messenger->userOrderSingleMsg($data);
 
 	$emailTo = $us->email;
 	$from = 'Foowd Site';
@@ -180,26 +212,25 @@ foreach($prefers as $pr){
 
 // Mail al leader
 // il leader so gia' chi e' e sono gia' sicuro che sia un utente valido (vedi inizio script)
-
-$ar = array();
-$ar['mngrUsr'] = $leader->username;
-$ar['ofName'] = $offerName;
-// $ar['pubName'] = 'Azienza Agricola Rnd';
-// $ar['pubEmail'] = 'via@rnd.com';
-$ar['ofId'] = $offerId;
-$ar['qt'] = 22;
-$ar['price'] = $offerPrice;
-$ar['tqt'] = $totalQt;
-$ar['timeLimit'] = $timeLimit;
-$ar['dateLimit'] = $dateLimit;
+$leaderAr['mngrUsr'] = $leader->username;
+$leaderAr['ofName'] = $offerName;
+$leaderAr['pubName'] = $publisher->username;
+$leaderAr['pubEmail'] = $publisher->email;
+$leaderAr['totqt'] = $totalQt;
+$leaderAr['ofId'] = $offerId;
+$leaderAr['price'] = $offerPrice;
+// $leaderAr['timeLimit'] = $timeLimit;
+// $leaderAr['dateLimit'] = $dateLimit;
 
 
-$msg = $messenger::managerOrderFirstMsg($ar);
+// \Uoowd\Logger::addError($leaderAr);
+$msg = $messenger::managerOrderSingleMsg($leaderAr);
 $emailTo = $leader->email;
 $from = 'Foowd Site';
 $subject = 'Offerta "'.$offerName.'" presa in carico';
-elgg_send_email($from, $emailTo, $subject, $msg->altMsg, array('htmlBody'=>$ntf->msg->htmlMsg) );
+elgg_send_email($from, $emailTo, $subject, $msg->altMsg, array('htmlBody'=>$msg->htmlMsg) );
 
 $j['response'] = true;
 
 echo json_encode($j);
+

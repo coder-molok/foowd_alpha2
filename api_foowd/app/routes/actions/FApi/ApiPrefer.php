@@ -68,29 +68,72 @@ class ApiPrefer extends \Foowd\FApi{
 		unset($data->ExternalId);
 		$data->UserId = $UserId;
 
-		
+		// svolgo immediatamente un controllo sulla scadenza dell'offerta
+		$expiration = \OfferQuery::Create()->filterById($data->OfferId)->findOne()->toArray();
+		$expiration = $expiration['Expiration'];
+		// se l'offerta ha una scadenza ed e' gia' scaduta non posso modificare la preferenza.
+		// inoltre stoppo lo script perche' di fatto non devo fare nulla.
+		// NB: eventualmente potrei impostare un nuovo stato, tipo expired
+		if( !is_null($expiration) && new \DateTime() > new \DateTime($expiration) ){
+			$j['errors']['Expiration'] = 'Impossibile esprimere preferenza: offerta scaduta';
+			echo json_encode($j);			
+			exit(0);
+		}
+
+
+		// raccolgo le preferenze che matchano i filtri
 		$prefer = \PreferQuery::Create()
 				->filterByOfferId($data->OfferId)
 				->filterByUserId($UserId)
 				->find();
-
-
-		// foreach($UserId as $);
-		// var_dump($prefer);
 		
+		// raccolgo le preferenze editabili
 		$editablePref = array();
-		$editable = array('pending', 'newest');
+		$editable = array(/*'pending',*/ 'newest');
+
+		// quelle in stato pending le considero bloccate, ovvero:
+		// fino a quando l'ordine non viene completamente chiuso e la preferenza passa in stato solved
+		// non posso ne modificare quella in stato pending ne crearne di nuove.
+		$blockedPref = array();
+
+		
 		foreach($prefer as $pref){
 			if(in_array($pref->getState(), $editable) ) $editablePref[] = $pref;
+			if($pref->getState() === 'pending') $blockedPref[] = $pref;
 		}
 
+		// in teoria per un offerta ho solo una preferenza in stato 'pending'
+		if(count($blockedPref) > 1){
+			$Json['response'] = false;
+			$Json['errors']['blockedPref'] = 'Errore: sulla singola offerta dovrebbe esserci una sola preferenza bloccata';
+			$this->app->getLog()->error($Json);
+			echo json_encode($Json);
+			exit(0);
+		}
+		elseif(count($blockedPref) == 1){
+			$Json['response'] = false;
+			$Json['errors']['blockedPref'] = 'E\' gia\' presente un\'offerta bloccata (id '.$blockedPref[0]->getId().' ), pertanto non puoi svolgere ordinazioni fino a quando il capo-gruppo non chiudera\' l\' ordine.';
+			if(count($editablePref) > 0){
+				// raccolgo le preferenze da eliminare poiche' incompatibili col sistema
+				$del = array();
+				foreach($editablePref as $p) $del[] = $p->getId();
+				// rimuovo automaticamente le preferenze che in realta' non dovrebbero esistere
+				\PreferQuery::Create()->filterById($del)->delete();
+				$Json['errors']['editablePref'] = 'Errore di gestione: non dovrebbero essere presenti preferenze modificabili in questo step. Per ovviare sono state rimosse le preferenze con ID {' . implode(' , ' , $del) . '} .';	
+				$this->app->getLog()->error($Json);
+			} 
+			echo json_encode($Json);			
+			exit(0);
+		}
+
+		// se sono arrivato fino a qui vuol dire che posso incrementare una preferenza gia' presente oppure crearne una nuova
 		// creo una nuova
 		if(count($editablePref) === 0) $prefer = false;
 		// modifico quella gia' esistente
 		if(count($editablePref) === 1) $prefer = $editablePref[0];
 
-		// TODO: eventualmente aggiungere un controllo per essere certi che non vi siano piu offerte in stato pending o newest
 
+		// TODO: eventualmente aggiungere un controllo per essere certi che non vi siano piu offerte in stato pending o newest
 		if($prefer){
 
 			$value = $prefer->getQt() + $data->Qt;
@@ -103,9 +146,8 @@ class ApiPrefer extends \Foowd\FApi{
 				$Json['msg'] = "Preferenza Eliminata";
 				return $Json;
 			}elseif($value > $prefer->getOffer()->getMaxqt() && $prefer->getOffer()->getMaxqt() != 0 ){
-				// $value = $prefer->getOffer()->getMaxqt();
 				$Json['warings']['Maxqt'] = "La Qt della singola preferenza non puo' superare la Maxqt dell'offerta";
-				// $value = $prefer->getOffer()->getMaxqt();
+				$value = $prefer->getOffer()->getMaxqt();
 			}
 			$prefer->setQt( $value );
 		}else{
@@ -341,6 +383,7 @@ class ApiPrefer extends \Foowd\FApi{
 
 		// fino a qui ho ottenuto tutte le preferenze del primo ExternalId
 		// ora lavoro su ciascuna per risalire all'offerta ed alle preferenze che matchano usersMatch e l'offerta
+		// NB: questo loop e' utile per ApiOffer search intorno a riga 400
 		foreach ($prefer as $single) {
 			$ar = $single->toArray();
 
@@ -364,18 +407,26 @@ class ApiPrefer extends \Foowd\FApi{
 			$ar['Offer'] = \OfferQuery::Create()->filterById($OfferId)->findOne()->toArray();
 			$ar['Offer']['Publisher'] = self::IdToExt($ar['Offer']['Publisher']);
 			$ar['totalQt'] = 0;
-			$pf = \PreferQuery::Create()->filterByOfferId($OfferId)->filterByState($editable);
+			$pf = \PreferQuery::Create()->filterByOfferId($OfferId)->filterByState('newest');
 			if(isset($usersMatch)) $pf = $pf->filterByUserId($usersMatch);
 			$pf = $pf->find();
-
-			$ar['prefers'] = array();
-
-			foreach($pf as $sing){
-				// var_dump($sing);
-				$sing = $sing->toArray();
-				$ar['totalQt'] += $sing['Qt'];
-				$ar['prefers'][] = $sing['Id'];
+			
+			// se non ho preferenze nuove su questo articolo, allora sono bloccate
+			if($pf->count() === 0){
+				// error_log($pf->count());
+				$ar['prefers'] = 'locked';
+			}else{
+				$ar['prefers'] = array();
+				foreach($pf as $sing){
+					// var_dump($sing);
+					$sing = $sing->toArray();
+					$ar['totalQt'] += $sing['Qt'];
+					$ar['prefers'][] = $sing['Id'];
+				}
 			}
+
+			
+			
 
 			array_push($return, $ar );
 

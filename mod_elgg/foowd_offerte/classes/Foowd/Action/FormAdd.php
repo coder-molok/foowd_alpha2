@@ -283,11 +283,16 @@ namespace Foowd\Action;
 			                var str =  Gdate.Y + "-" + M + "-" + Gdate.D + " " + Gdate.h + ':' + Gdate.m + ":" + Gdate.s;
 			                Gdiv.val(str);        
 			            },
-			            // memorizzo i dati presenti quanto apro la finestra
+			            // memorizzo i dati presenti quando apro la finestra
 			            afterInject: function(){
 			                var t = this, i = t.inst;
 			                Gdate.Y = i.selectedYear, Gdate.M = i.selectedMonth, Gdate.D = i.selectedDay;
 			                Gdate.h = t.hour, Gdate.m = t.minute, Gdate.s = '00';
+			            },
+			            onClose: function(){
+			            	// se l'ho cancellato, allora e' come se volessi togliere la data di scadenze
+			            	// il primo e' il valore che visualizzo sotto a scadenza
+			            	if( $(this).val().trim() === '') Gdiv.val('');
 			            }
 			        });
 			    })

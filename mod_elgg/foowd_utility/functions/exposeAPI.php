@@ -7,6 +7,8 @@
 // piccolo tutorial
 // see https://www.marcus-povey.co.uk/2009/08/25/using-elggs-rest-like-api/
 
+// $debug = false;
+
 function foowd_find_match_first($baseImgs, $match){
     $fileMatch = false;
     $it = new RecursiveDirectoryIterator($baseImgs, RecursiveDirectoryIterator::SKIP_DOTS); 
@@ -41,6 +43,7 @@ elgg_ws_expose_function("foowd.user.friendsOf",
 		);
 
 function foowd_friendsOf($guid){
+	// if($debug) \Uoowd\Logger::addError('friendsOf');
 	// in primis controllo che l'utente che svolge la richiesta sia loggato
 //	$user = elgg_get_logged_in_user_entity();
 	$j['response'] = false;
@@ -122,6 +125,7 @@ elgg_ws_expose_function("foowd.picture.get",
  *     userId , type , sub1 , size 
  */
 function foowd_picture_get(){
+	// if($debug) \Uoowd\Logger::addError(__FUNCTION__);
 	extract($_GET);
 	
     $j = array();

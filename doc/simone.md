@@ -2,9 +2,21 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
-### 06/01/2016
+### 13/01/2016
 
-- modificate FoowdPurchase.php foowd-purchase-leader.php FoowdCron MessageEmail
+ho riassunto i lavori da dopo il 7/01/2016 in questo commit, in particolare
+
+- rimosso giro delle 24h
+
+- inserito controllo ApiPuchase 'create' relativo a `totalQt` e `Expiration`
+
+- inserito controllo ApiPrefer 'create' relativo a `totalQt` e `Expiration`
+
+- rimodellata risposta ApiOffer 'search' nell'elenco delle preferenze a solo quelle `newest`
+
+- corretta PurchaseMessageEmail.php
+
+- modificato datepicker del form di inserimento e modifica offerta per consentire l'eliminazione della data di scadenza
 
 
 

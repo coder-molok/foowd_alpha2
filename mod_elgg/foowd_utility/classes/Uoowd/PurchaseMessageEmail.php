@@ -2,7 +2,7 @@
 
 namespace Uoowd;
 
-class MessageEmail{
+class PurchaseMessageEmail{
 
 
 	/**
@@ -100,7 +100,7 @@ class MessageEmail{
 	 * @param  [type] $ar [description]
 	 * @return [type]     [description]
 	 */
-	public function userOrderFirstMsg($ar){
+	/*public function userOrderFirstMsg($ar){
 		// $ar = array();
 		// $ar['singleUsr'] ='enomis';
 		// $ar['mngrUsr'] = 'random';
@@ -187,7 +187,7 @@ class MessageEmail{
 		$tmp->altMsg = vsprintf($userMsgAlt, $alt);
 
 		return $tmp;
-	}
+	}*/
 	/**
 	 * passate le 24h, 
 	 * questo messaggio giunge a ciascun utente in attesa 
@@ -195,7 +195,7 @@ class MessageEmail{
 	 * @param  [type] $ar [description]
 	 * @return [type]     [description]
 	 */
-	public function userOrderLastMsg($ar){
+	/*public function userOrderLastMsg($ar){
 		// $ar = array();
 		// $ar['singleUsr'] ='enomis';
 		// $ar['mngrUsr'] = 'random';
@@ -281,7 +281,7 @@ class MessageEmail{
 		$tmp->altMsg = vsprintf($userMsgAlt, $alt);
 
 		return $tmp;
-	}
+	}*/
 
 	/**
 	 * messaggio mail che giunge a chi chiude l'ordine
@@ -298,16 +298,17 @@ class MessageEmail{
 		// $ar['totqt'] = 100;
 		// $ar['ofId'] = 2;
 		// $ar['ofDetail'] = array -> v
-		// $v['qt'] = 22;
-		// $v['price'] = 10.23;
-		// $v['singleUsr'] = 'partecipante'
+		// $ar['qt'] = 22;
+		// $ar['price'] = 10.23;
 
 		extract($ar);
 
-		$price = (count($ofDetail)>0?$ofDetail[0]['price']:0)
-		$ttot = number_format($tqt*$price, 2, ',', ' ');
+		$price = (count($ofDetail)>0?$ofDetail[0]['price']:0);
+		$ttot = number_format($totqt*$price, 2, ',', ' ');
 		
-		$dettaglio = array_map("managerSingleOrderMsg", $ofDetail);
+		$msg = __CLASS__;
+		$msg = new $msg();
+		$dettaglio = array_map(array($msg, "managerSingleOrderSummaryMsg"), $ofDetail);
 
 		$managerMsgAlt = '
 		Buongiorno %s,
@@ -391,7 +392,7 @@ class MessageEmail{
 	 * @param  [type] $ar [description]
 	 * @return [type]     [description]
 	 */
-	public function managerOrderFirstMsg($ar){
+	/*public function managerOrderFirstMsg($ar){
 		// $ar = array();
 		// $ar['mngrUsr'] = 'random';
 		// $ar['ofName'] = 'gran bella roba';
@@ -508,7 +509,7 @@ class MessageEmail{
 		$tmp->altMsg = vsprintf($managerMsgAlt, $alt);
 
 		return $tmp;
-	}
+	}*/
 
 	/**
 	 * messaggio mail che giunge al momento dell'ordine
@@ -516,7 +517,7 @@ class MessageEmail{
 	 * @param  [type] $ar [description]
 	 * @return [type]     [description]
 	 */
-	public function managerOrderLastMsg($ar){
+	/*public function managerOrderLastMsg($ar){
 		// $ar = array();
 		// $ar['mngrUsr'] = 'random';
 		// $ar['ofName'] = 'gran bella roba';
@@ -599,14 +600,14 @@ class MessageEmail{
 		$tmp->altMsg = vsprintf($managerMsgAlt, $alt);
 
 		return $tmp;
-	}
+	}*/
 
 	/**
 	 * i singoli ordini da elencare in managerOrderMsg e che possono qui essere raccolti come stringa
 	 * @param  [type] $ar [description]
 	 * @return [type]     [description]
 	 */
-	public function managerSingleOrderMsg($ar){
+	public function managerSingleOrderSummaryMsg($ar){
 		// $v = array();
 		// $v['qt'] = 12;
 		// $v['price'] =  13.37;
@@ -645,7 +646,7 @@ class MessageEmail{
 	 * @param  [type] $ar [description]
 	 * @return [type]     [description]
 	 */
-	public function publisherOrderMsg($ar){
+	/*public function publisherOrderMsg($ar){
 		// $ar['pubUsr'] = 'coso';
 		// $ar['ofName'] = 'gran bella roba';
 		// $ar['ofId'] = '2';
@@ -727,7 +728,7 @@ class MessageEmail{
 
 		return $tmp;
 
-	}
+	}*/
 
 
 }
