@@ -67,7 +67,7 @@ echo '</div>';
 <div>
 <?php
 echo '<h3>Profilo</h3>';
-echo '<p>visualizza e modifica le impostazioni del profilo (password, email, etc.).</p>';
+echo '<p>visualizza e modifica le impostazioni del profilo.</p>';
 echo elgg_view('output/url', array(
 		// associate to the action
 		'href' => $pid.'dati',
@@ -84,7 +84,7 @@ __SKIP_NOT_OFFER:
 <div>
 <?php
 echo '<h3>Impostazioni</h3>';
-echo '<p>visualizza e modifica le impostazioni del tuo profilo, come password e email.</p>';
+echo '<p>visualizza e modifica le impostazioni del profilo.</p>';
 echo elgg_view('output/url', array(
 		// associate to the action
 		'href' => elgg_get_site_url().'settings/user/'.elgg_get_logged_in_user_entity()->username,

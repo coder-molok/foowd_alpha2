@@ -96,7 +96,7 @@ echo elgg_view('output/url', array(
 <div>
 <?php
 echo '<h3>Amicizie</h3>';
-echo '<p>gestisci le richieste di amicizia ricevute o inviate, e i tuoi amici attuali.</p>';
+echo '<p>Gestisci le richieste di amicizia ricevute o inviate, e i tuoi amici attuali.</p>';
 echo elgg_view('output/url', array(
 		// associate to the action
 		'href' => \Uoowd\Param::page()->friendsManage,
