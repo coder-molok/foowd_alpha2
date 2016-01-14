@@ -543,6 +543,22 @@ return array(
 	'profile:edit' => 'Modifica il tuo profilo',
 
 /**
+ * Messages
+ */
+ 
+	'messages' => 'Messaggi',
+	'messages:inbox' => 'Messaggi personali',
+	'messages:sent' => 'Inviati',
+	'messages:nomessages' => 'nessun messaggio',
+	'messages:add' => 'Scrivi un messaggio',
+#	'email:to' => 'destinatario',
+	'messages:to:help' => 'inserisci il nome del destinatario',
+	'messages:title' => 'Oggetto',
+	'messages:message' => 'Messaggio',
+	'messages:sentmessages' => 'Messaggi inviati',
+	'messages:sendmessage' => 'Manda un messaggio',
+
+/**
  * User settings
  */
 		
