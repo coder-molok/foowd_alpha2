@@ -53,7 +53,7 @@ return array(
 	'foowd:user:description' => 'Qui puoi scrivere qualcosa di te (puoi usare codice html)',
 	'foowd:user:description:need' => 'Inserisci una descrizione per farti conoscere **',
 
-	'foowd:user:username:error' => 'Lo username non &egrave; valido',
+	'foowd:user:username:error' => 'Il nome Utente non &egrave; valido',
 	
 	'foowd:user:site' => 'Sito Internet',
 	'foowd:user:site:optional' => 'Sito Internet *',
@@ -92,7 +92,7 @@ return array(
 
 	'developers:event_log_msg' => 'messaggio di log da sviluppatore',
 
-	'search_types:foowd-username-email' => 'Username/Email',
+	'search_types:foowd-username-email' => 'Nome Utente/Email',
 
 	/**
 	 * Plugin search
@@ -313,7 +313,7 @@ return array(
 	'user:password:changereq:success' => 'Richiesta nuova password avvenuta con successo. Riceverai a breve una mail.',
 	'user:password:changereq:fail' => 'Non &egrave; possibile richiedere una nuova password.',
 
-	'user:password:text' => 'Per richiedere una nuova password, inserisci il tuo username o indirizzo email nel campo sottostante e clicca sul bottone di richiesta.',
+	'user:password:text' => 'Per richiedere una nuova password, inserisci il tuo nome Utente o indirizzo email nel campo sottostante e clicca sul bottone di richiesta.',
 
 	'user:persistent' => 'Login automatico',
 
@@ -337,7 +337,7 @@ return array(
 	'login' => "Log in",
 	'loginok' => "Benvenuto!", //"Hai appena effettuato il log in.",
 	'loginerror' => "Non riusciamo a effettuare il log you in. Per favore, controlla le tue credenziali e prova ad accedere nuovamente.",
-	'login:empty' => "Username/email e password sono necessari.",
+	'login:empty' => "Nome utente/email e password sono necessari.",
 	'login:baduser' => "Impossibile caricare il tuo accont utente.",
 	'auth:nopams' => "Errore interno. Non e' installato alcun metodo di autenticazione utente.",
 
@@ -452,7 +452,7 @@ return array(
 
 	'name' => "Nome visualizzato",
 	'email' => "Indirizzo email",
-	'username' => "Username",
+	'username' => "Nome Utente",
 	'loginusername' => "Nome Utente o Email",
 	'password' => "Password",
 	'passwordagain' => "Password (nuovamente, per verifica)",
@@ -592,7 +592,7 @@ return array(
 	'profile:phone' => "Telephone",
 	'profile:mobile' => "Mobile phone",
 	'profile:website' => "Website",
-	'profile:twitter' => "Twitter username",
+	'profile:twitter' => "Nome utente Twitter",
 	'profile:saved' => "Your profile was successfully saved.",
 
 	'profile:field:text' => 'Short text',

@@ -53,7 +53,7 @@ return array(
 	'foowd:user:description' => 'Qui puoi scrivere qualcosa di te (puoi usare codice html)',
 	'foowd:user:description:need' => 'Inserisci una descrizione per farti conoscere **',
 
-	'foowd:user:username:error' => 'Lo username non &egrave; valido',
+	'foowd:user:username:error' => 'Il nome utente non &egrave; valido',
 	
 	'foowd:user:site' => 'Sito Internet',
 	'foowd:user:site:optional' => 'Sito Internet *',
@@ -92,7 +92,7 @@ return array(
 
 	'developers:event_log_msg' => 'messaggio di log da sviluppatore',
 
-	'search_types:foowd-username-email' => 'Username/Email',
+	'search_types:foowd-username-email' => 'Cerca per Nome utente o Email',
 
 	/**
 	 * Plugin search
@@ -285,27 +285,27 @@ return array(
 	'adduser:ok' => "Hai aggiunto con successo un nuovo utente.",
 	'adduser:bad' => "Non e' possibile creare il nuovo utente.",
 
-	'user:set:name' => "Account name settings",
-	'user:name:label' => "Nome visualizzato",
+	'user:set:name' => "Account utente",
+	'user:name:label' => "Nome utente",
 	'user:name:success' => "Cambiato con successo il nome visualizzato nel sistema.",
 	'user:name:fail' => "Non e' possibile cambiare il nome visualizzato nel sistema.",
 
 	'user:set:password' => "Password dell'account",
-	'user:current_password:label' => 'Password corrente',
+	'user:current_password:label' => 'Password attuale',
 	'user:password:label' => "Nuova password",
-	'user:password2:label' => "Nuova password ancora",
+	'user:password2:label' => "Conferma la nuova password",
 	'user:password:success' => "Password modificata",
-	'user:password:fail' => "Non puoi cambiare la tua password di system.",
+	'user:password:fail' => "Non è possibile al momento cambiare la password.",
 	'user:password:fail:notsame' => "Le due password non sono uguali!",
 	'user:password:fail:tooshort' => "La password e' troppo corta!",
 	'user:password:fail:incorrect_current_password' => "La password inserita e' errata.",
 	'user:changepassword:unknown_user' => 'Utente non valido.',
 	'user:changepassword:change_password_confirm' => "Questo cambiera' la tua password.",
 
-	'user:set:language' => "Impostazioni di Lingua",
+	'user:set:language' => "Impostazioni della Lingua",
 	'user:language:label' => "Lingua",
-	'user:language:success' => "Impostazioni di Lingua aggiornate.",
-	'user:language:fail' => "Le impostazioni di Lingua non possono essere aggiornate.",
+	'user:language:success' => "Impostazioni della lingua aggiornate.",
+	'user:language:fail' => "Le impostazioni della lingua non possono essere aggiornate.",
 
 	'user:username:notfound' => 'Nome Utente %s non trovato.',
 
@@ -313,7 +313,7 @@ return array(
 	'user:password:changereq:success' => 'Richiesta nuova password avvenuta con successo. Riceverai a breve una mail.',
 	'user:password:changereq:fail' => 'Non &egrave; possibile richiedere una nuova password.',
 
-	'user:password:text' => 'Per richiedere una nuova password, inserisci il tuo username o indirizzo email nel campo sottostante e clicca sul bottone di richiesta.',
+	'user:password:text' => 'Per richiedere una nuova password, inserisci il tuo nome Utente o indirizzo email nel campo sottostante e clicca sul bottone di richiesta.',
 
 	'user:persistent' => 'Login automatico',
 
@@ -337,7 +337,7 @@ return array(
 	'login' => "Log in",
 	'loginok' => "Benvenuto!", //"Hai appena effettuato il log in.",
 	'loginerror' => "Non riusciamo a effettuare il log you in. Per favore, controlla le tue credenziali e prova ad accedere nuovamente.",
-	'login:empty' => "Username/email e password sono necessari.",
+	'login:empty' => "Nome Utente o Email e password sono necessari.",
 	'login:baduser' => "Impossibile caricare il tuo accont utente.",
 	'auth:nopams' => "Errore interno. Non e' installato alcun metodo di autenticazione utente.",
 
@@ -375,7 +375,7 @@ return array(
 	'username' => "Nome Utente",
 	'loginusername' => "Nome Utente o Email",
 	'password' => "Password",
-	'passwordagain' => "Password (nuovamente, per verifica)",
+	'passwordagain' => "Ripeti la password",
 	'admin_option' => "Vuoi rendere questo utente un amministratore?",
 
 /**
@@ -436,7 +436,7 @@ return array(
 	'friends:of:owned' => "People who have made %s a friend",
 
 	'friends:of' => "Amici di",
-	'friends:collections' => "Collezioni di Amici",
+	'friends:collections' => "Liste di Amici",
 	'collections:add' => "Nuova collezione",
 	'friends:collections:add' => "Nuova collezione di Amici",
 	'friends:addfriends' => "Seleziona Amici",
@@ -487,10 +487,10 @@ return array(
 /**
  * Notifications
  */
-	'notifications:usersettings' => "Impostazioni notifiche",
+	'notifications:usersettings' => "Notifiche ed avvisi",
 	'notification:method:email' => 'Email',
 
-	'notifications:usersettings:save:ok' => "Impostazioni notifiche modificate con successo.",
+	'notifications:usersettings:save:ok' => "Impostazione delle notifiche modificata con successo.",
 	'notifications:usersettings:save:fail' => "E' avvenuto un problema nel salvataggio delle impostazioni delle notifiche.",
 
 	'notification:subject' => 'Notifica riguardante %s',
@@ -530,6 +530,18 @@ return array(
 
 	'admin:plugins' => "Plugins",
 	
+/**
+ * Avatar
+ */
+
+	'avatar:edit' => 'Modifica la tua immagine',
+
+/**
+ * Profile
+ */
+ 
+	'profile:edit' => 'Modifica il tuo profilo',
+
 /**
  * User settings
  */

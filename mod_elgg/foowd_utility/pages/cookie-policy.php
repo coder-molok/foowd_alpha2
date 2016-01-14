@@ -67,7 +67,7 @@
   }
 </style><div id="policy-header" data-skip-allow="true">
 
-    <h1>Cookie Policy</h1>
+    <h1>Privacy Policy</h1>
 
     <p class="policy-group">
       <strong class="policy-title">Titolare del trattamento dei dati connessi al sito</strong>
