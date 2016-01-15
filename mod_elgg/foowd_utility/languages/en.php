@@ -99,7 +99,7 @@ return array(
 	'login' => "Log in",
 	'loginok' => "Hai appena effettuato il log in.",
 	'loginerror' => "Non riusciamo a effettuare il log you in. Per favore, controlla le tue credenziali e prova ad accedere nuovamente.",
-	'login:empty' => "Username/email e password sono necessari.",
+	'login:empty' => "Username/email and password are needed.",
 	'login:baduser' => "Impossibile caricare il tuo accont utente.",
 	'auth:nopams' => "Errore interno. Non e' installato alcun metodo di autenticazione utente.",
 
