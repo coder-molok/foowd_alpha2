@@ -23,6 +23,7 @@ function optionExists(){
         if [[ "$e" == "$1" ]]; then CHECK=0; fi
     done
     return "$CHECK"
+}
 
 #test
 #if optionExists "--force-file" ; then echo "ok force"; fi
@@ -65,10 +66,8 @@ echo -e "\n\e[45m copying from repo in $REPO \e[m"
               
               
 ### MOD_ELGG  
-echo -e "\n\e[45m Mod_Elgg part \e[m"  
-#eventualmente opzione -n per testare prima che svolga          
-DEL=" --delete"                        
-              
+echo -e "\n\e[45m Mod_Elgg part \e[m"                  
+
 for D in $REPO"mod_elgg/"*; do         
     if [ -d "${D}" ]; then         
         SRC=`echo ${D}/`       
