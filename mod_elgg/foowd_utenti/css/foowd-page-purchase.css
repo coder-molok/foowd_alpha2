@@ -1,0 +1,17 @@
+.foowd-page-purchase table {
+  border-collapse: separate;
+  border-spacing: 0 0.5em;
+}
+.foowd-page-purchase table thead th {
+  font-weight: bold;
+}
+.foowd-page-purchase table tbody tr {
+  background-color: #f3f5eb;
+}
+.foowd-page-purchase table tbody tr td {
+  padding: 5px;
+  padding-left: 15px;
+}
+.foowd-page-purchase table tbody tr td:last-child {
+  vertical-align: middle;
+}

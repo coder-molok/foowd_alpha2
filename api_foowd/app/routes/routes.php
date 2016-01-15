@@ -64,5 +64,10 @@ $app->group('/api', function() use ($app){
 
 		});
 		
+		$app->get('/purchase', function() use ($app){
+
+			$returned = new Foowd\FApi\ApiPurchase($app, 'get');
+
+		});
 
 });

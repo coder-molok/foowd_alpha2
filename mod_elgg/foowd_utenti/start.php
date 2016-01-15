@@ -173,6 +173,11 @@ function foowd_utenti_handler($segments){
         return true;
     }
 
+    if($segments[0] === 'purchase'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/purchase.php';
+        return true;
+    }
+
     return false;
 
 }

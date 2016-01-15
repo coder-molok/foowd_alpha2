@@ -13,6 +13,34 @@ admin_gatekeeper();
 
 $me = elgg_get_logged_in_user_entity();
 
+
+// creazione oggetto
+
+// class ElggFoowd extends ElggObject { 
+
+//     public function __construct($row = null){
+//         parent::__construct();
+//         $this->subtype = 'foowd';
+//     }
+
+// }
+// $ent = new ElggObject();
+// echo $ent->getType();
+// echo $ent->subtype = 'foowd';
+// echo $ent->getGUID();
+// \Fprint::r($ent);
+// $ent->save();
+// \Fprint::r($ent);
+// trovo gli oggetti che hanno sottotipo foowd
+// $ent = elgg_get_entities(array('type_subtype_pairs'=>array('object'=>'foowd')) );
+// echo '<br>';
+// foreach($ent as $o){
+//     echo $o->getSubtype().' - ';
+//     echo $o->getGuid();
+//     $o->delete();
+// }
+
+
 /////////////////////////////
 // Send the notification: utile con site_notification, altrimenti si limita a inviare una mail
 // a me (array anche),  da 109
@@ -30,33 +58,34 @@ $me = elgg_get_logged_in_user_entity();
 // \Fprint::r( apache_request_headers() );
 
 // file_put_contents(__DIR__ .'/headerstest.txt', json_encode(apache_request_headers()));
-// *********************************************************************************************/
-// Elaboro la data, impostando 24 ore arrotondate ai primi 30 minuti successivi (per via del crontab)
-$now = new DateTime();
-$purch = new \Uoowd\FoowdPurchase();
-$deltaT = $purch->trigger;
-$now->add(new DateInterval('PT'.$deltaT.'S'));
-// giorno della settimana, partendo da zero
-$D = (int) $now->format('w');
-// mese dell'anno partendo da zero
-$M = (int) $now->format('m');
-// secondi dell'orologio
-$s = (int) $now->format('s');
-// minuti dell'orologio
-$m = (int) $now->format('i');
 
-$dateLimit = sprintf("%s %s (domani)", $now->format('d'), \Uoowd\FoowdCron::$mesi[$M] );
-echo $dateLimit;
+// // *********************************************************************************************/
+// // Elaboro la data, impostando 24 ore arrotondate ai primi 30 minuti successivi (per via del crontab)
+// $now = new DateTime();
+// $purch = new \Uoowd\FoowdPurchase();
+// $deltaT = $purch->trigger;
+// $now->add(new DateInterval('PT'.$deltaT.'S'));
+// // giorno della settimana, partendo da zero
+// $D = (int) $now->format('w');
+// // mese dell'anno partendo da zero
+// $M = (int) $now->format('m');
+// // secondi dell'orologio
+// $s = (int) $now->format('s');
+// // minuti dell'orologio
+// $m = (int) $now->format('i');
 
-// arrotondo ai primi n minuti successivi, ovvero l'orario a cui effettivamente viene eseguito il crontab
-$round = $purch->cronTab ;
-$seconds = $m * 60 + $s ;
-$nearest = ceil($seconds/$round) * $round;
-$remain = $nearest - $seconds;
-$now->add(new DateInterval('PT'.$remain.'S'));
-$timeLimit = $now->format('H:i');
-echo $timeLimit;
-//********* Fine elaborazione Data ******/
+// $dateLimit = sprintf("%s %s (domani)", $now->format('d'), \Uoowd\FoowdCron::$mesi[$M] );
+// echo $dateLimit;
+
+// // arrotondo ai primi n minuti successivi, ovvero l'orario a cui effettivamente viene eseguito il crontab
+// $round = $purch->cronTab ;
+// $seconds = $m * 60 + $s ;
+// $nearest = ceil($seconds/$round) * $round;
+// $remain = $nearest - $seconds;
+// $now->add(new DateInterval('PT'.$remain.'S'));
+// $timeLimit = $now->format('H:i');
+// echo $timeLimit;
+// //********* Fine elaborazione Data ******/
 
 
 
@@ -109,7 +138,7 @@ $r = \Uoowd\API::httpCall($url, 'POST', $data);
 $user = elgg_get_entities_from_metadata(
 	// array('metadata_names'=>array('Genre'), 'metadata_values'=>array('standard'))
 	// array('metadata_names'=>array('fake'), 'metadata_values'=>array('lol'))
-	// array( 'metadata_names'=>array('fake'), 'metadata_values'=>array('i') )
+	array( 'metadata_names'=>array('fake'), 'metadata_values'=>array('i') )
 	);
 
 //\Fprint::r($user);

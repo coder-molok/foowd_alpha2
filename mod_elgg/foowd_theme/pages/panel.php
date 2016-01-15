@@ -18,6 +18,43 @@ classi elgg:
 <div class="elgg-body foowd-panel-container">
 
 
+
+
+
+<?php
+if(!elgg_is_admin_logged_in()) goto saltoAdmin;
+?>
+
+<h1>AMMINISTRAZIONE</h1>
+
+<div class="box">
+
+<div>
+<?php
+echo '<h3>Prenotazioni</h3>';
+echo '<p>visualizza l\'elenco delle ordinazioni ancora da chiudere.</p>';
+echo elgg_view('output/url', array(
+		// associate to the action
+		'href' => \Uoowd\Param::page()->purchase,
+	    'text' => elgg_echo('Prenotazioni'),
+	    'class' => 'elgg-button',
+    ));
+?>
+</div>
+
+</div><!-- end box -->
+
+<div style="width:100%; height: 5px; background-color:pink;margin-bottom: 20px;"></div>
+
+<?php
+saltoAdmin:
+?>
+
+
+
+
+
+
 <?php 
 
 $user = elgg_get_logged_in_user_entity();
@@ -25,7 +62,7 @@ $user = elgg_get_logged_in_user_entity();
 
 echo '<p class="pll">Salve '.$user->username.',<br/> scegli cosa fare:</p>';
 ?>
-<div id="box">
+<div class="box">
 
 <?php
 if($user->Genre !== "offerente") goto salto;
@@ -107,7 +144,12 @@ echo elgg_view('output/url', array(
 </div>
 
 
-</div>
+</div><!-- endo box -->
+
+
+
+
+
 </div><!-- end foowd-panel-container -->
 <?php
 

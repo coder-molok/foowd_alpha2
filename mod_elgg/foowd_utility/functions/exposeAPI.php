@@ -183,3 +183,39 @@ function foowd_picture_get(){
     
 
 }
+
+
+
+elgg_ws_expose_function("foowd.admin.purchaseSolve",
+		"foowd_purchaseSolve",
+		array(
+			"PurchaseId" => array(
+				'type' => 'string',
+				'required' => false,
+				'description' => 'Id delle purchases, separati da virgola',
+				)
+		),
+		'Solo per gli amministratori: per ogni PurchaseId prova a chiudere la rispettiva purchase.',
+		'POST',
+		false,
+		false
+		);
+
+function foowd_purchaseSolve(){
+	// $j['response'] = true;
+	$purchases = $_POST['PurchaseId'];
+
+	if(!elgg_is_admin_logged_in()) $j['msg'] = 'Solo gli amministratori possono sfruttare questa chiamata.';
+	
+	// eseguo la purchase
+	$data = array(
+		'type'=>'solve',
+		'PurchaseId'=>$purchases
+	);
+	// $j[] = $data;
+
+	$j['api'] = \Uoowd\API::Request('purchase', 'POST', $data);
+
+
+	return $j;
+}

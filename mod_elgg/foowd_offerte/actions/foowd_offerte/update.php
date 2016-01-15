@@ -9,6 +9,7 @@
 
 gatekeeper();
 
+
 $form = \Uoowd\Param::pid().'/update';
 
 // set sticky: avviso il sistema che gli input di questo form sono sticky
@@ -59,9 +60,46 @@ $_SESSION['sticky_forms'][$form]['pre-file']=$crop;
 
 if(!$f->status || !$crop->status) forward(REFERER);
 
+
+
+// L'unica modifica possibile e' quella dell'immagine
+// ora controllo se l'offerta e' modificabile o meno
+// raccolto i dati dell'offerta
+$prefCheck = array();
+$prefCheck['OfferId'] = get_input('Id');
+$prefCheck['type']='search';
+$prefCheck['State']='newest';
+// // trasformo l'array associativo in una stringa da passare come URI
+$url=preg_replace('/^(.*)$/e', '"$1=". $prefCheck["$1"].""',array_flip($prefCheck));
+$url=implode('&' , $url);
+\Uoowd\Logger::addError($url);
+$r = \Uoowd\API::Request('prefer?'.$url,'GET');
+\Uoowd\Logger::addError($r);
+if(!$r->response) return;
+$body = $r->body;
+// ha preferenze, pertanto la modifica non puo' avvenire e devo inviare la mail
+if(count($body)>0){
+	// vecchia offerta
+	\Uoowd\Logger::addError('offerta non modificabile, mando mail');
+	$oldOffer = $body[0]->Offer;
+	\Uoowd\Logger::addError($oldOffer);
+	\Uoowd\Logger::addError($data);
+	
+	// adesso ottengo tutte le modifiche
+	// \Uoowd\Logger::addError($oldOffer);
+	//
+	return;
+}
+//
+else{
+	\Uoowd\Logger::addError('posso modificare senza problemi');
+}
+
+
+
 // se tutto va a buon fine, proseguo con le API esterne
 $data['type']='update';
-\Uoowd\Logger::addError($data);
+// \Uoowd\Logger::addError($data);
 $r = \Uoowd\API::Request('offer', 'POST', $data);
 
 if($r->response){

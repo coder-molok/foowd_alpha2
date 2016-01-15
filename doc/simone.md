@@ -1,6 +1,28 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+Ricordare upgrade
+
+### 15/01/2016
+
+- introdotte apiExpose per chiusura ordine
+
+- aggiornato service.php
+
+- completata pagina purchase per permettere agli amministratori di chiudere ordini specifici
+
+- modificato foowdSync.sh e sulla VPS di sviluppo impostati permessi comandi `composer` e `bower` tramite `visudo`
+
+
+
+### 14/01/2016
+
+- iniziata modifica per update dell'offerta
+
+- inserita pagina purchase.php dal pannello d'amministrazione per chiusura completa ordine da parte degli amministratori
+
+
+
 
 ### 13/01/2016
 

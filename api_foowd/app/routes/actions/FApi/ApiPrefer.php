@@ -411,23 +411,28 @@ class ApiPrefer extends \Foowd\FApi{
 			if(isset($usersMatch)) $pf = $pf->filterByUserId($usersMatch);
 			$pf = $pf->find();
 			
-			// se non ho preferenze nuove su questo articolo, allora sono bloccate
-			if($pf->count() === 0){
-				// error_log($pf->count());
-				$ar['prefers'] = 'locked';
-			}else{
-				$ar['prefers'] = array();
-				foreach($pf as $sing){
-					// var_dump($sing);
-					$sing = $sing->toArray();
-					$ar['totalQt'] += $sing['Qt'];
-					$ar['prefers'][] = $sing['Id'];
-				}
+			// // se non ho preferenze nuove su questo articolo, allora sono bloccate
+			// if($pf->count() === 0){
+			// 	// error_log($pf->count());
+			// 	$ar['prefers'] = 'locked';
+			// }else{
+			// 	$ar['prefers'] = array();
+			// 	foreach($pf as $sing){
+			// 		// var_dump($sing);
+			// 		$sing = $sing->toArray();
+			// 		$ar['totalQt'] += $sing['Qt'];
+			// 		$ar['prefers'][] = $sing['Id'];
+			// 	}
+			// }
+
+			$ar['prefers'] = array();
+			foreach($pf as $sing){
+				// var_dump($sing);
+				$sing = $sing->toArray();
+				$ar['totalQt'] += $sing['Qt'];
+				$ar['prefers'][] = $sing['Id'];
 			}
-
 			
-			
-
 			array_push($return, $ar );
 
 		}

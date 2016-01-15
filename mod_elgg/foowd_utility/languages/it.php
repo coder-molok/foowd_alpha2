@@ -366,6 +366,11 @@ return array(
 	
 	'ajax:error' => 'Errore inaspettato durante la chiamata AJAX. Forse la connessione al server ha dei malfunzionamenti.',
 
+	'error:default:title' => 'Oops...',
+	'error:default:content' => 'Oops... qualcosa non ha funzionato.',
+	'error:404:title' => 'Pagina non trovata',
+	'error:404:content' => 'Siamo spiacenti, la pagina cercata non esiste.',
+
 /**
  * User details
  */

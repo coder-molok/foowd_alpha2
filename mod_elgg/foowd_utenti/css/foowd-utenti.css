@@ -2,6 +2,7 @@
 @import 'foowd-page-avatar.css';
 @import 'foowd-page-gallery.css';
 @import 'foowd-page-dati.css';
+@import 'foowd-page-purchase.css';
 @import 'foowd-register.css';
 [class^="foowd-page-"] {
   margin: auto;
@@ -13,14 +14,14 @@
   text-align: justify;
   margin-bottom: 40px;
 }
-.foowd-panel-container #box,
-.foowd-profilo-container #box {
+.foowd-panel-container .box,
+.foowd-profilo-container .box {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
 }
-.foowd-panel-container #box div,
-.foowd-profilo-container #box div {
+.foowd-panel-container .box div,
+.foowd-profilo-container .box div {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -29,12 +30,12 @@
   max-width: 200px;
 /* per posizionare i bottoni a una giusta distanza */
 }
-.foowd-panel-container #box div p,
-.foowd-profilo-container #box div p {
+.foowd-panel-container .box div p,
+.foowd-profilo-container .box div p {
   margin-bottom: 25px;
 }
-.foowd-panel-container #box div a,
-.foowd-profilo-container #box div a {
+.foowd-panel-container .box div a,
+.foowd-profilo-container .box div a {
   bottom: 0;
   margin-top: 20px;
   vertical-align: bottom;

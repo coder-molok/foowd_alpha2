@@ -183,6 +183,33 @@ define(function(require){
 		}
 
 
+		/**
+		 * ritorna un oggetto $.ajax, la cui risposta 
+		 * e' un oggetto contenente la risposta a Api Purchase Solve lato API DB.
+		 *
+		 * parametri: 
+		 *
+		 * 	- nessuno: ottiene i dati dell'utente loggato
+		 * 	- stringa id : ottiene i dati dell'utente di cui id specificato
+		 *
+		 * 
+		 * @param  {mixed} PurchaseId  stringa contenente uno o piu id separati da virgola
+		 * @return {deferred}        deferred
+		 */
+		serviceObj.purchaseSolve =  function( PurchaseId ){
+			userId = (typeof userId === 'undefined') ? _pr.userGuid() : userId ;
+			if(userId){
+				var dt = {'method': 'foowd.admin.purchaseSolve'}
+				var dat = {'PurchaseId': PurchaseId} ;
+				var $ajax = $.ajax({ type: 'POST', 'url': getUrl(dt) , data: dat });
+			}else{
+				var $ajax ={'result': {'response' : false, 'msg' : 'Impossibile ottenere userId'} };
+			}
+
+			return $ajax;
+		}
+
+
 
 		return serviceObj ;
 

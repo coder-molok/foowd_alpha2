@@ -199,122 +199,59 @@ class ApiPurchase extends \Foowd\FApi{
 	}
 
 
-		/**
-		 *
-		 * @api {post} /purchase search
-		 * @apiName search
-		 * @apiGroup Purchase
-		 * 
-	 	 * @apiDescription ritorna tutte le ordinazioni filtrandole per stato.
-	 	 * 					Serve per il cronTab delle 24h
-		 * 
-		 * @apiParam {String} 		type 		create
-		 * @apiParam {Numeric} 		OfferId		id dell'offerta
-		 * @apiParam {Numeric} 		LeaderId 	id esterno del capogruppo
-		 * @apiParam {String} 		prefersList	lista delle preferenze associate all'offerta
-	 	 * 
-		 * @apiParamExample {json} Request-Example:
-		 *     {
-		 *       "type":"search"
-		 *       "state":"pending, opened",
-		 *       "Publisher":"37",
-		 *     }
-		 *
-		 * @apiUse MyResponseOffer
-		 *     
-		 */	
-		/*
-		public $needle_search = "State";
-		public function search($data){
-			$j = array();
-			$j['response'] = false;
-			// $dataReceived = json_encode($data);
+	/**
+	 *
+	 * @api {post} /purchase solve
+	 * @apiName solve
+	 * @apiGroup Purchase
+	 * 
+ 	 * @apiDescription  Dato l'id di un ordine lo chiude attualizzando le preferenze. <br/> Viene utilizzato un solo ordine per volta in modo da garantire una semplice e lineare gestione degli errori, preferendo svolgere piu chiamate di chiusura, avendo considerato che la chiusura di un'ordine e' un'operazione che non avviene poi cosi' di frequente.
+	 * 
+	 * @apiParam {String} 		type 		solve
+	 * @apiParam {Numeric} 		PurchaseId	id dell'ordine, o lista di id separati da virgola
+ 	 * 
+	 * @apiParamExample {json} Request-Example:
+	 *     {
+	 *       "type":"solve",
+	 *       "PurchaseId" : "158,12"
+	 *     }
+	 *
+	 * @apiUse MyResponseOffer
+	 *     
+	 */	
 
+	public $needle_solve = "PurchaseId";
+	public function solve($data){
+	
+		$j = array();
+		$j['response'] = false;
+		$dataReceived = json_encode($data);
 
-			// trasformo la lista di stati in array
-			// se non specificato, ricerco solo quelli con stato "newest"
-			// eventualmente si puo' specificare State=all
-			$editable = array('opened', 'pending');
-			if(isset($data->State)){
-				$state = $data->State;
-				if(is_string($state) && preg_match('@,@', $state)) $data->State = array_map('trim' , explode( ',', $data->State) );
-				if($state === 'editable') $state = $editable;
-				if($state === 'all') unset($state);
-			}
+		// trasformo in array
+		$purchIds = explode(',',$data->PurchaseId);
 
-			$purcs = \PurchaseQuery::create();
-
-			// inizio parte dei filtri in chain: per il momento ne uso solo uno
-			if(isset($state)) $purcs = $purcs->filterByState($state);
-
-			// faccio partire il find per ottenere la collezione
-			$purcs = $purcs->find();
-
-			// raccolto i risultati trasformandoli in utili per Elgg
-			$purchAr = array();
-			foreach($purcs as $p){
-			 	$p = $p->toArray();
-			 	$p['LeaderId'] = $this->IdToExt($p['LeaderId']);
-			 	$purchAr[] = $p;
-			}
-
-			// dati da restituire
-			$j['body']['purchases'] = $purchAr;
-			$j['response'] = true;
-
-			return $j;
-
-
-		}*/
-
-
-
-		/**
-		 *
-		 * @api {post} /purchase solve
-		 * @apiName solve
-		 * @apiGroup Purchase
-		 * 
-	 	 * @apiDescription  Dato l'id di un ordine lo chiude attualizzando le preferenze. <br/> Viene utilizzato un solo ordine per volta in modo da garantire una semplice e lineare gestione degli errori, preferendo svolgere piu chiamate di chiusura, avendo considerato che la chiusura di un'ordine e' un'operazione che non avviene poi cosi' di frequente.
-		 * 
-		 * @apiParam {String} 		type 		solve
-		 * @apiParam {Numeric} 		PurchaseId	id dell'ordine
-	 	 * 
-		 * @apiParamExample {json} Request-Example:
-		 *     {
-		 *       "type":"solve",
-		 *       "PurchaseId" : "158"
-		 *     }
-		 *
-		 * @apiUse MyResponseOffer
-		 *     
-		 */	
-
-		/*public $needle_solve = "PurchaseId";
-		public function solve($data){
+		$purchases = \PurchaseQuery::create()->filterById($purchIds);
 		
-			$j = array();
-			$j['response'] = false;
-			$dataReceived = json_encode($data);
+		// $tmpQuery = $purchases->find();
+		// if($tmpQuery->count() !== 1 ){
+		// 	$j['error']['count'] = "Errore nel conteggio relativo all'ordine di Id $purchId : il conteggio di match risulta di ".$tmpQuery->count()." ordini";
+		// 	return $j;
+		// }
 
-			$purchId = $data->PurchaseId;
+		// raccolgo i dati da aggiornare
+		$purchases = $purchases->find();
 
-			$purchases = \PurchaseQuery::create()->filterById($purchId);
-			
-			$tmpQuery = $purchases->find();
-			if($tmpQuery->count() !== 1 ){
-				$j['error']['count'] = "Errore nel conteggio relativo all'ordine di Id $purchId : il conteggio di match risulta di ".$tmpQuery->count()." ordini";
-				return $j;
-			}
+		$con = Propel::getConnection(\Map\PurchaseTableMap::DATABASE_NAME); // avrei potuto usare anche la preferenza per ottenere il nome del db
+		$con->beginTransaction();
 
-			// raccolgo i dati da aggiornare
-			$purch = $purchases->findOne();
+		// salvo tutti i responsi in questo array:
+		// nel caso durante il loop uno degli Id porti all'esecuzione dell'ecezione, 
+		// per tenere traccia dei precedenti iter andati a buon fine e raccolti in questo array,
+		// mi limito a stamparlo col logger
+		$storePurch = array();
+		foreach($purchases as $purch){
 			// many-to-many : nota la "s" del plurale
 			$prefers = $purch->getPrefers();
-
-			$con = Propel::getConnection(\Map\PurchaseTableMap::DATABASE_NAME); // avrei potuto usare anche la preferenza per ottenere il nome del db
-			$con->beginTransaction();
-
 
 			// apro un blocco try - catch
 			// in caso di errore, il rollback annulla tutte le operazioni: comodo!
@@ -354,19 +291,23 @@ class ApiPurchase extends \Foowd\FApi{
 
 			   	$con->commit();
 
-
 			}
 			catch (\Exception $e) {
 			   $con->rollback();
 			   // imposto in troublesome per evitare che nel cronjob di elgg venga riprocessato 
+			   $er['completed'] = $storePurch;
+			   $er['errors']['key'] = "storePurch";
+			   $er['errors']['PurchaseId'] = $purch->getId();
+			   $er['msg'] = 'errore durante la scrittura su DB di una purchase.';
+			   // salvo per tenere traccia dell'eccezione
+			   $this->app->getLog()->error(json_encode($er));
 			   $purch->setState('troublesome');
 			   $this->Fvalidate($purch)->save(); // nota che non uso la connessione
-
-			   throw $e;
+			   
+			   throw new \Exception(json_encode($er), 1);
 			}
 
-
-
+			// preparo i dati da salver per ogni singola preferenza
 			// ottengo i campi foreign
 			// $purch->getUser()->toArray();
 			// $purch->getOffer()->toArray();
@@ -375,18 +316,168 @@ class ApiPurchase extends \Foowd\FApi{
 			$p = $purch->toArray();
 			$p['LeaderId'] = $this->IdToExt($p['LeaderId']);
 			$p['totalQt'] = $totalQt;
-			$j['body']['purchase'] = $p;
+			// offerta
+			// $of = $purch->getOffer()->toArray();
+			// $of['Publisher'] = $this->IdToExt($of['Publisher']);
+			// $p['offer'] = $of;
 
-			$p = $purch->getOffer()->toArray();
-			$p['Publisher'] = $this->IdToExt($p['Publisher']);
-			$j['body']['offer'] = $p;
+			$storePurch[] = $p;
 
-			$j['response'] = true;
+		} // end foreach purchases
 
-			return $j;
+		
+
+		$j['response'] = true;
+		$j['body'] = $storePurch;	
+
+		return $j;
 
 
-		}*/
+	}
+
+
+	/**
+	 *
+	 * @api {get} /purchase search
+	 * @apiName search
+	 * @apiGroup Purchase
+	 * 
+ 	 * @apiDescription Oltre a svolgere una ricerca nella tabella preferenze, ritorna anche il parametro extra "<strong>Offer</strong>" contenente l'offerta (in formato JSON) a cui ciascuna preferenza si riferisce.
+ 	 *
+ 	 * Strutturato in questo modo, cerca solo le intersezioni dei filtri.
+	 * 
+	 * @apiParamExample {url} URL-Example:
+	 * 
+	 * http://localhost/api_offerte/public_html/api/purchase?type=search&&State=newest,solved
+	 * 
+	 * @apiParam (Response) {Bool}				response 		false, in caso di errore
+ 	 * @apiParam (Response) {String/json}		[errors] 		json contenente i messaggi di errore
+ 	 * @apiParam (Response) {String/json}		[body] 			json contenente i parametri da ritornare in funzione della richiesta. Il parametro prefer impostato nel ritorno contiene eventuali preferenze che metchano gli ExternalId passati con la chiamata.
+ 	 * @apiParam (Response) {String/json}		[body-array-prefers]	ogni array contiene la singola purchase, e prefers contiene l'elenco delle preferenze ad essa associate
+	 * 
+	 * @apiUse MyResponsePrefer
+	 * 
+	 */
+	public static function search($data){
+		
+		unset($data->type);
+		$Json = array();
+
+		// trasformo gli ID da elgg a quelli DB
+		$editId = array( 'LeaderId' );
+		foreach ($editId as $el) if(isset($data->{$el})) $data->{$el} = self::ExtToId($data->{$el});
+
+
+
+		$obj = \PurchaseQuery::create();
+		foreach($data as $key => $value){
+
+			if(is_string($value) && preg_match('@{.+}@',$value)) $value = (array) json_decode($value);
+			$obj = $obj->{'filterBy'.$key}($value);
+		}
+
+		$purchs = $obj->find();
+		
+		$body = array();
+		foreach($purchs as $pur){
+
+			// trovo l'offerta e i dati di interesse
+			$of = $pur->getOffer()->toArray();
+			$publisher = self::IdToExt($of['Publisher']);
+
+			// prelevo l'ordine
+			$prefs = $pur->getPrefers();
+			$pur = $pur->toArray();
+
+
+			// preparo i dati relativi alle preferenze
+			$pur['prefers'] = array();
+			$totalQt = 0;
+			foreach($prefs as $pf){
+				$pf = $pf->toArray();
+				$totalQt += $pf['Qt'];
+				$pf['UserId'] = self::IdToExt($pf['UserId']);
+				$pur['prefers'][] = $pf;
+			}
+
+			$pur['totalQt'] = $totalQt;
+			$pur['totalPrice'] = $totalQt * $of['Price'];
+			$pur['PublisherId'] = $publisher;
+
+
+			foreach ($editId as $el) if(isset($pur[$el])) $pur[$el] = self::IdToExt($pur[$el]);			
+			$body[] = $pur;
+		}
+		
+
+
+		if(!isset($Json['response'])){ $Json['response'] = true;}
+		else {$Json['errors'] = $msg; }
+		$Json['body'] = $body;
+		return $Json;
+		
+	}
+
+
+
+	/**
+	 *
+	 * @api {post} /purchase search
+	 * @apiName search
+	 * @apiGroup Purchase
+	 * 
+ 	 * @apiDescription ritorna tutte le ordinazioni filtrandole per stato.
+ 	 * 					Serve per il cronTab delle 24h
+	 * 
+	 * @apiParam {String} 		type 		create
+	 * @apiParam {Numeric} 		OfferId		id dell'offerta
+	 * @apiParam {Numeric} 		LeaderId 	id esterno del capogruppo
+	 * @apiParam {String} 		prefersList	lista delle preferenze associate all'offerta
+ 	 * 
+	 * @apiParamExample {json} Request-Example:
+	 *     {
+	 *       "type":"search"
+	 *       "state":"pending, opened",
+	 *       "Publisher":"37",
+	 *     }
+	 *
+	 * @apiUse MyResponseOffer
+	 *     
+	 */	
+	/*
+	public $needle_search = "State";
+	public function search($data){
+		$j = array();
+		$j['response'] = false;
+		// $dataReceived = json_encode($data);
+		// trasformo la lista di stati in array
+		// se non specificato, ricerco solo quelli con stato "newest"
+		// eventualmente si puo' specificare State=all
+		$editable = array('opened', 'pending');
+		if(isset($data->State)){
+			$state = $data->State;
+			if(is_string($state) && preg_match('@,@', $state)) $data->State = array_map('trim' , explode( ',', $data->State) );
+			if($state === 'editable') $state = $editable;
+			if($state === 'all') unset($state);
+		}
+		$purcs = \PurchaseQuery::create();
+		// inizio parte dei filtri in chain: per il momento ne uso solo uno
+		if(isset($state)) $purcs = $purcs->filterByState($state);
+		// faccio partire il find per ottenere la collezione
+		$purcs = $purcs->find();
+		// raccolto i risultati trasformandoli in utili per Elgg
+		$purchAr = array();
+		foreach($purcs as $p){
+		 	$p = $p->toArray();
+		 	$p['LeaderId'] = $this->IdToExt($p['LeaderId']);
+		 	$purchAr[] = $p;
+		}
+		// dati da restituire
+		$j['body']['purchases'] = $purchAr;
+		$j['response'] = true;
+		return $j;
+	}*/
+
 
 	
 }
