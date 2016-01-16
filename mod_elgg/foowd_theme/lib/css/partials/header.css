@@ -76,10 +76,16 @@
   }
 }
 .logo {
-  background-color: #fae6ef;
+  background-color: #e6dcbe;
 }
-.logo-green {
-  background-color: #0c5b0d;
+.colorMinus {
+  background-color: #f7f4ee;
+}
+.colorPlus {
+  background-color: #bed25a;
+}
+.colorPlusG {
+  background-color: #38302c;
 }
 .foowd-brand {
   *zoom: 1;

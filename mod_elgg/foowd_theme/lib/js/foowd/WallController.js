@@ -271,11 +271,11 @@ define(function(require){
 		}
 
 		function _applyColor(){
-				$( "#logo" ).each(function() {
+				/*$( "#logo" ).each(function() {
 					$(this).toggleClass('logo-green',group);
 					$(this).toggleClass('logo',!group);
 
-				});
+				});*/
 		}
 
 		function toggleGroup(){
