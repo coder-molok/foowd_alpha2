@@ -47,6 +47,9 @@ $single = <<<__SINGLE
 			- %s
 		</td>
 		<td>
+			%s
+		</td>
+		<td>
 			quote: %s<br/>
 			totale: %s &euro;
 		</td>
@@ -63,6 +66,8 @@ foreach($r->body as $p) {
 	$ldMail = $leader->email;
 	$ldUsr = $leader->username;
 
+	$ofName = $p->OfferName;
+
 	$publisher = get_entity($p->PublisherId);
 	$pbMail = $publisher->email;
 	$pbUsr = $publisher->username;
@@ -78,7 +83,7 @@ foreach($r->body as $p) {
 	    'data-purchase' => $p->Id
     ));
 
-	$list .= vsprintf($single,array($ldUsr, $ldMail, $pbUsr, $pbMail, $totQ, $totP, $btn));
+	$list .= vsprintf($single,array($ldUsr, $ldMail, $pbUsr, $pbMail, $ofName,$totQ, $totP, $btn));
 }
 
 if(count($r->body) <= 0){
@@ -93,6 +98,7 @@ else{
 		<tr>
 			<th>Leader</th>
 			<th>Produttore</th>
+			<th>Prodotto</th>
 			<th>Quantita'</th>
 			<th></th>
 		</tr>	

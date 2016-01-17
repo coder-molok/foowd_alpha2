@@ -164,15 +164,11 @@ if($r->response){
 __notEditable:
 
 // se sono qui, vuol dire che $body non e' vuoto
-$newest = array();
-$pending = array();
+$prefs = $ofCron->prefersByState($body);
+// rendo disponibili gli array $newest e $pending
+extract($prefs);
 
-foreach($body as $b){
-	if($b->State === "newest") $newest[] = $b->UserId;
-	if($b->State === "pending") $pending[] = $b->UserId;
-}
-
-\Uoowd\Logger::addError($body);
+// \Uoowd\Logger::addError($body);
 
 // se fa parte anche e solo di un ordine, allora non e' modificabile
 if(count($pending) > 0 ){	
@@ -209,7 +205,6 @@ else{
 
 
 	// tra un 1 e controllo di crontab ogni 30 minuti
-	$time = $elggOfr->{$ofCron->cronTimeRefer};
 	$time = $ofCron->getEstimateExpiration($elggOfr);
 	$time = $time['time'];
 	system_message("La tua offerta e' stata modificata.<br/>Hai tempo sino alle ore $time per modificarla. Al termine gli utenti interessati verranno informati in merito alle modifiche apportate.");

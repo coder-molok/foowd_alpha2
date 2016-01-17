@@ -394,6 +394,9 @@
     $('form').unbind();
 
     $('form').on 'submit', (e)->
+        if $('.foowd-advise-pending').length > 0
+            e.preventDefault()
+            elgg.register_error('Il form e\' bloccato.<br/> Vedi intestazione per dettagli.')
 
         if prepareInput?
             prepareInput(desc)

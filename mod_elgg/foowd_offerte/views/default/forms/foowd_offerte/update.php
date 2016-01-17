@@ -14,6 +14,34 @@ if($vars['Id']==='' || $vars['guid']==='' ){
 }
 
 
+if(isset($vars['offerPrefers'])){
+	$v = $vars['offerPrefers'];
+	$txt = "";
+	if(count($v['pending']) > 0){
+		$txt = "
+		<div class=\"foowd-advise-pending\">L'offerta non e' modificabile in quanto pendente su un'ordinazione ancora da chiudere.</div>
+		";
+	}
+	elseif(count($v['newest']) > 0){
+		$time = $vars['offerModifyExpiration']['time'];
+		// \Fprint::r($time);
+		// la prima volta non ho ancora creato una modifica, pertanto posso solo avvisare
+		if($time == ''){
+			$txt = "
+			<div class=\"foowd-advise-newest\">Una volta modificata questa offerta avrai circa un'ora di tempo per modificarla.<br/>Al termine di questa scadenza invieremo una mail d'aggiornamente a te e agli utenti che stanno seguendo questa offerta.</div>
+			";
+		}else{	
+			$txt = "
+			<div class=\"foowd-advise-newest\">Hai tempo sino alle ore $time per modificare l'offerta.<br/> Al termine gli utenti interessati verranno informati in merito alle modifiche apportate.</div>
+			";
+		}
+	}
+
+	echo $txt;
+}
+
+
+
 // $fadd->createField('Name', 'Offerta', 'input/text');
 $fadd->createField('Name', 'foowd:name:need', 'input/text');
 
@@ -124,8 +152,17 @@ echo elgg_view('input/hidden', array('name' => 'fileBasename', 'value' => basena
 
 
 <script>
-require(['jquery'], function($){
-
+require(['jquery','elgg'], function($, elgg){
+	/*
+	if($('.foowd-advise-pending').length > 0){
+		$('.foowd-page-single').css('background-color', 'orange')
+		$('.foowd-page-single *').on('click', function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			elgg.register_error('Offerta Bloccata');
+		});
+	}
+	*/
 	// azioni da svolgere relativamente ai campi modificati
 	$('#foowd-edited li').each(function(){
 		var field = $(this).attr('data-edited');

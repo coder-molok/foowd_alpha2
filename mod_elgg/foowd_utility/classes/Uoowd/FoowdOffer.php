@@ -99,13 +99,10 @@ class FoowdOffer{
 
 			// se sono qui, tutto e' andato a buon fine
 			// se sono qui, vuol dire che $body non e' vuoto
-			$newest = array();
-			$pending = array();
-
-			foreach($body as $b){
-				if($b->State === "newest") $newest[] = $b->UserId;
-				if($b->State === "pending") $pending[] = $b->UserId;
-			}
+			$prefs = $this->prefersByState($body);
+			// rendo disponibili gli array $newest e $pending
+			extract($prefs);
+			
 			// \Fprint::r($newest);
 
 			// se fa parte anche e solo di un ordine, allora non e' modificabile
@@ -188,6 +185,21 @@ class FoowdOffer{
 		
 		}
 
+	}
+
+
+	/**
+	 * data un'offerta, ritorna un array con chiave prefereza e valore array di id delle preferenze
+	 * @param  [type] $body [description]
+	 * @return [type]       [description]
+	 */
+	public function prefersByState($body){
+		$prefs = array();
+		foreach($body as $b){
+			if(!array_key_exists($b->State, $prefs)) $prefs[$b->State] = array();
+			$prefs[$b->State][] = $b->UserId;
+		}
+		return $prefs;
 	}
 
 

@@ -408,7 +408,7 @@ class ApiPrefer extends \Foowd\FApi{
 			$ar['Offer'] = $tmpOf->toArray();
 			// ottengo i tags
 			foreach($tmpOf->getTags() as $tg) $ar['Offer']['Tag'][] = $tg->getName();
-			$ar['Offer']['Tag'] = implode(',' , $ar['Offer']['Tag']);
+			$ar['Offer']['Tag'] = (isset($ar['Offer']['Tag'])) ? implode(',' , $ar['Offer']['Tag']) : null ;
 			// riadatto il publisher per external
 			$ar['Offer']['Publisher'] = self::IdToExt($ar['Offer']['Publisher']);
 			$ar['totalQt'] = 0;

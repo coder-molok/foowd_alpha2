@@ -403,6 +403,7 @@ class ApiPurchase extends \Foowd\FApi{
 			$pur['totalQt'] = $totalQt;
 			$pur['totalPrice'] = $totalQt * $of['Price'];
 			$pur['PublisherId'] = $publisher;
+			$pur['OfferName'] = $of['Name'];
 
 
 			foreach ($editId as $el) if(isset($pur[$el])) $pur[$el] = self::IdToExt($pur[$el]);			

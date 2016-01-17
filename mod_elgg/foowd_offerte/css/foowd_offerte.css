@@ -34,9 +34,17 @@ label [class^=error-]:before {
   padding: 5px;
   height: 31px;
   font-style: italic;
-  background-color: #fae6ef;
+  background-color: #e6dcbe;
   color: #808080;
   border: 1px solid #ccc;
+}
+.foowd-advise-pending {
+  background-color: #e09494;
+  padding: 3px;
+}
+.foowd-advise-newest {
+  background-color: #96e78d;
+  padding: 3px;
 }
 .foowd-Tag input {
   margin: 0px 0px 21px 1px;

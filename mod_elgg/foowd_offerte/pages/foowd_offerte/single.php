@@ -62,6 +62,7 @@ $vars = $f->prepare_form_vars($form);
 
 
 ////// controllo che sia in fase di modifica, ovvero countdown, o meno
+$foowdOffer = new \Uoowd\FoowdOffer();
 $ofId = $vars['Id'];
 $elggOfr = elgg_get_entities_from_metadata(
 	array( 'metadata_names'=>array('foowdOfferId'), 'metadata_values'=>array($ofId) )
@@ -72,13 +73,17 @@ if(count($elggOfr) > 0){
 	$oldOf = json_decode($elggOfr->description);
 	// array che utilizzo nella view update come javascript hook per aggiungere dinamicamente classi e comportamenti
 	$vars['edited'] = array();
-
+	$vars['offerModifyExpiration'] = $foowdOffer->getEstimateExpiration($elggOfr);
 	foreach($oldOf as $key => $val){
 		if($key == 'Tag') $val->new = array_map('trim', explode(',', $val->new ));
 		$vars[$key] = $val->new;
 		$vars['edited'][] = $key;
 	}
 }
+///// Controllo se e' libera, editabile in un'ora o bloccata
+$r = $foowdOffer->offerPrefersCall($ofId);
+$prefs = $foowdOffer->prefersByState($r->body);
+$vars['offerPrefers'] = $prefs;
 
 
 

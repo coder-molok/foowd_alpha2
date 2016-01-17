@@ -5,6 +5,12 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 
 ### 17/01/2016
 
+- modificato ApiPrefer per compatibilita' codice su VPS
+
+- introdotto testo informativo nella pagina di modifica dell'offerta
+
+- introdotto blocco javascript al submit del form in caso di offerta bloccata da preferenze in stato 'pending'
+
 - completato iter relativo a modifica offerte con conseguente giro di mail: iss#77
 
 - introdotto controllo relatvo a scadenza nel form di modifica dell'offerta

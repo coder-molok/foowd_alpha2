@@ -59,8 +59,8 @@ $me = elgg_get_logged_in_user_entity();
 
 // file_put_contents(__DIR__ .'/headerstest.txt', json_encode(apache_request_headers()));
 
-$offer = new \Uoowd\FoowdOffer();
-$offer->solveEdited(); 
+// $offer = new \Uoowd\FoowdOffer();
+// $offer->solveEdited(); 
 
 
 
