@@ -81,9 +81,12 @@ foreach($r->body as $p) {
 	$list .= vsprintf($single,array($ldUsr, $ldMail, $pbUsr, $pbMail, $totQ, $totP, $btn));
 }
 
-
+if(count($r->body) <= 0){
+	echo "<h3>Non vi sono offerte da chiudere.</h3>";
+}
+else{
+	echo "<h3>Offerte da chiudere.</h3>";
 ?>
-
 <div class="list">
 <table>
 	<thead>
@@ -102,6 +105,9 @@ echo $list;
 </table>
 </div>
 
+<?php
+} // end if count $r->body
+?>
 
 </div><!-- foowd-profilo-container -->
 

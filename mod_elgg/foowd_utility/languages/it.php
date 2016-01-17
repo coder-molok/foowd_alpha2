@@ -46,6 +46,7 @@ return array(
 	'foowd:maxqt:error:larger' => 'La quantit&agrave; massima deve superare o eguagliare quella minima.<br/>Se non vuoi inserire un massimo, cancella i numeri dal campo sottostante.',
 
 	'foowd:expiration' => 'Scadenza',
+	'foowd:expiration:error' => 'La scadenza non puo\' essere inferiore alla data odierna.',
 
 	
 	// user form

@@ -191,6 +191,53 @@
                 @clean()
                 return true
 
+    class Expiration extends Input
+        
+
+        check: ->
+            # se e' vuolo lo lascio stare
+            # console.log(@el.val())           
+            if @el.val() == ''
+                @clean()
+                return true
+
+            exp = __stringToDate(@el.val() ,'yyyy-mm-dd hh:ii:ss')
+            now = new Date()
+            # alert(printDate(exp))
+            if(exp > now) 
+                @clean()
+                return true
+            else
+                return false
+
+        # scrivo la data in stringa
+        printDate = (m)->
+            console.log(m)
+            str = m.getUTCFullYear() + "/" + ( m.getUTCMonth() + 1 ) + "/" + m.getUTCDate() + " " + m.getUTCHours() + ":" + m.getUTCMinutes() + ":" + m.getUTCSeconds()
+            return str
+
+    # trasformo una stringa preformattata in una data
+    #  usage: stringToDate('2015-10-28 09:59:00', 'yyyy-mm-dd hh:ii:ss')
+    __stringToDate = (_date,_format)->
+        # e' importante l'ordine, visto che poi la passo a 
+        dateItems = ['yyyy', 'mm', 'dd', 'hh', 'ii', 'ss']
+        dateApply = []
+
+        for key in dateItems
+            start = _format.indexOf key
+            if start < 0 
+                num = 0
+            else
+                lgth = key.length
+                num = _date.substr(start, lgth)
+                if key is 'mm' then num = num - 1
+
+            dateApply.push parseInt(num)
+
+        arg = dateApply.join(',')
+        formatedDate = eval( 'new Date(' + arg + ')' );
+        return formatedDate;
+
 
     ###
     class Larger extends Input   
@@ -238,6 +285,7 @@
             #'Tag': ['Div', 'Devi selezionare almeno un tag', '.search-choice', 'foowd:update:tag']
             'Tag': ['Div', '.search-choice', 'foowd:update:tag']# l'ultimo e' il trigger event impostato con chosen
             'file' : ['Div',  '#sorgente']#, 'foowd:update:file']
+            'Expiration'  : ['Expiration', '[name="Expiration"]', 'foowd:update:expiration']
             
         constructor: ->
             @factory = []

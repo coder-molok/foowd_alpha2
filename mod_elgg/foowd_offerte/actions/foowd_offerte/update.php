@@ -9,7 +9,6 @@
 
 gatekeeper();
 
-
 $form = \Uoowd\Param::pid().'/update';
 
 // set sticky: avviso il sistema che gli input di questo form sono sticky
@@ -61,41 +60,30 @@ $_SESSION['sticky_forms'][$form]['pre-file']=$crop;
 if(!$f->status || !$crop->status) forward(REFERER);
 
 
+// recupero alcuni parametri, come i metatag ivi associati
+$ofCron = new \Uoowd\FoowdOffer();
 
-// L'unica modifica possibile e' quella dell'immagine
-// ora controllo se l'offerta e' modificabile o meno
-// raccolto i dati dell'offerta
-$prefCheck = array();
-$prefCheck['OfferId'] = get_input('Id');
-$prefCheck['type']='search';
-$prefCheck['State']='newest';
-// // trasformo l'array associativo in una stringa da passare come URI
-$url=preg_replace('/^(.*)$/e', '"$1=". $prefCheck["$1"].""',array_flip($prefCheck));
-$url=implode('&' , $url);
-\Uoowd\Logger::addError($url);
-$r = \Uoowd\API::Request('prefer?'.$url,'GET');
-\Uoowd\Logger::addError($r);
+// svolgo la chiamata
+$r = $ofCron->offerPrefersCall(get_input('Id'));
 if(!$r->response) return;
 $body = $r->body;
-// ha preferenze, pertanto la modifica non puo' avvenire e devo inviare la mail
-if(count($body)>0){
-	// vecchia offerta
-	\Uoowd\Logger::addError('offerta non modificabile, mando mail');
-	$oldOffer = $body[0]->Offer;
-	\Uoowd\Logger::addError($oldOffer);
-	\Uoowd\Logger::addError($data);
-	
-	// adesso ottengo tutte le modifiche
-	// \Uoowd\Logger::addError($oldOffer);
-	//
-	return;
-}
-//
-else{
-	\Uoowd\Logger::addError('posso modificare senza problemi');
-}
 
 
+// vecchia offerta
+$oldOffer = $body[0]->Offer;
+
+$diffs = $ofCron->findFieldDiffs((array) $oldOffer, (array) $data);
+$editableByDiff = $diffs['editableByDiff'];
+$inputDiffs = $diffs['inputDiffs'];
+
+
+\Uoowd\Logger::addError($diffs);
+
+// Se il conto non e' zero e i campi modificati non sono modificabili a priori (ad esempio i Tag)
+if(count($body) > 0 && !$editableByDiff ) goto __notEditable;
+
+////////////////////// MODIFICO OFFERTA ///////////////////////////////////////////////////////////////////
+// \Uoowd\Logger::addError('posso modificare senza problemi');
 
 // se tutto va a buon fine, proseguo con le API esterne
 $data['type']='update';
@@ -169,4 +157,65 @@ if($r->response){
 	}
 	register_error(elgg_echo($str));
 }
+/////////////////////////////////////////////////////// Fine Update ///////////////////////////////////
 
+
+
+__notEditable:
+
+// se sono qui, vuol dire che $body non e' vuoto
+$newest = array();
+$pending = array();
+
+foreach($body as $b){
+	if($b->State === "newest") $newest[] = $b->UserId;
+	if($b->State === "pending") $pending[] = $b->UserId;
+}
+
+\Uoowd\Logger::addError($body);
+
+// se fa parte anche e solo di un ordine, allora non e' modificabile
+if(count($pending) > 0 ){	
+
+	register_error('Siamo spiacenti ma l\'offerta non e\' modificabile in quanto rientra in ordini ancora da chiudere.<br/> Per dettagli si consiglia di contattare i gestori del sito.' );
+
+}
+// se ha solo preferenze newest, allora entro un'ora e' modificabile
+else{
+
+	// controllo se ho un oggetto elgg in cui avevo caricato l'offerta in pre-salvataggio, 
+	// altrimenti creo un nuovo oggetto in cui salvare temporaneamente i dati (una specie di river)
+
+	$ofId = $data['Id'];
+	// error_log($ofId);
+	$elggOfr = elgg_get_entities_from_metadata(
+		array( 'metadata_names'=>array($ofCron->checkEditMetatag), 'metadata_values'=>array($ofId) )
+	);
+
+	if(count($elggOfr) > 1 ) \Uoowd\Logger::addError("Modifica offerta Id $ofId : ci sono troppi oggetti elgg associati ad essa");
+	if(count($elggOfr) == 1 ) $elggOfr = $elggOfr[0];
+	// creo un nuovo oggetto
+	if(count($elggOfr) <= 0 ){
+		error_log('non esiste ancora');
+		$elggOfr = new ElggObject();
+		$elggOfr->{$ofCron->checkEditMetatag} = $ofId;
+	}
+	// attualizzo i valori
+	$elggOfr->description = json_encode($inputDiffs);
+	$elggOfr->save();
+
+	// \Uoowd\Logger::addError($inputDiffs);
+	// error_log($elggOfr->description);
+
+
+	// tra un 1 e controllo di crontab ogni 30 minuti
+	$time = $elggOfr->{$ofCron->cronTimeRefer};
+	$time = $ofCron->getEstimateExpiration($elggOfr);
+	$time = $time['time'];
+	system_message("La tua offerta e' stata modificata.<br/>Hai tempo sino alle ore $time per modificarla. Al termine gli utenti interessati verranno informati in merito alle modifiche apportate.");
+
+}
+
+
+// ritorno alla pagina di modifica dell'offerta
+forward(REFERER);

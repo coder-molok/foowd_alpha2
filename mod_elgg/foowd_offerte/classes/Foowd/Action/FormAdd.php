@@ -290,6 +290,8 @@ namespace Foowd\Action;
 			                Gdate.h = t.hour, Gdate.m = t.minute, Gdate.s = '00';
 			            },
 			            onClose: function(){
+			            	// per collaborare con offer-form-check
+			            	$( document ).trigger( "foowd:update:expiration" );
 			            	// se l'ho cancellato, allora e' come se volessi togliere la data di scadenze
 			            	// il primo e' il valore che visualizzo sotto a scadenza
 			            	if( $(this).val().trim() === '') Gdiv.val('');

@@ -64,6 +64,11 @@ class FoowdCron{
 		// controllo lo stato degli ordini per l'invio: ricordarsi di assestare l'attributo $cronTab di FoowdPurchase.php
 		// $solve = new \Uoowd\FoowdPurchase();
 		// $solve->check();
+		
+		// controllo se ci sono offerte modificate da aggiornare
+		$offer = new \Uoowd\FoowdOffer();
+		$offer->solveEdited(); 
+		
 	}
 
 }

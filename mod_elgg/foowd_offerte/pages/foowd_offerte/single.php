@@ -61,6 +61,27 @@ $content = elgg_view_title($title);
 $vars = $f->prepare_form_vars($form);
 
 
+////// controllo che sia in fase di modifica, ovvero countdown, o meno
+$ofId = $vars['Id'];
+$elggOfr = elgg_get_entities_from_metadata(
+	array( 'metadata_names'=>array('foowdOfferId'), 'metadata_values'=>array($ofId) )
+);
+
+if(count($elggOfr) > 0){
+	$elggOfr = $elggOfr[0];
+	$oldOf = json_decode($elggOfr->description);
+	// array che utilizzo nella view update come javascript hook per aggiungere dinamicamente classi e comportamenti
+	$vars['edited'] = array();
+
+	foreach($oldOf as $key => $val){
+		if($key == 'Tag') $val->new = array_map('trim', explode(',', $val->new ));
+		$vars[$key] = $val->new;
+		$vars['edited'][] = $key;
+	}
+}
+
+
+
 ///// preparo i valori da passare alla view
 // $fadd->createField('Tag', 'Tags (singole parole separate da una virgola) *', 'input/text');
 
@@ -82,6 +103,7 @@ foreach($value as $category => $obj){
 		$checkBox[$category][$i++] = array('tag'=>$single, 'checked'=>$checked);
 	}
 }
+
 
 // altrimenti verrebbe riscritto nell'array_merge qui sotto
 unset($session['Tag']);
@@ -109,6 +131,9 @@ $vars['guid']=elgg_get_logged_in_user_guid();
 $vars['sticky']=$form;
 
 $vars = array_merge($vars, (array) $session);
+
+
+
 // \Fprint::r($vars);
 $content .= elgg_view_form($form, array('enctype'=>'multipart/form-data'), $vars);
 

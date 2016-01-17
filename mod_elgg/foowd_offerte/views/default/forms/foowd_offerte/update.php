@@ -1,5 +1,4 @@
 <?php
-// /views/default/input/
 
 // NB: attenzione a non inizializzare la variabile $_SESSION['sticky_forms']['nome del form']
 // 			altrimenti al reload non si realizzerebbe la condizione per il richiamo delle API in single.php
@@ -13,6 +12,7 @@ if($vars['Id']==='' || $vars['guid']==='' ){
 	echo '<div style="color:red;">Problema nella modifica del post</div>';
 	return;
 }
+
 
 // $fadd->createField('Name', 'Offerta', 'input/text');
 $fadd->createField('Name', 'foowd:name:need', 'input/text');
@@ -84,6 +84,15 @@ echo elgg_view('input/hidden', array('name' => 'fileBasename', 'value' => basena
 ?>
 
 <div>
+    <?php echo elgg_view('input/submit', array('value' => elgg_echo('save'))); ?>
+</div>
+
+<div>
+
+<div>
+    <?php echo '* : campo obbligatorio.'; ?>
+
+</div>
     <input type="hidden" name="Id" value="<?php echo $vars['Id']; ?>" />
 </div>
 
@@ -102,14 +111,30 @@ echo elgg_view('input/hidden', array('name' => 'fileBasename', 'value' => basena
 </div>
 <a href="image-tmp" id="url" style="display:none;">testo</a>
 
-<div>
-    <?php echo elgg_view('input/submit', array('value' => elgg_echo('save'))); ?>
-</div>
 
-<div>
-    <?php echo '* : campo obbligatorio.'; ?>
-</div>
 
+<!-- colleziono gli elementi come hook per javascript sui contenuti modificati -->
+<ul id="foowd-edited" style="display:none;">
+	<?php
+		foreach($vars['edited'] as $v) echo "<li data-edited=\"$v\">" . trim($v) . "</li>";
+	?>
+</ul>
+
+
+
+
+<script>
+require(['jquery'], function($){
+
+	// azioni da svolgere relativamente ai campi modificati
+	$('#foowd-edited li').each(function(){
+		var field = $(this).attr('data-edited');
+		$('label[for="' + field + '"]').css({
+			'background-color': 'plum'
+		});
+	});
+});
+</script>
 
 <?php elgg_load_js('jquery'); ?>
 <link href="<?php echo elgg_get_site_url ();?>mod/foowd_utility/js/imgareaselect/css/imgareaselect-default.css" rel="stylesheet">

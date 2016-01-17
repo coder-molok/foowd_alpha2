@@ -1,9 +1,19 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
-Ricordare upgrade
+
+
+### 17/01/2016
+
+- completato iter relativo a modifica offerte con conseguente giro di mail: iss#77
+
+- introdotto controllo relatvo a scadenza nel form di modifica dell'offerta
+
+
+
 
 ### 15/01/2016
+
 
 - introdotte apiExpose per chiusura ordine
 
