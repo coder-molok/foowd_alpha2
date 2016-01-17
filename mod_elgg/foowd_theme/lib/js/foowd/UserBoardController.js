@@ -43,7 +43,6 @@ define(function(require) {
 				Navbar.loadNavbar(true);
 	   			//carico i template
 	   			group=false;
-	   			_applyColor();
 	   			_getUserPreferences();
 	   			_getUserInfo();		
    		}
@@ -127,14 +126,14 @@ define(function(require) {
 		
 		function _applyColor(){
 
-				$( "#logo" ).each(function() {
-					$(this).toggleClass('logo-green',group);
-					$(this).toggleClass('logo',!group);
+				$( ".progress" ).each(function() {
+					$(this).toggleClass('action-heart',!group);
+					$(this).toggleClass('action-minus',group);
 
 				});
-				$( ".progress" ).each(function() {
-					$(this).toggleClass('logo',!group);
-					$(this).toggleClass('logo-green',group);
+				$( ".btn-buy" ).each(function() {
+					$(this).toggleClass('action-buy',!group);
+					$(this).toggleClass('action-buy-group',group);
 
 				});
 			

@@ -244,13 +244,16 @@
   display: inline-flex;
 }
 .action-heart {
-  background: #fae6ef;
+  background: #bed25a;
 }
 .action-minus {
-  background: #ebebeb;
+  background: #f7f4ee;
 }
 .action-buy {
-  background: #0c5b0d;
+  background: #bed25a;
+}
+.action-buy-group {
+  background: #38302c;
 }
 .action-buy i {
   color: #fff !important;

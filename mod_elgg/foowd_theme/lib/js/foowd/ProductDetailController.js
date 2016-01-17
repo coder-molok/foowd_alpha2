@@ -41,7 +41,7 @@ define(function(require){
    		function _init(){
    			//load navbar
    			Navbar.loadNavbar();
-   			_applyColor()
+   			_applyColor();
    			//carico il template del prodotto con i dati
    			getDetailsOf();
    		}
@@ -103,7 +103,7 @@ define(function(require){
 					var rawProduct = data.body[0];
 					var parsedProduct = _applyProductContext(rawProduct);
 					_fillProductDetail(parsedProduct);
-
+					_applyColor();
 					$(document).trigger('detail-template-loaded');
 
 				}, function(error){
@@ -146,17 +146,19 @@ define(function(require){
 		}
 		function _applyColor(){
 
-				$( "#logo" ).each(function() {
-					$(this).toggleClass('logo-green',group);
-					$(this).toggleClass('logo',!group);
+				$( "#action-buy" ).each(function() {
+					$(this).toggleClass('action-buy-group',group);
+					$(this).toggleClass('action-buy',!group);
 
-				});
+				}); 
+				
+				
 		}
 		function toggleGroup(){
 			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
 			group=!group;
 			
-			_applyColor()
+			_applyColor();
 			getDetailsOf();
 		}
 

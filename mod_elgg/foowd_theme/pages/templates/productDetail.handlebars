@@ -46,7 +46,7 @@
             
             {{#unless group}}
              <ul class="action-icons menu-section" id = "preference-action">
-                <li class="action-heart">
+                <li class="action-heart" id="action-heart">
                     <i  class="foowd-icons foowd-icon-heart-edge" 
                         onClick = "ProductDetailController.addPreference({{Id}}, 1)"></i>
                 </li>
@@ -88,7 +88,7 @@
                 {{#canbuy totalQt Minqt}}
                     <div class = "commercial-menu-item">
                         <ul class="action-icons menu-section" id = "preference-action">
-                            <li class="action-buy">
+                            <li id="action-buy">
                                 <i class="foowd-icons foowd-icon-plus" 
                                 onClick = "ProductDetailController.purchase({{Id}},'{{prefer.prefers}}')"></i>
                             </li>
