@@ -118,6 +118,8 @@ function utility_init(){
 // hook del salvataggio settings
 function update_json($hook, $type, $url, $params){
 
+	// \Uoowd\Logger::addError(func_get_args());
+
 	// genero un modulo AMD contenente i settings di utility
 	$settings = elgg_get_plugin_from_id(\Uoowd\Param::uid())->getAllSettings();
 	// unset($settings['tags']);

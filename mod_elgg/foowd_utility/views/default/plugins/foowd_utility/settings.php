@@ -78,6 +78,10 @@
   <!-- mi serve js perche' la validita' dei tags la testo prima del submit -->
   <noscript><div style="color:red;">Mi dispiace, ma per inserire i tags devi avere abilitato javascript.</div></noscript>
    <input type='hidden' id="tags" name="params[tags]" value=<?php echo $value;?> />
+   <p>
+   <label>Inserisci le categorie in base all'ordine con cui vorresti vengano visualizzate</label>
+   <textarea style="display:block; width:90%;" id="tags-order"></textarea>
+   </p>
 </div>
 
 

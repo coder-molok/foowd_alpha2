@@ -5,10 +5,16 @@ define(function(require){
 
 var $ = require('jquery');
 
+// il form attuale: per il submit
+var $form = $('#foowd_utility-settings');
+// container principale
 var $startHook = $('#tags-hook');
+// array globale in cui salvo il tree dei tags
 var $tree = {};
 // event: lo uso per l'event propagation
 var $evtKey=false;
+// textarea in cui salvo e visualizzo l'elenco ordinato dei tags
+var $tagsOrder = $('#tags-order');
 
 // NB: anzitutto riempire tree se gia' presenti i valori...
 
@@ -26,6 +32,7 @@ var $evtKey=false;
   }
 })();
 
+// iter di inizializzazione
 function my_start(){
   initBox();
 
@@ -40,6 +47,10 @@ function my_start(){
         createGroupBody(group, obj[i][j]);
     }
   }
+
+  // popolo il campo di riferimento per l'ordine dei tags
+  populateTagsOrder();
+
 }
 
 function initBox(){
@@ -57,11 +68,14 @@ function initBox(){
 
 }
 
+
+// quando clicco per inserire un nuovo campo
 $(document).on('click', '#create-group' , function(){
     createGroupBox();
     $evtKey = false;
 });
 
+// quando inserisco un valore di input nei tags
 $(document).on('keydown', '[id*="input-"]', function(e){
     // console.log(e);
     if(e.which == 13){
@@ -129,10 +143,11 @@ function createGroupHead(group){
     $('[data-wrap='+group+']').wrapAll($('<div id="head-'+group+'"></div>'));
     // metto il focus sull'input appena creato: utile se si inseriscono i tag con l'invio
     $('#input-'+group).focus();
+
 }
 
 
-
+// qundo clicco, aggiungo un nuovo gruppo
 $(document).on('click', '.add', function(){
       $evtKey = false;
       var group = $(this).attr('data-wrap').trim();
@@ -173,6 +188,7 @@ function createGroupBody(group, subTag ){
 }
 
 
+// per eliminare
 $(document).on('click', '.deletable', function(){
     var element = $(this).attr('data-remove');
     var div = $('[data-remove='+element+']');
@@ -217,6 +233,7 @@ function checkInput(str){
 }
 
 
+// aggiorno il campo tags, ovvero quello che voglio salvare!
 function updateTags(){
   var obj = {};
   for(var i in $tree){
@@ -231,6 +248,69 @@ function updateTags(){
   $('#tags').val(JSON.stringify(obj));
   // console.log(JSON.stringify(obj));
 }
+
+// al primo avvio ricreo sulla base dei tags
+function populateTagsOrder(){
+  $tagsOrder.each(function(){
+    // console.log('populate start')
+    // console.log($tree);
+    var tagsOrdered = Object.keys($tree).join(', ');
+    $(this).val(tagsOrdered)
+  });  
+}
+// funzione per il confronto: la chiamo al submit
+function compareTagsOrder(){
+  var _check = true;
+  $tagsOrder.each(function(){
+    // tolgo tutti gli spazi, inclusi nuove linee. Compatibile fintanto che prevedo parole singole
+    var order = $(this).val().replace(/(^\s*,)|(,\s*$)/g, "").replace(/[\s]+/g, '').split(',');
+    var actualTree = Object.keys($tree)
+
+    // raccolgo le chiavi da confrontare
+    var joinKey = order.concat(actualTree);
+    // nuova tree
+    var tmpTree = {}
+    // rimuovo gli elementi duplicati
+    joinKey = joinKey.filter(function (item, pos) {return joinKey.indexOf(item) == pos});
+
+    for(var i in joinKey){
+      var ord = ( $.inArray(joinKey[i], order) >= 0 );
+      var actual = ( $.inArray(joinKey[i], actualTree) >= 0 );
+      if(ord && actual){
+        // carico nell'ordine scelto
+        tmpTree[joinKey[i]] = $tree[joinKey[i]];
+      }else{
+        // in caso di errore esco dalla funzione
+        if(!actual) alert('Non esiste il gruppo: "'+joinKey[i]+'"');
+        if(!ord) alert('Non hai inserito "'+joinKey[i]+'" nel campo di ordinamento dei tags.');
+
+        _check = false;
+        return;
+      }
+    }
+
+    if(!_check) return;
+
+    _check = true;
+         
+    // reimposto la tree
+    console.log(tmpTree)
+    $tree = tmpTree; 
+    // aggiorno il campo tags per il salvataggio
+    updateTags();
+
+
+  });
+  return _check;    
+}
+
+$form.on('submit', function(e){
+  var check = compareTagsOrder();
+  // se check e' andato a buon fine allora ritorno true
+  if(check) console.log('salvo!')
+  if(!check) e.preventDefault();
+})
+
 
 return {};
 

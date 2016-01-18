@@ -1,6 +1,7 @@
 .foowd-page-purchase table {
   border-collapse: separate;
   border-spacing: 0 0.5em;
+  margin: 10px 0 40px 0;
 }
 .foowd-page-purchase table thead th {
   font-weight: bold;

@@ -144,7 +144,7 @@ echo elgg_view('input/hidden', array('name' => 'fileBasename', 'value' => basena
 <!-- colleziono gli elementi come hook per javascript sui contenuti modificati -->
 <ul id="foowd-edited" style="display:none;">
 	<?php
-		foreach($vars['edited'] as $v) echo "<li data-edited=\"$v\">" . trim($v) . "</li>";
+		if(is_array($vars['edited'])) foreach($vars['edited'] as $v) echo "<li data-edited=\"$v\">" . trim($v) . "</li>";
 	?>
 </ul>
 

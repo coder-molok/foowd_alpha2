@@ -13,6 +13,11 @@
   position: relative;
   text-align: justify;
   margin-bottom: 40px;
+  padding-top: 10px;
+}
+.foowd-panel-container h1,
+.foowd-profilo-container h1 {
+  color: #000;
 }
 .foowd-panel-container .box,
 .foowd-profilo-container .box {

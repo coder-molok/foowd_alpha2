@@ -364,10 +364,14 @@ class ApiPurchase extends \Foowd\FApi{
 		$Json = array();
 
 		// trasformo gli ID da elgg a quelli DB
-		$editId = array( 'LeaderId' );
+		$editId = array( 'LeaderId' , 'PublisherId' );
 		foreach ($editId as $el) if(isset($data->{$el})) $data->{$el} = self::ExtToId($data->{$el});
 
-
+		// se ho impostato un PublisherId, allora lo devo rimuovere perche' non posso usarlo come filtro
+		if(isset($data->PublisherId)){
+			$searchPub = $data->PublisherId;
+			unset($data->PublisherId);
+		}
 
 		$obj = \PurchaseQuery::create();
 		foreach($data as $key => $value){
@@ -383,12 +387,13 @@ class ApiPurchase extends \Foowd\FApi{
 
 			// trovo l'offerta e i dati di interesse
 			$of = $pur->getOffer()->toArray();
-			$publisher = self::IdToExt($of['Publisher']);
+
+			// se ho il campo di ricerca, ma non combacia
+			if(isset($searchPub) && $of['Publisher'] != $searchPub) continue;
 
 			// prelevo l'ordine
 			$prefs = $pur->getPrefers();
 			$pur = $pur->toArray();
-
 
 			// preparo i dati relativi alle preferenze
 			$pur['prefers'] = array();
@@ -402,8 +407,10 @@ class ApiPurchase extends \Foowd\FApi{
 
 			$pur['totalQt'] = $totalQt;
 			$pur['totalPrice'] = $totalQt * $of['Price'];
-			$pur['PublisherId'] = $publisher;
+			// viene poi convertito nel foreach sottostante
+			$pur['PublisherId'] = $of['Publisher'];
 			$pur['OfferName'] = $of['Name'];
+
 
 
 			foreach ($editId as $el) if(isset($pur[$el])) $pur[$el] = self::IdToExt($pur[$el]);			

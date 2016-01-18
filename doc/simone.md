@@ -2,6 +2,17 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 18/01/2016
+
+- completato controllo completo modifica offerta e invio di relative mail
+
+- introdotto controllo permessi d'amministrazione in cronjob
+
+- risolta iss#186
+
+- introdotto ordinamento nel salvataggio dei tags in Utility Foowd
+
+
 
 ### 17/01/2016
 

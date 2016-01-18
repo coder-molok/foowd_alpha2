@@ -17,7 +17,7 @@ class API{
 	//  */
 
 	public static function Request($url, $method , $params= array() ){
-		
+		// \Uoowd\Logger::addError('FoowdAPI Request');
 		// CURL check
 		if(is_callable('curl_init')){
 			// inizializzo la chiamata
@@ -80,7 +80,9 @@ class API{
 	    // curl_setopt($this->ch, CURLOPT_COOKIEFILE, $this->_cookie_file_path);
 	    // curl_setopt($this->ch, CURLOPT_COOKIEJAR, $this->_cookie_file_path);
 	    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-	    curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
+	    curl_setopt($ch, CURLOPT_VERBOSE, False); // se TRUE con questa scrive nell'error log un output come: A line starting with '>' means "header data" sent by curl, '<' means "header data" received by curl that is hidden in normal cases, and a line starting with '*' means additional info provided by curl.
+	    $fp = fopen(dirname(__FILE__).'/curl_request_errorlog.txt', 'w');
+	    curl_setopt($ch, CURLOPT_STDERR, $fp); 
 	    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($ar));
 	    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 
@@ -130,7 +132,7 @@ class API{
 
 
 	public static function httpCall($url, $method , $params= array() ){
-
+			// \Uoowd\Logger::addError('FoowdAPI httpCall');
 			// CURL check
 			if(is_callable('curl_init')){
 				$ch = curl_init($url);
@@ -164,7 +166,10 @@ class API{
 		    // curl_setopt($this->ch, CURLOPT_COOKIEFILE, $this->_cookie_file_path);
 		    // curl_setopt($this->ch, CURLOPT_COOKIEJAR, $this->_cookie_file_path);
 		    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-		    curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
+		    curl_setopt($ch, CURLOPT_VERBOSE, FALSE);
+		    $fp = fopen(dirname(__FILE__).'/curl_httpCall_errorlog.txt', 'w');
+		    curl_setopt($ch, CURLOPT_STDERR, $fp); 
+		    // curl_setopt($ch, CURLOPT_STDERR, 'hanler al file in cui salvare output'); // $fp = fopen(dirname(__FILE__).'/errorlog.txt', 'w');
 		    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
 		    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 

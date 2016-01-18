@@ -1,11 +1,18 @@
 <?php
 
 // pagina accessibile solo ai loggati
-elgg_admin_gatekeeper();
+elgg_gatekeeper();
 
 ob_start();
 $user = elgg_get_logged_in_user_entity();
 // elgg_unregister_menu_item('topbar', 'administration');
+
+$check = ($user->isAdmin() || $user->Genre == 'offerente');
+
+if(!$check){
+	register_error('Non disponi dei permessi necessari a visualizzare la pagina.');
+	forward(REFERER);
+}
 
 ?>
 
@@ -29,13 +36,29 @@ $purch['type']='search';
 $purch['State'] = 'opened';
 // \Fprint::r($purch);
 
+// se non e' un amministratore, ritorno solo le offerte di suo interesse
+if(!$user->isAdmin()) $purch['PublisherId'] = $user->guid;
+
+// se l'utente e' un produttore non amministratore, allora
+
 // trasformo l'array associativo in una stringa da passare come URI
 $url=preg_replace('/^(.*)$/e', '"$1=". $purch["$1"].""',array_flip($purch));
 $url=implode('&' , $url);
 $r = \Uoowd\API::Request('purchase?'.$url,'GET');
 // \Fprint::r($r);
 
-$list = '';
+$list = array(
+	'noadmin' => array(
+			'title' => 'Ordinazioni da chiudere:',
+			'list' => array()
+	),
+	'admin' => array(
+			'title' => 'Ordinazioni da chiudere (amministratore):',
+			'list' => array()
+	),
+);
+
+
 $single = <<<__SINGLE
 	<tr>
 		<td>
@@ -83,14 +106,22 @@ foreach($r->body as $p) {
 	    'data-purchase' => $p->Id
     ));
 
-	$list .= vsprintf($single,array($ldUsr, $ldMail, $pbUsr, $pbMail, $ofName,$totQ, $totP, $btn));
+	$txt = ($p->PublisherId !== $user->guid) ? 'admin' : 'noadmin' ;
+	// \Fprint::r($txt);
+	$list[$txt]['list'][] = vsprintf($single,array($ldUsr, $ldMail, $pbUsr, $pbMail, $ofName,$totQ, $totP, $btn));
 }
 
 if(count($r->body) <= 0){
 	echo "<h3>Non vi sono offerte da chiudere.</h3>";
 }
 else{
-	echo "<h3>Offerte da chiudere.</h3>";
+
+foreach($list as $lst){
+	if(count($lst['list']) == 0) continue;
+	echo "<h3>" . $lst['title'] . "</h3>";
+	// \Fprint::r($lst);
+
+
 ?>
 <div class="list">
 <table>
@@ -105,13 +136,17 @@ else{
 	</thead>
 	<tbody>
 <?php
-echo $list;
+		foreach($lst['list'] as $l){
+			echo $l;
+		}
 ?>
 	</tbody>
 </table>
 </div>
 
 <?php
+	} // end foreach $list
+
 } // end if count $r->body
 ?>
 

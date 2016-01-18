@@ -41,14 +41,16 @@ class FoowdCron{
 	//  * @return [type]         [description]
 	//  */
 	// public static function logTest($hook, $type, $return, $params){
-	// 	$file = elgg_get_plugins_path().'foowd_utility/test/' . $type . '.txt';
-	// 	$text = new \DateTime();
-	// 	$text->setTimestamp($params['time']);
-	// 	$text = $text->format('U = Y-m-d H:i:s') . "\n";
+	// 	if($type ==='minute' || $type === 'fiveminute') return;
+	// 	// $file = elgg_get_plugins_path().'foowd_utility/test/' . $type . '.txt';
+	// 	// $text = new \DateTime();
+	// 	// $text->setTimestamp($params['time']);
+	// 	// $text = $text->format('U = Y-m-d H:i:s') . "\n";
 	// 	// error_log('altro test: '.$file. $text);
-	// 	file_put_contents($file, $text, FILE_APPEND);
+	// 	// file_put_contents($file, $text, FILE_APPEND);
 	// 	// \Uoowd\Logger::addError(func_get_args());
 	// 	// ["cron","minute","",{"time":1445696701}] 
+	// 	\Uoowd\Logger::addError("Trigger di $type");
 	// }
 
 
@@ -70,5 +72,16 @@ class FoowdCron{
 		$offer->solveEdited(); 
 		
 	}
+
+	// public static function minuteCollection($hook, $type, $return, $params){
+	// 	// controllo lo stato degli ordini per l'invio: ricordarsi di assestare l'attributo $cronTab di FoowdPurchase.php
+	// 	// $solve = new \Uoowd\FoowdPurchase();
+	// 	// $solve->check();
+		
+	// 	// controllo se ci sono offerte modificate da aggiornare
+	// 	$offer = new \Uoowd\FoowdOffer();
+	// 	$offer->solveEdited(); 
+		
+	// }
 
 }

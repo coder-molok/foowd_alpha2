@@ -10,6 +10,22 @@
 
 admin_gatekeeper();
 
+$f = new \Uoowd\FoowdOffer();
+
+
+$elggOfr = elgg_get_entities_from_metadata(
+    array( 'metadata_names'=>array($f->checkEditMetatag) )
+);
+\Fprint::r(count($elggOfr));
+\Fprint::r($elggOfr);
+
+// foreach($elggOfr as $o){
+//     \Fprint::r($o->{$f->checkEditMetatag});
+//     $o->{$f->checkEditMetatag} = '';
+// }
+
+return;
+
 
 $me = elgg_get_logged_in_user_entity();
 

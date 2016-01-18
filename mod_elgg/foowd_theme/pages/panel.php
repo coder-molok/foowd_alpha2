@@ -4,6 +4,7 @@ ob_start();
 
 // elgg_unregister_menu_item('topbar', 'administration');
 
+
 ?>
 
 <!--
@@ -12,6 +13,9 @@ classi elgg:
 
 	elgg-body , mi permette di rendere il box al 100% del rimanente, nonostante sia preceduto da un div con float:left
 	pll , lascia un paddin sinistro di 20 px
+
+
+vedere foowd-utenti.styl in foowd_utenti/
 
 -->
 
@@ -22,10 +26,19 @@ classi elgg:
 
 
 <?php
-if(!elgg_is_admin_logged_in()) goto saltoAdmin;
+
+$user = elgg_get_logged_in_user_entity();
+
+
+
+if($user->isAdmin() || $user->Genre == 'offerente'){
+$title = ($user->isAdmin() ) ? 'AMMINISTRAZIONE' : 'Pannello Produttore' ; 
+
+
 ?>
 
-<h1>AMMINISTRAZIONE</h1>
+<h1><?php echo $title; ?></h1>
+
 
 <div class="box">
 
@@ -47,7 +60,8 @@ echo elgg_view('output/url', array(
 <div style="width:100%; height: 5px; background-color:pink;margin-bottom: 20px;"></div>
 
 <?php
-saltoAdmin:
+
+} // fine if se amministratore o offerente
 ?>
 
 
@@ -57,7 +71,6 @@ saltoAdmin:
 
 <?php 
 
-$user = elgg_get_logged_in_user_entity();
 
 
 echo '<p class="pll">Salve '.$user->username.',<br/> scegli cosa fare:</p>';
