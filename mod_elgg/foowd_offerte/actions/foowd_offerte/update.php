@@ -62,6 +62,12 @@ if(!$f->status || !$crop->status) forward(REFERER);
 
 // recupero alcuni parametri, come i metatag ivi associati
 $ofCron = new \Uoowd\FoowdOffer();
+$ofId = $data['Id'];
+// raccolgo eventuale oggetto elgg di modifica
+$elggOfr = elgg_get_entities_from_metadata(
+	array( 'metadata_names'=>array($ofCron->checkEditMetatag), 'metadata_values'=>array($ofId) )
+);
+
 
 // svolgo la chiamata
 $r = $ofCron->offerPrefersCall(get_input('Id'));
@@ -70,14 +76,14 @@ $body = $r->body;
 
 
 // vecchia offerta
-$oldOffer = $body[0]->Offer;
+$oldOffer = $body[0]->offer;
 
 $diffs = $ofCron->findFieldDiffs((array) $oldOffer, (array) $data);
 $editableByDiff = $diffs['editableByDiff'];
 $inputDiffs = $diffs['inputDiffs'];
 
 
-\Uoowd\Logger::addError($diffs);
+// \Uoowd\Logger::addError($diffs);
 
 // Se il conto non e' zero e i campi modificati non sono modificabili a priori (ad esempio i Tag)
 if(count($body) > 0 && !$editableByDiff ) goto __notEditable;
@@ -88,9 +94,13 @@ if(count($body) > 0 && !$editableByDiff ) goto __notEditable;
 // se tutto va a buon fine, proseguo con le API esterne
 $data['type']='update';
 // \Uoowd\Logger::addError($data);
-$r = \Uoowd\API::Request('offer', 'POST', $data);
+$r = \Uoowd\API::offerPost($data);
 
 if($r->response){
+
+	// posso cancellare l'oggetto contenente le modifiche, in quanto applicate
+	if(count($elggOfr) == 1 ) $elggOfr[0]->delete(true);
+
 	// dico al sistema di scartare gli input di questo form
 	// elgg_clear_sticky_form('foowd_offerte/add');
 	// $input = (array) $r->body[0];
@@ -182,17 +192,11 @@ else{
 	// controllo se ho un oggetto elgg in cui avevo caricato l'offerta in pre-salvataggio, 
 	// altrimenti creo un nuovo oggetto in cui salvare temporaneamente i dati (una specie di river)
 
-	$ofId = $data['Id'];
-	// error_log($ofId);
-	$elggOfr = elgg_get_entities_from_metadata(
-		array( 'metadata_names'=>array($ofCron->checkEditMetatag), 'metadata_values'=>array($ofId) )
-	);
-
 	if(count($elggOfr) > 1 ) \Uoowd\Logger::addError("Modifica offerta Id $ofId : ci sono troppi oggetti elgg associati ad essa");
 	if(count($elggOfr) == 1 ) $elggOfr = $elggOfr[0];
 	// creo un nuovo oggetto
 	if(count($elggOfr) <= 0 ){
-		error_log('non esiste ancora');
+		\Uoowd\Logger::addError('non esiste ancora');
 		$elggOfr = new ElggObject();
 		$elggOfr->{$ofCron->checkEditMetatag} = $ofId;
 	}

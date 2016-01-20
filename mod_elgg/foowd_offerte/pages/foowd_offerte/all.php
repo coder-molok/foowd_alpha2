@@ -3,7 +3,7 @@
 gatekeeper();
 
 $appendUrl ="type=search&Publisher=".elgg_get_logged_in_user_guid();
-$r = \Uoowd\API::Request('offer?'.$appendUrl, 'GET');
+$r = \Uoowd\API::offerGet($appendUrl);
 
 $Pid = \Uoowd\Param::pid(); //plugin id
 
@@ -13,6 +13,7 @@ if($r->response && !empty($r->body)){
 	$afterTitle = ", <br/>ecco le offerte che hai pubblicato";
 	// var_dump($r->body);
 	foreach($r->body as $key ){
+		$key = $key->offer;
 		$str .= elgg_view('offers/allSingle',array('single' => (array)$key,'pid'=>$Pid ,'guid'=>elgg_get_logged_in_user_guid()) );
 	}
 }else{

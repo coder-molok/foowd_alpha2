@@ -8,8 +8,27 @@
 @require 'variables'
 
 
-// versione piu scura (ad esempio per testi su sfondo chiaro)
-// la "d" sta per darken
-foowd2d = darken(foowd2, 40%)
+foowd = (foowd1 foowd2 foowd3 foowd4 foowd5)
+foowdd = ()
 
-// foowd1 = yellow
+
+lg = length(foowd) - 1
+/* genero classi specifiche , nel caso volessi appendere esclusivamente questi stili tramite javascript */
+/* inoltre creo dinamicamente le versioni darken per l'array*/
+for $i in 0..lg
+	
+	v = foowd[$i]
+	num = $i+1
+	// salvo la versione scura
+	foowdd[$i] = darken(v, 40%)
+	
+	.foowd{num}-cl
+		color: v
+	
+	.foowd{num}-bg
+		background-color: v
+	// d sta per darken
+	.foowd{num}d-bg
+		background-color: darken(v, 40%)
+
+

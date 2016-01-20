@@ -28,7 +28,7 @@ if(!elgg_is_sticky_form($form) ){
 	$url=implode('&' , $url);
 	
 	// prendo i valori del vecchio post e li carico nel form
-	$r = \Uoowd\API::Request('offer?'.$url,'GET');
+	$r = \Uoowd\API::offerGet($url);
 
 	// se sono qui la validazione lato elgg e' andata bene
 	// ma ora controllo quella lato API remote
@@ -37,7 +37,7 @@ if(!elgg_is_sticky_form($form) ){
 	if($r->response){
 		// dico al sistema di scartare gli input di questo form
 		// elgg_clear_sticky_form('foowd_offerte/add');
-		$input = (array) $r->body[0];
+		$input = (array) $r->body[0]->offer;
 		$input['Id'] = get_input('Id');
 
 		// quando arriva dalle API e' una stringa da trasformare in array.

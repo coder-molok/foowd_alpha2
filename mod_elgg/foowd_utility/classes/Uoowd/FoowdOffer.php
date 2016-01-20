@@ -67,7 +67,7 @@ class FoowdOffer{
 		$elggOfr = elgg_get_entities_from_metadata(
 			array( 'metadata_names'=>array( $this->checkEditMetatag ) )
 		);
-		\Uoowd\Logger::addError(count($elggOfr));		
+		// \Uoowd\Logger::addError(count($elggOfr));		
 		// dopo la query e' buona prassi reimpostare i permessi d'accesso di default
 		// promemoria, ma non utilizzata
 		//  access_show_hidden_entities($access_status);
@@ -75,9 +75,9 @@ class FoowdOffer{
 		// 		ma non e' questo il caso, in quanto in caso di fallimento imposto lo stato dell'oggetto a failed
 		// elgg_set_ignore_access($access);
 
-		foreach($elggOfr as $o){
-			\Uoowd\Logger::addError($o->description);
-		}
+		// foreach($elggOfr as $o){
+		// 	\Uoowd\Logger::addError($o->description);
+		// }
 
 
 
@@ -124,7 +124,7 @@ class FoowdOffer{
 			}
 
 			$body = $r->body;
-			$bodyOf = $body[0]->Offer;
+			$bodyOf = $body[0]->offer;
 			$pub = get_entity($bodyOf->Publisher);
 
 			// se sono qui, tutto e' andato a buon fine
@@ -196,7 +196,7 @@ class FoowdOffer{
 			// per la funzione adminMessage in caso di errore
 			$this->request = $bodyOf;
 			// chiamata per aggiornare!
-			$r = \Uoowd\API::Request('offer', 'POST', $bodyOf);
+			$r = \Uoowd\API::offerPost($bodyOf);
 
 			if(!$r->response){
 				// se lo stato e' failed, vuol dire che era gia' fallita in un controllo precedente,
@@ -213,7 +213,7 @@ class FoowdOffer{
 
 
 			// e' andato tutto a buon fine, quindi posso eliminare
-			$s->delete();
+			$s->delete(true);
 
 
 			// se sono qui, che vi siano preferenze o meno ormai e' modificabile
@@ -249,8 +249,10 @@ class FoowdOffer{
 	public function prefersByState($body){
 		$prefs = array();
 		foreach($body as $b){
-			if(!array_key_exists($b->State, $prefs)) $prefs[$b->State] = array();
-			$prefs[$b->State][] = $b->UserId;
+			foreach($b->prefers as $p){
+				if(!array_key_exists($p->State, $prefs)) $prefs[$p->State] = array();
+				$prefs[$p->State][] = $p->UserId;
+			}
 		}
 		return $prefs;
 	}
@@ -309,6 +311,77 @@ class FoowdOffer{
 
 	}
 
+
+
+	/**
+	 * prima di chiudere devo controllare che nel mentre non siano state espresse preferenze!
+	 * @param  [type] $id [description]
+	 * @return [type]     [description]
+	 */
+	public function offerPrefersCall($id){
+		// L'unica modifica possibile e' quella dell'immagine
+		// ora controllo se l'offerta e' modificabile o meno
+		// raccolto i dati dell'offerta
+		$prefCheck = array();
+		$prefCheck['OfferId'] = $id;
+		$prefCheck['type']='search';
+		$prefCheck['State']='newest,pending';
+		\Uoowd\Logger::addDebug($prefCheck);
+		// lo salvo perche' lo posso usare nella mail di errori
+		$this->request = $prefCheck;
+		// // trasformo l'array associativo in una stringa da passare come URI
+		$url=preg_replace('/^(.*)$/e', '"$1=". $prefCheck["$1"].""',array_flip($prefCheck));
+		$url=implode('&' , $url);
+		$r = \Uoowd\API::preferGet($url);
+		return $r;
+	}
+
+
+	/**
+	 * Lato admin e' utile su una pagina che mi permette di visualizzare il testo di questa funcion.
+	 * Questa funzione rimane utile come promemoria per filtri elgg.
+	 * 
+	 * @return [type] [description]
+	 */
+	public function showFailedUpdate(){
+		/*
+		//
+		// visualizzo tutte le entita' con checkEditMetatag, cosi' eventualmente trovo quelle in stato false
+		$access = elgg_set_ignore_access(true);
+		$elggOfr = elgg_get_entities_from_metadata(
+			array( 'metadata_names'=>array( $this->checkEditMetatag ) )
+		);
+		
+		// accedo solo in lettura
+		elgg_set_ignore_access($access);
+		// visualizzo tutti gli oggetti
+		echo count($elggOfr);
+		foreach($elggOfr as $s){
+			// visualizzo solo quelli con stato false
+			// if($s->state) continue;
+			\Fprint::r($s);
+		}
+		*/
+
+
+		// $usr = elgg_get_logged_in_user_entity();
+		// $guid = $usr->guid;
+		// $ent = elgg_get_entities(array('owner_guids'=>$guid));
+		// foreach($ent as $e){
+		// 	if($e->guid == $guid) continue;
+		// 	// \Fprint::r($e);	
+		// 	$metadata = elgg_get_metadata(array( 'metadata_owner_guid' => $user->guid, 'limit' => 0	));
+		// 	foreach($metadata as $m){
+		// 		// \Fprint::r($e);
+		// 		if($m->owner_guid != $guid) continue;
+		// 		echo 'owner: ' . $m->owner_guid . ' , meta guid: ' . $m->guid .' , nome: ' . $m->name . ' , valore: '. $m->value . " <br/>\n";
+		// 	}
+		// } 
+
+
+	}
+
+
 	/**
 	 * messaggio da inviare agli amministratori
 	 * @return [type] [description]
@@ -331,30 +404,6 @@ class FoowdOffer{
 		\Uoowd\Utility::mailToAdmins($ar);
 	}
 
-
-
-	/**
-	 * prima di chiudere devo controllare che nel mentre non siano state espresse preferenze!
-	 * @param  [type] $id [description]
-	 * @return [type]     [description]
-	 */
-	public function offerPrefersCall($id){
-		// L'unica modifica possibile e' quella dell'immagine
-		// ora controllo se l'offerta e' modificabile o meno
-		// raccolto i dati dell'offerta
-		$prefCheck = array();
-		$prefCheck['OfferId'] = $id;
-		$prefCheck['type']='search';
-		$prefCheck['State']='newest,pending';
-		\Uoowd\Logger::addDebug($prefCheck);
-		// lo salvo perche' lo posso usare nella mail di errori
-		$this->request = $prefCheck;
-		// // trasformo l'array associativo in una stringa da passare come URI
-		$url=preg_replace('/^(.*)$/e', '"$1=". $prefCheck["$1"].""',array_flip($prefCheck));
-		$url=implode('&' , $url);
-		$r = \Uoowd\API::Request('prefer?'.$url,'GET');
-		return $r;
-	}
 
 	/**
 	 * messaggio mail che giunge a chi chiude l'ordine

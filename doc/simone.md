@@ -5,7 +5,10 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 
 ### 20/01/2016
 
+- allineato backend con modifiche API.
+
 - modifica API Prefer e Offer (entrambe su search), per fine di omogeneita' delle query.
+
 
 
 ### 19/01/2016

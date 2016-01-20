@@ -116,6 +116,12 @@ class API{
 	}
 
 
+	/**
+	 * dispatch per le chiamate
+	 * @param  [type] $name      [description]
+	 * @param  [type] $arguments [description]
+	 * @return [type]            [description]
+	 */
 	public static function __callStatic($name, $arguments){
 		// spezzo in camelCase dentro a un array, ma la prima diviene min/maiusc , pertanto devo usare questa regex che mi mette il primo elemento a zero
 		$arr = preg_split('/(?=(^[a-z])|[A-Z])/',$name);
@@ -123,11 +129,10 @@ class API{
 		$arr = array_filter($arr);
 		$api = strtolower($arr[1]);
 		$type = strtoupper($arr[2]);
-		$url = ($api .'?' . $arguments[0]);
 		// allo stato attuale le GET sono solo url
-		if($type === 'GET') return self::Request($url, $type);
+		if($type === 'GET') return self::Request($api .'?' . $arguments[0], $type);
 		// allo stato attuale i POST non lavorano con l'url, quindi posso non metterla... credo...
-		if($type === 'POST') return self::Request($url, $type, $arguments[1]);
+		if($type === 'POST') return self::Request($api, $type ,$arguments[0]);
 	}
 
 

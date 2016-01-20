@@ -17,14 +17,18 @@ admin_gatekeeper();
 // foowdDark = hsl(333, 41%, 37%)
 // foowdKeen = hsl(302, 41%, 68%)
 
-// $f = new \Uoowd\FoowdOffer();
+$f = new \Uoowd\FoowdOffer();
 
 
-// $elggOfr = elgg_get_entities_from_metadata(
-//     array( 'metadata_names'=>array($f->checkEditMetatag) )
-// );
-// \Fprint::r(count($elggOfr));
-// \Fprint::r($elggOfr);
+// $f->showFailedUpdate();
+
+
+
+$elggOfr = elgg_get_entities_from_metadata(
+    array( 'metadata_names'=>array($f->checkEditMetatag) )
+);
+\Fprint::r(count($elggOfr));
+\Fprint::r($elggOfr);
 
 // foreach($elggOfr as $v){
 //     // \Fprint::r($v->{$f->checkEditMetatag});
@@ -47,18 +51,13 @@ admin_gatekeeper();
 
 
 
-// \Fprint::r(\Uoowd\API::offerGet('type=search&ExternalId=67'));
-
-\Fprint::r(\Uoowd\API::PreferGet('type=search&ExternalId=67,54,85&State=solved&OfferId=29'));
-
-// \Uoowd\API::offerGet('lol', 'zio');
 
 
 return;
 
 
-$me = elgg_get_logged_in_user_entity();
-echo $me->guid;
+// $me = elgg_get_logged_in_user_entity();
+// echo $me->guid;
 
 
 // creazione oggetto
