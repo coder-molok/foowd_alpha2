@@ -395,6 +395,7 @@
       if ($('.foowd-advise-pending').length > 0) {
         e.preventDefault();
         elgg.register_error('Il form e\' bloccato.<br/> Vedi intestazione per dettagli.');
+        loom.removeSystemErrorPopup();
       }
       if (typeof prepareInput !== "undefined" && prepareInput !== null) {
         prepareInput(desc);

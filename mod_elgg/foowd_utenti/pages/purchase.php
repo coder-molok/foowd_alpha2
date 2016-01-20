@@ -59,16 +59,14 @@ $list = array(
 );
 
 
-$single = <<<__SINGLE
+// Per le proprie ordinazioni il produttore non ha bisogno di vedere i dettagli del produttore legato alla purchase
+$row = <<<__SINGLE
 	<tr>
 		<td>
 			- %s<br/>
 			- %s
 		</td>
-		<td>
-			- %s<br/>
-			- %s
-		</td>
+		%s
 		<td>
 			%s
 		</td>
@@ -80,6 +78,14 @@ $single = <<<__SINGLE
 			%s
 		</td>
 __SINGLE;
+
+// extra per le altrui purchase
+$admin  = <<<__noowner
+		<td>
+			- %s<br/>
+			- %s
+		</td>
+__noowner;
 
 
 // Come info mostra nome e mail del leader + nome e mail del produttore + q.tà totale e prodotto
@@ -106,9 +112,15 @@ foreach($r->body as $p) {
 	    'data-purchase' => $p->Id
     ));
 
-	$txt = ($p->PublisherId !== $user->guid) ? 'admin' : 'noadmin' ;
+	if($p->PublisherId !== $user->guid){
+		$txt = 'admin';
+		$extraCol = vsprintf($admin, array( $pbUsr, $pbMail ) ); 
+	}else{
+		$txt= 'noadmin';
+		$extraCol = '';
+	}
 	// \Fprint::r($txt);
-	$list[$txt]['list'][] = vsprintf($single,array($ldUsr, $ldMail, $pbUsr, $pbMail, $ofName,$totQ, $totP, $btn));
+	$list[$txt]['list'][] = vsprintf($row,array($ldUsr, $ldMail, $extraCol, $ofName,$totQ, $totP, $btn));
 }
 
 if(count($r->body) <= 0){
@@ -116,7 +128,7 @@ if(count($r->body) <= 0){
 }
 else{
 
-foreach($list as $lst){
+foreach($list as $key => $lst){
 	if(count($lst['list']) == 0) continue;
 	echo "<h3>" . $lst['title'] . "</h3>";
 	// \Fprint::r($lst);
@@ -128,7 +140,7 @@ foreach($list as $lst){
 	<thead>
 		<tr>
 			<th>Leader</th>
-			<th>Produttore</th>
+			<?php if($key == 'admin'){ echo '<th>Produttore</th>';} ?>
 			<th>Prodotto</th>
 			<th>Quantita'</th>
 			<th></th>

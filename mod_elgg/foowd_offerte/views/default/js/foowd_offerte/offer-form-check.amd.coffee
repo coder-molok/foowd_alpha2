@@ -397,6 +397,8 @@
         if $('.foowd-advise-pending').length > 0
             e.preventDefault()
             elgg.register_error('Il form e\' bloccato.<br/> Vedi intestazione per dettagli.')
+            # definito in foowd-main.coffee: dopo qualche secondo rimuovo il popup
+            loom.removeSystemErrorPopup();
 
         if prepareInput?
             prepareInput(desc)

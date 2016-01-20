@@ -13,9 +13,9 @@ define(function(require){
 
           //struttura della chiamata alle offerete 
           var offers = {
-          		search : "offer?type=search",
+          		search : "offer?type=searchTmp",
           		prefer : "prefer", 
-          		getPreferences : "prefer?type=search",
+          		getPreferences : "prefer?type=searchTmp",
           		filterby : {
           			views : "",
           			price : "&order=Price,asc",

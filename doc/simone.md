@@ -2,6 +2,23 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+
+### 20/01/2016
+
+- modifica API Prefer e Offer (entrambe su search), per fine di omogeneita' delle query.
+
+
+### 19/01/2016
+
+- inizio adattamento schema colori
+
+- corretti piccoli errori negli avvisi
+
+- introdotta funzione per fadeout messagi d'errore di systema (elgg.register_error('messaggio'))
+
+- raffinamento visualizzazione iss#186
+
+
 ### 18/01/2016
 
 - completato controllo completo modifica offerta e invio di relative mail

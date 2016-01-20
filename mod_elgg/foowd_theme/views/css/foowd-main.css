@@ -21,13 +21,13 @@ h3 {
   background-color: #fae6ef;
 }
 .foowd-back-strong {
-  background-color: #c81063;
+  background-color: #38302c;
 }
 .foowd-back-soft {
-  background-color: #fae6ef;
+  background-color: #e6dcbe;
 }
 .elgg-page-header {
-  background-color: #fae6ef;
+  background-color: #e6dcbe;
   background-image: none;
 }
 .elgg-page-header > .elgg-inner {
@@ -54,7 +54,7 @@ h3 {
 }
 .elgg-page-topbar {
   background-image: none;
-  background-color: #c81063;
+  background-color: #38302c;
   border-bottom: 0;
 }
 .elgg-page-body,
@@ -102,7 +102,7 @@ a,
 a:link,
 a:visited,
 a:active {
-  color: #c81063;
+  color: #38302c;
 }
 a.elgg-button,
 a:link.elgg-button,
@@ -114,28 +114,28 @@ a.elgg-button:hover,
 a:link.elgg-button:hover,
 a:visited.elgg-button:hover,
 a:active.elgg-button:hover {
-  color: #c81063;
-  background-color: #fae6ef;
+  color: #38302c;
+  background-color: #e6dcbe;
 }
 .elgg-sidebar {
-  background-color: #86385b;
+  background-color: #38302c;
 }
 .elgg-sidebar a.elgg-menu-content,
 .elgg-sidebar a:link.elgg-menu-content {
-  color: #c81063;
+  color: #b69a46;
 }
 .elgg-sidebar a:hover {
-  background-color: #fae6ef;
+  background-color: #f7f4ee;
 }
 .elgg-sidebar li.elgg-state-selected > a {
-  background-color: #cf8bcd;
+  background-color: #bed25a;
 }
 .elgg-button,
 .elgg-button-submit {
   -webkit-border-radius: 0px;
   border-radius: 0px;
   background: none;
-  background-color: #c81063;
+  background-color: #38302c;
   border: none;
   text-shadow: none;
   -webkit-box-shadow: none;
@@ -149,12 +149,12 @@ a:active.elgg-button:hover {
 .elgg-button-submit:focus {
   outline: none !important;
   background: none;
-  background-color: #fae6ef;
+  background-color: #e6dcbe;
   border: 0px;
-  color: #c81063;
+  color: #38302c;
   text-shadow: none;
-  -webkit-box-shadow: 0 0 3px #c81063;
-  box-shadow: 0 0 3px #c81063;
+  -webkit-box-shadow: 0 0 3px #38302c;
+  box-shadow: 0 0 3px #38302c;
 }
 .elgg-module-info > .elgg-head {
   padding: 5px 5px 2px 0px;
@@ -185,11 +185,11 @@ input[type="password"]:focus,
 input[type="url"]:focus,
 input[type="file"]:focus,
 textarea:focus {
-  background-color: #fae6ef;
-  border-color: #c81063;
+  background-color: #e6dcbe;
+  border-color: #38302c;
 }
 .ui-datepicker th {
-  color: #c81063;
+  color: #38302c;
 }
 .foowd-page-add,
 .foowd-page-single {
@@ -222,7 +222,7 @@ textarea:focus {
   position: relative;
 }
 .search-advanced-type-selection > li > a {
-  background-color: #c81063;
+  background-color: #38302c;
   height: searchHeight;
 }
 .elgg-sidebar .foowd-search-title {
@@ -243,14 +243,14 @@ textarea:focus {
 }
 .elgg-search input[type="text"]:focus,
 .elgg-search input[type="text"]:active {
-  color: #c81063;
+  color: #38302c;
   border: 0px;
 }
 .search-advanced-type-selection-dropdown {
   border: 0px;
 }
 .search-advanced-type-selection-dropdown a:hover {
-  background-color: #c81063;
+  background-color: #38302c;
 }
 .elgg-page-footer-frontend {
   z-index: -17;

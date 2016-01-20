@@ -27,6 +27,11 @@ root = this
 	# Rimuovo blocco ogni animazione e tutti gli eventi sopra di lei	
 	$('.elgg-system-messages li.elgg-message').finish().fadeIn(0).delay(3000).fadeOut(4000)
 
+	# se richiamo questa funzione, allora faccio sparire il popup di errore dopo 4 secondi
+	root.removeSystemErrorPopup = ()->
+		$('.elgg-system-messages li.elgg-state-error').finish().fadeIn(0).delay(3000).fadeOut(1000, ()-> $(this).remove() )
+
+
 	root.foowdAlert = (output_msg, title_msg)->
 		
 		if (!title_msg)

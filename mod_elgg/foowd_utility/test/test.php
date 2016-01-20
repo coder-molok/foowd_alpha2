@@ -10,24 +10,55 @@
 
 admin_gatekeeper();
 
-$f = new \Uoowd\FoowdOffer();
+// promemoria stylus
+// foowdPink = rgb(250,230,239)
+// foowdTopbar = rgb(200, 16, 99)
+// foowdTopbarGreen = rgb(102, 255, 102)
+// foowdDark = hsl(333, 41%, 37%)
+// foowdKeen = hsl(302, 41%, 68%)
+
+// $f = new \Uoowd\FoowdOffer();
 
 
-$elggOfr = elgg_get_entities_from_metadata(
-    array( 'metadata_names'=>array($f->checkEditMetatag) )
-);
-\Fprint::r(count($elggOfr));
-\Fprint::r($elggOfr);
+// $elggOfr = elgg_get_entities_from_metadata(
+//     array( 'metadata_names'=>array($f->checkEditMetatag) )
+// );
+// \Fprint::r(count($elggOfr));
+// \Fprint::r($elggOfr);
 
-// foreach($elggOfr as $o){
-//     \Fprint::r($o->{$f->checkEditMetatag});
-//     $o->{$f->checkEditMetatag} = '';
+// foreach($elggOfr as $v){
+//     // \Fprint::r($v->{$f->checkEditMetatag});
+//     // $o->{$f->checkEditMetatag} = '';
+//     $d = json_decode($v->description);
+//     foreach($d as $key => $field){
+//         // $ar =  array($field->new, $field->old);
+//         foreach($field as $f){
+//             if($key === 'Expiration'){
+//                 echo 'null'            ;
+//             }else{
+//                 echo 'campo vuoto';
+//             }
+//         }
+//         \Fprint::r($ar);
+//     }
+
 // }
+
+
+
+
+// \Fprint::r(\Uoowd\API::offerGet('type=search&ExternalId=67'));
+
+\Fprint::r(\Uoowd\API::PreferGet('type=search&ExternalId=67,54,85&State=solved&OfferId=29'));
+
+// \Uoowd\API::offerGet('lol', 'zio');
+
 
 return;
 
 
 $me = elgg_get_logged_in_user_entity();
+echo $me->guid;
 
 
 // creazione oggetto

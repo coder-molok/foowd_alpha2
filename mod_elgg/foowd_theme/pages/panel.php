@@ -57,7 +57,7 @@ echo elgg_view('output/url', array(
 
 </div><!-- end box -->
 
-<div style="width:100%; height: 5px; background-color:pink;margin-bottom: 20px;"></div>
+<div class="foowd-hz-l"></div>
 
 <?php
 

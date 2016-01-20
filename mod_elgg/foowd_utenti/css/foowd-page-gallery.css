@@ -10,7 +10,7 @@
 }
 .foowd-page-gallery #gallery-container .single img {
   max-height: 135px;
-  border: 1px solid #c81063;
+  border: 1px solid #38302c;
 }
 .foowd-page-gallery #gallery-container .single a {
   display: none;
@@ -31,7 +31,7 @@
 }
 .foowd-page-gallery #gallery-container .single .change,
 .foowd-page-gallery #gallery-container .single .delete {
-  border: 1px solid #c81063;
+  border: 1px solid #38302c;
   text-align: center;
 }
 .foowd-page-gallery .file-box-hook {

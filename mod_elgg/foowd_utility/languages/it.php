@@ -34,6 +34,7 @@ return array(
 	'foowd:price:need' => 'Prezzo per quota (&euro;) *',
 	'foowd:price:error' => 'Massimo 8 cifre + 2 decimali separate da un punto',
 	
+	'foowd:tag' => 'Tag',
 	'foowd:tag:need' => 'Tags (selezionane almeno uno) *',
 	'foowd:tag:error' => 'Devi selezionale almeno un tag',
 	

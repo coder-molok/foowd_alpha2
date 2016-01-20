@@ -470,7 +470,13 @@ class FoowdOffer{
 		extract($ar);
 		// prima tot e poi price!
 		$new = (is_numeric($new)) ? number_format($new, 2, ',', ' ') : $new ;
-		$old = (is_numeric($new)) ? number_format($old, 2, ',', ' ') : $old ;
+		$old = (is_numeric($old)) ? number_format($old, 2, ',', ' ') : $old ;
+
+		// in caso il campo sia vuoto
+		$vacuum = 'Campo Vuoto';
+		if( strcasecmp($name,"Expiration") == 0 ) $vacuum = 'Senza Scadenza';
+		if($new == '') $new = $vacuum;
+		if($old == '') $old = $vacuum;
 
 
 		$strAlt = "    

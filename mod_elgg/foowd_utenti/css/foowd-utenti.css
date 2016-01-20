@@ -19,6 +19,13 @@
 .foowd-profilo-container h1 {
   color: #000;
 }
+.foowd-panel-container .foowd-hz-l,
+.foowd-profilo-container .foowd-hz-l {
+  width: 100%;
+  height: 5px;
+  background-color: #bed25a;
+  margin-bottom: 20px;
+}
 .foowd-panel-container .box,
 .foowd-profilo-container .box {
   display: flex;
