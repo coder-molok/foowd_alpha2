@@ -248,7 +248,7 @@ namespace Foowd\Action;
 			<script>
 			    requirejs(['jquery.datetimepicker'], function(){
 			        var Gdate = {} ; // oggetto per memorizzare i parametri di mio interesse
-			        var Gdiv = $('[name="Expiration"]');
+			        var Gdiv = $('[name="Expiration"]');		        
 			        var Gdt = new Date();
 			        Gdt.setTime(Gdt.getTime() + (24 * 60 * 60 * 1000));
 			        // inserisco lo zero davanti alle cifre a una unita'
@@ -258,6 +258,41 @@ namespace Foowd\Action;
 			        	}
 			        }
 
+			        // \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}@
+
+			        // // closure: formo automaticamente la data
+			        // var setTimeFormat = function(){
+			        // 	alert(Gdiv.val())
+			        // }
+			        // setTimeFormat();
+
+			        // Trasformo la data nel formato presente in onSelect
+			        var D = Gdiv.val();
+			        // prende una data e ritorna un oggetto con due Digits, escludendo la data
+			        var twoD = function(D){
+			        	// var ldata = {'Y': D.getFullYear()};
+			        	var ldata = {'Y': D.getFullYear(), 'M': D.getMonth() + 1 , "D": D.getDate(), "h": D.getHours() , "m": D.getMinutes(), "s": D.getSeconds()};
+			        	// li scrivo in 2 digits
+						for(var i in ldata){
+							if(i !=='Y' )ldata[i] = ('0' + ldata[i]).slice(-2)
+							// console.log(ldata[i])
+						}
+						ldata.str = ldata.Y + "-" + ldata.M + "-" + ldata.D + " " + ldata.h + ':' + ldata.m + ":" + ldata.s;
+			        	return ldata
+			        }
+
+			        // se la stringa e' vuota, non ho scadenza!
+			        if(D !== '' ){
+			        	DD = new Date(D);
+			        	console.log(DD)
+			        	console.log( DD.getFullYear())
+			        	if( !isNaN(DD.getFullYear()) ){
+			        		var D = twoD(D);
+			        		Gdiv.val(D.str)
+			        		$('#datepicker').val(D.str)
+			        	}
+			        }
+			        
 			        // con afterInject riesco sempre a ottenere l'istanza, 
 			        $('#datepicker').datetimepicker({
 			            timeFormat: "HH:mm",

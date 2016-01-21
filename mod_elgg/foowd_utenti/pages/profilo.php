@@ -31,7 +31,7 @@ $pid = 'foowd_utenti/';
 
 echo '<p class="pll"><h2>Salve '.$user->username.',</h2> scegli cosa fare:</p>';
 ?>
-<div id="box">
+<div class="box">
 
 <div>
 <?php

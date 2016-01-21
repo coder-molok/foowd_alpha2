@@ -47,7 +47,7 @@ if($_FILES['file']['error']>0){
 	$crop = new \Uoowd\Crop('random');
 	if($change){
 		$crop->saveDir = \Uoowd\Param::pathStore(get_input('guid'),'offers').get_input('Id').'/';
-		$crop->target = $crop->saveDir.get_input('fileBasename');
+		$crop->target = $crop->saveDir . get_input('fileBasename');
 	}
 
 }else{
@@ -55,7 +55,14 @@ if($_FILES['file']['error']>0){
 	$crop = new \Uoowd\Crop();
 }
 
-$_SESSION['sticky_forms'][$form]['pre-file']=$crop;
+// forzo ugualmente il crop dell'immagine: lo eseguo indipendentemente dalle preferenze
+if($change){
+	$crop->crop();
+}else{
+	$crop->saveImg();
+}
+
+// $_SESSION['sticky_forms'][$form]['pre-file']=$crop;
 
 if(!$f->status || !$crop->status) forward(REFERER);
 
@@ -111,11 +118,11 @@ if($r->response){
 
 	// se c'e' stato il cambiamento senza l'upload svolgo semplicemente il crop, 
 	// altri procedo col normale salvataggio
-	if($change){
-		$crop->crop();
-	}else{
-		$crop->saveImg();
-	}
+	// if($change){
+	// 	$crop->crop();
+	// }else{
+	// 	$crop->saveImg();
+	// }
 
 
 	//NB: tutta questa parte dell'insuccesso del crop non la svolgo

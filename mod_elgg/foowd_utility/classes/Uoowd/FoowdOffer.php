@@ -51,8 +51,7 @@ class FoowdOffer{
 	 */
 	public function solveEdited(){
 
-		
-		\Uoowd\Logger::addError('Testo FoowdOffer');
+		// \Uoowd\Logger::addError('Testo FoowdOffer');
 		// Gli oggetti creati potrebbero avere accesso privato (solo per l'utente che li ha implicitamente creati)
 		// pertanto per poter accedere alle entita' anche da questo script, che viene runnato senza permessi elgg (ne come user - ne come admin),
 		// devo specificare di ignorare i permessi d'accesso.

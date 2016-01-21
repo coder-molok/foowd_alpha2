@@ -1,3 +1,48 @@
+.foowd1-cl {
+  color: #38302c;
+}
+.foowd1-bg {
+  background-color: #38302c;
+}
+.foowd1d-bg {
+  background-color: #221d1a;
+}
+.foowd2-cl {
+  color: #e6dcbe;
+}
+.foowd2-bg {
+  background-color: #e6dcbe;
+}
+.foowd2d-bg {
+  background-color: #b69a46;
+}
+.foowd3-cl {
+  color: #bed25a;
+}
+.foowd3-bg {
+  background-color: #bed25a;
+}
+.foowd3d-bg {
+  background-color: #7c8d27;
+}
+.foowd4-cl {
+  color: #f7f4ee;
+}
+.foowd4-bg {
+  background-color: #f7f4ee;
+}
+.foowd4d-bg {
+  background-color: #b99f6a;
+}
+.foowd5-cl {
+  color: #85385a;
+}
+.foowd5-bg {
+  background-color: #85385a;
+}
+.foowd5d-bg {
+  background-color: #502136;
+}
 /******** add e update ******/
 .elgg-form-foowd-offerte-add,
 .elgg-form-foowd-offerte-update,
@@ -11,20 +56,20 @@ label [class^=error-] {
   top: -4px;
   margin-left: 20px;
   padding: 3px 7px;
-  background-color: #b98686;
+  background-color: #c6779b;
   color: #fff;
   white-space: nowrap;
   font-style: italic;
-  font-size: 0.9em;
+  font-size: 0.8em;
 }
 .elgg-form-foowd-offerte-add [class^=error-]:before,
 .elgg-form-foowd-offerte-update [class^=error-]:before,
 label [class^=error-]:before {
   width: 0;
   height: 0;
-  border-top: 10px solid transparent;
-  border-right: 21px solid #b98686;
-  border-bottom: 10px solid transparent;
+  border-top: 9px solid transparent;
+  border-right: 21px solid #85385a;
+  border-bottom: 0px solid transparent;
   content: '';
   position: absolute;
   left: -20px;
@@ -34,17 +79,27 @@ label [class^=error-]:before {
   padding: 5px;
   height: 31px;
   font-style: italic;
-  background-color: #e6dcbe;
-  color: #808080;
-  border: 1px solid #ccc;
+  background-color: #f0ead8;
+  color: #38302c;
+  border: 1px solid #e6dcbe;
 }
 .foowd-advise-pending {
-  background-color: #e09494;
+  background-color: #85385a;
   padding: 3px;
 }
 .foowd-advise-newest {
-  background-color: #96e78d;
+  background-color: #bed25a;
   padding: 3px;
+}
+.foowd-advise-modified:before {
+  content: 'Campo Modificato';
+  border-bottom: 1px solid #85385a;
+  color: #85385a;
+  width: 100%;
+  position: absolute;
+  text-align: right;
+  font-style: italic;
+  font-size: 0.9em;
 }
 .foowd-Tag input {
   margin: 0px 0px 21px 1px;
@@ -130,9 +185,32 @@ table.foowd-all-single-container td:nth-child(4) {
   margin-bottom: 10px;
 }
 /******* crop styles ******/
-[data-ratio] {
+#ratio {
+  max-width: 100px;
+}
+#ratio [data-ratio] {
   cursor: pointer;
   cursor: hand;
+  background-color: #e6dcbe;
+  margin: 15px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#ratio [data-ratio]:hover {
+  background-color: #bed25a;
+}
+#ratio [data-ratio]:active {
+  background-color: #f7f4ee;
+}
+#ratio [data-ratio="2:3"] {
+  width: 22px;
+  height: 33px;
+}
+#ratio [data-ratio="3:2"] {
+  width: 33px;
+  height: 22px;
 }
 /******* Form TextArea foowd *******/
 table.foowd-editor-table {
@@ -158,7 +236,7 @@ table.foowd-editor-table [class^="foowd-editor"] {
   font-size: 0.9em;
 }
 table.foowd-editor-table [class^="foowd-editor"]:first-child {
-  background-color: #c81063;
+  background-color: #38302c;
   color: #fff;
   text-align: center;
 }

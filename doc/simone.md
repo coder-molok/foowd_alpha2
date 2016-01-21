@@ -2,6 +2,15 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 21/01/2016
+
+- risolto errore caricamento crop immagini dell'avatar
+
+- inseriti colori in versione darken e lighten
+
+- assestamento stili a nuovo schema colori
+
+
 
 ### 20/01/2016
 

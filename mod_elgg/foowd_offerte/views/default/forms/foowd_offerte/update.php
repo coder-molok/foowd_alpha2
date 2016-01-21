@@ -166,9 +166,7 @@ require(['jquery','elgg'], function($, elgg){
 	// azioni da svolgere relativamente ai campi modificati
 	$('#foowd-edited li').each(function(){
 		var field = $(this).attr('data-edited');
-		$('label[for="' + field + '"]').css({
-			'background-color': 'plum'
-		});
+		$('label[for="' + field + '"]').parent().addClass('foowd-advise-modified');
 	});
 });
 </script>

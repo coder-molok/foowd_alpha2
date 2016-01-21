@@ -1,13 +1,13 @@
 // @require './foowd_utenti.css'
 
-@import '../../foowd_theme/lib/css/styl/variables.styl'
+@require '../../foowd_theme/lib/css/styl/variablesBackEnd.styl'
 
-@import 'foowd-login.css'
+@require 'foowd-login'
 
-@import 'foowd-page-avatar.css'
-@import 'foowd-page-gallery.css'
-@import 'foowd-page-dati.css'
-@import 'foowd-page-purchase.css'
+@require 'foowd-page-avatar'
+@require 'foowd-page-gallery'
+@require 'foowd-page-dati'
+@require 'foowd-page-purchase'
 
 @import 'foowd-register.css'
 
@@ -38,8 +38,12 @@
 
     .box
         display: flex
-        justify-content: space-around
+        justify-content: space-between //space-around
+        
         flex-wrap: wrap
+        justify-content: row
+        align-content stretch
+        margin 2em 3em
 
         div
             display: flex

@@ -3,6 +3,8 @@
 // e classi che riutilizzero' nei futuri script
 //
 // la impiego per non rendere troppo pomposa 'variables.styl'
+//
+// per lavoro in locale: stylus -u jeet -u nib --watch styl/variablesBackEnd.styl -o partials/variablesBackEnd.css
 /////////////////////////////////////////////////////////////
 
 @require 'variables'
@@ -10,7 +12,7 @@
 
 foowd = (foowd1 foowd2 foowd3 foowd4 foowd5)
 foowdd = ()
-
+foowdl = ()
 
 lg = length(foowd) - 1
 /* genero classi specifiche , nel caso volessi appendere esclusivamente questi stili tramite javascript */
@@ -20,7 +22,9 @@ for $i in 0..lg
 	v = foowd[$i]
 	num = $i+1
 	// salvo la versione scura
-	foowdd[$i] = darken(v, 40%)
+	foowdd[num] = darken(v, 40%)
+	// versione chiara
+	foowdl[num] = lighten(v, 40%)
 	
 	.foowd{num}-cl
 		color: v

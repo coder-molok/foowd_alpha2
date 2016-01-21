@@ -9,11 +9,7 @@
   transform-style: preserve-3d;
   left: 50%;
   transform: translateX(-50%);
-}
-@media only screen and (max-width: 900px) {
-  .grid {
-    margin-top: 140px;
-  }
+below(900px)
 }
 .grid li {
   float: left;

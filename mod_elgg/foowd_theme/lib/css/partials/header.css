@@ -35,6 +35,7 @@
   margin-left: 0%;
   margin-right: 0%;
   height: 100%;
+below(900px)
 }
 .navbar-section:before,
 .navbar-section:after {
@@ -58,22 +59,6 @@
 }
 .navbar-section:after {
   clear: both;
-}
-@media only screen and (max-width: 900px) {
-  .navbar-section {
-    display: block;
-    clear: both;
-    float: none;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .navbar-section:first-child {
-    margin-left: auto;
-  }
-  .navbar-section:last-child {
-    margin-right: auto;
-  }
 }
 .logo {
   background-color: #e6dcbe;

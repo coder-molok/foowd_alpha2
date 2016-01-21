@@ -1,3 +1,48 @@
+.foowd1-cl {
+  color: #38302c;
+}
+.foowd1-bg {
+  background-color: #38302c;
+}
+.foowd1d-bg {
+  background-color: #221d1a;
+}
+.foowd2-cl {
+  color: #e6dcbe;
+}
+.foowd2-bg {
+  background-color: #e6dcbe;
+}
+.foowd2d-bg {
+  background-color: #b69a46;
+}
+.foowd3-cl {
+  color: #bed25a;
+}
+.foowd3-bg {
+  background-color: #bed25a;
+}
+.foowd3d-bg {
+  background-color: #7c8d27;
+}
+.foowd4-cl {
+  color: #f7f4ee;
+}
+.foowd4-bg {
+  background-color: #f7f4ee;
+}
+.foowd4d-bg {
+  background-color: #b99f6a;
+}
+.foowd5-cl {
+  color: #85385a;
+}
+.foowd5-bg {
+  background-color: #85385a;
+}
+.foowd5d-bg {
+  background-color: #502136;
+}
 body {
   font-family: AkkuratRegular;
 }
@@ -56,6 +101,21 @@ h3 {
   background-image: none;
   background-color: #38302c;
   border-bottom: 0;
+}
+.elgg-menu-topbar > li > a:hover {
+  color: #e6dcbe;
+}
+.elgg-menu-topbar > li > a:hover:before {
+  position: relative;
+  width: 100%;
+  heigth: 100%;
+  background-color: #e6dcbe;
+  opacity: 0.7;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+  filter: alpha(opacity=70);
+  content: "";
+  display: block;
+  z-index: 15;
 }
 .elgg-page-body,
 .foowd-elements-footer {
@@ -126,6 +186,7 @@ a:active.elgg-button:hover {
 }
 .elgg-sidebar a:hover {
   background-color: #f7f4ee;
+  color: #38302c;
 }
 .elgg-sidebar li.elgg-state-selected > a {
   background-color: #bed25a;

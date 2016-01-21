@@ -38,7 +38,7 @@ $content = elgg_view_title($user->username.$afterTitle.'<br/><br/>');
 $str.= elgg_view('output/url', array(
 		// associate to the action
 		'href' => elgg_get_site_url() . $Pid ."/add",
-	    'text' => elgg_echo('Crea'),
+	    'text' => elgg_echo('Crea Nuova'),
 	    'class' => 'elgg-button',
     ))."\n\r<br/><br/><br/>";
 

@@ -1,4 +1,49 @@
 @import "icomoon/style.css";
+.foowd1-cl {
+  color: #38302c;
+}
+.foowd1-bg {
+  background-color: #38302c;
+}
+.foowd1d-bg {
+  background-color: #221d1a;
+}
+.foowd2-cl {
+  color: #e6dcbe;
+}
+.foowd2-bg {
+  background-color: #e6dcbe;
+}
+.foowd2d-bg {
+  background-color: #b69a46;
+}
+.foowd3-cl {
+  color: #bed25a;
+}
+.foowd3-bg {
+  background-color: #bed25a;
+}
+.foowd3d-bg {
+  background-color: #7c8d27;
+}
+.foowd4-cl {
+  color: #f7f4ee;
+}
+.foowd4-bg {
+  background-color: #f7f4ee;
+}
+.foowd4d-bg {
+  background-color: #b99f6a;
+}
+.foowd5-cl {
+  color: #85385a;
+}
+.foowd5-bg {
+  background-color: #85385a;
+}
+.foowd5d-bg {
+  background-color: #502136;
+}
 .elgg-menu-item-register a,
 .elgg-menu-item-forgotpassword a,
 .elgg-menu-item-register a:link,

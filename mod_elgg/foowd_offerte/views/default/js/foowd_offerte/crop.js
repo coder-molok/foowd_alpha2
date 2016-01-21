@@ -260,11 +260,11 @@ function start(){
     var JratioWrap = $('<div/>',{'html':strg, 'id':'ratio-wrap'}).css({'position':'absolute'}).insertBefore(div)
 
 
-    var mystyle =   ' #ratio{max-width:100px;} #ratio [data-ratio]{ margin:15px ; padding: 5px; background-color:#FAE6EF; display: flex; justify-content: center; align-items: center;  }  #ratio [data-ratio]:hover{  background-color:silver;  } #ratio [data-ratio]:active{  background-color:steelblue;  } #ratio [data-ratio="2:3"]{width: 20px; height:30px;} #ratio [data-ratio="3:2"]{width: 30px; height:20px;}';
-    if (!$('style#foowd-crop-js').length) $('<style/>',{
-            "id":"foowd-crop-js",
-            "text": mystyle
-        }).appendTo("head");
+    // var mystyle =   ' #ratio{max-width:100px;} #ratio [data-ratio]{ margin:15px ; padding: 5px; background-color:#FAE6EF; display: flex; justify-content: center; align-items: center;  }  #ratio [data-ratio]:hover{  background-color:silver;  } #ratio [data-ratio]:active{  background-color:steelblue;  } #ratio [data-ratio="2:3"]{width: 20px; height:30px;} #ratio [data-ratio="3:2"]{width: 30px; height:20px;}';
+    // if (!$('style#foowd-crop-js').length) $('<style/>',{
+    //         "id":"foowd-crop-js",
+    //         "text": mystyle
+    //     }).appendTo("head");
     
     // allineo il box
     var divleft = div.position().left - JratioWrap.width() - 30;

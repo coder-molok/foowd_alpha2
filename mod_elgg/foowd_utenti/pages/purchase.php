@@ -107,7 +107,7 @@ foreach($r->body as $p) {
 	$btn = elgg_view('output/url', array(
 		// associate to the action
 		// 'href' => \Uoowd\Param::page()->add,
-	    'text' => elgg_echo('Chiudi Ordine (' . $p->Id. ')'),
+	    'text' => elgg_echo('Chiudi Ordine #' . $p->Id ),
 	    'class' => 'elgg-button',
 	    'data-purchase' => $p->Id
     ));

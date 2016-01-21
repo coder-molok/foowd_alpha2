@@ -1,8 +1,255 @@
-@import 'foowd-login.css';
-@import 'foowd-page-avatar.css';
-@import 'foowd-page-gallery.css';
-@import 'foowd-page-dati.css';
-@import 'foowd-page-purchase.css';
+.foowd1-cl {
+  color: #38302c;
+}
+.foowd1-bg {
+  background-color: #38302c;
+}
+.foowd1d-bg {
+  background-color: #221d1a;
+}
+.foowd2-cl {
+  color: #e6dcbe;
+}
+.foowd2-bg {
+  background-color: #e6dcbe;
+}
+.foowd2d-bg {
+  background-color: #b69a46;
+}
+.foowd3-cl {
+  color: #bed25a;
+}
+.foowd3-bg {
+  background-color: #bed25a;
+}
+.foowd3d-bg {
+  background-color: #7c8d27;
+}
+.foowd4-cl {
+  color: #f7f4ee;
+}
+.foowd4-bg {
+  background-color: #f7f4ee;
+}
+.foowd4d-bg {
+  background-color: #b99f6a;
+}
+.foowd5-cl {
+  color: #85385a;
+}
+.foowd5-bg {
+  background-color: #85385a;
+}
+.foowd5d-bg {
+  background-color: #502136;
+}
+@import "icomoon/style.css";
+.foowd1-cl {
+  color: #38302c;
+}
+.foowd1-bg {
+  background-color: #38302c;
+}
+.foowd1d-bg {
+  background-color: #221d1a;
+}
+.foowd2-cl {
+  color: #e6dcbe;
+}
+.foowd2-bg {
+  background-color: #e6dcbe;
+}
+.foowd2d-bg {
+  background-color: #b69a46;
+}
+.foowd3-cl {
+  color: #bed25a;
+}
+.foowd3-bg {
+  background-color: #bed25a;
+}
+.foowd3d-bg {
+  background-color: #7c8d27;
+}
+.foowd4-cl {
+  color: #f7f4ee;
+}
+.foowd4-bg {
+  background-color: #f7f4ee;
+}
+.foowd4d-bg {
+  background-color: #b99f6a;
+}
+.foowd5-cl {
+  color: #85385a;
+}
+.foowd5-bg {
+  background-color: #85385a;
+}
+.foowd5d-bg {
+  background-color: #502136;
+}
+.elgg-menu-item-register a,
+.elgg-menu-item-forgotpassword a,
+.elgg-menu-item-register a:link,
+.elgg-menu-item-forgotpassword a:link,
+.elgg-menu-item-register a:visited,
+.elgg-menu-item-forgotpassword a:visited,
+.elgg-menu-item-register a:active,
+.elgg-menu-item-forgotpassword a:active {
+  color: #38302c !important;
+}
+.soc {
+  margin: 0;
+  margin-top: 3px;
+  padding: 0;
+  list-style: none;
+  height: 2em;
+}
+.soc li {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+.soc [class^="soc-"] {
+  font-family: 'icomoon';
+  text-decoration: none;
+  margin: 10px;
+}
+.soc [class^="soc-"]:before {
+  font-size: 2em;
+}
+.soc [class^="soc-"]:hover {
+  color: #afdef3;
+}
+.soc .soc-google {
+  color: #d34836;
+}
+.soc .soc-google:before {
+  content: "\ea89";
+}
+.soc .soc-facebook {
+  color: #3b5998;
+}
+.soc .soc-facebook:before {
+  content: "\ea8d";
+}
+.foowd-page-avatar {
+  min-width: 300px;
+  max-width: 500px;
+}
+.foowd1-cl {
+  color: #38302c;
+}
+.foowd1-bg {
+  background-color: #38302c;
+}
+.foowd1d-bg {
+  background-color: #221d1a;
+}
+.foowd2-cl {
+  color: #e6dcbe;
+}
+.foowd2-bg {
+  background-color: #e6dcbe;
+}
+.foowd2d-bg {
+  background-color: #b69a46;
+}
+.foowd3-cl {
+  color: #bed25a;
+}
+.foowd3-bg {
+  background-color: #bed25a;
+}
+.foowd3d-bg {
+  background-color: #7c8d27;
+}
+.foowd4-cl {
+  color: #f7f4ee;
+}
+.foowd4-bg {
+  background-color: #f7f4ee;
+}
+.foowd4d-bg {
+  background-color: #b99f6a;
+}
+.foowd5-cl {
+  color: #85385a;
+}
+.foowd5-bg {
+  background-color: #85385a;
+}
+.foowd5d-bg {
+  background-color: #502136;
+}
+.foowd-page-gallery #gallery-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.foowd-page-gallery #gallery-container .single {
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+}
+.foowd-page-gallery #gallery-container .single img {
+  max-height: 135px;
+  border: 1px solid #38302c;
+}
+.foowd-page-gallery #gallery-container .single a {
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+.foowd-page-gallery #gallery-container .single .delete {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+}
+.foowd-page-gallery #gallery-container .single .change {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 50%;
+}
+.foowd-page-gallery #gallery-container .single .change,
+.foowd-page-gallery #gallery-container .single .delete {
+  border: 1px solid #38302c;
+  text-align: center;
+}
+.foowd-page-gallery .file-box-hook {
+  max-width: 400px;
+  margin-top: 20px;
+}
+.foowd-page-dati {
+  min-width: 300px;
+  max-width: 500px;
+}
+.foowd-page-dati label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+.foowd-page-purchase table {
+  border-collapse: separate;
+  border-spacing: 0 0.5em;
+  margin: 10px 0 40px 0;
+}
+.foowd-page-purchase table thead th {
+  font-weight: bold;
+}
+.foowd-page-purchase table tbody tr {
+  background-color: #f3f5eb;
+}
+.foowd-page-purchase table tbody tr td {
+  padding: 5px;
+  padding-left: 15px;
+}
+.foowd-page-purchase table tbody tr td:last-child {
+  vertical-align: middle;
+}
 @import 'foowd-register.css';
 [class^="foowd-page-"] {
   margin: auto;
@@ -29,8 +276,11 @@
 .foowd-panel-container .box,
 .foowd-profilo-container .box {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
+  justify-content: row;
+  align-content: stretch;
+  margin: 2em 3em;
 }
 .foowd-panel-container .box div,
 .foowd-profilo-container .box div {

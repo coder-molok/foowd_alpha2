@@ -76,6 +76,26 @@ h2, h3
 	background-image: none;
 	background-color: foowd1;
 	border-bottom: 0;
+	
+
+.elgg-menu-topbar
+	
+	& > li
+		
+		& > a
+
+			&:hover
+				color foowd2
+			
+				&:before
+					position relative
+					width 100%
+					heigth 100%
+					background-color foowd2
+					opacity 0.70
+					content: ""
+					display block
+					z-index 15
 
 	
 .elgg-page-body, 
@@ -144,10 +164,11 @@ a, a:link ,a:visited, a:active
 	a, a:link
 		
 		&.elgg-menu-content
-			color foowd2d
+			color foowdd[2]
 			
 	a:hover
 		background-color foowd4
+		color foowd1
 		
 	li.elgg-state-selected > a
 		background-color foowd3
