@@ -15,7 +15,6 @@
   margin-right: 0%;
   margin-top: 60px;
   padding: 0;
-below(900px)
 }
 #producer-container:before,
 #producer-container:after {
@@ -35,6 +34,11 @@ below(900px)
 }
 #producer-container:after {
   clear: both;
+}
+@media only screen and (max-width: 900px) {
+  #producer-container {
+    margin-top: 120px;
+  }
 }
 #producer-carousel {
   margin: 5px 0 0 0;

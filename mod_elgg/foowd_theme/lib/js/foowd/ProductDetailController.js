@@ -155,7 +155,7 @@ define(function(require){
 				
 		}
 		function toggleGroup(){
-			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
+			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-group');
 			group=!group;
 			
 			_applyColor();

@@ -28,20 +28,34 @@
 	content: "\e600";
 }
 .foowd-icon-heart-edge:before {
-	content: "\e601";
-}
+ 	  background-image: url('../../img/icone/board.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";}
 .foowd-icon-minus:before {
-	content: "\e602";
-}
+ 	  background-image: url('../../img/icone/diminuisci.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";
+ }
 .foowd-icon-cart:before {
-	content: "\e603";
-}
+ 	  background-image: url('../../img/icone/ordine.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";}
 .foowd-icon-close:before {
 	content: "\e604";
 }
 .foowd-icon-menu:before {
-	content: "\e605";
-}
+ 	  background-image: url('../../img/icone/menu.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";
+ }
 .foowd-icon-arrow-right:before {
 	content: "\e606";
 }
@@ -49,14 +63,33 @@
 	content: "\e607";
 }
 .foowd-icon-len:before {
-	content: "\e608";
+ 	  background-image: url('../../img/icone/sito.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";
+}
+
+.foowd-icon-group:before {
+ 	  background-image: url('../../img/icone/gruppo.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";
 }
 .foowd-icon-blade:before {
 	content: "\e609";
 }
 .foowd-icon-user:before {
-	content: "\e60a";
+ 	  background-image: url('../../img/icone/profilo.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";
 }
 .foowd-icon-plus:before {
-	content: "\e60b";
-}
+ 	  background-image: url('../../img/icone/aumenta.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";}
