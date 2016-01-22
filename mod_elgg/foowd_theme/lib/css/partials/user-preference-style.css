@@ -11,7 +11,6 @@
   width: 100%;
   margin-left: 0%;
   margin-right: 3%;
-below(900px)
 }
 #user-details:before,
 #user-details:after {
@@ -23,6 +22,11 @@ below(900px)
 }
 #user-details:last-child {
   margin-right: 0%;
+}
+@media only screen and (max-width: 900px) {
+  #user-details {
+    margin-top: 120px;
+  }
 }
 #user-avatar {
   width: 100px;
@@ -77,7 +81,6 @@ below(900px)
   width: 8.333333333333332%;
   margin-left: 0%;
   margin-right: 0%;
-below(900px)
 }
 .account-info-section:before,
 .account-info-section:after {
@@ -86,6 +89,25 @@ below(900px)
 }
 .account-info-section:after {
   clear: both;
+}
+@media only screen and (max-width: 900px) {
+  .account-info-section {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 16.666666666666664%;
+    margin-left: 0%;
+    margin-right: 0%;
+  }
+  .account-info-section:before,
+  .account-info-section:after {
+    content: '';
+    display: table;
+  }
+  .account-info-section:after {
+    clear: both;
+  }
 }
 #preferences-container {
   *zoom: 1;
@@ -116,7 +138,6 @@ below(900px)
   margin-left: 0%;
   margin-right: 3%;
   height: 120px;
-below(900px)
 }
 .preference:before,
 .preference:after {
@@ -129,18 +150,27 @@ below(900px)
 .preference:last-child {
   margin-right: 0%;
 }
+@media only screen and (max-width: 900px) {
+  .preference {
+    height: 240px;
+  }
+}
 .preference-progress-bar {
   position: absolute;
   left: 0;
   height: 120px;
   width: 100%;
   z-index: -100;
-below(900px)
 }
 .preference-progress-bar .progress {
   height: 100%;
   position: absolute;
   z-index: -100;
+}
+@media only screen and (max-width: 900px) {
+  .preference-progress-bar {
+    height: 240px;
+  }
 }
 .user-preference {
   *zoom: 1;
@@ -153,7 +183,6 @@ below(900px)
   height: 120px;
   border-top: 1px solid #d0d0d0;
   padding: 10px 20px 10px 20px;
-below(900px)
 }
 .user-preference:before,
 .user-preference:after {
@@ -165,6 +194,11 @@ below(900px)
 }
 .user-preference:last-child {
   margin-right: 0%;
+}
+@media only screen and (max-width: 900px) {
+  .user-preference {
+    height: 220px;
+  }
 }
 .user-preference-section {
   *zoom: 1;
@@ -182,7 +216,6 @@ below(900px)
   margin-left: 0%;
   margin-right: 0%;
   height: 100px;
-below(900px)
 }
 .user-preference-section:before,
 .user-preference-section:after {
@@ -203,6 +236,47 @@ below(900px)
 .user-preference-section:after {
   clear: both;
 }
+@media only screen and (max-width: 900px) {
+  .user-preference-section {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 48.5%;
+    margin-left: 0%;
+    margin-right: 3%;
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: 0%;
+  }
+  .user-preference-section:before,
+  .user-preference-section:after {
+    content: '';
+    display: table;
+  }
+  .user-preference-section:after {
+    clear: both;
+  }
+  .user-preference-section:nth-child(2n) {
+    margin-right: 0%;
+    float: right;
+  }
+  .user-preference-section:nth-child(2n+1) {
+    clear: both;
+  }
+  .user-preference-section:before,
+  .user-preference-section:after {
+    content: '';
+    display: table;
+  }
+  .user-preference-section:after {
+    clear: both;
+  }
+}
 .user-preference-image {
   width: 100px;
   height: 100px;
@@ -212,11 +286,50 @@ below(900px)
 .user-preference-name {
   position: relative;
   left: -8.583333333333332%;
-below(900px)
+}
+@media only screen and (max-width: 900px) {
+  .user-preference-name {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: 0%;
+    position: relative;
+    left: -17.166666666666664%;
+  }
+  .user-preference-name:before,
+  .user-preference-name:after {
+    content: '';
+    display: table;
+  }
+  .user-preference-name:after {
+    clear: both;
+  }
 }
 .user-preference-name ul {
   margin-top: 30px;
   width: 100%;
+}
+@media only screen and (max-width: 900px) {
+  .user-preference-details {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: 0%;
+  }
+  .user-preference-details:before,
+  .user-preference-details:after {
+    content: '';
+    display: table;
+  }
+  .user-preference-details:after {
+    clear: both;
+  }
 }
 .preference-detail {
   *zoom: 1;
@@ -236,6 +349,30 @@ below(900px)
 }
 .preference-detail:after {
   clear: both;
+}
+@media only screen and (max-width: 900px) {
+  .preference-detail li {
+    margin-left: 20px;
+  }
+}
+@media only screen and (max-width: 900px) {
+  .user-preference-actions {
+    *zoom: 1;
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: 0%;
+  }
+  .user-preference-actions:before,
+  .user-preference-actions:after {
+    content: '';
+    display: table;
+  }
+  .user-preference-actions:after {
+    clear: both;
+  }
 }
 .user-preference-actions ul {
   margin-top: 20px;

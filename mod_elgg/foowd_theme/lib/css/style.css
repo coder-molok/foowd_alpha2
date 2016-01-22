@@ -36,20 +36,34 @@
 	content: "\e600";
 }
 .foowd-icon-heart-edge:before {
-	content: "\e601";
-}
+ 	  background-image: url('../../img/icone/board.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";}
 .foowd-icon-minus:before {
-	content: "\e602";
-}
+ 	  background-image: url('../../img/icone/diminuisci.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";
+ }
 .foowd-icon-cart:before {
-	content: "\e603";
-}
+ 	  background-image: url('../../img/icone/ordine.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";}
 .foowd-icon-close:before {
 	content: "\e604";
 }
 .foowd-icon-menu:before {
-	content: "\e605";
-}
+ 	  background-image: url('../../img/icone/menu.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";
+ }
 .foowd-icon-arrow-right:before {
 	content: "\e606";
 }
@@ -57,17 +71,36 @@
 	content: "\e607";
 }
 .foowd-icon-len:before {
-	content: "\e608";
+ 	  background-image: url('../../img/icone/sito.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";
+}
+
+.foowd-icon-group:before {
+ 	  background-image: url('../../img/icone/gruppo.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";
 }
 .foowd-icon-blade:before {
 	content: "\e609";
 }
 .foowd-icon-user:before {
-	content: "\e60a";
+ 	  background-image: url('../../img/icone/profilo.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";
 }
 .foowd-icon-plus:before {
-	content: "\e60b";
-}
+ 	  background-image: url('../../img/icone/aumenta.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";}
 /*Contenuti pagina di dettaglio*/
 #product-detail-main {
   margin-top: 60px;
@@ -1615,6 +1648,54 @@ h5 {
 /* 1. Margins --------------------------- */
 /* 2. Colors ---------------------------- */
 /* 3. Responsive ------------------------ */
+
+/* genero classi specifiche , nel caso volessi appendere esclusivamente questi stili tramite javascript */
+/* inoltre creo dinamicamente le versioni darken per l'array*/
+.foowd1-cl {
+  color: #38302c;
+}
+.foowd1-bg {
+  background-color: #38302c;
+}
+.foowd1d-bg {
+  background-color: #221d1a;
+}
+.foowd2-cl {
+  color: #e6dcbe;
+}
+.foowd2-bg {
+  background-color: #e6dcbe;
+}
+.foowd2d-bg {
+  background-color: #b69a46;
+}
+.foowd3-cl {
+  color: #bed25a;
+}
+.foowd3-bg {
+  background-color: #bed25a;
+}
+.foowd3d-bg {
+  background-color: #7c8d27;
+}
+.foowd4-cl {
+  color: #f7f4ee;
+}
+.foowd4-bg {
+  background-color: #f7f4ee;
+}
+.foowd4d-bg {
+  background-color: #b99f6a;
+}
+.foowd5-cl {
+  color: #85385a;
+}
+.foowd5-bg {
+  background-color: #85385a;
+}
+.foowd5d-bg {
+  background-color: #502136;
+}
 
 /*
  * About Wall Page Style

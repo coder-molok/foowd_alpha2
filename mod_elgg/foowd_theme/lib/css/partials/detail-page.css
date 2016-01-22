@@ -2,7 +2,11 @@
 #product-detail-main {
   margin-top: 60px;
   padding: 0 20px 0 20px;
-below(900px)
+}
+@media only screen and (max-width: 900px) {
+  #product-detail-main {
+    margin-top: 120px;
+  }
 }
 .detail-menu-section {
   *zoom: 1;
@@ -20,7 +24,6 @@ below(900px)
   margin-left: 0%;
   margin-right: 0%;
   height: 60px;
-below(900px)
 }
 .detail-menu-section:before,
 .detail-menu-section:after {
@@ -44,6 +47,22 @@ below(900px)
 }
 .detail-menu-section:after {
   clear: both;
+}
+@media only screen and (max-width: 900px) {
+  .detail-menu-section {
+    display: block;
+    clear: both;
+    float: none;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .detail-menu-section:first-child {
+    margin-left: auto;
+  }
+  .detail-menu-section:last-child {
+    margin-right: auto;
+  }
 }
 #detail-menu {
   margin-bottom: 20px;
@@ -144,7 +163,6 @@ below(900px)
   width: 50%;
   margin-left: 0%;
   margin-right: 0%;
-below(900px)
 }
 .product-menu-section:before,
 .product-menu-section:after {
@@ -164,6 +182,22 @@ below(900px)
 }
 .product-menu-section:after {
   clear: both;
+}
+@media only screen and (max-width: 900px) {
+  .product-menu-section {
+    display: block;
+    clear: both;
+    float: none;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .product-menu-section:first-child {
+    margin-left: auto;
+  }
+  .product-menu-section:last-child {
+    margin-right: auto;
+  }
 }
 .menu-section {
   *zoom: 1;
