@@ -2,6 +2,14 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 22/01/2016
+
+- aggiornata pagina settings dei plugin
+
+- aggiornato modulo settings autogenerato e utilizzato in js
+
+
+
 ### 21/01/2016
 
 - risolto errore caricamento crop immagini dell'avatar

@@ -12,7 +12,7 @@ namespace Uoowd;
 			'dbg'		=> 0,												// per visualizzare messaggi di errore fronthand (scritte rosse). Definito anche nel pannello utente, come apiDom
 			'imgStore'	=> 'FoowdStorage',									// folder in cui salvare le immagini
 			'tags'		=> 'tags.json',										// dove salvare il json contenente i tags
-			'utilAMD'	=> 'mod/foowd_utility/js/utility.settings.amd.js',	// file js contenente i settings e che viene aggiornato ad ogni salvataggio
+			'utilAMD'	=> 'mod/foowd_utility/js/utility.settings.public.amd.js',	// file js contenente i settings e che viene aggiornato ad ogni salvataggio
 			'pageAMD' 	=> '/mod/foowd_utility/js/foowd.pages.amd.js',		// file js contenente l'elenco delle pagine di navigazione
 			'unitAMD' 	=> '/mod/foowd_offerte/js/foowd.unit.amd.js',		// file js contenente l'elenco delle unita' di misura
 		);
@@ -223,8 +223,11 @@ namespace Uoowd;
 		}
 
 		public static function unit(){
-			$file = file(elgg_get_root_path().\Uoowd\Param::unitAMD());
-			return self::JSON_AMD($file);
+			// $file = file(elgg_get_root_path().\Uoowd\Param::unitAMD());
+			// return self::JSON_AMD($file);
+			$val = elgg_get_plugin_setting('offer-unit', \Uoowd\Param::uid() );
+			$val = (array) json_decode($val);
+			return $val;
 		}
 
 

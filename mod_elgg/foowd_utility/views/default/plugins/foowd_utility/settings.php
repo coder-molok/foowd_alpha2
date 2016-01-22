@@ -99,6 +99,25 @@ elgg_load_css('plugin-settings');
 
 
 
+<!--------------- UNIT ------------------>
+<?php
+  $value = elgg_get_plugin_setting('offer-unit', \Uoowd\Param::pid() );
+  // \Fprint::r($value);
+?>
+<h1>Unita' di Misura</h1>
+<div id="unit-save">
+<div style="font-style: italic; font-size:11px;">
+  L'inserimento e' in formato JSON, e la chiave rappresenta il gruppo.<br/>
+  NB: per le potenze come metro cubo il formato e' "m^3": sara' visualizzato correttamente nel form d'inserimento.
+</div>
+<p>
+<label>Inserisci le unita' di misura che vuoi visualizzare nel form di creazione/modifica offerta</label>
+<textarea style="display:block; width:90%;" name="params[offer-unit]"><?php echo $value;?></textarea>
+</p>
+<br/>
+
+
+
 
 <!--------------- SOCIALS ------------------>
 <h1>Socials</h1>

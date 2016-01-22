@@ -124,9 +124,13 @@ function update_json($hook, $type, $url, $params){
 	$settings = elgg_get_plugin_from_id(\Uoowd\Param::uid())->getAllSettings();
 	// unset($settings['tags']);
 	
+
+	// NB: Senza la rimozione salverei TUTTI i dati, quindi risulta utile per eventuali backup
 	// rimuovo le chiavi che non voglio condividere mediante js
-	$socials = array('Google-Id', 'Google-Secret', 'Facebook-Id','Facebook-Secret');
-	foreach($socials as $s) unset($settings[$s]);
+	$remove = array('Google-Id', 'Google-Secret', 'Facebook-Id','Facebook-Secret');
+	foreach($remove as $s) unset($settings[$s]);
+	// rimuovo i dati di php mailer!
+	foreach($settings as $k => $v) if(preg_match('@phpmailer-@', $k)) unset($settings[$k]);
 
 
 	// salvo nel js

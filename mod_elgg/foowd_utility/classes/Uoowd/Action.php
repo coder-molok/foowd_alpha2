@@ -338,7 +338,7 @@ abstract class Action {
 				return true;
 			}
 			$str = 'Data di scadenza non valida: ' . $var;
-			\Uoowd\Logger::addError($str);
+			// \Uoowd\Logger::addError($str);
 			register_error($str);
 			return false;
 		}		

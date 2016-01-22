@@ -65,10 +65,12 @@ $unit = \Uoowd\Param::unit();
 if(!isset($vars['Unit'])) $u['options_values']=array(''=>'-- scegli un valore --');
 foreach($unit as $obj){
 	foreach ($obj as $unit => $symbol) {
+		$symbol = preg_replace("@\^([^ ]*)@", '<span class="foowd-pow">$1</span>', $symbol);
 		$u['options_values'][$unit]=sprintf('%s (%s)<br/>', ucwords(str_replace('_',' ',$unit)), $symbol);
 		// $u['options'][]=$unit;
 	}
 }
+
 // NB: l'underscore server per non metchare il vero field, che contiene lo sticky value
 $vars['_Unit'] = $u;
 
