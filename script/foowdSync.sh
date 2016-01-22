@@ -85,6 +85,10 @@ for D in $REPO"mod_elgg/"*; do
             EXTRACMD="$EXTRACMD ; (cd $ModPath$DST; echo 'runno composer...'; sudo composer install )"              
         fi
 
+        # estraggo lo zip del tema jquery.ui
+        if [ "$DST" == "foowd_theme" ] && $FORCE ; then
+            if [ -f "${ZIP}" ] ; then EXTRACMD="${EXTRACMD} ; sudo unzip -d `dirname $ZIP`" ; fi
+        fi
         TMP="$TMPCMD $SRC $ModPath$DST $EXTRACMD"                        
         
         eval "$TMP"            
