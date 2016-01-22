@@ -8,6 +8,7 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 
 - aggiornato modulo settings autogenerato e utilizzato in js
 
+- aggiornato foowdSync.sh per estrazione del thema custom di query.ui con l'opzione -f
 
 
 ### 21/01/2016

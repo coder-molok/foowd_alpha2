@@ -24,6 +24,7 @@ api_foowd/sftp-config.json
 */foowd_utility/**/backup/
 */foowd_utility/bower_components
 */foowd_utility/js/utility.settings.amd.js
+*/foowd_theme/views/css/jquery-ui-1.10.4.custom/
 .Trash*
 
 # linee aggiunte da Marco Predari
