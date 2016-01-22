@@ -87,7 +87,8 @@ for D in $REPO"mod_elgg/"*; do
 
         # estraggo lo zip del tema jquery.ui
         if [ "$DST" == "foowd_theme" ] && $FORCE ; then
-            if [ -f "${ZIP}" ] ; then EXTRACMD="${EXTRACMD} ; sudo unzip -d `dirname $ZIP`" ; fi
+            ZIP="${ModPath}${DST}/views/css/jquery-ui-1.10.4.custom.zip"
+            if [ -f "${ZIP}" ] ; then EXTRACMD="${EXTRACMD} ; sudo unzip -d `dirname $ZIP` $ZIP" ; fi
         fi
         TMP="$TMPCMD $SRC $ModPath$DST $EXTRACMD"                        
         
