@@ -2,6 +2,13 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+
+### 23/01/2015
+
+- inserito file in .gitignore
+
+
+
 ### 22/01/2016
 
 - aggiornata pagina settings dei plugin
