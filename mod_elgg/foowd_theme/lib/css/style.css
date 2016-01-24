@@ -54,6 +54,12 @@
     width: 40px; 
     height: 40px;
     content:"";}
+ .foowd-icon-cart-white:before {
+ 	  background-image: url('../../img/icone/ordine_white.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";}
 .foowd-icon-close:before {
 	content: "\e604";
 }
@@ -70,10 +76,11 @@
 .foowd-icon-arrow-left:before {
 	content: "\e607";
 }
+
 .foowd-icon-len:before {
  	  background-image: url('../../img/icone/sito.svg');
     background-size: 40px 40px;
-    width: 40px; 
+    width: 40px;
     height: 40px;
     content:"";
 }
@@ -85,9 +92,18 @@
     height: 40px;
     content:"";
 }
+.foowd-icon-group-white:before {
+ 	background-image: url('../../img/icone/gruppo_white.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";
+}
 .foowd-icon-blade:before {
 	content: "\e609";
 }
+
+
 .foowd-icon-user:before {
  	  background-image: url('../../img/icone/profilo.svg');
     background-size: 40px 40px;
@@ -97,6 +113,12 @@
 }
 .foowd-icon-plus:before {
  	  background-image: url('../../img/icone/aumenta.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";}
+.foowd-icon-cart-white:before {
+ 	  background-image: url('../../img/icone/ordine_white.svg');
     background-size: 40px 40px;
     width: 40px; 
     height: 40px;
@@ -348,6 +370,10 @@
 }
 .action-heart {
   background: #bed25a;
+}
+.action-heart-border {
+  background: #bed25a;
+  border: 1px solid #fff;
 }
 .action-minus {
   background: #f7f4ee;
@@ -624,6 +650,15 @@ h5 {
 .fw-menu-icon {
   cursor: pointer;
   color: #000;
+  vertical-align: middle;
+  border-radius: 50%;
+}
+.fw-menu-icon-group {
+  background: #38302c;
+  cursor: pointer;
+  color: #000;
+  vertical-align: middle;
+  border-radius: 50%;
 }
 #price-section {
   height: 100%;
@@ -1885,6 +1920,9 @@ h5 {
   font-size: 22pt;
   line-height: 22pt;
   color: #000;
+  display: inline-flex;
+  border-radius: 50%;
+  padding: 0;
 }
 .product-post-body {
   font-family: AkkuratRegular;

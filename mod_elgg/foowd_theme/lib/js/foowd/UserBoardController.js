@@ -134,9 +134,11 @@ define(function(require) {
 				$( ".btn-buy" ).each(function() {
 					$(this).toggleClass('action-buy',!group);
 					$(this).toggleClass('action-buy-group',group);
-
 				});
-			
+				$( ".btn-buy-icon" ).each(function() {
+					$(this).toggleClass('foowd-icon-cart-white',group);
+					$(this).toggleClass('foowd-icon-cart',!group);
+				});
 		}
 
 		function _fillUserDetails(content){
@@ -179,8 +181,9 @@ define(function(require) {
 		});
 
 		function toggleGroup(){
-			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-heart-edge');
-			group=!group;
+						group=!group;
+			$('#groupBtn').toggleClass('foowd-icon-group-white',group);
+			$('#groupBtn').toggleClass('foowd-icon-group',!group);
 			//Lo applico anche prima che carichi
 			_applyColor();
 			_getUserPreferences();

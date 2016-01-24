@@ -165,6 +165,15 @@
 .fw-menu-icon {
   cursor: pointer;
   color: #000;
+  vertical-align: middle;
+  border-radius: 50%;
+}
+.fw-menu-icon-group {
+  background: #38302c;
+  cursor: pointer;
+  color: #000;
+  vertical-align: middle;
+  border-radius: 50%;
 }
 #price-section {
   height: 100%;

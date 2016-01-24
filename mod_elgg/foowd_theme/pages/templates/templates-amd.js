@@ -20,7 +20,7 @@ templates['navbar'] = template({"1":function(container,depth0,helpers,partials,d
 },"4":function(container,depth0,helpers,partials,data) {
     return "        <input type=\"text\" id=\"searchText\" onkeypress=\"window.searchProductsKey(event)\">\n";
 },"6":function(container,depth0,helpers,partials,data) {
-    return "	      	 <span id=\"groupBtn\" onClick=\"window.toggleGroup()\" \n	                class=\"foowd-icons  foowd-icon-user fw-menu-icon preferences-link\">\n	          </span>\n";
+    return "	      	 <span id=\"groupBtn\" onClick=\"window.toggleGroup()\" \n	                class=\"foowd-icons icon-black foowd-icon-group fw-menu-icon preferences-link\">\n	          </span>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
@@ -102,7 +102,7 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
 },"4":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "             <ul class=\"action-icons menu-section\" id = \"preference-action\">\n                <li class=\"action-heart\" id=\"action-heart\">\n                    <i  class=\"foowd-icons foowd-icon-heart-edge\" \n                        onClick = \"ProductDetailController.addPreference("
+  return "             <ul class=\"action-icons menu-section\" id = \"preference-action\">\n                <li class=\"action-heart\" id=\"action-heart\">\n                    <i  class=\"foowd-icons foowd-icon-plus\" \n                        onClick = \"ProductDetailController.addPreference("
     + alias4(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Id","hash":{},"data":data}) : helper)))
     + ", 1)\"></i>\n                </li>\n                <li class=\"action-minus\">\n                    <i class=\"foowd-icons foowd-icon-minus fw-menu-icon\" \n                       onClick = \"ProductDetailController.addPreference("
     + alias4(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Id","hash":{},"data":data}) : helper)))
@@ -120,7 +120,7 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
 },"7":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=container.escapeExpression;
 
-  return "                    <div class = \"commercial-menu-item\">\n                        <ul class=\"action-icons menu-section\" id = \"preference-action\">\n                            <li id=\"action-buy\">\n                                <i class=\"foowd-icons foowd-icon-plus\" \n                                onClick = \"ProductDetailController.purchase("
+  return "                    <div class = \"commercial-menu-item\">\n                        <ul class=\"action-icons menu-section\" id = \"preference-action\">\n                            <li id=\"action-buy\">\n                                <i id=\"action-buy-icon\" class=\"foowd-icons foowd-icon-cart\" \n                                onClick = \"ProductDetailController.purchase("
     + alias1(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"Id","hash":{},"data":data}) : helper)))
     + ",'"
     + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.prefer : depth0)) != null ? stack1.prefers : stack1), depth0))
@@ -163,9 +163,9 @@ templates['productPost'] = template({"1":function(container,depth0,helpers,parti
     + alias4(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Id","hash":{},"data":data}) : helper)))
     + ",event)\">\n        <div class=\"product-post-image-thumbnail\">\n            <figure class=\"tint\" >\n                <img src=\""
     + alias4(((helper = (helper = helpers.picture || (depth0 != null ? depth0.picture : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"picture","hash":{},"data":data}) : helper)))
-    + "\">\n            </figure>\n            <!-- Questo span permette ai contenuti di allinearsi con la larghezza dell'immagine\n            In pratica detta quanto sia la larghezza del div contenitore (vedi WallController.adjustOverlays--> \n              <span class=\"heart-overlay\"\n                  >\n            </span>\n             <div class=\"product-post-menu\">\n                <div  onclick=\"window.go2ProducerSite("
+    + "\">\n            </figure>\n            <!-- Questo span permette ai contenuti di allinearsi con la larghezza dell'immagine\n            In pratica detta quanto sia la larghezza del div contenitore (vedi WallController.adjustOverlays--> \n              <span class=\"heart-overlay\"\n                  >\n            </span>\n             <div class=\"product-post-menu\" onclick=\"window.go2ProducerSite("
     + alias4(((helper = (helper = helpers.Publisher || (depth0 != null ? depth0.Publisher : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Publisher","hash":{},"data":data}) : helper)))
-    + ",event)\">\n                   <span class = \"foowd-icons foowd-icon-blade\">\n                   </span>\n                </div>\n            </div>\n        </div>\n        <div class=\"product-post-header\">\n            <div class=\"product-post-name\">\n                "
+    + ",event)\">\n                   <span  class=\"foowd-icons foowd-icon-len\">\n                   </span>\n            </div>\n        </div>\n        <div class=\"product-post-header\">\n            <div class=\"product-post-name\">\n                "
     + alias4(((helper = (helper = helpers.Name || (depth0 != null ? depth0.Name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Name","hash":{},"data":data}) : helper)))
     + "\n                <br/>\n                <br/>\n                <span class=\"product-post-unit-price\">\n                    "
     + alias4(((helper = (helper = helpers.Quota || (depth0 != null ? depth0.Quota : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Quota","hash":{},"data":data}) : helper)))
@@ -205,11 +205,11 @@ templates['userPreference'] = template({"1":function(container,depth0,helpers,pa
     + ((stack1 = helpers.unless.call(alias1,(depth0 != null ? depth0.group : depth0),{"name":"unless","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "                </ul>\n            </div>\n        </div>\n    </div>\n";
 },"2":function(container,depth0,helpers,partials,data) {
-    return "                    <li class=\"btn-buy\">\n                        <i class=\"foowd-icons foowd-icon-plus\"></i>\n                    </li>\n";
+    return "                    <li class=\"btn-buy\">\n                        <i class=\"btn-buy-icon foowd-icons foowd-icon-cart\"></i>\n                    </li>\n";
 },"4":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "                \n                    <li class=\"action-heart\">\n                        <i  class=\"foowd-icons foowd-icon-heart-edge\" \n                            onClick = \"UserBoardController.addPreference("
+  return "                \n                    <li class=\"action-heart-border\">\n                        <i  class=\"foowd-icons foowd-icon-plus\" \n                            onClick = \"UserBoardController.addPreference("
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
     + ", 1)\"></i>\n                    </li>\n                    <li class=\"action-minus\">\n                        <i class=\"foowd-icons foowd-icon-minus fw-menu-icon\" \n                           onClick = \"UserBoardController.addPreference("
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))

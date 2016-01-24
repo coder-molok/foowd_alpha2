@@ -246,6 +246,10 @@
 .action-heart {
   background: #bed25a;
 }
+.action-heart-border {
+  background: #bed25a;
+  border: 1px solid #fff;
+}
 .action-minus {
   background: #f7f4ee;
 }

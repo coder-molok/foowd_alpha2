@@ -36,13 +36,13 @@
                 <ul class="action-icons menu-section" id = "preference-action">
                 {{#canbuy totalQt Offer.Minqt}}
                     <li class="btn-buy">
-                        <i class="foowd-icons foowd-icon-plus"></i>
+                        <i class="btn-buy-icon foowd-icons foowd-icon-cart"></i>
                     </li>
                 {{/canbuy}}
          	   {{#unless group}}
                 
-                    <li class="action-heart">
-                        <i  class="foowd-icons foowd-icon-heart-edge" 
+                    <li class="action-heart-border">
+                        <i  class="foowd-icons foowd-icon-plus" 
                             onClick = "UserBoardController.addPreference({{Offer.Id}}, 1)"></i>
                     </li>
                     <li class="action-minus">

@@ -46,6 +46,12 @@
     width: 40px; 
     height: 40px;
     content:"";}
+ .foowd-icon-cart-white:before {
+ 	  background-image: url('../../img/icone/ordine_white.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";}
 .foowd-icon-close:before {
 	content: "\e604";
 }
@@ -62,10 +68,11 @@
 .foowd-icon-arrow-left:before {
 	content: "\e607";
 }
+
 .foowd-icon-len:before {
  	  background-image: url('../../img/icone/sito.svg');
     background-size: 40px 40px;
-    width: 40px; 
+    width: 40px;
     height: 40px;
     content:"";
 }
@@ -77,9 +84,18 @@
     height: 40px;
     content:"";
 }
+.foowd-icon-group-white:before {
+ 	background-image: url('../../img/icone/gruppo_white.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";
+}
 .foowd-icon-blade:before {
 	content: "\e609";
 }
+
+
 .foowd-icon-user:before {
  	  background-image: url('../../img/icone/profilo.svg');
     background-size: 40px 40px;
@@ -89,6 +105,12 @@
 }
 .foowd-icon-plus:before {
  	  background-image: url('../../img/icone/aumenta.svg');
+    background-size: 40px 40px;
+    width: 40px; 
+    height: 40px;
+    content:"";}
+.foowd-icon-cart-white:before {
+ 	  background-image: url('../../img/icone/ordine_white.svg');
     background-size: 40px 40px;
     width: 40px; 
     height: 40px;

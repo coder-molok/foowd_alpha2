@@ -150,13 +150,17 @@ define(function(require){
 					$(this).toggleClass('action-buy-group',group);
 					$(this).toggleClass('action-buy',!group);
 
-				}); 
+				});
+				$('#action-buy-icon').toggleClass('foowd-icon-cart-white',group);
+				$('#action-buy-icon').toggleClass('foowd-icon-cart',!group); 
 				
 				
 		}
 		function toggleGroup(){
-			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-group');
-			group=!group;
+						group=!group;
+			$('#groupBtn').toggleClass('foowd-icon-group-white',group);
+			$('#groupBtn').toggleClass('foowd-icon-group',!group);
+
 			
 			_applyColor();
 			getDetailsOf();

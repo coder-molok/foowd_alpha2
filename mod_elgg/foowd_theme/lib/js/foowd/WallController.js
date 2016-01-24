@@ -279,8 +279,11 @@ define(function(require){
 		}
 
 		function toggleGroup(){
-			$('#groupBtn').toggleClass('foowd-icon-user foowd-icon-group');
 			group=!group;
+			$('#groupBtn').toggleClass('foowd-icon-group-white',group);
+			$('#groupBtn').toggleClass('foowd-icon-group',!group);
+			$('#groupBtn').toggleClass('fw-menu-icon-group',group);
+			$('#groupBtn').toggleClass('fw-menu-icon',!group);
 			_applyColor();
 			searchProducts();
 
