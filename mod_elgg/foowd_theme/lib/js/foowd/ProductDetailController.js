@@ -145,7 +145,11 @@ define(function(require){
 
 		}
 		function _applyColor(){
+				$( ".progress" ).each(function() {
+					$(this).toggleClass('action-heart',!group);
+					$(this).toggleClass('action-minus',group);
 
+				});
 				$( "#action-buy" ).each(function() {
 					$(this).toggleClass('action-buy-group',group);
 					$(this).toggleClass('action-buy',!group);
