@@ -6,6 +6,10 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 
 - risolta iss#187
 
+- corretto parametro modifica offerta
+
+- modificati manualmente stile.css e a_foowd-icons.css per consentire visualizzazione immagine lente nel wall
+
 
 
 ### 23/01/2015

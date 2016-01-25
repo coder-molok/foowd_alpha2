@@ -284,10 +284,8 @@ namespace Foowd\Action;
 			        // se la stringa e' vuota, non ho scadenza!
 			        if(D !== '' ){
 			        	DD = new Date(D);
-			        	console.log(DD)
-			        	console.log( DD.getFullYear())
 			        	if( !isNaN(DD.getFullYear()) ){
-			        		var D = twoD(D);
+			        		var D = twoD(DD);
 			        		Gdiv.val(D.str)
 			        		$('#datepicker').val(D.str)
 			        	}
