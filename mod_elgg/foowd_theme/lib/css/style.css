@@ -380,6 +380,10 @@
 .action-buy {
   background: #bed25a;
 }
+.action-buy-border {
+  background: #bed25a;
+  border: 1px solid #fff;
+}
 .action-buy-group {
   background: #38302c;
 }
