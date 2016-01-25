@@ -61,16 +61,16 @@ $body .= <<<__BODY
 	<div class="elgg-page-body elgg-main">
 
 		<!-- inserito per compatibilita' tema -->
-		<div class="overlay overlay-hugeinc">
+		<div id="close-overlay" class="overlay overlay-hugeinc">
 		  <div class="reverse foowd-navbar">
 		  </div>
 		  <nav>
 		    <ul>
-		      <li><a href="www.foowd.it">Sito web</a></li>
-		      <li><a href="http://www.foowd.it/about.html">Su di noi</a></li>
-		      <li><a href="http://www.foowd.it/investors.html">Investitori</a></li>
-		      <li><a href="https://www.smore.com/pcm5x">Produttori</a></li>
-		      <li><a href="http://www.foowd.it/#contatti">Contatti</a></li>
+		      <li><a target="foowd_site" href="http://www.foowd.it">Sito web</a></li>
+		      <li><a target="foowd_site" href="http://www.foowd.it/about.html">Su di noi</a></li>
+		      <li><a target="foowd_site" href="http://www.foowd.it/investors.html">Investitori</a></li>
+		      <li><a target="foowd_site" href="https://www.smore.com/pcm5x">Produttori</a></li>
+		      <li><a target="foowd_site" href="http://www.foowd.it/#contatti">Contatti</a></li>
 		    </ul>
 		  </nav>
 		</div>

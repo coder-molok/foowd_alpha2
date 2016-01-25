@@ -89,7 +89,7 @@ define(function(require){
 
 			//aggungo i listener al bottone della barra
             ov.triggerBttn.addEventListener( 'click', _toggleOverlay );
-			//ov.closeBttn.addEventListener( 'click', _toggleOverlay );
+            ov.closeBttn.addEventListener( 'click', _toggleOverlay );
         }
 
         function _toggleOverlay() {
