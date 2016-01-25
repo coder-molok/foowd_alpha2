@@ -133,7 +133,7 @@ define(function(require) {
 
 				});
 				$( ".btn-buy" ).each(function() {
-					$(this).toggleClass('action-buy',!group);
+					$(this).toggleClass('action-buy-border',!group);
 					$(this).toggleClass('action-buy-group',group);
 				});
 				$( ".btn-buy-icon" ).each(function() {
@@ -185,6 +185,8 @@ define(function(require) {
 						group=!group;
 			$('#groupBtn').toggleClass('foowd-icon-group-white',group);
 			$('#groupBtn').toggleClass('foowd-icon-group',!group);
+						$('#groupBtn').toggleClass('fw-menu-icon-group',group);
+			$('#groupBtn').toggleClass('fw-menu-icon',!group);
 			//Lo applico anche prima che carichi
 			_applyColor();
 			_getUserPreferences();
