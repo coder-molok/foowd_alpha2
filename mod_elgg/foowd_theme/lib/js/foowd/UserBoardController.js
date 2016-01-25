@@ -106,8 +106,8 @@ define(function(require) {
 			API.getUserPics(userId).then(function(data){
 				var user = {};
 				user.avatar = utils.isValid(data.avatar) ? data.avatar[3] : null;
-				var parsedProducts = _applyUserContext(user,userId);
 				_fillUserDetails(parsedProducts);
+				var parsedProducts = _applyUserContext(user,userId);
 			}, function(error){
 				console.log(error);
 			});
