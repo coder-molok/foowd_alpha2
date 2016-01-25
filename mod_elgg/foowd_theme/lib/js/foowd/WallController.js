@@ -280,7 +280,6 @@ define(function(require){
 
 		function toggleGroup(){
 			group=!group;
-			alert('lol')
 			$('#groupBtn').toggleClass('foowd-icon-group-white',group);
 			$('#groupBtn').toggleClass('foowd-icon-group',!group);
 			$('#groupBtn').toggleClass('fw-menu-icon-group',group);
