@@ -14,7 +14,6 @@
 </div>
 
 
-
 <script type="text/javascript">
 require([ 
     'NavbarController', 'Modernizr'
@@ -69,6 +68,52 @@ require([
 
     	
    //  });
+   //  
+   
+   // setTimeout(function(){
+
+   //    var icons = document.querySelectorAll('#user-menu *');
+
+   //    for( ic of icons){
+   //      console.log(ic)
+   //      ic.parentNode.removeChild(ic);
+   //      var bg = window.getComputedStyle(ic, ':before').getPropertyValue('background-image');
+   //      if( bg == '') continue;
+   //      console.log(bg)
+   //      var bgUrl = bg.match(/http[^"]+/)[0];
+   //      console.log(bgUrl);
+
+   //      // closure solito metodo per salvare i nomi
+   //      (function(gUrl){$.ajax({
+   //        url: gUrl,
+   //        success: function(data){
+   //          svg = $(data).find('svg');
+   //          var filename = gUrl.substring(gUrl.lastIndexOf('/')+1);
+   //          if(filename === 'profilo.svg') $('.foowd-icon-user').each(function(){
+   //            $(this).html('<svg>'+svg.html()+'</svg>').find('svg').css({'position':'relative','z-index':1})
+   //          })
+   //        }
+   //      })
+   //      })(bgUrl);
+
+   //    }
+
+   // }, 3000);
+
+
+
+   // $('.foowd-navbar').on('mouseenter', '.foowd-icon-user',function(){
+   //    console.log('mouseover')
+   //    $(this).find('*').each(function(){
+   //      $(this).css({'stroke': 'green'});
+   //    })
+   // });
+   // $('.foowd-navbar').on('mouseout', '.foowd-icon-user',function(){
+   //    console.log('mouseover')
+   //    $(this).find('*').each(function(){
+   //      $(this).css({'stroke': ''});
+   //    })
+   // });
 
 });
 </script>

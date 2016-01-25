@@ -118,9 +118,10 @@ define(function(require) {
 			context.user = {
 				"name"  : userName,
 				"Publisher" : userId,
-				"likes" : $('.preference').length,
+				"likes" : $('.user-preference').length,
 			}
 			context.user = utils.addProfilePicture(context.user,avatar);
+			console.log(context)
 			return templates.preferenceAccountDetails(context);
 		}
 		

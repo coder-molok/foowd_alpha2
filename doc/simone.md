@@ -2,6 +2,11 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 25/01/2015
+
+- risolta iss#187
+
+
 
 ### 23/01/2015
 
@@ -16,6 +21,7 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 - aggiornato modulo settings autogenerato e utilizzato in js
 
 - aggiornato foowdSync.sh per estrazione del thema custom di query.ui con l'opzione -f
+
 
 
 ### 21/01/2016

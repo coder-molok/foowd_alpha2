@@ -9,6 +9,13 @@
 
 
 admin_gatekeeper();
+/**
+ * npm install -g
+ *
+ * jake
+ */
+
+echo 'ciao';
 
 // promemoria stylus
 // foowdPink = rgb(250,230,239)
@@ -50,10 +57,10 @@ $elggOfr = elgg_get_entities_from_metadata(
 
 
 
-
-
-
 return;
+
+
+
 
 
 // $me = elgg_get_logged_in_user_entity();
