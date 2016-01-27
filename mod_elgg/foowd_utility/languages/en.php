@@ -49,6 +49,8 @@ return array(
 
 	'foowd:user:description' => 'Inserisci una descrizione per farti conoscere',
 	'foowd:user:description:need' => 'Inserisci una descrizione per farti conoscere **',
+
+	'foowd:user:username:error' => 'Username is not valid',
 	
 	'foowd:user:site' => 'Sito Internet',
 	'foowd:user:site:optional' => 'Sito Internet *',
