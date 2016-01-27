@@ -2,9 +2,14 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
-### 25/01/2015
 
-- risolta iss#187
+### 26/01/2016
+
+- corretto bug aggiornamento iss#187 introducendo l'uso di deferred
+
+
+
+### 25/01/2015
 
 - corretto parametro modifica offerta
 

@@ -43,22 +43,25 @@ define(function(require) {
 				Navbar.loadNavbar(true);
 	   			//carico i template
 	   			group=false;
-	   			_getUserPreferences();
-	   			_getUserInfo();		
+	   			// impostati i deferred per garantire che _getUserInfo() si realizzi in cascata
+	   			// al fine di risolvere l'errore di conteggio delle preferenze
+	   			_getUserPreferences().then(function(){
+	   				_getUserInfo();		
+	   			});
    		}
 
    		function _getUserPreferences(){
 			var userId = utils.getUserId();
 			if(userId!=null && group){
-				_getUserPreferencesGroup(userId);
+				return _getUserPreferencesGroup(userId);
 			}else{
-				_getUserPreferencesSingle(userId);
+				return _getUserPreferencesSingle(userId);
 			}
 
 		}
 		
 		function _getUserPreferencesSingle(userId){
-			API.getUserPreferences(userId).then(function(data){
+			return API.getUserPreferences(userId).then(function(data){
 				var rawData = data;
 				var parsedProducts = _applyPreferencesContext(rawData.body);
 				_fillBoard(parsedProducts);
@@ -70,7 +73,7 @@ define(function(require) {
 
 		}
 		function _getUserPreferencesGroup(userId){
-			API.getFriend(userId).then(function(data){
+			return API.getFriend(userId).then(function(data){
 				var friendsStr='';
 				if(data.result && data.result.friends){
 					 friendsStr = data.result.friends.join();
@@ -121,7 +124,6 @@ define(function(require) {
 				"likes" : $('.user-preference').length,
 			}
 			context.user = utils.addProfilePicture(context.user,avatar);
-			console.log(context)
 			return templates.preferenceAccountDetails(context);
 		}
 		
