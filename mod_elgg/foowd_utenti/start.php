@@ -23,7 +23,10 @@ function utenti_init(){
     //Triggered after user registers. Return false to delete the user.
 	$user = new \Foowd\User();
     $user->form = 'register';
-    elgg_register_plugin_hook_handler('register', 'user', array($user, 'register'));
+    // gli imposto la priorita' massima in modo da prevenire l'invio di mail e altre azioni del plugin uservalidationbyemail
+    elgg_register_plugin_hook_handler('register', 'user', array($user, 'register'), 0);
+    // forward to uservalidationbyemail/emailsent page after register. Come prima priorita' massima per sovrascrivere le azioni di uservalidationbyemail
+    elgg_register_plugin_hook_handler('forward', 'system', 'foowd_after_registration_url', 0);
 
     // wrap new user creation settings it's default lang
     elgg_register_event_handler('create','user', "set_def_lang");
@@ -178,6 +181,11 @@ function foowd_utenti_handler($segments){
         return true;
     }
 
+    if($segments[0] === 'registration-error'){
+        require elgg_get_plugins_path() . 'foowd_utenti/views/default/register/register-error.php';
+        return true;
+    }
+
     return false;
 
 }
@@ -276,3 +284,30 @@ function checkUser(){
 // function _elgg_friends_page_handler($segments, $handler) {
 
 // }
+
+
+/**
+ * Override the URL to be forwarded after registration
+ *
+ * @param string $hook
+ * @param string $type
+ * @param bool   $value
+ * @param array  $params
+ * @return string
+ */
+function foowd_after_registration_url($hook, $type, $value, $params) {
+    $url = elgg_extract('current_url', $params);
+    
+    if ($url == elgg_get_site_url() . 'action/register') {
+
+        $session = elgg_get_session();
+        $foowd = $session->get('foowdForward', '');
+        $session->del('foowdForward');
+        if ($foowd == 'registration-error') {
+            // sovrascrivo uservalidationbyemail
+            $session->del('emailsent');
+            return $params['forward_url'];
+        }
+
+    }
+}

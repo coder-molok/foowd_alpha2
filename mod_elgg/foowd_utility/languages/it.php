@@ -77,10 +77,10 @@ return array(
 	'foowd:user:address:need' => 'Indirizzo **',
 	'foowd:user:address:error' => 'Devi inserire l\'indirizzo',
 
-	'foowd:user:company' => 'Ragione Sociale',
-	'foowd:user:company:optional' => 'Ragione Sociale (opzionale)',
-	'foowd:user:company:need' => 'Ragione Sociale **',
-	'foowd:user:company:error' => 'Manca la Ragione Sociale',
+	'foowd:user:company' => 'Denominazione Societ&aacute;',
+	'foowd:user:company:optional' => 'Denominazione Societ&aacute; (opzionale)',
+	'foowd:user:company:need' => 'Denominazione Societ&aacute; **',
+	'foowd:user:company:error' => 'Manca la Denominazione Societ&aacute;',
 
 	'foowd:user:email:error' => 'Indirizzo email non valido',
 
@@ -358,7 +358,7 @@ return array(
  * Errors
  */
 
-	'exception:title' => "Errore Fatale.",
+	'exception:title' => "Errore Critico.",
 	'exception:contact_admin' => 'An unrecoverable error has occurred and has been logged. Contact the site administrator with the following information:',
 
 	'actionundefined' => "L'azione richiesta (%s) non e' definita nel sistema.",
@@ -372,6 +372,8 @@ return array(
 	'error:default:content' => 'Oops... qualcosa non ha funzionato.',
 	'error:404:title' => 'Pagina non trovata',
 	'error:404:content' => 'Siamo spiacenti, la pagina cercata non esiste.',
+
+	'RegistrationException:PasswordMismatch' => 'Le password devono combaciare.',
 
 /**
  * User details

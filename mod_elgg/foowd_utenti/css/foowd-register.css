@@ -2,3 +2,6 @@ fieldset #offer-hook > div,
 fieldset #offer-hook [id*="cke_elgg"] {
   margin-bottom: 15px;
 }
+.foowd-page-registration-error h3 {
+  margin-bottom: 10px;
+}

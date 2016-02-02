@@ -1,6 +1,23 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+### 02/02/2016
+
+- risolta issue#193
+
+- aggiunta pagina notifica errore di registrazione
+
+
+
+### 01/02/2016
+
+- iniziate correzioni relative a iss#191
+
+
+### 31/01/2016
+
+- rimossi controlli su campo file e descrizione dal form di registrazione e relativi check javascript
+
 
 
 ### 26/01/2016

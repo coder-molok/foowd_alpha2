@@ -30,6 +30,7 @@ $test = "<div >Test di %s :</div>";
 $error = "<div class=\"error\">Errore! %s non attivo</div>";
 $well = "<div class=\"well\">OK: %s attivo</div>";
 
+
 // NB: aggiungere controllo su SendMail;
 $funcTest = array('curl_init', 'imagecopyresampled');
 
@@ -57,7 +58,8 @@ $txt =
 Grande soddisfazione!
 ';
 
-$to = 'email@example.com';
+$user = elgg_get_logged_in_user_entity();
+$to = $user->email;
 echo "<div>Invio mail di prova a $to.</div>";
 $mail = elgg_send_email('foowd',$to,'Test', sprintf($txt, 'Foowd'), array());
 if($mail){

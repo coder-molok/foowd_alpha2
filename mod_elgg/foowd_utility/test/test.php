@@ -13,6 +13,9 @@ admin_gatekeeper();
  * npm install -g
  *
  * jake
+ *
+ * foowd_theme/scripts/updates
+ * da foowd_theme
  */
 
 echo 'ciao';
