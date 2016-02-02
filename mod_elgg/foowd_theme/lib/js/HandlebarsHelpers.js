@@ -80,6 +80,17 @@ define(function(require){
 		return words.splice(0, 30).join(' ').concat("...");
 	});
 
+	/* scrivo i tags separandoli da underscore */
+	Handlebars.registerHelper('listTags', function(tags){
+		var words = tags.replace(/[\s,]+/g, ',').split(',');
+		//<wbr> serve per consentire di andare a capo in quel punto, qualora ve ne sia la necessita'
+		//sostanzialmente e' un word break
+		words = words.join('<wbr>_');
+		if(words.length > 0){ words = '_' + words; }
+		else{ words = '_foowd'; }
+		return words;
+	});
+
 	Handlebars.registerPartial('carouselItem', function(slide){
 		var context = {"slide" : slide};
 		return Handlebars.templates.carouselItem(context);

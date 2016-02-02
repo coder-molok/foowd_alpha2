@@ -7,6 +7,8 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 
 - aggiunta pagina notifica errore di registrazione
 
+- wall: sostituita descrizione con elenco tags e aggiornamento helpers di handlebars. Vedi iss#135
+
 
 
 ### 01/02/2016
