@@ -56,12 +56,12 @@ templates['preferenceAccountDetails'] = template({"1":function(container,depth0,
     + ((stack1 = helpers.unless.call(alias1,((stack1 = (depth0 != null ? depth0.user : depth0)) != null ? stack1.avatar : stack1),{"name":"unless","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "    <div id=\"user-info\">\n        <div id=\"username\">\n            "
     + alias3(alias2(((stack1 = (depth0 != null ? depth0.user : depth0)) != null ? stack1.name : stack1), depth0))
-    + "\n        </div>\n        <div id = \"board\">\n            my board\n        </div>\n    </div>\n</div>\n<div id=\"account-info\">\n"
+    + "\n        </div>\n        <div id = \"board\">\n            la mia tavola\n        </div>\n    </div>\n</div>\n<div id=\"account-info\">\n"
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.user : depth0)) != null ? stack1.followers : stack1),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.user : depth0)) != null ? stack1.following : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "    <ul class=\"number-block account-info-section\">\n        <li>"
     + alias3(alias2(((stack1 = (depth0 != null ? depth0.user : depth0)) != null ? stack1.likes : stack1), depth0))
-    + "</li>\n        <li><span class =\"number-description\">products</span></li>\n    </ul>\n</div>";
+    + "</li>\n        <li><span class =\"number-description\">preferenze</span></li>\n    </ul>\n</div>";
 },"useData":true});
 templates['producerProfile'] = template({"1":function(container,depth0,helpers,partials,data) {
     var stack1;

@@ -344,7 +344,7 @@ return array(
 	'auth:nopams' => "Errore interno. Non e' installato alcun metodo di autenticazione utente.",
 
 	'logout' => "Log out",
-	'logoutok' => "E' stato effettuato il log out.",
+	'logoutok' => "Ti sei disconnesso. Torna presto!",
 	'logouterror' => "Non riusciamo a effettuare il log out. Per favore, riprova nuovamente.",
 	'session_expired' => "La tua sessione e' scaduta. Per favore, ricarica la pagina per rieffettuare il log in.",
 
@@ -352,6 +352,13 @@ return array(
 	'adminrequired' => "Devi essere un amministratore per visualizzare la pagina richiesta.",
 	'membershiprequired' => "Devi essere un membro di questo gruppo per visualizzare la pagina richiesta.",
 	'limited_access' => "Non hai i permessi necessari per visualizzare la pagina richiesta.",
+
+	'LoginException:AccountLocked' => 'Account sospeso per sospetto tentativo di intrusione per tentativi.',
+	'LoginException:BannedUser' => 'Sei stato escluso da questo sito e non puoi accedere',
+	'LoginException:UsernameFailure' => 'Impossibile proseguire. Per favore controlla nome utente/email e password.',
+	'LoginException:PasswordFailure' => 'Impossibile proseguire. Per favore controlla nome utente/email e password.',
+	'LoginException:ChangePasswordFailure' => 'Verifica della password corrente fallita.',
+	'LoginException:Unknown' => 'Impossibile proseguire per un errore sconosciuto.',
 
 
 /**
@@ -532,7 +539,7 @@ return array(
 	'plugins:settings:save:ok' => "Le impostazioni del plugin %s sono state salvate con successo.",
 	'plugins:settings:save:fail' => "E' avvenuto un problema durante il salvataggio delle impostazioni relative al plugin %s",
 	'plugins:usersettings:save:ok' => "Impostazioni utente per il plugin %s salvate con successo.",
-	'plugins:usersettings:save:fail' => "E' avvenuto un problema durante il salvataggio impostazioni utente del plugin %s.",
+	'plugins:usersettings:save:fail' => "E' avvenuto un problema durante il salvatCaggio impostazioni utente del plugin %s.",
 	'item:object:plugin' => 'Plugins',
 
 	'admin:plugins' => "Plugins",
@@ -589,7 +596,7 @@ return array(
 	'usersettings:statistics:yourdetails' => "I tuoi dettagli",
 	'usersettings:statistics:label:name' => "Nome completo",
 	'usersettings:statistics:label:email' => "Email",
-	'usersettings:statistics:label:membersince' => "Membero dal",
+	'usersettings:statistics:label:membersince' => "Iscritto il",
 	'usersettings:statistics:label:lastlogin' => "Ultimo accesso",
 
 /**
@@ -860,14 +867,17 @@ la tua password e' stata modificata.",
 
 La tua password e' stata reimpostata a: %s",
 
-	'email:changereq:subject' => "Rcihiesta cambio password.",
+	'email:changereq:subject' => "Modifica password.",
 	'email:changereq:body' => "Salve %s,
-
-Qualcuno (dall'indirizzo IP %s) ha chiesto un cambio password per il suo profilo.
-
-Se ha svolto tale richiesta clicchi qui, altrimenti ignori pure questa email.
+abbiamo ricevuto la sua richiesta di cambio password (proveniente dall'indirizzo IP %s).
+Cliccando sul link qui sotto potrà aggiornare la sua password.
 
 %s
+
+Se NON ha effettuato questa richiesta, ignori questa mail (la sua password non verrà modificata).
+
+Cordiali saluti,
+il team foowd_
 ",
 
 

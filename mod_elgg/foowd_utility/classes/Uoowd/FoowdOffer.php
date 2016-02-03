@@ -148,17 +148,16 @@ class FoowdOffer{
 				$txt = "
 				Gentile %s,
 
-				ti comunichiamo che non e' possibile modificare l'offerta \" %s \" in quanto risulta facente parte di ordini ancora da chiudere.\n
+        non è possibile modificare l'offerta \" %s \" perché è attualmente coinvolta in ordini pendenti.
+        
+        Cordialmente,
+        Foowd
 
-				Cordialmente,
-				Foowd
-
-				\n
-				-------------------------------------------------------------
-				Informazioni da comunicare in caso di richiesta d'assistenza:
-				Identificativo Sito: # %s
-				Identificativo Offerta: # %s
-				";
+        -------------------------------------------------------------
+        Informazioni necessarie per richiedere assistenza:
+        Identificativo Sito: # %s
+        Identificativo Offerta: # %s
+        ";
 
 				$body = sprintf($txt, $pub->username, $bodyOf->Name, $pub->guid, $ofId);
 				elgg_send_email('Foowd Site', $pub->email, 'Modifica Offerta', $body, array() );
@@ -420,9 +419,9 @@ class FoowdOffer{
 		extract($ar);
 
 		if($who === 'usr'){
-			$preamble = "Con la presente ti informiamo che e' stata modificata un' offerta per la quale avevi espresso preferenza.";
+			$preamble = "Un'offerta su cui hai una (o più) preferenze è stata modificata.";
 		}else{
-			$preamble = "Con la presente ti informiamo che una delle tue offerte e' stata modificata con successo.";
+			$preamble = "Una delle tue offerte è stata modificata!";
 		}
 		
 		$msg = __CLASS__;

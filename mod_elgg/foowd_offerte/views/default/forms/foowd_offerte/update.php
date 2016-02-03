@@ -9,7 +9,7 @@ $fadd = new \Foowd\Action\FormAdd($vars);
 
 if($vars['Id']==='' || $vars['guid']==='' ){
 
-	echo '<div style="color:red;">Problema nella modifica del post</div>';
+	echo '<div style="color:red;">Attenzione! Problema con la modifica </div>';
 	return;
 }
 
@@ -19,7 +19,7 @@ if(isset($vars['offerPrefers'])){
 	$txt = "";
 	if(count($v['pending']) > 0){
 		$txt = "
-		<div class=\"foowd-advise-pending\">L'offerta non e' modificabile in quanto pendente su un'ordinazione ancora da chiudere.</div>
+		<div class=\"foowd-advise-pending\">Questa offerta non e\' al momento modificabile perch&eacute; coinvolta in ordini pendenti.</div>
 		";
 	}
 	elseif(count($v['newest']) > 0){
@@ -28,11 +28,11 @@ if(isset($vars['offerPrefers'])){
 		// la prima volta non ho ancora creato una modifica, pertanto posso solo avvisare
 		if($time == ''){
 			$txt = "
-			<div class=\"foowd-advise-newest\">Una volta modificata questa offerta avrai circa un'ora di tempo per modificarla.<br/>Al termine di questa scadenza invieremo una mail d'aggiornamente a te e agli utenti che stanno seguendo questa offerta.</div>
+			<div class=\"foowd-advise-newest\">Una volta modificata questa offerta avrai circa un'ora di tempo per fare altre modifiche.<br/>Dopo di che verr&agrave; inviata comunicazione delle modifiche agli utenti interessati.</div>
 			";
 		}else{	
 			$txt = "
-			<div class=\"foowd-advise-newest\">Hai tempo sino alle ore $time per modificare l'offerta.<br/> Al termine gli utenti interessati verranno informati in merito alle modifiche apportate.</div>
+			<div class=\"foowd-advise-newest\">Una volta modificata questa offerta potrai fare altre modifiche fino alle ore $time.<br/>Dopo di che verr&agrave; inviata comunicazione delle modifiche agli utenti interessati.</div>
 			";
 		}
 	}
@@ -81,7 +81,7 @@ if(file_exists($dir)){
 echo '<center><div id="image-container" '.$style.' >';
 ?>
 <script> document.write('Seleziona l\'area da ritagliare.'); </script>
-<noscript>Javascript disattivato: <br/> visualizzerai la nuova immagine dopo il salvataggio.</noscript>
+<noscript>Javascript disattivato: <br/> Salva per visualizzare la nuova immagine.</noscript>
 <?php
 
 echo '<div id="image">'.$img.'</div></div></center>';

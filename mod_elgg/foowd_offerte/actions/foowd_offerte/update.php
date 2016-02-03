@@ -162,7 +162,7 @@ if($r->response){
 	// sempre cancellare dopo un successo,
 	// in modo da forzare, secondo il mio algoritmo, il ricaricamento dei dati
 	elgg_clear_sticky_form($form);
-	system_message(elgg_echo("Aggiornata con succeso l'offerta ".$data['Id']));
+	system_message(elgg_echo("Offerta ".$data['Id']." aggiornata!"));
 	// forward('foowd_offerte/success');
 	forward(\Uoowd\Param::page()->all);
 }else{
@@ -170,7 +170,7 @@ if($r->response){
 
 	// nel caso non stia usando il debug impostato nel plugin, stampo un messaggio normale
 	if(! $str = \Uoowd\Param::dbg()){ 
-		$str = 'Non riesco a caricare l\'offerta';
+		$str = 'Impossibile caricare l\'offerta';
 	}
 	register_error(elgg_echo($str));
 }
@@ -190,7 +190,7 @@ extract($prefs);
 // se fa parte anche e solo di un ordine, allora non e' modificabile
 if(count($pending) > 0 ){	
 
-	register_error('Siamo spiacenti ma l\'offerta non e\' modificabile in quanto rientra in ordini ancora da chiudere.<br/> Per dettagli si consiglia di contattare i gestori del sito.' );
+	register_error('Questa offerta non e\' al momento modificabile perché coinvolta in ordini pendenti.<br/> Contatta lo staff per ulteriori informazioni.' );
 
 }
 // se ha solo preferenze newest, allora entro un'ora e' modificabile
@@ -203,7 +203,7 @@ else{
 	if(count($elggOfr) == 1 ) $elggOfr = $elggOfr[0];
 	// creo un nuovo oggetto
 	if(count($elggOfr) <= 0 ){
-		\Uoowd\Logger::addError('non esiste ancora');
+		\Uoowd\Logger::addError('Modifica offerta Id $ofId : non esiste ancora l\'ElggObject');
 		$elggOfr = new ElggObject();
 		$elggOfr->{$ofCron->checkEditMetatag} = $ofId;
 	}
@@ -218,7 +218,7 @@ else{
 	// tra un 1 e controllo di crontab ogni 30 minuti
 	$time = $ofCron->getEstimateExpiration($elggOfr);
 	$time = $time['time'];
-	system_message("La tua offerta e' stata modificata.<br/>Hai tempo sino alle ore $time per modificarla. Al termine gli utenti interessati verranno informati in merito alle modifiche apportate.");
+	system_message("Offerta aggiornata.<br/>Puoi fare altre modifiche fino alle ore $time. Dopo di che verr&agrave; inviata comunicazione delle modifiche agli utenti interessati.");
 
 }
 
