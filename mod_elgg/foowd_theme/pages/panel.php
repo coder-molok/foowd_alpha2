@@ -55,6 +55,28 @@ echo elgg_view('output/url', array(
 ?>
 </div>
 
+<?php
+if(!$user->isAdmin()) goto __not_admin;
+?>
+
+<div>
+<?php
+echo '<h3>Tags Suggeriti</h3>';
+echo '<p>visualizza l\'elenco dei tags suggeriti dagli utenti.</p>';
+echo elgg_view('output/url', array(
+		// associate to the action
+		'href' => \Uoowd\Param::page()->suggestedTags,
+	    'text' => elgg_echo('New Tags'),
+	    'class' => 'elgg-button',
+    ));
+?>
+</div>
+
+
+<?php
+__not_admin:
+?>
+
 </div><!-- end box -->
 
 <div class="foowd-hz-l"></div>

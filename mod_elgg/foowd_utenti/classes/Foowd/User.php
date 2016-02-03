@@ -176,7 +176,7 @@ class User {
 		}
 
 		// \Uoowd\Logger::addError("dopo offerente");
-
+		// recupero i dati che dovrei aver salvato nel db e verifico
 		$r = \Uoowd\API::Request('user', 'POST', $data);
 
 		if(!is_object($r)){
@@ -210,9 +210,21 @@ class User {
 
 		    // nel caso non stia usando il debug impostato nel plugin, stampo un messaggio normale
 		    if(! $str = \Uoowd\Param::dbg()){ 
-		        $str = "Errore remoto.";
+		        $str = "Errore remoto. Dati: ritornati";
 		    }
 		    \Uoowd\Logger::addError($str);
+		    \Uoowd\Logger::addError($r);
+
+		    // elimino l'utente che avevo appena creato: devo avere l'accesso per questo, in quanto l'utente attuale non risulta loggato!
+		    $access = elgg_set_ignore_access(true);
+		    $user->delete(true);
+		    $user->save();
+		    elgg_set_ignore_access($access);
+
+		    $session = elgg_get_session();
+		    $session->set('foowdForward', 'registration-error');
+		    // vedere in start.php l'hook alla funzione forward
+		    forward(elgg_get_site_url() . 'foowd_utenti/registration-error');
 		    return false;
 		}
 		

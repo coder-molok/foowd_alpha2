@@ -47,7 +47,7 @@ $str.= elgg_view('output/url', array(
     ));//."\n\r<br/><br/><br/>";
 $str.= elgg_view('output/url', array(
 		// associate to the action
-		'href' => elgg_get_site_url() . $vars['pid'] ."/single?Id=" . $of['Id'],
+		'href' => elgg_get_site_url() . $vars['pid'] ."/single?Id=" . $of['Id'] . '&Publisher=' . $vars['guid'],
 	    'text' => elgg_echo('Modifica'),
 	    //'is_action' => true,
 	    //'is_trusted' => true,

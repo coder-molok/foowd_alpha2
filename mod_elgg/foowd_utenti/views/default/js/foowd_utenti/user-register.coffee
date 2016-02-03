@@ -16,6 +16,10 @@
 
     elgg = require('elgg')
     $ = require('jquery')
+
+    # rimuovo tutti i default javascript di elgg
+    $('form, form *').unbind();
+
     # crop = require('crop')
     # crop = require('foowdCropLightbox')
     crop = require('foowd_utenti/gallery-crop-lightbox')
@@ -31,14 +35,16 @@
     Jhook.css {display: 'none'}
     Jgenre.val('standard')
     
+    # rimosso in quanto non presenti immagini
     # vedere come istanziato init di crop dentro a file
-    file = require('foowd_utenti/file')  
-    crop.create().initialize(file.fileCropInit())
+    # file = require('foowd_utenti/file')  
+    # crop.create().initialize(file.fileCropInit())
     # evento alla fine del caricamento
-    $( document ).on "foowd:update:file", (e, mydata)->
-        crop.create().initialize(file.fileCropInit())
-        return
+    # $( document ).on "foowd:update:file", (e, mydata)->
+    #     crop.create().initialize(file.fileCropInit())
+    #     return
 
+    # alert('lol')
 
     # for each input
     fct = form.factory();
@@ -59,7 +65,7 @@
 
         v = @el.val().trim()
         url=elgg.get_site_url()+'foowd_utility/user-check?'+@key+'='+v
-        console.log v
+        # console.log v
         elgg.get(url, {
             success: (resultText, success, xhr)=>
                 obj = JSON.parse(resultText)

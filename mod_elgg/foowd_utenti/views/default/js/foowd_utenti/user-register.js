@@ -11,9 +11,10 @@
       return root.returnExports = factory();
     }
   })(this, function() {
-    var $, Jform, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, crop, elgg, fct, file, flds, form, i, len, needAr, noNeedAr, setNeed, va;
+    var $, Jform, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, crop, elgg, fct, flds, form, i, len, needAr, noNeedAr, setNeed, va;
     elgg = require('elgg');
     $ = require('jquery');
+    $('form, form *').unbind();
     crop = require('foowd_utenti/gallery-crop-lightbox');
     form = require('foowdFormCheck');
     Jhook = $('#offer-hook');
@@ -24,11 +25,6 @@
       display: 'none'
     });
     Jgenre.val('standard');
-    file = require('foowd_utenti/file');
-    crop.create().initialize(file.fileCropInit());
-    $(document).on("foowd:update:file", function(e, mydata) {
-      crop.create().initialize(file.fileCropInit());
-    });
     fct = form.factory();
     ar = [];
     flds = ['email', 'username', 'name', 'password'];
@@ -43,7 +39,6 @@
       var url, v;
       v = this.el.val().trim();
       url = elgg.get_site_url() + 'foowd_utility/user-check?' + this.key + '=' + v;
-      console.log(v);
       return elgg.get(url, {
         success: (function(_this) {
           return function(resultText, success, xhr) {

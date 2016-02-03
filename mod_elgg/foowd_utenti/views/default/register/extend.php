@@ -52,8 +52,8 @@ $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars)
 	<?php
 		// $fadd = new \Foowd\Action\FormAdd($vars);
 		
-
-		$fadd->createField('Description', 'foowd:user:description:need', 'input/longtext');
+		// Descrizione utente
+		// $fadd->createField('Description', 'foowd:user:description:need', 'input/longtext');
 
 		
 		// $fadd->createField('file1', 'foowd:file:need', 'input/file', array('value'=>''));
@@ -94,7 +94,8 @@ elgg_require_js('foowd_utenti/file');
 elgg_require_js('foowd_utenti/user-register');
 elgg_require_js('foowdFormCheck');
 
-?>
+
+$template = <<<__TEMPLATE
 
 <div id="fileTmpl" style="display:none;">
 <div id="file-num_par-hook">
@@ -113,3 +114,6 @@ elgg_require_js('foowdFormCheck');
 	</div>
 </div>
 </div>
+
+__TEMPLATE;
+?>

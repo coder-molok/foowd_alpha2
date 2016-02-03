@@ -202,6 +202,7 @@ class Crop{
 		    // imagedestroy($im);
 		    $e['mess'] = 'errore in createfromstring';
 		    $e['tg'] = $target_file;
+		    \Uoowd\Logger::addError($e);
 		    $sticky->_setV($e);
 		    $this->status = false;
 		    return;
@@ -236,7 +237,9 @@ class Crop{
 
 		// salvo i dati del crop in formato json nella directory dell'immagine 
 		// utile per riformarla quando si modifica un'offerta
-		file_put_contents($saveDir.pathinfo ( $target_file , PATHINFO_FILENAME).'-crop.json', json_encode($crop));
+		if(! file_put_contents($saveDir.pathinfo ( $target_file , PATHINFO_FILENAME).'-crop.json', json_encode($crop)) ){
+			\Uoowd\Logger::addError('Errore nel salvataggio del file' . $target_file.'-crop.json');
+		}
 
 		// dimensioni di default thumbnail
 		$imsize['small'] = 100;
@@ -263,8 +266,8 @@ class Crop{
 		    
 		    // $Fname = $sdir.basename($target_file);
 		    $Fname = $sdir.get_input('offerGuid').'.jpg';
+		    if( strlen(get_input('offerGuid')) <= 0 ) \Uoowd\Logger::addError('Nome immagine target vuoto. Stringa di base: ' .$Fname);
 		    imagejpeg( $thumb , $Fname );
-
 		    if(!$this->emptyDirBut($sdir, basename($Fname))) return;
 		}
 

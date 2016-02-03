@@ -1,6 +1,41 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+### 03/02/2016
+
+- terminata pagina amministratori per tags, creata relativa action e modificate le API. Invio email agli amministratori
+
+- risolta iss#135
+
+- inserita possibilita' per amministratori di modificare le offerte, senza che ne consegua generazione di email di notifica
+
+- risolto bug icone socials
+
+- linearizzata gestione css in foowd_offerte e foowd_utenti
+
+
+
+### 02/02/2016
+
+- risolta issue#193
+
+- aggiunta pagina notifica errore di registrazione
+
+- wall: sostituita descrizione con elenco tags e aggiornamento helpers di handlebars. Vedi iss#135
+
+- impostata modifica per suggerimento tags
+
+
+
+### 01/02/2016
+
+- iniziate correzioni relative a iss#191
+
+
+### 31/01/2016
+
+- rimossi controlli su campo file e descrizione dal form di registrazione e relativi check javascript
+
 
 
 ### 26/01/2016

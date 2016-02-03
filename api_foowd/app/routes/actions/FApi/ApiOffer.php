@@ -266,6 +266,12 @@ class ApiOffer extends \Foowd\FApi{
 			//var_dump($Tag);
 		}
 
+		if(isset($data->Id)){
+			$value = $data->Id;
+			// nel caso sia una semplice lista
+			if(is_string($value) && preg_match('@[^"]*@',$value)) $data->Id = explode(',' , $value);
+		}
+
 		if(isset($data->order)){
 			$order = array_map('trim' , explode( ',', $data->order) );
 			// imposto asc come default

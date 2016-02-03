@@ -6,8 +6,7 @@
             </figure>
             <!-- Questo span permette ai contenuti di allinearsi con la larghezza dell'immagine
             In pratica detta quanto sia la larghezza del div contenitore (vedi WallController.adjustOverlays--> 
-              <span class="heart-overlay"
-                  >
+              <span class="heart-overlay">
             </span>
              <div class="product-post-menu" onclick="window.go2ProducerSite({{Publisher}},event)">
                    <span  class="foowd-icons foowd-icon-len">
@@ -36,7 +35,11 @@
             {{/if}}
         </div>
         <div class="product-post-body">
-                {{{shortDesc Description}}}
+                {{!-- 
+                    prima vi era la descrizione tagliata
+                    {{{shortDesc Description}}}
+                --}}
+                {{{listTags Tag}}}
         </div>
     </div>
 </li>
