@@ -37,6 +37,8 @@ return array(
 	'foowd:tag' => 'Tag',
 	'foowd:tag:need' => 'Tags (selezionane almeno uno) *',
 	'foowd:tag:error' => 'Devi selezionale almeno un tag',
+
+	'foowd:suggestedTags' => 'Suggerisci Tag',
 	
 	'foowd:minqt' => 'Numero minimo di Quote',
 	'foowd:minqt:need' => 'Numero minimo di Quote *',

@@ -7,12 +7,18 @@
 // gli Error servono per generare il messaggio di errore dentro al form
 $fadd = new \Foowd\Action\FormAdd($vars);
 
-if($vars['Id']==='' || $vars['guid']==='' ){
+// if($vars['Id']==='' || $vars['guid']==='' ){
 
-	echo '<div style="color:red;">Problema nella modifica del post</div>';
-	return;
+// 	echo '<div style="color:red;">Problema nella modifica del post</div>';
+// 	// return;
+// }
+
+$isAdmin = elgg_get_logged_in_user_entity()->isAdmin();
+
+
+if($isAdmin){
+	echo '<div class="error-admin">Ti ricordo che essendo un amministratore i cambiamenti da te apportati non comporteranno invio di email di notifica su questa offerta.</div>';
 }
-
 
 if(isset($vars['offerPrefers'])){
 	$v = $vars['offerPrefers'];
@@ -88,6 +94,7 @@ echo '<div id="image">'.$img.'</div></div></center>';
 
 // $fadd->createField('Tag', 'Tags (selezionane almeno uno) *', 'input/checkbox', array('inputs' => $vars['Tag'], 'attributes' =>$vars['TagAttributes']) );
 $fadd->createField('Tag', 'foowd:tag:need', 'input/checkbox', array('inputs' => $vars['Tag'], 'attributes' =>$vars['TagAttributes']) );
+$fadd->createField('suggestedTags', 'foowd:suggestedTags', 'input/text', array('value'=>'') );
 // $fadd->createField('Price', 'Importo', 'input/spinner', array("decimal"=>2, "integer"=>"8"));
 $fadd->createField('Quota', 'foowd:quota:need', 'input/text', array('maxlength'=>"9"));
 $fadd->createField('Unit','foowd:unit:need', 'input/select', $vars['_Unit']);

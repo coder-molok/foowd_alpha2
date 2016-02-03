@@ -64,13 +64,11 @@ function utenti_init(){
     // elgg_view_exists('profile/detai');
     // elgg_extend_view('profile/details', 'extend/profile');
     
-    // Carico il mio css di default
+    // Carico il mio css di default: 
+    // tutti gli stili degli utenti sono immessi in foowd-utenti, che di fatto viene generato includendo tutti gli stylus
     $css =  'mod/'.\Uoowd\Param::pid()."/css/foowd-utenti.css";
     elgg_register_css('foowd-utenti', $css , 509);
     elgg_load_css('foowd-utenti');
-
-    $css =  'mod/'.\Uoowd\Param::pid()."/css/foowd-profile.css";
-    elgg_register_css('foowd-profile', $css , 509);
 
 
     // dipendenze
@@ -181,8 +179,18 @@ function foowd_utenti_handler($segments){
         return true;
     }
 
+    if($segments[0] === 'suggestedTags'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/suggestedTags.php';
+        return true;
+    }
+
     if($segments[0] === 'registration-error'){
         require elgg_get_plugins_path() . 'foowd_utenti/views/default/register/register-error.php';
+        return true;
+    }
+
+    if($segments[0] === 'foowd-suggested-tags'){
+        require elgg_get_plugins_path() . 'foowd_utenti/actions/foowd-suggested-tags.php';
         return true;
     }
 

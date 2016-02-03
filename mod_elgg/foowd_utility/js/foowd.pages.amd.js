@@ -30,11 +30,13 @@ define(
 		"social":"foowd_utenti/social",		// pagina social: primi test sulle OAuth apps
 		"panel": "panel", 					// pagina del pannello
 		"purchase": "foowd_utenti/purchase",// pagina contenente l'elenco degli ordini ancora da chiudere
+		"suggestedTags": "foowd_utenti/suggestedTags", // pagina per visualizzazione tags suggeriti
 		"friendsManage": "friend_request",	// pagina del plugin friend request
 		"services" : "foowd_utility/services", // pagina servizi che comunicano con foowd-services.js
 		"elggAPI": "services/api/rest/json/?method=", 	// pagina API REST di foowd
 		"action" : {
-			"initPurchase" : "foowd-purchase-leader"	// action per far partire l'ordine
+			"initPurchase" : "foowd-purchase-leader",	// action per far partire l'ordine
+			"suggestedTags" : "foowd-suggested-tags"		// action per gestione tags da pannello di controllo
 		}
 	}
 );

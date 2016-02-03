@@ -118,6 +118,9 @@ class API{
 
 	/**
 	 * dispatch per le chiamate
+	 *
+	 * esempio get: \Uoowd\API::offerGet('offerId=15&publisher=45');
+	 * 
 	 * @param  [type] $name      [description]
 	 * @param  [type] $arguments [description]
 	 * @return [type]            [description]

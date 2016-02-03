@@ -45,22 +45,26 @@
 
 // se l'immagine e' gia' esistente, allora provvedo subito ad inizializzare la funzione
 $(window).on('load', function(){
+    // ritardo la visualizzazione perche' la descrizione del prodotto via elgg sballa i posizionameni quando viene a caricarsi
+    setTimeout(function(){
 
-    var img = document.getElementById('image').getElementsByTagName('img')[0];
-    if(img){
+        var img = document.getElementById('image').getElementsByTagName('img')[0];
+        if(img){
+    
+            // imposto la larghezza a 400
+            var w = 400;
+            $(img).width(w);
+            img.id = 'sorgente';
+            
+            $img = img;
+            $img.height *= w/$img.width;
+            $img.width = w;
+            start();
+        }else{
+            // alert('nada');
+        }
 
-        // imposto la larghezza a 400
-        var w = 400;
-        $(img).width(w);
-        img.id = 'sorgente';
-        
-        $img = img;
-        $img.height *= w/$img.width;
-        $img.width = w;
-        start();
-    }else{
-        // alert('nada');
-    }
+    }, 2000);
 });
 
 

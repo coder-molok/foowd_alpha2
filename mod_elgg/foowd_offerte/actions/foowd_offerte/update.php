@@ -10,6 +10,7 @@
 gatekeeper();
 
 $form = \Uoowd\Param::pid().'/update';
+$isAdmin = elgg_get_logged_in_user_entity()->isAdmin();
 
 // set sticky: avviso il sistema che gli input di questo form sono sticky
 elgg_make_sticky_form($form);
@@ -31,10 +32,21 @@ $data = $f->manageForm($form);
 
 // imposto la data
 // $data['Modified'] =date('Y-m-d H:i:s');
-$data['Publisher']=elgg_get_logged_in_user_guid();
+$data['Publisher'] = get_input('guid'); //elgg_get_logged_in_user_guid();
 
+
+// Se ci sono tags suggeriti, parto con la classe
+$tgs = get_input('suggestedTags');
+if($tgs){
+	$s = new \Foowd\SuggestedTags();
+	$tgs = $s->setSuggested( get_input('guid') , get_input('Id'), $tgs);
+	$tgs = implode(', ', $tgs);
+	system_message('Grazie per i tag suggeriti: <br/>'.$tgs.'<br/>Saranno aggiunti automaticamente alla tua offerta una volta approvati.');
+}
 
 // se non ho uploadato un nuovo file allora e' maggiore di zero
+// il offerGuid e' un parametro usato nel crop per generare il nome dell'immagine
+set_input('offerGuid', get_input('Id'));
 if($_FILES['file']['error']>0){
 	// controllo se sono avvenuti dei cambiamenti
 	$crop = get_input('crop');
@@ -92,8 +104,13 @@ $inputDiffs = $diffs['inputDiffs'];
 
 // \Uoowd\Logger::addError($diffs);
 
-// Se il conto non e' zero e i campi modificati non sono modificabili a priori (ad esempio i Tag)
-if(count($body) > 0 && !$editableByDiff ) goto __notEditable;
+// se non e' amministratore svolgo i normali controlli
+// se invece lo e', allora in automatico puo' svolgere modifiche senza che vengano inviate mail: 
+// 		infatti viene usato il blocco di modifica offerta, che in ogni caso svolge un forward()
+if(!$isAdmin){
+	// Se il conto non e' zero e i campi modificati non sono modificabili a priori (ad esempio i Tag)
+	if(count($body) > 0 && !$editableByDiff ) goto __notEditable;	
+} 
 
 ////////////////////// MODIFICO OFFERTA ///////////////////////////////////////////////////////////////////
 // \Uoowd\Logger::addError('posso modificare senza problemi');
@@ -112,18 +129,6 @@ if($r->response){
 	// elgg_clear_sticky_form('foowd_offerte/add');
 	// $input = (array) $r->body[0];
 	
-
-	// dopo aver salvato i contenuti del post posso provare a salvare le immagini
-	set_input('offerGuid', $r->Id);
-
-	// se c'e' stato il cambiamento senza l'upload svolgo semplicemente il crop, 
-	// altri procedo col normale salvataggio
-	// if($change){
-	// 	$crop->crop();
-	// }else{
-	// 	$crop->saveImg();
-	// }
-
 
 	//NB: tutta questa parte dell'insuccesso del crop non la svolgo
 	//		in quanto almeno un'immagine di default ci vuole
@@ -164,7 +169,11 @@ if($r->response){
 	elgg_clear_sticky_form($form);
 	system_message(elgg_echo("Aggiornata con succeso l'offerta ".$data['Id']));
 	// forward('foowd_offerte/success');
-	forward(\Uoowd\Param::page()->all);
+	if($isAdmin){
+		forward();
+	}else{
+		forward(\Uoowd\Param::page()->all);
+	}
 }else{
 	$_SESSION['sticky_forms'][$form]['apiError']=$r;
 
@@ -173,12 +182,14 @@ if($r->response){
 		$str = 'Non riesco a caricare l\'offerta';
 	}
 	register_error(elgg_echo($str));
+	forward(REFERER);
 }
 /////////////////////////////////////////////////////// Fine Update ///////////////////////////////////
 
 
 
 __notEditable:
+
 
 // se sono qui, vuol dire che $body non e' vuoto
 $prefs = $ofCron->prefersByState($body);

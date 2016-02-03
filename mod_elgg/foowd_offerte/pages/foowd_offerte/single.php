@@ -18,6 +18,7 @@ if(!elgg_is_sticky_form($form) ){
 
 	// sarebbe meglio implementare tutto da lui, magari mediante una classe astratta con parametri fissi che vengono estesi!
 	$data['Publisher']=elgg_get_logged_in_user_guid();
+	if(elgg_get_logged_in_user_entity()->isAdmin()) $data['Publisher'] = get_input('Publisher');
 	$data['Id'] = get_input('Id');
 	$data['type']='search';
 
@@ -133,7 +134,7 @@ $vars['_Unit'] = $u;
 
 // aggiungo il nome del form alle variabili, visto che usero' sticky e $fadd della view dovra' chiamare \Uoowd\Sticky
 // altri valori utili per il form
-$vars['guid']=elgg_get_logged_in_user_guid();
+$vars['guid']=  $data['Publisher'];//elgg_get_logged_in_user_guid();
 $vars['sticky']=$form;
 
 $vars = array_merge($vars, (array) $session);
