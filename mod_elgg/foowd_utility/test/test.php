@@ -9,23 +9,28 @@
 
 
 admin_gatekeeper();
-/**
- * npm install -g
- *
- * jake
- *
- * foowd_theme/scripts/updates
- * da foowd_theme
- */
 
-echo 'ciao';
+$s = new \Foowd\SuggestedTags();
 
-// promemoria stylus
-// foowdPink = rgb(250,230,239)
-// foowdTopbar = rgb(200, 16, 99)
-// foowdTopbarGreen = rgb(102, 255, 102)
-// foowdDark = hsl(333, 41%, 37%)
-// foowdKeen = hsl(302, 41%, 68%)
+$river = $s->river;
+
+$tgs = '   ,  su per tol, lskd ,  , lsic di m , ';
+
+$s->setSuggested('11', '11', $tgs);
+
+$tgs = ' ciao , miao, lol, ';
+$s->setSuggested('11', '11', $tgs);
+
+$tgs = 'miao lol, lol  , ciao';
+$s->setSuggested('11', '13', $tgs);
+
+$tgs = ' miao lol, sor, ni , ciao';
+$s->setSuggested('14', '11', $tgs);
+
+$tgs = ' miao lol, sor, ni , ciao, limone duro, durello , test mio';
+$s->setSuggested('17', '21', $tgs);
+
+return;
 
 $f = new \Uoowd\FoowdOffer();
 

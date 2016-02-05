@@ -84,6 +84,11 @@ return array(
 	'foowd:user:company:need' => 'Denominazione Societ&aacute; **',
 	'foowd:user:company:error' => 'Manca la Denominazione Societ&aacute;',
 
+	'foowd:user:owner' => 'Nome e Cognome Titolare',
+	'foowd:user:owner:optional' => 'Nome e Cognome Titolare (opzionale)',
+	'foowd:user:owner:need' => 'Nome e Cognome Titolare **',
+	'foowd:user:owner:error' => 'Mancano Nome e Cognome del Titolare',
+
 	'foowd:user:email:error' => 'Indirizzo email non valido',
 
 	// Immagini

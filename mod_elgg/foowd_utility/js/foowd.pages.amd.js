@@ -31,6 +31,7 @@ define(
 		"panel": "panel", 					// pagina del pannello
 		"purchase": "foowd_utenti/purchase",// pagina contenente l'elenco degli ordini ancora da chiudere
 		"suggestedTags": "foowd_utenti/suggestedTags", // pagina per visualizzazione tags suggeriti
+		"evaluatingUsers": "foowd_utenti/evaluatingUsers", // visualizza gli utenti offerenti da approvare
 		"friendsManage": "friend_request",	// pagina del plugin friend request
 		"services" : "foowd_utility/services", // pagina servizi che comunicano con foowd-services.js
 		"elggAPI": "services/api/rest/json/?method=", 	// pagina API REST di foowd

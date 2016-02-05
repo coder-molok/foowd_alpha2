@@ -18,8 +18,60 @@
 [class^="foowd-page-"]
     margin auto
 
+
+// form settings utente
+.elgg-form-usersettings-save
+    
+    display: none
+    
+    input
+        
+        margin-top: 3px
+
+    label
+        position: relative
+    
+        errorBackground = foowd5 //#B98686
+        [class^=error-]
+            position: absolute
+            top: -4px
+            // top: 0
+            // left: 150px
+            margin-left: 20px
+            padding: 3px 7px
+            background-color foowdl[5] //errorBackground
+            color: white //red
+            white-space: nowrap
+            font-style: italic
+            font-size: 0.8em
+        
+            &:before
+                width: 0
+                height: 0
+                border-top: 9px solid transparent
+                border-right: 21px solid errorBackground
+                border-bottom: 0px solid transparent
+                content: ''
+                position: absolute
+                left: -20px
+                top 0px
+
+.foowd-user-settings-admin, .foowd-user-settings-admin-evaluating
+    background-color: lighten(foowd5, 50%)
+    padding: 10px
+    margin: 5px
+
+// classe per la gestione dei settings
+.foowd-user-settings-admin-evaluating
+    background-color: lighten(foowd3, 50%)
+
 .foowd-panel-container, .foowd-profilo-container
-    // background-color: red
+    
+    .evaluating
+        background-color: foowd3
+        padding: 5px
+        margin-bottom: 10px
+        
 
     /*margin: 10px*/
     position: relative
@@ -66,4 +118,18 @@
                 bottom: 0
                 margin-top: 20px
                 vertical-align: bottom
+                
+
+.foowd-page-evaluatingUsers
+    
+    .single
+        
+        margin: 20px
+        
+        .user
+            font-weight: bold
+        
+        .link
+            
+            margin-left: 30px
    

@@ -100,11 +100,15 @@
     ar.push({cls:'Piva', obj:{inpt:'form.elgg-form-register [name="Piva"]', key:'Piva', el:'form.elgg-form-register [name="Piva"]', msg: 'foowd:user:piva:error'} })
     ar.push({cls:'Text', obj:{inpt:'form.elgg-form-register [name="Address"]', key:'Address', el:'form.elgg-form-register [name="Address"]', msg: 'foowd:user:address:error'} })
     ar.push({cls:'Text', obj:{inpt:'form.elgg-form-register [name="Company"]', key:'Company', el:'form.elgg-form-register [name="Company"]', msg: 'foowd:user:company:error'} })
+    ar.push({cls:'Text', obj:{inpt:'form.elgg-form-register [name="Owner"]', key:'Owner', el:'form.elgg-form-register [name="Owner"]', msg: 'foowd:user:owner:error'} })
     fct.pushFromArray(ar)
     # di default nessuno di questi e' obbligatorio
 
     needAr = ['email', 'username','name']
     noNeedAr = ['Site']
+    # se l'utente e' offerente
+    needOfferente = ['Phone', 'Owner', 'Piva', 'Address', 'Company']
+    
     setNeed = (bool)->
         fct.each( ()->
             if (@key in needAr) 
@@ -116,6 +120,7 @@
                 
             return
             )
+        console.log fct
     setNeed(false)
 
 
@@ -128,8 +133,8 @@
             # impongo che nome visualizzato sia il nick name
             Jname = $('form.elgg-form-register [name="name"]').val($('form.elgg-form-register [name="username"]').val())
 
-            if Jgenre.val() is 'offerente'
-                if not file.atLeastOne() then alert "Devi inserire almeno un'immagine"
+            # if Jgenre.val() is 'offerente'
+            #     if not file.atLeastOne() then alert "Devi inserire almeno un'immagine"
 
             pwd = $('form.elgg-form-register [name="password"]').val()
             pwd2 = $('form.elgg-form-register [name="password2"]').val()

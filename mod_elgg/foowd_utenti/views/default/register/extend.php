@@ -16,6 +16,7 @@ if(isset($idAuth)){
 // gli Error servono per generare il messaggio di errore dentro al form
 // var_dump($vars);
 
+
 $fadd = new \Foowd\Action\Register($vars);
 
 // opzioni disponibili
@@ -41,6 +42,7 @@ if (isset($vars['entity'])) {
 //echo elgg_view('input/dropdown', $vars);
 
 $vars = array_merge($defaults, $vars);
+
 
 // istanzio per la creazione
 // $fadd = new \Foowd\Action\Register();
@@ -73,6 +75,7 @@ $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars)
 	<a href="<?php echo elgg_echo('foowd:image-tmp')?>" id="url" style="display:none" >testo</a>
 
 	<?php
+	$fadd->createField('Owner','foowd:user:owner:need', 'input/text', array('maxlength'=>"100"));
 	$fadd->createField('Piva','foowd:user:piva:need', 'input/text', array('maxlength'=>"11"));
 	$fadd->createField('Address','foowd:user:address:need', 'input/text', array('maxlength'=>"150"));
 	$fadd->createField('Company','foowd:user:company:need', 'input/text', array('maxlength'=>"100"));

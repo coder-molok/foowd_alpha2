@@ -144,6 +144,18 @@ namespace Uoowd;
 			return elgg_get_site_url().'producer?producerId='.$id;	
 		}
 
+		/* ritorno path specifici. */
+		public static function userPath($option, $guid){
+			$user = get_entity($guid);
+
+			if(!$user) return 'No Entity associated.';
+			// pagina impostazioni
+			if($option == 'settings'){
+				return elgg_get_site_url().'settings/user/'.$user->username;
+			}
+
+		}
+
 
 		public static function tags(){
 			return elgg_get_plugins_path().'foowd_utility/views/default/plugins/foowd_utility/'.self::$par['tags'];

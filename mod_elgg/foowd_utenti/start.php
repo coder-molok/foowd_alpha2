@@ -27,12 +27,20 @@ function utenti_init(){
     elgg_register_plugin_hook_handler('register', 'user', array($user, 'register'), 0);
     // forward to uservalidationbyemail/emailsent page after register. Come prima priorita' massima per sovrascrivere le azioni di uservalidationbyemail
     elgg_register_plugin_hook_handler('forward', 'system', 'foowd_after_registration_url', 0);
+    // se volessi rimuovere l'hook
+    // elgg_unregister_plugin_hook_handler('register', 'user', array('\Foowd\User', 'register'));
 
     // wrap new user creation settings it's default lang
     elgg_register_event_handler('create','user', "set_def_lang");
 
-    // se volessi rimuovere l'hook
-    // elgg_unregister_plugin_hook_handler('register', 'user', array('\Foowd\User', 'register'));
+    /**** MODIFICHE SALVATAGGIO UTENTE **********/
+    // sovrascrivo il salvataggio delle impostazioni utenti per permettere la manipolazione da parte dell'amministratore
+    elgg_register_plugin_hook_handler('usersettings:save', 'user', 'foowd_admin_saving', 0);
+    // L'handler sottostante non e' stato implementato, ma lo tengo di promemoria
+    // voglio che avvenga come ultimo controllo
+    // elgg_register_event_handler('update','user', "foowd_user_update_event", 1000);
+
+
 
     //register a new page handler: solo di prova.
     elgg_register_page_handler('foowd_utenti', 'foowd_utenti_handler');
@@ -149,11 +157,6 @@ function foowd_utenti_handler($segments){
         return true;
     }
 
-    if($segments[0] === 'dati'){
-        require elgg_get_plugins_path() . 'foowd_utenti/pages/dati.php';
-        return true;
-    }
-
     if($segments[0] === 'gallery'){
         require elgg_get_plugins_path() . 'foowd_utenti/pages/gallery.php';
         return true;
@@ -181,6 +184,11 @@ function foowd_utenti_handler($segments){
 
     if($segments[0] === 'suggestedTags'){
         require elgg_get_plugins_path() . 'foowd_utenti/pages/suggestedTags.php';
+        return true;
+    }
+
+    if($segments[0] === 'evaluatingUsers'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/evaluatingUsers.php';
         return true;
     }
 
@@ -305,6 +313,13 @@ function checkUser(){
  */
 function foowd_after_registration_url($hook, $type, $value, $params) {
     $url = elgg_extract('current_url', $params);
+
+    // se e' il link cliccato nella mail di registrazione faccio partire la notifica agli amministratori(in caso di utente offerente)
+    if(preg_match('@uservalidationbyemail/confirm@',$params['current_url']) ){
+        $f = new \Foowd\Action\FoowdUpdateUser();
+        $user = get_input('u');
+        $f->foowd_user_confirm_notify_admins($user);
+    }
     
     if ($url == elgg_get_site_url() . 'action/register') {
 
@@ -318,4 +333,20 @@ function foowd_after_registration_url($hook, $type, $value, $params) {
         }
 
     }
+}
+
+
+
+// in ordine: prima viene chiamato admin_saving e poi foowd_user_update_event
+// 
+// foowd_admin_saving viene chiamata sempre, al di la che l'utente venga aggiornato o meno
+// 
+// foowd_user_update viene invece chiamato solamente se si modificano dei dati dell'oggetto
+
+// questo si verifica anche qualora non modifichi i campi dell'oggetto elgg:
+// visto che l'amministratore potrebbe svolgere solo cambiamenti relativi a dati API, devo lavorare qui
+function foowd_admin_saving($hook, $type, $value, $params){
+    // carico la classe adibita all'aggiornamento e provvedo a parsare i dati
+    $f = new \Foowd\Action\FoowdUpdateUser();
+    $f->foowd_user_extra_update();
 }

@@ -109,6 +109,7 @@
         <column name="phone" phpName="Phone" type="VARCHAR" size="15" required="false" />
         <column name="address" phpName="Address" type="VARCHAR" size="150" required="false" />
         <column name="company" phpName="Company" type="VARCHAR" size="100" required="false" />
+        <column name="owner" phpName="Owner" type="VARCHAR" size="100" required="false" />
 
         <!-- VARBINARY indica il MEDIUMBLOB di mysql-->
         <!-- in caso di errore ricordarsi di impostare l'opzione max_allowed_packet=16M in mysql.ini -->
@@ -116,7 +117,7 @@
 
         <behavior name="validate">
             <parameter name="name" value="{column: name, validator: NotBlank}" />
-            <parameter name="genre" value="{column: genre, validator: PropelFoowd, options: {type: enum, list:'standard, offerente'}}" />
+            <parameter name="genre" value="{column: genre, validator: PropelFoowd, options: {type: enum, list:'standard, offerente, evaluating'}}" />
             <parameter name="external" value="{column: externalid, validator: PropelFoowd, options: {type: integer}}" />
             <!-- <parameter name="rule1" value="{column: externalid, validator: Integer}" /> -->
         </behavior>

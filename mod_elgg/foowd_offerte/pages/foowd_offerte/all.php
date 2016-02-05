@@ -2,6 +2,15 @@
 // probabilmente questa dovrebbe essere pubblica...
 gatekeeper();
 
+$user = elgg_get_logged_in_user_entity();
+
+if($user->Genre != 'offerente' || !$user->isAdmin()){
+	register_error('Siamo spiecenti ma non godi dei permessi per accedere alla pagina cercata.');
+	forward(REFERER);
+}
+
+
+
 $appendUrl ="type=search&Publisher=".elgg_get_logged_in_user_guid();
 $r = \Uoowd\API::offerGet($appendUrl);
 

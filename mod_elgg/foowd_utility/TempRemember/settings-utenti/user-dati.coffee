@@ -67,18 +67,18 @@
 
 
     # NB: il campo "name" non e' univoco: utenti differenti possono avere lo stesso Name
-    # ar.push({cls:'Text', obj:{inpt:'form.elgg-form-foowd-dati input[name="name"]', key:'name', el:'form.elgg-form-foowd-dati [name="name"]', msg: 'foowd:user:name:error'} })
-    # ar.push({cls:'Email', obj:{inpt:'form.elgg-form-foowd-dati [name="Email"]', key:'Email', el:'form.elgg-form-foowd-dati [name="Email"]', msg: 'foowd:user:email:error', 'afterCheck': ajaxCheck} })
+    # ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save input[name="name"]', key:'name', el:'form.elgg-form-usersettings-save [name="name"]', msg: 'foowd:user:name:error'} })
+    # ar.push({cls:'Email', obj:{inpt:'form.elgg-form-usersettings-save [name="Email"]', key:'Email', el:'form.elgg-form-usersettings-save [name="Email"]', msg: 'foowd:user:email:error', 'afterCheck': ajaxCheck} })
     
     # almeno di 4 lettere
-    # ar.push({cls:'Text', obj:{inpt:'form.elgg-form-foowd-dati [name="username"]', key:'username', el:'form.elgg-form-foowd-dati [name="username"]', msg: 'foowd:user:username:error', 'afterCheck': ajaxCheck} })
+    # ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="username"]', key:'username', el:'form.elgg-form-usersettings-save [name="username"]', msg: 'foowd:user:username:error', 'afterCheck': ajaxCheck} })
     
-    # ar.push({cls:'Text', obj:{inpt:'form.elgg-form-foowd-dati [name="password"]', key:'password', el:'form.elgg-form-foowd-dati [name="password"]', msg: 'foowd:user:password:error', 'afterCheck': ajaxCheck} })
-    ar.push({cls:'Phone', obj:{inpt:'form.elgg-form-foowd-dati [name="Phone"]', key:'Phone', el:'form.elgg-form-foowd-dati [name="Phone"]', msg: 'foowd:user:phone:error'} })
-    ar.push({cls:'WebDomain', obj:{inpt:'form.elgg-form-foowd-dati [name="Site"]', key:'Site', el:'form.elgg-form-foowd-dati [name="Site"]', msg: 'foowd:user:site:error'} })
-    ar.push({cls:'Piva', obj:{inpt:'form.elgg-form-foowd-dati [name="Piva"]', key:'Piva', el:'form.elgg-form-foowd-dati [name="Piva"]', msg: 'foowd:user:piva:error'} })
-    ar.push({cls:'Text', obj:{inpt:'form.elgg-form-foowd-dati [name="Address"]', key:'Address', el:'form.elgg-form-foowd-dati [name="Address"]', msg: 'foowd:user:address:error'} })
-    ar.push({cls:'Text', obj:{inpt:'form.elgg-form-foowd-dati [name="Company"]', key:'Company', el:'form.elgg-form-foowd-dati [name="Company"]', msg: 'foowd:user:company:error'} })
+    # ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="password"]', key:'password', el:'form.elgg-form-usersettings-save [name="password"]', msg: 'foowd:user:password:error', 'afterCheck': ajaxCheck} })
+    ar.push({cls:'Phone', obj:{inpt:'form.elgg-form-usersettings-save [name="Phone"]', key:'Phone', el:'form.elgg-form-usersettings-save [name="Phone"]', msg: 'foowd:user:phone:error'} })
+    ar.push({cls:'WebDomain', obj:{inpt:'form.elgg-form-usersettings-save [name="Site"]', key:'Site', el:'form.elgg-form-usersettings-save [name="Site"]', msg: 'foowd:user:site:error'} })
+    ar.push({cls:'Piva', obj:{inpt:'form.elgg-form-usersettings-save [name="Piva"]', key:'Piva', el:'form.elgg-form-usersettings-save [name="Piva"]', msg: 'foowd:user:piva:error'} })
+    ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="Address"]', key:'Address', el:'form.elgg-form-usersettings-save [name="Address"]', msg: 'foowd:user:address:error'} })
+    ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="Company"]', key:'Company', el:'form.elgg-form-usersettings-save [name="Company"]', msg: 'foowd:user:company:error'} })
     fct.pushFromArray(ar)
     # di default nessuno di questi e' obbligatorio
 
@@ -98,33 +98,36 @@
             )
     setNeed(false)
 
+   
+    form.submit 'form.elgg-form-usersettings-save'
 
-    # nascondo il campo "name" in quanto forviante
-    $('.mtm').css({'display':'none'})
+    if $('[name="js_admin"]').val() == 'amministratore' or Jgenre.val() != 'standard'
+            # Jhook.fadeIn('slow')
+            setNeed(true)
+    else
+        # Jhook.fadeOut('slow')
+        Jhook.css({'display': 'none'})
+        setNeed(false)
+        $('#offer-hook').find('[type="text"]').each(
+            ()->
+                this.val('')
+                $(this).attr('disabled',true)
+        )
     
-    form.submit 'form.elgg-form-foowd-dati'
-
     
     checkGenre = ()->
         if this.val() is 'offerente'
-            Jhook.fadeIn('slow')
-            setNeed(true)
         else
-            Jhook.fadeOut('slow')
+            # Jhook.fadeOut('slow')
             setNeed(false)
             # procedura di azzeramento del form extra
-            $('#offer-hook').find('[type="text"]').each(
-                ()->
-                    this.val('')
-            )
-
 
     # if Jgenre.lenght is 1 
-
-    checkGenre.call(Jgenre)
+    # rimuovo i check perche' ho modificato il form ed ora questi controlli avvengono via php
+    # checkGenre.call(Jgenre)
     
-    Jgenre.on "change", ()->
-        checkGenre.call($(this))
+    # Jgenre.on "change", ()->
+    #     checkGenre.call($(this))
 
 
 

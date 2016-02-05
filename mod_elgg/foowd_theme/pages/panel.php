@@ -73,6 +73,20 @@ echo elgg_view('output/url', array(
 </div>
 
 
+<div>
+<?php
+echo '<h3>Utenti in Approvazione</h3>';
+echo '<p>visualizza l\'elenco degli utenti che si sono proposti come offerenti.</p>';
+echo elgg_view('output/url', array(
+		// associate to the action
+		'href' => \Uoowd\Param::page()->evaluatingUsers,
+	    'text' => elgg_echo('Visualizza'),
+	    'class' => 'elgg-button',
+    ));
+?>
+</div>
+
+
 <?php
 __not_admin:
 ?>
@@ -94,8 +108,13 @@ __not_admin:
 <?php 
 
 
+if($user->Genre == 'evaluating'){
+	echo '<div class="pll evaluating">Stiamo valutando la tua richiesta di registrazione come produttore.<br/>Una volta approvata riceverai una mail di notifica e protrai accedere alle funzionalit&agrave; produttore di questo pannello.</div>';
+}
 
 echo '<p class="pll">Salve '.$user->username.',<br/> scegli cosa fare:</p>';
+
+
 ?>
 <div class="box">
 

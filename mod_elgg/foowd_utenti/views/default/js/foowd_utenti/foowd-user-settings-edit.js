@@ -11,9 +11,38 @@
       return root.returnExports = factory();
     }
   })(this, function() {
-    var $, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, checkGenre, elgg, fct, flds, form, i, len, needAr, noNeedAr, setNeed, va;
+    var $, Jgenre, Jhook, JmailLabel, advise, ajaxCheck, ar, checkGenre, elgg, fct, flds, form, genre, i, len, needAr, noNeedAr, setNeed, va;
     elgg = require('elgg');
     $ = require('jquery');
+    $('.elgg-form-usersettings-save').fadeIn('slow');
+    $('.elgg-body').each(function() {
+      var html, mod;
+      html = $(this).html();
+      mod = $(this).closest('.elgg-module');
+      $(html).insertAfter(mod);
+      return mod.remove();
+    });
+    $('<label for="name">Username</label>').insertBefore($('input[name="name"]').attr('disabled', true));
+    $('[for="name"], [name="name"]').wrapAll('<div></div>');
+    $('<label for="email">Email</label>').insertBefore($('input[name="email"]'));
+    $('[for="email"], [name="email"]').wrapAll('<div></div>');
+    $('p input[name*="password"]').closest('p').css('display', 'none');
+    $('select[name="language"]').css({
+      'display': 'none'
+    });
+    $('input[name="method[email]"]').closest('table').css({
+      'display': 'none'
+    });
+    genre = $('[name="js_admin"]').val() === 'amministratore';
+    console.log(genre);
+    if (genre) {
+      advise = $('<div/>').insertAfter($('.elgg-breadcrumbs'));
+      advise.html('Salve amministratore, ti ricordo che stai modificando la pagina di un utente.').addClass('foowd-user-settings-admin');
+    }
+    if ($('[name="Genre"]').val() === 'evaluating') {
+      advise = $('<div/>').insertAfter($('.elgg-breadcrumbs'));
+      advise.html('La tua richiesta &egrave; in fase di approvazione. <br/>Di seguito puoi visionare i dati che hai inserito:').addClass('foowd-user-settings-admin-evaluating');
+    }
     form = require('foowdFormCheck');
     Jhook = $('#offer-hook');
     Jgenre = $('[name="Genre"]');
@@ -57,50 +86,59 @@
     ar.push({
       cls: 'Phone',
       obj: {
-        inpt: 'form.elgg-form-foowd-dati [name="Phone"]',
+        inpt: 'form.elgg-form-usersettings-save [name="Phone"]',
         key: 'Phone',
-        el: 'form.elgg-form-foowd-dati [name="Phone"]',
+        el: 'form.elgg-form-usersettings-save [name="Phone"]',
         msg: 'foowd:user:phone:error'
       }
     });
     ar.push({
       cls: 'WebDomain',
       obj: {
-        inpt: 'form.elgg-form-foowd-dati [name="Site"]',
+        inpt: 'form.elgg-form-usersettings-save [name="Site"]',
         key: 'Site',
-        el: 'form.elgg-form-foowd-dati [name="Site"]',
+        el: 'form.elgg-form-usersettings-save [name="Site"]',
         msg: 'foowd:user:site:error'
       }
     });
     ar.push({
       cls: 'Piva',
       obj: {
-        inpt: 'form.elgg-form-foowd-dati [name="Piva"]',
+        inpt: 'form.elgg-form-usersettings-save [name="Piva"]',
         key: 'Piva',
-        el: 'form.elgg-form-foowd-dati [name="Piva"]',
+        el: 'form.elgg-form-usersettings-save [name="Piva"]',
         msg: 'foowd:user:piva:error'
       }
     });
     ar.push({
       cls: 'Text',
       obj: {
-        inpt: 'form.elgg-form-foowd-dati [name="Address"]',
+        inpt: 'form.elgg-form-usersettings-save [name="Address"]',
         key: 'Address',
-        el: 'form.elgg-form-foowd-dati [name="Address"]',
+        el: 'form.elgg-form-usersettings-save [name="Address"]',
         msg: 'foowd:user:address:error'
       }
     });
     ar.push({
       cls: 'Text',
       obj: {
-        inpt: 'form.elgg-form-foowd-dati [name="Company"]',
+        inpt: 'form.elgg-form-usersettings-save [name="Company"]',
         key: 'Company',
-        el: 'form.elgg-form-foowd-dati [name="Company"]',
+        el: 'form.elgg-form-usersettings-save [name="Company"]',
         msg: 'foowd:user:company:error'
       }
     });
+    ar.push({
+      cls: 'Text',
+      obj: {
+        inpt: 'form.elgg-form-usersettings-save [name="Owner"]',
+        key: 'Owner',
+        el: 'form.elgg-form-usersettings-save [name="Owner"]',
+        msg: 'foowd:user:owner:error'
+      }
+    });
     fct.pushFromArray(ar);
-    needAr = ['Piva', 'Phone', 'Location', 'Address', 'company'];
+    needAr = ['Piva', 'Phone', 'Location', 'Address', 'Company', 'Owner'];
     noNeedAr = ['Site'];
     setNeed = function(bool) {
       return fct.each(function() {
@@ -115,26 +153,26 @@
       });
     };
     setNeed(false);
-    $('.mtm').css({
-      'display': 'none'
-    });
-    form.submit('form.elgg-form-foowd-dati');
-    checkGenre = function() {
+    form.submit('form.elgg-form-usersettings-save');
+    if ($('[name="js_admin"]').val() === 'amministratore' || Jgenre.val() !== 'standard') {
+      setNeed(true);
+    } else {
+      Jhook.css({
+        'display': 'none'
+      });
+      setNeed(false);
+      $('#offer-hook').find('[type="text"]').each(function() {
+        this.val('');
+        return $(this).attr('disabled', true);
+      });
+    }
+    return checkGenre = function() {
       if (this.val() === 'offerente') {
-        Jhook.fadeIn('slow');
-        return setNeed(true);
+
       } else {
-        Jhook.fadeOut('slow');
-        setNeed(false);
-        return $('#offer-hook').find('[type="text"]').each(function() {
-          return this.val('');
-        });
+        return setNeed(false);
       }
     };
-    checkGenre.call(Jgenre);
-    return Jgenre.on("change", function() {
-      return checkGenre.call($(this));
-    });
   });
 
 }).call(this);

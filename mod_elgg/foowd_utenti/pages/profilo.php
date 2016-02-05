@@ -62,22 +62,7 @@ echo elgg_view('output/url', array(
 
 echo '</div>';
 
-?>
 
-<div>
-<?php
-echo '<h3>Profilo</h3>';
-echo '<p>visualizza e modifica le impostazioni del profilo.</p>';
-echo elgg_view('output/url', array(
-		// associate to the action
-		'href' => $pid.'dati',
-	    'text' => elgg_echo('I miei dati'),
-	    'class' => 'elgg-button',
-    ));
-?>
-</div>
-
-<?php
 __SKIP_NOT_OFFER:
 ?>
 

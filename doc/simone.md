@@ -1,6 +1,35 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+
+### 05/02/2016
+
+- immesso campo Owner per iscritti offerenti
+
+- corretti tutti controlli e vincoli sia in fase di registrazione che di update
+
+
+
+### 04/02/2016
+
+- aggiunta opzione typologia utente: evaluating per il suo status. Aggiornare propel e autoload di composer.
+
+- aggiunto stato di approvazione per nuovo utente produttore
+
+- impostato accesso lettura/modifica campi profilo utente per gli amministratori
+
+- aggiunti campi form
+
+- aggiunto invio mail di notifica per utente che diventa "offerente"
+
+- creato wrap al forward di uservalidationbyemail
+
+- legati valori di name e username entity user elgg
+
+- aggiunte pagine , views e hook per registrazione e validazione utenti
+
+
+
 ### 03/02/2016
 
 - terminata pagina amministratori per tags, creata relativa action e modificate le API. Invio email agli amministratori

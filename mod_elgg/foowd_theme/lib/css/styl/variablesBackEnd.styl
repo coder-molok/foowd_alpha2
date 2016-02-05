@@ -35,4 +35,15 @@ for $i in 0..lg
 	.foowd{num}d-bg
 		background-color: darken(v, 40%)
 
+// creo dinamicamente dei mixins 
+
+for $c, $i in foowd
+	define("foowd"+($i + 1)+"-bg", @() {
+    	background-color: $c
+	})
+	define("foowd"+($i + 1)+"-cl", @() {
+    	background-color: $c
+  	})
+
+
 

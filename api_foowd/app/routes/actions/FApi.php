@@ -96,7 +96,7 @@ abstract class FApi{
 		}
 		else {
 			$obj->save();
-			$r['Id']= $obj->getId();
+			$r['body']= $obj->toArray();
 		   	$r['response'] = true;
 		}
 
