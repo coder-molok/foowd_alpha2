@@ -41,6 +41,7 @@
 .post-container {
   display: table;
   position: relative;
+  cursor: pointer;
 }
 .product-post-image-thumbnail {
   display: table;
@@ -192,7 +193,7 @@
 }
 .product-post-body {
   font-family: AkkuratRegular;
-  font-size: 16pt;
+  font-size: 10pt;
   line-height: 17pt;
   font-align: justify;
 }
