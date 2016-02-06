@@ -93,7 +93,7 @@ $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars)
 
 echo '';
 
-elgg_require_js('foowd_utenti/file');
+// elgg_require_js('foowd_utenti/file');
 elgg_require_js('foowd_utenti/user-register');
 elgg_require_js('foowdFormCheck');
 

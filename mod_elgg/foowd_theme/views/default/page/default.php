@@ -58,7 +58,15 @@ $body .= <<<__BODY
 			$header
 		<!-- </div> -->
 	</div>
-	<div class="elgg-page-body elgg-main">
+	<noscript>
+	<div class="foowd-body-main-noscript">
+		Questo sito usa javascript, ma attualmente non e' abilitato nel tuo brower.<br/>
+		Per poter visualizzare a pieno il sito e godere delle sue funzionalit&aacute; ti suggeriamo di abilitare javascript o di accedere mediante un'altro browser.<br/><br/>
+		Cordialmente,<br/> 
+		lo Staff.
+	</div>
+	</noscript>
+	<div class="elgg-page-body elgg-main foowd-theme-fadein">
 
 		<!-- inserito per compatibilita' tema -->
 		<div id="close-overlay" class="overlay overlay-hugeinc">
@@ -80,7 +88,7 @@ $body .= <<<__BODY
 			$content
 		</div>
 	</div>
-	<div class="elgg-page-footer">
+	<div class="elgg-page-footer foowd-theme-fadein">
 		<div class="elgg-inner">
 			$footer
 		</div>

@@ -8,6 +8,14 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 
 - corretti tutti controlli e vincoli sia in fase di registrazione che di update
 
+- aggiunta opzione messaggio noscript per backend
+
+- aggiunto nel backend caricamento del body con effetto fadeIn (per fini non solo estetici)
+
+- aggiunto campo username a tabella utenti
+
+- modificati form registrazione e settings utenti per consentire l'impiego e modifica di username e nome visualizzato
+
 
 
 ### 04/02/2016

@@ -40,13 +40,23 @@ class FoowdUpdateUser{
 		// Se il genere cambia passando a 'offerente', viene mandata una mail di notifica all'utente per avvisarlo che ora e' un produttore.
 		$user = get_entity($ownerGuid);
 		$beforeGenre = $user->Genre;
+		$beforeUsername = $user->username;
 
 		$form = 'foowd-dati';
 
 		$elgg = array( 'Name', 'Email');
 
+		
+		// se il name e' vuoto, allora di default lo imposto col valore dello username
+		$name = (get_input('name', false)) ?  get_input('name') : get_input('username');
+		// per elgg
+		set_input('name', $name);
+		
+		// per Foowd
+		set_input('Name', $name);
 		// nel form di partenza l'emain e' definita con la lettera minuscola perche' salva lato elgg, io invece salvo lato API
 		if(get_input('email', false)) set_input('Email', get_input('email') );
+		if(get_input('username', false)) set_input('Username', get_input('username') );
 
 		// aggiornamento API
 		$foowd = \Foowd\User::$allUserFields;
@@ -69,7 +79,9 @@ class FoowdUpdateUser{
 			$user->Genre = $body->Genre;
 			// impongo che il nome visualizzato e lo username siano identici
 			// predispongo il dato per il salvataggio: questo e' un semplice hook, ed in secondo step viene ad essere aggiornato dal core di elgg
-			set_input('name', $user->username);
+			// set_input('name', $user->username);
+			// salvo il nuovo username, dato che elgg non lo fa
+			if(get_input('username', false) && get_input('username') != '') $user->username = get_input('username');
 			$user->save();
 			if($beforeGenre != $body->Genre && $body->Genre == 'offerente'){
 				$v['email'] = $user->email;
@@ -79,6 +91,16 @@ class FoowdUpdateUser{
 
 			elgg_clear_sticky_form($form);
 			system_message(elgg_echo("Hai aggiornato con successo i tuoi dati."));
+
+			// se ho cambiato lo username, lascio che i successivi salvataggi avvengano senza intoppi, 
+			// ma wrappo il redirect: tenterebbe to tornare alla pagina attuale, ma avendo cambiato lo username
+			// in automatico devo cambiare la pagina
+			if($beforeUsername != $user->username){
+				$session = elgg_get_session();
+				$session->set('foowdForward', 'foowdUserSettingsUsernameChanged');
+				$session->set('foowdForwardUserGuid', $user->guid);
+			}
+
 			
 		}else{
 			$_SESSION['sticky_forms'][$form]['apiError']=$r;

@@ -1,4 +1,6 @@
 <?php
+admin_gatekeeper();
+ob_start();
 
 /**
  * Links utili
@@ -8,64 +10,19 @@
  */
 
 
-admin_gatekeeper();
 
-$s = new \Foowd\SuggestedTags();
+elgg_load_css('foowd-utenti');
 
-$river = $s->river;
-
-$tgs = '   ,  su per tol, lskd ,  , lsic di m , ';
-
-$s->setSuggested('11', '11', $tgs);
-
-$tgs = ' ciao , miao, lol, ';
-$s->setSuggested('11', '11', $tgs);
-
-$tgs = 'miao lol, lol  , ciao';
-$s->setSuggested('11', '13', $tgs);
-
-$tgs = ' miao lol, sor, ni , ciao';
-$s->setSuggested('14', '11', $tgs);
-
-$tgs = ' miao lol, sor, ni , ciao, limone duro, durello , test mio';
-$s->setSuggested('17', '21', $tgs);
-
-return;
-
-$f = new \Uoowd\FoowdOffer();
+echo '<div class="test">test</div>';
 
 
-// $f->showFailedUpdate();
+$body = ob_get_contents();
 
+ob_end_clean();
 
+$body = '<div class="foowd-page-avatar">'.$body.'</div>';
 
-$elggOfr = elgg_get_entities_from_metadata(
-    array( 'metadata_names'=>array($f->checkEditMetatag) )
-);
-\Fprint::r(count($elggOfr));
-\Fprint::r($elggOfr);
-
-// foreach($elggOfr as $v){
-//     // \Fprint::r($v->{$f->checkEditMetatag});
-//     // $o->{$f->checkEditMetatag} = '';
-//     $d = json_decode($v->description);
-//     foreach($d as $key => $field){
-//         // $ar =  array($field->new, $field->old);
-//         foreach($field as $f){
-//             if($key === 'Expiration'){
-//                 echo 'null'            ;
-//             }else{
-//                 echo 'campo vuoto';
-//             }
-//         }
-//         \Fprint::r($ar);
-//     }
-
-// }
-
-
-
-return;
+echo elgg_view_page('Avatar',$body);
 
 
 
@@ -126,8 +83,7 @@ return;
 
 
 
-
-
+return;
 
 // $to = '';
 // $m = elgg_send_email('foowd',$to,'random',$html , array('htmlBody'=> $html) );

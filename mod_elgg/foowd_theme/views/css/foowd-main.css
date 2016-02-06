@@ -46,6 +46,17 @@
 body {
   font-family: AkkuratRegular;
 }
+.foowd-theme-fadein {
+  display: none;
+}
+.foowd-body-main-noscript {
+  font-family: AkkuratRegular;
+  background-color: #bed25a;
+  margin: 23px auto;
+  padding: 15px;
+  border: 1px solid #687620;
+  max-width: 69em;
+}
 h2,
 h3 {
   color: #000;

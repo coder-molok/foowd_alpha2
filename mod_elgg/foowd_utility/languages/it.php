@@ -395,8 +395,8 @@ return array(
 
 	'name' => "Nome visualizzato",
 	'email' => "Indirizzo email",
-	'username' => "Nome Utente",
-	'loginusername' => "Nome Utente o Email",
+	'username' => "Username",
+	'loginusername' => "Username o Email",
 	'password' => "Password",
 	'passwordagain' => "Ripeti la password",
 	'admin_option' => "Vuoi rendere questo utente un amministratore?",

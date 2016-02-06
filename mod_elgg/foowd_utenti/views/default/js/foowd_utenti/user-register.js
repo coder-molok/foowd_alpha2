@@ -152,12 +152,13 @@
       return console.log(fct);
     };
     setNeed(false);
-    $('.mtm').css({
-      'display': 'none'
-    });
     form.submit('form.elgg-form-register', function() {
-      var Jname, pwd, pwd2;
-      Jname = $('form.elgg-form-register [name="name"]').val($('form.elgg-form-register [name="username"]').val());
+      var Jname, pwd, pwd2, userVal;
+      Jname = $('form.elgg-form-register [name="name"]');
+      userVal = $('form.elgg-form-register [name="username"]').val();
+      if (Jname.val() === '') {
+        Jname.val(userVal);
+      }
       pwd = $('form.elgg-form-register [name="password"]').val();
       pwd2 = $('form.elgg-form-register [name="password2"]').val();
       if (pwd.length <= 5) {

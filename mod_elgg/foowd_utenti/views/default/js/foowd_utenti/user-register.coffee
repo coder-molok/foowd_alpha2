@@ -125,13 +125,16 @@
 
 
     # nascondo il campo "name" in quanto forviante
-    $('.mtm').css({'display':'none'})
+    # $('.mtm').css({'display':'none'})
     
     form.submit 'form.elgg-form-register',
         ()->
 
             # impongo che nome visualizzato sia il nick name
-            Jname = $('form.elgg-form-register [name="name"]').val($('form.elgg-form-register [name="username"]').val())
+            
+            Jname = $('form.elgg-form-register [name="name"]');
+            userVal = $('form.elgg-form-register [name="username"]').val()
+            if( Jname.val() == '' ) then Jname.val(userVal);
 
             # if Jgenre.val() is 'offerente'
             #     if not file.atLeastOne() then alert "Devi inserire almeno un'immagine"

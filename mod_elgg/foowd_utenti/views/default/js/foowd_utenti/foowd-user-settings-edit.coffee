@@ -38,7 +38,7 @@
 
 
     # visualizzo il campo username al posto del nome, ma lo rendo non modificabile
-    $('<label for="name">Username</label>').insertBefore($('input[name="name"]').attr('disabled', true));
+    $('<label for="name">Nome Visualizzato</label>').insertBefore($('input[name="name"]')); #.attr('disabled', true));
     $('[for="name"], [name="name"]').wrapAll('<div></div>');
 
     $('<label for="email">Email</label>').insertBefore($('input[name="email"]'));#.attr('disabled', true));
@@ -51,7 +51,6 @@
 
 
     genre = ($('[name="js_admin"]').val() == 'amministratore');
-    console.log(genre)
     if(genre)
         advise = $('<div/>').insertAfter($('.elgg-breadcrumbs'));
         advise.html('Salve amministratore, ti ricordo che stai modificando la pagina di un utente.').addClass('foowd-user-settings-admin');
@@ -89,16 +88,25 @@
 
     # $('<span/>',{'html':'**','class':'extra-Site'}).appendTo($('label[for="Site"]'))
     
-
-
+    # uso un hook perche' devo essere sicuro di fare i controlli sull'utente owner, e non sul loggato (che potrebbe essere l'amministratore che modifica)
+    _usernameBefore = $('[name="hookUsernameBefore"]').val()
+    _emailBefore = $('[name="hookEmailBefore"]').val()
     ajaxCheck = ()->
-
+        # se questi dati non vengono modificati, e' inutile fare il check
         v = @el.val().trim()
-        url=elgg.get_site_url()+'foowd_utility/user-check?foowd-dati=true&guid='+elgg.get_logged_in_user_guid()+'&'+@key+'='+v
-        console.log v
+        if @key is 'username' and v is _usernameBefore
+            @status = true
+            return
+        if @key is 'email' and v is _emailBefore
+            @status = true
+            return
+
+        url=elgg.get_site_url()+'foowd_utility/user-check?'+@key+'='+v
+        # console.log v
+        # console.log @key
         elgg.get(url, {
             success: (resultText, success, xhr)=>
-                console.log(resultText)
+                # console.log(resultText)
                 obj = JSON.parse(resultText)
                 if typeof obj is 'object'
                     # console.log obj
@@ -132,15 +140,31 @@
     ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="Address"]', key:'Address', el:'form.elgg-form-usersettings-save [name="Address"]', msg: 'foowd:user:address:error'} })
     ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="Company"]', key:'Company', el:'form.elgg-form-usersettings-save [name="Company"]', msg: 'foowd:user:company:error'} })
     ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="Owner"]', key:'Owner', el:'form.elgg-form-usersettings-save [name="Owner"]', msg: 'foowd:user:owner:error'} })
+    ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="username"]', key:'username', el:'form.elgg-form-usersettings-save [name="username"]', msg: 'foowd:user:username:error', 'afterCheck': ajaxCheck} })
+    ar.push({cls:'Email', obj:{inpt:'form.elgg-form-usersettings-save [name="email"]', key:'email', el:'form.elgg-form-usersettings-save [name="email"]', msg: 'foowd:user:email:error', 'afterCheck': ajaxCheck} })
     fct.pushFromArray(ar)
+
     # di default nessuno di questi e' obbligatorio
 
-    # needAr = ['email', 'username','name']
-    needAr = ['Piva', 'Phone', 'Location', 'Address', 'Company', 'Owner']
+    needAr = ['email', 'username']
+    # username in minuscolo perche' intacco anche elgg!
+    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner', 'email'] #location
+    needArOfferente = needAr.concat needArOfferente
     noNeedAr = ['Site']
     setNeed = (bool)->
+
+        localAr = if bool then needArOfferente else needAr
+        
+        fct.extraCheck = true
+        for name in localAr
+            if ($('[name="' + name + '"]').length <= 0 )
+                console.log "manca il campo " + name
+                fct.extraCheck = false
+                break
+
         fct.each( ()->
-            if (@key in needAr) 
+
+            if (@key in localAr) 
                     @needle = true
             else if (@key in noNeedAr)
                     @needle = false
@@ -149,10 +173,22 @@
                 
             return
             )
+
     setNeed(false)
+    # campo extra per controllare che esistano certi elementi... non fa parte del prototipo della classe
+    fct.extraCheck = true
+    $('form.elgg-form-usersettings-save').submit (e)->
+        if not fct.extraCheck 
+            alert('Errore nel form. Si consiglia di ricaricare la pagina')
+            # evito che avvenga il submit
+            e.preventDefault()
+            # evito che si propagi ad eltri eventi
+            e.stopPropagation()
 
    
     form.submit 'form.elgg-form-usersettings-save'
+
+
 
     if $('[name="js_admin"]').val() == 'amministratore' or Jgenre.val() != 'standard'
             # Jhook.fadeIn('slow')

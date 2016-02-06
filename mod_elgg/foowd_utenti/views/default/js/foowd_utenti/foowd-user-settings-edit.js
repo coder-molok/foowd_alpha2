@@ -11,7 +11,7 @@
       return root.returnExports = factory();
     }
   })(this, function() {
-    var $, Jgenre, Jhook, JmailLabel, advise, ajaxCheck, ar, checkGenre, elgg, fct, flds, form, genre, i, len, needAr, noNeedAr, setNeed, va;
+    var $, Jgenre, Jhook, JmailLabel, _emailBefore, _usernameBefore, advise, ajaxCheck, ar, checkGenre, elgg, fct, flds, form, genre, i, len, needAr, needArOfferente, noNeedAr, setNeed, va;
     elgg = require('elgg');
     $ = require('jquery');
     $('.elgg-form-usersettings-save').fadeIn('slow');
@@ -22,7 +22,7 @@
       $(html).insertAfter(mod);
       return mod.remove();
     });
-    $('<label for="name">Username</label>').insertBefore($('input[name="name"]').attr('disabled', true));
+    $('<label for="name">Nome Visualizzato</label>').insertBefore($('input[name="name"]'));
     $('[for="name"], [name="name"]').wrapAll('<div></div>');
     $('<label for="email">Email</label>').insertBefore($('input[name="email"]'));
     $('[for="email"], [name="email"]').wrapAll('<div></div>');
@@ -34,7 +34,6 @@
       'display': 'none'
     });
     genre = $('[name="js_admin"]').val() === 'amministratore';
-    console.log(genre);
     if (genre) {
       advise = $('<div/>').insertAfter($('.elgg-breadcrumbs'));
       advise.html('Salve amministratore, ti ricordo che stai modificando la pagina di un utente.').addClass('foowd-user-settings-admin');
@@ -56,16 +55,24 @@
         'for': va
       });
     }
+    _usernameBefore = $('[name="hookUsernameBefore"]').val();
+    _emailBefore = $('[name="hookEmailBefore"]').val();
     ajaxCheck = function() {
       var url, v;
       v = this.el.val().trim();
-      url = elgg.get_site_url() + 'foowd_utility/user-check?foowd-dati=true&guid=' + elgg.get_logged_in_user_guid() + '&' + this.key + '=' + v;
-      console.log(v);
+      if (this.key === 'username' && v === _usernameBefore) {
+        this.status = true;
+        return;
+      }
+      if (this.key === 'email' && v === _emailBefore) {
+        this.status = true;
+        return;
+      }
+      url = elgg.get_site_url() + 'foowd_utility/user-check?' + this.key + '=' + v;
       return elgg.get(url, {
         success: (function(_this) {
           return function(resultText, success, xhr) {
             var obj, ret;
-            console.log(resultText);
             obj = JSON.parse(resultText);
             if (typeof obj === 'object') {
               ret = obj[_this.key];
@@ -137,13 +144,46 @@
         msg: 'foowd:user:owner:error'
       }
     });
+    ar.push({
+      cls: 'Text',
+      obj: {
+        inpt: 'form.elgg-form-usersettings-save [name="username"]',
+        key: 'username',
+        el: 'form.elgg-form-usersettings-save [name="username"]',
+        msg: 'foowd:user:username:error',
+        'afterCheck': ajaxCheck
+      }
+    });
+    ar.push({
+      cls: 'Email',
+      obj: {
+        inpt: 'form.elgg-form-usersettings-save [name="email"]',
+        key: 'email',
+        el: 'form.elgg-form-usersettings-save [name="email"]',
+        msg: 'foowd:user:email:error',
+        'afterCheck': ajaxCheck
+      }
+    });
     fct.pushFromArray(ar);
-    needAr = ['Piva', 'Phone', 'Location', 'Address', 'Company', 'Owner'];
+    needAr = ['email', 'username'];
+    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner', 'email'];
+    needArOfferente = needAr.concat(needArOfferente);
     noNeedAr = ['Site'];
     setNeed = function(bool) {
+      var j, len1, localAr, name;
+      localAr = bool ? needArOfferente : needAr;
+      fct.extraCheck = true;
+      for (j = 0, len1 = localAr.length; j < len1; j++) {
+        name = localAr[j];
+        if ($('[name="' + name + '"]').length <= 0) {
+          console.log("manca il campo " + name);
+          fct.extraCheck = false;
+          break;
+        }
+      }
       return fct.each(function() {
         var ref, ref1;
-        if ((ref = this.key, indexOf.call(needAr, ref) >= 0)) {
+        if ((ref = this.key, indexOf.call(localAr, ref) >= 0)) {
           this.needle = true;
         } else if ((ref1 = this.key, indexOf.call(noNeedAr, ref1) >= 0)) {
           this.needle = false;
@@ -153,6 +193,14 @@
       });
     };
     setNeed(false);
+    fct.extraCheck = true;
+    $('form.elgg-form-usersettings-save').submit(function(e) {
+      if (!fct.extraCheck) {
+        alert('Errore nel form. Si consiglia di ricaricare la pagina');
+        e.preventDefault();
+        return e.stopPropagation();
+      }
+    });
     form.submit('form.elgg-form-usersettings-save');
     if ($('[name="js_admin"]').val() === 'amministratore' || Jgenre.val() !== 'standard') {
       setNeed(true);

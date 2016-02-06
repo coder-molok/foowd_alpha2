@@ -16,7 +16,7 @@ class User {
 
 	public static $needForOfferente = array(/*'Description',*/'Site','Piva', 'Phone','Address','Company','Owner');
 
-	public static $allUserFields = array('Name', 'Location', 'Email', 'Description', 'Genre' ,'Piva', 'Address','Company','Site','Phone', 'Owner');
+	public static $allUserFields = array('Name', 'Username', 'Location', 'Email', 'Description', 'Genre' ,'Piva', 'Address','Company','Site','Phone', 'Owner');
 
 	/**
 	 * registro un nuovo utente, aggiungendogli un metadato e salvandolo anche nel servizio API.
@@ -107,7 +107,8 @@ class User {
 		// chiamata Api
 		// \Uoowd\Logger::addError('chiamata API');
 		$data['Genre'] = $genre;
-		$data['Name'] = get_input('name');
+		$data['Name'] = $user->name;
+		$data['Username'] = $user->username;
 		$data['type']= "create";
 		$data['ExternalId'] = $extId;
 		$data['Email'] = $user->email;
@@ -198,6 +199,7 @@ class User {
 		// \Uoowd\Logger::addError("dopo offerente");
 		// recupero i dati che dovrei aver salvato nel db e verifico
 		$r = \Uoowd\API::Request('user', 'POST', $data);
+		// \Uoowd\Logger::addError($r);
 
 		if(!is_object($r)){
 		    if(! $str = \Uoowd\Param::dbg()){ 

@@ -22,8 +22,6 @@ $owner = elgg_get_page_owner_entity();
 
 $me = elgg_get_logged_in_user_entity();
 
-
-
 //////////////////////////////////////////////////////////////// Dati Foowd
 $form = 'foowd-dati';
 unset($_SESSION['sticky_forms'][$form]);
@@ -57,6 +55,7 @@ if($r->response){
 $vrs = $f->prepare_form_vars($form);
 // gli amministratori possono modificare alcuni campi che in caso contrario rimangono bloccati
 $vrs['isAdmin'] = $me->isAdmin();
+$vrs['username'] = $owner->username;
 
 echo elgg_view('foowd_account/foowd_user_settings', $vrs);
 

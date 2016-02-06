@@ -41,6 +41,10 @@ require([
 	'jquery', 'foowd-main'
   ],function($, m){
 
+    // faccio visualizzare la pagina con effetto fadeIn
+    // Oltre a un fattore estetico, impedisce il funzionamento della pagina se non viene caricato jquery, il che e' ottimo!
+    $('.foowd-theme-fadein').fadeIn('slow');
+
     $('.foowd-alert-disabled').on('click', function(e){
       e.preventDefault();
       window.foowdAlert( 'Questa funzione sarà attivata a breve' , 'Inattiva')

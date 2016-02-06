@@ -116,7 +116,7 @@ function foowd_utenti_handler($segments){
 
 
         // include elgg_get_plugins_path() . 'foowd_utenti/pages/auth.php';
-        \Uoowd\Logger::addError($segments[0]);
+        // \Uoowd\Logger::addError($segments[0]);
         new \Foowd\SocialLogin();
         return true;
     }
@@ -320,15 +320,27 @@ function foowd_after_registration_url($hook, $type, $value, $params) {
         $user = get_input('u');
         $f->foowd_user_confirm_notify_admins($user);
     }
+
+    $session = elgg_get_session();
+
+    // wrap al redirect di quando cambio lo username, che in automatico modifica la pagina a cui devo reindirizzarmi
+    if($session->get('foowdForward', false)  == 'foowdUserSettingsUsernameChanged' ){
+        $guid = $session->get('foowdForwardUserGuid');
+        // elimino per resettare!!!
+        $session->remove('foowdForward');
+        $session->remove('foowdForwardUserGuid');
+        $url = \Uoowd\Param::userPath('settings', $guid);
+        return $url;
+    }
     
+    // wrap ai redirect di userregistrationbyemail
     if ($url == elgg_get_site_url() . 'action/register') {
 
-        $session = elgg_get_session();
         $foowd = $session->get('foowdForward', '');
-        $session->del('foowdForward');
+        $session->remove('foowdForward');
         if ($foowd == 'registration-error') {
             // sovrascrivo uservalidationbyemail
-            $session->del('emailsent');
+            $session->remove('emailsent');
             return $params['forward_url'];
         }
 

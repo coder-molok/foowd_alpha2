@@ -4,10 +4,19 @@
  * Richiamato in  forms/account/settings.php di foowd_utenti
  */
 
+// questi due sono hook che uso per la validazione in javascript
+echo elgg_view('input/hidden', array('name' => 'hookUsernameBefore', 'value' => $vars['username']));
+echo elgg_view('input/hidden', array('name' => 'hookEmailBefore', 'value' => $vars['Email']));
+
+
+$fadd = new \Foowd\Action\UserSave($vars);
 
 // \Fprint::r($vars);
 
-$fadd = new \Foowd\Action\UserSave($vars);
+// a prescindere, il campo username lo inserisco
+$fadd->createField('username','username', 'input/text', array('value'=> $vars['username']));
+
+
 if(!$vars['isAdmin'] && $vars['Genre'] == 'standard') goto __skipDATA;
 ?>
 <div id="offer-hook">

@@ -98,7 +98,8 @@
     </table>
     <table name="user" phpName="User">
         <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
-        <column name="name" phpName="Name" type="VARCHAR" size="255" required="true" />
+        <column name="name" phpName="Name" type="VARCHAR" size="50" required="true" />
+        <column name="username" phpName="Username" type="VARCHAR" size="50" required="true" />
         <column name="genre" phpName="Genre" type="VARCHAR" size="10" required="true" />
         <column name="externalid" phpName="ExternalId" type="INTEGER" required="true"/>
         <column name="location" phpName="Location" type="VARCHAR" size="255" required="false" />
@@ -117,6 +118,7 @@
 
         <behavior name="validate">
             <parameter name="name" value="{column: name, validator: NotBlank}" />
+            <parameter name="username" value="{column: username, validator: NotBlank}" />
             <parameter name="genre" value="{column: genre, validator: PropelFoowd, options: {type: enum, list:'standard, offerente, evaluating'}}" />
             <parameter name="external" value="{column: externalid, validator: PropelFoowd, options: {type: integer}}" />
             <!-- <parameter name="rule1" value="{column: externalid, validator: Integer}" /> -->
