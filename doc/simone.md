@@ -5,6 +5,8 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 
 - completamento iter modifica impostazioni utente e aggiunta di controlli di validazione
 
+- iss#198
+
 
 ### 05/02/2016
 

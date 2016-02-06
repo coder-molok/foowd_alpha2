@@ -611,6 +611,8 @@ h5 {
   cursor: pointer;
 }
 .foowd-brand input {
+  font: 100% AkkuratBold;
+  padding: 0px;
   width: 40%;
   background-color: transparent;
   outline: none;
