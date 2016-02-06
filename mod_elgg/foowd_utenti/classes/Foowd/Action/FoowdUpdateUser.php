@@ -4,6 +4,18 @@ namespace Foowd\Action;
 
 class FoowdUpdateUser{
 
+	/**
+	 * Metadato: se e' presente vuol dire che l'utente ha un change mail da confermare
+	 */
+	public $emailToSetMetadata = 'emailToSet';
+	/**
+	 * dopo tre giorni la richiesta espira
+	 */
+	public $emailExpiration = 'emailExpiration';
+	public $daysToExpire = 3 ;
+
+	public $cryptKey = "wjdflsjcoy";
+
 
 	/**
 	 * controlli d'inizializzazione
@@ -41,21 +53,24 @@ class FoowdUpdateUser{
 		$user = get_entity($ownerGuid);
 		$beforeGenre = $user->Genre;
 		$beforeUsername = $user->username;
+		$emailToSet = get_input('email');
+
 
 		$form = 'foowd-dati';
 
-		$elgg = array( 'Name', 'Email');
+		// Elgg fa un casino con lo username nel form... per agevolarmi uso la variabile normale
+		if(get_input('Username', false)) set_input('username', get_input('Username') );
 
-		
 		// se il name e' vuoto, allora di default lo imposto col valore dello username
 		$name = (get_input('name', false)) ?  get_input('name') : get_input('username');
 		// per elgg
 		set_input('name', $name);
-		
+		// l'email non la modifico, perche' per quella mando il giro di email, vedi $this->foowd_change_email_send()
+		set_input('email', $user->email);
+
 		// per Foowd
 		set_input('Name', $name);
 		// nel form di partenza l'emain e' definita con la lettera minuscola perche' salva lato elgg, io invece salvo lato API
-		if(get_input('email', false)) set_input('Email', get_input('email') );
 		if(get_input('username', false)) set_input('Username', get_input('username') );
 
 		// aggiornamento API
@@ -99,6 +114,25 @@ class FoowdUpdateUser{
 				$session = elgg_get_session();
 				$session->set('foowdForward', 'foowdUserSettingsUsernameChanged');
 				$session->set('foowdForwardUserGuid', $user->guid);
+			}
+
+			// se la mail e' cambiata , e non ho ancora mandato il messaggio, allora lo mando
+			if($emailToSet != $body->Email){
+				// se e' presene ma l'ho gia' mandata...
+				if(isset($user->{$this->emailToSetMetadata}) && $user->{$this->emailToSetMetadata} == $emailToSet){
+					// \Uoowd\Logger::addError('non mando mail...');
+				}else{
+					// \Uoowd\Logger::addError('mando mail...');
+					// quando mano la mail, imposto questa come metadato da controllare...
+					// e' importante rimuoverlo una volta ricevuta la conferma!
+					$v['emailToSet'] = $emailToSet;
+					$v['guid'] = $user->guid;
+					// $v['oldEmail'] = $user->email;
+					$this->foowd_change_email_send($v);
+					$user->{$this->emailToSetMetadata} = $emailToSet;
+					$user->{$this->emailExpiration} = $this->daysToExpire * 24 * 60 + time();
+					$user->save();
+				}
 			}
 
 			
@@ -167,6 +201,111 @@ class FoowdUpdateUser{
 			$ar['body'] = sprintf($txt, $userId);
 			\Uoowd\Utility::mailToAdmins($ar);
 		}
+	}
+
+
+	public function foowd_change_email_send($v){
+		// $v['emailToSet'] = $emailToSet;
+		// $v['guid'] = $user->guid;
+		// $v['oldEmail'] = $user->email;
+		
+		extract($v);
+
+		$toCrypt = 'emailToSet=' . $emailToSet . '&guid=' . $guid;
+		// uso lo chiave in maniera mooolto semplice... la sicurezza in questo passaggio e' bassisima, e va bene cosi'
+		$encode = urlencode( $this->cryptKey . base64_encode($toCrypt) );
+
+		$link = elgg_get_site_url().'foowd_utenti/emailAction?changeEmail='.$encode;
+
+
+		$txt='
+		Salve,
+
+		dal sito %s un\'utente ha chiesto di aggiornare i suoi dati impostando la presente email come suo indirizzo personale.
+		E\' possibile dare conferma cliccando (o copiando e incollando nella barra degli indirizzi) il seguente link:
+
+		    %s
+
+		Se tale richiesta non le risulta avanzata, ci scusiamo per il disguido.
+
+		Cordialmente,
+		%s
+		';
+
+		$from = elgg_get_config('sitename');
+		$to = $emailToSet;
+		$body = sprintf($txt, elgg_get_site_url(), $link, $from);
+		$subject = 'Richiesta Modifica Email';
+		elgg_send_email($from, $to, $subject, $body, array());
+
+	}
+
+	// per questa non serve essere loggati...
+	public function foowd_change_email_confirm($url){
+
+		$url = urldecode($url);
+		$url = preg_replace('@^'.$this->cryptKey.'@', '', $url);
+		$url = base64_decode($url);
+		parse_str($url);
+		// l'utente a cui cambiare la mail
+		$owner = get_entity($guid);
+		// l'utente che svolge il cambio.
+		$user = elgg_get_logged_in_user_entity();
+		// come al solito gli amministratori possono tutto
+		// se e' un'amministratore, o l'utente loggato, o l'utente non e' ancora loggato
+		if(!$user || $user->isAdmin() || $owner->guid == $user->guid){
+			
+			// se non era loggato, ora lo loggo: in questo modo assume i privilegi per salvare le modifiche all'utente $owner
+			if(!$user) login($owner);
+
+			// Anzitutto aggiorno lati API DB
+			$data = array();
+			$data['type'] = 'update';
+			$data['ExternalId'] = $owner->guid;
+			$data['Email'] = $emailToSet;
+
+			$r = \Uoowd\API::userPost($data);
+			// \Uoowd\Logger::addError($r);
+			
+			if(!$r->response){
+				register_error('Siamo spiacenti ma abbiamo riscontrato un errore nella registrazione della nuova mail.<br/>Suggeriamo di ripetere l\'operazione modificando il form.');
+				forward(\Uoowd\Param::userPath('settings', $owner->guid));
+			}
+
+			// la vecchia mail per il nuovo utente
+			$oldEmail = $owner->email;
+			
+			// Aggiorno i nuovi dati
+			$owner->email = $emailToSet;
+			$owner->{$this->emailExpiration} = '';
+			$owner->{$this->emailToSetMetadata} = '';
+			$owner->save();
+
+			system_message('Email reimpostata con successo!');
+
+			// invio della mail
+			$txt='
+			Salve %s,
+	
+			l\'aggiornamento della tua mail all\'indirizzo %s e\' avvenuto con successo.
+	
+			Ti ricordiamo che l\'attuale indirizzo mail non sara\' piu\' valido, ma potrai reimpostarlo se lo vorrai.
+	
+			Cordialmente,
+			%s
+			';
+	
+			$from = elgg_get_config('sitename');
+			$to = $oldEmail;
+			$body = sprintf($txt, $owner->username, $emailToSet, $from);
+			$subject = 'Richiesta Modifica Email';
+			elgg_send_email($from, $to, $subject, $body, array());		
+
+			forward();
+
+		}
+
+
 	}
 
 

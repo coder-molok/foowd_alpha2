@@ -43,6 +43,11 @@ foreach ($_GET as $key => $value) {
 if(isset($_GET['username'])){
 	$json['username'] = false;
 	if( is_object(get_user_by_username( $_GET['username'] )) ) $json['username']=true;
+	try{
+		$json['elgg_validate_username'] = validate_username($_GET['username']);
+	}catch(\Exception $e){
+		$json['elgg_validate_username'] = false;
+	}
 }
 
 
@@ -50,6 +55,11 @@ if(isset($_GET['username'])){
 if(isset($_GET['email'])){
 	$json['email'] = false;
 	if(! empty(get_user_by_email( $_GET['email'] ) ) ) $json['email']=true;
+	try{
+		$json['elgg_validate_email'] = validate_email_address($_GET['email']);	
+	}catch(\Exception $e){
+		$json['elgg_validate_email'] = false;
+	}
 }
 
 

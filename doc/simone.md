@@ -1,6 +1,10 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+### 06/02/2016
+
+- completamento iter modifica impostazioni utente e aggiunta di controlli di validazione
+
 
 ### 05/02/2016
 

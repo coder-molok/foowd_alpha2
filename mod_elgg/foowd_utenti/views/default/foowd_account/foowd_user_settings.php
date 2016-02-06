@@ -7,14 +7,17 @@
 // questi due sono hook che uso per la validazione in javascript
 echo elgg_view('input/hidden', array('name' => 'hookUsernameBefore', 'value' => $vars['username']));
 echo elgg_view('input/hidden', array('name' => 'hookEmailBefore', 'value' => $vars['Email']));
+echo elgg_view('input/hidden', array('name' => 'hookEmailToSet', 'value' => $vars['emailToSet']));
 
+if($vars['emailToSet'] != '' ){ echo '<div class="foowd-user-settings-admin-evaluating">Stiamo aspettando la conferma della mail inviata all\'indirizzo <b>' .$vars['emailToSet'] .'</b> .<br/>Una volta cofermata verr&aacute; Aggiornato il campo.</div>';}
+// \Fprint::r($vars['username']);
 
 $fadd = new \Foowd\Action\UserSave($vars);
 
 // \Fprint::r($vars);
 
 // a prescindere, il campo username lo inserisco
-$fadd->createField('username','username', 'input/text', array('value'=> $vars['username']));
+$fadd->createField('Username','Username', 'input/text', array('value'=> $vars['username']));
 
 
 if(!$vars['isAdmin'] && $vars['Genre'] == 'standard') goto __skipDATA;

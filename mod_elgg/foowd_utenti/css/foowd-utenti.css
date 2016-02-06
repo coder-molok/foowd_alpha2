@@ -304,6 +304,9 @@
 .elgg-form-usersettings-save {
   display: none;
 }
+.elgg-form-usersettings-save #offer-hook > div {
+  margin-bottom: 15px;
+}
 .elgg-form-usersettings-save input {
   margin-top: 3px;
 }

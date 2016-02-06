@@ -11,7 +11,7 @@
       return root.returnExports = factory();
     }
   })(this, function() {
-    var $, Jgenre, Jhook, JmailLabel, _emailBefore, _usernameBefore, advise, ajaxCheck, ar, checkGenre, elgg, fct, flds, form, genre, i, len, needAr, needArOfferente, noNeedAr, setNeed, va;
+    var $, Jgenre, Jhook, _emailBefore, _usernameBefore, advise, ajaxCheck, ar, checkGenre, elgg, fct, form, genre, needAr, needArOfferente, noNeedAr, setNeed;
     elgg = require('elgg');
     $ = require('jquery');
     $('.elgg-form-usersettings-save').fadeIn('slow');
@@ -37,6 +37,7 @@
     if (genre) {
       advise = $('<div/>').insertAfter($('.elgg-breadcrumbs'));
       advise.html('Salve amministratore, ti ricordo che stai modificando la pagina di un utente.').addClass('foowd-user-settings-admin');
+      $('p input[name*="password"]').closest('p').remove();
     }
     if ($('[name="Genre"]').val() === 'evaluating') {
       advise = $('<div/>').insertAfter($('.elgg-breadcrumbs'));
@@ -47,20 +48,12 @@
     Jgenre = $('[name="Genre"]');
     fct = form.factory();
     ar = [];
-    flds = ['Email', 'username', 'name', 'password'];
-    for (i = 0, len = flds.length; i < len; i++) {
-      va = flds[i];
-      JmailLabel = $('[name="' + va + '"]').prevUntil('', 'label');
-      JmailLabel.attr({
-        'for': va
-      });
-    }
-    _usernameBefore = $('[name="hookUsernameBefore"]').val();
-    _emailBefore = $('[name="hookEmailBefore"]').val();
+    _usernameBefore = $('[name="hookUsernameBefore"]').val().toLowerCase();
+    _emailBefore = $('[name="hookEmailBefore"]').val().toLowerCase();
     ajaxCheck = function() {
       var url, v;
-      v = this.el.val().trim();
-      if (this.key === 'username' && v === _usernameBefore) {
+      v = this.el.val().trim().toLowerCase();
+      if (this.key === 'Username' && v === _usernameBefore) {
         this.status = true;
         return;
       }
@@ -68,22 +61,26 @@
         this.status = true;
         return;
       }
-      url = elgg.get_site_url() + 'foowd_utility/user-check?' + this.key + '=' + v;
-      return elgg.get(url, {
+      url = elgg.get_site_url() + 'foowd_utility/user-check?' + this.key.toLowerCase() + '=' + v;
+      return $.ajax({
+        'url': url,
+        'method': 'GET',
         success: (function(_this) {
           return function(resultText, success, xhr) {
             var obj, ret;
             obj = JSON.parse(resultText);
+            ret = false;
             if (typeof obj === 'object') {
-              ret = obj[_this.key];
-            } else {
-              ret = false;
-            }
-            if (ret) {
-              _this.error('Qesto valore e\' gia\' utilizzato. Prova con un altro');
-              ret = false;
-            } else {
-              ret = true;
+              console.log(obj);
+              if (obj[_this.key.toLowerCase()]) {
+                _this.error('Qesto valore e\' gia\' utilizzato. Prova con un altro');
+                ret = false;
+              } else if (!obj['elgg_validate_' + _this.key.toLowerCase()]) {
+                _this.error('Qesto valore e\' in un formato non accettato. Prova con un altro');
+                ret = false;
+              } else {
+                ret = true;
+              }
             }
             return _this.status = ret;
           };
@@ -147,9 +144,9 @@
     ar.push({
       cls: 'Text',
       obj: {
-        inpt: 'form.elgg-form-usersettings-save [name="username"]',
-        key: 'username',
-        el: 'form.elgg-form-usersettings-save [name="username"]',
+        inpt: 'form.elgg-form-usersettings-save [name="Username"]',
+        key: 'Username',
+        el: 'form.elgg-form-usersettings-save [name="Username"]',
         msg: 'foowd:user:username:error',
         'afterCheck': ajaxCheck
       }
@@ -165,16 +162,16 @@
       }
     });
     fct.pushFromArray(ar);
-    needAr = ['email', 'username'];
-    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner', 'email'];
+    needAr = ['email', 'Username'];
+    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner'];
     needArOfferente = needAr.concat(needArOfferente);
     noNeedAr = ['Site'];
     setNeed = function(bool) {
-      var j, len1, localAr, name;
+      var i, len, localAr, name;
       localAr = bool ? needArOfferente : needAr;
       fct.extraCheck = true;
-      for (j = 0, len1 = localAr.length; j < len1; j++) {
-        name = localAr[j];
+      for (i = 0, len = localAr.length; i < len; i++) {
+        name = localAr[i];
         if ($('[name="' + name + '"]').length <= 0) {
           console.log("manca il campo " + name);
           fct.extraCheck = false;
@@ -194,9 +191,21 @@
     };
     setNeed(false);
     fct.extraCheck = true;
+    elgg.ajax = false;
+    $('input[name="email"], input[name="Username"]').on('mouseout', function(e) {
+      var key, ob;
+      key = $(this).attr('name');
+      ob = fct.getEl(key);
+      return ob.inpt.trigger('focusout');
+    });
     $('form.elgg-form-usersettings-save').submit(function(e) {
+      var check;
+      check = true;
       if (!fct.extraCheck) {
         alert('Errore nel form. Si consiglia di ricaricare la pagina');
+        check = false;
+      }
+      if (!check) {
         e.preventDefault();
         return e.stopPropagation();
       }

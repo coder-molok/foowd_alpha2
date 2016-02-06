@@ -202,6 +202,16 @@ function foowd_utenti_handler($segments){
         return true;
     }
 
+    // non e' una pagina fisica, ma si limita a richiamare apposite classi
+    if($segments[0] === 'emailAction'){
+
+        if(isset($_GET['changeEmail'])){
+            $u = new \Foowd\Action\FoowdUpdateUser();
+            $u->foowd_change_email_confirm($_GET['changeEmail']);
+        }
+        return true;
+    }
+
     return false;
 
 }

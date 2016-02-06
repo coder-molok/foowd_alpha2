@@ -54,7 +54,8 @@
     if(genre)
         advise = $('<div/>').insertAfter($('.elgg-breadcrumbs'));
         advise.html('Salve amministratore, ti ricordo che stai modificando la pagina di un utente.').addClass('foowd-user-settings-admin');
-    
+        # agli amministratori non consento di modificare la password
+        $('p input[name*="password"]').closest('p').remove();
 
     if($('[name="Genre"]').val() == 'evaluating')
         advise = $('<div/>').insertAfter($('.elgg-breadcrumbs'));
@@ -79,47 +80,44 @@
     fct = form.factory();
     ar = []
 
-    # preimpostati
-    # fielsd
-    flds = ['Email', 'username', 'name' , 'password']
-    for va in flds
-        JmailLabel = $('[name="'+va+'"]').prevUntil('','label');
-        JmailLabel.attr({'for': va})
-
     # $('<span/>',{'html':'**','class':'extra-Site'}).appendTo($('label[for="Site"]'))
     
     # uso un hook perche' devo essere sicuro di fare i controlli sull'utente owner, e non sul loggato (che potrebbe essere l'amministratore che modifica)
-    _usernameBefore = $('[name="hookUsernameBefore"]').val()
-    _emailBefore = $('[name="hookEmailBefore"]').val()
+    _usernameBefore = $('[name="hookUsernameBefore"]').val().toLowerCase()
+    _emailBefore = $('[name="hookEmailBefore"]').val().toLowerCase()
+    
     ajaxCheck = ()->
         # se questi dati non vengono modificati, e' inutile fare il check
-        v = @el.val().trim()
-        if @key is 'username' and v is _usernameBefore
+        v = @el.val().trim().toLowerCase()
+        if @key is 'Username' and v is _usernameBefore
             @status = true
             return
         if @key is 'email' and v is _emailBefore
             @status = true
             return
-
-        url=elgg.get_site_url()+'foowd_utility/user-check?'+@key+'='+v
+        url=elgg.get_site_url()+'foowd_utility/user-check?'+ @key.toLowerCase() + '=' + v
+        # console.log url
         # console.log v
         # console.log @key
-        elgg.get(url, {
+        $.ajax({
+            'url': url,
+            'method' : 'GET',
             success: (resultText, success, xhr)=>
                 # console.log(resultText)
                 obj = JSON.parse(resultText)
+                ret= false
                 if typeof obj is 'object'
-                    # console.log obj
-                    ret = obj[@key]
-                    # console.log ret
-                else
-                    ret= false
-
-                if ret
-                    @error('Qesto valore e\' gia\' utilizzato. Prova con un altro')
-                    ret = false
-                else
-                    ret = true
+                    console.log obj
+                    # true se la l'utente o la mail esistono
+                    if obj[@key.toLowerCase()]
+                        @error('Qesto valore e\' gia\' utilizzato. Prova con un altro')
+                        ret = false
+                    # secondo e' vero se sono validati da elgg
+                    else if not obj['elgg_validate_' + @key.toLowerCase()]
+                        @error('Qesto valore e\' in un formato non accettato. Prova con un altro')
+                        ret = false
+                    else
+                        ret = true
 
                 @status = ret
         });
@@ -140,16 +138,16 @@
     ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="Address"]', key:'Address', el:'form.elgg-form-usersettings-save [name="Address"]', msg: 'foowd:user:address:error'} })
     ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="Company"]', key:'Company', el:'form.elgg-form-usersettings-save [name="Company"]', msg: 'foowd:user:company:error'} })
     ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="Owner"]', key:'Owner', el:'form.elgg-form-usersettings-save [name="Owner"]', msg: 'foowd:user:owner:error'} })
-    ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="username"]', key:'username', el:'form.elgg-form-usersettings-save [name="username"]', msg: 'foowd:user:username:error', 'afterCheck': ajaxCheck} })
+    ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="Username"]', key:'Username', el:'form.elgg-form-usersettings-save [name="Username"]', msg: 'foowd:user:username:error', 'afterCheck': ajaxCheck} })
     ar.push({cls:'Email', obj:{inpt:'form.elgg-form-usersettings-save [name="email"]', key:'email', el:'form.elgg-form-usersettings-save [name="email"]', msg: 'foowd:user:email:error', 'afterCheck': ajaxCheck} })
     fct.pushFromArray(ar)
 
-    # di default nessuno di questi e' obbligatorio
 
-    needAr = ['email', 'username']
+    needAr = ['email', 'Username']
     # username in minuscolo perche' intacco anche elgg!
-    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner', 'email'] #location
+    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner'] #location
     needArOfferente = needAr.concat needArOfferente
+    # di default nessuno di questi e' obbligatorio
     noNeedAr = ['Site']
     setNeed = (bool)->
 
@@ -177,17 +175,33 @@
     setNeed(false)
     # campo extra per controllare che esistano certi elementi... non fa parte del prototipo della classe
     fct.extraCheck = true
+
+    # trick per evitare che appaiano scritte di errore di elgg al momento del submit!
+    elgg.ajax = false;
+    # i campi che fanno chiamate ajax li triggero a parte: in questo modo le chiamate ajax non avvengono al submit
+    # se non li ha mai cambiati, allora nel form non serve stare a controllarli: qui ho gia' dei dati validati, e mi preoccupo solo di quelli modificati
+    $('input[name="email"], input[name="Username"]').on 'mouseout' , (e)->
+        # il plugin delega sul document
+        key = $(this).attr('name')
+        ob = fct.getEl(key)
+        ob.inpt.trigger('focusout')
+
+    # ora il submit
     $('form.elgg-form-usersettings-save').submit (e)->
+
+        check = true
+
         if not fct.extraCheck 
             alert('Errore nel form. Si consiglia di ricaricare la pagina')
+            check = false
+
+        if not check
             # evito che avvenga il submit
             e.preventDefault()
             # evito che si propagi ad eltri eventi
             e.stopPropagation()
 
-   
     form.submit 'form.elgg-form-usersettings-save'
-
 
 
     if $('[name="js_admin"]').val() == 'amministratore' or Jgenre.val() != 'standard'

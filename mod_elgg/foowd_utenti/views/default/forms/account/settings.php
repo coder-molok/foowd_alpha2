@@ -29,7 +29,7 @@ unset($_SESSION['sticky_forms'][$form]);
 
 $guid = $owner->guid;
 
-$f = new \Foowd\Action\UserSave();
+$f = new \Foowd\Action\UserSave($form);
 
 // prendo i valori del vecchio post e li carico nel form
 $data['type']='search';
@@ -56,6 +56,22 @@ $vrs = $f->prepare_form_vars($form);
 // gli amministratori possono modificare alcuni campi che in caso contrario rimangono bloccati
 $vrs['isAdmin'] = $me->isAdmin();
 $vrs['username'] = $owner->username;
+
+// controlli relativi a eventuali cambi di mail
+$s = new \Foowd\Action\FoowdUpdateUser();
+$par = $s->emailExpiration;
+if($owner->{$par}){
+	// se e' passato troppo tempo il nuovo cambio mail viene resettato senza dire nulla
+	if(time() > $owner->{$par}){
+		$owner->{$par} = '';
+		$owner->{$s->emailToSetMetadata} = '';
+		$owner->save();
+	}else{
+		$vrs['emailToSet'] = $owner->{$s->emailToSetMetadata};
+	}
+}
+
+
 
 echo elgg_view('foowd_account/foowd_user_settings', $vrs);
 
