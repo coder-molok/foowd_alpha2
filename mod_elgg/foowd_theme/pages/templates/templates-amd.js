@@ -12,13 +12,13 @@ templates['navbar'] = template({"1":function(container,depth0,helpers,partials,d
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
-  return "  <div class=\"navbar-section logo\" >\r\n      <div class=\"foowd-brand\">\r\n       <span onClick=\"utils.goTo('')\">foowd_</span>\r\n"
+  return "  <div class=\"navbar-section logo\" >\r\n      <div class=\"foowd-brand\">\r\n       <span onClick=\"utils.goTo('')\" class=\"foowd-brand-pre-search\">foowd<span class=\"foowd-pulsate\">_</span></span>\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.search : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "      </div>\r\n  </div>\r\n  <div class = \"navbar-section\" id=\"user-menu-section\">\r\n      <div id = \"user-menu\">\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "          <span onClick=\"utils.goTo('board')\" \r\n                class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link\">\r\n          </span>\r\n          <span onClick = \"utils.goTo('panel')\"\r\n                class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link\">\r\n          </span>\r\n          <span id=\"trigger-overlay\" \r\n                class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link\">\r\n          </span>\r\n      </div>\r\n  </div>\r\n";
 },"4":function(container,depth0,helpers,partials,data) {
-    return "        <input type=\"text\" id=\"searchText\" onkeypress=\"window.searchProductsKey(event)\">\r\n";
+    return "        <span id=\"searchText\" onkeypress=\"window.searchProductsKey(event)\"></span>\r\n";
 },"6":function(container,depth0,helpers,partials,data) {
     return "	      	 <span id=\"groupBtn\" onClick=\"window.toggleGroup()\" \r\n	                class=\"foowd-icons icon-black foowd-icon-group fw-menu-icon preferences-link\">\r\n	          </span>\r\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {

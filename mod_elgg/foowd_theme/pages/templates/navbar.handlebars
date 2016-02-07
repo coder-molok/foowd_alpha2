@@ -22,9 +22,9 @@
 {{#if regular}}
   <div class="navbar-section logo" >
       <div class="foowd-brand">
-       <span onClick="utils.goTo('')">foowd_</span>
+       <span onClick="utils.goTo('')" class="foowd-brand-pre-search">foowd<span class="foowd-pulsate">_</span></span>
        {{#if search}}
-        <input type="text" id="searchText" onkeypress="window.searchProductsKey(event)">
+        <span id="searchText" onkeypress="window.searchProductsKey(event)"></span>
        {{/if}}
       </div>
   </div>

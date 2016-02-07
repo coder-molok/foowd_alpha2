@@ -1,11 +1,24 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+### 07/02/2016
+
+- sostituito html per funzione di ricerca
+
+- implementata funzione di ricerca con colorazione e underscore lampeggiante
+
+- implementata colorazione dei tags nei post matchanti
+
+- tentativo di nascondere i post non matchanti: allo stato attuale non funzia per via del design fixed
+
+
+
 ### 06/02/2016
 
 - completamento iter modifica impostazioni utente e aggiunta di controlli di validazione
 
 - iss#198
+
 
 
 ### 05/02/2016

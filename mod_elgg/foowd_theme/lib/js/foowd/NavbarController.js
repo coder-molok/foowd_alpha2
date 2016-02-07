@@ -46,6 +46,8 @@ define(function(require){
             		context.regular = true;
             	}
             	$(el).html(templates.navbar(context));
+            	// dopo averlo caricato, posso appendergli gli eventi
+            	manageSearchText();
             });
             //carico l'overlay sul menu
             _loadOverlay();
@@ -121,6 +123,88 @@ define(function(require){
         	}else{
         		utils.goTo("login");
         	}
+        }
+
+        /**
+         * funzione che realizza l'effetto sul campo di ricerca:
+         * rimpiazza il concetto di campo input, perche' su tal tag non e' possibile inserire elementi html, ma solo testuali
+         * @return {[type]} [description]
+         */
+        // se il plugin viene caricato piu volte, c'e' il rischio che gli eventi $(document).on si accumulino, ripetendosi piu volte per singola pressione
+        __countManageSearch = 0;
+        function manageSearchText(){
+        	if(__countManageSearch >0) return;
+        	__countManageSearch++;
+        	// mi serve perche' da esso rimuovo la classe "pulsate" per l'effetto sull'underscore
+        	var $box = $('.foowd-brand');
+        	// scritta foowd_ : triggera anche il click per andare alla homepage
+        	var $pre = $('.foowd-brand-pre-search');
+        	// campo search
+        	var $search = $('#searchText').first();
+        	var tags = '[data-tag]';
+        	var pulsationSpan = '<span class="foowd-pulsate">_</span>';
+
+        	$(document).on('keydown', function(e){
+        		var code = (e.keyCode) ? e.keyCode : e.which ;
+        		// 8 e' il codice del backspace: devo impedire che avvenga il back della history del browser
+        		// 32 e' il codice dello space: quando lo si clicca avviene lo scroll, che non serve
+        		if( code == 8 || code == 32 ) e.preventDefault() ;
+        	});
+
+        	var _newTag = 0;
+        	$(document).on('keyup', function(e){
+                // prova...
+                $('.product-post').css({'visibility': 'hidden'});
+
+        		// rimuovo la classe per poi appenderla all'ultimo underscore
+        		$box.find('.foowd-pulsate').removeClass('foowd-pulsate');
+        		$(tags).css({'background': 'transparent'});
+        		// valore attuale: elimino gli uderscore che inserisco alla fine
+        		var actual = $search.text().replace(/(^_|_$)/g, '');
+        		// valore rilasciato
+        		var code = (e.keyCode) ? e.keyCode : e.which ;
+        		var c = String.fromCharCode(code);
+        		// se e' il backspace allora cancello!
+        		
+        		actual = (code==8) ? actual.slice(0,-1) : actual + c.toLowerCase() ;
+
+        		// se il campo e' vuoto, allora l'underscore di foowd_ deve lampeggiare
+        		if(actual == ''){
+        			$pre.html(  $pre.text().replace(/_/, pulsationSpan) )
+                    $('.product-post').css({'visibility': 'visible'});
+                }
+                else{
+                    if(actual.length < 3) $('.product-post').css({'visibility': 'visible'});
+        			// rimpiazzo gli spazi con un underscore ed eseguo un trim degli underscore
+        			if(_newTag != 0){
+        				actual=actual.replace(_newTag, _newTag + '_');
+        				actual = actual.replace(/ /g, '');
+        				_newTag = 0;
+        			}
+        			if(actual.match(/ $/)){
+        				_newTag = actual.replace(/ $/,'');	
+        			}
+        			actual = actual.replace(/(_+|,|\.|;|'|")+/g, '_');
+        			actual = actual.split('_');
+        			var tmpstr = ''
+        			for(var i in actual){
+        				var random = "#"+((1<<24)*Math.random()|0).toString(16);
+        				var myunder = '_';        				
+        				if( i == actual.length -1 ) myunder =  pulsationSpan;
+        				tmpstr = tmpstr + '<span style="color:' + random + ';">' + actual[i].replace(/ /,'') + myunder + '</span>'
+        				// ora appendo nen body:
+                        if(actual[i].length > 2){
+                            (function(c){
+            				    $('[data-tag*="'+actual[i]+'"]').css({'background-color': c});
+                                $('[data-tag*="'+actual[i]+'"]').closest('.product-post').css({'visibility': 'visible'});
+                                return;
+                            })(random);
+                        }
+        			}
+        			actual = tmpstr
+        		}
+        		$search.html(actual)
+        	});
         }
 
 		return{
