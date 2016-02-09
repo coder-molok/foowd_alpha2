@@ -44,10 +44,20 @@ h3,h4,h5
 //--- Stile Generale per effetto pulsazione. 
 .foowd-pulsate
   cursor: pointer;
-  animation: pulsate 2s step-start ;
+  animation: pulsate 1.3s step-start ;
   animation-iteration-count: infinite; 
 
 @keyframes pulsate 
   0% { opacity: 0.0;}
   50% { opacity: 1.0;}
   100% { opacity: 0.0;}
+  
+@keyframes fadeIn
+  0% { opacity: 0.0;}
+  50% { opacity: 1.0;}
+  100% { opacity: 0.0;}
+    
+@keyframes fadeOut
+  0% { opacity: 1.0;}
+  50% { opacity: 0.0;}
+  100% { opacity: 1.0;}

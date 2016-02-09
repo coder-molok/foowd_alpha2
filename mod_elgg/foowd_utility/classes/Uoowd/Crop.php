@@ -314,6 +314,8 @@ class Crop{
 		// savedir settato con metodo saveImg()
 		if(is_null($dir)) $dir = $this->saveDir;
 
+		if(is_null($dir) || empty($dir) || $dir =='') return;
+
 	 //    if (!file_exists($dir)) {
 	 //        return true;
 	 //    }

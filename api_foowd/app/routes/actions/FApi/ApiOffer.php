@@ -290,6 +290,7 @@ class ApiOffer extends \Foowd\FApi{
 		}
 
 		if(isset($data->ExternalId)){
+			$data->ExternalId = trim($data->ExternalId, ',');
 			if(preg_match('@,@',$data->ExternalId)){
 				$toCheck = explode(',' , $data->ExternalId);
 			}else{
@@ -516,6 +517,7 @@ class ApiOffer extends \Foowd\FApi{
 		}
 
 		if(isset($data->ExternalId)){
+			$data->ExternalId = trim($data->ExternalId, ',');
 			if(preg_match('@,@',$data->ExternalId)){
 				$toCheck = explode(',' , $data->ExternalId);
 			}else{

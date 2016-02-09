@@ -1,5 +1,6 @@
 
 @import 'jeet'
+@import 'nib'
 @require 'variables'
 @require 'mixins'
 
@@ -32,7 +33,6 @@
   background-color: foowdPlusG;
 
  
-  
 .foowd-brand
   column(1/2)  
   align(vertical)
@@ -40,19 +40,58 @@
   text-decoration : none;
   color: black;
   font-family AkkuratBold;
-  font-size: 24pt;
-  line-height : 24pt;
   letter-spacing: -1.5pt;
-  span
+  line-height : 24pt;
+  font-size: 24pt;
+
+  .foowd-brand-pre-search
     cursor: pointer;
-  .searchText
+    
+  #searchText-loom
     font: 100% AkkuratBold;
     padding: 0px;
-    width:40%;
     background-color: transparent;
     outline:none;
     border: none;
+    max-width: 80%
+    // per l'overflow a scomparsa a sinistra anziche' a destra
+    // direction: rtl;
+    &:hover
+      cursor: text;
+      
+  .pointer-search
+    animation: fadeOut 1s linear;
+    animation-iteration-count: infinite; 
+      
+  // queste parti mi servono per il posizionamento della scritta e della search:
+  // la proprieta' overflow-hidden, cambia dinamicamente la line heigth nel passaggio da contenuto vuoto a non:
+  // nella #searchText nel momento in cui si inserisce il contenuto, senza la line-height, i due blocchi non mantengono allinemento verticale
+  .foowd-brand-pre-search, #searchText-loom
+    position: relative; // per il posizionamento di searchText, che dovra' essere scorrevole
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+    line-height: 1em;
+  
+  // condizioni per lo scorrimento
+  #searchText
+    position: relative;
+    left: 0px;
+  
+    
 
+  .search-dots
+    position: relative;
+    &:before
+      position: absolute;
+      content: '...';
+      top: 0;
+      left: 0
+      line-height: initial;
+      background-color: foowd2;
+      z-index: 3;
+    
+    
     
 #user-menu-section
   background-color: rgb(255,255,255);
@@ -61,10 +100,13 @@
 #user-menu
   position:relative;
   right: 0;
-  margin: 0px 20px 0 0
+  // margin: 0px 20px 0 0
+  margin: 12px 20px 0px 0px;
   display: flex
   font-size:24pt;
   align(vertical)
+  top: unset
+  transform: unset
   
   span
     margin: 0 0 0 10px;

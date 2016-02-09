@@ -59,7 +59,7 @@ if ($f->status && $crop->status ) {
 		// system_message('resp true');
 
 		// dopo aver salvato i contenuti del post posso provare a salvare le immagini
-		set_input('offerGuid', $r->Id);
+		set_input('offerGuid', $r->body->Id);
 		$crop->saveImg();
 
 		// se il crop non e' avvenuto, allora elimino l'articolo salvato con le API
@@ -70,7 +70,7 @@ if ($f->status && $crop->status ) {
 			$crop->removeDir();
 
 			$data2['Publisher']=elgg_get_logged_in_user_guid();
-			$data2['Id']=(int) $r->Id;
+			$data2['Id']=(int) $r->body->Id;
 			$data2['type']='delete';
 
 			$r2 = \Uoowd\API::Request('offer','POST', $data2);

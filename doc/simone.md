@@ -1,6 +1,18 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+### 09/02/2016
+
+- lavoro sulla searchbar: predisposto terreno di lavoro per implementare tutte le skill richieste
+
+- aggiornamento css e template handlebars per navbar
+
+- introdotto modulo per gestione della simulazione del campo di ricerca come campo di input
+
+- correzione bug
+
+
+
 ### 07/02/2016
 
 - sostituito html per funzione di ricerca

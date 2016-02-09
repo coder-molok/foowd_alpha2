@@ -195,8 +195,9 @@ namespace Foowd\Action;
 			?>
 
 			<script>
-			  // jQuery('body').css('background-color', 'red');
-			  $(".chosen-select").chosen();
+			requirejs(['jquery'], function(c){
+
+			  $(".chosen-select").chosen({width: "100%"});
 
 			  $('.chosen-select').on('change', function(evt, params) {
 			      // do_something(evt, params);
@@ -229,6 +230,7 @@ namespace Foowd\Action;
 
 			    });
 
+			})
 			</script>
 			<?php
 

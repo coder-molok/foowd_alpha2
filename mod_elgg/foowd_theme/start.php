@@ -175,6 +175,12 @@ function AMD(){
 	    'exports' => 'Modernizr'
 	]);
 
+	/* gestione della searchbar */
+	elgg_define_js('NavbarSearch',[
+	    'src' => '/mod/foowd_theme/lib/js/foowd/NavbarSearch.js',
+	    'deps'=> array('jquery')
+	]);	
+
 
 }
 
