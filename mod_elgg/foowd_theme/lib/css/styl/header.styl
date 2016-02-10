@@ -77,20 +77,19 @@
   #searchText
     position: relative;
     left: 0px;
+    // questi tre mi servono per la computazione della posizione
+    display: inline-block
+    width: 100%;
+    min-width: 100%;
+    
   
-    
-
-  .search-dots
-    position: relative;
-    &:before
-      position: absolute;
-      content: '...';
-      top: 0;
-      left: 0
-      line-height: initial;
-      background-color: foowd2;
-      z-index: 3;
-    
+  #search-dots
+    position: absolute;
+    line-height: initial;
+    background-color: foowd2;
+    z-index: 3;
+    border-right: 2px solid foowd2;
+  
     
     
 #user-menu-section

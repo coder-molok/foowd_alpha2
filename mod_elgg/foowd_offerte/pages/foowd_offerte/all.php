@@ -4,7 +4,13 @@ gatekeeper();
 
 $user = elgg_get_logged_in_user_entity();
 
-if($user->Genre != 'offerente' || !$user->isAdmin()){
+
+if($user->Genre == "evaluating" ){
+	register_error('La tua richiesta di registrazione come produttore e\' ancora in fase di approvazione.<br/>Ti avviseremo appena verra\' approvata.');
+	forward(REFERER);
+}
+
+if($user->Genre != 'offerente' && !$user->isAdmin()){
 	register_error('Siamo spiecenti ma non godi dei permessi per accedere alla pagina cercata.');
 	forward(REFERER);
 }

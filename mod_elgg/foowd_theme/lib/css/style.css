@@ -798,18 +798,16 @@ h5 {
 .foowd-brand #searchText {
   position: relative;
   left: 0px;
+  display: inline-block;
+  width: 100%;
+  min-width: 100%;
 }
-.foowd-brand .search-dots {
-  position: relative;
-}
-.foowd-brand .search-dots:before {
+.foowd-brand #search-dots {
   position: absolute;
-  content: '...';
-  top: 0;
-  left: 0;
   line-height: initial;
   background-color: #e6dcbe;
   z-index: 3;
+  border-right: 2px solid #e6dcbe;
 }
 #user-menu-section {
   background-color: #fff;
@@ -2133,9 +2131,9 @@ h5 {
 .mini-progress-bar {
   position: absolute;
   width: 40px;
-  top: 25px;
-  right: 90px;
-  height: 4px;
+  right: 8px;
+  height: 20px;
+  margin-top: -28px;
 }
 .mini-progress {
   background-image: url("../../img/barra-bianca.png");

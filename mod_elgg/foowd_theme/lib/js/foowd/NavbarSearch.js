@@ -37,7 +37,9 @@ define(function(require){
 		var tags = '[data-tag]';
 		var pulsationSpan = 'foowd-pulsate';
 		var underscoreSpan = '<span class="underscore-search">_</span>';
-		var pointer = '<span class="pointer-search">|</span>';
+		var pointer = '<span class="pointer-search">_</span>';
+		var _deltaX = 0;
+		var _prevLen = 0;
 
 		$(document).on('keydown', function(e){
 			if ($(e.target).is('input, textarea')) {
@@ -49,7 +51,6 @@ define(function(require){
 			if( code == 8 || code == 32 ) e.preventDefault() ;
 		});
 
-		var _newTag = 0;
 		$(document).on('keyup', function(e){
 			if ($(e.target).is('input, textarea')) {
 			    return;   
@@ -111,38 +112,59 @@ define(function(require){
 
 			//***** se e' il backspace allora cancello a sinistra del focus
 			if(code == 8){
-				// se l'ultimo e' vuoto, allora lo elimino, a meno che non sia l'unico!
-				var len = $search.find('span[data-tag-navsearch]').last().length == 0;
-				if($focus.attr('data-tag-navsearch') == '' && len > 0){
-					$focus.remove();
-					// rimpiazzo il focus
-					$focus = $search.find('span[data-tag-navsearch]').last();
-					$focus.append(pointer);
-				}
-				// testo puro
-				var tagT = $focus.attr('data-tag-navsearch');
-				// testo html: mi serve per via del focus
-				var tagH = $focus.html();
-				var part = tagH.split(pointer);
-				// elimino un carattere e riformo il tutto
-				tagT = part[0].slice(0, -1) + part[1];
-				tagH = part[0].slice(0, -1) + pointer + part[1];
-				$focus.attr('data-tag-navsearch', tagT).html(tagH);
-				// nel caso si sia svuotato tutto, faccio prima a ripristinare da zero,
-				// altrimenti aggiorno la ricerca
+
 				c = '';
-				if(tagT.length == 0){
-					$focus.remove();
-					if($search.find('span[data-tag-navsearch]').length  > 0){
-						$focus = $search.find('span[data-tag-navsearch]').last();
-						$focus.append(pointer);
-					}else{
+				
+				// se ne ho abbastanza allora ci sono due opzioni:
+				if($search.find('span[data-tag-navsearch]').length  > 0){
+					var idx = $focus.html().indexOf(pointer);
+					var trueLen = $focus.html().slice(idx + pointer.length).length;
+
+					// se l'indice e' zero, mi devo spostare su quello precedente
+					if(idx == 0){
+						// se ci sono dei predecessori, allora posso passare a loro, e cancellare il presente se ha lunghezza nulla
+						if($search.find($focus).prev().length > 0){
+							$focus = $search.find($focus).prev();
+							// se ho abbandonato uno vuoto, allora lo devo eliminare
+							if(trueLen <=0){
+								$search.find($focus).next().remove();
+							}
+							// tolgo i puntatori precedenti, e li rimetto in quello attuale
+							$('.pointer-search').remove();						
+							$focus.append(pointer);
+						}// altrimenti l'attuale ha lunghezza nulla provo ad appenderlo al successivo e cancello quello che ho svuotato
+						else if($search.find($focus).next().length > 0 && trueLen == 0){
+							$focus = $search.find($focus).next();
+							$search.find($focus).prev().remove();
+							$focus.prepend(pointer);
+						}// infine se quello attuale e' vuoto, allora lo rimuovo e via
+						else{
+							// in questo l'unico che e' rimasto potrebbe avere lunghezza nulla: se e' cosi' lo elimino
+							if(trueLen == 0 ) $focus.remove();
+						}
+					}
+					// in caso contrario eseguo la normale operazione di cacnellazione
+					else{
+						// testo puro
+						var tagT = $focus.attr('data-tag-navsearch');
+						// testo html: mi serve per via del focus
+						var tagH = $focus.html();
+						var part = tagH.split(pointer);
+						// elimino un carattere e riformo il tutto
+						tagT = part[0].slice(0, -1) + part[1];
+						tagH = part[0].slice(0, -1) + pointer + part[1];
+						$focus.attr('data-tag-navsearch', tagT).html(tagH);
+					}
+				}
+				// se ho eliminato tutto, allora ho praticamente resettato
+				if($search.find('span[data-tag-navsearch]').length ==  0  ){
 						// visto che non ho piu niente, riattivo l'underscore pulsante di foowd_
 						$('.underscore-search').last().addClass(pulsationSpan);
 						return;
-					}
 				}
+
 			}
+
 
 			//***** se e' la freccia a sx
 			if(code == 37){
@@ -157,10 +179,13 @@ define(function(require){
 						if( $(this).is($focus) ) return false; 
 						tmpFocus = $(this);
 					});
-					$focus = tmpFocus;
-					// metto il puntatore prima dell'underscore
-					$('.pointer-search').remove();
-					$focus/*.find('.underscore-search').before*/.append(pointer);
+					// se sono ancora sullo stesso elemento, non posso spingermi alla sua sx e quindi non faccio nulla
+					if(!tmpFocus.is($focus)){
+						$focus = tmpFocus;
+						// metto il puntatore prima dell'underscore
+						$('.pointer-search').remove();
+						$focus.append(pointer);
+					}
 				}else{
 					// escape per regular expression
 					function escapeRegExp(str) {
@@ -187,9 +212,7 @@ define(function(require){
 				var n = html.indexOf(pointer);
 				var re = new RegExp(escapeRegExp(pointer));
 				var pos = html.replace(re, '').length;
-
-				// console.log($($focus.html()).remove($(pointer)).text().length)
-				// se l'indice e' zero, vuol dire che devo passare al gruppo precedente
+				// vuol dire che sono in fondo!
 				if(n==pos){
 					// assegno il precedente
 					var tmpFocus = $focus;
@@ -201,10 +224,14 @@ define(function(require){
 						} 
 						if( $(this).is($focus) ) next = true;
 					});
-					$focus = tmpFocus;
-					// metto il puntatore prima dell'underscore
-					$('.pointer-search').remove();
-					$focus/*.find('.underscore-search').before*/.prepend(pointer);
+
+					// se sono ancora sullo stesso elemento, non posso spingermi alla sua dx e quindi non faccio nulla
+					if(!tmpFocus.is($focus)){
+						$focus = tmpFocus;
+						// metto il puntatore prima dell'underscore
+						$('.pointer-search').remove();
+						$focus.prepend(pointer);
+					}
 				}else{
 					// escape per regular expression
 					var re = new RegExp('(.*)('+escapeRegExp(pointer)+')(.)(.*)');
@@ -245,24 +272,48 @@ define(function(require){
 
 
        		// aggiungo all'ultimo underscore disponibile
-        	$('.underscore-search').last().addClass(pulsationSpan);
+        	// $('.underscore-search').last().addClass(pulsationSpan);
+        	// se e' l'ultimo, allora elimino l'underscore dopo il focus
+        	var l = $focus.html().indexOf(pointer)
+        	if(pointer.length == $focus.html().slice(l).length) $focus.next('.underscore-search').remove();
+        	
 
         	//*** gestione dell'overflow
 			// NB: uso scroll e non width: la width  di searchText e di searchText-loom coincidono sempre!
         	var sc = $('#searchText').first().prop('scrollWidth');
         	var sw = $('#searchText-loom').first().width();
-        	var delta;
+
         	// se il box lo supera allora devo recuperare il posizionamento
         	if( sc > sw){
+        		// massima e minima posizione:
+        		var maxV = $('#searchText-loom').get(0).getBoundingClientRect().right;
+        		var minV = $('#search-dots').get(0).getBoundingClientRect().right;
+        		var sr = $('#searchText').get(0).getBoundingClientRect();
+        		var pt = $('.pointer-search').get(0).getBoundingClientRect();
+        		var delta = 0;
         		// posiziono dal SX, quindi mi serve un valore negativo
-        		delta = sw - sc;
-        		$('#search-dots').addClass('search-dots');
+        		// delta = sw - sc;
+
+        		if(pt.left < minV ){
+        			_deltaX +=  minV - pt.left;
+        		}
+        		else if(pt.right > maxV){
+        			_deltaX += maxV - pt.right;
+        		}
+        		// se cancello lo sposto solamente se ho ancora spazio da slittare a sx
+        		if(code == 8 && _deltaX < 0 ){
+        			// conteggio la lunghezza della lettera che ho inserito
+        			_deltaX += _prevLen - sc ;
+        		}
+
+        		$('#search-dots').html('...');
         	}else{
-        		delta = 0;
-        		$('#search-dots').removeClass('search-dots');
+        		_deltaX = 0;
+        		$('#search-dots').html('');
         	}
-        	
-        	$search.css({'left': delta+'px'});
+
+        	$search.css({'left': _deltaX+'px'});
+        	_prevLen = sc;
 
 		});
 		
@@ -282,7 +333,6 @@ define(function(require){
 			$cl.remove();
 			// fattore correttivo
 			var ratio = ew/cw;
-			console.log(ratio);
 			// posizionamnto del click
 			var parentOffset = $(this)/*.parent()*/.offset(); 
 			var x = e.pageX - parentOffset.left;
@@ -291,7 +341,7 @@ define(function(require){
 			var pos = Math.floor( len * ratio * (x/cw) );
 			var output = [text.slice(0, pos), pointer, text.slice(pos)].join('');
 
-			console.log(x + " " + cw + " " + ew + " " + pos)
+			// console.log(x + " " + cw + " " + ew + " " + pos)
 			$('.pointer-search').remove();
 
 			$(this).html(output);

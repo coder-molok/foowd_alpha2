@@ -147,36 +147,42 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
     + "\"/>\r\n    </div>\r\n</div>\r\n";
 },"useData":true});
 templates['productPost'] = template({"1":function(container,depth0,helpers,partials,data) {
+    return "                <div class=\"product-post-progress-price\">\r\n                   "
+    + container.escapeExpression((helpers.math || (depth0 && depth0.math) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.totalQt : depth0),"*",(depth0 != null ? depth0.Price : depth0),{"name":"math","hash":{},"data":data}))
+    + "\r\n                   <span class=\"apex\">€</span>\r\n                </div>\r\n";
+},"3":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "                <span class=\"mini-progress-bar\">\r\n                    <span class=\"mini-progress\" data-unit=\"1\" data-progress=\""
+  return "            <span class=\"mini-progress-bar\">\r\n                <span class=\"mini-progress\" data-unit=\"1\" data-progress=\""
     + alias4(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
     + "\" data-total=\""
     + alias4(((helper = (helper = helpers.Minqt || (depth0 != null ? depth0.Minqt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Minqt","hash":{},"data":data}) : helper)))
-    + "\"></span>\r\n                </span>  \r\n                <div class=\"product-post-progress-price\">\r\n                "
-    + alias4((helpers.math || (depth0 && depth0.math) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),"*",(depth0 != null ? depth0.Price : depth0),{"name":"math","hash":{},"data":data}))
-    + "\r\n                    <span class=\"apex\">€</span>\r\n                </div>\r\n";
+    + "\"></span>\r\n            </span>\r\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "<li class=\"product-post\">\r\n    <div class=\"post-container\" onclick=\"utils.go2('detail', 'productId', "
+  return "<li class=\"product-post\">\r\n    <div class=\"post-container\" data-product-id=\""
     + alias4(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Id","hash":{},"data":data}) : helper)))
-    + ",event)\">\r\n        <div class=\"product-post-image-thumbnail\">\r\n            <figure class=\"tint\" >\r\n                <img src=\""
+    + "\">\r\n        <div class=\"product-post-main-frame\" onclick=\"utils.go2('detail', 'productId', "
+    + alias4(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Id","hash":{},"data":data}) : helper)))
+    + ",event)\">\r\n            <div class=\"product-post-image-thumbnail\">\r\n                <figure class=\"tint\" >\r\n                    <img src=\""
     + alias4(((helper = (helper = helpers.picture || (depth0 != null ? depth0.picture : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"picture","hash":{},"data":data}) : helper)))
-    + "\">\r\n            </figure>\r\n            <!-- Questo span permette ai contenuti di allinearsi con la larghezza dell'immagine\r\n            In pratica detta quanto sia la larghezza del div contenitore (vedi WallController.adjustOverlays--> \r\n              <span class=\"heart-overlay\">\r\n            </span>\r\n             <div class=\"product-post-menu\" onclick=\"window.go2ProducerSite("
+    + "\">\r\n                </figure>\r\n                <!-- Questo span permette ai contenuti di allinearsi con la larghezza dell'immagine\r\n                In pratica detta quanto sia la larghezza del div contenitore (vedi WallController.adjustOverlays--> \r\n                  <span class=\"heart-overlay\">\r\n                </span>\r\n                 <div class=\"product-post-menu\" onclick=\"window.go2ProducerSite("
     + alias4(((helper = (helper = helpers.Publisher || (depth0 != null ? depth0.Publisher : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Publisher","hash":{},"data":data}) : helper)))
-    + ",event)\">\r\n                   <span  class=\"foowd-icons foowd-icon-len\">\r\n                   </span>\r\n            </div>\r\n        </div>\r\n        <div class=\"product-post-header\">\r\n            <div class=\"product-post-name\">\r\n                "
+    + ",event)\">\r\n                       <span  class=\"foowd-icons foowd-icon-len\">\r\n                       </span>\r\n                </div>\r\n            </div>\r\n            <div class=\"product-post-header\">\r\n                <div class=\"product-post-name\">\r\n                    "
     + alias4(((helper = (helper = helpers.Name || (depth0 != null ? depth0.Name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Name","hash":{},"data":data}) : helper)))
-    + "\r\n                <br/>\r\n                <br/>\r\n                <span class=\"product-post-unit-price\">\r\n                    "
+    + "\r\n                    <br/>\r\n                    <br/>\r\n                    <span class=\"product-post-unit-price\">\r\n                        "
     + alias4(((helper = (helper = helpers.Quota || (depth0 != null ? depth0.Quota : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Quota","hash":{},"data":data}) : helper)))
     + " "
     + alias4(((helper = (helper = helpers.Unit || (depth0 != null ? depth0.Unit : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Unit","hash":{},"data":data}) : helper)))
     + " "
     + alias4(((helper = (helper = helpers.UnitExtra || (depth0 != null ? depth0.UnitExtra : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"UnitExtra","hash":{},"data":data}) : helper)))
-    + "\r\n                    <br/>\r\n                    "
+    + "\r\n                        <br/>\r\n                        "
     + alias4(((helper = (helper = helpers.Price || (depth0 != null ? depth0.Price : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Price","hash":{},"data":data}) : helper)))
-    + "€\r\n                </span>\r\n            </div>\r\n"
+    + "€\r\n                    </span>\r\n                </div>\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "            </div>\r\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "        </div>\r\n        <div class=\"product-post-body\">\r\n                "
     + ((stack1 = (helpers.listTags || (depth0 && depth0.listTags) || alias2).call(alias1,(depth0 != null ? depth0.Tag : depth0),{"name":"listTags","hash":{},"data":data})) != null ? stack1 : "")
     + "\r\n        </div>\r\n    </div>\r\n</li>";

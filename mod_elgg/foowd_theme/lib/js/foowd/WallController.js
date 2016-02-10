@@ -82,6 +82,11 @@ define(function(require){
 					if(rawProducts.length > 0){
 						//utilizo il template sui dati che ho ottenuto
 						var parsedProducts = _applyProductContext(rawProducts);
+						// se vi sono gia' tutti i post, evito di ricaricare il wall:
+						// cosi' risparmio risorse ed evito l'effetto di ricarica nello switch della modalita'
+						if($('[data-product-id]').length > 0 && checkThenUpdate(rawProducts)){
+							return;
+						}
 						//riempio il wall con i prodotti 
 						_fillWall(parsedProducts);
 						$(document).trigger('wall-products-loaded');
@@ -285,9 +290,32 @@ define(function(require){
 			$('#groupBtn').toggleClass('fw-menu-icon-group',group);
 			$('#groupBtn').toggleClass('fw-menu-icon',!group);
 			_applyColor();
-			searchProducts();
+			searchProducts();			
+		}
 
-			
+		/**
+		 * se sono gia' presenti tutti i post, allora posso semplicemente fare un update dei dati,
+		 * altrimenti rigenero il wall
+		 * @param  {[type]} rawProducts [description]
+		 * @return {[type]}             [description]
+		 */
+		function checkThenUpdate(rawProducts){
+
+			var ret = true;
+			$.each(rawProducts, function(idx, obj){
+				var ofId = obj.Id;
+				var Jel = $('[data-product-id="' + ofId + '"]');
+				if(Jel.length == 0){
+					ret = false;
+					return false;
+				}
+				// aggiorno la barra
+				var qt = obj.totalQt;
+				Jel.find(postProgressBarClass).data('progress', qt).css({'transition': 'background-position 1s ease-out'});//	transition: background-position 1s ease-out; 
+			});
+			// aggiorno l'interfaccia triggerando l'evento
+			$(document).trigger('wall-products-loaded');
+			return ret;
 		}
 
 

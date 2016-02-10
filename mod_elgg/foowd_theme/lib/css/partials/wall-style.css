@@ -142,9 +142,9 @@
 .mini-progress-bar {
   position: absolute;
   width: 40px;
-  top: 25px;
-  right: 90px;
-  height: 4px;
+  right: 8px;
+  height: 20px;
+  margin-top: -28px;
 }
 .mini-progress {
   background-image: url("../../img/barra-bianca.png");
