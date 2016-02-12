@@ -63,6 +63,7 @@ define(function(require) {
 		function _getUserPreferencesSingle(userId){
 			return API.getUserPreferences(userId).then(function(data){
 				var rawData = data;
+				console.log(data)
 				var parsedProducts = _applyPreferencesContext(rawData.body);
 				_fillBoard(parsedProducts);
 				$(document).trigger('preferences-loaded');

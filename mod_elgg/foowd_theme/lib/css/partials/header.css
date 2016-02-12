@@ -5,6 +5,7 @@
   position: fixed;
   top: 0;
   z-index: 9000;
+  cursor: text;
   -webkit-box-shadow: 0 0 20px 0 #f0f0f0;
   -moz-box-shadow: 0 0 20px 0 #f0f0f0;
   -ms-box-shadow: 0 0 20px 0 #f0f0f0;
@@ -145,9 +146,6 @@
   outline: none;
   border: none;
   max-width: 80%;
-}
-.foowd-brand #searchText-loom:hover {
-  cursor: text;
 }
 .foowd-brand .pointer-search {
   -webkit-animation: fadeOut 1s linear;

@@ -1,11 +1,57 @@
-define(function(require){
+
+/**
+ * Di NavbarSearch ne DEVE esistere una persessione, che condivide i propri dati con tutti gli altri plugin.
+ *
+ * Per raggiungere questo obiettivo la classe viene creata una volta sola e viene poi appesa all'oggetto globale, che qui chiamo root;
+ * Vedi return finale.
+ */
+
+
+(function(root, factory){
+
+	return define(factory(require, root) );
+
+})(this, function NavBarSearch(require, root){
+
 
 	var $ = require('jquery');
 	var elgg = require('elgg');
+	var utility = require('utility-settings')
 
+	// quando aggiorno la ricerca
+	var searchUpdateWallEvent = "foowd:search:update:wall:event";
+
+	// mainipolo i tags disponibili
+	utility.tags = JSON.parse(utility.tags);
+	var siteTags = [] ;
+	var tg = utility.tags;
+	for(var i in tg){
+		for(var j in tg[i]) siteTags.push(tg[i][j]);
+	}
+
+
+	// oggetto globale che rappresenta l'istanza dell'oggetto (di oggetto, non di classe!)
+	var __Object;
+
+	/**
+	 * funzione generatrice della classe
+	 */
 	var NavbarSearch = function(){
 
+		// oggetto che contiene le chiavi da ricercare nel formato piu opportuno
+		this.searchObject = null;
+
+		this.searchResponseDeferred = $.Deferred();
+
+		this.tagCollectionOld = [] ;
+
+		__Object = this;
+
+		// console.log('NavbarSearch instance created')
+
 	}
+
+
 
 	NavbarSearch.prototype.init = function(){
 		this.manageSearchText();
@@ -34,7 +80,9 @@ define(function(require){
 		// campo search
 		var $search = $('#searchText').first();
 		var $searchLoom = $('#searchText-loom').first();
-		var tags = '[data-tag]';
+		var postTags = '[data-tag]';
+		var postDescription = '.product-post-description';
+		var postName = '.product-post-title';
 		var pulsationSpan = 'foowd-pulsate';
 		var underscoreSpan = '<span class="underscore-search">_</span>';
 		var pointer = '<span class="pointer-search">_</span>';
@@ -64,13 +112,13 @@ define(function(require){
 			$search.find('.underscore-search').remove();
 			$('.underscore-search').removeClass(pulsationSpan);
 			// azzero i tag nel wall
-			$(tags).css({'background': 'transparent'});
+			$(postTags).css({'background': 'transparent'});
 
 			//****** per prima cosa creo un box, se non ve ne sono
 			if($search.find('span[data-tag-navsearch]').length == 0){
 				var random = "#"+((1<<24)*Math.random()|0).toString(16);
 				// creo assegnandogli il puntatore
-        		$('<span/>').css({'color':random} ).attr('data-tag-navsearch','').appendTo($search);
+        		$('<span/>').data('color',random ).attr('data-tag-navsearch','').appendTo($search);
 			}
 
 			//***** dove eseguiro le operazioni di managing, cancellazione e aggiunta
@@ -105,7 +153,7 @@ define(function(require){
         		}else{
 					var random = "#"+((1<<24)*Math.random()|0).toString(16);
 					$('.pointer-search').remove();
-        			$focus = $('<span/>').css({'color':random} ).attr('data-tag-navsearch','').html(pointer).appendTo($search);
+        			$focus = $('<span/>').data('color', random).attr('data-tag-navsearch','').html(pointer).appendTo($search);
         		}
         	}
 
@@ -257,17 +305,36 @@ define(function(require){
         	//***** gestione della ricerca e aggiornamento
         	// di default tolgo i colori
         	$('[data-tag]').css({'background-color': 'transparent'});
-        	// loop per aggiungere gli underscore e aggiornare il wall
+        	// loop per aggiungere gli underscore e raccogliere i tag da cercare
+        	var tagCollection = [] ;
         	$search.find('span[data-tag-navsearch]').each(function(){
-        		// console.log($(this).html())
         		var tag = $(this).attr('data-tag-navsearch');
-        		var color = $(this).css('color');
-        		// $(this).html( $(this).html() + underscoreSpan );
         		$(this).after(underscoreSpan);
+     			
+     			// se il tag non e' presente, allora
+     			if($.inArray(tag, siteTags) == -1 ){
+     				$(this).css({'color': 'initial'});
+     				return true;
+     			}
+     			tagCollection.push(tag);
+        		// queste tre devono mantenere questo ordine
+        		var color = $(this).data('color');
+        		$(this).css({'color': color});
         		$(this).next().css({'color': color});
-        		// devono matchare almeno 3 lettere
-        		if(tag.length > 2) $('[data-tag*="'+tag+'"]').css({'background-color': color});
         	});
+        	
+        	// dopo aver aggiornato la barra, penso a come far avvenire la ricerca:
+        	// ho deciso di raccogliere tutti i tag in una collection in modo da rendere piu veloce la ricerca,
+        	// in quanto e' piu' velore per ogni post fare un check dei tag, che non per ogni tag fare check sui post
+        	// _searchThisWord(tagCollection);
+
+        	// passo l'evento al WallController, che si occupera' del resto
+        	var triggerObj = {};
+        	triggerObj['tagsObject'] =tagCollection;
+        	if(__Object.tagCollectionOld.toString() !== tagCollection.toString()){
+        		__Object.tagCollectionOld = tagCollection;
+				$(document).trigger({"type": searchUpdateWallEvent, "FoowdNavbarSearch": triggerObj});
+        	}
 
 
 
@@ -346,15 +413,39 @@ define(function(require){
 
 			$(this).html(output);
 
-
-
-
-
 		});
+
+		/**
+		 * funzione chiamata per ogni tag nella barra di ricerca, al fine di svolgere appunto la ricerca tra i tag matchanti
+		 * @return {[type]} [description]
+		 */
+		/* function _searchThisWord(tags, color){
+			$('.foowd-post-match').each(function(){
+				// $(this).removeClass('foowd-post-match');
+			});
+			// cerco una di queste parole
+			if(tags.length == 0) return;
+			var re = new RegExp(tags.join('|'), "gi");
+			
+			$('.product-post').each(function(){
+				var match = false;
+				$(this).find('.product-post-title, .product-post-tags, .product-post-description').each(function(){
+					// console.log('name: ' + $(this).text() )
+					if($(this).text().match(re)){
+						match = true;
+						// finisco il loop
+						return false;	
+					} 
+				});
+				// if(match) $(this).addClass('foowd-post-match');
+			});
+		} */
 
 	}
 
-	var ret = new NavbarSearch();
+
+	// se e'  gia' l'oggetto globale lo tengo, altrimenti creo un'istanza e la appendo all'oggetto globale
+	var ret =  root.NavbarSearch || (function(){ var v = new NavbarSearch() ; return v ; })()
 
 	return ret ;
 });

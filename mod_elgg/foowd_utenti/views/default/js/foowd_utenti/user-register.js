@@ -11,7 +11,7 @@
       return root.returnExports = factory();
     }
   })(this, function() {
-    var $, Jform, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, crop, elgg, fct, flds, form, i, len, needAr, needOfferente, noNeedAr, setNeed, va;
+    var $, Jform, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, copy_from, copy_to, crop, el1, el2, elgg, fct, flds, form, i, len, needAr, needOfferente, noNeedAr, setNeed, va;
     elgg = require('elgg');
     $ = require('jquery');
     $('form, form *').unbind();
@@ -171,7 +171,7 @@
       }
       return true;
     });
-    return Jgenre.on("change", function() {
+    Jgenre.on("change", function() {
       if ($(this).val() === 'offerente') {
         Jhook.fadeIn('slow');
         return setNeed(true);
@@ -183,6 +183,12 @@
         });
       }
     });
+    el1 = Jform.find('[name="username"]').parent();
+    el2 = Jform.find('[name="name"]').parent();
+    copy_to = el1.clone(true);
+    copy_from = el2.clone(true);
+    el2.replaceWith(copy_to);
+    return el1.replaceWith(copy_from);
   });
 
 }).call(this);

@@ -167,6 +167,16 @@
                 ()->
                     $(this).val('')
             )
- 
+
+
+    # scambio l'ordine di visualizzazione di username e name
+    el1 = Jform.find('[name="username"]').parent();
+    el2 = Jform.find('[name="name"]').parent();
+
+    copy_to = el1.clone(true);
+    copy_from = el2.clone(true);
+    el2.replaceWith(copy_to);
+    el1.replaceWith(copy_from);
+
 
 );

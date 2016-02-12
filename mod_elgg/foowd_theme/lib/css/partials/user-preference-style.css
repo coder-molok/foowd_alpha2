@@ -312,6 +312,10 @@
   margin-top: 30px;
   width: 100%;
 }
+.product-company {
+  font-family: AkkuratRegular;
+  font-size: 12px;
+}
 @media only screen and (max-width: 900px) {
   .user-preference-details {
     *zoom: 1;

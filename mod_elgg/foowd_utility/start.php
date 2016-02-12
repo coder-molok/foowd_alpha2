@@ -34,6 +34,9 @@ function utility_init(){
 	// wrap plugin pages
 	elgg_register_page_handler('foowd_utility', 'utility_page_handler');
 
+	// wrap per ....
+	elgg_register_plugin_hook_handler('route', 'foowd_utility', 'foowd_utility_routes_wrap');
+
 	// registro con la classe Uoowd\Search per svolgere ricerche specifiche
 	\Uoowd\FoowdSearch::register();
 
@@ -111,7 +114,9 @@ function utility_init(){
 
 	elgg_register_css('jquery.datetimepicker', '/mod/foowd_utility/bower_components/jqueryui-timepicker-addon/src/jquery-ui-timepicker-addon.css');
 	
-	
+	elgg_define_js('foowdJs',[
+	    'src' => '/mod/foowd_utility/js/rewrite/foowd-js.js'
+	]);
 }
 
 
@@ -149,7 +154,7 @@ function update_json($hook, $type, $url, $params){
 }
 
 
-function utility_page_handler($segments) {
+function utility_page_handler($segments, $a) {
 	$check = true;
 
 	switch($segments[0]){
@@ -183,6 +188,9 @@ function utility_page_handler($segments) {
 		case 'checkInit':
 		    include elgg_get_plugins_path() . 'foowd_utility/views/default/plugins/foowd_utility/checkInit.php';
 		    break;
+		// case 'checkInit':
+		//     include elgg_get_plugins_path() . 'foowd_utility/views/default/plugins/foowd_utility/checkInit.php';
+		//     break;
 		default:
 			$check = false;
 			break;
@@ -198,6 +206,9 @@ function foowd_policy_page_handler($segments) {
 	return true;
 }
 
+function foowd_utility_routes_wrap($hook, $type, $returnvalue, $params){
+	\Uoowd\Logger::addError(func_get_args());
+}
 
 function foowd_utility_mail($hook, $type, $return, $params){
 

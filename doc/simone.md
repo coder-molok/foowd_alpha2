@@ -2,6 +2,15 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 12/02/2016
+
+- implementazione search
+
+- migliorato rendering del wall alla search
+
+- risolte varie issue
+
+
 ### 10/02/2016
 
 - introdotto nel wall lo switch di gruppo senza ricaricamento

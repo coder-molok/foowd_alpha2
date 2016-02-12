@@ -19,13 +19,14 @@
     $ = require('jquery')
     # crop = require('crop')
     
+    Jform = $('.elgg-form-usersettings-save');
 
 
     ################## PARTE ADIBITA ALLA MANIPOLAZIONE INTERFACCIA ########################
     
     # di default e' nascosto, pertanto lo faccio apparire:
     
-    $('.elgg-form-usersettings-save').fadeIn('slow')
+    Jform.fadeIn('slow')
 
 
     # nascondo dei campi dalla visualizzazione: volendo posso eliminarli con javascript
@@ -233,5 +234,13 @@
     #     checkGenre.call($(this))
 
 
+    # scambio l'ordine di visualizzazione di username e name
+    # el1 = $('.elgg-form-usersettings-save').find('[name="username"]').parent();
+    # el2 = $('.elgg-form-usersettings-save').find('[name="name"]').parent();
+
+    # copy_to = el1.clone(true);
+    # copy_from = el2.clone(true);
+    # el2.replaceWith(copy_to);
+    # el1.replaceWith(copy_from);
 
 );

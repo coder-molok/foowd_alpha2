@@ -85,18 +85,21 @@ postZindexBase = 50
 	opacity : 0;
 	vendor(transition, opacity .15s ease)
     
+.product-post-main-frame
+	font-family: AkkuratBold
+	position: relative;
+
+
 .product-post-header
 	top: 0px;
 	width: 100%
 	position: absolute;
 	z-index: postZindexBase * 3
-
-
+	
 .product-post-name
 	column(1/2)
 	padding: 10px 0 0 10px;
 	color: white;
-	font-family: AkkuratBold
 	font-size: 12pt;
 	line-height: 14pt;
 	letter-spacing : -0.5pt
@@ -110,18 +113,17 @@ postZindexBase = 50
 .product-post-progress-price
 	padding: 5px 10px 0 0; 
 	color: white;
-	font-family: AkkuratBold;
 	font-size : 18pt;
 	line-height: 14pt;
 	letter-spacing: -1.5pt;
 	text-align : right;
 
 .mini-progress-bar
-	position: absolute;
+	// position: absolute;
 	width: 40px;
-	right: 8px;
+	// right: 8px;
 	height: 20px;
-	margin-top: -28px
+	// margin-top: -28px
 
 .mini-progress
 	background-image : url('../../img/barra-bianca.png');
@@ -131,34 +133,36 @@ postZindexBase = 50
 	span(1)
 	
 
-.product-post-menu
-	position : relative
-	float: left
-	margin: -40px 0 0 0;
-	vertical-align: baseline;
-	padding: 0 0 0 10px;
-	background: none
-	z-index : postZindexBase *3
-	div
-		display: inline-flex;
-		border-radius : 50%
-		padding:0
-		span
-			padding:0
-			margin: 0
-			font-size : 22pt;
-			line-height: 22pt;
-			color: black
-			 display: inline-flex;
-			  border-radius: 50%;
-			  padding: 0;
- 
+.product-post-footer
+	position: absolute;
+	bottom: 0;
+	color: white;
+	width: 100%;
+	
 
-.product-post-body
-	font-family: AkkuratRegular
+	.product-post-company, .mini-progress-bar
+		display: inline-block;
+		vertical-align: middle;
+	
+	.product-post-company
+		width: calc(100% - 55px); // tutto tranne la larghezza della progressbar, considerando anche un po di margine dx
+		span
+			display: inline-block;	
+			vertical-align: middle;	
+		
+	.mini-progress-bar
+		width: 40px;
+	
+
+.product-post-tags, .product-post-description 
 	font-size: 10pt
 	line-height: 17pt
 	font-align: justify
+
+.product-post-description
+	display: none;
+
+
 	
 
 

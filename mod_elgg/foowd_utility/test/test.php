@@ -8,22 +8,18 @@ ob_start();
  *     - http://learn.elgg.org/en/latest/guides/database.html , tutorial pratico su entita via OOP
  *     
  */
-.foowd-brand .pulse {
-  cursor: pointer;
-  animation: pulsate 2s step-start ;
-  animation-iteration-count: infinite; 
-}
-@keyframes pulsate {
-    0% { opacity: 0.0;}
-    50% { opacity: 1.0;}
-    100% { opacity: 0.0;}
-}
 
 
-elgg_load_css('foowd-utenti');
+elgg_require_js('foowdJs');
 
-echo '<div class="test">test</div>';
-
+echo "test";
+?>
+<script>
+    requirejs(['foowdJs'], function(fw){
+        console.log(JSON.stringify(fw))
+    })
+</script>
+<?php
 
 $body = ob_get_contents();
 

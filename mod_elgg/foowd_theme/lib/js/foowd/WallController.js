@@ -13,6 +13,12 @@ define(function(require){
 
 	var WallController = (function(){
 
+		// chiavi id post e valori gli oggetti post delle api
+		// array che usero' in futuro per cache... si occupa di tenere tutti i post caricati
+		// o che man mano verranno caricati, in modo da ottimizzare le risorse, in futuro
+		var rawProductsCache = [] ; 
+
+
 	   /*
 		* IMPOSTAZIONI MODULO ------------------------------------------------------------------------
 		*/
@@ -20,6 +26,8 @@ define(function(require){
 		var searchBox = "#searchText";
 		var group = false;
 		var postProgressBarClass = ".mini-progress";
+		// evento che viene triggerato da NavbarSearch per aggiornare il wall
+		var searchUpdateWallEvent = "foowd:search:update:wall:event";
 		
 		var preference = {
    				OfferId : "",
@@ -82,9 +90,12 @@ define(function(require){
 					if(rawProducts.length > 0){
 						//utilizo il template sui dati che ho ottenuto
 						var parsedProducts = _applyProductContext(rawProducts);
+
 						// se vi sono gia' tutti i post, evito di ricaricare il wall:
 						// cosi' risparmio risorse ed evito l'effetto di ricarica nello switch della modalita'
-						if($('[data-product-id]').length > 0 && checkThenUpdate(rawProducts)){
+						// 
+						// NB: in checkThenUpdate mi occupo anche di salvare i prodotti in una cache... per il momento non e' un'operazione stupenda perche' devo ottimizzare ancora le chiamate
+						if(_checkThenUpdate(rawProducts)){
 							return;
 						}
 						//riempio il wall con i prodotti 
@@ -296,25 +307,35 @@ define(function(require){
 		/**
 		 * se sono gia' presenti tutti i post, allora posso semplicemente fare un update dei dati,
 		 * altrimenti rigenero il wall
+		 * Se ritorna true, previene la generazione del wall mediante ricaricamento
 		 * @param  {[type]} rawProducts [description]
 		 * @return {[type]}             [description]
 		 */
-		function checkThenUpdate(rawProducts){
+		function _checkThenUpdate(rawProducts){
+			// controllo rispetto alla cache: se era in cache la aggiorno, altrimenti devo rigenerare il wall perche' non era presente
 
 			var ret = true;
 			$.each(rawProducts, function(idx, obj){
-				var ofId = obj.Id;
-				var Jel = $('[data-product-id="' + ofId + '"]');
-				if(Jel.length == 0){
+					
+				// se non era nella cache, allora devo fare la prima generazione, ret diventa false in modo da generare il primo wall
+				if(typeof rawProductsCache[obj.Id] == 'undefined'){
 					ret = false;
-					return false;
+				}
+				// in ogni caso salvo i dati, nel caso switchassi nella modalita' gruppo
+				rawProductsCache[obj.Id] = obj;
+				var ofId = obj.Id;
+				// faccio un update se ho gia' caaricato la prima volta
+				var Jel = $('[data-product-id="' + ofId + '"]');
+				// se non e' presente, passo all'iterazione successiva
+				if(Jel.length == 0){
+					return true;
 				}
 				// aggiorno la barra
 				var qt = obj.totalQt;
 				Jel.find(postProgressBarClass).data('progress', qt).css({'transition': 'background-position 1s ease-out'});//	transition: background-position 1s ease-out; 
 			});
 			// aggiorno l'interfaccia triggerando l'evento
-			$(document).trigger('wall-products-loaded');
+			if(ret) $(document).trigger('wall-products-loaded');
 			return ret;
 		}
 
@@ -341,6 +362,38 @@ define(function(require){
 			});
 		});
 
+		// se svolgo una ricerca, navbarsearch si occupa di passare il contenuto che serve a questa 
+		$(document).on(searchUpdateWallEvent, function(e){
+			var resp = e.FoowdNavbarSearch;
+			var tags = resp.tagsObject;
+
+			// qui dovrei implementare la chiamata API per ottenere dati aggiornati
+			// ma ora non la uso perche' tanto il wall lo carico in una botta... naturalmente e' da aggiornare
+
+			var re = new RegExp(tags.join('|'), "gi");
+
+			var tempPost = [];
+
+			// uso la cache 
+			for(var i in rawProductsCache){
+				var post = rawProductsCache[i];
+				// stringa univoca che controlla i match
+				var str = post.Name + post.Description + post.Tag ;
+				if(str.match(re)) tempPost.push(post);
+
+			}
+
+			console.log(tempPost);
+
+			$('.grid').fadeOut(function(){
+				var parsedProducts = _applyProductContext(tempPost);
+				_fillWall(parsedProducts);
+				$(document).trigger('wall-products-loaded');
+				$(this).fadeIn();
+
+			})
+
+		});
 
 		//CORE MODIFIED:
 		//questo evento viene dal plugin che aggiusta il wall nelle colonne desiderate

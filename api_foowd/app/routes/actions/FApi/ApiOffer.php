@@ -611,6 +611,10 @@ class ApiOffer extends \Foowd\FApi{
 
 			$ar = $single->toArray();
 
+			// ricavo il nome dell'azienda
+			$usr = $single->getUser();
+			$ar['Company'] = $usr->getCompany();
+
 			// cerco le quantita' totali associate alla singola offerta
 			$ext = new \stdClass();
 			$ext->OfferId = $single->getId();

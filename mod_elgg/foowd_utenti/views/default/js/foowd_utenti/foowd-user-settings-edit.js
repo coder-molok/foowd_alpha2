@@ -11,10 +11,11 @@
       return root.returnExports = factory();
     }
   })(this, function() {
-    var $, Jgenre, Jhook, _emailBefore, _usernameBefore, advise, ajaxCheck, ar, checkGenre, elgg, fct, form, genre, needAr, needArOfferente, noNeedAr, setNeed;
+    var $, Jform, Jgenre, Jhook, _emailBefore, _usernameBefore, advise, ajaxCheck, ar, checkGenre, elgg, fct, form, genre, needAr, needArOfferente, noNeedAr, setNeed;
     elgg = require('elgg');
     $ = require('jquery');
-    $('.elgg-form-usersettings-save').fadeIn('slow');
+    Jform = $('.elgg-form-usersettings-save');
+    Jform.fadeIn('slow');
     $('.elgg-body').each(function() {
       var html, mod;
       html = $(this).html();

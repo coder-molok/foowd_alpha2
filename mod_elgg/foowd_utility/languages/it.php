@@ -393,10 +393,10 @@ return array(
  * User details
  */
 
-	'name' => "Nome visualizzato",
+	'name' => "Altri Nomi",
 	'email' => "Indirizzo email",
-	'username' => "Username",
-	'loginusername' => "Username o Email",
+	'username' => "Nome Utente",
+	'loginusername' => "Nome Utente o Email",
 	'password' => "Password",
 	'passwordagain' => "Ripeti la password",
 	'admin_option' => "Vuoi rendere questo utente un amministratore?",

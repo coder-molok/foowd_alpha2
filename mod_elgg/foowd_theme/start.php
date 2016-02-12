@@ -139,7 +139,7 @@ function AMD(){
 
 	elgg_define_js('WallController', [
 	    'src' => '/mod/foowd_theme/lib/js/foowd/WallController.js',
-	    'deps'=> array('FoowdAPI','templates', 'elgg', 'page' , 'jquery')
+	    'deps'=> array('FoowdAPI','templates', 'elgg', 'page' , 'jquery', 'NavbarSearch')
 	]);
 
 	elgg_define_js('ProductDetailController', [
@@ -148,7 +148,8 @@ function AMD(){
 	]);
 
 	elgg_define_js('NavbarController', [
-	    'src' => '/mod/foowd_theme/lib/js/foowd/NavbarController.js'
+	    'src' => '/mod/foowd_theme/lib/js/foowd/NavbarController.js',
+	    'deps'=> array('NavbarSearch')
 	]);
 	
 	elgg_define_js('UserBoardController', [
@@ -178,7 +179,7 @@ function AMD(){
 	/* gestione della searchbar */
 	elgg_define_js('NavbarSearch',[
 	    'src' => '/mod/foowd_theme/lib/js/foowd/NavbarSearch.js',
-	    'deps'=> array('jquery')
+	    'deps'=> array('jquery', 'utility-settings', 'elgg')
 	]);	
 
 

@@ -351,6 +351,9 @@
   font-family: AkkuratBold;
   font-size: 16pt;
 }
+#product-company {
+  font-size: 12px;
+}
 #preference-action {
   text-align: right;
 }
@@ -452,6 +455,7 @@
 body {
   background-color: #fff;
   -webkit-font-smoothing: antialiased;
+  font-family: AkkuratRegular;
 }
 h3,
 h4,
@@ -462,7 +466,6 @@ h5 {
 }
 .foowd-alert {
   font-size: 10pt;
-  font-family: AkkuratRegular;
   padding: 10px;
   display: none;
   position: fixed;
@@ -631,6 +634,7 @@ h5 {
   position: fixed;
   top: 0;
   z-index: 9000;
+  cursor: text;
   -webkit-box-shadow: 0 0 20px 0 #f0f0f0;
   -moz-box-shadow: 0 0 20px 0 #f0f0f0;
   -ms-box-shadow: 0 0 20px 0 #f0f0f0;
@@ -771,9 +775,6 @@ h5 {
   outline: none;
   border: none;
   max-width: 80%;
-}
-.foowd-brand #searchText-loom:hover {
-  cursor: text;
 }
 .foowd-brand .pointer-search {
   -webkit-animation: fadeOut 1s linear;
@@ -1864,6 +1865,10 @@ h5 {
   margin-top: 30px;
   width: 100%;
 }
+.product-company {
+  font-family: AkkuratRegular;
+  font-size: 12px;
+}
 @media only screen and (max-width: 900px) {
   .user-preference-details {
     *zoom: 1;
@@ -2081,6 +2086,10 @@ h5 {
   -o-prorp: opacity 0.15s ease;
   transition: opacity 0.15s ease;
 }
+.product-post-main-frame {
+  font-family: AkkuratBold;
+  position: relative;
+}
 .product-post-header {
   top: 0px;
   width: 100%;
@@ -2097,7 +2106,6 @@ h5 {
   margin-right: 3%;
   padding: 10px 0 0 10px;
   color: #fff;
-  font-family: AkkuratBold;
   font-size: 12pt;
   line-height: 14pt;
   letter-spacing: -0.5pt;
@@ -2122,18 +2130,14 @@ h5 {
 .product-post-progress-price {
   padding: 5px 10px 0 0;
   color: #fff;
-  font-family: AkkuratBold;
   font-size: 18pt;
   line-height: 14pt;
   letter-spacing: -1.5pt;
   text-align: right;
 }
 .mini-progress-bar {
-  position: absolute;
   width: 40px;
-  right: 8px;
   height: 20px;
-  margin-top: -28px;
 }
 .mini-progress {
   background-image: url("../../img/barra-bianca.png");
@@ -2156,35 +2160,35 @@ h5 {
 .mini-progress:after {
   clear: both;
 }
-.product-post-menu {
-  position: relative;
-  float: left;
-  margin: -40px 0 0 0;
-  vertical-align: baseline;
-  padding: 0 0 0 10px;
-  background: none;
-  z-index: 150;
+.product-post-footer {
+  position: absolute;
+  bottom: 0;
+  color: #fff;
+  width: 100%;
 }
-.product-post-menu div {
-  display: inline-flex;
-  border-radius: 50%;
-  padding: 0;
+.product-post-footer .product-post-company,
+.product-post-footer .mini-progress-bar {
+  display: inline-block;
+  vertical-align: middle;
 }
-.product-post-menu div span {
-  padding: 0;
-  margin: 0;
-  font-size: 22pt;
-  line-height: 22pt;
-  color: #000;
-  display: inline-flex;
-  border-radius: 50%;
-  padding: 0;
+.product-post-footer .product-post-company {
+  width: calc(100% - 55px);
 }
-.product-post-body {
-  font-family: AkkuratRegular;
+.product-post-footer .product-post-company span {
+  display: inline-block;
+  vertical-align: middle;
+}
+.product-post-footer .mini-progress-bar {
+  width: 40px;
+}
+.product-post-tags,
+.product-post-description {
   font-size: 10pt;
   line-height: 17pt;
   font-align: justify;
+}
+.product-post-description {
+  display: none;
 }
 @-moz-keyframes fadeIn {
   100% {

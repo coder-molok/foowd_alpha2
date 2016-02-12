@@ -225,6 +225,9 @@
   font-family: AkkuratBold;
   font-size: 16pt;
 }
+#product-company {
+  font-size: 12px;
+}
 #preference-action {
   text-align: right;
 }

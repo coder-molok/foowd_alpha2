@@ -578,6 +578,8 @@ class ApiPrefer extends \Foowd\FApi{
 
 				$tmpOf = \OfferQuery::Create()->filterById($OfferId)->findOne();
 				$ar['Offer'] = $tmpOf->toArray();
+				$usr = $tmpOf->getUser();
+				$ar['Offer']['Company'] = $usr->getCompany();
 				// ottengo i tags
 				foreach($tmpOf->getTags() as $tg) $ar['Offer']['Tag'][] = $tg->getName();
 				$ar['Offer']['Tag'] = (isset($ar['Offer']['Tag'])) ? implode(',' , $ar['Offer']['Tag']) : null ;
