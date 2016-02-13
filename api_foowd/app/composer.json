@@ -9,6 +9,7 @@
             "symfony/symfony": "2.6.7"
     	},
 	"autoload": {
+        "files": ["./data/generated-conf/config.php"],
         "classmap": ["./data/generated-classes/"],
         "psr-4" : {
              "Foowd\\" : "routes/actions/"

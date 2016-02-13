@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * action richiamata alla rimozione di un'offerta
+ *
+ * @todo implementare invio email o check in merito alla rimozione dell'offerta
+ */
+
 gatekeeper();
 
 
@@ -35,6 +41,11 @@ if($r->response){
 
 forward(REFERER);
 
+/**
+ * Rimuovo la directory ricorsivamente... devo essere sicuro di voler rimuovere anche il suo contenuto!
+ * @param  [type] $dir [description]
+ * @return [type]      [description]
+ */
 function unlinkDir($dir){
 	if(!file_exists($dir)) return;
 	foreach (new \DirectoryIterator($dir) as $fileInfo) {

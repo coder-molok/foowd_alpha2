@@ -77,10 +77,16 @@
             #vincoli da rispettare
             @inpt .on "focusout mouseout keyup", ( inptOn = ()->
                 if !first
-                    if not that.check()  
-                        that.error()
-                    else 
-                        that.clean()
+                    # aggiungo il controllo in differita di un secondo dall'utlima immissione
+                    # per rendere meno stressante il controllo
+                    clearTimeout(that.timeout);
+                    that.timeout = setTimeout ()->
+                        if not that.check()  
+                            that.error()
+                        else 
+                            that.clean()
+
+                    , 1000
             )
             
             ###
@@ -142,11 +148,14 @@
             re = new RegExp(/^\d{1,5}(\.\d{0,3})?$/)
             Max = @el.val().trim()
 
-            if Max is '' then return true
-
             Min = $("[name*=Minqt]").val().trim()
             if Min is ''
                 @msg = 'Devi prima inserire la quantit&agrave; minima'
+                @el.val('')
+                return false
+
+            if Max is ''
+                @msg = 'Devi prima inserire la quantit&agrave; Massima ( 0 se non vuoi impostare un massimo)'
                 @el.val('')
                 return false
 
@@ -155,6 +164,10 @@
                 return false
 
             # console.log "#{Min} e #{Max}"
+
+            if parseFloat(Max) == 0
+                return true
+
             if parseFloat(Min) > parseFloat(Max)
                 @msg = 'foowd:' +@key.toLowerCase()+':error:larger' 
                 return false
@@ -169,13 +182,61 @@
 
     class IframeText extends Input
         check: ->
-            v = $('iframe[class*="cke_wys"]').contents().find('body').first().text().trim()
+            # v = $('iframe[class*="cke_wys"]').contents().find('body').first().text().trim()
+            v = $('[name="Description"]').val().trim()
             # alert(v)
             if v is '' 
                 return false 
             else
                 @clean()
                 return true
+
+    class Expiration extends Input
+        
+
+        check: ->
+            # se e' vuolo lo lascio stare
+            # console.log(@el.val())           
+            if @el.val() == ''
+                @clean()
+                return true
+
+            exp = __stringToDate(@el.val() ,'yyyy-mm-dd hh:ii:ss')
+            now = new Date()
+            # alert(printDate(exp))
+            if(exp > now) 
+                @clean()
+                return true
+            else
+                return false
+
+        # scrivo la data in stringa
+        printDate = (m)->
+            console.log(m)
+            str = m.getUTCFullYear() + "/" + ( m.getUTCMonth() + 1 ) + "/" + m.getUTCDate() + " " + m.getUTCHours() + ":" + m.getUTCMinutes() + ":" + m.getUTCSeconds()
+            return str
+
+    # trasformo una stringa preformattata in una data
+    #  usage: stringToDate('2015-10-28 09:59:00', 'yyyy-mm-dd hh:ii:ss')
+    __stringToDate = (_date,_format)->
+        # e' importante l'ordine, visto che poi la passo a 
+        dateItems = ['yyyy', 'mm', 'dd', 'hh', 'ii', 'ss']
+        dateApply = []
+
+        for key in dateItems
+            start = _format.indexOf key
+            if start < 0 
+                num = 0
+            else
+                lgth = key.length
+                num = _date.substr(start, lgth)
+                if key is 'mm' then num = num - 1
+
+            dateApply.push parseInt(num)
+
+        arg = dateApply.join(',')
+        formatedDate = eval( 'new Date(' + arg + ')' );
+        return formatedDate;
 
 
     ###
@@ -224,6 +285,7 @@
             #'Tag': ['Div', 'Devi selezionare almeno un tag', '.search-choice', 'foowd:update:tag']
             'Tag': ['Div', '.search-choice', 'foowd:update:tag']# l'ultimo e' il trigger event impostato con chosen
             'file' : ['Div',  '#sorgente']#, 'foowd:update:file']
+            'Expiration'  : ['Expiration', '[name="Expiration"]', 'foowd:update:expiration']
             
         constructor: ->
             @factory = []
@@ -263,15 +325,7 @@
             JquotaPrev.html(str)
         # forzo un trigger per far eseguire una volta di default
         $(quotaDivs).trigger('change')
-
-        # Jframe = $('').first()
-        # console.log Jframe
-        # $(window).on 'load', ()->
-        #     Jframe = $("iframe").contents()
-        #     Jframe.on 'click', (e)->
-        #         console.log Jframe.selector
-        #         console.log $(this).val()
-            
+         
 
         checkAll: ->
             check = true
@@ -287,13 +341,68 @@
             #     check = false
 
             return check
-            
+    
+    # # Encode/decode htmlentities
+    # krEncodeEntities = (s)->
+    #     return $("<div/>").text(s).html();
+
+    # # da codice la trasforma in visualizzazione
+    # krDecodeEntities = (s)->
+    #     return $("<div/>").html(s).text();
+
+    # # controllo dinamico sul form input   
+    # desc = $('[name="Description"]')  
+    # # desc.css('background-color', 'red')
+    # sanitizeInput = (Jel)->
+    #     text = Jel.val()
+    #     # rimuovo html
+    #     text = text.replace(/<[^>]+>/g, '');
+    #     Jel.val(text);
+
+    # monitorInput = (Jel)->
+    #     Jel.on 'paste', ()->
+    #         # alert $(this).val()
+    #         ((J)->
+    #             setTimeout ()->
+    #                 sanitizeInput(J) 
+    #             , 100 
+    #         )($(this))
+
+    #     Jel.on 'keyup', ()->
+    #         # alert $(this).val()
+    #         sanitizeInput($(this))
+
+    # monitorInput(desc)
+    
+
+    # prepareInput = (Jel)->
+    #     text = Jel.val()
+    #     rx = /\n/g ;
+    #     # text = text.replace(rx, '')
+    #     html = krDecodeEntities(text)
+    #     # alert html
+    #     # se voglio salvare in formato codificato
+    #     Jel.val(html+'stringa di test')
+
+
+
+
+
     
     fac = new InputFactory()
 
     $('form').unbind();
 
     $('form').on 'submit', (e)->
+        if $('.foowd-advise-pending').length > 0
+            e.preventDefault()
+            elgg.register_error('Il form e\' bloccato.<br/> Vedi intestazione per dettagli.')
+            # definito in foowd-main.coffee: dopo qualche secondo rimuovo il popup
+            loom.removeSystemErrorPopup();
+
+        if prepareInput?
+            prepareInput(desc)
+
         # e.preventDefault()
         if not fac.checkAll() 
              e.preventDefault()

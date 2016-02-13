@@ -1,46 +1,57 @@
 <li class="product-post">
-    <div class="post-container">
-        <div class="product-post-image-thumbnail">
-            <figure class="tint">
-                <img src="{{picture}}">
-            </figure>
-            <span class="heart-overlay foowd-icons foowd-icon-heart-full"
-                  onclick="window.addPreference({{Id}},1)">
-            </span>
-            <div class="product-post-menu">
-                <div onclick="utils.go2('detail', 'productId', {{Id}})">
-                   <span class = "foowd-icons foowd-icon-len">
-                   </span>
-                </div>
-                <div onclick="utils.go2('producer', 'producerId', {{Publisher}})">
-                   <span class = "foowd-icons foowd-icon-blade">
-                   </span>
-                </div>
-            </div>
-        </div>
-        <div class="product-post-header">
-            <div class="product-post-name">
-                {{Name}}
-                <br/>
-                <br/>
-                <span class="product-post-unit-price">
-                    {{Quota}} {{Unit}} {{UnitExtra}}
-                    <br/>
-                    {{Price}}€
+    <div class="post-container" data-product-id="{{Id}}">
+        <div class="product-post-main-frame" onclick="utils.go2('detail', 'productId', {{Id}},event)">
+            <div class="product-post-image-thumbnail">
+                <figure class="tint" >
+                    <img src="{{picture}}">
+                </figure>
+                <!-- Questo span permette ai contenuti di allinearsi con la larghezza dell'immagine
+                In pratica detta quanto sia la larghezza del div contenitore (vedi WallController.adjustOverlays--> 
+                  <span class="heart-overlay">
                 </span>
             </div>
-            {{#if logged}}
-                <span class="mini-progress-bar">
-                    <span class="mini-progress" data-unit="1" data-progress="{{prefer.Qt}}" data-total="{{Minqt}}"></span>
-                </span>  
-                <div class="product-post-progress-price">
-                {{math totalQt '*' Price}}
-                    <span class="apex">€</span>
+            <div class="product-post-header">
+                <div class="product-post-name">
+                    <span class="product-post-title">{{Name}}</span>
+                    <br/>
+                    <br/>
+                    <span class="product-post-unit-price">
+                        {{Quota}} {{Unit}} {{UnitExtra}}
+                        <br/>
+                        {{Price}}€
+                    </span>
                 </div>
-            {{/if}}
+                {{#if logged}}
+                <div class="product-post-progress-price">
+                   {{math totalQt '*' Price}}
+                   <span class="apex">€</span>
+                </div>
+                {{/if}}
+            </div>
+            <div class="product-post-footer">
+                <div class="product-post-company" onclick="window.go2ProducerSite({{Publisher}},event)">
+                       <span  class="foowd-icons foowd-icon-len">
+                       </span>
+                       <span class="product-company-name">
+                        {{{Company}}}
+                       </span>
+                </div>
+                {{#if logged}}
+                <span class="mini-progress-bar">
+                    <span class="mini-progress" data-unit="1" data-progress="{{totalQt}}" data-total="{{Minqt}}"></span>
+                </span>
+                {{/if}}
+            </div>
         </div>
-        <div class="product-post-body">
-                {{{shortDesc Description}}}
+        <div class="product-post-description">
+            {{{Description}}}
+        </div>
+        <div class="product-post-tags">
+                {{!-- 
+                    prima vi era la descrizione tagliata
+                    {{{shortDesc Description}}}
+                --}}
+                {{{listTags Tag}}}
         </div>
     </div>
 </li>

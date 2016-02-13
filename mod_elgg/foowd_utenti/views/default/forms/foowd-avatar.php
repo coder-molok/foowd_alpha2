@@ -30,8 +30,10 @@ if(file_exists($dir)){
 	}
 }
 echo '<center><div id="image-container" '.$style.' >';
+
+echo sprintf( "<script>document.write(\"%s\");</script>", elgg_echo('foowd:image:cut:area') );
+
 ?>
-<script> document.write('Seleziona l\'area da ritagliare.'); </script>
 <noscript>Javascript disattivato: <br/> visualizzerai la nuova immagine dopo il salvataggio.</noscript>
 <?php
 

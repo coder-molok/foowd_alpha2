@@ -1,5 +1,6 @@
 
 @import 'jeet'
+@import 'nib'
 @require 'variables'
 @require 'mixins'
 
@@ -10,19 +11,29 @@
   position : fixed
   top : 0
   z-index: 9000;
+  cursor: text;
   vendor(box-shadow, 0 0 20px 0 #f0f0f0);
 
 .navbar-section
   column(1/2, cycle: 2)
   span(1/2)
   height:100%;
+  box-shadow: 0px 0px 20px 0px #F0F0F0;
   +below(bp)
     stack()
     //background-color:red;
 
-#logo
-  background-color: foowdPink;
+.logo
+  background-color: foowdBar;
+ 
+.colorMinus
+  background-color: foowdMinus;
+.colorPlus
+  background-color: foowdPlus;
+.colorPlusG
+  background-color: foowdPlusG;
 
+ 
 .foowd-brand
   column(1/2)  
   align(vertical)
@@ -30,16 +41,53 @@
   text-decoration : none;
   color: black;
   font-family AkkuratBold;
-  font-size: 24pt;
-  line-height : 24pt;
   letter-spacing: -1.5pt;
-  span
+  line-height : 24pt;
+  font-size: 24pt;
+
+  .foowd-brand-pre-search
     cursor: pointer;
-  input
-    width:40%;
-    background-color: rgb(250,230,239);
+    
+  #searchText-loom
+    font: 100% AkkuratBold;
+    padding: 0px;
+    background-color: transparent;
     outline:none;
     border: none;
+    max-width: 80%
+      
+  .pointer-search
+    animation: fadeOut 1s linear;
+    animation-iteration-count: infinite; 
+      
+  // queste parti mi servono per il posizionamento della scritta e della search:
+  // la proprieta' overflow-hidden, cambia dinamicamente la line heigth nel passaggio da contenuto vuoto a non:
+  // nella #searchText nel momento in cui si inserisce il contenuto, senza la line-height, i due blocchi non mantengono allinemento verticale
+  .foowd-brand-pre-search, #searchText-loom
+    position: relative; // per il posizionamento di searchText, che dovra' essere scorrevole
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+    line-height: 1em;
+  
+  // condizioni per lo scorrimento
+  #searchText
+    position: relative;
+    left: 0px;
+    // questi tre mi servono per la computazione della posizione
+    display: inline-block
+    width: 100%;
+    min-width: 100%;
+    
+  
+  #search-dots
+    position: absolute;
+    line-height: initial;
+    background-color: foowd2;
+    z-index: 3;
+    border-right: 2px solid foowd2;
+  
+    
     
 #user-menu-section
   background-color: rgb(255,255,255);
@@ -48,10 +96,14 @@
 #user-menu
   position:relative;
   right: 0;
-  margin: 0 20px 0 0
+  // margin: 0px 20px 0 0
+  margin: 12px 20px 0px 0px;
   display: flex
   font-size:24pt;
   align(vertical)
+  top: unset
+  transform: unset
+  
   span
     margin: 0 0 0 10px;
     display: inline-flex;
@@ -73,7 +125,18 @@
 
 .fw-menu-icon
   cursor: pointer;
-  color:black
+  color:black;
+  vertical-align: middle;
+  border-radius: 50%;
+
+.fw-menu-icon-group
+  background: foowdPlusG;
+  cursor: pointer;
+  color:black;
+  vertical-align: middle;
+  border-radius: 50%;
+
+
     
 #price-section
   height: 100%;

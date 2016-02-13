@@ -9,15 +9,25 @@ define(function(require){
 	var templates = require('templates');
 	var utils = require('Utils');
 	var $ = require('jquery');
+	var loadingOverlay = require('jquery-loading-overlay');
 
 	var WallController = (function(){
+
+		// chiavi id post e valori gli oggetti post delle api
+		// array che usero' in futuro per cache... si occupa di tenere tutti i post caricati
+		// o che man mano verranno caricati, in modo da ottimizzare le risorse, in futuro
+		var rawProductsCache = [] ; 
+
 
 	   /*
 		* IMPOSTAZIONI MODULO ------------------------------------------------------------------------
 		*/
 		var wallId = "#wall";
 		var searchBox = "#searchText";
+		var group = false;
 		var postProgressBarClass = ".mini-progress";
+		// evento che viene triggerato da NavbarSearch per aggiornare il wall
+		var searchUpdateWallEvent = "foowd:search:update:wall:event";
 		
 		var preference = {
    				OfferId : "",
@@ -49,24 +59,67 @@ define(function(require){
 			//carico l'header 
 			Navbar.loadNavbar(true);
 			//carico il wall con i template
-			_getWallProducts();
+			_applyColor();
+			searchProducts();
 		}
+		
+	    
+		
+		function searchProducts(){
+			$("#wall-container").loadingOverlay();
+			var userId = utils.getUserId();
+			if(userId!=null && group){
+				_getWallProductsGroup(userId,_getSearchText());
+			}else{
+				_getWallProducts(userId,_getSearchText());
+			}
+			
+		}
+		
 		
 		/*
 		 * Funzione che riempie il wall con i prododtti del database
 		 */
-		function _getWallProducts(){
-			var userId = utils.getUserId();
-			API.getProducts(userId).then(function(data){
+		function _getWallProducts(userId,search){
+			API.getProducts(userId,search).then(function(data){
+				$("#wall-container").loadingOverlay('remove');
+
 				//parso il JSON dei dati ricevuti
 				var rawProducts = data.body;
 				//utilizo il template sui dati che ho ottenuto
-				var parsedProducts = _applyProductContext(rawProducts);
-				//riempio il wall con i prodotti 
-				_fillWall(parsedProducts);
-				$(document).trigger('wall-products-loaded');
+					if(rawProducts.length > 0){
+						//utilizo il template sui dati che ho ottenuto
+						var parsedProducts = _applyProductContext(rawProducts);
+
+						// se vi sono gia' tutti i post, evito di ricaricare il wall:
+						// cosi' risparmio risorse ed evito l'effetto di ricarica nello switch della modalita'
+						// 
+						// NB: in checkThenUpdate mi occupo anche di salvare i prodotti in una cache... per il momento non e' un'operazione stupenda perche' devo ottimizzare ancora le chiamate
+						if(_checkThenUpdate(rawProducts)){
+							return;
+						}
+						//riempio il wall con i prodotti 
+						_fillWall(parsedProducts);
+						$(document).trigger('wall-products-loaded');
+					}else{
+						$(document).trigger('failedSearch');
+					}
+				_applyColor();
 			},function(error){
+				$(wallId).loadingOverlay('remove');
 				console.log(error);
+			});
+		}
+		
+		function _getWallProductsGroup(userId,search){
+			API.getFriend(userId).then(function(data){
+				var friendsStr='';
+				if(data.result && data.result.friends){
+					 friendsStr = data.result.friends.join();
+				}
+				_getWallProducts(userId+','+friendsStr,search);
+			},function(error){
+					console.log(error);
 			});
 		}
 
@@ -81,14 +134,6 @@ define(function(require){
 				el = utils.addPicture(el, utils.randomPictureSize(el.Id));
 				//se l'utente è loggato aggiungo un dato al contesto
 				el = utils.setLoggedFlag(el, userId);
-				//l'array prefer contiene tutti gli utenti che hanno espresso la preferenza sull'offerta
-				//in questo caso specificando sempre l'ExternaId nella richiesta quindi mi ritornerà 
-				//sempre un solo utente. Per comodità converto l'array contenente il singolo utente
-				//in un oggetto con i dati dell'utente
-				if(el.logged){
-					el.prefer = utils.singleElToObj(el.prefer)
-				}
-
 				result += templates.productPost(el);
 
 			});
@@ -112,13 +157,26 @@ define(function(require){
 			return $(searchBox).val();
 		}
 
+		function _getProducerInfo(producerId){
+			API.getUserDetails(producer.producerId).then(function(data){
+				
+				var userData = data.body;
+				
+				
+			
+			}, function(error){	
+				console.log(error);
+			});
+		}
+
+
 	   /*
-		* Ricerca dei prodotti in base alla chiave testuale
+		* Funzione esportata
 		*/
-		function _searchProducts(e){
+		function searchProductsKey(e){
 			if(e.keyCode == 13){
-				var textSearch = _getSearchText();
-				var userId = utils.getUserId();
+				searchProducts();
+/*
 				API.getProducts(userId, textSearch).then(function(data){
 					//parso il JSON dei dati ricevuti
 					var rawProducts = data;
@@ -135,7 +193,8 @@ define(function(require){
 
 				},function(error){
 					console.log(error);
-				});
+				});*/
+// 
 			}
 		}
 
@@ -150,7 +209,8 @@ define(function(require){
 				preference.Qt = qt;
 				//richiamo l'API per settare la preferenza
 				API.addPreference(preference).then(function(data){
-					_getWallProducts();
+					//TODO metterci search
+					searchProducts();
 					$(document).trigger('preferenceAdded');
 				}, function(error){
 					$(document).trigger('preferenceError');
@@ -213,6 +273,73 @@ define(function(require){
 			} );
 		}
 
+		
+        function go2ProducerSite(producerId,event){
+			var producer = utils.getUrlArgs();
+			API.getUserDetailsSync(producerId).then(function(data){
+				
+				var userData = data.body;
+				var win = window.open('http://'+data.body.Site);
+			}, function(error){	
+				console.log(error);
+			});
+			event.preventDefault();
+		}
+
+		function _applyColor(){
+				/*$( "#logo" ).each(function() {
+					$(this).toggleClass('logo-green',group);
+					$(this).toggleClass('logo',!group);
+
+				});*/
+		}
+
+		function toggleGroup(){
+			group=!group;
+			$('#groupBtn').toggleClass('foowd-icon-group-white',group);
+			$('#groupBtn').toggleClass('foowd-icon-group',!group);
+			$('#groupBtn').toggleClass('fw-menu-icon-group',group);
+			$('#groupBtn').toggleClass('fw-menu-icon',!group);
+			_applyColor();
+			searchProducts();			
+		}
+
+		/**
+		 * se sono gia' presenti tutti i post, allora posso semplicemente fare un update dei dati,
+		 * altrimenti rigenero il wall
+		 * Se ritorna true, previene la generazione del wall mediante ricaricamento
+		 * @param  {[type]} rawProducts [description]
+		 * @return {[type]}             [description]
+		 */
+		function _checkThenUpdate(rawProducts){
+			// controllo rispetto alla cache: se era in cache la aggiorno, altrimenti devo rigenerare il wall perche' non era presente
+
+			var ret = true;
+			$.each(rawProducts, function(idx, obj){
+					
+				// se non era nella cache, allora devo fare la prima generazione, ret diventa false in modo da generare il primo wall
+				if(typeof rawProductsCache[obj.Id] == 'undefined'){
+					ret = false;
+				}
+				// in ogni caso salvo i dati, nel caso switchassi nella modalita' gruppo
+				rawProductsCache[obj.Id] = obj;
+				var ofId = obj.Id;
+				// faccio un update se ho gia' caaricato la prima volta
+				var Jel = $('[data-product-id="' + ofId + '"]');
+				// se non e' presente, passo all'iterazione successiva
+				if(Jel.length == 0){
+					return true;
+				}
+				// aggiorno la barra
+				var qt = obj.totalQt;
+				Jel.find(postProgressBarClass).data('progress', qt).css({'transition': 'background-position 1s ease-out'});//	transition: background-position 1s ease-out; 
+			});
+			// aggiorno l'interfaccia triggerando l'evento
+			if(ret) $(document).trigger('wall-products-loaded');
+			return ret;
+		}
+
+
 	   /*
 		* GESTIONE EVENTI ------------------------------------------------------------------------
 		*/
@@ -235,6 +362,38 @@ define(function(require){
 			});
 		});
 
+		// se svolgo una ricerca, navbarsearch si occupa di passare il contenuto che serve a questa 
+		$(document).on(searchUpdateWallEvent, function(e){
+			var resp = e.FoowdNavbarSearch;
+			var tags = resp.tagsObject;
+
+			// qui dovrei implementare la chiamata API per ottenere dati aggiornati
+			// ma ora non la uso perche' tanto il wall lo carico in una botta... naturalmente e' da aggiornare
+
+			var re = new RegExp(tags.join('|'), "gi");
+
+			var tempPost = [];
+
+			// uso la cache 
+			for(var i in rawProductsCache){
+				var post = rawProductsCache[i];
+				// stringa univoca che controlla i match
+				var str = post.Name + post.Description + post.Tag ;
+				if(str.match(re)) tempPost.push(post);
+
+			}
+
+			console.log(tempPost);
+
+			$('.grid').fadeOut(function(){
+				var parsedProducts = _applyProductContext(tempPost);
+				_fillWall(parsedProducts);
+				$(document).trigger('wall-products-loaded');
+				$(this).fadeIn();
+
+			})
+
+		});
 
 		//CORE MODIFIED:
 		//questo evento viene dal plugin che aggiusta il wall nelle colonne desiderate
@@ -242,17 +401,24 @@ define(function(require){
 		$(wallId).on('images-loaded',function(){
 			_adjustOverlays();
 		});
+		
+
+		
 	   /* Export---------------- */
 	   	window.addPreference = _addPreference;
-	   	window.searchProducts = _searchProducts;
+	   	window.searchProductsKey = searchProductsKey;
+	   	window.toggleGroup = toggleGroup;
+	   		   	window.go2ProducerSite = go2ProducerSite;
+
 	   /*
 		* METODI PUBBLICI ------------------------------------------------------------------------
 		*/
 
 		return{
 			init           : _stateCheck,
-			searchProducts : _searchProducts,
-			addPreference  : addPreference,
+			searchProductsKey : searchProductsKey,
+			addPreference  : addPreference
+
 		};
 
 	})();

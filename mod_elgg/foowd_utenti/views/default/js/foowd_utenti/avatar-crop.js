@@ -43,9 +43,8 @@
 // var sorgente 
 // var img-yet  , per il div di upload nel caso di modifica immagine gia' presente
 
-// se l'immagine e' gia' esistente, allora provvedo subito ad inizializzare la funzione
-$(window).on('load', function(){
-
+// funzione di start: vedi ultime righe per scoprire quando parte
+var startIfExists = function(){
     var img = document.getElementById('image').getElementsByTagName('img')[0];
     if(img){
 
@@ -61,8 +60,7 @@ $(window).on('load', function(){
     }else{
         // alert('nada');
     }
-});
-
+}
 
 // http://abandon.ie/notebook/simple-file-uploads-using-jquery-ajax
 // var urlF = 'http://localhost/ElggProject/elgg-1.10.5/foowd_utility/test/test';
@@ -334,11 +332,13 @@ function start(){
 
 /**
  * classe che rappresenta la finestra di zoom
+ *
+ * @constructor
  * 
- * @param  {[type]} size      small, medium, etc
- * @param  {[type]} div       il selettore jquery del box di crop
- * @param  {[type]} scale     classe che contiene i parametri delle scale
- * @return {[type]}           [description]
+ * @param  {string} size      small, medium, etc
+ * @param  {object} div       il selettore jquery del box di crop
+ * @param  {object} scale     classe che contiene i parametri delle scale
+ * @return {void}             nothing
  */
 var PrevWindow = function(size ,div, scale){
     // dimensioni immagine di crop
@@ -603,6 +603,16 @@ var $wSize = (function(){
         'h' : y
     }
 })()
+
+/////////////////////////////////////////////// Inizializzazione
+///NB:
+///     ho dovuto inserire qui in fondo gli script di partenza, in quando prima di procedere devo essere sicuro
+///     che le variabili e gli oggetti globali come scale e $img vengano caricati PRIMA dell'esecuzione, essendo tutto procedurale
+
+// se l'immagine e' gia' esistente, allora provvedo subito ad inizializzare la funzione
+$(window).on('load', function(){ startIfExists(); });
+// oppure nel caso sia gia' caricato (prima di chiamare questo modulo) e l'immagine esista
+if(document.getElementById('image').getElementsByTagName('img').length >= 1 ) startIfExists();
 
 
 /////////////////////////// fine di tutte le costruzioni ///////////////////////	

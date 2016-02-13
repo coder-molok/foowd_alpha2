@@ -54,6 +54,7 @@ postZindexBase = 50
 .post-container
 	display: table
 	position: relative
+	cursor: pointer
 
 .product-post-image-thumbnail
 	display: table
@@ -84,22 +85,21 @@ postZindexBase = 50
 	opacity : 0;
 	vendor(transition, opacity .15s ease)
     
+.product-post-main-frame
+	font-family: AkkuratBold
+	position: relative;
 
-.heart-overlay:hover
-	opacity:1
 
 .product-post-header
 	top: 0px;
 	width: 100%
 	position: absolute;
 	z-index: postZindexBase * 3
-
-
+	
 .product-post-name
 	column(1/2)
 	padding: 10px 0 0 10px;
 	color: white;
-	font-family: AkkuratBold
 	font-size: 12pt;
 	line-height: 14pt;
 	letter-spacing : -0.5pt
@@ -113,18 +113,17 @@ postZindexBase = 50
 .product-post-progress-price
 	padding: 5px 10px 0 0; 
 	color: white;
-	font-family: AkkuratBold;
 	font-size : 18pt;
 	line-height: 14pt;
 	letter-spacing: -1.5pt;
 	text-align : right;
 
 .mini-progress-bar
-	position: absolute;
+	// position: absolute;
 	width: 40px;
-	top: 25px;
-	right: 90px;
-	height: 4px;
+	// right: 8px;
+	height: 20px;
+	// margin-top: -28px
 
 .mini-progress
 	background-image : url('../../img/barra-bianca.png');
@@ -132,32 +131,38 @@ postZindexBase = 50
 	background-position: left top
 	height:100%
 	span(1)
+	
 
-.product-post-menu
-	position : relative
-	float: left
-	margin: -40px 0 0 0;
-	vertical-align: baseline;
-	padding: 0 0 0 10px;
-	background: none
-	z-index : postZindexBase *3
-	div
-		display: inline-flex;
-		background-color : foowdPink
-		border-radius : 50%
-		padding:0
+.product-post-footer
+	position: absolute;
+	bottom: 0;
+	color: white;
+	width: 100%;
+	
+
+	.product-post-company, .mini-progress-bar
+		display: inline-block;
+		vertical-align: middle;
+	
+	.product-post-company
+		width: calc(100% - 55px); // tutto tranne la larghezza della progressbar, considerando anche un po di margine dx
 		span
-			padding:0
-			margin: 0
-			font-size : 22pt;
-			line-height: 22pt;
-			color: black
+			display: inline-block;	
+			vertical-align: middle;	
+		
+	.mini-progress-bar
+		width: 40px;
+	
 
-.product-post-body
-	font-family: AkkuratRegular
+.product-post-tags, .product-post-description 
 	font-size: 10pt
-	line-height: 14pt
+	line-height: 17pt
 	font-align: justify
+
+.product-post-description
+	display: none;
+
+
 	
 
 

@@ -1,10 +1,10 @@
 {{#if reverse}}
-  <div class="navbar-section reverse" id = "logo">
+  <div class="navbar-section reverse logo" >
       <div class="foowd-brand reverse">
        <span onClick="utils.goTo('')">foowd_</span>
       </div>
   </div>
-  <div class = "navbar-section reverse" id="user-menu-section">
+  <div class = "navbar-section reverse logo" id="user-menu-section">
       <div id = "user-menu">
           <span onClick="utils.goTo('board')" 
                 class="foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link reverse">
@@ -12,7 +12,7 @@
           <span onClick = "utils.goTo('panel')"
                 class="foowd-icons foowd-icon-user fw-menu-icon profile-link reverse">
           </span>
-          <span id="close-overlay" 
+          <span id="trigger-overlay" 
                 class="foowd-icons foowd-icon-menu fw-menu-icon menu-link reverse">
           </span>
       </div>
@@ -20,16 +20,24 @@
 {{/if}}
 
 {{#if regular}}
-  <div class="navbar-section" id = "logo">
+  <div class="navbar-section logo" >
       <div class="foowd-brand">
-       <span onClick="utils.goTo('')">foowd_</span>
+       <div onClick="utils.goTo('')" class="foowd-brand-pre-search">foowd<span class="foowd-pulsate underscore-search">_</span></div>
        {{#if search}}
-        <input type="text" id="searchText" onkeypress="window.searchProducts(event)">
+        <div id="searchText-loom">
+          <span id="search-dots"></span>
+          <div id="searchText" onkeypress="window.searchProductsKey(event)"></div>
+        </div>
        {{/if}}
       </div>
   </div>
   <div class = "navbar-section" id="user-menu-section">
       <div id = "user-menu">
+          {{#if logged}}
+	      	 <span id="groupBtn" onClick="window.toggleGroup()" 
+	                class="foowd-icons icon-black foowd-icon-group fw-menu-icon preferences-link">
+	          </span>
+            {{/if}}
           <span onClick="utils.goTo('board')" 
                 class="foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link">
           </span>

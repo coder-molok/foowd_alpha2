@@ -14,6 +14,10 @@ class User {
 
 	public $form = null;
 
+	public static $needForOfferente = array(/*'Description',*/'Site','Piva', 'Phone','Address','Company','Owner');
+
+	public static $allUserFields = array('Name', 'Username', 'Location', 'Email', 'Description', 'Genre' ,'Piva', 'Address','Company','Site','Phone', 'Owner');
+
 	/**
 	 * registro un nuovo utente, aggiungendogli un metadato e salvandolo anche nel servizio API.
 	 * Qualora il salvataggio API non si realizzasse, il nuovo utente non viene salvato.
@@ -55,6 +59,8 @@ class User {
 		$genre = get_input('Genre');
 		set_input('Genre', 'Genre-'.$genre);
 
+		$genre = ($genre == 'offerente') ? 'evaluating' : $genre;
+
 		// per eventuale registrazione mediante social
 		$idAuth = get_input('idAuth');
 		// set_input('idAuth', 'idAuth-'.$genre);
@@ -86,6 +92,8 @@ class User {
 		        $str = "elgg errore creazione utente lato Elgg";
 		    }
 		    \Uoowd\Logger::addError($str);
+		    // reindirizzo
+		    $this->wrap_forward_uservalidationbyemail('registration-error', elgg_get_site_url() . 'foowd_utenti/registration-error');
 		    return false;
 		}
 
@@ -99,12 +107,14 @@ class User {
 		// chiamata Api
 		// \Uoowd\Logger::addError('chiamata API');
 		$data['Genre'] = $genre;
-		$data['Name'] = get_input('name');
+		$data['Name'] = $user->name;
+		$data['Username'] = $user->username;
 		$data['type']= "create";
 		$data['ExternalId'] = $extId;
 		$data['Email'] = $user->email;
-		if($data['Genre']=='offerente'){
-			$need = array('Description','Site','Piva', 'Phone','Address','Company');
+		// se e' un offerente, lo metto in stato di valutazione ....
+		if($data['Genre']=='evaluating'){
+			$need = self::$needForOfferente;
 
 			foreach ($need as $field) {			
 				// se non e' vuoto e se esiste
@@ -123,12 +133,23 @@ class User {
 		if(isset($EmptyNeed)){
 			\Uoowd\Logger::addError("Mancano campi obbligatori");
 			\Uoowd\Logger::addError($EmptyNeed);
-			// return false;
+			// eventualmente aggiungere allo sticky form per visualizzare gli errori
+			register_error('Siamo spiacenti ma mancano dei campi:<br/> ' . implode(', ', $EmptyNeed));
+
+			// elimino l'utente che avevo appena creato: devo avere l'accesso per questo, in quanto l'utente attuale non risulta loggato!
+			$access = elgg_set_ignore_access(true);
+			$user->delete(true);
+			$user->save();
+			elgg_set_ignore_access($access);
+			// reindirizzo
+			$this->wrap_forward_uservalidationbyemail('registration-error', REFERER);
+			return false;
 		}
 		
 		// \Uoowd\Logger::addError($data);
 		// if(get_input('file')!=='') $data['Image']=get_input('file');
 		// \Uoowd\Logger::addError("prima di offerente: il genere e' ".$genre);
+		/* attualmente la parte delle immagini viene saltata
 		if($genre === 'offerente'){
 			// \Uoowd\Logger::addError("dentro a offerente");
 			$crop = new \Uoowd\FoowdCrop();
@@ -173,17 +194,25 @@ class User {
 			}
 			// se volessi salvare l'immagine
 			// $data['Image'] = $crop->base64();
-		}
+		}*/
 
 		// \Uoowd\Logger::addError("dopo offerente");
-
+		// recupero i dati che dovrei aver salvato nel db e verifico
 		$r = \Uoowd\API::Request('user', 'POST', $data);
+		// \Uoowd\Logger::addError($r);
 
 		if(!is_object($r)){
 		    if(! $str = \Uoowd\Param::dbg()){ 
 		        $str = "Errore Curl.";
 		    }
 		    \Uoowd\Logger::addError($str);
+		    // elimino l'utente che avevo appena creato: devo avere l'accesso per questo, in quanto l'utente attuale non risulta loggato!
+		    $access = elgg_set_ignore_access(true);
+		    $user->delete(true);
+		    $user->save();
+		    elgg_set_ignore_access($access);
+		    // reindirizzo
+		    $this->wrap_forward_uservalidationbyemail('registration-error', elgg_get_site_url() . 'foowd_utenti/registration-error');
 		    return false;
 		}
 		
@@ -210,14 +239,40 @@ class User {
 
 		    // nel caso non stia usando il debug impostato nel plugin, stampo un messaggio normale
 		    if(! $str = \Uoowd\Param::dbg()){ 
-		        $str = "Errore remoto.";
+		        $str = "Errore remoto. Dati: ritornati";
 		    }
 		    \Uoowd\Logger::addError($str);
+		    \Uoowd\Logger::addError($r);
+
+		    // elimino l'utente che avevo appena creato: devo avere l'accesso per questo, in quanto l'utente attuale non risulta loggato!
+		    $access = elgg_set_ignore_access(true);
+		    $user->delete(true);
+		    $user->save();
+		    elgg_set_ignore_access($access);
+		    // reindirizzo
+		    $this->wrap_forward_uservalidationbyemail('registration-error', elgg_get_site_url() . 'foowd_utenti/registration-error');
 		    return false;
 		}
 		
 		return true;
 
+	}
+
+
+	/**
+	 * sovrascrivo il forward di uservalidationbyemail
+	 *
+	 * NB: controlla di aver eliminato l'utente, visto che probabilmente hai incontrato un errore nella registrazione
+	 * 
+	 * @param  [type] $foowdForward [description]
+	 * @param  [type] $forwardUrl   [description]
+	 * @return [type]               [description]
+	 */
+	public function wrap_forward_uservalidationbyemail($foowdForward, $forwardUrl){
+		$session = elgg_get_session();
+		$session->set('foowdForward', $foowdForward);
+		// vedere in start.php l'hook alla funzione forward
+		forward($forwardUrl);
 	}
 
 

@@ -52,6 +52,9 @@ abstract class FApi{
 			}
 		}
 
+		// salvo i dati nella sessione: questi vengono riutilizzati negli error handling e ritornati nella risposta
+		$_SESSION['foowd']['data'] = $data;
+
 		if(isset($data->type)){
 			
 			// controllo che siano inseriti i dati obbligatori, altrimenti ritorno l'errore
@@ -73,6 +76,11 @@ abstract class FApi{
 		}
 	}
 
+
+	/**
+	 * Esegue la validazione, dopo aver eventualmente controllato gli hook hookFSave.
+	 * @param [type] $obj [description]
+	 */
 	public function FSave($obj){
 
 		// ciascuna classe figlio puo' sviluppare un proprio hook da svolgere prima del salvataggio.
@@ -88,12 +96,44 @@ abstract class FApi{
 		}
 		else {
 			$obj->save();
-			$r['Id']= $obj->getId();
+			$r['body']= $obj->toArray();
 		   	$r['response'] = true;
 		}
 
 		return $r;
 
+	}
+
+	/**
+	 * esegue la validazione, e in caso non vada a buon fine catcha un'eccesione.
+	 * @param [type] $obj [description]
+	 * @return [obj] se tutto va a buon fine ritorna l'oggetto passato
+	 */
+	public function Fvalidate($obj){
+
+		// ciascuna classe figlio puo' sviluppare un proprio hook da svolgere prima del salvataggio.
+		// if(method_exists($this, 'hookFvalidate')) call_user_func(array($this, 'hookFSave'), $obj);
+
+		//return $obg->validate();
+		if (!$obj->validate()) {
+		    foreach ($obj->getValidationFailures() as $failure) {
+		        // $r['errors'][$failure->getPropertyPath()] = $failure->getMessage();
+		        // salvo nella sessione in modo che vengano recuperati nella sessione
+		        $j = array(
+		        	"column" 	=> $failure->getPropertyPath(),
+		        	"msg"		=> $failure->getMessage(),
+		        	"groups" 	=> $failure->getConstraint()->groups,
+		        	"invalidvalue"	=> $failure->getInvalidValue()
+		        );
+
+		        
+		        $_SESSION['foowd']['errors']['validation'][] = $j;
+		        
+		    }
+		    throw new \Exception('errore di validazione dei dati');
+		}
+
+		return $obj;
 	}
 
 	/**
