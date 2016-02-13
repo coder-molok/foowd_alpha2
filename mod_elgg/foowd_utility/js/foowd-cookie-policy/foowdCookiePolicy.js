@@ -114,7 +114,8 @@
       var that = this;
       if (typeof obj.onCookieAccepted === "function") { 
         $(window).add(document).on('cookieAccepted', function(){ 
-          obj.onCookieAccepted();
+          obj.onCookieAccepted();                   
+			showBar();
         }); 
       }
       if (typeof obj.onCookieAcceptedOnce === "function") { 
@@ -134,7 +135,7 @@
            id:     'cookie-bar',
            style:  "display: block;",
            html:   '<h4>Informativa<a id="close-cookie-bar">x</a></h4>'+
-                   '<p>Questo sito o gli strumenti terzi da questo utilizzati si avvalgono di cookie necessari al funzionamento ed utili alle finalità illustrate nella cookie policy. Se vuoi saperne di più o negare il consenso a tutti o ad alcuni cookie, consulta la <a href="' + this.obj.link + '" id="cookie-policy-link">cookie policy</a>.<br/>\
+                   '<p>Questo sito o gli strumenti terzi da questo utilizzati si avvalgono di cookie necessari al funzionamento ed utili alle finalità illustrate nella privacy policy. Se vuoi saperne di più o negare il consenso a tutti o ad alcuni cookie, consulta la <a href="' + this.obj.link + '" id="cookie-policy-link">privacy policy</a>.<br/>\
                     Chiudendo questo banner, <!-- scorrendo questa pagina, --> cliccando su un link o proseguendo la navigazione in altra maniera, acconsenti all’uso dei cookie.</p>'
        }).insertBefore('body');
 

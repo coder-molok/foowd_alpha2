@@ -82,8 +82,6 @@ else{
 }
 
 
-elgg_load_css('foowd-profile');
-
 elgg_require_js('foowdServices');
 
 echo <<<HTML

@@ -80,6 +80,18 @@ define(function(require){
 		return words.splice(0, 30).join(' ').concat("...");
 	});
 
+	/* scrivo i tags separandoli da underscore e rinchiudendoli in span utili per la combo con la ricerca */
+	Handlebars.registerHelper('listTags', function(tags){
+		tags = (tags == '' ) ? 'foowd' : tags ;
+		var words = tags.replace(/[\s,]+/g, ',').split(',');
+		var body = ''
+		for(var i in words){
+			//<wbr> serve per consentire di andare a capo in quel punto, qualora ve ne sia la necessita'
+			body = body + '<wbr><span data-tag="' + words[i] + '">_' + words[i] + '</span>';
+		}
+		return body;
+	});
+
 	Handlebars.registerPartial('carouselItem', function(slide){
 		var context = {"slide" : slide};
 		return Handlebars.templates.carouselItem(context);

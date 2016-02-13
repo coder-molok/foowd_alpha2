@@ -7,22 +7,20 @@
 <table class="foowd-footer">
 <tr>
 	<td><a href="<?php echo elgg_get_site_url();?>">Home</a></td>
-	<td><a href="<?php echo elgg_get_site_url().'cookie-policy';?>">Cookie-Policy</a></td>
+	<td><a href="http://www.foowd.it/disclaimer.html" target="_blank">Privacy Policy</a></td>
 </tr>
 </table>
 
 </div>
 
-<script type="text/javascript" src="mod/foowd_theme/vendor/modernizr/modernizr.js"></script>
-
-
-
 
 <script type="text/javascript">
 require([ 
-    'NavbarController',
+    'NavbarController', 'Modernizr'
   ],function(){
-    
+    Modernizr = require('Modernizr');
+    console.log(Modernizr)
+
     require('NavbarController').loadNavbar();
 
 });
@@ -40,8 +38,17 @@ require([
 
 
 require([ 
-	'jquery',
-  ],function(){
+	'jquery', 'foowd-main'
+  ],function($, m){
+
+    // faccio visualizzare la pagina con effetto fadeIn
+    // Oltre a un fattore estetico, impedisce il funzionamento della pagina se non viene caricato jquery, il che e' ottimo!
+    $('.foowd-theme-fadein').fadeIn('slow');
+
+    $('.foowd-alert-disabled').on('click', function(e){
+      e.preventDefault();
+      window.foowdAlert( 'Questa funzione sarà attivata a breve' , 'Inattiva')
+    });
 
   	// var $ = require('jquery');
    //  $(document).ready( function(){
@@ -65,6 +72,52 @@ require([
 
     	
    //  });
+   //  
+   
+   // setTimeout(function(){
+
+   //    var icons = document.querySelectorAll('#user-menu *');
+
+   //    for( ic of icons){
+   //      console.log(ic)
+   //      ic.parentNode.removeChild(ic);
+   //      var bg = window.getComputedStyle(ic, ':before').getPropertyValue('background-image');
+   //      if( bg == '') continue;
+   //      console.log(bg)
+   //      var bgUrl = bg.match(/http[^"]+/)[0];
+   //      console.log(bgUrl);
+
+   //      // closure solito metodo per salvare i nomi
+   //      (function(gUrl){$.ajax({
+   //        url: gUrl,
+   //        success: function(data){
+   //          svg = $(data).find('svg');
+   //          var filename = gUrl.substring(gUrl.lastIndexOf('/')+1);
+   //          if(filename === 'profilo.svg') $('.foowd-icon-user').each(function(){
+   //            $(this).html('<svg>'+svg.html()+'</svg>').find('svg').css({'position':'relative','z-index':1})
+   //          })
+   //        }
+   //      })
+   //      })(bgUrl);
+
+   //    }
+
+   // }, 3000);
+
+
+
+   // $('.foowd-navbar').on('mouseenter', '.foowd-icon-user',function(){
+   //    console.log('mouseover')
+   //    $(this).find('*').each(function(){
+   //      $(this).css({'stroke': 'green'});
+   //    })
+   // });
+   // $('.foowd-navbar').on('mouseout', '.foowd-icon-user',function(){
+   //    console.log('mouseover')
+   //    $(this).find('*').each(function(){
+   //      $(this).css({'stroke': ''});
+   //    })
+   // });
 
 });
 </script>

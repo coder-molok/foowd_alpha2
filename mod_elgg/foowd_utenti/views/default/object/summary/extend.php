@@ -55,14 +55,15 @@ $query['owner'] = $friend->username;
 // io utente, vado a vedere la board del mio amico
 // $owner = elgg_get_page_owner_entity();
 // $guidFriend = $owner->guid;
-$options1 = array(
-	'href' => elgg_get_site_url().'board?owner=' .  $query['owner'],
-	'text' => 'Visualizza Board',
-	'class' => 'friends-extend'
-);
-echo elgg_view('output/url', $options1 );
 
-echo ' | ';
+// $options1 = array(
+// 	'href' => elgg_get_site_url().'board?owner=' .  $query['owner'],
+// 	'text' => 'Visualizza Board',
+// 	'class' => 'friends-extend'
+// );
+// echo elgg_view('output/url', $options1 );
+
+// echo ' | ';
 
 $options2 = array(
 	'href' => elgg_get_site_url(). 'profile/' .  $query['owner'],

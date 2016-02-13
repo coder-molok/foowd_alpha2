@@ -1,5 +1,51 @@
 
-fieldset 
-	#offer-hook
-		& > div , [id*="cke_elgg"]
-			margin-bottom:15px
+.elgg-form-register
+	
+	fieldset
+		
+		#offer-hook
+			// di default lo nascondo
+			display: none
+
+			& > div , [id*="cke_elgg"]
+				margin-bottom:15px
+			
+		input
+			
+			margin-top: 3px
+	
+		label
+			position: relative
+		
+			errorBackground = foowd5 //#B98686
+			[class^=error-]
+				position: absolute
+				top: -4px
+				// top: 0
+				// left: 150px
+				margin-left: 20px
+				padding: 3px 7px
+				background-color foowdl[5] //errorBackground
+				color: white //red
+				white-space: nowrap
+				font-style: italic
+				font-size: 0.8em
+			
+				&:before
+					width: 0
+					height: 0
+					border-top: 9px solid transparent
+					border-right: 21px solid errorBackground
+					border-bottom: 0px solid transparent
+					content: ''
+					position: absolute
+					left: -20px
+					top 0px
+
+// pagina errore di registrazione nuovo utente
+.foowd-page-registration-error
+	
+
+
+	h3
+		margin-bottom 20px

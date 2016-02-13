@@ -58,12 +58,37 @@ $body .= <<<__BODY
 			$header
 		<!-- </div> -->
 	</div>
-	<div class="elgg-page-body elgg-main">
+	<noscript>
+	<div class="foowd-body-main-noscript">
+		Questo sito usa javascript, ma attualmente non e' abilitato nel tuo brower.<br/>
+		Per poter visualizzare a pieno il sito e godere delle sue funzionalit&aacute; ti suggeriamo di abilitare javascript o di accedere mediante un'altro browser.<br/><br/>
+		Cordialmente,<br/> 
+		lo Staff.
+	</div>
+	</noscript>
+	<div class="elgg-page-body elgg-main foowd-theme-fadein">
+
+		<!-- inserito per compatibilita' tema -->
+		<div id="close-overlay" class="overlay overlay-hugeinc">
+		  <div class="reverse foowd-navbar">
+		  </div>
+		  <nav>
+		    <ul>
+		      <li><a target="foowd_site" href="http://www.foowd.it">Sito web</a></li>
+		      <li><a target="foowd_site" href="http://www.foowd.it/about.html">Su di noi</a></li>
+		      <li><a target="foowd_site" href="http://www.foowd.it/investors.html">Investitori</a></li>
+		      <li><a target="foowd_site" href="https://www.smore.com/pcm5x">Produttori</a></li>
+		      <li><a target="foowd_site" href="http://www.foowd.it/#contatti">Contatti</a></li>
+		    </ul>
+		  </nav>
+		</div>
+
+
 		<div class="elgg-inner">
 			$content
 		</div>
 	</div>
-	<div class="elgg-page-footer">
+	<div class="elgg-page-footer foowd-theme-fadein">
 		<div class="elgg-inner">
 			$footer
 		</div>

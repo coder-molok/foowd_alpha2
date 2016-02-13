@@ -78,14 +78,12 @@
   position: absolute;
   z-index: -1;
   height: 100%;
-  background-image: url("../../img/stripes.png");
 }
 .detail-progress-bar.preview-bar {
   z-index: -2;
 }
 .detail-progress-bar.preview-bar .progress {
   background-image: none;
-  background-color: #fae6ef;
   z-index: -2;
 }
 .price-detail {
@@ -227,6 +225,9 @@
   font-family: AkkuratBold;
   font-size: 16pt;
 }
+#product-company {
+  font-size: 12px;
+}
 #preference-action {
   text-align: right;
 }
@@ -245,13 +246,24 @@
   display: inline-flex;
 }
 .action-heart {
-  background: #fae6ef;
+  background: #bed25a;
+}
+.action-heart-border {
+  background: #bed25a;
+  border: 1px solid #fff;
 }
 .action-minus {
-  background: #ebebeb;
+  background: #f7f4ee;
 }
 .action-buy {
-  background: #0c5b0d;
+  background: #bed25a;
+}
+.action-buy-border {
+  background: #bed25a;
+  border: 1px solid #fff;
+}
+.action-buy-group {
+  background: #38302c;
 }
 .action-buy i {
   color: #fff !important;

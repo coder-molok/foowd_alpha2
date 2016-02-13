@@ -1,3 +1,48 @@
+.foowd1-cl {
+  color: #38302c;
+}
+.foowd1-bg {
+  background-color: #38302c;
+}
+.foowd1d-bg {
+  background-color: #221d1a;
+}
+.foowd2-cl {
+  color: #e6dcbe;
+}
+.foowd2-bg {
+  background-color: #e6dcbe;
+}
+.foowd2d-bg {
+  background-color: #b69a46;
+}
+.foowd3-cl {
+  color: #bed25a;
+}
+.foowd3-bg {
+  background-color: #bed25a;
+}
+.foowd3d-bg {
+  background-color: #7c8d27;
+}
+.foowd4-cl {
+  color: #f7f4ee;
+}
+.foowd4-bg {
+  background-color: #f7f4ee;
+}
+.foowd4d-bg {
+  background-color: #b99f6a;
+}
+.foowd5-cl {
+  color: #85385a;
+}
+.foowd5-bg {
+  background-color: #85385a;
+}
+.foowd5d-bg {
+  background-color: #502136;
+}
 /******** add e update ******/
 .elgg-form-foowd-offerte-add,
 .elgg-form-foowd-offerte-update,
@@ -7,19 +52,54 @@ label {
 .elgg-form-foowd-offerte-add [class^=error-],
 .elgg-form-foowd-offerte-update [class^=error-],
 label [class^=error-] {
+  position: absolute;
+  top: -4px;
   margin-left: 20px;
-  color: #f00;
+  padding: 3px 7px;
+  background-color: #c6779b;
+  color: #fff;
   white-space: nowrap;
   font-style: italic;
-  font-size: 0.9em;
+  font-size: 0.8em;
+}
+.elgg-form-foowd-offerte-add [class^=error-]:before,
+.elgg-form-foowd-offerte-update [class^=error-]:before,
+label [class^=error-]:before {
+  width: 0;
+  height: 0;
+  border-top: 9px solid transparent;
+  border-right: 21px solid #85385a;
+  border-bottom: 0px solid transparent;
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 0px;
 }
 #quota-preview {
   padding: 5px;
   height: 31px;
   font-style: italic;
-  background-color: #fae6ef;
-  color: #808080;
-  border: 1px solid #ccc;
+  background-color: #f0ead8;
+  color: #38302c;
+  border: 1px solid #e6dcbe;
+}
+.foowd-advise-pending {
+  background-color: #85385a;
+  padding: 3px;
+}
+.foowd-advise-newest {
+  background-color: #bed25a;
+  padding: 3px;
+}
+.foowd-advise-modified:before {
+  content: 'Campo Modificato';
+  border-bottom: 1px solid #85385a;
+  color: #85385a;
+  width: 100%;
+  position: absolute;
+  text-align: right;
+  font-style: italic;
+  font-size: 0.9em;
 }
 .foowd-Tag input {
   margin: 0px 0px 21px 1px;
@@ -68,7 +148,7 @@ div.foowd-all-single-container > div {
 .foowd-title {
   font-weight: bold;
   margin-bottom: 5px;
-  color: #c81063;
+  color: #bed25a;
   font-size: 1.2em;
 }
 .foowd-description {
@@ -105,7 +185,76 @@ table.foowd-all-single-container td:nth-child(4) {
   margin-bottom: 10px;
 }
 /******* crop styles ******/
-[data-ratio] {
+#ratio {
+  max-width: 100px;
+}
+#ratio [data-ratio] {
   cursor: pointer;
   cursor: hand;
+  background-color: #e6dcbe;
+  margin: 15px;
+  padding: 5px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+#ratio [data-ratio]:hover {
+  background-color: #bed25a;
+}
+#ratio [data-ratio]:active {
+  background-color: #f7f4ee;
+}
+#ratio [data-ratio="2:3"] {
+  width: 22px;
+  height: 33px;
+}
+#ratio [data-ratio="3:2"] {
+  width: 33px;
+  height: 22px;
+}
+/******* Form TextArea foowd *******/
+table.foowd-editor-table {
+  width: 100%;
+  margin: 1em 0 auto 0;
+  padding: 4px 10px 3px 10px;
+  padding-top: 3px;
+}
+table.foowd-editor-table textarea,
+table.foowd-editor-table .div_textarea {
+  resize: none;
+  min-height: 17em;
+  width: 100%;
+}
+table.foowd-editor-table .div_textarea {
+  padding: 10px;
+  background-color: rgba(237,235,233,0.48);
+}
+table.foowd-editor-table td {
+  width: 50%;
+}
+table.foowd-editor-table [class^="foowd-editor"] {
+  font-size: 0.9em;
+}
+table.foowd-editor-table [class^="foowd-editor"]:first-child {
+  background-color: #38302c;
+  color: #fff;
+  text-align: center;
+}
+table.foowd-editor-table [class^="foowd-editor"]:nth-child(2) {
+  text-align: right;
 }

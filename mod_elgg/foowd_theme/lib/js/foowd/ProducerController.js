@@ -112,15 +112,17 @@ define(function(require){
 				
 				var userData = data.body;
 				
-				API.getUserPics(userId).then(function(data){
+				API.getUserPics(userData.ExternalId).then(function(data){
 					var slides = [];
+					if(data.profile){
 					$.each(data.profile, function(index, slide){
 						if(slide.indexOf("big") > -1){
 							slides.push({
-								"slide" : "../FoowdStorage/User-" + userId + "/" + slide
-							});
-						}
-					});
+								"slide" : "../FoowdStorage/User-" + userData.ExternalId + "/" + slide
+								});
+							}
+						});
+					}
 
 					userData.slides = slides;
 

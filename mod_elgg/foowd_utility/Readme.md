@@ -38,6 +38,13 @@ Web services 1.9
 utilizzato per la generazione di API Interne.
 
 
+### Test
+
+all'interno della pagina `Utility Foowd` e' presente un link `Test` che reindirizza ad una pagina di test: questa risulta utile solamente per controllare che siano abilitati alcuni moduli e specifiche funzioni php generalmente non abilitate di default.
+
+Avere tutti esiti positivi in questa pagina non implica che tutto filera' liscio, ma aiuta a capire se sono stati tralasciati grossi passi in fase d'installazione.
+
+
 Dettagli
 =========
 
@@ -77,6 +84,9 @@ Per quanto concerne la configurazione di PHPMailer con `gmail`, per rendere semp
 - una volta autenticati, andare alla pagina [https://www.google.com/settings/security/lesssecureapps](https://www.google.com/settings/security/lesssecureapps) e attivare l'accesso ad App Meno Sicure
 
 - eventualmente abilitare il protocollo IMAP
+
+##### NB :
+>Tutte le configurazioni per l'invio tramite `PHPMailer` vanno settate nei settings di `Foowd Utility`, raggiungibili dal pannello `Admin`.
 
 
 

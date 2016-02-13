@@ -18,6 +18,7 @@ if(!elgg_is_sticky_form($form) ){
 
 	// sarebbe meglio implementare tutto da lui, magari mediante una classe astratta con parametri fissi che vengono estesi!
 	$data['Publisher']=elgg_get_logged_in_user_guid();
+	if(elgg_get_logged_in_user_entity()->isAdmin()) $data['Publisher'] = get_input('Publisher');
 	$data['Id'] = get_input('Id');
 	$data['type']='search';
 
@@ -28,7 +29,7 @@ if(!elgg_is_sticky_form($form) ){
 	$url=implode('&' , $url);
 	
 	// prendo i valori del vecchio post e li carico nel form
-	$r = \Uoowd\API::Request('offer?'.$url,'GET');
+	$r = \Uoowd\API::offerGet($url);
 
 	// se sono qui la validazione lato elgg e' andata bene
 	// ma ora controllo quella lato API remote
@@ -37,7 +38,7 @@ if(!elgg_is_sticky_form($form) ){
 	if($r->response){
 		// dico al sistema di scartare gli input di questo form
 		// elgg_clear_sticky_form('foowd_offerte/add');
-		$input = (array) $r->body[0];
+		$input = (array) $r->body[0]->offer;
 		$input['Id'] = get_input('Id');
 
 		// quando arriva dalle API e' una stringa da trasformare in array.
@@ -59,6 +60,32 @@ $content = elgg_view_title($title);
 // \Fprint::r(elgg_get_sticky_values($form));
 // \Fprint::r($_SESSION['sticky_forms']);
 $vars = $f->prepare_form_vars($form);
+
+
+////// controllo che sia in fase di modifica, ovvero countdown, o meno
+$foowdOffer = new \Uoowd\FoowdOffer();
+$ofId = $vars['Id'];
+$elggOfr = elgg_get_entities_from_metadata(
+	array( 'metadata_names'=>array('foowdOfferId'), 'metadata_values'=>array($ofId) )
+);
+
+if(count($elggOfr) > 0){
+	$elggOfr = $elggOfr[0];
+	$oldOf = json_decode($elggOfr->description);
+	// array che utilizzo nella view update come javascript hook per aggiungere dinamicamente classi e comportamenti
+	$vars['edited'] = array();
+	$vars['offerModifyExpiration'] = $foowdOffer->getEstimateExpiration($elggOfr);
+	foreach($oldOf as $key => $val){
+		if($key == 'Tag') $val->new = array_map('trim', explode(',', $val->new ));
+		$vars[$key] = $val->new;
+		$vars['edited'][] = $key;
+	}
+}
+///// Controllo se e' libera, editabile in un'ora o bloccata
+$r = $foowdOffer->offerPrefersCall($ofId);
+$prefs = $foowdOffer->prefersByState($r->body);
+$vars['offerPrefers'] = $prefs;
+
 
 
 ///// preparo i valori da passare alla view
@@ -83,6 +110,7 @@ foreach($value as $category => $obj){
 	}
 }
 
+
 // altrimenti verrebbe riscritto nell'array_merge qui sotto
 unset($session['Tag']);
 $vars['Tag'] = $checkBox;
@@ -95,6 +123,7 @@ $unit = \Uoowd\Param::unit();
 if(!isset($vars['Unit'])) $u['options_values']=array(''=>'-- scegli un valore --');
 foreach($unit as $obj){
 	foreach ($obj as $unit => $symbol) {
+		$symbol = preg_replace("@\^([^ ]*)@", '<span class="foowd-pow">$1</span>', $symbol);
 		$u['options_values'][$unit]=sprintf('%s (%s)<br/>', ucwords(str_replace('_',' ',$unit)), $symbol);
 		// $u['options'][]=$unit;
 	}
@@ -105,10 +134,13 @@ $vars['_Unit'] = $u;
 
 // aggiungo il nome del form alle variabili, visto che usero' sticky e $fadd della view dovra' chiamare \Uoowd\Sticky
 // altri valori utili per il form
-$vars['guid']=elgg_get_logged_in_user_guid();
+$vars['guid']=  $data['Publisher'];//elgg_get_logged_in_user_guid();
 $vars['sticky']=$form;
 
 $vars = array_merge($vars, (array) $session);
+
+
+
 // \Fprint::r($vars);
 $content .= elgg_view_form($form, array('enctype'=>'multipart/form-data'), $vars);
 

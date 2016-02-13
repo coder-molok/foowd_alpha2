@@ -4,6 +4,7 @@ ob_start();
 
 // elgg_unregister_menu_item('topbar', 'administration');
 
+
 ?>
 
 <!--
@@ -13,23 +14,113 @@ classi elgg:
 	elgg-body , mi permette di rendere il box al 100% del rimanente, nonostante sia preceduto da un div con float:left
 	pll , lascia un paddin sinistro di 20 px
 
+
+vedere foowd-utenti.styl in foowd_utenti/
+
 -->
 
 <div class="elgg-body foowd-panel-container">
 
 
-<?php 
+
+
+
+<?php
 
 $user = elgg_get_logged_in_user_entity();
 
 
 
-if($user->Genre !== "offerente") goto salto;
+if($user->isAdmin() || $user->Genre == 'offerente'){
+$title = ($user->isAdmin() ) ? 'AMMINISTRAZIONE' : 'Pannello Produttore' ; 
 
 
-echo '<p class="pll">Salve '.$user->username.',<br/> scegli cosa vorresti fare:</p>';
 ?>
-<div id="box">
+
+<h1><?php echo $title; ?></h1>
+
+
+<div class="box">
+
+<div>
+<?php
+echo '<h3>Prenotazioni</h3>';
+echo '<p>visualizza l\'elenco delle ordinazioni ancora da chiudere.</p>';
+echo elgg_view('output/url', array(
+		// associate to the action
+		'href' => \Uoowd\Param::page()->purchase,
+	    'text' => elgg_echo('Prenotazioni'),
+	    'class' => 'elgg-button',
+    ));
+?>
+</div>
+
+<?php
+if(!$user->isAdmin()) goto __not_admin;
+?>
+
+<div>
+<?php
+echo '<h3>Tags Suggeriti</h3>';
+echo '<p>visualizza l\'elenco dei tags suggeriti dagli utenti.</p>';
+echo elgg_view('output/url', array(
+		// associate to the action
+		'href' => \Uoowd\Param::page()->suggestedTags,
+	    'text' => elgg_echo('New Tags'),
+	    'class' => 'elgg-button',
+    ));
+?>
+</div>
+
+
+<div>
+<?php
+echo '<h3>Utenti in Approvazione</h3>';
+echo '<p>visualizza l\'elenco degli utenti che si sono proposti come offerenti.</p>';
+echo elgg_view('output/url', array(
+		// associate to the action
+		'href' => \Uoowd\Param::page()->evaluatingUsers,
+	    'text' => elgg_echo('Visualizza'),
+	    'class' => 'elgg-button',
+    ));
+?>
+</div>
+
+
+<?php
+__not_admin:
+?>
+
+</div><!-- end box -->
+
+<div class="foowd-hz-l"></div>
+
+<?php
+
+} // fine if se amministratore o offerente
+?>
+
+
+
+
+
+
+<?php 
+
+
+if($user->Genre == 'evaluating'){
+	echo '<div class="pll evaluating">Stiamo valutando la tua richiesta di registrazione come produttore.<br/>Una volta approvata riceverai una mail di notifica e protrai accedere alle funzionalit&agrave; produttore di questo pannello.</div>';
+}
+
+echo '<p class="pll">Salve '.$user->username.',<br/> scegli cosa fare:</p>';
+
+
+?>
+<div class="box">
+
+<?php
+if($user->Genre !== "offerente") goto salto;
+?>
 
 <div>
 <?php
@@ -62,10 +153,27 @@ echo elgg_view('output/url', array(
 salto:
 ?>
 
+
+
+<?php
+// echo '<div>';
+// echo '<h3>Visualizza Preferenze</h3>';
+// echo '<p>cliccando potrai visualizzare l\'elenco delle tue offerte e vedere chi tra i tuoi vi ha aderito. Se vorrai potrai anche lanciare l\'ordinazione una volta raggiunta la quantita\' minima.</p>';
+// echo elgg_view('output/url', array(
+// 		// associate to the action
+// 		'href' => \Uoowd\Param::page()->userPreferences,
+// 	    'text' => elgg_echo('Preferenze'),
+// 	    'class' => 'elgg-button',
+//     ));
+// echo '</div>';
+?>
+
+
+
 <div>
 <?php
-echo '<h3>Vedi Profilo</h3>';
-echo '<p>visualizza e modifica le informazioni relative al tuo profilo.</p>';
+echo '<h3>Profilo</h3>';
+echo '<p>visualizza e modifica le informazioni del profilo.</p>';
 echo elgg_view('output/url', array(
 		// associate to the action
 		'href' => \Uoowd\Param::page()->profile,
@@ -78,8 +186,8 @@ echo elgg_view('output/url', array(
 
 <div>
 <?php
-echo '<h3>Gestisci Amicizie</h3>';
-echo '<p>Per controllare le richieste di amicizia che hai ricevuto, per effettuarne o per eliminare amicizie.</p>';
+echo '<h3>Amicizie</h3>';
+echo '<p>gestisci le richieste di amicizia ricevute o inviate, e i tuoi amici attuali.</p>';
 echo elgg_view('output/url', array(
 		// associate to the action
 		'href' => \Uoowd\Param::page()->friendsManage,
@@ -90,7 +198,12 @@ echo elgg_view('output/url', array(
 </div>
 
 
-</div>
+</div><!-- endo box -->
+
+
+
+
+
 </div><!-- end foowd-panel-container -->
 <?php
 
@@ -111,7 +224,6 @@ echo elgg_view('output/url', array(
 // } else {
 //         echo 'ERROR!  PHP could not deliver email to your MTA.  Check that your PHP settings are correct for your MTA and your MTA will deliver email.';
 // }
-
 
 
 $body = ob_get_contents();

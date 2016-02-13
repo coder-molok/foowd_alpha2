@@ -1,5 +1,61 @@
+.foowd1-cl {
+  color: #38302c;
+}
+.foowd1-bg {
+  background-color: #38302c;
+}
+.foowd1d-bg {
+  background-color: #221d1a;
+}
+.foowd2-cl {
+  color: #e6dcbe;
+}
+.foowd2-bg {
+  background-color: #e6dcbe;
+}
+.foowd2d-bg {
+  background-color: #b69a46;
+}
+.foowd3-cl {
+  color: #bed25a;
+}
+.foowd3-bg {
+  background-color: #bed25a;
+}
+.foowd3d-bg {
+  background-color: #7c8d27;
+}
+.foowd4-cl {
+  color: #f7f4ee;
+}
+.foowd4-bg {
+  background-color: #f7f4ee;
+}
+.foowd4d-bg {
+  background-color: #b99f6a;
+}
+.foowd5-cl {
+  color: #85385a;
+}
+.foowd5-bg {
+  background-color: #85385a;
+}
+.foowd5d-bg {
+  background-color: #502136;
+}
 body {
   font-family: AkkuratRegular;
+}
+.foowd-theme-fadein {
+  display: none;
+}
+.foowd-body-main-noscript {
+  font-family: AkkuratRegular;
+  background-color: #bed25a;
+  margin: 23px auto;
+  padding: 15px;
+  border: 1px solid #687620;
+  max-width: 69em;
 }
 h2,
 h3 {
@@ -21,13 +77,13 @@ h3 {
   background-color: #fae6ef;
 }
 .foowd-back-strong {
-  background-color: #c81063;
+  background-color: #38302c;
 }
 .foowd-back-soft {
-  background-color: #fae6ef;
+  background-color: #e6dcbe;
 }
 .elgg-page-header {
-  background-color: #fae6ef;
+  background-color: #e6dcbe;
   background-image: none;
 }
 .elgg-page-header > .elgg-inner {
@@ -54,8 +110,23 @@ h3 {
 }
 .elgg-page-topbar {
   background-image: none;
-  background-color: #c81063;
+  background-color: #38302c;
   border-bottom: 0;
+}
+.elgg-menu-topbar > li > a:hover {
+  color: #e6dcbe;
+}
+.elgg-menu-topbar > li > a:hover:before {
+  position: relative;
+  width: 100%;
+  heigth: 100%;
+  background-color: #e6dcbe;
+  opacity: 0.7;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+  filter: alpha(opacity=70);
+  content: "";
+  display: block;
+  z-index: 15;
 }
 .elgg-page-body,
 .foowd-elements-footer {
@@ -65,9 +136,6 @@ h3 {
   min-width: 400px;
   margin: 0;
   margin-bottom: 40px;
-}
-.elgg-page-footer {
-  z-index: -17;
 }
 .elgg-inner {
   margin: 0;
@@ -105,7 +173,7 @@ a,
 a:link,
 a:visited,
 a:active {
-  color: #c81063;
+  color: #38302c;
 }
 a.elgg-button,
 a:link.elgg-button,
@@ -117,28 +185,29 @@ a.elgg-button:hover,
 a:link.elgg-button:hover,
 a:visited.elgg-button:hover,
 a:active.elgg-button:hover {
-  color: #c81063;
-  background-color: #fae6ef;
+  color: #38302c;
+  background-color: #e6dcbe;
 }
 .elgg-sidebar {
-  background-color: #86385b;
+  background-color: #38302c;
 }
 .elgg-sidebar a.elgg-menu-content,
 .elgg-sidebar a:link.elgg-menu-content {
-  color: #c81063;
+  color: #b69a46;
 }
 .elgg-sidebar a:hover {
-  background-color: #fae6ef;
+  background-color: #f7f4ee;
+  color: #38302c;
 }
 .elgg-sidebar li.elgg-state-selected > a {
-  background-color: #cf8bcd;
+  background-color: #bed25a;
 }
 .elgg-button,
 .elgg-button-submit {
   -webkit-border-radius: 0px;
   border-radius: 0px;
   background: none;
-  background-color: #c81063;
+  background-color: #38302c;
   border: none;
   text-shadow: none;
   -webkit-box-shadow: none;
@@ -152,12 +221,12 @@ a:active.elgg-button:hover {
 .elgg-button-submit:focus {
   outline: none !important;
   background: none;
-  background-color: #fae6ef;
+  background-color: #e6dcbe;
   border: 0px;
-  color: #c81063;
+  color: #38302c;
   text-shadow: none;
-  -webkit-box-shadow: 0 0 3px #c81063;
-  box-shadow: 0 0 3px #c81063;
+  -webkit-box-shadow: 0 0 3px #38302c;
+  box-shadow: 0 0 3px #38302c;
 }
 .elgg-module-info > .elgg-head {
   padding: 5px 5px 2px 0px;
@@ -172,6 +241,11 @@ a:active.elgg-button:hover {
 }
 .elgg-module-info .elgg-body {
   padding-left: 10px;
+}
+.foowd-pow {
+  position: relative;
+  bottom: 0.6ex;
+  font-size: 80%;
 }
 input[type="text"],
 input[type="email"],
@@ -188,11 +262,11 @@ input[type="password"]:focus,
 input[type="url"]:focus,
 input[type="file"]:focus,
 textarea:focus {
-  background-color: #fae6ef;
-  border-color: #c81063;
+  background-color: #e6dcbe;
+  border-color: #38302c;
 }
 .ui-datepicker th {
-  color: #c81063;
+  color: #38302c;
 }
 .foowd-page-add,
 .foowd-page-single {
@@ -221,31 +295,40 @@ textarea:focus {
 .foowd-page-single input[name="UnitExtra"] {
   width: 265px;
 }
-form.elgg-search {
-  border: 1px solid #c81063;
-  height: 20px;
-}
 .elgg-search-header {
   position: relative;
 }
 .search-advanced-type-selection > li > a {
-  background-color: #c81063;
-  height: 19px;
+  background-color: #38302c;
+  height: searchHeight;
+}
+.elgg-sidebar .foowd-search-title {
+  color: #fff;
+  margin-bottom: 13px;
+  font-size: 1.1em;
+}
+.elgg-sidebar .foowd-little-search-title {
+  color: #fff;
+  font-size: 0.9em;
+  padding-left: 10px;
 }
 .elgg-search input[type="text"].search-input {
   border: 0px;
   width: 100%;
-  background-position: right -917px;
+  background-position: 3px -917px;
   background-color: #fff;
 }
 .elgg-search input[type="text"]:focus,
 .elgg-search input[type="text"]:active {
-  color: #c81063;
-  border: 1px solid #c81063;
+  color: #38302c;
+  border: 0px;
 }
 .search-advanced-type-selection-dropdown {
   border: 0px;
 }
 .search-advanced-type-selection-dropdown a:hover {
-  background-color: #c81063;
+  background-color: #38302c;
+}
+.elgg-page-footer-frontend {
+  z-index: -17;
 }

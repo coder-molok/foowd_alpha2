@@ -3,6 +3,7 @@ define(function(require){
 	var utils = require('Utils');
 	var templates = require('templates');
 	var classie = require('classie');
+    var navbarSearch = require('NavbarSearch');
 
 	var NavbarController = (function(){
 
@@ -33,6 +34,7 @@ define(function(require){
 		    };
             //carico il template della barra di navigazione
             $(navbarContainer).each(function(i,el){
+            	context.logged= utils.isUserLogged();
             	if(classie.hasClass(el, 'reverse')){
             		if(utils.isValid(context.regular)){
             			delete context.regular;
@@ -45,6 +47,8 @@ define(function(require){
             		context.regular = true;
             	}
             	$(el).html(templates.navbar(context));
+            	// dopo averlo caricato, posso appendergli gli eventi
+            	navbarSearch.init();
             });
             //carico l'overlay sul menu
             _loadOverlay();
@@ -88,7 +92,7 @@ define(function(require){
 
 			//aggungo i listener al bottone della barra
             ov.triggerBttn.addEventListener( 'click', _toggleOverlay );
-			ov.closeBttn.addEventListener( 'click', _toggleOverlay );
+            ov.closeBttn.addEventListener( 'click', _toggleOverlay );
         }
 
         function _toggleOverlay() {
@@ -122,6 +126,7 @@ define(function(require){
         	}
         }
 
+       
 		return{
 			loadNavbar : 	 _stateCheck,
 			goToUserProfile: goToUserProfile,

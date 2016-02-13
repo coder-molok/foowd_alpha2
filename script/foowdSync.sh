@@ -1,19 +1,63 @@
 #!/bin/bash 
-              
+
+#########################################################################################
+### questo script svolge la sincronizzazione del repo foowd_alpha2 su VPS di sviluppo
+###
+### Di default si limita a runnare rsync con sudo, impostando i dovuti permessi ai files,
+### pertanto accertarsi che l'utente con cui si esegue abbia i dovuti permessi.
+###
+### opzioni da riga di comando
+###
+###         -f  ->  forza l'opzione --delete di rsync
+###                 e l'esecuzione di composer e bower nelle directory mod_elgg
+###
+#########################################################################################
+
+### funzione di check dei parametri passati allo script ###
+OPTIONS=("${@}")
+function optionExists(){
+    local e
+    # 1 e' false, 0 e' true
+    local CHECK=1
+    for e in ${OPTIONS[*]}; do
+        if [[ "$e" == "$1" ]]; then CHECK=0; fi
+    done
+    return "$CHECK"
+}
+
+#test
+#if optionExists "--force-file" ; then echo "ok force"; fi
+### Fine funzione di Check ###
+
               
 # run only as root                     
-if [[ $EUID -ne 0 ]]; then             
-   echo -e "\e[41m This script must be run as root \e[m" 1>&2   
-   exit 1     
-fi            
+#if [[ $EUID -ne 0 ]]; then             
+#   echo -e "\e[41m This script must be run as root \e[m" 1>&2   
+#   exit 1     
+#fi            
               
               
 ### Directory principali               
-REPO="/var/Workspace/Code/Progetti/foowd/foowd_alpha2/"   
-SITE="/var/www/html/elgg/"                  
+REPO=""   
+SITE="/var/www/html/elgg-1.10.4/"
 API="/var/www/html/api_foowd"
 ModPath=$SITE"/mod/"        
-CMD="rsync -a --chown=www-data:www-data"                       
+
+
+### costruzione del comando di base
+if optionExists "-f" ; then FORCE=true; else FORCE=false; fi
+if $FORCE ;
+then
+    # excluding path
+    EXCLUDE="--exclude-from=${REPO}script/rsyncExclude.config"
+    #eventualmente opzione -n per testare prima che svolga
+    DEL=" --delete"
+else
+    EXCLUDE=""
+    DEL=" "
+fi
+CMD="sudo rsync -a -v ${EXCLUDE} --chown=http-web:http-web"
+
               
               
 ### Git       
@@ -22,22 +66,34 @@ echo -e "\n\e[45m copying from repo in $REPO \e[m"
               
               
 ### MOD_ELGG  
-echo -e "\n\e[45m Mod_Elgg part \e[m"  
-#eventualmente opzione -n per testare prima che svolga          
-DEL=" --delete"                        
-              
+echo -e "\n\e[45m Mod_Elgg part \e[m"                  
+
 for D in $REPO"mod_elgg/"*; do         
     if [ -d "${D}" ]; then         
         SRC=`echo ${D}/`       
-        DST=`basename ${D}`    
-        if [[ "${D}" == *theme ]]; then                 
-            TMP="$CMD$DEL $SRC $ModPath$DST ; (cd $ModPath$DST; echo 'runno  
-bower...'; /opt/node/bin/bower install --allow-root >/dev/null)"              
-        else                   
-            TMP="$CMD $SRC $ModPath$DST"   
-        fi                     
-        	eval "$TMP"            
-            #echo "$TMP"           
+        DST=`basename ${D}`
+        TMPCMD="$CMD"
+        EXTRACMD=""
+        # se la directory contiene bower.json, allora lo runno 
+        if [ -f "${D}/bower.json" ] && $FORCE ; then                 
+            TMPCMD="$TMPCMD$DEL"
+            EXTRACMD="$EXTRACMD ; (cd $ModPath$DST; echo 'runno bower...'; sudo bower install --allow-root )"              
+        fi
+        # se la directory contiene composer.json, allora lo runno 
+        if [ -f "${D}/composer.json" ] && $FORCE ; then
+            TMPCMD="$TMPCMD$DEL"
+            EXTRACMD="$EXTRACMD ; (cd $ModPath$DST; echo 'runno composer...'; sudo composer install )"              
+        fi
+
+        # estraggo lo zip del tema jquery.ui
+        if [ "$DST" == "foowd_theme" ] && $FORCE ; then
+            ZIP="${ModPath}${DST}/views/css/jquery-ui-1.10.4.custom.zip"
+            if [ -f "${ZIP}" ] ; then EXTRACMD="${EXTRACMD} ; sudo unzip -d `dirname $ZIP` $ZIP" ; fi
+        fi
+        TMP="$TMPCMD $SRC $ModPath$DST $EXTRACMD"                        
+        
+        eval "$TMP"            
+        #echo "$TMP"           
     fi    
 done          
               
@@ -49,7 +105,3 @@ SRC=$REPO"api_foowd/"
 DST="$API"            
 $CMD $SRC $DST    
 
-
-### Aggiorno i permessi, per sicurezza
-echo -e "\n\e[45m Update Permission part \e[m" 
-chmod -R ug+rwx "$SITE"

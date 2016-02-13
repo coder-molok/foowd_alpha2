@@ -41,11 +41,17 @@ define(function(require){
         * Re-indirizza verso una pagina specificando una parametro
         * 
         */
-		function go2(page, parameter, parameterValue){
+		function go2(page, parameter, parameterValue,event){
+			if(event.defaultPrevented){
+
+				return;
+			}
             if(isValid(page) && isValid(parameter) && isValid(parameterValue)){
                 elgg.forward("/" + page + "?" + parameter + "=" + parameterValue);  
             }
         }
+        
+
 
        /*
         * Re-indirizza verso una pagina generica
@@ -103,6 +109,20 @@ define(function(require){
 
             return newObj;
         } 
+        
+        /*
+        * Funzione che  setta il campo group, se e' attiva o meno la funzionalita' group
+        */
+        function setLoggedGroup(object, group){
+            var newObj = object;
+            
+            if(isValid(object)){
+                newObj.group = group;
+            }
+
+            return newObj;
+        } 
+
 
        /*
         * Ritorna lo user id della sessione corrente
@@ -110,6 +130,8 @@ define(function(require){
         function getUserId () {
             return elgg.get_logged_in_user_guid() === 0 ? null : elgg.get_logged_in_user_guid();
         }
+        
+        
        /*
         * Vede se un utente è loggato
         */
@@ -147,9 +169,11 @@ define(function(require){
             addPicture        : addPicture,
             addProfilePicture : addProfilePicture,
             setLoggedFlag     : setLoggedFlag,
+            setLoggedGroup     : setLoggedGroup,
             getUserId         : getUserId,
             isUserLogged      : isUserLogged,
             getUrlArgs        : getUrlArgs,
+            
         };
 
 	})();

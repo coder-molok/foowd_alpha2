@@ -7,6 +7,16 @@
   //      avviene per 'forceActiveAll' creato in fondo
 ?>
 
+<!--------------- Test Iniziale ------------------>
+<p>
+  <?php echo '<h1>Test Iniziale</h1><br/>';  ?>
+  <p>Cliccando puoi verificare che siano abilitati i principali servizi necessari per l'utilizzo dei plugin foowd.</p>
+   <a class="elgg-button elgg-button-submit" href="<?php echo elgg_get_site_url().\Uoowd\Param::pid(); ?>/checkInit">Test</a>
+</p>
+<br/>
+
+
+
 <!--------------- API ------------------>
 
 <?php 
@@ -44,11 +54,18 @@
 			// echo 'carico';
 			$value =  file_get_contents($json);
 		}else{
-			$value = '';
+			$value = '""';
 		}
 	} 
 
+  // per precauzione controllo che sia un formato json, altrimenti lo imposto come stringa vuota
+  // questo serve per la parte javascript
 
+  json_decode($value);
+  if(json_last_error() !== JSON_ERROR_NONE){
+    $value = '""';
+    echo '<div style="background-color:red; margin:10px;">Tags non presenti o salvati in maniera errata.</div>';
+  }
 
 	// registro un hook a questo submit
 
@@ -61,6 +78,10 @@
   <!-- mi serve js perche' la validita' dei tags la testo prima del submit -->
   <noscript><div style="color:red;">Mi dispiace, ma per inserire i tags devi avere abilitato javascript.</div></noscript>
    <input type='hidden' id="tags" name="params[tags]" value=<?php echo $value;?> />
+   <p>
+   <label>Inserisci le categorie in base all'ordine con cui vorresti vengano visualizzate</label>
+   <textarea style="display:block; width:90%;" id="tags-order"></textarea>
+   </p>
 </div>
 
 
@@ -78,8 +99,27 @@ elgg_load_css('plugin-settings');
 
 
 
+<!--------------- UNIT ------------------>
+<?php
+  $value = elgg_get_plugin_setting('offer-unit', \Uoowd\Param::pid() );
+  // \Fprint::r($value);
+?>
+<h1>Unita' di Misura</h1>
+<div id="unit-save">
+<div style="font-style: italic; font-size:11px;">
+  L'inserimento e' in formato JSON, e la chiave rappresenta il gruppo.<br/>
+  NB: per le potenze come metro cubo il formato e' "m^3": sara' visualizzato correttamente nel form d'inserimento.
+</div>
+<p>
+<label>Inserisci le unita' di misura che vuoi visualizzare nel form di creazione/modifica offerta</label>
+<textarea style="display:block; width:90%;" name="params[offer-unit]"><?php echo $value;?></textarea>
+</p>
+<br/>
 
-<!--------------- API ------------------>
+
+
+
+<!--------------- SOCIALS ------------------>
 <h1>Socials</h1>
 <br/>
 <?php 
@@ -99,12 +139,98 @@ elgg_load_css('plugin-settings');
 
 
 
+<!--------------- PHPMAILER ------------------>
+<style>
+.mailer{
+  display: flex;
+  flex-wrap: wrap;
+}
+.mailer p{
+  width: 50%;
+}
+
+.mailer p input{
+  width: 93%;
+}
+</style>
+<br/>
+<h1>PhpMailer</h1>
+<br/>
+<?php
+$p = 'phpmailer-enable';
+$value = elgg_get_plugin_setting($p, \Uoowd\Param::pid() );
+// se non e' impostato, lo imposto
+$value = ($value) ? $value : \Uoowd\Param::$par['dbg']; 
+
+$checked = ($value) ? true : false ;
+
+echo elgg_view("input/checkbox", array(
+    'label' => 'spunta per attivare l\'invio tramite phpmailer',
+    'name'  => "params[$p]",
+    'checked' => $checked
+  ));
+?>
+<div>
+  NB: l'invio tramite smpt sostituira' l'invio tramite la funzione <b><i>mail()</i></b> di PHP.
+</div>
+<br/>
+<div class="mailer">
+<?php 
+  $mailcfgs = array('Host', 'Username','Password', 'From', 'FromName', 'SMTPSecure', 'Port', 'SMTPAuth');
+
+  foreach($mailcfgs as $s){
+    $p = 'phpmailer-' . $s;
+    $value = elgg_get_plugin_setting($p, \Uoowd\Param::pid() );
+
+    echo '<p>'.
+          '<label>'.$s.'</label><br/>'.
+          '<input class="phpmailer" type="text" name="params['.$p.']" size="80" value="'.$value.'" />'.
+          '</p>';       
+
+  }
+   
+?>
+</div>
+<br/>
 
 
-
+<!--------------- DEVELOPERS ------------------>
 <br>
-<h1>Per Sviluppatori</h1>
+<style>
+.separator{
+  width: 100%;
+  background-color: black;
+  border: 4px groove plum;
+  padding: 10px;
+  color: white;
+}
+
+</style>
+
+<h1 class="separator">Per Sviluppatori</h1>
 <br>
+
+
+<!--------------- MAINTENANCE ------------------>
+<p>
+  <!-- quando e' checked salva il valore impostato, altrimenti non fa nulla -->
+<?php 
+
+  echo '<h3>In Manutenzione:</h3>(utilizzato per visualizzare un alert sullo stato di manutenzione)<br/><br/>'; 
+  $value = elgg_get_plugin_setting('foowdMaintenance', \Uoowd\Param::pid() );
+  $checked = ($value) ? true : false ;
+  echo elgg_view("input/checkbox", array(
+      'label' => 'spunta per attivare il popup relativo allo stato di manutenzione del sito',
+      'name'  => "params[foowdMaintenance]",
+      'checked' => $checked
+    ));
+
+
+?>
+</p>
+
+
+
 
 <!--------------- LOG LEVEL ------------------>
 
@@ -141,7 +267,7 @@ elgg_load_css('plugin-settings');
 
 <p>
   <?php 
-    echo '<h3>Debug LEVEL: </h3><br/>'; 
+    echo '<h3>Log LEVEL: </h3><br/>'; 
     echo 'Valore Attuale: '. $value ; 
     echo elgg_view('input/select',array(
       'name' => 'params[LEVEL]',
