@@ -118,12 +118,12 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
     + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),(depth0 != null ? depth0.Minqt : depth0),{"name":"canbuy","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n";
 },"7":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=container.escapeExpression;
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "                    <div class = \"commercial-menu-item\">\r\n                        <ul class=\"action-icons menu-section\" id = \"preference-action\">\r\n                            <li id=\"action-buy\">\r\n                                <i id=\"action-buy-icon\" class=\"foowd-icons foowd-icon-cart\" \r\n                                onClick = \"ProductDetailController.purchase("
-    + alias1(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"Id","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Id","hash":{},"data":data}) : helper)))
     + ",'"
-    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.prefer : depth0)) != null ? stack1.prefers : stack1), depth0))
+    + alias4(((helper = (helper = helpers.prefers || (depth0 != null ? depth0.prefers : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"prefers","hash":{},"data":data}) : helper)))
     + "')\"></i>\r\n                            </li>\r\n                        </ul>\r\n                    </div>\r\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
@@ -219,7 +219,13 @@ templates['userPreference'] = template({"1":function(container,depth0,helpers,pa
     + ((stack1 = helpers.unless.call(alias1,(depth0 != null ? depth0.group : depth0),{"name":"unless","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "                </ul>\r\n            </div>\r\n        </div>\r\n    </div>\r\n";
 },"2":function(container,depth0,helpers,partials,data) {
-    return "                    <li class=\"btn-buy\">\r\n                        <i class=\"btn-buy-icon foowd-icons foowd-icon-cart\"></i>\r\n                    </li>\r\n";
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+
+  return "                    <li class=\"btn-buy\" onclick=\"UserBoardController.purchase( "
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
+    + " , "
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.prefers : stack1), depth0))
+    + " );\">\r\n                        <i class=\"btn-buy-icon foowd-icons foowd-icon-cart\"></i>\r\n                    </li>\r\n";
 },"4":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 

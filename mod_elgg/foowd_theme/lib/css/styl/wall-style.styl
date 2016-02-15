@@ -10,6 +10,11 @@
 
 // 1. Wall alignment -------------------------------------------------
 
+.foowd-grid-container
+	width: 100%;
+	min-width: 100%;
+	margin: auto;
+
 .grid
 	margin-top: contentMargin + containerMargin
 	list-style: none;
@@ -17,11 +22,24 @@
 	align(horizontal)
 	+below(bp)
 		margin-top : contentMargin * 2 + containerMargin
+	// width: 500px !important;
+	// max-width: 500px !important;
+	width: 100%;
+	
+	// media queries bubbling
+	// attenzione all'ordine
+	// col2 = 2 * productSize 
+	// @media screen and (max-width: 700px)
+	// 	max-width: 100%;
+	//     background-color: green;
+	// @media screen and (max-width: col2)
+	// 	max-width: 100%;
+	//     background-color: red;
 
 .grid li
 	float: left;
 	width: productSize
-	margin: 10px productMargin stdMargin productMargin !important;
+	margin: productMargin productMargin stdMargin productMargin !important;
 	opacity: 0;
 
 

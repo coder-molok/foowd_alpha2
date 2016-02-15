@@ -26,8 +26,8 @@ echo '<center><div id="image-container" style="display:none;">Seleziona l\'area 
 // i Tag hanno un metodo particolare
 $fadd->createField('Tag', 'foowd:tag:need', 'input/checkbox', array('inputs' => $vars['Tag'], 'attributes' =>$vars['TagAttributes']) );
 
-$fadd->createField('Quota', 'foowd:quota:need', 'input/text', array('maxlength'=>"9"));
 $fadd->createField('Unit','foowd:unit:need', 'input/select', $vars['_Unit']);
+$fadd->createField('Quota', 'foowd:quota:need', 'input/text', array('maxlength'=>"9"));
 $fadd->createField('UnitExtra','foowd:unit:extra', 'input/text', array('maxlength'=>"30"));
 ?>
 <label for="quota-preview"><?php echo elgg_echo('foowd:quota:preview'); ?></label>

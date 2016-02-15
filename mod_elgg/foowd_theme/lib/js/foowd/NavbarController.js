@@ -4,6 +4,7 @@ define(function(require){
 	var templates = require('templates');
 	var classie = require('classie');
     var navbarSearch = require('NavbarSearch');
+    var jQueryBridget = require('jquery-bridget');
 
 	var NavbarController = (function(){
 

@@ -160,6 +160,35 @@ define(function(require){
             return queryObject;
         }
 
+        /**
+         * preparo un'offerta: svolgo dei conti relativi al totale delle preferenze nello switch utente/gruppo
+         */
+        function offerPrepare(el, group){
+            // calcolo i totali per utente e per gruppo
+            el.offer.totalQtUser = 0;
+            el.offer.totalQtGroup = 0;
+            el.offer.prefers = [];
+            for(var i in el.prefers){
+                // sono interessato a conteggiare solo quelle in stato newest
+                if(el.prefers[i].State != "newest") continue;
+                el.offer.prefers.push(el.prefers[i].Id);
+                if(getUserId() == el.prefers[i].UserId) el.offer.totalQtUser += el.prefers[i].Qt;
+                el.offer.totalQtGroup += el.prefers[i].Qt;
+            }
+            el.offer.prefers = el.offer.prefers.join(',');
+
+            //aggiungo l'immmagine
+            el.offer = addPicture(el.offer, utils.randomPictureSize(el.offer.Id));
+            //se l'utente è loggato aggiungo un dato al contesto
+            el.offer = setLoggedFlag(el.offer, getUserId());
+
+            // di default aggiungo anche il gruppo
+            el.offer = setLoggedGroup(el.offer, group);
+            el.offer.totalQt = (group) ? el.offer.totalQtGroup : el.offer.totalQtUser ;
+
+            return el;
+        }
+
         return{
         	isValid           : isValid,
             singleElToObj     : singleElToObj,
@@ -173,7 +202,7 @@ define(function(require){
             getUserId         : getUserId,
             isUserLogged      : isUserLogged,
             getUrlArgs        : getUrlArgs,
-            
+            offerPrepare      : offerPrepare            
         };
 
 	})();

@@ -6,6 +6,7 @@ define(function(require) {
 	var utils = require('Utils');
 	var $ = require('jquery');
 	var service = require('foowdServices');
+	var elgg = require('elgg');
 
 	var UserBoardController = (function(){
 
@@ -92,7 +93,7 @@ define(function(require) {
 				//aggiungo l'immagine al json di contesto
 				utils.addPicture(el.Offer, 'small');
 				utils.setLoggedGroup(el, group);
-
+				el.Offer.prefers = "'" + el.prefers.join(',') + "'";
 				//ottengo l'html dal template + contesto
 				var htmlComponent = templates.userPreference(el);
 				//concateno
@@ -194,6 +195,19 @@ define(function(require) {
 			_applyColor();
 			_getUserPreferences();
 		}
+
+		function purchase(offerId, prefers) {
+
+   			// setto i parametri della mia preferenza
+			// richiamo l'API per settare la preferenza
+			API.purchase(offerId,utils.getUserId(),prefers).then(function(data){
+				if(typeof data.output.errors != 'undefined') return;
+				elgg.system_message("Ordine effettuato con successo!<br/>A breve riceverai una mail riepilogativa.");
+			}, function(error){
+				$(document).trigger('preferenceError');
+				console.log(error);
+			});
+		}
 		
 		
 	   	window.toggleGroup = toggleGroup;
@@ -201,6 +215,7 @@ define(function(require) {
 		return{
 			init 		  : _stateCheck, 
 			addPreference : _addPreference,
+			purchase	  : purchase
 		};
 
 	})();

@@ -13,7 +13,7 @@ define(function(require){
 
           //struttura della chiamata alle offerete 
           var offers = {
-          		search : "offer?type=searchTmp",
+          		search : "offer?type=search",
           		prefer : "prefer", 
           		getPreferences : "prefer?type=searchTmp",
           		filterby : {
@@ -57,11 +57,12 @@ define(function(require){
                * @param max        : id massimo offerta
                * @param prder      : ordine di arrivo dei dati
         		 */
-        		getProducts : function(userId, match, tags, publisher, min, max, order){
+        		getProducts : function(userId, urlString, match, tags, publisher, min, max, order){
                  var requestURL = baseUrl + offers.search;
                  var deferred = $.Deferred();
                  
                  requestURL = utils.isValid(userId)    ? requestURL + "&ExternalId=" + userId           :requestURL;
+                 requestURL = utils.isValid(urlString) ? requestURL + urlString                         :requestURL;
                  requestURL = utils.isValid(publisher) ? requestURL + "&Publisher=" + publisher         :requestURL;
                  requestURL = utils.isValid(tags)      ? requestURL + "&Tag=" + tags                    :requestURL;
                  requestURL = utils.isValid(order)     ? requestURL + "&order=" + order                 :requestURL;

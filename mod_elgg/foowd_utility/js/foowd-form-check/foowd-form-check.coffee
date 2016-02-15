@@ -213,7 +213,8 @@
 
     class WebDomain extends Input
         check: ->
-            re = new RegExp(/^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/)
+            `expression = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/gi;`
+            re = new RegExp(expression)
             v = @el.val().trim()  
             if re.test(v) then true else false
 

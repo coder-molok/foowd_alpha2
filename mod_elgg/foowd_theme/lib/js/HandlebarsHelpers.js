@@ -82,7 +82,7 @@ define(function(require){
 
 	/* scrivo i tags separandoli da underscore e rinchiudendoli in span utili per la combo con la ricerca */
 	Handlebars.registerHelper('listTags', function(tags){
-		tags = (tags == '' ) ? 'foowd' : tags ;
+		tags = (tags == '' || typeof tags == 'undefined' ) ? 'foowd' : tags ;
 		var words = tags.replace(/[\s,]+/g, ',').split(',');
 		var body = ''
 		for(var i in words){

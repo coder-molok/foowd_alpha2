@@ -25,6 +25,12 @@
       display: 'none'
     });
     Jgenre.val('standard');
+    el1 = Jform.find('[name="username"]').parent();
+    el2 = Jform.find('[name="name"]').parent();
+    copy_to = el1.clone(true);
+    copy_from = el2.clone(true);
+    el2.replaceWith(copy_to);
+    el1.replaceWith(copy_from);
     fct = form.factory();
     ar = [];
     flds = ['email', 'username', 'name', 'password'];
@@ -171,7 +177,7 @@
       }
       return true;
     });
-    Jgenre.on("change", function() {
+    return Jgenre.on("change", function() {
       if ($(this).val() === 'offerente') {
         Jhook.fadeIn('slow');
         return setNeed(true);
@@ -183,12 +189,6 @@
         });
       }
     });
-    el1 = Jform.find('[name="username"]').parent();
-    el2 = Jform.find('[name="name"]').parent();
-    copy_to = el1.clone(true);
-    copy_from = el2.clone(true);
-    el2.replaceWith(copy_to);
-    return el1.replaceWith(copy_from);
   });
 
 }).call(this);

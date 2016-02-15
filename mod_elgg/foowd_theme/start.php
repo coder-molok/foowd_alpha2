@@ -98,8 +98,13 @@ function AMD(){
 	]);
 	elgg_define_js('masonry', [
     	'src' => 'mod/foowd_theme/vendor/masonry/dist/masonry.pkgd.min.js',
+    	'deps' => array('jquery-bridget', 'jquery')
 	]);
-
+	// di supporto per fare in modo che alcuni plugin, come masonry, possano lavorare come jquery plugin anche utilizzando requirejs
+	elgg_define_js('jquery-bridget', [
+    	'src' => 'mod/foowd_theme/vendor/jquery-bridget/jquery-bridget.js',
+    	'deps' => array('jquery')
+	]);
 	/* 
 	 * Grid loading
 	 */
@@ -111,6 +116,7 @@ function AMD(){
 	]);
 	elgg_define_js('animOnScroll', [
     	'src' => 'mod/foowd_theme/assets/grid-loading/js/AnimOnScroll.js',
+    	'deps' => array('jquery-bridget', 'jquery')
 	]);
 
 	/* 
@@ -191,7 +197,7 @@ function foowd_theme_register(){
 	//----- Tutte le pagine
 	// foowd style
 	$css_url = 'mod/foowd_theme/lib/css/style.css';
-	elgg_register_css('foowd-theme-style', $css_url, 507);
+	elgg_register_css('foowd-theme-style', $css_url, 701);
 
 
 	//<!-- Vendor Style Libraries -->
@@ -201,7 +207,7 @@ function foowd_theme_register(){
 
 	// my foowd-side style: override default elgg where I need
 	$css_url = 'mod/foowd_theme/views/css/foowd-main.css';
-	elgg_register_css('foowd-theme-main', $css_url, 507);
+	elgg_register_css('foowd-theme-main', $css_url, 703);
 
 	//----- jquery ui
 	$css_url = '/mod/foowd_theme/views/css/jquery-ui-1.10.4.custom/css/ui-theme-foowd/jquery-ui-1.10.4.custom.css';

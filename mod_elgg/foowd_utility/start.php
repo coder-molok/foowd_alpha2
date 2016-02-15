@@ -207,7 +207,7 @@ function foowd_policy_page_handler($segments) {
 }
 
 function foowd_utility_routes_wrap($hook, $type, $returnvalue, $params){
-	\Uoowd\Logger::addError(func_get_args());
+	// \Uoowd\Logger::addError(func_get_args());
 }
 
 function foowd_utility_mail($hook, $type, $return, $params){

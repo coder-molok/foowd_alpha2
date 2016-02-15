@@ -307,21 +307,31 @@
         	$('[data-tag]').css({'background-color': 'transparent'});
         	// loop per aggiungere gli underscore e raccogliere i tag da cercare
         	var tagCollection = [] ;
+        	// se ha premuto enter, allora cerco tutte le parola
+        	var makeSearch = (code == 13);
+        	// se non ho niente da cercare, comando il wall per rigenerarsi
+        	var nothingElse = '';
         	$search.find('span[data-tag-navsearch]').each(function(){
         		var tag = $(this).attr('data-tag-navsearch');
         		$(this).after(underscoreSpan);
+        		nothingElse += tag;
      			
      			// se il tag non e' presente, allora
      			if($.inArray(tag, siteTags) == -1 ){
-     				$(this).css({'color': 'initial'});
-     				return true;
+     				// $(this).css({'color': 'initial'});
+     				color = 'initial';
+     			}else{
+	        		var color = $(this).data('color');	
      			}
-     			tagCollection.push(tag);
         		// queste tre devono mantenere questo ordine
-        		var color = $(this).data('color');
         		$(this).css({'color': color});
         		$(this).next().css({'color': color});
+     			
+     			if(makeSearch && tag != '') tagCollection.push(tag);
+     			
         	});
+
+        	// console.log(tagCollection)
         	
         	// dopo aver aggiornato la barra, penso a come far avvenire la ricerca:
         	// ho deciso di raccogliere tutti i tag in una collection in modo da rendere piu veloce la ricerca,
@@ -329,13 +339,15 @@
         	// _searchThisWord(tagCollection);
 
         	// passo l'evento al WallController, che si occupera' del resto
-        	var triggerObj = {};
-        	triggerObj['tagsObject'] =tagCollection;
-        	if(__Object.tagCollectionOld.toString() !== tagCollection.toString()){
-        		__Object.tagCollectionOld = tagCollection;
-				$(document).trigger({"type": searchUpdateWallEvent, "FoowdNavbarSearch": triggerObj});
+        	if(makeSearch || nothingElse == ''){
+	        	var triggerObj = {};
+	        	triggerObj['tagsObject'] =tagCollection;
+	        	if(__Object.tagCollectionOld.toString() !== tagCollection.toString()){
+	        		__Object.tagCollectionOld = tagCollection;
+					$(document).trigger({"type": searchUpdateWallEvent, "FoowdNavbarSearch": triggerObj});
+	        	}
         	}
-
+        	
 
 
        		// aggiungo all'ultimo underscore disponibile

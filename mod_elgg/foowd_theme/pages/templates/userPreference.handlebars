@@ -36,7 +36,7 @@
             <div class="user-preference-actions user-preference-section">
                 <ul class="action-icons menu-section" id = "preference-action">
                 {{#canbuy totalQt Offer.Minqt}}
-                    <li class="btn-buy">
+                    <li class="btn-buy" onclick="UserBoardController.purchase( {{Offer.Id}} , {{Offer.prefers}} );">
                         <i class="btn-buy-icon foowd-icons foowd-icon-cart"></i>
                     </li>
                 {{/canbuy}}

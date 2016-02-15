@@ -10,11 +10,12 @@
 
 <div class="foowd-navbar">
 </div>
-<ul class="grid effect-1" id="wall">
-
-</ul>
+<div class="foowd-grid-container">
+  <ul class="grid effect-1" id="wall">
+  </ul>
+</div>
 <!-- server per il loader-->
-<div id="wall-container"style="width: 100%;height: 100px;padding-top: 300px;" >
+<div id="wall-container" style="width: 100%;height: 100px;padding-top: 300px;" >
 
 </div>
 <!-- Pezzo che deve essere comune a tutte le pagine -->

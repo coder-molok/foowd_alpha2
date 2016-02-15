@@ -2,7 +2,35 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 15/02/2016
+
+- ristruttorata gestione del wall inserendo caricamento a blocchi
+
+- sulla stessa idea, gestione della ricerca a blocchi
+
+- modificato pesantemente codice e logica di WallController.js
+
+- aggiunta gestione locale dei dati caricati
+
+- modificate ApiOffer per consentire match su tags o contenuti o titolo
+
+- aggiunto plugin di supporto
+
+- risolte varie issue
+
+- personalizzato codice di AnimOnScroll.js plugin
+
+- corretti alcuni check dei form
+
+- aggiornati vari controller per modalita' gruppo
+
+
+
 ### 12/02/2016
+
+- predisposto sistema di cache per il wall
+
+- rimosse api offerte searchTmp per adeguarle al nuovo schema API
 
 - implementazione search
 

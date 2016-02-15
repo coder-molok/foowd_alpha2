@@ -5,7 +5,8 @@ define(function(require){
 	var templates = require('templates');
 	var $ = require('jquery');
 	var utils = require('Utils');
-	
+	var elgg = require('elgg');
+
 	var ProductDetailController = (function(){
 
 		//id html del contenitore dei dettagli prodotto
@@ -51,10 +52,11 @@ define(function(require){
 		}
 
 		function _applyProductContext(context){
-			context = utils.addPicture(context);
-			context = utils.setLoggedFlag(context, utils.getUserId());
-			context = utils.setLoggedGroup(context, group);
-			return templates.productDetail(context);
+			context = utils.offerPrepare(context, group);
+			// context = utils.addPicture(context);
+			// context = utils.setLoggedFlag(context, utils.getUserId());
+			// context.offer = utils.setLoggedGroup(context.offer, group);
+			return templates.productDetail(context.offer);
 		}
 
 		function _fillProgressBars(){
@@ -132,12 +134,14 @@ define(function(require){
 			});
 
 		}
+
 		function purchase(offerId, prefers) {
     		//setto i parametri della mia preferenza
 			//richiamo l'API per settare la preferenza
 			API.purchase(offerId,utils.getUserId(),prefers).then(function(data){
 				getDetailsOf();
-				$(document).trigger('preferenceAdded');
+				if(typeof data.output.errors != 'undefined') return;
+				elgg.system_message("Ordine effettuato con successo!<br/>A breve riceverai una mail riepilogativa.");
 			}, function(error){
 				$(document).trigger('preferenceError');
 				console.log(error);
