@@ -1995,25 +1995,12 @@ h5 {
 /*
  * About Wall Page Style
  */
-.foowd-grid-container {
-  width: 100%;
-  min-width: 100%;
-  margin: auto;
-}
 .grid {
-  margin-top: 80px;
+  margin: 80px auto;
   list-style: none;
   padding: 0 10px 0 10px;
-  position: absolute;
-  transform-style: preserve-3d;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-}
-@media only screen and (max-width: 900px) {
-  .grid {
-    margin-top: 140px;
-  }
+  transform: translateX(0);
+  left: 0%;
 }
 .grid li {
   float: left;

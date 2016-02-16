@@ -115,6 +115,7 @@ define(function(require){
 				_applyColor();
 			}else{
 				//reindirizzo alla pagina del wall
+				alert('lol')
 			 	utils.goTo();
 			}
 		};

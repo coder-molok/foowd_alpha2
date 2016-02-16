@@ -58,7 +58,19 @@
                 </li>
             </ul>
             {{/unless}}
-                        {{/if}}
+            
+            {{else}}
+
+            <ul class="action-icons menu-section" id = "preference-action">
+                <li class="action-heart" id="action-heart">
+                    <i  class="foowd-icons foowd-icon-plus"  onClick = "utils.goTo('login');"></i>
+                </li>
+                <li class="action-minus">
+                    <i class="foowd-icons foowd-icon-minus fw-menu-icon"  onClick = "utils.goTo('login')"></i>
+                </li>
+            </ul>
+            
+            {{/if}}
             
 
         </div>
@@ -67,7 +79,7 @@
                {{{Description}}} 
             </div>
             <div id="commercial-menu">
-            {{#if logged}}
+            {{!-- eventualmente if logged --}}
                 <div class = "commercial-menu-item">
                     <div class="item-container">
                         <span class="foowd-icons foowd-icon-heart-edge item-icon">
@@ -98,7 +110,7 @@
                     </div>
                 {{/canbuy}}
 
-            {{/if}}
+            {{!-- eventualmente \if --}}
             </div>
         </div>
     </div>

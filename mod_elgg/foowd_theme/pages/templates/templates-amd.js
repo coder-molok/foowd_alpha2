@@ -98,7 +98,8 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
     var stack1;
 
   return "            \r\n"
-    + ((stack1 = helpers.unless.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.group : depth0),{"name":"unless","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+    + ((stack1 = helpers.unless.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.group : depth0),{"name":"unless","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "            \r\n";
 },"4":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
@@ -108,16 +109,8 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
     + alias4(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Id","hash":{},"data":data}) : helper)))
     + ", -1)\"></i>\r\n                </li>\r\n            </ul>\r\n";
 },"6":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3=container.escapeExpression;
-
-  return "                <div class = \"commercial-menu-item\">\r\n                    <div class=\"item-container\">\r\n                        <span class=\"foowd-icons foowd-icon-heart-edge item-icon\">\r\n                        </span>\r\n                        <span class = \"item-title\">carrello</span>\r\n                        <span class = \"item-data\">x"
-    + alias3(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
-    + "</span>\r\n                    </div>\r\n                </div>\r\n                <div class = \"commercial-menu-item\">\r\n                    <div class=\"item-container\">\r\n                        <span class=\"foowd-icons foowd-icon-cart item-icon\"></span>\r\n                        <span class = \"item-title\">tot</span>\r\n                        <span class = \"item-data\">\r\n                            "
-    + alias3((helpers.math || (depth0 && depth0.math) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),"*",(depth0 != null ? depth0.Price : depth0),{"name":"math","hash":{},"data":data}))
-    + "\r\n                            <span class = \"apex\">€</span>\r\n                        </span>\r\n                    </div>\r\n                </div>\r\n                \r\n"
-    + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),(depth0 != null ? depth0.Minqt : depth0),{"name":"canbuy","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n";
-},"7":function(container,depth0,helpers,partials,data) {
+    return "\r\n            <ul class=\"action-icons menu-section\" id = \"preference-action\">\r\n                <li class=\"action-heart\" id=\"action-heart\">\r\n                    <i  class=\"foowd-icons foowd-icon-plus\"  onClick = \"utils.goTo('login');\"></i>\r\n                </li>\r\n                <li class=\"action-minus\">\r\n                    <i class=\"foowd-icons foowd-icon-minus fw-menu-icon\"  onClick = \"utils.goTo('login')\"></i>\r\n                </li>\r\n            </ul>\r\n            \r\n";
+},"8":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "                    <div class = \"commercial-menu-item\">\r\n                        <ul class=\"action-icons menu-section\" id = \"preference-action\">\r\n                            <li id=\"action-buy\">\r\n                                <i id=\"action-buy-icon\" class=\"foowd-icons foowd-icon-cart\" \r\n                                onClick = \"ProductDetailController.purchase("
@@ -139,12 +132,16 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
     + "\r\n            </div>\r\n            <div class=\"menu-section\" id=\"product-company\">\r\n                "
     + ((stack1 = ((helper = (helper = helpers.Company || (depth0 != null ? depth0.Company : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Company","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "\r\n            </div>\r\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.program(6, data, 0),"data":data})) != null ? stack1 : "")
     + "            \r\n\r\n        </div>\r\n        <div class=\"product-info-menu\" id = \"section2\">\r\n            <div id=\"product-description\">\r\n               "
     + ((stack1 = ((helper = (helper = helpers.Description || (depth0 != null ? depth0.Description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Description","hash":{},"data":data}) : helper))) != null ? stack1 : "")
-    + " \r\n            </div>\r\n            <div id=\"commercial-menu\">\r\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "            </div>\r\n        </div>\r\n    </div>\r\n    <div class = \"product-menu-section\" id=\"product-picture\">\r\n       <img src=\""
+    + " \r\n            </div>\r\n            <div id=\"commercial-menu\">\r\n                <div class = \"commercial-menu-item\">\r\n                    <div class=\"item-container\">\r\n                        <span class=\"foowd-icons foowd-icon-heart-edge item-icon\">\r\n                        </span>\r\n                        <span class = \"item-title\">carrello</span>\r\n                        <span class = \"item-data\">x"
+    + alias4(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
+    + "</span>\r\n                    </div>\r\n                </div>\r\n                <div class = \"commercial-menu-item\">\r\n                    <div class=\"item-container\">\r\n                        <span class=\"foowd-icons foowd-icon-cart item-icon\"></span>\r\n                        <span class = \"item-title\">tot</span>\r\n                        <span class = \"item-data\">\r\n                            "
+    + alias4((helpers.math || (depth0 && depth0.math) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),"*",(depth0 != null ? depth0.Price : depth0),{"name":"math","hash":{},"data":data}))
+    + "\r\n                            <span class = \"apex\">€</span>\r\n                        </span>\r\n                    </div>\r\n                </div>\r\n                \r\n"
+    + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),(depth0 != null ? depth0.Minqt : depth0),{"name":"canbuy","hash":{},"fn":container.program(8, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class = \"product-menu-section\" id=\"product-picture\">\r\n       <img src=\""
     + alias4(((helper = (helper = helpers.picture || (depth0 != null ? depth0.picture : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"picture","hash":{},"data":data}) : helper)))
     + "\"/>\r\n    </div>\r\n</div>\r\n";
 },"useData":true});

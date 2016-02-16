@@ -10,10 +10,8 @@
 
 <div class="foowd-navbar">
 </div>
-<div class="foowd-grid-container">
-  <ul class="grid effect-1" id="wall">
-  </ul>
-</div>
+<ul class="grid effect-1" id="wall">
+</ul>
 <!-- server per il loader-->
 <div id="wall-container" style="width: 100%;height: 100px;padding-top: 300px;" >
 

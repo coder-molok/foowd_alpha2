@@ -37,12 +37,10 @@ function foowd_wall_page_handler() {
 }
 
 function foowd_product_detail_page_handler(){
-	if(elgg_get_logged_in_user_entity() != 0){
-		if (!include_once(dirname(__FILE__) . "/pages/product-detail.php"))
-			return false;
-		return true;
-	}
-	forward("login");
+
+	if (!include_once(dirname(__FILE__) . "/pages/product-detail.php"))
+		return false;
+
 	return true;
 }
 

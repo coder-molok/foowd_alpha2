@@ -2,6 +2,14 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 16/02/2015
+
+- centrato wall orizzontalmente per IE e tablet
+
+- risolta iss#205
+
+
+
 ### 15/02/2016
 
 - ristruttorata gestione del wall inserendo caricamento a blocchi

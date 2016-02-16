@@ -10,22 +10,23 @@
 
 // 1. Wall alignment -------------------------------------------------
 
-.foowd-grid-container
-	width: 100%;
-	min-width: 100%;
-	margin: auto;
+// .foowd-grid-container
+// 	width: 100%;
+// 	min-width: 100%;
+// 	margin: auto;
 
 .grid
-	margin-top: contentMargin + containerMargin
+	margin: contentMargin + containerMargin auto
 	list-style: none;
 	padding: 0 stdMargin - productMargin 0 stdMargin - productMargin;
-	align(horizontal)
-	+below(bp)
-		margin-top : contentMargin * 2 + containerMargin
-	// width: 500px !important;
-	// max-width: 500px !important;
-	width: 100%;
-	
+	// align(horizontal)
+	// +below(bp)
+	// 	margin : contentMargin * 2 + containerMargin auto
+
+	// queste due impostazioni, assieme al margin auto sx mi servono per sovrastare il codice generato probabilmente da jeet...
+	transform: translateX(0);
+	left: 0%;
+
 	// media queries bubbling
 	// attenzione all'ordine
 	// col2 = 2 * productSize 
@@ -41,7 +42,16 @@
 	width: productSize
 	margin: productMargin productMargin stdMargin productMargin !important;
 	opacity: 0;
+	
+.no-csstransforms .grid{}
+.csstransforms  .grid{}
 
+// con questo forzo l'allineamento centrato anche per IE e tablet
+// .foowd-grid-container .grid{
+// 	transform: translateX(0);
+// 	left: 0%;
+// 	// margin: auto;
+// }
 
 .grid li.shown,
 .no-js .grid li,

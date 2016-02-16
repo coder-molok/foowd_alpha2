@@ -96,6 +96,8 @@ define(function(require){
             ov.closeBttn.addEventListener( 'click', _toggleOverlay );
         }
 
+        console.log(Modernizr.csstransitions)
+
         function _toggleOverlay() {
 			if( classie.has( ov.overlay, 'open' ) ) {
 				classie.remove( ov.overlay, 'open' );

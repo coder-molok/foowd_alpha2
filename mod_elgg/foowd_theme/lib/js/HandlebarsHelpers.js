@@ -27,10 +27,13 @@ define(function(require){
 	    }[operator];
 	});
 	
+
 	Handlebars.registerHelper('if', function(conditional, options) {
-  		if(conditional) {
-    		return options.fn(this);
-    	}
+	  if(conditional) {
+	    return options.fn(this);
+	  } else {
+	    return options.inverse(this);
+	  }
 	});
 
 	Handlebars.registerHelper('unless', function(conditional, options) {
