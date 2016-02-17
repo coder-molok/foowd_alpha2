@@ -6,7 +6,7 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define([], factory);
+        define(['jquery', 'jquery-foowd'], factory());
     } else if (typeof exports === 'object') {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
@@ -37,6 +37,7 @@
 /////////////////////////// inizio di tutte le costruzioni ///////////////////////
 
 "use strict";
+var $= require('jquery');
 // var image
 // var image-container
 // var w
@@ -46,25 +47,24 @@
 // se l'immagine e' gia' esistente, allora provvedo subito ad inizializzare la funzione
 $(window).on('load', function(){
     // ritardo la visualizzazione perche' la descrizione del prodotto via elgg sballa i posizionameni quando viene a caricarsi
-    setTimeout(function(){
-
-        var img = document.getElementById('image').getElementsByTagName('img')[0];
-        if(img){
-    
-            // imposto la larghezza a 400
-            var w = 400;
-            $(img).width(w);
-            img.id = 'sorgente';
-            
-            $img = img;
+    var $ig = $('#image-container').css('display','none');
+    function loadedImageEnd(){
+        // imposto la larghezza a 400
+        var w = 400;
+        var el = this;
+        $ig.fadeIn(function(){
+            $(el).width(w).attr('id', 'sorgente');
+            $img = el;
             $img.height *= w/$img.width;
             $img.width = w;
             start();
-        }else{
-            // alert('nada');
-        }
-
+        });
+    }
+    setTimeout(function(){   
+            $('#image img').foowd('onLoad',{ callback: loadedImageEnd });
+        // });
     }, 2000);
+
 });
 
 

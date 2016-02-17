@@ -1,6 +1,6 @@
 <li class="product-post">
     <div class="post-container" data-product-id="{{Id}}">
-        <div class="product-post-main-frame" onclick="utils.go2('detail', 'productId', {{Id}},event)">
+        <a class="product-post-main-frame" href="{{productDetailUri}}">
             <div class="product-post-image-thumbnail">
                 <figure class="tint" >
                     <img src="{{picture}}">
@@ -42,7 +42,7 @@
                 </span>
                 {{/if}}
             </div>
-        </div>
+        </a>
         <div class="product-post-description">
             {{{Description}}}
         </div>

@@ -228,3 +228,4 @@ define(function(require){
 
 	return ProductDetailController;
 });
+

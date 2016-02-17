@@ -1868,6 +1868,7 @@ h5 {
 .product-company {
   font-family: AkkuratRegular;
   font-size: 12px;
+  font-weight: normal;
 }
 @media only screen and (max-width: 900px) {
   .user-preference-details {
@@ -2080,8 +2081,10 @@ h5 {
   transition: opacity 0.15s ease;
 }
 .product-post-main-frame {
+  display: block;
   font-family: AkkuratBold;
   position: relative;
+  background-color: rgba(0,0,0,0.2);
 }
 .product-post-header {
   top: 0px;

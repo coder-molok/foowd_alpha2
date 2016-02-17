@@ -2,6 +2,19 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 17/02/2016
+
+- migliorata resa grafica caricamento form update offerta
+
+- migliorato check alla digitazione
+
+- implementata base per plugin jquery
+
+- impostato mouse destro per prodotti wall
+
+
+
+
 ### 16/02/2015
 
 - centrato wall orizzontalmente per IE e tablet

@@ -50,8 +50,6 @@ define(function(require){
                 elgg.forward("/" + page + "?" + parameter + "=" + parameterValue);  
             }
         }
-        
-
 
        /*
         * Re-indirizza verso una pagina generica
@@ -176,7 +174,7 @@ define(function(require){
                 el.offer.totalQtGroup += el.prefers[i].Qt;
             }
             el.offer.prefers = el.offer.prefers.join(',');
-
+            el.offer.productDetailUri = elgg.get_site_url() + 'detail?productId=' + el.offer.Id;
             //aggiungo l'immmagine
             el.offer = addPicture(el.offer, utils.randomPictureSize(el.offer.Id));
             //se l'utente è loggato aggiungo un dato al contesto

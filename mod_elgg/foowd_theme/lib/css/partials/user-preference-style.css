@@ -315,6 +315,7 @@
 .product-company {
   font-family: AkkuratRegular;
   font-size: 12px;
+  font-weight: normal;
 }
 @media only screen and (max-width: 900px) {
   .user-preference-details {

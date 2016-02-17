@@ -10,6 +10,7 @@ define(function(require){
 	var utils = require('Utils');
 	var $ = require('jquery');
 	var loadingOverlay = require('jquery-loading-overlay');
+	require('jquery-foowd');
 
 	var WallController = (function(){
 
@@ -402,8 +403,9 @@ define(function(require){
 		});
 
 
+		// $(document).on('click', '.product-post-main-frame')
 
-		
+
 	   /* Export---------------- */
 	   	// window.addPreference = _addPreference;
 	   	window.toggleGroup = toggleGroup;
@@ -423,3 +425,4 @@ define(function(require){
 	return WallController;
 
 });
+

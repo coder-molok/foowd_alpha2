@@ -162,9 +162,9 @@ templates['productPost'] = template({"1":function(container,depth0,helpers,parti
 
   return "<li class=\"product-post\">\r\n    <div class=\"post-container\" data-product-id=\""
     + alias4(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Id","hash":{},"data":data}) : helper)))
-    + "\">\r\n        <div class=\"product-post-main-frame\" onclick=\"utils.go2('detail', 'productId', "
-    + alias4(((helper = (helper = helpers.Id || (depth0 != null ? depth0.Id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Id","hash":{},"data":data}) : helper)))
-    + ",event)\">\r\n            <div class=\"product-post-image-thumbnail\">\r\n                <figure class=\"tint\" >\r\n                    <img src=\""
+    + "\">\r\n        <a class=\"product-post-main-frame\" href=\""
+    + alias4(((helper = (helper = helpers.productDetailUri || (depth0 != null ? depth0.productDetailUri : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"productDetailUri","hash":{},"data":data}) : helper)))
+    + "\">\r\n            <div class=\"product-post-image-thumbnail\">\r\n                <figure class=\"tint\" >\r\n                    <img src=\""
     + alias4(((helper = (helper = helpers.picture || (depth0 != null ? depth0.picture : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"picture","hash":{},"data":data}) : helper)))
     + "\">\r\n                </figure>\r\n                <!-- Questo span permette ai contenuti di allinearsi con la larghezza dell'immagine\r\n                In pratica detta quanto sia la larghezza del div contenitore (vedi WallController.adjustOverlays--> \r\n                  <span class=\"heart-overlay\">\r\n                </span>\r\n            </div>\r\n            <div class=\"product-post-header\">\r\n                <div class=\"product-post-name\">\r\n                    <span class=\"product-post-title\">"
     + alias4(((helper = (helper = helpers.Name || (depth0 != null ? depth0.Name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Name","hash":{},"data":data}) : helper)))
@@ -184,7 +184,7 @@ templates['productPost'] = template({"1":function(container,depth0,helpers,parti
     + ((stack1 = ((helper = (helper = helpers.Company || (depth0 != null ? depth0.Company : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Company","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "\r\n                       </span>\r\n                </div>\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "            </div>\r\n        </div>\r\n        <div class=\"product-post-description\">\r\n            "
+    + "            </div>\r\n        </a>\r\n        <div class=\"product-post-description\">\r\n            "
     + ((stack1 = ((helper = (helper = helpers.Description || (depth0 != null ? depth0.Description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Description","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "\r\n        </div>\r\n        <div class=\"product-post-tags\">\r\n                "
     + ((stack1 = (helpers.listTags || (depth0 && depth0.listTags) || alias2).call(alias1,(depth0 != null ? depth0.Tag : depth0),{"name":"listTags","hash":{},"data":data})) != null ? stack1 : "")

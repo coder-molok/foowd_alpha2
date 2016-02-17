@@ -103,6 +103,11 @@ function AMD(){
     	'src' => 'mod/foowd_theme/vendor/jquery-bridget/jquery-bridget.js',
     	'deps' => array('jquery')
 	]);
+	// plugin personalizzato per jquery
+	elgg_define_js('jquery-foowd', [
+	   	'src' => 'mod/foowd_theme/lib/js/jquery-foowd.js',
+	   	'deps' => array('jquery')
+	]);
 	/* 
 	 * Grid loading
 	 */

@@ -44,6 +44,9 @@
   background-color: #502136;
 }
 /******** add e update ******/
+.elgg-form-foowd-offerte-update #image-container {
+  display: none;
+}
 .elgg-form-foowd-offerte-add,
 .elgg-form-foowd-offerte-update,
 label {

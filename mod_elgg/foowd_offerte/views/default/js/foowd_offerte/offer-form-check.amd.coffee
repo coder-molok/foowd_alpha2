@@ -75,7 +75,8 @@
             
 
             #vincoli da rispettare
-            @inpt .on "focusout mouseout keyup", ( inptOn = ()->
+            #focusout mouseout
+            @inpt .on "keyup", ( inptOn = ()->
                 if !first
                     # aggiungo il controllo in differita di un secondo dall'utlima immissione
                     # per rendere meno stressante il controllo
