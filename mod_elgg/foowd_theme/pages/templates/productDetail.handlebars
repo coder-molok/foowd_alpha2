@@ -46,7 +46,7 @@
             </div>
             {{#if logged}}
             
-            {{#unless group}}
+            {{!-- {{#unless group}} --}}
              <ul class="action-icons menu-section" id = "preference-action">
                 <li class="action-heart" id="action-heart">
                     <i  class="foowd-icons foowd-icon-plus" 
@@ -57,7 +57,7 @@
                        onClick = "ProductDetailController.addPreference({{Id}}, -1)"></i>
                 </li>
             </ul>
-            {{/unless}}
+            {{!-- {{/unless}} --}}
             
             {{else}}
 

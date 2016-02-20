@@ -2,6 +2,16 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 20/02/2016
+
+- inibita rimozione pulsanti + e - nel passaggio a modalita' gruppo per board e dettagli prodotto
+
+- aggiunti effetti per hide e slide in board, dopo purchase
+
+- aggiunto adeguamento calcoli nello switch delle modalita e aggiornamento conteggio preferenze a purchase avvenuta
+
+
+
 ### 17/02/2016
 
 - migliorata resa grafica caricamento form update offerta

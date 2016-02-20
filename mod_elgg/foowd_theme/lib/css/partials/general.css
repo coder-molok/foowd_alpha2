@@ -177,3 +177,43 @@ h5 {
     opacity: 1;
   }
 }
+@-moz-keyframes hide {
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes hide {
+  100% {
+    opacity: 0;
+  }
+}
+@-o-keyframes hide {
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes hide {
+  100% {
+    opacity: 0;
+  }
+}
+@-moz-keyframes enfold {
+  100% {
+    height: 0;
+  }
+}
+@-webkit-keyframes enfold {
+  100% {
+    height: 0;
+  }
+}
+@-o-keyframes enfold {
+  100% {
+    height: 0;
+  }
+}
+@keyframes enfold {
+  100% {
+    height: 0;
+  }
+}

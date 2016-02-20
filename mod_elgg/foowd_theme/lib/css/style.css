@@ -626,6 +626,46 @@ h5 {
     opacity: 1;
   }
 }
+@-moz-keyframes hide {
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes hide {
+  100% {
+    opacity: 0;
+  }
+}
+@-o-keyframes hide {
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes hide {
+  100% {
+    opacity: 0;
+  }
+}
+@-moz-keyframes enfold {
+  100% {
+    height: 0;
+  }
+}
+@-webkit-keyframes enfold {
+  100% {
+    height: 0;
+  }
+}
+@-o-keyframes enfold {
+  100% {
+    height: 0;
+  }
+}
+@keyframes enfold {
+  100% {
+    height: 0;
+  }
+}
 
 .foowd-navbar {
   *zoom: 1;
@@ -1682,6 +1722,21 @@ h5 {
 #preferences-container:last-child {
   margin-right: 0%;
 }
+#preferences-container .preference {
+  position: relative;
+}
+.preference-fadeOut {
+  animation: hide 3s forwards linear, enfold 2s 3s forwards linear;
+}
+.preference-lock:before {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  content: ' ';
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
 .preference {
   *zoom: 1;
   float: left;
@@ -2084,7 +2139,6 @@ h5 {
   display: block;
   font-family: AkkuratBold;
   position: relative;
-  background-color: rgba(0,0,0,0.2);
 }
 .product-post-header {
   top: 0px;

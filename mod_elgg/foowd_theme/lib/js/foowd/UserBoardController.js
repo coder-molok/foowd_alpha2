@@ -64,7 +64,7 @@ define(function(require) {
 		function _getUserPreferencesSingle(userId){
 			return API.getUserPreferences(userId).then(function(data){
 				var rawData = data;
-				console.log(data)
+				// console.log(data)
 				var parsedProducts = _applyPreferencesContext(rawData.body);
 				_fillBoard(parsedProducts);
 				$(document).trigger('preferences-loaded');
@@ -93,7 +93,8 @@ define(function(require) {
 				//aggiungo l'immagine al json di contesto
 				utils.addPicture(el.Offer, 'small');
 				utils.setLoggedGroup(el, group);
-				el.Offer.prefers = "'" + el.prefers.join(',') + "'";
+				el.Qt = el.totalQt;
+				el.Offer.prefers = el.prefers.join(',');
 				//ottengo l'html dal template + contesto
 				var htmlComponent = templates.userPreference(el);
 				//concateno
@@ -189,33 +190,47 @@ define(function(require) {
 						group=!group;
 			$('#groupBtn').toggleClass('foowd-icon-group-white',group);
 			$('#groupBtn').toggleClass('foowd-icon-group',!group);
-						$('#groupBtn').toggleClass('fw-menu-icon-group',group);
+			$('#groupBtn').toggleClass('fw-menu-icon-group',group);
 			$('#groupBtn').toggleClass('fw-menu-icon',!group);
 			//Lo applico anche prima che carichi
 			_applyColor();
 			_getUserPreferences();
 		}
 
-		function purchase(offerId, prefers) {
 
-   			// setto i parametri della mia preferenza
-			// richiamo l'API per settare la preferenza
+		$(document).on('click', 'li.btn-buy', function(e){
+
+			var offerId = $(this).attr('data-offer-id');
+			var prefers = $(this).attr('data-offer-prefers');
+
+			// ottengo il contenitore e gli appendo una classe che inibisce i pulsanti(una maschera trasparende che lo ricopre e lo blocca)
+			var $box = 	$(this).closest('.preference');
+			$box.addClass('preference-lock');
+
 			API.purchase(offerId,utils.getUserId(),prefers).then(function(data){
 				if(typeof data.output.errors != 'undefined') return;
-				elgg.system_message("Ordine effettuato con successo!<br/>A breve riceverai una mail riepilogativa.");
+				elgg.system_message("L'ordine è stato preso in carico,<br/> ti stiamo inviando una mail con i dettagli.");
+				// effetto di dissolvenza
+				$box.addClass('preference-fadeOut');
+				// lo rimuovo
+				$box.remove();
+				var prefs = $('.user-preference').length;
+				$('#account-info').find('li').first().html(prefs);
+				// aggiorno il conteggio dei prodotti
 			}, function(error){
+				// se avviene un errore, posso comunque riprendere ad aggiungere preferenze
+				$box.removeClass('preference-lock');
 				$(document).trigger('preferenceError');
 				console.log(error);
 			});
-		}
-		
+		});
+	
 		
 	   	window.toggleGroup = toggleGroup;
 
 		return{
 			init 		  : _stateCheck, 
 			addPreference : _addPreference,
-			purchase	  : purchase
 		};
 
 	})();

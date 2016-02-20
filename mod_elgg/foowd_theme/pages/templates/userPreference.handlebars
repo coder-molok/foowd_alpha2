@@ -36,11 +36,11 @@
             <div class="user-preference-actions user-preference-section">
                 <ul class="action-icons menu-section" id = "preference-action">
                 {{#canbuy totalQt Offer.Minqt}}
-                    <li class="btn-buy" onclick="UserBoardController.purchase( {{Offer.Id}} , {{Offer.prefers}} );">
+                    <li class="btn-buy" data-offer-id="{{Offer.Id}}" data-offer-prefers="{{Offer.prefers}}">
                         <i class="btn-buy-icon foowd-icons foowd-icon-cart"></i>
                     </li>
                 {{/canbuy}}
-         	   {{#unless group}}
+         	   {{!-- {{#unless group}} --}}
                 
                     <li class="action-heart-border">
                         <i  class="foowd-icons foowd-icon-plus" 
@@ -50,7 +50,7 @@
                         <i class="foowd-icons foowd-icon-minus fw-menu-icon" 
                            onClick = "UserBoardController.addPreference({{Offer.Id}}, -1)"></i>
                     </li>
-           		 {{/unless}}
+           		 {{!-- {{/unless}} --}}
                 </ul>
             </div>
         </div>

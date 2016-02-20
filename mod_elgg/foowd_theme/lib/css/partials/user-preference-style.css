@@ -129,6 +129,21 @@
 #preferences-container:last-child {
   margin-right: 0%;
 }
+#preferences-container .preference {
+  position: relative;
+}
+.preference-fadeOut {
+  animation: hide 3s forwards linear, enfold 2s 3s forwards linear;
+}
+.preference-lock:before {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  content: ' ';
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
 .preference {
   *zoom: 1;
   float: left;
