@@ -95,6 +95,7 @@ define(function(require) {
 				utils.setLoggedGroup(el, group);
 				el.Qt = el.totalQt;
 				el.Offer.prefers = el.prefers.join(',');
+				el.Offer.detailUri = utils.uriProductDetail(el.Offer.Id);
 				//ottengo l'html dal template + contesto
 				var htmlComponent = templates.userPreference(el);
 				//concateno
@@ -165,21 +166,23 @@ define(function(require) {
 		}
 
 		function _addPreference(offerId, qt) {
-						var userId = utils.getUserId();
-
     		//setto i parametri della mia preferenza
 			preference.OfferId = offerId;
-			preference.ExternalId = userId;
+			preference.ExternalId = utils.getUserId();
 			preference.Qt = qt;
 			//richiamo l'API per settare la preferenza
 			API.addPreference(preference).then(function(data){
 				_getUserPreferences();
 				_getUserInfo();
+				if(typeof data.errors != 'undefined'){
+					if(typeof data.errors.Expiration != 'undefined') $(document).trigger({type: 'popupError', foowdMSG : 'Offerta scaduta.'});
+					if(typeof data.errors.blockedPref != 'undefined') $(document).trigger({type: 'popupError', foowdMSG : "Offerta gia' presa in carico."});
+				}
+				//$(document).trigger('preferenceAdded');
 			}, function(error){
 				$(document).trigger('preferenceError');
 				console.log(error);
 			});
-
 		}
 
 		$(document).on('preferences-loaded', function(){
@@ -213,9 +216,11 @@ define(function(require) {
 				// effetto di dissolvenza
 				$box.addClass('preference-fadeOut');
 				// lo rimuovo
-				$box.remove();
-				var prefs = $('.user-preference').length;
-				$('#account-info').find('li').first().html(prefs);
+				setTimeout(function(){
+					$box.remove();
+					var prefs = $('.user-preference').length;
+					$('#account-info').find('li').first().html(prefs);
+				}, 7000);
 				// aggiorno il conteggio dei prodotti
 			}, function(error){
 				// se avviene un errore, posso comunque riprendere ad aggiungere preferenze

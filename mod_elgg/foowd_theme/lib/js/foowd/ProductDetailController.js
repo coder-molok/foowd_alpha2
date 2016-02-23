@@ -128,15 +128,20 @@ define(function(require){
 			//richiamo l'API per settare la preferenza
 			API.addPreference(preference).then(function(data){
 				getDetailsOf();
+				if(typeof data.errors != 'undefined'){
+					if(typeof data.errors.Expiration != 'undefined') $(document).trigger({type: 'popupError', foowdMSG : 'Offerta scaduta.'});
+					if(typeof data.errors.blockedPref != 'undefined') $(document).trigger({type: 'popupError', foowdMSG : "Offerta gia' presa in carico."});
+				}
 				//$(document).trigger('preferenceAdded');
 			}, function(error){
 				$(document).trigger('preferenceError');
 				console.log(error);
 			});
-
 		}
 
 		function purchase(offerId, prefers) {
+			// attivo il cursore
+			$('#product-detail-main').toggleClass('progress', true);
     		//setto i parametri della mia preferenza
 			//richiamo l'API per settare la preferenza
 			API.purchase(offerId,utils.getUserId(),prefers).then(function(data){
@@ -146,9 +151,12 @@ define(function(require){
 			}, function(error){
 				$(document).trigger('preferenceError');
 				console.log(error);
+			}).always(function(){
+				$('#product-detail-main').toggleClass('progress', false);
 			});
 
 		}
+
 		function _applyColor(){
 				$( ".progress" ).each(function() {
 					$(this).toggleClass('action-heart',!group);
@@ -165,6 +173,7 @@ define(function(require){
 				
 				
 		}
+		
 		function toggleGroup(){
 						group=!group;
 			$('#groupBtn').toggleClass('foowd-icon-group-white',group);

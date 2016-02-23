@@ -10,6 +10,6 @@ La ricerca non ha prodotto alcun risultato. <br/><br/>
 	if(!elgg_is_logged_in()) return;
 ?>
 
-Se vuoi invitare uno o piu amici non ancora presente clicca sul pulsante <br/><br/>
+Se vuoi invitare uno o piu amici non ancora presenti nel sito clicca sul pulsante <br/><br/>
 
 <a class="elgg-button" href="<?php echo elgg_get_site_url().'invite'; ?>">Invita</a>

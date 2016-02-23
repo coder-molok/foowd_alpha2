@@ -2,6 +2,18 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 23/02/2016
+
+- sistemata search amicizie
+
+- dettaglio prodotto: inseriti messaggi d'errore e pointer "progress" alla prenotazione
+
+- inseriti links e visualizzazione unita' di misura
+
+- svolte alcune traduzioni e risolte issue
+
+
+
 ### 20/02/2016
 
 - inibita rimozione pulsanti + e - nel passaggio a modalita' gruppo per board e dettagli prodotto

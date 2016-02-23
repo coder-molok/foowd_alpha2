@@ -8,15 +8,23 @@ templates['carouselItem'] = template({"compiler":[7,">= 4.0.0"],"main":function(
     + "\">\r\n	</div>\r\n</figure>";
 },"useData":true});
 templates['navbar'] = template({"1":function(container,depth0,helpers,partials,data) {
-    return "  <div class=\"navbar-section reverse logo\" >\r\n      <div class=\"foowd-brand reverse\">\r\n       <span onClick=\"utils.goTo('')\">foowd_</span>\r\n      </div>\r\n  </div>\r\n  <div class = \"navbar-section reverse logo\" id=\"user-menu-section\">\r\n      <div id = \"user-menu\">\r\n          <span onClick=\"utils.goTo('board')\" \r\n                class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link reverse\">\r\n          </span>\r\n          <span onClick = \"utils.goTo('panel')\"\r\n                class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link reverse\">\r\n          </span>\r\n          <span id=\"trigger-overlay\" \r\n                class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link reverse\">\r\n          </span>\r\n      </div>\r\n  </div>\r\n";
+    var helper;
+
+  return "  <div class=\"navbar-section reverse logo\" >\r\n      <div class=\"foowd-brand reverse\">\r\n       <span onClick=\"utils.goTo('')\">foowd_</span>\r\n      </div>\r\n  </div>\r\n  <div class = \"navbar-section reverse logo\" id=\"user-menu-section\">\r\n      <div id = \"user-menu\">\r\n          <span onClick=\"utils.goTo('board')\" \r\n                class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link reverse\">\r\n          </span>\r\n          <a href=\""
+    + container.escapeExpression(((helper = (helper = helpers.panelUri || (depth0 != null ? depth0.panelUri : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"panelUri","hash":{},"data":data}) : helper)))
+    + "\">\r\n            <span class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link\">\r\n            </span>\r\n          </a>\r\n          <span id=\"trigger-overlay\" \r\n                class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link reverse\">\r\n          </span>\r\n      </div>\r\n  </div>\r\n";
 },"3":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=depth0 != null ? depth0 : {};
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "  <div class=\"navbar-section logo\" >\r\n      <div class=\"foowd-brand\">\r\n       <div onClick=\"utils.goTo('')\" class=\"foowd-brand-pre-search\">foowd<span class=\"foowd-pulsate underscore-search\">_</span></div>\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.search : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "      </div>\r\n  </div>\r\n  <div class = \"navbar-section\" id=\"user-menu-section\">\r\n      <div id = \"user-menu\">\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "          <span onClick=\"utils.goTo('board')\" \r\n                class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link\">\r\n          </span>\r\n          <span onClick = \"utils.goTo('panel')\"\r\n                class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link\">\r\n          </span>\r\n          <span id=\"trigger-overlay\" \r\n                class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link\">\r\n          </span>\r\n      </div>\r\n  </div>\r\n";
+    + "            <a href=\""
+    + alias4(((helper = (helper = helpers.boardUri || (depth0 != null ? depth0.boardUri : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"boardUri","hash":{},"data":data}) : helper)))
+    + "\">\r\n              <span class=\"foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link\">\r\n              </span>\r\n            </a>\r\n            <a href=\""
+    + alias4(((helper = (helper = helpers.panelUri || (depth0 != null ? depth0.panelUri : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"panelUri","hash":{},"data":data}) : helper)))
+    + "\">\r\n              <span class=\"foowd-icons foowd-icon-user fw-menu-icon profile-link\">\r\n              </span>\r\n            </a>\r\n            <span id=\"trigger-overlay\" \r\n                class=\"foowd-icons foowd-icon-menu fw-menu-icon menu-link\">\r\n            </span>\r\n      </div>\r\n  </div>\r\n";
 },"4":function(container,depth0,helpers,partials,data) {
     return "        <div id=\"searchText-loom\">\r\n          <span id=\"search-dots\"></span>\r\n          <div id=\"searchText\" onkeypress=\"window.searchProductsKey(event)\"></div>\r\n        </div>\r\n";
 },"6":function(container,depth0,helpers,partials,data) {
@@ -129,9 +137,15 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.program(5, data, 0),"data":data})) != null ? stack1 : "")
     + "            \r\n\r\n        </div>\r\n        <div class=\"product-info-menu\" id = \"section2\">\r\n            <div id=\"product-description\">\r\n               "
     + ((stack1 = ((helper = (helper = helpers.Description || (depth0 != null ? depth0.Description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Description","hash":{},"data":data}) : helper))) != null ? stack1 : "")
-    + " \r\n            </div>\r\n            <div id=\"commercial-menu\">\r\n                <div class = \"commercial-menu-item\">\r\n                    <div class=\"item-container\">\r\n                        <span class=\"foowd-icons foowd-icon-heart-edge item-icon\">\r\n                        </span>\r\n                        <span class = \"item-title\">carrello</span>\r\n                        <span class = \"item-data\">x"
+    + " \r\n            </div>\r\n            <div id=\"commercial-menu\">\r\n                <div class = \"commercial-menu-item\">\r\n                    <div class=\"item-container\">\r\n                        <span class=\"foowd-icons item-icon\"></span>\r\n                        <span class = \"item-data\">\r\n                            "
+    + alias4(((helper = (helper = helpers.Quota || (depth0 != null ? depth0.Quota : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Quota","hash":{},"data":data}) : helper)))
+    + " "
+    + alias4(((helper = (helper = helpers.Unit || (depth0 != null ? depth0.Unit : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Unit","hash":{},"data":data}) : helper)))
+    + " "
+    + alias4(((helper = (helper = helpers.UnitExtra || (depth0 != null ? depth0.UnitExtra : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"UnitExtra","hash":{},"data":data}) : helper)))
+    + "                \r\n                        </span>\r\n                    </div>\r\n                </div>\r\n                <div class = \"commercial-menu-item\">\r\n                    <div class=\"item-container\">\r\n                        <span class=\"foowd-icons foowd-icon-heart-edge item-icon\">\r\n                        </span>\r\n                        <span class = \"item-title\">Quote</span>\r\n                        <span class = \"item-data\">x"
     + alias4(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
-    + "</span>\r\n                    </div>\r\n                </div>\r\n                <div class = \"commercial-menu-item\">\r\n                    <div class=\"item-container\">\r\n                        <span class=\"foowd-icons foowd-icon-cart item-icon\"></span>\r\n                        <span class = \"item-title\">tot</span>\r\n                        <span class = \"item-data\">\r\n                            "
+    + "</span>\r\n                    </div>\r\n                </div>\r\n                <div class = \"commercial-menu-item\">\r\n                    <div class=\"item-container\">\r\n                        <span class=\"foowd-icons foowd-icon-cart item-icon\"></span>\r\n                        <span class = \"item-title\">Carrello</span>\r\n                        <span class = \"item-data\">\r\n                            "
     + alias4((helpers.math || (depth0 && depth0.math) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),"*",(depth0 != null ? depth0.Price : depth0),{"name":"math","hash":{},"data":data}))
     + "\r\n                            <span class = \"apex\">€</span>\r\n                        </span>\r\n                    </div>\r\n                </div>\r\n                \r\n"
     + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),(depth0 != null ? depth0.Minqt : depth0),{"name":"canbuy","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
@@ -191,11 +205,13 @@ templates['userPreference'] = template({"1":function(container,depth0,helpers,pa
     + alias4(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
     + "\" \r\n              data-total = \""
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Minqt : stack1), depth0))
-    + "\">\r\n            </span>    \r\n        </span>\r\n        <div class=\"user-preference\">\r\n            <div class=\"user-preference-section\">\r\n                <img src=\""
+    + "\">\r\n            </span>    \r\n        </span>\r\n        <div class=\"user-preference\">\r\n            <div class=\"user-preference-section\">\r\n                <a href=\""
+    + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.detailUri : stack1), depth0))
+    + "\">\r\n                <img src=\""
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.picture : stack1), depth0))
     + "\" class = \"user-preference-image\" \r\n                     onclick=\"utils.go2('detail', 'productId',"
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
-    + ",event)\">    \r\n            </div>\r\n            <div class=\"user-preference-name user-preference-section\">\r\n                <ul class=\"number-block\">\r\n                    <li>"
+    + ",event)\"> \r\n                     </a>\r\n            </div>\r\n            <div class=\"user-preference-name user-preference-section\">\r\n                <ul class=\"number-block\">\r\n                    <li>"
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Name : stack1), depth0))
     + "</li>\r\n                    <li><span class=\"product-company\">"
     + ((stack1 = alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Company : stack1), depth0)) != null ? stack1 : "")

@@ -59,6 +59,25 @@ define(function(require){
                 elgg.forward("/" + page);
             }
 		}
+
+        /*
+         * Ritorno l'url
+         */
+        function uriTo(page){
+            if(isValid(page)){
+                return elgg.get_site_url() + page;
+            }
+        }
+
+        /*
+         * ritorno l'url del dettaglio prodotto
+         */
+        function uriProductDetail(parameterValue){
+            if(isValid(parameterValue)){
+                return elgg.get_site_url() + "detail?productId=" + parameterValue;  
+            }
+        }
+
        /*
         * Generatore casuale delle dimensioni delle immagini del wall
         */
@@ -188,19 +207,21 @@ define(function(require){
         }
 
         return{
-        	isValid           : isValid,
-            singleElToObj     : singleElToObj,
-            go2               : go2,
-        	goTo              : goTo,
-            randomPictureSize : randomPictureSize,
-            addPicture        : addPicture,
-            addProfilePicture : addProfilePicture,
-            setLoggedFlag     : setLoggedFlag,
-            setLoggedGroup     : setLoggedGroup,
-            getUserId         : getUserId,
-            isUserLogged      : isUserLogged,
-            getUrlArgs        : getUrlArgs,
-            offerPrepare      : offerPrepare            
+        	isValid             : isValid,
+            singleElToObj       : singleElToObj,
+            go2                 : go2,
+        	goTo                : goTo,
+            randomPictureSize   : randomPictureSize,
+            addPicture          : addPicture,
+            addProfilePicture   : addProfilePicture,
+            setLoggedFlag       : setLoggedFlag,
+            setLoggedGroup      : setLoggedGroup,
+            getUserId           : getUserId,
+            isUserLogged        : isUserLogged,
+            getUrlArgs          : getUrlArgs,
+            offerPrepare        : offerPrepare ,
+            uriTo               : uriTo,
+            uriProductDetail    : uriProductDetail
         };
 
 	})();

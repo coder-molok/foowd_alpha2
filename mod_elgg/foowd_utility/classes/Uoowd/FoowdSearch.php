@@ -1,6 +1,6 @@
 <?php
 
-// views di interesse, eventualmente da sovrascrivere:
+// views di interesse in foowd_theme ed eventualmente da sovrascrivere:
 // search/no_results.php
 // search/search_box.php
 
@@ -33,13 +33,13 @@ class FoowdSearch{
 		// evito:
 		// 1 - che vengano svolte le query
 		// 2 - che le pagine su cui si fanno le query finiscano nella sidebar
-		return false;
+		return array();
 		// return $return;
 	}
 
 
 	// Set $custom_types in "search" plugin
-	// aggiungo per ciascun valore in self::$search la possibilita' di essere utilizzato come parametr
+	// aggiungo per ciascun valore in self::$search la possibilita' di essere utilizzato come parametro
 	// La sua ricerca viene poi implementata con l'handler search, type , dove type e' appunto l'elemento di questo array
 	public static function get_types($hook, $type, $return, $params){
 		$return = array_merge($return, self::$search);
@@ -83,69 +83,93 @@ class FoowdSearch{
 
 		$db_prefix = elgg_get_config('dbprefix');
 
-		// da url ritorna a normale stringa: ad esempio da url %40 diviene @
+		// da url ritorna a normale stringa: ad esempio da url %40 diviene @. Query e' il valore di "q": ?q=...
 		$query = sanitise_string($params['query']);
 
-		// aggiungo un controllo sulla mail per velocizzare
-		// se cerca per email
-		if(preg_match('|@|', $query) ){
-			$entities = get_user_by_email($query);
-			// per il goto devono essere definiti $entities e $count
-			$count = count($entities);
-			/*if($count > 0)*/ goto __FOOWD_FOUND_EMAIL;
+		// Imposto i permessi d'accesso per la lettura di TUTTI gli utenti, admins inclusi
+		elgg_set_ignore_access(true);
+
+		// recupero tutti gli utenti, amministratori inclusi
+		$admins =elgg_get_admins();
+		$users = elgg_get_entities(array('types'=>array('user','admins') , 'limit' => 0) );
+		$allUsers = array_merge($admins, $users);
+		// \Uoowd\Logger::addError(count($allUsers));
+
+		$entities = array();
+		$skip = elgg_get_logged_in_user_entity()->guid;
+		foreach ($allUsers as $single) {
+			// salto l'utente attuale
+			if($skip == $single->guid) continue;
+			// \Uoowd\Logger::addError($single->email);
+			$str = $single->email.$single->username.$single->name;
+			$match = '@' . $query . '@i';
+			if(preg_match($match, $str)) $entities[] = $single;
 		}
+		// ripristino l'accesso
+		elgg_set_ignore_access(false);
+		$count = count($entities);
 
-		$params['joins'] = array(
-			"JOIN {$db_prefix}users_entity ue ON e.guid = ue.guid",
-		);
+
+		// // aggiungo un controllo sulla mail per velocizzare
+		// // se cerca per email
+		// if(preg_match('|@|', $query) ){
+		// 	$entities = get_user_by_email($query);
+		// 	// per il goto devono essere definiti $entities e $count
+		// 	$count = count($entities);
+		// 	/*if($count > 0)*/ goto __FOOWD_FOUND_EMAIL;
+		// }
+
+		// $params['joins'] = array(
+		// 	"JOIN {$db_prefix}users_entity ue ON e.guid = ue.guid",
+		// );
 			
-		// username and display name
-		$fields = array('username', 'name');
-		$where = search_get_where_sql('ue', $fields, $params, FALSE);
+		// // username and display name
+		// $fields = array('username', 'name');
+		// $where = search_get_where_sql('ue', $fields, $params, FALSE);
 
-		// profile fields
-		$profile_fields = array_keys(elgg_get_config('profile_fields'));
+		// // profile fields
+		// $profile_fields = array_keys(elgg_get_config('profile_fields'));
 		
-		if (!empty($profile_fields)) {
-			$params['joins'][] = "JOIN {$db_prefix}metadata md on e.guid = md.entity_guid";
-			$params['joins'][] = "JOIN {$db_prefix}metastrings msv ON n_table.value_id = msv.id";
+		// if (!empty($profile_fields)) {
+		// 	$params['joins'][] = "JOIN {$db_prefix}metadata md on e.guid = md.entity_guid";
+		// 	$params['joins'][] = "JOIN {$db_prefix}metastrings msv ON n_table.value_id = msv.id";
 			
-			// get the where clauses for the md names
-			// can't use egef_metadata() because the n_table join comes too late.
-			$clauses = _elgg_entities_get_metastrings_options('metadata', array(
-				'metadata_names' => $profile_fields,
-			));
+		// 	// get the where clauses for the md names
+		// 	// can't use egef_metadata() because the n_table join comes too late.
+		// 	$clauses = _elgg_entities_get_metastrings_options('metadata', array(
+		// 		'metadata_names' => $profile_fields,
+		// 	));
 		
-			$params['joins'] = array_merge($clauses['joins'], $params['joins']);
-			// no fulltext index, can't disable fulltext search in this function.
-			// $md_where .= " AND " . search_get_where_sql('msv', array('string'), $params, FALSE);
-			$md_where = "(({$clauses['wheres'][0]}) AND msv.string LIKE '%$query%')";
+		// 	$params['joins'] = array_merge($clauses['joins'], $params['joins']);
+		// 	// no fulltext index, can't disable fulltext search in this function.
+		// 	// $md_where .= " AND " . search_get_where_sql('msv', array('string'), $params, FALSE);
+		// 	$md_where = "(({$clauses['wheres'][0]}) AND msv.string LIKE '%$query%')";
 			
-			$params['wheres'] = array("(($where) OR ($md_where))");
-		} else {
-			$params['wheres'] = array("$where");
-		}
+		// 	$params['wheres'] = array("(($where) OR ($md_where))");
+		// } else {
+		// 	$params['wheres'] = array("$where");
+		// }
 		
-		// override subtype -- All users should be returned regardless of subtype.
-		$params['subtype'] = ELGG_ENTITIES_ANY_VALUE;
-		$params['count'] = true;
-		$count = elgg_get_entities($params);
+		// // override subtype -- All users should be returned regardless of subtype.
+		// $params['subtype'] = ELGG_ENTITIES_ANY_VALUE;
+		// $params['count'] = true;
+		// $count = elgg_get_entities($params);
 
 
-		// no need to continue if nothing here.
-		if (!$count) {
-			return array('entities' => array(), 'count' => $count);
-		}
+		// // no need to continue if nothing here.
+		// if (!$count) {
+		// 	return array('entities' => array(), 'count' => $count);
+		// }
 		
-		$params['count'] = FALSE;
-		$params['order_by'] = search_get_order_by_sql('e', 'ue', $params['sort'], $params['order']);
-		$entities = elgg_get_entities($params);
+		// $params['count'] = FALSE;
+		// $params['order_by'] = search_get_order_by_sql('e', 'ue', $params['sort'], $params['order']);
+		// $entities = elgg_get_entities($params);
 
-		__FOOWD_FOUND_EMAIL:
-		// \Fprint::r($entities);
-		// \Fprint::r($count);
+		// __FOOWD_FOUND_EMAIL:
+		// // \Fprint::r($entities);
+		// // \Fprint::r($count);
 
-		// add the volatile data for why these entities have been returned.
+		// // add the volatile data for why these entities have been returned.
 		foreach ($entities as $entity) {
 			
 			$title = search_get_highlighted_relevant_substrings($entity->name, $query);

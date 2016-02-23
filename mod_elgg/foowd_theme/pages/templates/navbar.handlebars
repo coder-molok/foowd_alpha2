@@ -9,9 +9,10 @@
           <span onClick="utils.goTo('board')" 
                 class="foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link reverse">
           </span>
-          <span onClick = "utils.goTo('panel')"
-                class="foowd-icons foowd-icon-user fw-menu-icon profile-link reverse">
-          </span>
+          <a href="{{panelUri}}">
+            <span class="foowd-icons foowd-icon-user fw-menu-icon profile-link">
+            </span>
+          </a>
           <span id="trigger-overlay" 
                 class="foowd-icons foowd-icon-menu fw-menu-icon menu-link reverse">
           </span>
@@ -38,15 +39,17 @@
 	                class="foowd-icons icon-black foowd-icon-group fw-menu-icon preferences-link">
 	          </span>
             {{/if}}
-          <span onClick="utils.goTo('board')" 
-                class="foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link">
-          </span>
-          <span onClick = "utils.goTo('panel')"
-                class="foowd-icons foowd-icon-user fw-menu-icon profile-link">
-          </span>
-          <span id="trigger-overlay" 
+            <a href="{{boardUri}}">
+              <span class="foowd-icons foowd-icon-heart-edge fw-menu-icon preferences-link">
+              </span>
+            </a>
+            <a href="{{panelUri}}">
+              <span class="foowd-icons foowd-icon-user fw-menu-icon profile-link">
+              </span>
+            </a>
+            <span id="trigger-overlay" 
                 class="foowd-icons foowd-icon-menu fw-menu-icon menu-link">
-          </span>
+            </span>
       </div>
   </div>
 {{/if}}

@@ -133,7 +133,8 @@
   position: relative;
 }
 .preference-fadeOut {
-  animation: hide 3s forwards linear, enfold 2s 3s forwards linear;
+  overflow: hidden;
+  animation: hide 5s forwards linear, enfold 5s forwards linear;
 }
 .preference-lock:before {
   width: 100%;
@@ -153,6 +154,7 @@
   margin-left: 0%;
   margin-right: 3%;
   height: 120px;
+  transform: translateZ(0);
 }
 .preference:before,
 .preference:after {

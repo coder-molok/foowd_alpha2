@@ -263,6 +263,16 @@ return array(
 			'uservalidationbyemail:messages:resent_validation' => 'Richiesta di validazione inviata.',
 			'uservalidationbyemail:messages:resent_validations' => 'Richiesta di validazione inviata a tutti gli utenti selezionati.',
 
+		/**
+		 * Plugin messages
+		 */
+		
+			'messages:posted' => "Il tuo messaggio &egrave; stato inviato con successo.",
+
+			'messages:blank' => "&Eacute; necessario inserire del testo nel messaggio per consentire l'invio.",
+			'messages:user:blank' => "Inserisci un destinatario.",
+
+
 
 /**
  * Account

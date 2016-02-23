@@ -82,16 +82,24 @@
             {{!-- eventualmente if logged --}}
                 <div class = "commercial-menu-item">
                     <div class="item-container">
+                        <span class="foowd-icons item-icon"></span>
+                        <span class = "item-data">
+                            {{Quota}} {{Unit}} {{UnitExtra}}                
+                        </span>
+                    </div>
+                </div>
+                <div class = "commercial-menu-item">
+                    <div class="item-container">
                         <span class="foowd-icons foowd-icon-heart-edge item-icon">
                         </span>
-                        <span class = "item-title">carrello</span>
+                        <span class = "item-title">Quote</span>
                         <span class = "item-data">x{{totalQt}}</span>
                     </div>
                 </div>
                 <div class = "commercial-menu-item">
                     <div class="item-container">
                         <span class="foowd-icons foowd-icon-cart item-icon"></span>
-                        <span class = "item-title">tot</span>
+                        <span class = "item-title">Carrello</span>
                         <span class = "item-data">
                             {{math totalQt '*' Price}}
                             <span class = "apex">€</span>

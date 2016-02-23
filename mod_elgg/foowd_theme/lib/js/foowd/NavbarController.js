@@ -32,6 +32,8 @@ define(function(require){
             search = utils.isValid(search) ? search : false;
             var context = {
 		        "search" : search,
+		        "panelUri": utils.uriTo('panel'),
+		        "boardUri": utils.uriTo('board')
 		    };
             //carico il template della barra di navigazione
             $(navbarContainer).each(function(i,el){
@@ -63,6 +65,13 @@ define(function(require){
 			$(document).on('preferenceError', function(e){
 				$('#foowd-error').text("C'è stato un errore durante l'aggiuta della tua preferenza");
 				$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
+			});
+			// notifica di errore generale: l'evento trasporta il messaggio: foowdMSG
+			//notifica di errore nel caso la preferenza non fosse stata aggiunta
+			$(document).on('popupError', function(e){
+				$('#foowd-error').text(e.foowdMSG);
+				// interrompo la queue, altrimenti le animazioni si accodano
+				$('#foowd-error').finish().fadeIn(500).delay(3000).fadeOut(500);
 			});
         }
 

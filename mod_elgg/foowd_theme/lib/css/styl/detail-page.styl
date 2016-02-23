@@ -8,6 +8,9 @@
   padding : 0 20px 0 20px
   +below(bp)
     margin-top : contentMargin * 2;
+    
+  &.progress, &.progress *
+    cursor: progress !important
 
 //ATTENZIONE : da qui in poi visualizza la pagina del template productDetail
 
@@ -145,6 +148,9 @@
   .item-container
     padding : 15px 0 15px 0
     border-top: 0.1em solid rgb(120,120,120);
+    
+  &:first-child .item-container
+    border-top: 0
 
 .commercial-menu-item
   .item-container > span

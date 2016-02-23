@@ -54,7 +54,9 @@ preferenceSectionTopMargin = 30px
 
 // effetto per far sparire la riga		
 .preference-fadeOut
-	animation: hide 3s forwards linear, enfold 2s 3s forwards linear
+	// animation: hide 3s forwards linear, enfold 2s 3s forwards linear
+	overflow: hidden
+	animation: hide 5s forwards linear, enfold 5s forwards linear
 
 // lo uso per bloccare i click multipli, ovvero come maschera anti-click
 .preference-lock
@@ -73,6 +75,8 @@ preferenceSectionTopMargin = 30px
 	height: preferenceHeight
 	+below(bp)
 		height: preferenceHeight * 2
+	// appronto l'accelerazione grafica, in modo che gli effetti vengano renderizzati tramite scheda grafica, per guadagnare in fluidita'
+	transform: translateZ(0)
 
 .preference-progress-bar
 	position: absolute;

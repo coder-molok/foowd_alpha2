@@ -8,6 +8,10 @@
     margin-top: 120px;
   }
 }
+#product-detail-main.progress,
+#product-detail-main.progress * {
+  cursor: progress !important;
+}
 .detail-menu-section {
   *zoom: 1;
   float: left;
@@ -301,6 +305,9 @@
 .commercial-menu-item .item-container {
   padding: 15px 0 15px 0;
   border-top: 0.1em solid #787878;
+}
+.commercial-menu-item:first-child .item-container {
+  border-top: 0;
 }
 .commercial-menu-item .item-container > span {
   display: inline-flex;
