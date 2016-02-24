@@ -1734,7 +1734,7 @@ h5 {
 }
 .preference-fadeOut {
   overflow: hidden;
-  animation: hide 5s forwards linear, enfold 5s forwards linear;
+  animation: hide 1s forwards linear, enfold 2s forwards linear;
 }
 .preference-lock:before {
   width: 100%;
