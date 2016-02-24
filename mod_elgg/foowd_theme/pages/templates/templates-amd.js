@@ -16,9 +16,11 @@ templates['navbar'] = template({"1":function(container,depth0,helpers,partials,d
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "  <div class=\"navbar-section logo\" >\r\n      <div class=\"foowd-brand\">\r\n       <div onClick=\"utils.goTo('')\" class=\"foowd-brand-pre-search\">foowd<span class=\"foowd-pulsate underscore-search\">_</span></div>\r\n"
+  return "  <a id=\"foowd-brand-home-uri\" href=\""
+    + alias4(((helper = (helper = helpers.homeUri || (depth0 != null ? depth0.homeUri : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"homeUri","hash":{},"data":data}) : helper)))
+    + "\">\r\n  <div class=\"navbar-section logo\" >\r\n      <div class=\"foowd-brand\">\r\n        <input id=\"search-input-phantom\" style=\"position:fixed; left: 70%; visibility: hidden;\"/>\r\n       <div class=\"foowd-brand-pre-search\">foowd<span class=\"foowd-pulsate underscore-search\">_</span></div>\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.search : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "      </div>\r\n  </div>\r\n  <div class = \"navbar-section\" id=\"user-menu-section\">\r\n      <div id = \"user-menu\">\r\n"
+    + "      </div>\r\n  </div>\r\n  </a>\r\n  <div class=\"navbar-section\" id=\"user-menu-section\">\r\n      <div id=\"user-menu\">\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.logged : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "            <a href=\""
     + alias4(((helper = (helper = helpers.boardUri || (depth0 != null ? depth0.boardUri : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"boardUri","hash":{},"data":data}) : helper)))

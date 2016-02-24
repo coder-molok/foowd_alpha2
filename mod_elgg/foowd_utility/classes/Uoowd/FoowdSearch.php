@@ -103,7 +103,7 @@ class FoowdSearch{
 			// \Uoowd\Logger::addError($single->email);
 			$str = $single->email.$single->username.$single->name;
 			$match = '@' . $query . '@i';
-			if(preg_match($match, $str)) $entities[] = $single;
+			if(preg_match($match, $str)) $entities[$single->guid] = $single;
 		}
 		// ripristino l'accesso
 		elgg_set_ignore_access(false);

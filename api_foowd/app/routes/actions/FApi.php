@@ -50,6 +50,8 @@ abstract class FApi{
 			 	unset($data->{$key});
 			 	// return;
 			}
+			// per quanto setto jquery ajax cache: false
+			if($key == "_") unset($data->{$key});
 		}
 
 		// salvo i dati nella sessione: questi vengono riutilizzati negli error handling e ritornati nella risposta

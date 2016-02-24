@@ -5,6 +5,9 @@ define(function(require){
       var settings = require('utility-settings');
       var _page = require('page');                // modulo contenente elenco delle pagine piu importanti
 
+      // impostazione globale per compatibilita' con IE e dispositivi con pesante impiego della cache:
+      $.ajaxSetup({ cache: false }); // imposta un parametro '_=numeroRandom' per forzare il riutilizzo della cache;
+
       //modulo per la chiamata delle API  foowd
       var foowdAPI = (function(){
           //url di base delle API

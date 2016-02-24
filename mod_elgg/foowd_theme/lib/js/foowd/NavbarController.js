@@ -32,6 +32,7 @@ define(function(require){
             search = utils.isValid(search) ? search : false;
             var context = {
 		        "search" : search,
+		        "homeUri" : utils.uriTo(''),
 		        "panelUri": utils.uriTo('panel'),
 		        "boardUri": utils.uriTo('board')
 		    };
@@ -50,9 +51,9 @@ define(function(require){
             		context.regular = true;
             	}
             	$(el).html(templates.navbar(context));
-            	// dopo averlo caricato, posso appendergli gli eventi
-            	navbarSearch.init();
             });
+            // dopo averlo caricato, posso appendergli gli eventi
+            navbarSearch.init();
             //carico l'overlay sul menu
             _loadOverlay();
             //metto acluni listener per gli eventi di aggiunta delle preferenze

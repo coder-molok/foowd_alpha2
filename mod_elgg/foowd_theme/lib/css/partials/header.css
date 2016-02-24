@@ -247,6 +247,15 @@
   -o-prorp: flex-end;
   justify-content: flex-end;
 }
+.no-flexbox #user-menu {
+  margin: 0px 20px 0px 0px;
+}
+.no-flexbox #user-menu a:hover {
+  text-decoration: none;
+}
+.no-flexbox [class*="foowd-icon-"]::before {
+  display: inline-block;
+}
 .preferences-link {
   font-size: 20pt;
   line-height: 16pt;

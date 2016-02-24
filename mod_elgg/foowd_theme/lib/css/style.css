@@ -375,6 +375,16 @@
   color: #000;
   display: inline-flex;
 }
+.no-flexbox .action-icons > li {
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 50%;
+}
+.no-flexbox .action-icons > li > i {
+  font-size: 36pt;
+  color: #000;
+  display: inline-block;
+}
 .action-heart {
   background: #bed25a;
 }
@@ -448,7 +458,7 @@
   font-family: AkkuratBold;
   font-size: 12pt;
   font-weight: bold;
-  letter-spacing: -1pt;
+  letter-spacing: 0pt;
 }
 #product-picture {
   padding: 0px;
@@ -922,6 +932,15 @@ h5 {
   -ms-justify-content: flex-end;
   -o-prorp: flex-end;
   justify-content: flex-end;
+}
+.no-flexbox #user-menu {
+  margin: 0px 20px 0px 0px;
+}
+.no-flexbox #user-menu a:hover {
+  text-decoration: none;
+}
+.no-flexbox [class*="foowd-icon-"]::before {
+  display: inline-block;
 }
 .preferences-link {
   font-size: 20pt;

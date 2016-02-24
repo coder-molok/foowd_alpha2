@@ -109,6 +109,17 @@
     display: inline-flex;
     flex-basis : auto
     justify-content: flex-end
+
+// per IE e browser che non supportano il flexbox
+.no-flexbox
+  #user-menu
+    margin: 0px 20px 0px 0px;
+    a:hover
+      text-decoration: none
+    
+  [class*="foowd-icon-"]::before
+    display: inline-block
+
   
 .preferences-link
   font-size : 20pt;

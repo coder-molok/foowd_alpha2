@@ -21,9 +21,11 @@
 {{/if}}
 
 {{#if regular}}
+  <a id="foowd-brand-home-uri" href="{{homeUri}}">
   <div class="navbar-section logo" >
       <div class="foowd-brand">
-       <div onClick="utils.goTo('')" class="foowd-brand-pre-search">foowd<span class="foowd-pulsate underscore-search">_</span></div>
+        <input id="search-input-phantom" style="position:fixed; left: 70%; visibility: hidden;"/>
+       <div class="foowd-brand-pre-search">foowd<span class="foowd-pulsate underscore-search">_</span></div>
        {{#if search}}
         <div id="searchText-loom">
           <span id="search-dots"></span>
@@ -32,8 +34,9 @@
        {{/if}}
       </div>
   </div>
-  <div class = "navbar-section" id="user-menu-section">
-      <div id = "user-menu">
+  </a>
+  <div class="navbar-section" id="user-menu-section">
+      <div id="user-menu">
           {{#if logged}}
 	      	 <span id="groupBtn" onClick="window.toggleGroup()" 
 	                class="foowd-icons icon-black foowd-icon-group fw-menu-icon preferences-link">

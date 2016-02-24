@@ -1,6 +1,16 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+### 24/02/2016
+
+- risolta search
+
+- risolta, almeno in parte, compatibilita' con IE e browser piu datati
+
+- risolve varie issues
+
+
+
 
 ### 23/02/2016
 

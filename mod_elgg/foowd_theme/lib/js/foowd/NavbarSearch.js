@@ -54,7 +54,23 @@
 
 
 	NavbarSearch.prototype.init = function(){
-		this.manageSearchText();
+		// $('.foowd-brand').on('click', function(){
+		// 	$('#search-input-phantom').focus();
+		// });
+
+		var $homeATag = $('#foowd-brand-home-uri');
+		// se sono nella homepage, allora svolto la ricerca, altrimenti evito
+		if(elgg.get_site_url() == window.location.toString() ){
+			this.manageSearchText();
+			// inoltre rimuovo il redirect, sempre se sono nel wall
+			if($homeATag.length > 0){
+				$homeATag.contents().unwrap();
+			}
+		}else{
+			return 0;
+		}
+		// $('#search-input-phantom').css({'background-color':'plum'});	
+		
 	}
 
 
@@ -89,7 +105,7 @@
 		var _deltaX = 0;
 		var _prevLen = 0;
 
-		$(document).on('keydown', function(e){
+		$(document/*'#search-input-phantom'*/).on('keydown', function(e){
 			if ($(e.target).is('input, textarea')) {
 			    return;   
 			}
@@ -99,13 +115,15 @@
 			if( code == 8 || code == 32 ) e.preventDefault() ;
 		});
 
-		$(document).on('keyup', function(e){
+		$(document/*'#search-input-phantom'*/).on('keyup', function(e){
 			if ($(e.target).is('input, textarea')) {
 			    return;   
 			}
 			// valore rilasciato
 			var code = (e.keyCode) ? e.keyCode : e.which ;
+			// code = e.charCode ? e.charCode : event.keyCode ;
 			var c = String.fromCharCode(code).replace(/[^a-zA-Z0-9]+/g, "").toLowerCase();
+			// alert(code + '  e  '  + c + ' val ' + $(this).val() + ' l ' + e.which);
 			//************ settaggi iniziali
 			// rimuovo la classe per poi appenderla all'ultimo underscore
 			$box.find('.foowd-pulsate').removeClass('foowd-pulsate');

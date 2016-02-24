@@ -108,6 +108,18 @@
   font-size: 36pt
   color : black
   display : inline-flex
+  
+// assestamento per compatibilita grazie a modernizr
+.no-flexbox
+  .action-icons > li
+    display: inline-block;
+    vertical-align:middle;
+    border-radius:50%;
+    
+  .action-icons > li > i
+    font-size: 36pt
+    color : black
+    display : inline-block
 
 .action-heart
   background: foowdPlus
@@ -170,7 +182,8 @@
       font-family : AkkuratBold
       font-size : 12pt
       font-weight : bold
-      letter-spacing : -1pt
+      letter-spacing : 0pt
+      
 
 #product-picture
   padding:0px;
