@@ -11,14 +11,14 @@ define(function(require){
       //modulo per la chiamata delle API  foowd
       var foowdAPI = (function(){
           //url di base delle API
-          var baseUrl = settings.api;
+          var baseUrl = _page.elggAPI;
           var siteUrl = elgg.get_site_url();
 
           //struttura della chiamata alle offerete 
           var offers = {
-          		search : "offer?type=search",
-          		prefer : "prefer", 
-          		getPreferences : "prefer?type=searchTmp",
+          		search : "foowd.offer.search",
+          		prefer : "foowd.prefer.manage", 
+          		getPreferences : "foowd.prefer.search",
           		filterby : {
           			views : "",
           			price : "&order=Price,asc",
@@ -43,11 +43,11 @@ define(function(require){
         		 */
         	 getProduct : function(productId ,userId ){
                  var requestURL = baseUrl + offers.search + '&Id='+productId;
-                  requestURL = utils.isValid(userId)    ? requestURL + "&ExternalId=" + userId:requestURL;
+                // requestURL = utils.isValid(userId)    ? requestURL + "&ExternalId=" + userId:requestURL;
 
                  /*SS: requestURL = utils.isValid(publisher) ? requestURL + "&Publisher=" + publisher : requestURL;*/
                  var deferred = $.Deferred();
-                 $.get(requestURL, function(data){ deferred.resolve(data); });
+                 $.get(requestURL, function(data){ deferred.resolve(data.result); });
                  return deferred.promise();
               },
               /*
@@ -64,7 +64,7 @@ define(function(require){
                  var requestURL = baseUrl + offers.search;
                  var deferred = $.Deferred();
                  
-                 requestURL = utils.isValid(userId)    ? requestURL + "&ExternalId=" + userId           :requestURL;
+                 // requestURL = utils.isValid(userId)    ? requestURL + "&ExternalId=" + userId           :requestURL;
                  requestURL = utils.isValid(urlString) ? requestURL + urlString                         :requestURL;
                  requestURL = utils.isValid(publisher) ? requestURL + "&Publisher=" + publisher         :requestURL;
                  requestURL = utils.isValid(tags)      ? requestURL + "&Tag=" + tags                    :requestURL;
@@ -82,7 +82,7 @@ define(function(require){
                  		}
                  }
 
-                 $.get(requestURL, function(data){ deferred.resolve(data); });
+                 $.get(requestURL, function(data){ deferred.resolve(data.result); });
                  return deferred.promise();
               },
               /*
@@ -97,7 +97,7 @@ define(function(require){
                     data : JSON.stringify(preference),
                     dataType : "json",
                     success : function(data, status, jqXHR) {
-                       deferred.resolve(data);
+                       deferred.resolve(data.result);
                     },
                     error : function(jqXHR, status) {
                        console.log("error: "+status);
@@ -135,8 +135,8 @@ define(function(require){
              getUserPreferences : function(userId){
                 var deferred = $.Deferred();
                 var requestURL = baseUrl + offers.getPreferences;
-                requestURL = utils.isValid(userId) ? requestURL + "&ExternalId=" + userId : requestURL;
-                $.get(requestURL, function(data){ deferred.resolve(data); });
+                requestURL = utils.isValid(userId) ? requestURL + userId : requestURL;
+                $.get(requestURL, function(data){ deferred.resolve(data.result); });
                 return deferred.promise();
              },
              getUserDetails : function(userId){
@@ -144,7 +144,7 @@ define(function(require){
                 var requestURL = baseUrl + userActions.search;
                 var requestData = {};
                 requestData.type = "search";
-                requestData.ExternalId = userId;
+                // requestData.ExternalId = userId;
 
                 $.ajax({
                     type : "POST",

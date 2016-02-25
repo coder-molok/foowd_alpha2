@@ -4,26 +4,26 @@
             <span class = "progress" 
               data-unit = "1"
               data-progress = "{{totalQt}}" 
-              data-total = "{{Offer.Minqt}}">
+              data-total = "{{offer.Minqt}}">
             </span>    
         </span>
         <div class="user-preference">
             <div class="user-preference-section">
-                <a href="{{Offer.detailUri}}">
-                <img src="{{Offer.picture}}" class = "user-preference-image" 
-                     onclick="utils.go2('detail', 'productId',{{Offer.Id}},event)"> 
+                <a href="{{offer.detailUri}}">
+                <img src="{{offer.picture}}" class = "user-preference-image" 
+                     onclick="utils.go2('detail', 'productId',{{offer.Id}},event)"> 
                      </a>
             </div>
             <div class="user-preference-name user-preference-section">
                 <ul class="number-block">
-                    <li>{{Offer.Name}}</li>
-                    <li><span class="product-company">{{{Offer.Company}}}</span></li>
+                    <li>{{offer.Name}}</li>
+                    <li><span class="product-company">{{{offer.Company}}}</span></li>
                     {{!-- <li><span class ="number-description">Pescheria Napoletana SRL</span></li> --}}
                 </ul>
             </div>
             <div class="user-preference-details user-preference-section">
                 <ul class="number-block preference-detail">
-                    <li>{{Offer.Price}}€</li>
+                    <li>{{offer.Price}}€</li>
                     <li><span class ="number-description">cadauno</span></li>
                 </ul>
                 <ul class="number-block preference-detail">
@@ -31,14 +31,14 @@
                     <li><span class ="number-description">carrello</span></li>
                 </ul>
                 <ul class="number-block preference-detail">
-                    <li>{{math totalQt '*' Offer.Price}}€</li>
+                    <li>{{math totalQt '*' offer.Price}}€</li>
                     <li><span class ="number-description">tot.spesa</span></li>
                 </ul>
             </div>
             <div class="user-preference-actions user-preference-section">
                 <ul class="action-icons menu-section" id = "preference-action">
-                {{#canbuy totalQt Offer.Minqt}}
-                    <li class="btn-buy" data-offer-id="{{Offer.Id}}" data-offer-prefers="{{Offer.prefers}}">
+                {{#canbuy totalQt offer.Minqt}}
+                    <li class="btn-buy" data-offer-id="{{offer.Id}}" data-offer-prefers="{{offer.prefers}}">
                         <i class="btn-buy-icon foowd-icons foowd-icon-cart"></i>
                     </li>
                 {{/canbuy}}
@@ -46,11 +46,11 @@
                 
                     <li class="action-heart-border">
                         <i  class="foowd-icons foowd-icon-plus" 
-                            onClick = "UserBoardController.addPreference({{Offer.Id}}, 1)"></i>
+                            onClick = "UserBoardController.addPreference({{offer.Id}}, 1)"></i>
                     </li>
                     <li class="action-minus">
                         <i class="foowd-icons foowd-icon-minus fw-menu-icon" 
-                           onClick = "UserBoardController.addPreference({{Offer.Id}}, -1)"></i>
+                           onClick = "UserBoardController.addPreference({{offer.Id}}, -1)"></i>
                     </li>
            		 {{!-- {{/unless}} --}}
                 </ul>

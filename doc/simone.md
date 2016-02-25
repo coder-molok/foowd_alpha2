@@ -1,6 +1,18 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+
+### 25/02/2016
+
+- aggiornata Sicurezza API, con conseguente adeguamento di configurazioni.
+
+- aggiornata wiki
+
+- implementato servizio Expose delle api Elgg
+
+
+
+
 ### 24/02/2016
 
 - risolta search

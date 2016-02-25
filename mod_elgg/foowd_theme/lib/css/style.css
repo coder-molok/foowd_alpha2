@@ -1764,6 +1764,9 @@ h5 {
   left: 0;
   z-index: 3;
 }
+.preference-lock:hover {
+  cursor: progress !important;
+}
 .preference {
   *zoom: 1;
   float: left;

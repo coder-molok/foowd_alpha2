@@ -137,7 +137,7 @@ require '../app/routes/routes.php';
 $app->response->headers->set('Content-Type', 'application/json; charset=utf-8');
 
 // $app->getLog()->warning('Host: ' . $app->request->headers->Host);
-// $app->getLog()->warning('Origin: ' . $app->request->headers->Origin);
+// $app->getLog()->error('Origin: ' . $app->request->headers->Origin);
 
 $app->run();
 

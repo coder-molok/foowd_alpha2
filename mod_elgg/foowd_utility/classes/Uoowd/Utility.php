@@ -79,6 +79,22 @@ class Utility{
 		}
 	}
 
+	/**
+	 * ottengo il body della richiesta come body o 
+	 * @return [type] [description]
+	 */
+	public static function detectRequestBody() {
+	    $rawInput = fopen('php://input', 'r');
+	    $tempStream = fopen('php://temp', 'r+');
+	    stream_copy_to_stream($rawInput, $tempStream);
+	    rewind($tempStream);
+
+	    return $tempStream;
+	}
+
+
+
+
 }
 
 

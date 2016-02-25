@@ -29,7 +29,7 @@ function foowd_find_match_first($baseImgs, $match){
 
 
 elgg_ws_expose_function("foowd.user.friendsOf",
-		"foowd_friendsOf",
+		"foowd_user_friendsOf",
 		 array(
 			"guid" => array(
 				'type' => 'string',
@@ -42,39 +42,8 @@ elgg_ws_expose_function("foowd.user.friendsOf",
 		 false
 		);
 
-function foowd_friendsOf($guid){
-	// if($debug) \Uoowd\Logger::addError('friendsOf');
-	// in primis controllo che l'utente che svolge la richiesta sia loggato
-//	$user = elgg_get_logged_in_user_entity();
-	$j['response'] = false;
-	$j['userId'] = $guid;
-
-/*
-	if(!$user){
-		$j['msg'] = 'Questa richiesta puo\' avvenire solo dal sito e mentre sei loggato';
-		return $j;
-	}*/
-
-
-	// ora controllo se l'id e' associata ad un utente esistente
-	$user = get_user($guid);
-	if(!$user){
-		$j['msg'] = 'Utente inesistente';
-		return $j;
-	}
-
-	$j['response'] = true;
-	$entities = elgg_get_entities_from_relationship(array(
-	    'relationship' => 'friend',
-	    'relationship_guid' => $guid,
-	));
-
-	$j['friends'] = array();
-	foreach ($entities as $ent) {
-		if($ent->type === 'user') $j['friends'][] = $ent->guid;
-	}
-
-	return $j;
+function foowd_user_friendsOf($guid){
+	return \Uoowd\APIFoowd::foowdUserFriendsOf($guid);
 }
 
 
@@ -219,3 +188,6 @@ function foowd_purchaseSolve(){
 
 	return $j;
 }
+
+
+require('foowdAPI.php');

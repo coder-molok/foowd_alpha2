@@ -18,7 +18,6 @@ define(function(require){
    		//preferenza utente
    		var preference = {
    				OfferId : "",
-   				ExternalId : "",
    				type : "create",
    				Qt : "",
    		};
@@ -74,24 +73,24 @@ define(function(require){
 		function getDetailsOf(){
 			var userId=utils.getUserId();
 			if(group){
-				getDetailsOfGroup(userId);
+				getDetailsOfGroup(''/*userId*/);
 			}else{
-				getDetailsSingle(userId);
+				getDetailsSingle(''/*userId*/);
 			}
 		
 		}
 
 
 		function getDetailsOfGroup(userId){
-			API.getFriend(userId).then(function(data){
-				var friendsStr='';
-				if(data.result && data.result.friends){
-					 friendsStr = data.result.friends.join();
-				}
-				getDetailsSingle(userId+','+friendsStr);
-			},function(error){
-					console.log(error);
-			});
+			// API.getFriend(userId).then(function(data){
+			// 	var friendsStr='';
+			// 	if(data.result && data.result.friends){
+			// 		 friendsStr = data.result.friends.join();
+			// 	}
+				getDetailsSingle('&withFriends=true');
+			// },function(error){
+			// 		console.log(error);
+			// });
 		}
 
 
@@ -100,7 +99,7 @@ define(function(require){
 			//controllo che tra i parametri ci sia l'id del prodotto
 			if(utils.isValid(queryObject.productId)){
 				//richiamo la API per i dettagli del prodotto
-				API.getProduct(queryObject.productId, userId).then(function(data){
+				API.getProduct(queryObject.productId+userId+'&forCurrentUser=true', userId).then(function(data){
 					//parso in JSON il risultato
 					var rawProduct = data.body[0];
 					var parsedProduct = _applyProductContext(rawProduct);
@@ -123,7 +122,6 @@ define(function(require){
 		function addPreference(offerId, qt) {
     		//setto i parametri della mia preferenza
 			preference.OfferId = offerId;
-			preference.ExternalId = utils.getUserId();
 			preference.Qt = qt;
 			//richiamo l'API per settare la preferenza
 			API.addPreference(preference).then(function(data){

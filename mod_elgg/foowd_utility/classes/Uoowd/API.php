@@ -37,6 +37,7 @@ class API{
 			$params = array();
 			\Uoowd\Logger::addError("Attenzione, errore nel passaggio di $params. Dati $url , $method");
 		} 
+		$ar = array();
 		foreach($params as $field => $value){
 			// elimino gli spazi inutili
 			$value = trim($value);
@@ -53,9 +54,14 @@ class API{
 		$testPost = (isset($ar['type']) && $method==="POST" );
 		$testGet = (preg_match('@type@i', $url) && $method==="GET");
 		if(!$testPost && !$testGet){
-			register_error(elgg_echo('Errore: tipo non definito'));
-			\Uoowd\Logger::addError('Errore: tipo non definito');
-			return false;
+			$json = array(
+				'response' => false,
+				'msg' => 'Errore: tipo non definito'
+			);
+			$j = json_encode($json);
+			register_error(elgg_echo($j));
+			\Uoowd\Logger::addError($j);
+			return $json;
 		}
 
 		// set Headers
