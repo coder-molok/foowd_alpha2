@@ -190,4 +190,27 @@ function foowd_purchaseSolve(){
 }
 
 
+
+elgg_ws_expose_function("foowd.mixed.territory",
+		"foowd_mixed_territory",
+		 array(	 ),
+		 'Oggetto Json coi parametri per il recupero di dati istat sul territorio',
+		 'GET',
+		 false,
+		 false
+		);
+function foowd_mixed_territory(){
+	// rimuovo il metodo stesso dalla query
+	unset($_GET['method']);
+	// $_GET['type'] = 'territory';
+
+	$appendUrl = implode('&',array_map_assoc(function($k,$v){return "$k=$v";},$_GET));
+	$r = \Uoowd\API::httpCall(APIURL.'territory?'.$appendUrl, 'GET');
+	// \Uoowd\Logger::addError($r);
+	return $r;
+}
+
+
+
+
 require('foowdAPI.php');

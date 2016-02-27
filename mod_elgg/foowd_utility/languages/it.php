@@ -79,6 +79,20 @@ return array(
 	'foowd:user:address:need' => 'Indirizzo **',
 	'foowd:user:address:error' => 'Devi inserire l\'indirizzo',
 
+	'foowd:user:nation:need' => 'Nazione **',
+	'foowd:user:region:need' => 'Regione **',
+	'foowd:user:province:need' => 'Provincia **',
+	'foowd:user:city:need' => 'Comune **',
+	'foowd:user:city:error' => 'Devi selezionare un comune',
+	'foowd:user:addressestype:need' => 'Tipo **',
+	'foowd:user:addressestype:error' => 'Devi selezionare questo campo',
+	'foowd:user:civic:need' => 'Numero Civico **',
+	'foowd:user:civic:error' => 'numero civico obbligatorio',
+	'foowd:user:zipcode:need' => 'Cap **',
+	'foowd:user:zipcode:error' => 'Cap obbligatorio',
+	'foowd:user:location:need' => 'Localit&agrave; *',
+
+
 	'foowd:user:company' => 'Denominazione Societ&aacute;',
 	'foowd:user:company:optional' => 'Denominazione Societ&aacute; (opzionale)',
 	'foowd:user:company:need' => 'Denominazione Societ&aacute; **',

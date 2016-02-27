@@ -60,27 +60,33 @@ define(function(require){
                * @param max        : id massimo offerta
                * @param prder      : ordine di arrivo dei dati
         		 */
-        		getProducts : function(userId, urlString, match, tags, publisher, min, max, order){
+        		getProducts : function(/*userId, */urlQuery/*, match, tags, publisher, min, max, order*/){
                  var requestURL = baseUrl + offers.search;
                  var deferred = $.Deferred();
                  
-                 // requestURL = utils.isValid(userId)    ? requestURL + "&ExternalId=" + userId           :requestURL;
-                 requestURL = utils.isValid(urlString) ? requestURL + urlString                         :requestURL;
-                 requestURL = utils.isValid(publisher) ? requestURL + "&Publisher=" + publisher         :requestURL;
-                 requestURL = utils.isValid(tags)      ? requestURL + "&Tag=" + tags                    :requestURL;
-                 requestURL = utils.isValid(order)     ? requestURL + "&order=" + order                 :requestURL;
-                 requestURL = utils.isValid(match)     ? requestURL + '&match={"name":"' + match + '"}' :requestURL;
-
-                 if(utils.isValid(min)){
-                 		baseUrl += '&Id={"min":' + min;
-                 		if(utils.isValid(max)){
-                 			baseUrl += ',"max":' + max + '}';
-                 		}
-                 }else{
-                 		if(utils.isValid(max)){
-                 			baseUrl += '&Id={"max":' + max +'}';
-                 		}
+                 var urlString = '';
+                 // dall'oggetto ottengo i valori da appendere all'url
+                 if(typeof urlQuery == 'object'){
+                  $.each(urlQuery, function(idx, val){ urlString += '&' + idx + '=' + val  });
                  }
+
+                 requestURL = utils.isValid(urlString) ? requestURL + urlString                      :requestURL;
+                 // requestURL = utils.isValid(userId)    ? requestURL + "&ExternalId=" + userId           :requestURL;
+                 // requestURL = utils.isValid(publisher) ? requestURL + "&Publisher=" + publisher         :requestURL;
+                 // requestURL = utils.isValid(tags)      ? requestURL + "&Tag=" + tags                    :requestURL;
+                 // requestURL = utils.isValid(order)     ? requestURL + "&order=" + order                 :requestURL;
+                 // requestURL = utils.isValid(match)     ? requestURL + '&match={"name":"' + match + '"}' :requestURL;
+
+                 // if(utils.isValid(min)){
+                 // 		baseUrl += '&Id={"min":' + min;
+                 // 		if(utils.isValid(max)){
+                 // 			baseUrl += ',"max":' + max + '}';
+                 // 		}
+                 // }else{
+                 // 		if(utils.isValid(max)){
+                 // 			baseUrl += '&Id={"max":' + max +'}';
+                 // 		}
+                 // }
 
                  $.get(requestURL, function(data){ deferred.resolve(data.result); });
                  return deferred.promise();

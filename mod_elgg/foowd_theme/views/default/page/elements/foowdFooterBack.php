@@ -19,7 +19,6 @@ require([
     'NavbarController', 'Modernizr'
   ],function(){
     Modernizr = require('Modernizr');
-    console.log(Modernizr)
 
     require('NavbarController').loadNavbar();
 

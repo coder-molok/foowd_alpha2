@@ -109,6 +109,18 @@
      	}
 
 
+        /**
+         * forzo l'elemeno ad essere riaggiornato, senza bisogno di reutilizzare il selettore esplicitamente
+         * @param  {[type]} action [description]
+         * @return {[type]}        [description]
+         */
+        if( action == 'refreshEl' ){
+            __foowdFunc = function refreshEl(){
+                return $(this.selector);
+            }
+        }
+
+
      	// Iterate and reformat each matched element. 
      	// Return this.each() is usefull for:
      	// 	1- automatically iterate jquery selection

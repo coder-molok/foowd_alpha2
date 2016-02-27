@@ -191,10 +191,10 @@ define(function(require){
 		/*
 		 * Funzione che riempie il wall con i prododtti del database
 		 */
-		function _getWallProducts(eventType, search,userId){
+		function _getWallProducts(eventType){
 
-			if(!userId) userId = __userId;
-			if(!search) search = '';
+			// if(!userId) userId = __userId;
+			// if(!search) search = '';
 						
 			// evito di svolgere ricerche ripetutamente
 			if(!__cache.searchTraffic) return;
@@ -202,49 +202,44 @@ define(function(require){
 			__cache.searchTraffic = false;
 			$("#wall-container").loadingOverlay();
 			
-			// di default cerco anche le amicizie, in modo da recuperare in una volta sola la modalita' gruppo
-			API.getFriend(userId).then(function(data){
-				if(data.result && data.result.friends){
-					 var friendsStr = data.result.friends.join();
-					 var externalIds = userId+','+friendsStr ;
-				}else{
-					var externalIds = userId || '';
+			// ne cerco un tot per volta
+			var query = {};
+			query.offset = __offerOffset;
+			// console.log(__cache.actualSearch)
+			// quelli gia' presenti evito di cercarli nuovamente
+			if(__cache.idxCollection.length > 0 ) query.excludeId = __cache.idxCollection;
+			if(typeof search != 'undefined' && search != ''){ 
+				query.search = search;
+			}else if(__cache.actualSearch != ''){
+				var obj = {
+					"Name": __cache.actualSearch,
+					"Description": __cache.actualSearch,
+					"Tag": __cache.actualSearch
 				}
-				// ne cerco 5 per volta
-				externalIds += "&offset=" + __offerOffset;
-				// console.log(__cache.actualSearch)
-				// quelli gia' presenti evito di cercarli nuovamente
-				if(__cache.idxCollection.length > 0 ) externalIds += "&excludeId="+__cache.idxCollection;
-				if(typeof search != 'undefined' && search != ''){ 
-					externalIds += search;
-				}else if(__cache.actualSearch != ''){
-					var obj = {
-						"Name": __cache.actualSearch,
-						"Description": __cache.actualSearch,
-						"Tag": __cache.actualSearch
+				query.match = JSON.stringify(obj);
+			}
+
+			// gli dico di aggiungere anche gli amici
+			query.withFriends = true;
+
+			// recupero tutti i dati... da raffinare!
+			API.getProducts(query).then(function(data){
+				$("#wall-container").loadingOverlay('remove');
+
+				//parso il JSON dei dati ricevuti
+				var rawProducts = data.body;
+				//utilizo il template sui dati che ho ottenuto
+				var app = [];
+					if(rawProducts.length > 0){
+						//utilizo il template sui dati che ho ottenuto
+						app = _applyProductContext(rawProducts);
 					}
-					externalIds += '&match=' + JSON.stringify(obj);
-				}
-
-				// recupero tutti i dati... da raffinare!
-				API.getProducts(externalIds,search).then(function(data){
-					$("#wall-container").loadingOverlay('remove');
-
-					//parso il JSON dei dati ricevuti
-					var rawProducts = data.body;
-					//utilizo il template sui dati che ho ottenuto
-					var app = [];
-						if(rawProducts.length > 0){
-							//utilizo il template sui dati che ho ottenuto
-							app = _applyProductContext(rawProducts);
-						}
-						$(document).trigger({"type": eventType + ':response', "foowdResponse": app})
-					},function(error){
-					$(wallId).loadingOverlay('remove');
-					// essendoci un errore non ho niente da aggiornare, quindi la GUI non ha problemi
-					__cache.searchTraffic = !__cache.searchTraffic;
-					console.log(error);
-				});
+					$(document).trigger({"type": eventType + ':response', "foowdResponse": app})
+				},function(error){
+				$(wallId).loadingOverlay('remove');
+				// essendoci un errore non ho niente da aggiornare, quindi la GUI non ha problemi
+				__cache.searchTraffic = !__cache.searchTraffic;
+				console.log(error);
 			});
 		}
 		
@@ -274,6 +269,7 @@ define(function(require){
 				}
 				// assegno l'opportuna quantita' in base al gruppo
 				el.offer.totalQt = (group) ? el.offer.totalQtGroup : el.offer.totalQtUser ;
+				// if(el.offer.Id == 29) console.log(el)
 				// result += templates.productPost(el.offer);
 				// ritorno gli oggetti jquery, perche' cosi' posso aggiornare tutto direttamente tramite mansonry
 				el.$self = $( templates.productPost(el.offer) );

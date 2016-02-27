@@ -209,6 +209,15 @@ define(function(require){
 			return $ajax;
 		}
 
+		serviceObj.getRequest =  function( obj ){
+			var dt = {'method': obj.method}
+			delete obj.method;
+			dt.get = obj;
+			var $ajax = $.ajax({ type: 'GET', 'url': getUrl(dt), cache: false });
+			return $ajax;
+		}
+
+
 
 
 		return serviceObj ;

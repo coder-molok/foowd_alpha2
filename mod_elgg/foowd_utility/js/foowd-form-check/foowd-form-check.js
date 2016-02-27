@@ -8,24 +8,27 @@
       return define(['jquery', 'elgg'], factory($, elgg));
     }
   })(this, function($, elgg) {
-    var Div, Email, Input, InputFactory, Maxqt, Minqt, Phone, Piva, Price, Text, WebDomain, loom, mystyle, ret;
+    var Div, Email, Input, InputFactory, Integer, Maxqt, Minqt, Phone, Piva, Price, Select, Text, WebDomain, loom, mystyle, ret;
     loom = this;
     Input = (function() {
       function Input(obj) {
-        var first, that;
+        var first, inptOn, that;
         this.obj = obj;
         this.needle = true;
-        this.el = $(this.obj.el);
-        this.inpt = $(this.obj.inpt);
-        this.key = this.obj.key;
-        this.msg = this.obj.msg;
+        that = this;
+        $.each(this.obj, function(prop, val) {
+          if (prop === 'el' || prop === 'inpt') {
+            return that[prop] = $(val);
+          } else {
+            return that[prop] = val;
+          }
+        });
         if (typeof this.obj.needle === 'boolean') {
           this.needle = this.obj.needle;
         }
         if (typeof this.obj.afterCheck === 'function') {
           this.afterCheck = this.obj.afterCheck;
         }
-        that = this;
         first = true;
         this.inpt.on("click focus", function() {
           first = false;
@@ -36,11 +39,14 @@
             return that.action();
           });
         }
-        this.inpt.on("focusout mouseout keyup", function() {
+        this.inpt.on("change keyup", (inptOn = function() {
           if (!first) {
-            return that.action();
+            clearTimeout(that.timeout);
+            return that.timeout = setTimeout(function() {
+              return that.action();
+            }, 1000);
           }
-        });
+        }));
       }
 
       Input.prototype.color = function(color) {
@@ -207,6 +213,30 @@
       return Text;
 
     })(Input);
+    Integer = (function(superClass) {
+      extend(Integer, superClass);
+
+      function Integer() {
+        return Integer.__super__.constructor.apply(this, arguments);
+      }
+
+      Integer.prototype.check = function() {
+        var re, str, v;
+        v = this.el.val().trim();
+        if (typeof this.sizeL === 'object') {
+          str = '^[0-9]{' + this.sizeL.min + ',' + this.sizeL.max + '}$';
+          re = new RegExp(str);
+          if (re.test(v)) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      };
+
+      return Integer;
+
+    })(Input);
     Phone = (function(superClass) {
       extend(Phone, superClass);
 
@@ -290,6 +320,30 @@
       };
 
       return Email;
+
+    })(Input);
+    Select = (function(superClass) {
+      extend(Select, superClass);
+
+      function Select() {
+        return Select.__super__.constructor.apply(this, arguments);
+      }
+
+      Select.prototype.check = function() {
+        var v;
+        v = this.el.val().trim();
+        if (!this.needle) {
+          this.clean;
+          return true;
+        }
+        if (v === '_none_') {
+          return false;
+        } else {
+          return true;
+        }
+      };
+
+      return Select;
 
     })(Input);
 

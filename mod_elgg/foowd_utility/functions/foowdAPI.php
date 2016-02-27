@@ -31,7 +31,7 @@ function get_post(){
 
 
 // configurazioni globali
-
+define('APIURL', elgg_get_plugin_setting('api', \Uoowd\Param::uid() )   );
 
 unset($_GET['__elgg_uri']);
 
@@ -63,20 +63,25 @@ function foowd_offer_search(){
 	// rimuovo il metodo stesso dalla query
 	unset($_GET['method']);
 	$_GET['type'] = 'search';
-	if(isset($_GET['forCurrentUser'])){ 
-		$_GET['ExternalId'] = elgg_get_logged_in_user_guid();
-		unset($_GET['forCurrentUser']);
-	}
-	// se devo, aggiungo gli amici
-	if(isset($_GET['withFriends'])){
-		if($_GET['withFriends'] == true){
-			$ar=  \Uoowd\APIFoowd::foowdUserFriendsOf( elgg_get_logged_in_user_guid() )['friends'];
-			$ar[] = elgg_get_logged_in_user_guid();
-			$guid = implode($ar, ',');
-			$_GET['ExternalId'] = $guid;
+
+	if(elgg_is_logged_in()){
+		if(isset($_GET['forCurrentUser'])){ 
+			$_GET['ExternalId'] = elgg_get_logged_in_user_guid();
 		}
-		unset($_GET{'withFriends'});
+		// se devo, aggiungo gli amici
+		if(isset($_GET['withFriends'])){
+			if($_GET['withFriends'] == true){
+				$ar=  \Uoowd\APIFoowd::foowdUserFriendsOf( elgg_get_logged_in_user_guid() )['friends'];
+				$ar[] = elgg_get_logged_in_user_guid();
+				$guid = implode($ar, ',');
+				$_GET['ExternalId'] = $guid;
+			}
+		}
 	}
+	// rimuovo i parametri che non devo passare
+	$unset = array('withFriends', 'forCurrentUser');
+	array_map(function($v){unset($_GET[$v]);}, $unset);
+
 	$appendUrl = implode('&',array_map_assoc(function($k,$v){return "$k=$v";},$_GET));
 	$r = \Uoowd\API::offerGet($appendUrl);
 	// \Uoowd\Logger::addError($r);

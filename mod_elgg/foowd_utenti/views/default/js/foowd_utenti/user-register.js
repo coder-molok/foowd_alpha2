@@ -140,12 +140,52 @@
         msg: 'foowd:user:owner:error'
       }
     });
+    ar.push({
+      cls: 'Select',
+      obj: {
+        inpt: 'form.elgg-form-register [name="City"]',
+        key: 'City',
+        el: 'form.elgg-form-register [name="City"]',
+        msg: 'foowd:user:city:error'
+      }
+    });
+    ar.push({
+      cls: 'Select',
+      obj: {
+        inpt: 'form.elgg-form-register [name="AddressesType"]',
+        key: 'AddressesType',
+        el: 'form.elgg-form-register [name="AddressesType"]',
+        msg: 'foowd:user:addressestype:error'
+      }
+    });
+    ar.push({
+      cls: 'Text',
+      obj: {
+        inpt: 'form.elgg-form-register [name="Civic"]',
+        key: 'Civic',
+        el: 'form.elgg-form-register [name="Civic"]',
+        msg: 'foowd:user:civic:error'
+      }
+    });
+    ar.push({
+      cls: 'Integer',
+      obj: {
+        inpt: 'form.elgg-form-register [name="Zipcode"]',
+        key: 'Zipcode',
+        el: 'form.elgg-form-register [name="Zipcode"]',
+        msg: 'foowd:user:zipcode:error',
+        sizeL: {
+          min: 5,
+          max: 6
+        }
+      }
+    });
     fct.pushFromArray(ar);
     needAr = ['email', 'username', 'name'];
     noNeedAr = ['Site'];
-    needOfferente = ['Phone', 'Owner', 'Piva', 'Address', 'Company'];
+    needOfferente = ['Phone', 'Owner', 'Piva', 'Address', 'Company', 'City', 'AddressesType', 'Civic', 'Zipcode'];
     setNeed = function(bool) {
-      fct.each(function() {
+      return fct.each(function() {
         var ref, ref1;
         if ((ref = this.key, indexOf.call(needAr, ref) >= 0)) {
           this.needle = true;
@@ -155,7 +195,6 @@
           this.needle = bool;
         }
       });
-      return console.log(fct);
     };
     setNeed(false);
     form.submit('form.elgg-form-register', function() {

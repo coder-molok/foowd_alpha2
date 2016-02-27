@@ -43,7 +43,6 @@ if (isset($vars['entity'])) {
 
 $vars = array_merge($defaults, $vars);
 
-
 // istanzio per la creazione
 // $fadd = new \Foowd\Action\Register();
 $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars);
@@ -72,16 +71,20 @@ $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars)
 	    <input type="hidden" name="crop_file1[y2]" value="" />    
 	</div> -->
 
-	<a href="<?php echo elgg_echo('foowd:image-tmp')?>" id="url" style="display:none" >testo</a>
+	<a href="<?php echo elgg_echo('foowd:image-tmp');?>" id="url" style="display:none;" >testo</a>
 
 	<?php
 	$fadd->createField('Owner','foowd:user:owner:need', 'input/text', array('maxlength'=>"100"));
 	$fadd->createField('Piva','foowd:user:piva:need', 'input/text', array('maxlength'=>"11"));
-	$fadd->createField('Address','foowd:user:address:need', 'input/text', array('maxlength'=>"150"));
+	
 	$fadd->createField('Company','foowd:user:company:need', 'input/text', array('maxlength'=>"100"));
 	
 	$fadd->createField('Site','foowd:user:site:optional', 'input/text', array('maxlength'=>"255"));
 	$fadd->createField('Phone','foowd:user:phone:need', 'input/text', array('maxlength'=>"15"));
+
+	echo elgg_view('login/address');
+	elgg_require_js('foowd_utenti/user-register-address');
+
 	?>
 
 <div class="legend">

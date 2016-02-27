@@ -30,11 +30,14 @@ if(!$vars['isAdmin'] && $vars['Genre'] == 'standard') goto __skipDATA;
 	// $fadd->createField('Description', 'foowd:user:description', 'input/longtext');
 	$fadd->createField('Owner','foowd:user:owner', 'input/text', array('maxlength'=>"100"));
 	$fadd->createField('Piva','foowd:user:piva', 'input/text', array('maxlength'=>"11", 'disabled'=>!$vars['isAdmin']));
-	$fadd->createField('Address','foowd:user:address', 'input/text', array('maxlength'=>"150"));
 	$fadd->createField('Company','foowd:user:company', 'input/text', array('maxlength'=>"100"));
 	
 	$fadd->createField('Site','foowd:user:site:optional', 'input/text', array('maxlength'=>"255",));
 	$fadd->createField('Phone','foowd:user:phone', 'input/text', array('maxlength'=>"15"));
+	
+	echo elgg_view('login/address', $vars);
+	elgg_require_js('foowd_utenti/foowd-user-settings-address');
+	
 	?>
 
 <div class="legend">

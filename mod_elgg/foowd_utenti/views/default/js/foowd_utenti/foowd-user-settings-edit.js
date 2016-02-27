@@ -162,9 +162,49 @@
         'afterCheck': ajaxCheck
       }
     });
+    ar.push({
+      cls: 'Select',
+      obj: {
+        inpt: 'form.elgg-form-usersettings-save [name="City"]',
+        key: 'City',
+        el: 'form.elgg-form-usersettings-save [name="City"]',
+        msg: 'foowd:user:city:error'
+      }
+    });
+    ar.push({
+      cls: 'Select',
+      obj: {
+        inpt: 'form.elgg-form-usersettings-save [name="AddressesType"]',
+        key: 'AddressesType',
+        el: 'form.elgg-form-usersettings-save [name="AddressesType"]',
+        msg: 'foowd:user:addressestype:error'
+      }
+    });
+    ar.push({
+      cls: 'Text',
+      obj: {
+        inpt: 'form.elgg-form-usersettings-save [name="Civic"]',
+        key: 'Civic',
+        el: 'form.elgg-form-usersettings-save [name="Civic"]',
+        msg: 'foowd:user:civic:error'
+      }
+    });
+    ar.push({
+      cls: 'Integer',
+      obj: {
+        inpt: 'form.elgg-form-usersettings-save [name="Zipcode"]',
+        key: 'Zipcode',
+        el: 'form.elgg-form-usersettings-save [name="Zipcode"]',
+        msg: 'foowd:user:zipcode:error',
+        sizeL: {
+          min: 5,
+          max: 6
+        }
+      }
+    });
     fct.pushFromArray(ar);
     needAr = ['email', 'Username'];
-    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner'];
+    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner', 'City', 'AddressesType', 'Civic', 'Zipcode'];
     needArOfferente = needAr.concat(needArOfferente);
     noNeedAr = ['Site'];
     setNeed = function(bool) {

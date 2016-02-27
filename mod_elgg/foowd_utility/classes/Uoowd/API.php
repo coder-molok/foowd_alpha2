@@ -177,7 +177,7 @@ class API{
 			$now = (new \DateTime(null, new \DateTimeZone("UTC")))->format('U');
 			$headers = array(/*'Content-Type: application/json',*/ 'F-Time:'.$now);
 			// se il metodo e' post, allora implemento un piccolo controllo
-			if($testPost || true){
+			if( isset($testPost) || true){
 				array_push($headers, 'F-Check:'.hash_hmac('sha256', $now, 'KFOOWD'));
 			}
 			

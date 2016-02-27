@@ -12,7 +12,8 @@
         "files": ["./data/generated-conf/config.php"],
         "classmap": ["./data/generated-classes/"],
         "psr-4" : {
-             "Foowd\\" : "routes/actions/"
+             "Foowd\\" : "routes/actions/",
+             "Mixed\\" : "routes/mixed/"
         },
         "psr-0": {
             "Propel\\Runtime\\Validator\\Constraints": "data/myConstraints/"
