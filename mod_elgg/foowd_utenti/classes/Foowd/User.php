@@ -14,9 +14,9 @@ class User {
 
 	public $form = null;
 
-	public static $needForOfferente = array(/*'Description',*/'Site','Piva', 'Phone','Address','Company','Owner', 'City', 'AddressesType', 'Civic', 'Zipcode');
+	public static $needForOfferente = array(/*'Description',*/'Site','Piva', 'Phone','Address','Company','Owner', 'City', 'Zipcode', /*'AddressesType', 'Civic'*/);
 
-	public static $allUserFields = array('Name', 'Username', 'Location', 'Email', 'Description', 'Genre' ,'Piva', 'Address','Company','Site','Phone', 'Owner', 'City', 'AddressesType', 'Civic', 'Zipcode');
+	public static $allUserFields = array('Name', 'Username', 'Email', 'Description', 'Genre' ,'Piva', 'Address','Company','Site','Phone', 'Owner', 'City', 'Zipcode'/*, 'AddressesType', 'Civic', 'Location'*/);
 
 	/**
 	 * registro un nuovo utente, aggiungendogli un metadato e salvandolo anche nel servizio API.

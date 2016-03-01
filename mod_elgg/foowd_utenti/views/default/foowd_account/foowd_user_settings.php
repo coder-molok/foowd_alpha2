@@ -17,10 +17,12 @@ $fadd = new \Foowd\Action\UserSave($vars);
 // \Fprint::r($vars);
 
 // a prescindere, il campo username lo inserisco
-$fadd->createField('Username','Username', 'input/text', array('value'=> $vars['username']));
+$fadd->createField('Username',elgg_echo('username'), 'input/text', array('value'=> $vars['username']));
 
 
 if(!$vars['isAdmin'] && $vars['Genre'] == 'standard') goto __skipDATA;
+$disable = ($vars['Genre'] == 'offerente' && !$vars['isAdmin']);
+
 ?>
 <div id="offer-hook">
 	<?php
@@ -28,11 +30,11 @@ if(!$vars['isAdmin'] && $vars['Genre'] == 'standard') goto __skipDATA;
 		
 
 	// $fadd->createField('Description', 'foowd:user:description', 'input/longtext');
-	$fadd->createField('Owner','foowd:user:owner', 'input/text', array('maxlength'=>"100"));
-	$fadd->createField('Piva','foowd:user:piva', 'input/text', array('maxlength'=>"11", 'disabled'=>!$vars['isAdmin']));
-	$fadd->createField('Company','foowd:user:company', 'input/text', array('maxlength'=>"100"));
+	$fadd->createField('Owner','foowd:user:owner', 'input/text', array('maxlength'=>"100", 'disabled'=>$disable));
+	$fadd->createField('Piva','foowd:user:piva', 'input/text', array('maxlength'=>"11", 'disabled'=>$disable));
+	$fadd->createField('Company','foowd:user:company', 'input/text', array('maxlength'=>"100", 'disabled'=>$disable));
 	
-	$fadd->createField('Site','foowd:user:site:optional', 'input/text', array('maxlength'=>"255",));
+	$fadd->createField('Site','foowd:user:site:optional', 'input/text', array('maxlength'=>"255"));
 	$fadd->createField('Phone','foowd:user:phone', 'input/text', array('maxlength'=>"15"));
 	
 	echo elgg_view('login/address', $vars);

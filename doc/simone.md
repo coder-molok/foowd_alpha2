@@ -1,6 +1,13 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+
+### 01/03/2016
+
+- eliminata tipologia di indirizzo, nazione e localita' da form di registrazione/modifica utente
+
+
+
 ### 27/02/2016
 
 - preparata API per ottenere elenco regioni, province, comuni

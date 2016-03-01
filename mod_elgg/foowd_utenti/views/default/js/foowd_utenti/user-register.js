@@ -150,24 +150,6 @@
       }
     });
     ar.push({
-      cls: 'Select',
-      obj: {
-        inpt: 'form.elgg-form-register [name="AddressesType"]',
-        key: 'AddressesType',
-        el: 'form.elgg-form-register [name="AddressesType"]',
-        msg: 'foowd:user:addressestype:error'
-      }
-    });
-    ar.push({
-      cls: 'Text',
-      obj: {
-        inpt: 'form.elgg-form-register [name="Civic"]',
-        key: 'Civic',
-        el: 'form.elgg-form-register [name="Civic"]',
-        msg: 'foowd:user:civic:error'
-      }
-    });
-    ar.push({
       cls: 'Integer',
       obj: {
         inpt: 'form.elgg-form-register [name="Zipcode"]',
@@ -183,7 +165,7 @@
     fct.pushFromArray(ar);
     needAr = ['email', 'username', 'name'];
     noNeedAr = ['Site'];
-    needOfferente = ['Phone', 'Owner', 'Piva', 'Address', 'Company', 'City', 'AddressesType', 'Civic', 'Zipcode'];
+    needOfferente = ['Phone', 'Owner', 'Piva', 'Address', 'Company', 'City', 'Zipcode'];
     setNeed = function(bool) {
       return fct.each(function() {
         var ref, ref1;

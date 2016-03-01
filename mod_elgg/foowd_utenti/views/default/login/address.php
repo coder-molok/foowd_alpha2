@@ -5,7 +5,7 @@
 
 $fadd = new \Foowd\Action\Register($vars);
 
-$fadd->createField('Nation','foowd:user:nation:need', 'input/dropdown', array('default_value'=>'it', 'options_values'=> array('it')));
+// $fadd->createField('Nation','foowd:user:nation:need', 'input/dropdown', array('default_value'=>'it', 'options_values'=> array('it')));
 
 $fadd->createField('Region','foowd:user:region:need', 'input/dropdown', array('options_values'=> array('seleziona regione')));
 
@@ -13,26 +13,26 @@ $fadd->createField('Province','foowd:user:province:need', 'input/dropdown', arra
 
 $fadd->createField('City','foowd:user:city:need', 'input/dropdown', array('options_values'=> array('_none_'=>'seleziona comune')));
 
-$typ = array(
-	'--', "via", "viale", 'corso', 'largo', 'piazza', 'piazzale', 'vicolo', 'frazione'
-);
+// $typ = array(
+// 	'--', "via", "viale", 'corso', 'largo', 'piazza', 'piazzale', 'vicolo', 'frazione'
+// );
 
-$add_typ = array();
-foreach ($typ as $v) {
-	$key = ($v == '--')	? '_none_' : $v;
-	$add_typ[$key] = $v;
-}
+// $add_typ = array();
+// foreach ($typ as $v) {
+// 	$key = ($v == '--')	? '_none_' : $v;
+// 	$add_typ[$key] = $v;
+// }
 
 
-$fadd->createField('AddressesType','foowd:user:addressestype:need', 'input/dropdown', array('options_values'=> $add_typ));
+// $fadd->createField('AddressesType','foowd:user:addressestype:need', 'input/dropdown', array('options_values'=> $add_typ));
 
 $fadd->createField('Address','foowd:user:address:need', 'input/text', array('maxlength'=>"150"));
 
-$fadd->createField('Civic','foowd:user:civic:need', 'input/text', array('maxlength'=>"150"));
+// $fadd->createField('Civic','foowd:user:civic:need', 'input/text', array('maxlength'=>"150"));
 
 $fadd->createField('Zipcode','foowd:user:zipcode:need', 'input/text', array('maxlength'=>"6"));
 
-$fadd->createField('Location','foowd:user:location:need', 'input/text', array('maxlength'=>"150"));
+// $fadd->createField('Location','foowd:user:location:need', 'input/text', array('maxlength'=>"150"));
 
 // creo un hook per l'inserimento automatico nel caso sia nel form dei settings
 if( isset($vars['City']) && !preg_match('@_none@', $vars['City']) ) echo elgg_view('input/hidden', array('name' => 'cityValueHook', 'value' => $vars['City']));;
