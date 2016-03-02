@@ -20,7 +20,6 @@ define(function(require) {
    		//preferenza utente
    		var preference = {
    				OfferId : "",
-   				ExternalId : "",
    				type : "create",
    				Qt : "",
    		};
@@ -52,7 +51,8 @@ define(function(require) {
    		}
 
    		function _getUserPreferences(){
-			var userId = utils.getUserId();
+   			// in questo momento userId e' un placebo, in quando ora sono le api elgg a ottenere i parametri dell'utente e le sue amicizie
+			var userId = ''; //utils.getUserId();
 			if(userId!=null && group){
 				return _getUserPreferencesGroup(userId);
 			}else{
@@ -62,6 +62,8 @@ define(function(require) {
 		}
 		
 		function _getUserPreferencesSingle(userId){
+			// voglio ottenere solo quelle nuove
+			userId += '&state=newest';
 			return API.getUserPreferences(userId).then(function(data){
 				var rawData = data;
 				// console.log(data)
@@ -75,35 +77,50 @@ define(function(require) {
 
 		}
 		function _getUserPreferencesGroup(userId){
-			return API.getFriend(userId).then(function(data){
-				var friendsStr='';
-				if(data.result && data.result.friends){
-					 friendsStr = data.result.friends.join();
-				}
-				_getUserPreferencesSingle(userId+','+friendsStr);
-			},function(error){
-					console.log(error);
-			});
-
+			// return API.getFriend(userId).then(function(data){
+			// 	var friendsStr='';
+			// 	if(data.result && data.result.friends){
+			// 		 friendsStr = data.result.friends.join();
+			// 	}
+			// 	// dico a elgg di utilizzare anche le amicizie dell'utente
+				return _getUserPreferencesSingle('&withFriends=true');
+			// },function(error){
+			// 		console.log(error);
+			// });
 		}
 
    		function _applyPreferencesContext(context) {
 			var result = "";
+			var userId = utils.getUserId();
+			var offers = [];
 			context.map(function(el) {
+				// controllo le anche l'utente ha espresso preferenza su quell'offerta, altrimenti la scarto
+				var userHas = false;
 				//aggiungo l'immagine al json di contesto
-				utils.addPicture(el.Offer, 'small');
+				utils.addPicture(el.offer, 'small');
 				utils.setLoggedGroup(el, group);
-				el.Qt = el.totalQt;
-				el.Offer.prefers = el.prefers.join(',');
-				el.Offer.detailUri = utils.uriProductDetail(el.Offer.Id);
+				// el.Qt = el.totalQt;
+				el.totalQt = 0;
+				el.offer.prefers = el.prefers.map(function(p){
+					if(p.UserId == userId) userHas = true;
+					el.totalQt += p.Qt;
+					return p.Id;
+				}).join(',');
+				el.offer.detailUri = utils.uriProductDetail(el.offer.Id);
+				if(userHas) offers[el.offer.Id] = el;
+			});
+			// metodo per tenere ordinale le offerte quando si switcha la modalita'
+			offers.map(function(el){
 				//ottengo l'html dal template + contesto
 				var htmlComponent = templates.userPreference(el);
+				// console.log(htmlComponent)
 				//concateno
 				result += htmlComponent;
 			});
-
 			return result;
 		}
+
+
 		function _fillBoard(content) {
 			$(preferencesContainerId).html(content);
 		}
@@ -168,7 +185,6 @@ define(function(require) {
 		function _addPreference(offerId, qt) {
     		//setto i parametri della mia preferenza
 			preference.OfferId = offerId;
-			preference.ExternalId = utils.getUserId();
 			preference.Qt = qt;
 			//richiamo l'API per settare la preferenza
 			API.addPreference(preference).then(function(data){

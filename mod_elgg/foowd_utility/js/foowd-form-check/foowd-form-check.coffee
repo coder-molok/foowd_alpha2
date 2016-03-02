@@ -46,11 +46,13 @@
             
             #default
             @needle = true
+            that = this
 
-            @el = $(@obj.el)
-            @inpt = $(@obj.inpt)
-            @key = @obj.key
-            @msg = @obj.msg
+            $.each @obj, (prop, val)->
+                if prop is 'el' or prop is 'inpt'
+                    that[prop] = $(val)
+                else
+                    that[prop] = val
 
             
             if typeof @obj.needle is 'boolean' then @needle = @obj.needle
@@ -58,32 +60,37 @@
 
             # NB:   al posto di utilizzare il that, 
             #       con coffeescript e' possibile utilizzare la fat arrow =>
-            that = this
             first = true
 
             # se all'oggetto e' attribuito un evento di trigger
             # dalla prima volta che entra nel campo input,
             # considero che debba rispettare i vincoli
             
-            @inpt .on "click focus", ->
+            @inpt.on "click focus", ->
                 first = false
                 return
             
             # trigger extra per gli oggetti associati a un evento di altri plugin
             # (solo caricamento immagine e inserimento tag)
             if @obj.trigger?
+                # console.log 'trigger'
                 $(document).on @obj.trigger , ->
                     first = false
                     that.action()
             
 
             #vincoli da rispettare
-            @inpt .on "focusout mouseout keyup", ()->
-                # console.log 'lol'
+            # @inpt.on "focusout mouseout keyup", ()->
+            # change per i select, keyup per i text
+            @inpt .on "change keyup", ( inptOn = ()->
                 if !first
-                    # console.log 'inside'
-                    that.action()
-                    
+                    # aggiungo il controllo in differita di un secondo dall'utlima immissione
+                    # per rendere meno stressante il controllo
+                    clearTimeout(that.timeout);
+                    that.timeout = setTimeout ()->
+                        that.action()
+                    , 1000
+            )       
             
         color: (color) ->
             @inpt.css(
@@ -205,6 +212,14 @@
             v = @el.val().trim()  
             if not v then false else true
 
+    class Integer extends Input
+        check: ->
+            v = @el.val().trim()
+            if typeof @sizeL is 'object'
+                str = '^[0-9]{' + @sizeL.min + ',' + @sizeL.max + '}$'
+                re = new RegExp(str)
+                if re.test(v) then true else false
+
     class Phone extends Input
         check: ->
             re = new RegExp(/^\+?\d{8,14}$/)
@@ -230,6 +245,14 @@
             re = new RegExp(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i)
             v = @el.val().trim()  
             if re.test(v) then true else false
+
+    class Select extends Input
+        check: ->
+            v = @el.val().trim()  
+            if not @needle
+                @clean
+                return true
+            if v is '_none_' then false else true
 
           
 

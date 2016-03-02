@@ -1,6 +1,38 @@
 # Commit
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
+
+### 01/03/2016
+
+- eliminata tipologia di indirizzo, nazione e localita' da form di registrazione/modifica utente
+
+
+
+### 27/02/2016
+
+- preparata API per ottenere elenco regioni, province, comuni
+
+- modificate tabelle API
+
+- aggiornati i form registrazione/modifica utente per la suddivisione dell'indirizzo in campi specifici
+
+- in foowd-service.js creata nuova funzione per rinvio delle chiamate get al servizio elgg expose
+
+- modificato tema > lib > ... FoowdAPI.js per adeguare alcune funzioni
+
+
+
+### 25/02/2016
+
+- aggiornata Sicurezza API, con conseguente adeguamento di configurazioni.
+
+- aggiornata wiki
+
+- implementato servizio Expose delle api Elgg
+
+
+
+
 ### 24/02/2016
 
 - risolta search

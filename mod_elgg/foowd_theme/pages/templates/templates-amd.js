@@ -206,37 +206,37 @@ templates['userPreference'] = template({"1":function(container,depth0,helpers,pa
   return "    <div class=\"preference\">\r\n       <span class = \"preference-progress-bar\">\r\n            <span class = \"progress\" \r\n              data-unit = \"1\"\r\n              data-progress = \""
     + alias4(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
     + "\" \r\n              data-total = \""
-    + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Minqt : stack1), depth0))
+    + alias4(alias5(((stack1 = (depth0 != null ? depth0.offer : depth0)) != null ? stack1.Minqt : stack1), depth0))
     + "\">\r\n            </span>    \r\n        </span>\r\n        <div class=\"user-preference\">\r\n            <div class=\"user-preference-section\">\r\n                <a href=\""
-    + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.detailUri : stack1), depth0))
+    + alias4(alias5(((stack1 = (depth0 != null ? depth0.offer : depth0)) != null ? stack1.detailUri : stack1), depth0))
     + "\">\r\n                <img src=\""
-    + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.picture : stack1), depth0))
+    + alias4(alias5(((stack1 = (depth0 != null ? depth0.offer : depth0)) != null ? stack1.picture : stack1), depth0))
     + "\" class = \"user-preference-image\" \r\n                     onclick=\"utils.go2('detail', 'productId',"
-    + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
+    + alias4(alias5(((stack1 = (depth0 != null ? depth0.offer : depth0)) != null ? stack1.Id : stack1), depth0))
     + ",event)\"> \r\n                     </a>\r\n            </div>\r\n            <div class=\"user-preference-name user-preference-section\">\r\n                <ul class=\"number-block\">\r\n                    <li>"
-    + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Name : stack1), depth0))
+    + alias4(alias5(((stack1 = (depth0 != null ? depth0.offer : depth0)) != null ? stack1.Name : stack1), depth0))
     + "</li>\r\n                    <li><span class=\"product-company\">"
-    + ((stack1 = alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Company : stack1), depth0)) != null ? stack1 : "")
+    + ((stack1 = alias5(((stack1 = (depth0 != null ? depth0.offer : depth0)) != null ? stack1.Company : stack1), depth0)) != null ? stack1 : "")
     + "</span></li>\r\n                </ul>\r\n            </div>\r\n            <div class=\"user-preference-details user-preference-section\">\r\n                <ul class=\"number-block preference-detail\">\r\n                    <li>"
-    + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Price : stack1), depth0))
+    + alias4(alias5(((stack1 = (depth0 != null ? depth0.offer : depth0)) != null ? stack1.Price : stack1), depth0))
     + "€</li>\r\n                    <li><span class =\"number-description\">cadauno</span></li>\r\n                </ul>\r\n                <ul class=\"number-block preference-detail\">\r\n                    <li>x"
     + alias4(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
     + "</li>\r\n                    <li><span class =\"number-description\">carrello</span></li>\r\n                </ul>\r\n                <ul class=\"number-block preference-detail\">\r\n                    <li>"
-    + alias4((helpers.math || (depth0 && depth0.math) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),"*",((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Price : stack1),{"name":"math","hash":{},"data":data}))
+    + alias4((helpers.math || (depth0 && depth0.math) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),"*",((stack1 = (depth0 != null ? depth0.offer : depth0)) != null ? stack1.Price : stack1),{"name":"math","hash":{},"data":data}))
     + "€</li>\r\n                    <li><span class =\"number-description\">tot.spesa</span></li>\r\n                </ul>\r\n            </div>\r\n            <div class=\"user-preference-actions user-preference-section\">\r\n                <ul class=\"action-icons menu-section\" id = \"preference-action\">\r\n"
-    + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Minqt : stack1),{"name":"canbuy","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),((stack1 = (depth0 != null ? depth0.offer : depth0)) != null ? stack1.Minqt : stack1),{"name":"canbuy","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "                \r\n                    <li class=\"action-heart-border\">\r\n                        <i  class=\"foowd-icons foowd-icon-plus\" \r\n                            onClick = \"UserBoardController.addPreference("
-    + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
+    + alias4(alias5(((stack1 = (depth0 != null ? depth0.offer : depth0)) != null ? stack1.Id : stack1), depth0))
     + ", 1)\"></i>\r\n                    </li>\r\n                    <li class=\"action-minus\">\r\n                        <i class=\"foowd-icons foowd-icon-minus fw-menu-icon\" \r\n                           onClick = \"UserBoardController.addPreference("
-    + alias4(alias5(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
+    + alias4(alias5(((stack1 = (depth0 != null ? depth0.offer : depth0)) != null ? stack1.Id : stack1), depth0))
     + ", -1)\"></i>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </div>\r\n";
 },"2":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
   return "                    <li class=\"btn-buy\" data-offer-id=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.Id : stack1), depth0))
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.offer : depth0)) != null ? stack1.Id : stack1), depth0))
     + "\" data-offer-prefers=\""
-    + alias2(alias1(((stack1 = (depth0 != null ? depth0.Offer : depth0)) != null ? stack1.prefers : stack1), depth0))
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.offer : depth0)) != null ? stack1.prefers : stack1), depth0))
     + "\">\r\n                        <i class=\"btn-buy-icon foowd-icons foowd-icon-cart\"></i>\r\n                    </li>\r\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;

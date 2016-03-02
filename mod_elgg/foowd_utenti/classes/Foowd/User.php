@@ -14,9 +14,9 @@ class User {
 
 	public $form = null;
 
-	public static $needForOfferente = array(/*'Description',*/'Site','Piva', 'Phone','Address','Company','Owner');
+	public static $needForOfferente = array(/*'Description',*/'Site','Piva', 'Phone','Address','Company','Owner', 'City', 'Zipcode', /*'AddressesType', 'Civic'*/);
 
-	public static $allUserFields = array('Name', 'Username', 'Location', 'Email', 'Description', 'Genre' ,'Piva', 'Address','Company','Site','Phone', 'Owner');
+	public static $allUserFields = array('Name', 'Username', 'Email', 'Description', 'Genre' ,'Piva', 'Address','Company','Site','Phone', 'Owner', 'City', 'Zipcode'/*, 'AddressesType', 'Civic', 'Location'*/);
 
 	/**
 	 * registro un nuovo utente, aggiungendogli un metadato e salvandolo anche nel servizio API.
@@ -75,7 +75,6 @@ class User {
 		    if(! $str = \Uoowd\Param::dbg()){ 
 		        $str = "Errore nell'immissione dei dati";
 		    }
-		    //\Uoowd\Logger::addError($str);
 		    \Uoowd\Logger::addError($str);
 		    return false;
 		}
@@ -229,7 +228,7 @@ class User {
 		    //uservalidationbyemail/emailsent
 
 		}else{
-			\Uoowd\Logger::addError("dentro else");
+			// \Uoowd\Logger::addError("dentro else");
 		    
 			if(isset($crop)) $crop->removeDir(\Uoowd\Param::imgStore().'User-'.$extId);
 

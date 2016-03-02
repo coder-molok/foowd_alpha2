@@ -39,7 +39,7 @@
 
 
     # visualizzo il campo username al posto del nome, ma lo rendo non modificabile
-    $('<label for="name">Nome Visualizzato</label>').insertBefore($('input[name="name"]')); #.attr('disabled', true));
+    $('<label for="name">'+ elgg.echo('name') + '</label>').insertBefore($('input[name="name"]')); #.attr('disabled', true));
     $('[for="name"], [name="name"]').wrapAll('<div></div>');
 
     $('<label for="email">Email</label>').insertBefore($('input[name="email"]'));#.attr('disabled', true));
@@ -141,12 +141,18 @@
     ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="Owner"]', key:'Owner', el:'form.elgg-form-usersettings-save [name="Owner"]', msg: 'foowd:user:owner:error'} })
     ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="Username"]', key:'Username', el:'form.elgg-form-usersettings-save [name="Username"]', msg: 'foowd:user:username:error', 'afterCheck': ajaxCheck} })
     ar.push({cls:'Email', obj:{inpt:'form.elgg-form-usersettings-save [name="email"]', key:'email', el:'form.elgg-form-usersettings-save [name="email"]', msg: 'foowd:user:email:error', 'afterCheck': ajaxCheck} })
+
+    ar.push({cls:'Select', obj:{inpt:'form.elgg-form-usersettings-save [name="City"]', key:'City', el:'form.elgg-form-usersettings-save [name="City"]', msg: 'foowd:user:city:error'} })
+    # ar.push({cls:'Select', obj:{inpt:'form.elgg-form-usersettings-save [name="AddressesType"]', key:'AddressesType', el:'form.elgg-form-usersettings-save [name="AddressesType"]', msg: 'foowd:user:addressestype:error'} })
+    # ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="Civic"]', key:'Civic', el:'form.elgg-form-usersettings-save [name="Civic"]', msg: 'foowd:user:civic:error'} })
+    ar.push({cls:'Integer', obj:{inpt:'form.elgg-form-usersettings-save [name="Zipcode"]', key:'Zipcode', el:'form.elgg-form-usersettings-save [name="Zipcode"]', msg: 'foowd:user:zipcode:error', sizeL: {min: 5, max: 6} } })
+
     fct.pushFromArray(ar)
 
 
     needAr = ['email', 'Username']
-    # username in minuscolo perche' intacco anche elgg!
-    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner'] #location
+    # username in minuscolo perche' intacco anche elgg! 'AddressesType', 'Civic'
+    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner', 'City', 'Zipcode'] #location
     needArOfferente = needAr.concat needArOfferente
     # di default nessuno di questi e' obbligatorio
     noNeedAr = ['Site']

@@ -70,4 +70,10 @@ $app->group('/api', function() use ($app){
 
 		});
 
+		$app->get('/territory', function() use ($app){
+
+			$returned = new Mixed\Utility\ApiTerritory($app);
+
+		});
+
 });

@@ -23,7 +23,7 @@
       $(html).insertAfter(mod);
       return mod.remove();
     });
-    $('<label for="name">Nome Visualizzato</label>').insertBefore($('input[name="name"]'));
+    $('<label for="name">' + elgg.echo('name') + '</label>').insertBefore($('input[name="name"]'));
     $('[for="name"], [name="name"]').wrapAll('<div></div>');
     $('<label for="email">Email</label>').insertBefore($('input[name="email"]'));
     $('[for="email"], [name="email"]').wrapAll('<div></div>');
@@ -162,9 +162,31 @@
         'afterCheck': ajaxCheck
       }
     });
+    ar.push({
+      cls: 'Select',
+      obj: {
+        inpt: 'form.elgg-form-usersettings-save [name="City"]',
+        key: 'City',
+        el: 'form.elgg-form-usersettings-save [name="City"]',
+        msg: 'foowd:user:city:error'
+      }
+    });
+    ar.push({
+      cls: 'Integer',
+      obj: {
+        inpt: 'form.elgg-form-usersettings-save [name="Zipcode"]',
+        key: 'Zipcode',
+        el: 'form.elgg-form-usersettings-save [name="Zipcode"]',
+        msg: 'foowd:user:zipcode:error',
+        sizeL: {
+          min: 5,
+          max: 6
+        }
+      }
+    });
     fct.pushFromArray(ar);
     needAr = ['email', 'Username'];
-    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner'];
+    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner', 'City', 'Zipcode'];
     needArOfferente = needAr.concat(needArOfferente);
     noNeedAr = ['Site'];
     setNeed = function(bool) {

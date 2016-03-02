@@ -13,6 +13,7 @@ RewriteRule ^ index.php [QSA,L]
 ### controllo sull'origine:
 
 # prima controllo gli allow, poi i deny e per tutti gli altri il default risulta essere deny from all
-#Order Allow,Deny
-#Allow from xxx.xxx.xxx.xxx
+Order Deny,Allow
+Deny from all
+Allow from 5.196.228.146
 #Require local
