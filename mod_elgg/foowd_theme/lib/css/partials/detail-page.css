@@ -8,6 +8,10 @@
     margin-top: 120px;
   }
 }
+#product-detail-main.progress,
+#product-detail-main.progress * {
+  cursor: progress !important;
+}
 .detail-menu-section {
   *zoom: 1;
   float: left;
@@ -78,14 +82,12 @@
   position: absolute;
   z-index: -1;
   height: 100%;
-  background-image: url("../../img/stripes.png");
 }
 .detail-progress-bar.preview-bar {
   z-index: -2;
 }
 .detail-progress-bar.preview-bar .progress {
   background-image: none;
-  background-color: #fae6ef;
   z-index: -2;
 }
 .price-detail {
@@ -227,6 +229,9 @@
   font-family: AkkuratBold;
   font-size: 16pt;
 }
+#product-company {
+  font-size: 12px;
+}
 #preference-action {
   text-align: right;
 }
@@ -244,14 +249,35 @@
   color: #000;
   display: inline-flex;
 }
+.no-flexbox .action-icons > li {
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 50%;
+}
+.no-flexbox .action-icons > li > i {
+  font-size: 36pt;
+  color: #000;
+  display: inline-block;
+}
 .action-heart {
-  background: #fae6ef;
+  background: #bed25a;
+}
+.action-heart-border {
+  background: #bed25a;
+  border: 1px solid #fff;
 }
 .action-minus {
-  background: #ebebeb;
+  background: #f7f4ee;
 }
 .action-buy {
-  background: #0c5b0d;
+  background: #bed25a;
+}
+.action-buy-border {
+  background: #bed25a;
+  border: 1px solid #fff;
+}
+.action-buy-group {
+  background: #38302c;
 }
 .action-buy i {
   color: #fff !important;
@@ -290,6 +316,9 @@
   padding: 15px 0 15px 0;
   border-top: 0.1em solid #787878;
 }
+.commercial-menu-item:first-child .item-container {
+  border-top: 0;
+}
 .commercial-menu-item .item-container > span {
   display: inline-flex;
   color: #000;
@@ -303,7 +332,7 @@
   font-family: AkkuratBold;
   font-size: 12pt;
   font-weight: bold;
-  letter-spacing: -1pt;
+  letter-spacing: 0pt;
 }
 #product-picture {
   padding: 0px;

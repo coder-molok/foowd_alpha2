@@ -1,6 +1,18 @@
 <?php
 
+/**
+ * tricks per gestione offerte
+ */
+
 namespace Foowd\Action;
+
+	/**
+	 * Gestione form offerte.
+	 *
+	 * In particolare vengono implementate la gestione dei dati passati all'action e eventuali errori, ritornati in $_SESSION.
+	 * Attualmente i controlli non risultano particolarmente utili in quanto si e' deciso di utilizzare javascript
+	 * 
+	 */
 
 	class FormAdd extends \Uoowd\Action{
 		
@@ -32,11 +44,15 @@ namespace Foowd\Action;
 
 		);
 
-
+		/**
+		 * array contenente i parametri che saranno obblicatori
+		 * @var array
+		 */
 		private $needle = array(
 			"Price",
 			"Tag",
-			"Minqt"
+			"Minqt",
+			"Maxqt"
 		);
 
 		/**
@@ -62,12 +78,15 @@ namespace Foowd\Action;
 			'Price'		=> 'isCash',
 			'Tag'		=> 'isTag',
 			'Minqt'		=> 'isQt',
-			'Maxqt'		=> 'isMax',
+			// 'Maxqt'		=> 'isMax',
 			'Quota'		=> 'isQt',
 			'Expiration'=> 'isDateTime'
 		);
 
-		
+		/**
+		 * Costruttore che richiama a sua volta il costruttore del parent.
+		 * @param array|null $ar [description]
+		 */
 		public function __construct(array $ar = null){
 			// passo i parametri al padre
 			 parent::__construct(get_object_vars($this), $ar);
@@ -101,6 +120,13 @@ namespace Foowd\Action;
 		// 	}
 		// }
 
+		/**
+		 * Hook chiamato quando viene creato un Tag tramite createField().
+		 * 
+		 * @param  [type] $type  [description]
+		 * @param  [type] $input [description]
+		 * @return [type]        [description]
+		 */
 		public function hookCreateTag($type , $input){
 			// echo '<div '.elgg_format_attributes($input['attributes']).' >';
 			// foreach ($input['inputs'] as $val){
@@ -169,8 +195,9 @@ namespace Foowd\Action;
 			?>
 
 			<script>
-			  // jQuery('body').css('background-color', 'red');
-			  $(".chosen-select").chosen();
+			requirejs(['jquery'], function(c){
+
+			  $(".chosen-select").chosen({width: "100%"});
 
 			  $('.chosen-select').on('change', function(evt, params) {
 			      // do_something(evt, params);
@@ -203,6 +230,7 @@ namespace Foowd\Action;
 
 			    });
 
+			})
 			</script>
 			<?php
 
@@ -222,7 +250,7 @@ namespace Foowd\Action;
 			<script>
 			    requirejs(['jquery.datetimepicker'], function(){
 			        var Gdate = {} ; // oggetto per memorizzare i parametri di mio interesse
-			        var Gdiv = $('[name="Expiration"]');
+			        var Gdiv = $('[name="Expiration"]');		        
 			        var Gdt = new Date();
 			        Gdt.setTime(Gdt.getTime() + (24 * 60 * 60 * 1000));
 			        // inserisco lo zero davanti alle cifre a una unita'
@@ -232,6 +260,39 @@ namespace Foowd\Action;
 			        	}
 			        }
 
+			        // \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}@
+
+			        // // closure: formo automaticamente la data
+			        // var setTimeFormat = function(){
+			        // 	alert(Gdiv.val())
+			        // }
+			        // setTimeFormat();
+
+			        // Trasformo la data nel formato presente in onSelect
+			        var D = Gdiv.val();
+			        // prende una data e ritorna un oggetto con due Digits, escludendo la data
+			        var twoD = function(D){
+			        	// var ldata = {'Y': D.getFullYear()};
+			        	var ldata = {'Y': D.getFullYear(), 'M': D.getMonth() + 1 , "D": D.getDate(), "h": D.getHours() , "m": D.getMinutes(), "s": D.getSeconds()};
+			        	// li scrivo in 2 digits
+						for(var i in ldata){
+							if(i !=='Y' )ldata[i] = ('0' + ldata[i]).slice(-2)
+							// console.log(ldata[i])
+						}
+						ldata.str = ldata.Y + "-" + ldata.M + "-" + ldata.D + " " + ldata.h + ':' + ldata.m + ":" + ldata.s;
+			        	return ldata
+			        }
+
+			        // se la stringa e' vuota, non ho scadenza!
+			        if(D !== '' ){
+			        	DD = new Date(D);
+			        	if( !isNaN(DD.getFullYear()) ){
+			        		var D = twoD(DD);
+			        		Gdiv.val(D.str)
+			        		$('#datepicker').val(D.str)
+			        	}
+			        }
+			        
 			        // con afterInject riesco sempre a ottenere l'istanza, 
 			        $('#datepicker').datetimepicker({
 			            timeFormat: "HH:mm",
@@ -257,17 +318,24 @@ namespace Foowd\Action;
 			                var str =  Gdate.Y + "-" + M + "-" + Gdate.D + " " + Gdate.h + ':' + Gdate.m + ":" + Gdate.s;
 			                Gdiv.val(str);        
 			            },
-			            // memorizzo i dati presenti quanto apro la finestra
+			            // memorizzo i dati presenti quando apro la finestra
 			            afterInject: function(){
 			                var t = this, i = t.inst;
 			                Gdate.Y = i.selectedYear, Gdate.M = i.selectedMonth, Gdate.D = i.selectedDay;
 			                Gdate.h = t.hour, Gdate.m = t.minute, Gdate.s = '00';
+			            },
+			            onClose: function(){
+			            	// per collaborare con offer-form-check
+			            	$( document ).trigger( "foowd:update:expiration" );
+			            	// se l'ho cancellato, allora e' come se volessi togliere la data di scadenze
+			            	// il primo e' il valore che visualizzo sotto a scadenza
+			            	if( $(this).val().trim() === '') Gdiv.val('');
 			            }
 			        });
 			    })
 			</script>
 			<input type="text" id="datepicker" value="<?php echo $vars['Expiration']; ?>"/>
-			<input  name="Expiration" value="<?php echo $vars['Expiration']; ?>"/>
+			<input type="hidden" name="Expiration" value="<?php echo $vars['Expiration']; ?>"/>
 			<?php
 		}
 

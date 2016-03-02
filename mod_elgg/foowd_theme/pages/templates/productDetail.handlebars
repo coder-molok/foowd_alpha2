@@ -8,7 +8,7 @@
               data-total = "{{Minqt}}">
             </span>    
         </span>
-        <span class = "detail-progress-bar preview-bar">
+        <span class = " detail-progress-bar preview-bar">
             <span class = "progress" 
               data-unit = "1"
               data-progress = "{{totalQt}}" 
@@ -19,7 +19,7 @@
         <div class="price-detail">
             <ul class="number-block" id="unit-price">
                 <li>{{Price}}<span class="apex">€</span></li>
-                <li><span class ="number-description">prezzo unità</span></li>
+                <li><span class ="number-description">cadauno</span></li>
             </ul>
         </div>
         {{!-- Barra di caricamento --}}
@@ -41,11 +41,15 @@
             <div class="menu-section" id="product-name">
                 {{Name}}
             </div>
-            
+            <div class="menu-section" id="product-company">
+                {{{Company}}}
+            </div>
             {{#if logged}}
-            <ul class="action-icons menu-section" id = "preference-action">
-                <li class="action-heart">
-                    <i  class="foowd-icons foowd-icon-heart-edge" 
+            
+            {{!-- {{#unless group}} --}}
+             <ul class="action-icons menu-section" id = "preference-action">
+                <li class="action-heart" id="action-heart">
+                    <i  class="foowd-icons foowd-icon-plus" 
                         onClick = "ProductDetailController.addPreference({{Id}}, 1)"></i>
                 </li>
                 <li class="action-minus">
@@ -53,44 +57,68 @@
                        onClick = "ProductDetailController.addPreference({{Id}}, -1)"></i>
                 </li>
             </ul>
+            {{!-- {{/unless}} --}}
+            
+            {{else}}
+
+            <ul class="action-icons menu-section" id = "preference-action">
+                <li class="action-heart" id="action-heart">
+                    <i  class="foowd-icons foowd-icon-plus"  onClick = "utils.goTo('login');"></i>
+                </li>
+                <li class="action-minus">
+                    <i class="foowd-icons foowd-icon-minus fw-menu-icon"  onClick = "utils.goTo('login')"></i>
+                </li>
+            </ul>
+            
             {{/if}}
+            
 
         </div>
         <div class="product-info-menu" id = "section2">
             <div id="product-description">
-                {{{Description}}}
+               {{{Description}}} 
             </div>
             <div id="commercial-menu">
-            {{#if logged}}
+            {{!-- eventualmente if logged --}}
+                <div class = "commercial-menu-item">
+                    <div class="item-container">
+                        <span class="foowd-icons item-icon"></span>
+                        <span class = "item-data">
+                            {{Quota}} {{Unit}} {{UnitExtra}}                
+                        </span>
+                    </div>
+                </div>
                 <div class = "commercial-menu-item">
                     <div class="item-container">
                         <span class="foowd-icons foowd-icon-heart-edge item-icon">
                         </span>
-                        <span class = "item-title">carrello</span>
+                        <span class = "item-title">Quote</span>
                         <span class = "item-data">x{{totalQt}}</span>
                     </div>
                 </div>
                 <div class = "commercial-menu-item">
                     <div class="item-container">
                         <span class="foowd-icons foowd-icon-cart item-icon"></span>
-                        <span class = "item-title">tot</span>
+                        <span class = "item-title">Carrello</span>
                         <span class = "item-data">
                             {{math totalQt '*' Price}}
                             <span class = "apex">€</span>
                         </span>
                     </div>
                 </div>
+                
                 {{#canbuy totalQt Minqt}}
                     <div class = "commercial-menu-item">
                         <ul class="action-icons menu-section" id = "preference-action">
-                            <li class="action-buy">
-                                <i class="foowd-icons foowd-icon-plus"></i>
+                            <li id="action-buy">
+                                <i id="action-buy-icon" class="foowd-icons foowd-icon-cart" 
+                                onClick = "ProductDetailController.purchase({{Id}},'{{prefers}}')"></i>
                             </li>
                         </ul>
                     </div>
                 {{/canbuy}}
 
-            {{/if}}
+            {{!-- eventualmente \if --}}
             </div>
         </div>
     </div>

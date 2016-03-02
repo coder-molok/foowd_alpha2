@@ -27,7 +27,9 @@ elgg_load_css('foowd-theme-style');
 elgg_load_css('foowd-theme-main');	// sovrascrive i css default di elgg
 elgg_load_css('jquery.ui.foowd');	// template-style di jquery-ui
 // js
+// elgg_require_js('Modernizr');
 elgg_require_js('foowd-main');
+
 
 
 

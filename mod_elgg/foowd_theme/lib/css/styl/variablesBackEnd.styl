@@ -1,0 +1,51 @@
+/////////////////////////////////////////////////////////////
+// questo file contiene delle configurazioni genearli
+// e classi che riutilizzero' nei futuri script
+//
+// la impiego per non rendere troppo pomposa 'variables.styl'
+//
+// per lavoro in locale: stylus -u jeet -u nib --watch styl/variablesBackEnd.styl -o partials/variablesBackEnd.css
+/////////////////////////////////////////////////////////////
+
+// libreria utile per i vendor
+@require 'nib'
+@require 'variables'
+
+
+foowd = (foowd1 foowd2 foowd3 foowd4 foowd5)
+foowdd = ()
+foowdl = ()
+
+lg = length(foowd) - 1
+/* genero classi specifiche , nel caso volessi appendere esclusivamente questi stili tramite javascript */
+/* inoltre creo dinamicamente le versioni darken per l'array*/
+for $i in 0..lg
+	
+	v = foowd[$i]
+	num = $i+1
+	// salvo la versione scura
+	foowdd[num] = darken(v, 40%)
+	// versione chiara
+	foowdl[num] = lighten(v, 40%)
+	
+	.foowd{num}-cl
+		color: v
+	
+	.foowd{num}-bg
+		background-color: v
+	// d sta per darken
+	.foowd{num}d-bg
+		background-color: darken(v, 40%)
+
+// creo dinamicamente dei mixins 
+
+for $c, $i in foowd
+	define("foowd"+($i + 1)+"-bg", @() {
+    	background-color: $c
+	})
+	define("foowd"+($i + 1)+"-cl", @() {
+    	background-color: $c
+  	})
+
+
+

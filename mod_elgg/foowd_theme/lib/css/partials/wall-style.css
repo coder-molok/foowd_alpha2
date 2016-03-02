@@ -2,18 +2,11 @@
  * About Wall Page Style
  */
 .grid {
-  margin-top: 80px;
+  margin: 80px auto;
   list-style: none;
   padding: 0 10px 0 10px;
-  position: absolute;
-  transform-style: preserve-3d;
-  left: 50%;
-  transform: translateX(-50%);
-}
-@media only screen and (max-width: 900px) {
-  .grid {
-    margin-top: 140px;
-  }
+  transform: translateX(0);
+  left: 0%;
 }
 .grid li {
   float: left;
@@ -41,6 +34,7 @@
 .post-container {
   display: table;
   position: relative;
+  cursor: pointer;
 }
 .product-post-image-thumbnail {
   display: table;
@@ -91,8 +85,10 @@
   -o-prorp: opacity 0.15s ease;
   transition: opacity 0.15s ease;
 }
-.heart-overlay:hover {
-  opacity: 1;
+.product-post-main-frame {
+  display: block;
+  font-family: AkkuratBold;
+  position: relative;
 }
 .product-post-header {
   top: 0px;
@@ -110,7 +106,6 @@
   margin-right: 3%;
   padding: 10px 0 0 10px;
   color: #fff;
-  font-family: AkkuratBold;
   font-size: 12pt;
   line-height: 14pt;
   letter-spacing: -0.5pt;
@@ -135,18 +130,14 @@
 .product-post-progress-price {
   padding: 5px 10px 0 0;
   color: #fff;
-  font-family: AkkuratBold;
   font-size: 18pt;
   line-height: 14pt;
   letter-spacing: -1.5pt;
   text-align: right;
 }
 .mini-progress-bar {
-  position: absolute;
   width: 40px;
-  top: 25px;
-  right: 90px;
-  height: 4px;
+  height: 20px;
 }
 .mini-progress {
   background-image: url("../../img/barra-bianca.png");
@@ -169,33 +160,35 @@
 .mini-progress:after {
   clear: both;
 }
-.product-post-menu {
-  position: relative;
-  float: left;
-  margin: -40px 0 0 0;
-  vertical-align: baseline;
-  padding: 0 0 0 10px;
-  background: none;
-  z-index: 150;
+.product-post-footer {
+  position: absolute;
+  bottom: 0;
+  color: #fff;
+  width: 100%;
 }
-.product-post-menu div {
-  display: inline-flex;
-  background-color: #fae6ef;
-  border-radius: 50%;
-  padding: 0;
+.product-post-footer .product-post-company,
+.product-post-footer .mini-progress-bar {
+  display: inline-block;
+  vertical-align: middle;
 }
-.product-post-menu div span {
-  padding: 0;
-  margin: 0;
-  font-size: 22pt;
-  line-height: 22pt;
-  color: #000;
+.product-post-footer .product-post-company {
+  width: calc(100% - 55px);
 }
-.product-post-body {
-  font-family: AkkuratRegular;
+.product-post-footer .product-post-company span {
+  display: inline-block;
+  vertical-align: middle;
+}
+.product-post-footer .mini-progress-bar {
+  width: 40px;
+}
+.product-post-tags,
+.product-post-description {
   font-size: 10pt;
-  line-height: 14pt;
+  line-height: 17pt;
   font-align: justify;
+}
+.product-post-description {
+  display: none;
 }
 @-moz-keyframes fadeIn {
   100% {

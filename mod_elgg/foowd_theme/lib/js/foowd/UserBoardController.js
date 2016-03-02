@@ -6,13 +6,15 @@ define(function(require) {
 	var utils = require('Utils');
 	var $ = require('jquery');
 	var service = require('foowdServices');
+	var elgg = require('elgg');
 
 	var UserBoardController = (function(){
 
 		var preferencesContainerId =  "#preferences-container";
 		var userDetailsContainer = "#account-menu";
 		//userId reference
-   		var userId = null;
+   		var group = false;
+
    		/* SS: parametro aggiunto ipotizzando che la board possa essere visualizzata anche da amici */
    		var userName = null;
    		//preferenza utente
@@ -39,33 +41,48 @@ define(function(require) {
 		}
    		//controller init
    		function _init(){
-   			/* SS: service.getIdToBoard() controlla la querystring per capire se al wall sta accedendo il proprietario o un amico:
-   				se tutto va a buon fine "us.guid" e' l'id dell'utente del quale si vuole visualizzare il wall, e "us.userName" il suo username.
-   				Nel caso non vada a buon fine, i valori sono null.
-
-   				NB: attenzione ai pulsanti: in teoria quelli non dovrebbero essere visualizzabili: forse cliccandoci sopra si rischia di esprimere le preferenze 
-   				come se si fosse nei panni del possessore della board: rivedere questa azione.
-   			*/
-   			$.when(service.getIdToBoard()).done(function(us){
-   				//prendo lo user id
-   				userId = us.guid;
-   				userName = us.userName;
-	   			//carico la barra di navigazione
-	   			Navbar.loadNavbar();
+				Navbar.loadNavbar(true);
 	   			//carico i template
-	   			_getUserPreferences();
-	   			_getUserInfo();			
-   			});
+	   			group=false;
+	   			// impostati i deferred per garantire che _getUserInfo() si realizzi in cascata
+	   			// al fine di risolvere l'errore di conteggio delle preferenze
+	   			_getUserPreferences().then(function(){
+	   				_getUserInfo();		
+	   			});
    		}
 
    		function _getUserPreferences(){
-			API.getUserPreferences(userId).then(function(data){
+			var userId = utils.getUserId();
+			if(userId!=null && group){
+				return _getUserPreferencesGroup(userId);
+			}else{
+				return _getUserPreferencesSingle(userId);
+			}
+
+		}
+		
+		function _getUserPreferencesSingle(userId){
+			return API.getUserPreferences(userId).then(function(data){
 				var rawData = data;
+				// console.log(data)
 				var parsedProducts = _applyPreferencesContext(rawData.body);
 				_fillBoard(parsedProducts);
 				$(document).trigger('preferences-loaded');
+				_applyColor();
 			},function(e){
 				console.log(e);
+			});
+
+		}
+		function _getUserPreferencesGroup(userId){
+			return API.getFriend(userId).then(function(data){
+				var friendsStr='';
+				if(data.result && data.result.friends){
+					 friendsStr = data.result.friends.join();
+				}
+				_getUserPreferencesSingle(userId+','+friendsStr);
+			},function(error){
+					console.log(error);
 			});
 
 		}
@@ -75,6 +92,10 @@ define(function(require) {
 			context.map(function(el) {
 				//aggiungo l'immagine al json di contesto
 				utils.addPicture(el.Offer, 'small');
+				utils.setLoggedGroup(el, group);
+				el.Qt = el.totalQt;
+				el.Offer.prefers = el.prefers.join(',');
+				el.Offer.detailUri = utils.uriProductDetail(el.Offer.Id);
 				//ottengo l'html dal template + contesto
 				var htmlComponent = templates.userPreference(el);
 				//concateno
@@ -88,25 +109,43 @@ define(function(require) {
 		}
 
 		function _getUserInfo(){
+			var userId = utils.getUserId();
 			API.getUserPics(userId).then(function(data){
 				var user = {};
 				user.avatar = utils.isValid(data.avatar) ? data.avatar[3] : null;
-				var parsedProducts = _applyUserContext(user);
+				var parsedProducts = _applyUserContext(user,userId);
 				_fillUserDetails(parsedProducts);
 			}, function(error){
 				console.log(error);
 			});
 		}
 
-		function _applyUserContext(avatar){
+		function _applyUserContext(avatar,userId){
 			var context = {};
 			context.user = {
 				"name"  : userName,
 				"Publisher" : userId,
-				"likes" : $('.preference').length,
+				"likes" : $('.user-preference').length,
 			}
 			context.user = utils.addProfilePicture(context.user,avatar);
 			return templates.preferenceAccountDetails(context);
+		}
+		
+		function _applyColor(){
+
+				$( ".progress" ).each(function() {
+					$(this).toggleClass('action-heart',!group);
+					$(this).toggleClass('action-minus',group);
+
+				});
+				$( ".btn-buy" ).each(function() {
+					$(this).toggleClass('action-buy-border',!group);
+					$(this).toggleClass('action-buy-group',group);
+				});
+				$( ".btn-buy-icon" ).each(function() {
+					$(this).toggleClass('foowd-icon-cart-white',group);
+					$(this).toggleClass('foowd-icon-cart',!group);
+				});
 		}
 
 		function _fillUserDetails(content){
@@ -129,26 +168,70 @@ define(function(require) {
 		function _addPreference(offerId, qt) {
     		//setto i parametri della mia preferenza
 			preference.OfferId = offerId;
-			preference.ExternalId = userId;
+			preference.ExternalId = utils.getUserId();
 			preference.Qt = qt;
 			//richiamo l'API per settare la preferenza
 			API.addPreference(preference).then(function(data){
-				$(document).trigger('preferenceAdded');
+				_getUserPreferences();
+				_getUserInfo();
+				if(typeof data.errors != 'undefined'){
+					if(typeof data.errors.Expiration != 'undefined') $(document).trigger({type: 'popupError', foowdMSG : 'Offerta scaduta.'});
+					if(typeof data.errors.blockedPref != 'undefined') $(document).trigger({type: 'popupError', foowdMSG : "Offerta gia' presa in carico."});
+				}
+				//$(document).trigger('preferenceAdded');
 			}, function(error){
 				$(document).trigger('preferenceError');
 				console.log(error);
 			});
-
 		}
 
 		$(document).on('preferences-loaded', function(){
 			_fillProgressBars();
 		});
 
-		$(document).on('preferenceAdded', function(){
+		function toggleGroup(){
+						group=!group;
+			$('#groupBtn').toggleClass('foowd-icon-group-white',group);
+			$('#groupBtn').toggleClass('foowd-icon-group',!group);
+			$('#groupBtn').toggleClass('fw-menu-icon-group',group);
+			$('#groupBtn').toggleClass('fw-menu-icon',!group);
+			//Lo applico anche prima che carichi
+			_applyColor();
 			_getUserPreferences();
-			_getUserInfo();
+		}
+
+
+		$(document).on('click', 'li.btn-buy', function(e){
+
+			var offerId = $(this).attr('data-offer-id');
+			var prefers = $(this).attr('data-offer-prefers');
+
+			// ottengo il contenitore e gli appendo una classe che inibisce i pulsanti(una maschera trasparende che lo ricopre e lo blocca)
+			var $box = 	$(this).closest('.preference');
+			$box.addClass('preference-lock');
+
+			API.purchase(offerId,utils.getUserId(),prefers).then(function(data){
+				if(typeof data.output.errors != 'undefined') return;
+				elgg.system_message("L'ordine è stato preso in carico,<br/> ti stiamo inviando una mail con i dettagli.");
+				// effetto di dissolvenza
+				$box.addClass('preference-fadeOut');
+				// lo rimuovo
+				setTimeout(function(){
+					$box.remove();
+					var prefs = $('.user-preference').length;
+					$('#account-info').find('li').first().html(prefs);
+				}, 7000);
+				// aggiorno il conteggio dei prodotti
+			}, function(error){
+				// se avviene un errore, posso comunque riprendere ad aggiungere preferenze
+				$box.removeClass('preference-lock');
+				$(document).trigger('preferenceError');
+				console.log(error);
+			});
 		});
+	
+		
+	   	window.toggleGroup = toggleGroup;
 
 		return{
 			init 		  : _stateCheck, 

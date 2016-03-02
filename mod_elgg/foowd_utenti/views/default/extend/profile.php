@@ -19,7 +19,7 @@ $user = elgg_get_logged_in_user_entity();
 if($user->Genre !== "offerente") goto salto;
 
 
-echo '<p class="pll">Scegli cosa vorresti fare:</p>';
+echo '<p class="pll">Scegli cosa fare:</p>';
 ?>
 <div id="box">
 <div>

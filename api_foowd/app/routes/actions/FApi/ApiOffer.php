@@ -8,7 +8,7 @@ namespace Foowd\FApi;
 //use \Offer as Offer;
 // use Base\OfferQuery as OfferQuery;
 // use Base\TagQuery as TagQuery;
-// use Propel\Runtime\ActiveQuery\Criteria;
+use Propel\Runtime\ActiveQuery\Criteria;
 
 /**
  * @apiDefine MyResponseOffer
@@ -48,9 +48,9 @@ class ApiOffer extends \Foowd\FApi{
 
 	/**
 	 *
-	 * @api {post} /offers create
+	 * @api {post} /offer create
 	 * @apiName create
-	 * @apiGroup Offers
+	 * @apiGroup Offer
 	 * 
  	 * @apiDescription Crea una nuova offerta. 
 	 * 
@@ -79,7 +79,7 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiUse MyResponseOffer
 	 *     
 	 */	
-	public $needle_create = "Name, Description, Price, Minqt, Publisher, Tag";
+	public $needle_create = "Name, Description, Price, Minqt, Maxqt, Publisher, Tag";
 	public function create($data){
 
 		$offer = new \Offer();
@@ -93,9 +93,9 @@ class ApiOffer extends \Foowd\FApi{
 
 	/**
 	 *
-	 * @api {post} /offers update
+	 * @api {post} /offer update
 	 * @apiName update
-	 * @apiGroup Offers
+	 * @apiGroup Offer
 	 * 
  	 * @apiDescription Per aggiornare un' offerta. Sostanzialmente esegue le stesse operazioni di crea().
  	 *
@@ -127,7 +127,7 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiUse MyResponseOffer
 	 *     
 	 */
-	public $needle_update = "Name, Description, Price, Minqt, Publisher, Tag";
+	public $needle_update = "Name, Description, Price, Minqt, Maxqt, Publisher, Tag";
 	protected function update($data){
 
 		$this->Ext2Id($data);
@@ -177,15 +177,20 @@ class ApiOffer extends \Foowd\FApi{
 
 		date_default_timezone_set('Europe/Rome');
 		if(!isset($data->Modified)) $data->Modified = date('Y-m-d H:i:s');
+
+		// se non e' impostata, vuol dire che e' stata rimossa manualmente dal form, pertanto la reimposto
+		if(!isset($data->Expiration)){
+			$data->Expiration = null;
+		} 
 		
 		return $this->offerManager($data, $offer);
 	}
 
 	/**
 	 *
-	 * @api {post} /offers setState
+	 * @api {post} /offer setState
 	 * @apiName setState
-	 * @apiGroup Offers
+	 * @apiGroup Offer
 	 * 
  	 * @apiDescription Modifica lo stato di un'offerta. 
 	 * 
@@ -220,9 +225,9 @@ class ApiOffer extends \Foowd\FApi{
 
 	/**
 	 *
-	 * @api {get} /offers search
+	 * @api {get} /offer search
 	 * @apiName search
-	 * @apiGroup Offers
+	 * @apiGroup Offer
 	 * 
  	 * @apiDescription Per ottenere la lista delle offerte mediante filtri, in particolare cerca solo le intersezioni dei filtri.
 	 * 
@@ -234,6 +239,8 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiParam {String} 		[Tag] 			elenco di tags separati da virgola, o stringa di lunghezza nulla ''
 	 * @apiParam {Str/Num}		[ExternalId] 	numero intero o sequenza di interi separati da virgola. Rappresenta/no id dell'utente: per ogni offerta ritornata, il campo "prefer" sara' riempito con le preferenze della singola offerta che matchano gli id ivi passati.
 	 *
+	 * @apiParam {string} 		[excludeId] 	elenco di id separati da virgola. Se impostato esclude quegli id dal campo di ricerca
+	 *
 	 * @apiParamExample {url} URL-Example:
 	 * 
 	 * http://localhost/api_offerte/public_html/api/offers?Publisher={{Publisher}}&type=search&Id={"min":2 ,"max":109}&Tag=mangiare, cibo&order=Modified, desc&ExternalId=52,37
@@ -242,7 +249,7 @@ class ApiOffer extends \Foowd\FApi{
  	 * @apiParam (Response) {String/json}		[errors] 		json contenente i messaggi di errore
  	 * @apiParam (Response) {String/json}		[body] 			json contenente i parametri da ritornare in funzione della richiesta. Il parametro prefer impostato nel ritorno contiene eventuali preferenze che metchano gli ExternalId passati con la chiamata.
  	 * @apiParam (Response) {String/json}		[body-totalQt]	ogni preferenza ritornata contiene la Quantinta' totale ad essa associata. 0 nel caso non vi siano preferenze espresse per essa, o qualora valgano effettivamente zero.
-	 * @apiParam (Response) {Array/json}		[body-prefer]	La/LE preferenza/e espressa/e dall'utente riconosciuto tramite il parametro ExternalId passato durante la chiamata. Se non presente, allora e' un array vuoto
+	 * @apiParam (Response) {Array/json}		[body-prefer]	La preferenza con il totale gruppo ed eventualmente la lista degli id delle preferenze degli amici se vegono forniti piu external id
  	 * @apiParam (Response) {String} 			[msg] 			messaggi ritornati
 	 * 
 	 */
@@ -261,12 +268,23 @@ class ApiOffer extends \Foowd\FApi{
 			//var_dump($Tag);
 		}
 
+		if(isset($data->Id)){
+			$value = $data->Id;
+			// nel caso sia una semplice lista
+			if(is_string($value) && preg_match('@[^"]*@',$value)) $data->Id = explode(',' , $value);
+		}
+
 		if(isset($data->order)){
 			$order = array_map('trim' , explode( ',', $data->order) );
 			// imposto asc come default
 			if(!isset($order[1])) $order[1]= 'asc';
 			//var_dump($order);
 			unset($data->order);
+		}
+
+		if(isset($data->excludeId)){
+			$excludeId = array_map('trim' , explode( ',', $data->excludeId) );
+			unset($data->excludeId);
 		}
 
 		if(isset($data->offset)){
@@ -279,6 +297,7 @@ class ApiOffer extends \Foowd\FApi{
 		}
 
 		if(isset($data->ExternalId)){
+			$data->ExternalId = trim($data->ExternalId, ',');
 			if(preg_match('@,@',$data->ExternalId)){
 				$toCheck = explode(',' , $data->ExternalId);
 			}else{
@@ -318,25 +337,44 @@ class ApiOffer extends \Foowd\FApi{
 			if($key === 'match'){
 				// la $k e' il campo in cui cercare la presenza delle parole chiave,
 				// tipicamente il titolo dell'offerta o il testo.
+				$j = 0;
+				$conds = array();
 				foreach($value as $k => $val){
 					$val = preg_split( "/(,|'| )/", $val );
+
+					if($k == "Tag"){
+						$matchTag = $val;
+						continue;
+					}
 					// se sono vuoti o minori di tre li elimino
-					$j = 0;
-					$conds = array();
 					foreach($val as $i => $v){
 						if( strlen($v)>2 ) {
 							$cond = 'cond'.$j;
-							array_push($conds, $cond);
+							$conds[] = $cond;
+							// utf8_ci serve per avere le condizioni case insensitive COLLATE utf8_general_ci'
 							$obj = $obj->condition($cond, 'Offer.'.$k.' LIKE ?', '%'.$v.'%');
 							$j++;
 						}
 					}
-					if($j>0) $obj = $obj->where($conds, 'or');
 				}
+				if($j>0) $obj = $obj->where($conds, 'or');
 				continue;
 			}
 
 			$obj = $obj->{'filterBy'.$key}($value);
+		}
+
+		// oppure applico un filtro by tag, con condizione or... devo usare la tabella many-to-many
+		if(isset($matchTag)){
+			$matchTag[] = '';
+			//NB: da questa query le offerte non relazionate ad alcun tag vengono escluse:
+			//in fondo uso una relazione many to many!
+			$obj = $obj->_or()->useOfferTagQuery()
+							->_or()
+							->useTagQuery()
+								->filterByName($matchTag)
+							->endUse()
+						->endUse();
 		}
 		
 
@@ -354,15 +392,19 @@ class ApiOffer extends \Foowd\FApi{
 				}
 
 			}else{
-				$obj = $obj->limit($offset)->find();				
+				$obj = $obj->limit($offset);				
 			}
-			$offer = $obj;
-
-		}else{
-
-			$offer = $obj->find();
-		
 		}
+
+		// per fare una ricerca incrementale, nel wall, evito di continuare a richiedere relativamente ai post che avevo gia' ottenuto
+		if(isset($excludeId)){
+			// error_log(json_encode($excludeId));
+			// $obj = $obj->filterById($excludeId, Criteria::CONTAINS_NONE );
+			$obj->where('offer.id NOT IN ?', $excludeId);
+		}
+
+		$offer = $obj->find();
+		
 		
 		
 		$return = array();
@@ -370,38 +412,37 @@ class ApiOffer extends \Foowd\FApi{
 		// ciclo su ogni offerta
 		foreach ($offer as $single) {
 
+			// array in cui salvo la risposta in formato 'offer' => , 'prefers' =>
+			$singleEntry = array();
+
 			$ar = $single->toArray();
+
+			// ricavo il nome dell'azienda
+			$usr = $single->getUser();
+			$ar['Company'] = $usr->getCompany();
 
 			// cerco le quantita' totali associate alla singola offerta
 			$ext = new \stdClass();
-			$ext->OfferId = $single->getId();
-			$prefer = \Foowd\FApi\ApiPrefer::search($ext);
-			$ar['totalQt'] = 0;
-			//if($prefer['response'] && count($prefer['body'])>0){
-			//	foreach($prefer['body'] as $pf){
-			//		$totalQ += $pf['Qt'];
-			//	}
-			//}
+			$ext->OfferId = $single->getId();		
 
 			// Restituisco l'id esterno dell'utente, ovvero quello utilizzato da Elgg
 			$ar['Publisher'] = $this->IdToExt($ar['Publisher']);
-			$ar['UserId'] = $this->IdToExt($ar['Publisher']);
-
+			if(isset($ar['UserId'])) $ar['UserId'] = $this->IdToExt($ar['UserId']);
 
 			// se l'utente ha espresso una preferenza per questo prodotto, allora la aggiungo come prefer, altrimenti risulta null
 			if(isset($ExternalId)){
-				$ar['prefer']=array();
-				$ext->ExternalId = $ExternalId;
-				$prefer = \Foowd\FApi\ApiPrefer::search($ext);
-				// se esiste la preferenza e non e' vuota
-				if(count($prefer>0) && isset($prefer['body'][0]['Id'])){
-				unset($prefer['body'][0]['Offer']);
-				 $ar['prefer']=$prefer['body'];
-				// carico l'ordinazione totale
-				$ar['totalQt'] = $prefer['body'][0]['Qt'];
-
+				$prefers = $single->getPrefers()->toArray();
+				$pfs = array();
+				foreach($prefers as $p){
+					// riimposto l'id a esterno e poi lo controllo
+					$p['UserId'] = self::IdToExt($p['UserId']);
+					if( in_array($p['UserId'], $ExternalId) ) $pfs[] = $p;
+				}
+				// voce della risposta
+				$singleEntry['prefers'] = $pfs;
+			
 			}
-			}
+			
 
 			// ora lavoro sui tags
 			$tgs = $single->getTags();
@@ -414,17 +455,26 @@ class ApiOffer extends \Foowd\FApi{
 			}
 			$ar['Tag'] = implode($tmp,', ');
 
-			// nel caso la ricerca contempli i tag
-			if(isset($Tag)){
-				// in questo modo aggiungo solo le offerte che contengono TUTTI i tag elencati
-				$i = 0;
-				foreach($Tag as $value){
-					if(preg_match('@'.$value.'@', $ar['Tag'])) $i++;	
-				}
-				if($i == count($Tag)){array_push($return, $ar);}
-			}else{
-				array_push($return, $ar);
+			// aggiungo un tag di default, altrimenti nella query _or() dei tags non filtra perche' cosi' questo prodotto non risulta relazionato ad alcun tag
+			if($ar['Tag'] == ''){
+				$ntg = new \Tag();
+				$ntg->setName('foowd');
+				$single->addTag($ntg);
+				$single->save();
 			}
+			// nel caso la ricerca contempli i tag
+			// if(isset($Tag)){
+			// 	// in questo modo aggiungo solo le offerte che contengono TUTTI i tag elencati
+			// 	$i = 0;
+			// 	foreach($Tag as $value){
+			// 		if(preg_match('@'.$value.'@', $ar['Tag'])) $i++;	
+			// 	}
+			// 	$singleEntry['offer'] = $ar;
+			// 	if($i == count($Tag)){array_push($return, $singleEntry);}
+			// }else{
+				$singleEntry['offer'] = $ar;
+				array_push($return, $singleEntry);
+			// }
 
 			// Aggiungo tutti i post che contengono ALMENO uno dei tag
 			// foreach($Tag as $value){
@@ -442,11 +492,14 @@ class ApiOffer extends \Foowd\FApi{
 		
 	}
 
+
+
+
 		/**
 		 *
-		 * @api {get} /offers group
+		 * @api {get} /offer group
 		 * @apiName group
-		 * @apiGroup Offers
+		 * @apiGroup Offer
 		 * 
 	 	 * @apiDescription Per ottenere la lista delle offerte mediante filtri, in particolare cerca solo le intersezioni dei filtri.
 		 * 
@@ -492,10 +545,10 @@ class ApiOffer extends \Foowd\FApi{
 					$pref = \PreferQuery::create()
 							->filterByOfferId($data->OfferId)
 							->filterByUserId($uid)
-							->findOne();
-					if($pref){
-						$p = $pref->toArray();
-						unset($p['Id']);
+							->find();
+					foreach($pref as $p){
+						$p = $p->toArray();
+						// unset($p['Id']);
 						unset($p['UserId']);
 						$p['ExternalId'] = $extId;
 						$prefers[] = $p;
@@ -522,9 +575,9 @@ class ApiOffer extends \Foowd\FApi{
 
 	/**
 	 *
-	 * @api {post} /offers delete
+	 * @api {post} /offer delete
 	 * @apiName delete
-	 * @apiGroup Offers
+	 * @apiGroup Offer
 	 * 
  	 * @apiDescription Per eliminare un' offerta. 
 	 * 
@@ -648,16 +701,18 @@ class ApiOffer extends \Foowd\FApi{
 			// imposto le azioni e il ritorno
 			// in questo loop potrei incorporare una validazione automatica
 			foreach( $data  as $key => $value) {
-			    if($value == ''){
-			     unset($data->{$key});
-			     continue;
-			 	}
+			  	// if($value == ''){
+			  	// unset($data->{$key});
+			  	// continue;
+			 	// }
 			 	//var_dump($data->{$key});
 
 			 	// trasformo il separatore dei decimali
 			 	if(preg_match('/^\d+\,\d*$/', $value))	$value = preg_replace('@,@', '.', $value);
 			 	//var_dump("{'set'.$key}($value)");
-			 	$offer->{'set'.$key}($value); 
+			 	$method = 'set'.$key;
+			 	if(!method_exists($offer, $method)) error_log('metodo inesistente: '.$method);
+			 	$offer->{$method}($value); 
 			 	//var_dump($offer->{'get'.$key}($value));
 			}
 
@@ -705,7 +760,7 @@ class ApiOffer extends \Foowd\FApi{
 		// faccio un controllo sulle quantita' prima del salvataggio: 
 		// la minima non deve superare la massima
 		$maxQt = $obj->getMaxqt();
-		if(!is_null($maxQt)){
+		if(!is_null($maxQt) && $maxQt != 0){
 			$minQt = $obj->getMinqt();
 			if($minQt > $maxQt){
 				$Json['response']= false;

@@ -11,9 +11,10 @@
       return root.returnExports = factory();
     }
   })(this, function() {
-    var $, Jform, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, crop, elgg, fct, file, flds, form, i, len, needAr, noNeedAr, setNeed, va;
+    var $, Jform, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, copy_from, copy_to, crop, el1, el2, elgg, fct, flds, form, i, len, needAr, needOfferente, noNeedAr, setNeed, va;
     elgg = require('elgg');
     $ = require('jquery');
+    $('form, form *').unbind();
     crop = require('foowd_utenti/gallery-crop-lightbox');
     form = require('foowdFormCheck');
     Jhook = $('#offer-hook');
@@ -24,11 +25,12 @@
       display: 'none'
     });
     Jgenre.val('standard');
-    file = require('foowd_utenti/file');
-    crop.create().initialize(file.fileCropInit());
-    $(document).on("foowd:update:file", function(e, mydata) {
-      crop.create().initialize(file.fileCropInit());
-    });
+    el1 = Jform.find('[name="username"]').parent();
+    el2 = Jform.find('[name="name"]').parent();
+    copy_to = el1.clone(true);
+    copy_from = el2.clone(true);
+    el2.replaceWith(copy_to);
+    el1.replaceWith(copy_from);
     fct = form.factory();
     ar = [];
     flds = ['email', 'username', 'name', 'password'];
@@ -43,7 +45,6 @@
       var url, v;
       v = this.el.val().trim();
       url = elgg.get_site_url() + 'foowd_utility/user-check?' + this.key + '=' + v;
-      console.log(v);
       return elgg.get(url, {
         success: (function(_this) {
           return function(resultText, success, xhr) {
@@ -130,11 +131,21 @@
         msg: 'foowd:user:company:error'
       }
     });
+    ar.push({
+      cls: 'Text',
+      obj: {
+        inpt: 'form.elgg-form-register [name="Owner"]',
+        key: 'Owner',
+        el: 'form.elgg-form-register [name="Owner"]',
+        msg: 'foowd:user:owner:error'
+      }
+    });
     fct.pushFromArray(ar);
     needAr = ['email', 'username', 'name'];
     noNeedAr = ['Site'];
+    needOfferente = ['Phone', 'Owner', 'Piva', 'Address', 'Company'];
     setNeed = function(bool) {
-      return fct.each(function() {
+      fct.each(function() {
         var ref, ref1;
         if ((ref = this.key, indexOf.call(needAr, ref) >= 0)) {
           this.needle = true;
@@ -144,18 +155,15 @@
           this.needle = bool;
         }
       });
+      return console.log(fct);
     };
     setNeed(false);
-    $('.mtm').css({
-      'display': 'none'
-    });
     form.submit('form.elgg-form-register', function() {
-      var Jname, pwd, pwd2;
-      Jname = $('form.elgg-form-register [name="name"]').val($('form.elgg-form-register [name="username"]').val());
-      if (Jgenre.val() === 'offerente') {
-        if (!file.atLeastOne()) {
-          alert("Devi inserire almeno un'immagine");
-        }
+      var Jname, pwd, pwd2, userVal;
+      Jname = $('form.elgg-form-register [name="name"]');
+      userVal = $('form.elgg-form-register [name="username"]').val();
+      if (Jname.val() === '') {
+        Jname.val(userVal);
       }
       pwd = $('form.elgg-form-register [name="password"]').val();
       pwd2 = $('form.elgg-form-register [name="password2"]').val();

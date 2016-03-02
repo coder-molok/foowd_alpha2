@@ -8,6 +8,9 @@
   padding : 0 20px 0 20px
   +below(bp)
     margin-top : contentMargin * 2;
+    
+  &.progress, &.progress *
+    cursor: progress !important
 
 //ATTENZIONE : da qui in poi visualizza la pagina del template productDetail
 
@@ -31,13 +34,11 @@
       position:absolute;
       z-index: -1
       height:100%
-      background-image : url('../../img/stripes.png');
 
 .detail-progress-bar.preview-bar
   z-index: -2
   .progress
       background-image:none
-      background-color:rgb(250,230,239)
       z-index: -2
 
 .price-detail
@@ -88,6 +89,9 @@
   font-family: AkkuratBold;
   font-size: 16pt;
 
+#product-company
+  font-size: 12px;
+
 #preference-action
   text-align: right;
 
@@ -104,15 +108,38 @@
   font-size: 36pt
   color : black
   display : inline-flex
+  
+// assestamento per compatibilita grazie a modernizr
+.no-flexbox
+  .action-icons > li
+    display: inline-block;
+    vertical-align:middle;
+    border-radius:50%;
+    
+  .action-icons > li > i
+    font-size: 36pt
+    color : black
+    display : inline-block
 
 .action-heart
-  background: rgb(250,230,239);
+  background: foowdPlus
+
+.action-heart-border
+  background: foowdPlus
+  border: 1px solid white;
 
 .action-minus
-  background: rgb(235,235,235);
+  background: foowdMinus
   
 .action-buy
-  background: rgb(12,91,13)
+  background: foowdPlus
+ 
+ .action-buy-border
+  background: foowdPlus
+  border: 1px solid white;
+  
+ .action-buy-group
+  background: foowdPlusG
 
 .action-buy i
   color: white !important
@@ -133,6 +160,9 @@
   .item-container
     padding : 15px 0 15px 0
     border-top: 0.1em solid rgb(120,120,120);
+    
+  &:first-child .item-container
+    border-top: 0
 
 .commercial-menu-item
   .item-container > span
@@ -152,7 +182,8 @@
       font-family : AkkuratBold
       font-size : 12pt
       font-weight : bold
-      letter-spacing : -1pt
+      letter-spacing : 0pt
+      
 
 #product-picture
   padding:0px;

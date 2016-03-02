@@ -1,15 +1,18 @@
 /**
+ * 
  * Questo file e' di tipo AMD.
  * In ogni caso sara' letto anche via php mediante il metodo
- *
+ * <pre>
  * 		\Uoowd\Param::page(<nome_pagine>);
- *
+ * </pre>
  * affinche' cio' avvenga e' necessario che:
- * 	
+ * <pre>	
  * 	- il "define(" sia posto all'inizio della riga senza essere seguito da nulla
  * 	- la chiusura del define ");" sia sull'ultima riga del file
- *
+ * </pre>
  * Vedere l'implementazione del metodo sopra citato per eventuali dubbi.
+ *
+ * @module pages
  * 
  */
 define(
@@ -18,12 +21,23 @@ define(
 		"add" : "foowd_offerte/add",  		// form per la creazione di una nuova offerta
 		"success": "foowd_offerte/success", /* pagina di redirect in caso di salvataggio andato a buon fine */
 		"single": "foowd_offerte/single",	// visualizzazione singola offerta
+		"userPreferences" : "foowd_utenti/my-preferences", // dove l'utente visualizza l'elenco delle sue preferenze ed il match con gli amici
 		"profile": "profile",
 		"foowdStorage": "../FoowdStorage/",	// directory contenente le immagini delle offerte
 		"auth": "foowd_utenti/auth", 		// pagina utilizzata per il login mediante socials
+		"indexauth": "foowd_utenti/indexauth", 		// pagina utilizzata per il login mediante socials
 		"profile":"foowd_utenti/profilo",	// pagina del profilo
+		"social":"foowd_utenti/social",		// pagina social: primi test sulle OAuth apps
 		"panel": "panel", 					// pagina del pannello
+		"purchase": "foowd_utenti/purchase",// pagina contenente l'elenco degli ordini ancora da chiudere
+		"suggestedTags": "foowd_utenti/suggestedTags", // pagina per visualizzazione tags suggeriti
+		"evaluatingUsers": "foowd_utenti/evaluatingUsers", // visualizza gli utenti offerenti da approvare
 		"friendsManage": "friend_request",	// pagina del plugin friend request
-		"services" : "foowd_utility/services" // pagina servizi che comunicano con foowd-services.js
+		"services" : "foowd_utility/services", // pagina servizi che comunicano con foowd-services.js
+		"elggAPI": "services/api/rest/json/?method=", 	// pagina API REST di foowd
+		"action" : {
+			"initPurchase" : "foowd-purchase-leader",	// action per far partire l'ordine
+			"suggestedTags" : "foowd-suggested-tags"		// action per gestione tags da pannello di controllo
+		}
 	}
 );

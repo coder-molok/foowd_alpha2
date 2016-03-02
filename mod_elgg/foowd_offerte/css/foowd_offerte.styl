@@ -1,33 +1,75 @@
 
-@import '../../foowd_theme/lib/css/styl/variables.styl'
+@require '../../foowd_theme/lib/css/styl/variablesBackEnd.styl'
 
 /******** add e update ******/
 
+.elgg-form-foowd-offerte-update
+	// nascondo l'immagine fino a quando non carico il crop.
+	#image-container
+		display: none
+		
 .elgg-form-foowd-offerte-add,
 .elgg-form-foowd-offerte-update,
+	
+
 	label
 		position: relative
 
+		errorBackground = foowd5 //#B98686
 		[class^=error-]
-			// position: absolute
+			position: absolute
+			top: -4px
 			// top: 0
 			// left: 150px
 			margin-left: 20px
-			color: red
+			padding: 3px 7px
+			background-color foowdl[5] //errorBackground
+			color: white //red
 			white-space: nowrap
 			font-style: italic
-			font-size: 0.9em
+			font-size: 0.8em
+		
+			&:before
+				width: 0
+				height: 0
+				border-top: 9px solid transparent
+				border-right: 21px solid errorBackground
+				border-bottom: 0px solid transparent
+				content: ''
+				position: absolute
+				left: -20px
+				top 0px
 
 	#quota-preview
 		// margin: 10px
 		padding: 5px
 		height: 31px
 		font-style: italic
-		background-color: foowdPink//rgba(36, 153, 236, 0.1)
-		color: gray
-		border: 1px solid #CCC
+		background-color: foowdl[2]
+		color: foowd1
+		border: 1px solid foowd2
 		// width: 270px
 		// display: inline-block
+			
+	.foowd-advise-pending
+		background-color: foowd5
+		padding: 3px
+
+	.foowd-advise-newest
+		background-color: foowd3
+		padding: 3px
+		
+	.foowd-advise-modified
+		&:before
+			content: 'Campo Modificato'
+			border-bottom 1px solid foowd5 //foowdd[3]
+			color foowd5 //foowdd[3]
+			width 100%
+			position absolute
+			text-align right
+			font-style italic
+			font-size 0.9em
+			
 
 
 .foowd-Tag 
@@ -89,7 +131,7 @@ div.foowd-all-single-container > div
 .foowd-title
 	font-weight: bold
 	margin-bottom: 5px
-	color: #C81063
+	color: foowd3
 	font-size: 1.2em
 
 // .foowd-offers-single
@@ -143,6 +185,62 @@ table.foowd-all-single-container
 
 /******* crop styles ******/
 
-[data-ratio]
-	cursor: pointer
-	cursor: hand
+#ratio
+	
+	max-width: 100px
+	
+	[data-ratio]
+		cursor: pointer
+		cursor: hand
+		background-color: foowd2
+		
+		margin: 15px
+		padding: 5px 
+		display: flex
+		justify-content: center
+		align-items: center
+		
+		&:hover
+			background-color: foowd3
+		&:active
+			background-color: foowd4
+	
+	[data-ratio="2:3"]
+		width: 22px
+		height: 33px
+	[data-ratio="3:2"]
+		width: 33px
+		height:22px
+
+/******* Form TextArea foowd *******/
+
+table.foowd-editor-table
+	width: 100%;
+	margin: 1em 0 auto 0;
+	padding: 4px 10px 3px 10px
+	padding-top: 3px
+	
+	textarea, .div_textarea
+		resize: none
+		min-height 17 em
+		width: 100%
+	
+	.div_textarea
+		padding 10px
+		background-color rgba(237, 235, 233, 0.48)
+		
+	td
+		width: 50%
+
+	[class^="foowd-editor"]
+		font-size: 0.9em;
+
+		&:first-child
+			background-color: foowd1
+			color: white
+			text-align: center
+		
+		&:nth-child(2)
+			// background-color: orange
+			text-align right
+

@@ -5,40 +5,57 @@ elgg_register_classes(elgg_get_plugins_path().'foowd_utility/classes');
 
 \Uoowd\Param::checkFoowdPlugins();
 
+include_once(elgg_get_plugins_path().'foowd_utility/functions/exposeAPI.php');
+
 elgg_register_event_handler('init', 'system', 'utility_init');
+
 
 function utility_init(){
 	
-	// $oldGet = $_GET; 
-	// var_dump($_GET);
-	// $_GET['json']='';
-	// include(elgg_get_plugins_path().'foowd_utility/js/pages.php') ;
-	// $_GET= $oldGet;
-	// var_dump($_GET);
-
+	// messaggio d'instabilita'
+	$maintenance = elgg_get_plugin_setting('foowdMaintenance', \Uoowd\Param::pid());
+	if($maintenance){
+		register_error('Il sito potrebbe risultare instabile a causa di lavori di manutenzione.');	
+	}
+	
 	// Inizializzo il wrap della mail e PhpMailer
 	// hook all'invio di email
-	// elgg_register_plugin_hook_handler('email', 'system', 'foowd_utility_mail');
+	$mailer = elgg_get_plugin_setting('phpmailer-enable', \Uoowd\Param::pid());
+	if($mailer){
+		elgg_register_plugin_hook_handler('email', 'system', 'foowd_utility_mail');
+	}
 
 	// quando salvo i settings del plugin
 	elgg_register_plugin_hook_handler('setting', 'plugin', 'update_json');
 
-	
-
 	// wrap home pages
 	elgg_register_page_handler('cookie-policy','foowd_policy_page_handler');
+
 	// wrap plugin pages
 	elgg_register_page_handler('foowd_utility', 'utility_page_handler');
+
+	// wrap per ....
+	elgg_register_plugin_hook_handler('route', 'foowd_utility', 'foowd_utility_routes_wrap');
+
+	// registro con la classe Uoowd\Search per svolgere ricerche specifiche
+	\Uoowd\FoowdSearch::register();
+
+	// controllo se specifici plugin sono attivati
+	new \Uoowd\FoowdNeedleDependencies();
+
+	// cron job
+	\Uoowd\FoowdCron::register();
+	
 
 	// note the view name does not include ".php"
 	// elgg_register_simplecache_view('js/foowd_utility/utility-settings');
 	elgg_define_js('utility-settings', [
-	    	'src' => \Uoowd\Param::utilAMD(),
+	    	'src' => \Uoowd\Param::utilAMD()
 	    	// 'deps' => array('jquery')
 	]);
 
 	elgg_define_js('page', [
-	    	'src' => \Uoowd\Param::pageAMD(),
+	    	'src' => \Uoowd\Param::pageAMD()
 	]);
 
 	// per il plugin crop
@@ -49,7 +66,7 @@ function utility_init(){
 
 	elgg_define_js('imgAreaSelect', [
 	    'src' => '/mod/foowd_utility/js/imgareaselect/scripts/jquery.imgareaselect.pack.js',
-	    'deps' => array('jquery'),
+	    'deps' => array('jquery')
 	    // 'exports' => 'jQuery.fn.imgAreaSelect',
 	]);
 
@@ -97,20 +114,28 @@ function utility_init(){
 
 	elgg_register_css('jquery.datetimepicker', '/mod/foowd_utility/bower_components/jqueryui-timepicker-addon/src/jquery-ui-timepicker-addon.css');
 	
-	
+	elgg_define_js('foowdJs',[
+	    'src' => '/mod/foowd_utility/js/rewrite/foowd-js.js'
+	]);
 }
 
 
 // hook del salvataggio settings
 function update_json($hook, $type, $url, $params){
 
+	// \Uoowd\Logger::addError(func_get_args());
+
 	// genero un modulo AMD contenente i settings di utility
 	$settings = elgg_get_plugin_from_id(\Uoowd\Param::uid())->getAllSettings();
 	// unset($settings['tags']);
 	
+
+	// NB: Senza la rimozione salverei TUTTI i dati, quindi risulta utile per eventuali backup
 	// rimuovo le chiavi che non voglio condividere mediante js
-	$socials = array('Google-Id', 'Google-Secret', 'Facebook-Id','Facebook-Secret');
-	foreach($socials as $s) unset($settings[$s]);
+	$remove = array('Google-Id', 'Google-Secret', 'Facebook-Id','Facebook-Secret');
+	foreach($remove as $s) unset($settings[$s]);
+	// rimuovo i dati di php mailer!
+	foreach($settings as $k => $v) if(preg_match('@phpmailer-@', $k)) unset($settings[$k]);
 
 
 	// salvo nel js
@@ -129,7 +154,7 @@ function update_json($hook, $type, $url, $params){
 }
 
 
-function utility_page_handler($segments) {
+function utility_page_handler($segments, $a) {
 	$check = true;
 
 	switch($segments[0]){
@@ -141,6 +166,9 @@ function utility_page_handler($segments) {
 		//     break;
 		case 'test':
 		    include elgg_get_plugins_path() . 'foowd_utility/test/test.php';
+		    break;
+		case 'testPage':
+		    include elgg_get_plugins_path() . 'foowd_utility/test/testPage.php';
 		    break;
 		case 'image-tmp':
 		    include elgg_get_plugins_path() . 'foowd_utility/pages/image-tmp.php';
@@ -157,6 +185,12 @@ function utility_page_handler($segments) {
 		case 'services':
 		    include elgg_get_plugins_path() . 'foowd_utility/pages/services.php';
 		    break;
+		case 'checkInit':
+		    include elgg_get_plugins_path() . 'foowd_utility/views/default/plugins/foowd_utility/checkInit.php';
+		    break;
+		// case 'checkInit':
+		//     include elgg_get_plugins_path() . 'foowd_utility/views/default/plugins/foowd_utility/checkInit.php';
+		//     break;
 		default:
 			$check = false;
 			break;
@@ -172,64 +206,68 @@ function foowd_policy_page_handler($segments) {
 	return true;
 }
 
+function foowd_utility_routes_wrap($hook, $type, $returnvalue, $params){
+	// \Uoowd\Logger::addError(func_get_args());
+}
 
 function foowd_utility_mail($hook, $type, $return, $params){
 
 	// \Uoowd\Logger::error(func_get_args());
 	// error_log(json_encode( func_get_args() ));
+	
 
 	$adrs = $return['to'];
 	$subj = $return['subject'];
 	$body = $return['body'];
 
 	$mail = new \Uoowd\FoowdMailer();
+	
 	$mail->addAddress($adrs, "Recepient Name");
 	$mail->Subject = $subj;//"Subject Text";
-	$mail->Body = $body;
-	$mail->AltBody = "This is the plain text version of the email content. Yeah!";
 
+	$par = $params['params'];
+
+	// per non sovrascrivere l'invio base dei plugin di elgg, 
+	// decido che le mail specifiche di foowd sono passate soto forma ti parametro htmlBody e altBody
+	if(isset($params['params']['htmlBody'])){
+		$bodyHtml = $par['htmlBody'];
+	}else{
+		$bodyHtml = str_replace(PHP_EOL, '<br/>', $body);
+		$bodyHtml = preg_replace('@  @i', ' &emsp;', $bodyHtml);
+	}
+	
+	$bodyAlt = str_replace(PHP_EOL, "\n", $body);
+	$bodyAlt = preg_replace('@< *br */? *>@i', "\n", $bodyAlt);
+
+	$mail->Body = $bodyHtml;
+	$mail->AltBody = $bodyAlt;//"This is the plain text version of the email content. Yeah!";
+
+
+
+	// \Fprint::r($bodyAlt);
+	// return false;
 	// effettuare redirect
-	// if(!$mail->send()) 
-	// {
-	//     \Fprint::r("Mailer Error: " . $mail->ErrorInfo);
-	//     // $mail->copyToFolder(); // Will save into inbox
-	// } 
-	// else 
-	// {
-	//     // $mail->copyToFolder("FoowdDev"); // Will save into Sent folder
-	//     \Fprint::r( "Message has been sent successfully");
-	// }
+	// \Fprint::r($params['params']);
+	if(!$mail->send()){
+	    \Uoowd\Logger::addError("Mailer Error: " . $mail->ErrorInfo);
+	    // register_error("Errore nell'invio della mail, ci scusiamo per il disagio.");
+	    // \Fprint::r( "Message error");
+	    return false;
+	    // $mail->copyToFolder(); // Will save into inbox
+	} 
+	else{
+	    // $mail->copyToFolder("FoowdDev"); // Will save into Sent folder
+	    // \Fprint::r( "Message has been sent successfully");
+	    // message_system('Email inviata con successo');
+	    return true;
+	}
 	
 		
 	// cosa ritornare agli altri hook
 	// false evita che vengano eseguiti gli hook successivi (quindi l'invio tramite la funzione mail() di php)
 	// $return se voglio che la funzione mail() abbia i parametri per essere inviata
 	// return false;
-	return $return;
+	// return $return;
 }
 
 
-// see https://github.com/markharding/elgg-web-services-deprecated/blob/master/lib/user.php
-// elgg_ws_expose_function("foowd.users.active",
-//                 "count_active_users",
-//                  array("minutes" => array('type' => 'int',
-//                                           'required' => false),
-//                  		'greeting' => array(
-//                  		                        'type' => 'string',
-//                  		                        'required' => false,
-//                  		                        'default' => 'Hello',
-//                  		                        'description' => 'Greeting to be used, e.g. "Good day" or "Hi"',
-//                  		                    )
-//                  ),
-//                  'Number of users who have used the site in the past x minutes',
-//                  'GET',
-//                  false,
-//                  false
-//                 );
-
-function count_active_users($minutes=10) {
-    $seconds = 60 * $minutes;
-    $count = count(find_active_users($seconds, 9999));
-    $count = array('count'=>'count', 'mio'=>'random');
-    return $count;
-}

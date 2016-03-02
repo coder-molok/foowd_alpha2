@@ -39,7 +39,7 @@ $str = '';
 $str.= elgg_view('output/url', array(
 		// associate to the action
 		'href' => elgg_get_site_url() . "action/".$vars['pid']."/delete?Id=" . $of['Id'],
-	    'text' => elgg_echo('elimina: '.$of['Id']),
+	    'text' => elgg_echo('Elimina'),
 	    'is_action' => true,
 	    'is_trusted' => true,
 	    'confirm' => elgg_echo('Sei sicuro di voler eliminare questa offerta: '.$of['Id']),
@@ -47,8 +47,8 @@ $str.= elgg_view('output/url', array(
     ));//."\n\r<br/><br/><br/>";
 $str.= elgg_view('output/url', array(
 		// associate to the action
-		'href' => elgg_get_site_url() . $vars['pid'] ."/single?Id=" . $of['Id'],
-	    'text' => elgg_echo('modifica: '.$of['Id']),
+		'href' => elgg_get_site_url() . $vars['pid'] ."/single?Id=" . $of['Id'] . '&Publisher=' . $vars['guid'],
+	    'text' => elgg_echo('Modifica'),
 	    //'is_action' => true,
 	    //'is_trusted' => true,
 	    //'confirm' => elgg_echo('deleteconfirm'),

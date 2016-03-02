@@ -41,7 +41,11 @@ define(function(require){
         * Re-indirizza verso una pagina specificando una parametro
         * 
         */
-		function go2(page, parameter, parameterValue){
+		function go2(page, parameter, parameterValue,event){
+			if(event.defaultPrevented){
+
+				return;
+			}
             if(isValid(page) && isValid(parameter) && isValid(parameterValue)){
                 elgg.forward("/" + page + "?" + parameter + "=" + parameterValue);  
             }
@@ -55,6 +59,25 @@ define(function(require){
                 elgg.forward("/" + page);
             }
 		}
+
+        /*
+         * Ritorno l'url
+         */
+        function uriTo(page){
+            if(isValid(page)){
+                return elgg.get_site_url() + page;
+            }
+        }
+
+        /*
+         * ritorno l'url del dettaglio prodotto
+         */
+        function uriProductDetail(parameterValue){
+            if(isValid(parameterValue)){
+                return elgg.get_site_url() + "detail?productId=" + parameterValue;  
+            }
+        }
+
        /*
         * Generatore casuale delle dimensioni delle immagini del wall
         */
@@ -103,6 +126,20 @@ define(function(require){
 
             return newObj;
         } 
+        
+        /*
+        * Funzione che  setta il campo group, se e' attiva o meno la funzionalita' group
+        */
+        function setLoggedGroup(object, group){
+            var newObj = object;
+            
+            if(isValid(object)){
+                newObj.group = group;
+            }
+
+            return newObj;
+        } 
+
 
        /*
         * Ritorna lo user id della sessione corrente
@@ -110,6 +147,8 @@ define(function(require){
         function getUserId () {
             return elgg.get_logged_in_user_guid() === 0 ? null : elgg.get_logged_in_user_guid();
         }
+        
+        
        /*
         * Vede se un utente è loggato
         */
@@ -138,18 +177,51 @@ define(function(require){
             return queryObject;
         }
 
+        /**
+         * preparo un'offerta: svolgo dei conti relativi al totale delle preferenze nello switch utente/gruppo
+         */
+        function offerPrepare(el, group){
+            // calcolo i totali per utente e per gruppo
+            el.offer.totalQtUser = 0;
+            el.offer.totalQtGroup = 0;
+            el.offer.prefers = [];
+            for(var i in el.prefers){
+                // sono interessato a conteggiare solo quelle in stato newest
+                if(el.prefers[i].State != "newest") continue;
+                el.offer.prefers.push(el.prefers[i].Id);
+                if(getUserId() == el.prefers[i].UserId) el.offer.totalQtUser += el.prefers[i].Qt;
+                el.offer.totalQtGroup += el.prefers[i].Qt;
+            }
+            el.offer.prefers = el.offer.prefers.join(',');
+            el.offer.productDetailUri = elgg.get_site_url() + 'detail?productId=' + el.offer.Id;
+            //aggiungo l'immmagine
+            el.offer = addPicture(el.offer, utils.randomPictureSize(el.offer.Id));
+            //se l'utente è loggato aggiungo un dato al contesto
+            el.offer = setLoggedFlag(el.offer, getUserId());
+
+            // di default aggiungo anche il gruppo
+            el.offer = setLoggedGroup(el.offer, group);
+            el.offer.totalQt = (group) ? el.offer.totalQtGroup : el.offer.totalQtUser ;
+
+            return el;
+        }
+
         return{
-        	isValid           : isValid,
-            singleElToObj     : singleElToObj,
-            go2               : go2,
-        	goTo              : goTo,
-            randomPictureSize : randomPictureSize,
-            addPicture        : addPicture,
-            addProfilePicture : addProfilePicture,
-            setLoggedFlag     : setLoggedFlag,
-            getUserId         : getUserId,
-            isUserLogged      : isUserLogged,
-            getUrlArgs        : getUrlArgs,
+        	isValid             : isValid,
+            singleElToObj       : singleElToObj,
+            go2                 : go2,
+        	goTo                : goTo,
+            randomPictureSize   : randomPictureSize,
+            addPicture          : addPicture,
+            addProfilePicture   : addProfilePicture,
+            setLoggedFlag       : setLoggedFlag,
+            setLoggedGroup      : setLoggedGroup,
+            getUserId           : getUserId,
+            isUserLogged        : isUserLogged,
+            getUrlArgs          : getUrlArgs,
+            offerPrepare        : offerPrepare ,
+            uriTo               : uriTo,
+            uriProductDetail    : uriProductDetail
         };
 
 	})();

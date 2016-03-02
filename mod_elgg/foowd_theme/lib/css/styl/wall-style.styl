@@ -10,20 +10,48 @@
 
 // 1. Wall alignment -------------------------------------------------
 
+// .foowd-grid-container
+// 	width: 100%;
+// 	min-width: 100%;
+// 	margin: auto;
+
 .grid
-	margin-top: contentMargin + containerMargin
+	margin: contentMargin + containerMargin auto
 	list-style: none;
 	padding: 0 stdMargin - productMargin 0 stdMargin - productMargin;
-	align(horizontal)
-	+below(bp)
-		margin-top : contentMargin * 2 + containerMargin
+	// align(horizontal)
+	// +below(bp)
+	// 	margin : contentMargin * 2 + containerMargin auto
+
+	// queste due impostazioni, assieme al margin auto sx mi servono per sovrastare il codice generato probabilmente da jeet...
+	transform: translateX(0);
+	left: 0%;
+
+	// media queries bubbling
+	// attenzione all'ordine
+	// col2 = 2 * productSize 
+	// @media screen and (max-width: 700px)
+	// 	max-width: 100%;
+	//     background-color: green;
+	// @media screen and (max-width: col2)
+	// 	max-width: 100%;
+	//     background-color: red;
 
 .grid li
 	float: left;
 	width: productSize
-	margin: 10px productMargin stdMargin productMargin !important;
+	margin: productMargin productMargin stdMargin productMargin !important;
 	opacity: 0;
+	
+.no-csstransforms .grid{}
+.csstransforms  .grid{}
 
+// con questo forzo l'allineamento centrato anche per IE e tablet
+// .foowd-grid-container .grid{
+// 	transform: translateX(0);
+// 	left: 0%;
+// 	// margin: auto;
+// }
 
 .grid li.shown,
 .no-js .grid li,
@@ -54,6 +82,7 @@ postZindexBase = 50
 .post-container
 	display: table
 	position: relative
+	cursor: pointer
 
 .product-post-image-thumbnail
 	display: table
@@ -84,22 +113,21 @@ postZindexBase = 50
 	opacity : 0;
 	vendor(transition, opacity .15s ease)
     
-
-.heart-overlay:hover
-	opacity:1
+.product-post-main-frame
+	display: block;
+	font-family: AkkuratBold;
+	position: relative;
 
 .product-post-header
 	top: 0px;
 	width: 100%
 	position: absolute;
 	z-index: postZindexBase * 3
-
-
+	
 .product-post-name
 	column(1/2)
 	padding: 10px 0 0 10px;
 	color: white;
-	font-family: AkkuratBold
 	font-size: 12pt;
 	line-height: 14pt;
 	letter-spacing : -0.5pt
@@ -113,18 +141,17 @@ postZindexBase = 50
 .product-post-progress-price
 	padding: 5px 10px 0 0; 
 	color: white;
-	font-family: AkkuratBold;
 	font-size : 18pt;
 	line-height: 14pt;
 	letter-spacing: -1.5pt;
 	text-align : right;
 
 .mini-progress-bar
-	position: absolute;
+	// position: absolute;
 	width: 40px;
-	top: 25px;
-	right: 90px;
-	height: 4px;
+	// right: 8px;
+	height: 20px;
+	// margin-top: -28px
 
 .mini-progress
 	background-image : url('../../img/barra-bianca.png');
@@ -132,32 +159,38 @@ postZindexBase = 50
 	background-position: left top
 	height:100%
 	span(1)
+	
 
-.product-post-menu
-	position : relative
-	float: left
-	margin: -40px 0 0 0;
-	vertical-align: baseline;
-	padding: 0 0 0 10px;
-	background: none
-	z-index : postZindexBase *3
-	div
-		display: inline-flex;
-		background-color : foowdPink
-		border-radius : 50%
-		padding:0
+.product-post-footer
+	position: absolute;
+	bottom: 0;
+	color: white;
+	width: 100%;
+	
+
+	.product-post-company, .mini-progress-bar
+		display: inline-block;
+		vertical-align: middle;
+	
+	.product-post-company
+		width: calc(100% - 55px); // tutto tranne la larghezza della progressbar, considerando anche un po di margine dx
 		span
-			padding:0
-			margin: 0
-			font-size : 22pt;
-			line-height: 22pt;
-			color: black
+			display: inline-block;	
+			vertical-align: middle;	
+		
+	.mini-progress-bar
+		width: 40px;
+	
 
-.product-post-body
-	font-family: AkkuratRegular
+.product-post-tags, .product-post-description 
 	font-size: 10pt
-	line-height: 14pt
+	line-height: 17pt
 	font-align: justify
+
+.product-post-description
+	display: none;
+
+
 	
 
 

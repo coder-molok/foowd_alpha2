@@ -11,21 +11,23 @@
 <div class="foowd-navbar">
 </div>
 <ul class="grid effect-1" id="wall">
-
 </ul>
+<!-- server per il loader-->
+<div id="wall-container" style="width: 100%;height: 100px;padding-top: 300px;" >
 
+</div>
 <!-- Pezzo che deve essere comune a tutte le pagine -->
 
-<div class="overlay overlay-hugeinc">
+<div id="close-overlay" class="overlay overlay-hugeinc">
   <div class="reverse foowd-navbar">
   </div>
   <nav>
     <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Work</a></li>
-      <li><a href="#">Clients</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a target="foowd_site" href="http://www.foowd.it">Sito web</a></li>
+      <li><a target="foowd_site" href="http://www.foowd.it/about.html">Su di noi</a></li>
+      <li><a target="foowd_site" href="http://www.foowd.it/investors.html">Investitori</a></li>
+      <li><a target="foowd_site" href="https://www.smore.com/pcm5x">Produttori</a></li>
+      <li><a target="foowd_site" href="http://www.foowd.it/#contatti">Contatti</a></li>
     </ul>
   </nav>
 </div>
@@ -50,6 +52,7 @@ require([
   'imagesLoaded',
   'classie',
   'animOnScroll',
+  'jquery-loading-overlay',
   'WallController',
   'NavbarController',
   ],function(){

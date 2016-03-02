@@ -58,10 +58,6 @@
   -webkit-transition: color 0.2s;
   transition: color 0.2s;
 }
-.overlay ul li a:hover,
-.overlay ul li a:focus {
-  color: #fae6ef;
-}
 /* Effects */
 .overlay-hugeinc {
   opacity: 0;

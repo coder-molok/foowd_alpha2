@@ -3,6 +3,8 @@ define(function(require){
 	var utils = require('Utils');
 	var templates = require('templates');
 	var classie = require('classie');
+    var navbarSearch = require('NavbarSearch');
+    var jQueryBridget = require('jquery-bridget');
 
 	var NavbarController = (function(){
 
@@ -30,9 +32,13 @@ define(function(require){
             search = utils.isValid(search) ? search : false;
             var context = {
 		        "search" : search,
+		        "homeUri" : utils.uriTo(''),
+		        "panelUri": utils.uriTo('panel'),
+		        "boardUri": utils.uriTo('board')
 		    };
             //carico il template della barra di navigazione
             $(navbarContainer).each(function(i,el){
+            	context.logged= utils.isUserLogged();
             	if(classie.hasClass(el, 'reverse')){
             		if(utils.isValid(context.regular)){
             			delete context.regular;
@@ -46,6 +52,8 @@ define(function(require){
             	}
             	$(el).html(templates.navbar(context));
             });
+            // dopo averlo caricato, posso appendergli gli eventi
+            navbarSearch.init();
             //carico l'overlay sul menu
             _loadOverlay();
             //metto acluni listener per gli eventi di aggiunta delle preferenze
@@ -58,6 +66,13 @@ define(function(require){
 			$(document).on('preferenceError', function(e){
 				$('#foowd-error').text("C'è stato un errore durante l'aggiuta della tua preferenza");
 				$('#foowd-error').fadeIn(500).delay(3000).fadeOut(500);
+			});
+			// notifica di errore generale: l'evento trasporta il messaggio: foowdMSG
+			//notifica di errore nel caso la preferenza non fosse stata aggiunta
+			$(document).on('popupError', function(e){
+				$('#foowd-error').text(e.foowdMSG);
+				// interrompo la queue, altrimenti le animazioni si accodano
+				$('#foowd-error').finish().fadeIn(500).delay(3000).fadeOut(500);
 			});
         }
 
@@ -88,7 +103,7 @@ define(function(require){
 
 			//aggungo i listener al bottone della barra
             ov.triggerBttn.addEventListener( 'click', _toggleOverlay );
-			ov.closeBttn.addEventListener( 'click', _toggleOverlay );
+            ov.closeBttn.addEventListener( 'click', _toggleOverlay );
         }
 
         function _toggleOverlay() {
@@ -122,6 +137,7 @@ define(function(require){
         	}
         }
 
+       
 		return{
 			loadNavbar : 	 _stateCheck,
 			goToUserProfile: goToUserProfile,

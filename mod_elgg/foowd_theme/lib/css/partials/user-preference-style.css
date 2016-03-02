@@ -129,6 +129,22 @@
 #preferences-container:last-child {
   margin-right: 0%;
 }
+#preferences-container .preference {
+  position: relative;
+}
+.preference-fadeOut {
+  overflow: hidden;
+  animation: hide 1s forwards linear, enfold 2s forwards linear;
+}
+.preference-lock:before {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  content: ' ';
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
 .preference {
   *zoom: 1;
   float: left;
@@ -138,6 +154,7 @@
   margin-left: 0%;
   margin-right: 3%;
   height: 120px;
+  transform: translateZ(0);
 }
 .preference:before,
 .preference:after {
@@ -166,7 +183,6 @@
   height: 100%;
   position: absolute;
   z-index: -100;
-  background-color: #fae6ef;
 }
 @media only screen and (max-width: 900px) {
   .preference-progress-bar {
@@ -312,6 +328,11 @@
 .user-preference-name ul {
   margin-top: 30px;
   width: 100%;
+}
+.product-company {
+  font-family: AkkuratRegular;
+  font-size: 12px;
+  font-weight: normal;
 }
 @media only screen and (max-width: 900px) {
   .user-preference-details {

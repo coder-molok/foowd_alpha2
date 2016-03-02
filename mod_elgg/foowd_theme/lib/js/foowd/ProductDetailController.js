@@ -5,14 +5,15 @@ define(function(require){
 	var templates = require('templates');
 	var $ = require('jquery');
 	var utils = require('Utils');
-	
+	var elgg = require('elgg');
+
 	var ProductDetailController = (function(){
 
 		//id html del contenitore dei dettagli prodotto
 		var productContainer = '#product-detail-main';
 		
 		//userId reference
-   		var userId = null;
+		var group = false;
 
    		//preferenza utente
    		var preference = {
@@ -39,10 +40,9 @@ define(function(require){
 
    		//inizializzo il controller
    		function _init(){
-   			//prendo lo user id
-   			userId = utils.getUserId();
    			//load navbar
    			Navbar.loadNavbar();
+   			_applyColor();
    			//carico il template del prodotto con i dati
    			getDetailsOf();
    		}
@@ -52,9 +52,11 @@ define(function(require){
 		}
 
 		function _applyProductContext(context){
-			context = utils.addPicture(context);
-			context = utils.setLoggedFlag(context, userId);
-			return templates.productDetail(context);
+			context = utils.offerPrepare(context, group);
+			// context = utils.addPicture(context);
+			// context = utils.setLoggedFlag(context, utils.getUserId());
+			// context.offer = utils.setLoggedGroup(context.offer, group);
+			return templates.productDetail(context.offer);
 		}
 
 		function _fillProgressBars(){
@@ -70,6 +72,30 @@ define(function(require){
 		}
 
 		function getDetailsOf(){
+			var userId=utils.getUserId();
+			if(group){
+				getDetailsOfGroup(userId);
+			}else{
+				getDetailsSingle(userId);
+			}
+		
+		}
+
+
+		function getDetailsOfGroup(userId){
+			API.getFriend(userId).then(function(data){
+				var friendsStr='';
+				if(data.result && data.result.friends){
+					 friendsStr = data.result.friends.join();
+				}
+				getDetailsSingle(userId+','+friendsStr);
+			},function(error){
+					console.log(error);
+			});
+		}
+
+
+		function getDetailsSingle(userId){
 			var queryObject = utils.getUrlArgs();
 			//controllo che tra i parametri ci sia l'id del prodotto
 			if(utils.isValid(queryObject.productId)){
@@ -79,15 +105,17 @@ define(function(require){
 					var rawProduct = data.body[0];
 					var parsedProduct = _applyProductContext(rawProduct);
 					_fillProductDetail(parsedProduct);
-
+					_applyColor();
 					$(document).trigger('detail-template-loaded');
 
 				}, function(error){
 					//gestico l'errore
 					console.log(error);
 				});
+				_applyColor();
 			}else{
 				//reindirizzo alla pagina del wall
+				alert('lol')
 			 	utils.goTo();
 			}
 		};
@@ -95,18 +123,71 @@ define(function(require){
 		function addPreference(offerId, qt) {
     		//setto i parametri della mia preferenza
 			preference.OfferId = offerId;
-			preference.ExternalId = userId;
+			preference.ExternalId = utils.getUserId();
 			preference.Qt = qt;
 			//richiamo l'API per settare la preferenza
 			API.addPreference(preference).then(function(data){
-				getDetailsOf(productContainer);
-				$(document).trigger('preferenceAdded');
+				getDetailsOf();
+				if(typeof data.errors != 'undefined'){
+					if(typeof data.errors.Expiration != 'undefined') $(document).trigger({type: 'popupError', foowdMSG : 'Offerta scaduta.'});
+					if(typeof data.errors.blockedPref != 'undefined') $(document).trigger({type: 'popupError', foowdMSG : "Offerta gia' presa in carico."});
+				}
+				//$(document).trigger('preferenceAdded');
 			}, function(error){
 				$(document).trigger('preferenceError');
 				console.log(error);
 			});
+		}
+
+		function purchase(offerId, prefers) {
+			// attivo il cursore
+			$('#product-detail-main').toggleClass('progress', true);
+    		//setto i parametri della mia preferenza
+			//richiamo l'API per settare la preferenza
+			API.purchase(offerId,utils.getUserId(),prefers).then(function(data){
+				getDetailsOf();
+				if(typeof data.output.errors != 'undefined') return;
+				elgg.system_message("Ordine effettuato con successo!<br/>A breve riceverai una mail riepilogativa.");
+			}, function(error){
+				$(document).trigger('preferenceError');
+				console.log(error);
+			}).always(function(){
+				$('#product-detail-main').toggleClass('progress', false);
+			});
 
 		}
+
+		function _applyColor(){
+				$( ".progress" ).each(function() {
+					$(this).toggleClass('action-heart',!group);
+					$(this).toggleClass('action-minus',group);
+
+				});
+				$( "#action-buy" ).each(function() {
+					$(this).toggleClass('action-buy-group',group);
+					$(this).toggleClass('action-buy',!group);
+
+				});
+				$('#action-buy-icon').toggleClass('foowd-icon-cart-white',group);
+				$('#action-buy-icon').toggleClass('foowd-icon-cart',!group); 
+				
+				
+		}
+		
+		function toggleGroup(){
+						group=!group;
+			$('#groupBtn').toggleClass('foowd-icon-group-white',group);
+			$('#groupBtn').toggleClass('foowd-icon-group',!group);
+						$('#groupBtn').toggleClass('fw-menu-icon-group',group);
+			$('#groupBtn').toggleClass('fw-menu-icon',!group);
+
+			
+			_applyColor();
+			getDetailsOf();
+		}
+
+		window.toggleGroup=toggleGroup;
+
 
 		$(document).on('detail-template-loaded',function(){
 
@@ -142,14 +223,18 @@ define(function(require){
 			    }, 200);
 
 			});
+			
+			
 		});
 
 
 		return{
 			init 			: _stateCheck,
 			addPreference   : addPreference,
+			purchase   : purchase
 		};
 	})();
 
 	return ProductDetailController;
 });
+

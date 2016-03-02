@@ -1,0 +1,9 @@
+# trasformo tutti i php in javascript
+#
+# in questo modo posso inserire VERAMENTE creare ibridi php - js e evitare di generare dei reali files di configurazione (foowd.page.etc);
+#
+#
+
+
+RewriteEngine on
+RewriteRule ^(.*)\.js$ $1.php

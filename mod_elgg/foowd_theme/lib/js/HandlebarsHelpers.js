@@ -27,10 +27,13 @@ define(function(require){
 	    }[operator];
 	});
 	
+
 	Handlebars.registerHelper('if', function(conditional, options) {
-  		if(conditional) {
-    		return options.fn(this);
-    	}
+	  if(conditional) {
+	    return options.fn(this);
+	  } else {
+	    return options.inverse(this);
+	  }
 	});
 
 	Handlebars.registerHelper('unless', function(conditional, options) {
@@ -78,6 +81,18 @@ define(function(require){
 		var realText = $(text).text();
 		var words = realText.split(' ');
 		return words.splice(0, 30).join(' ').concat("...");
+	});
+
+	/* scrivo i tags separandoli da underscore e rinchiudendoli in span utili per la combo con la ricerca */
+	Handlebars.registerHelper('listTags', function(tags){
+		tags = (tags == '' || typeof tags == 'undefined' ) ? 'foowd' : tags ;
+		var words = tags.replace(/[\s,]+/g, ',').split(',');
+		var body = ''
+		for(var i in words){
+			//<wbr> serve per consentire di andare a capo in quel punto, qualora ve ne sia la necessita'
+			body = body + '<wbr><span data-tag="' + words[i] + '">_' + words[i] + '</span>';
+		}
+		return body;
 	});
 
 	Handlebars.registerPartial('carouselItem', function(slide){

@@ -16,6 +16,10 @@
 
     elgg = require('elgg')
     $ = require('jquery')
+
+    # rimuovo tutti i default javascript di elgg
+    $('form, form *').unbind();
+
     # crop = require('crop')
     # crop = require('foowdCropLightbox')
     crop = require('foowd_utenti/gallery-crop-lightbox')
@@ -31,14 +35,23 @@
     Jhook.css {display: 'none'}
     Jgenre.val('standard')
     
+    # rimosso in quanto non presenti immagini
     # vedere come istanziato init di crop dentro a file
-    file = require('foowd_utenti/file')  
-    crop.create().initialize(file.fileCropInit())
+    # file = require('foowd_utenti/file')  
+    # crop.create().initialize(file.fileCropInit())
     # evento alla fine del caricamento
-    $( document ).on "foowd:update:file", (e, mydata)->
-        crop.create().initialize(file.fileCropInit())
-        return
+    # $( document ).on "foowd:update:file", (e, mydata)->
+    #     crop.create().initialize(file.fileCropInit())
+    #     return
 
+    # scambio l'ordine di visualizzazione di username e name
+    el1 = Jform.find('[name="username"]').parent();
+    el2 = Jform.find('[name="name"]').parent();
+
+    copy_to = el1.clone(true);
+    copy_from = el2.clone(true);
+    el2.replaceWith(copy_to);
+    el1.replaceWith(copy_from);
 
     # for each input
     fct = form.factory();
@@ -59,7 +72,7 @@
 
         v = @el.val().trim()
         url=elgg.get_site_url()+'foowd_utility/user-check?'+@key+'='+v
-        console.log v
+        # console.log v
         elgg.get(url, {
             success: (resultText, success, xhr)=>
                 obj = JSON.parse(resultText)
@@ -94,11 +107,15 @@
     ar.push({cls:'Piva', obj:{inpt:'form.elgg-form-register [name="Piva"]', key:'Piva', el:'form.elgg-form-register [name="Piva"]', msg: 'foowd:user:piva:error'} })
     ar.push({cls:'Text', obj:{inpt:'form.elgg-form-register [name="Address"]', key:'Address', el:'form.elgg-form-register [name="Address"]', msg: 'foowd:user:address:error'} })
     ar.push({cls:'Text', obj:{inpt:'form.elgg-form-register [name="Company"]', key:'Company', el:'form.elgg-form-register [name="Company"]', msg: 'foowd:user:company:error'} })
+    ar.push({cls:'Text', obj:{inpt:'form.elgg-form-register [name="Owner"]', key:'Owner', el:'form.elgg-form-register [name="Owner"]', msg: 'foowd:user:owner:error'} })
     fct.pushFromArray(ar)
     # di default nessuno di questi e' obbligatorio
 
     needAr = ['email', 'username','name']
     noNeedAr = ['Site']
+    # se l'utente e' offerente
+    needOfferente = ['Phone', 'Owner', 'Piva', 'Address', 'Company']
+    
     setNeed = (bool)->
         fct.each( ()->
             if (@key in needAr) 
@@ -110,20 +127,24 @@
                 
             return
             )
+        console.log fct
     setNeed(false)
 
 
     # nascondo il campo "name" in quanto forviante
-    $('.mtm').css({'display':'none'})
+    # $('.mtm').css({'display':'none'})
     
     form.submit 'form.elgg-form-register',
         ()->
 
             # impongo che nome visualizzato sia il nick name
-            Jname = $('form.elgg-form-register [name="name"]').val($('form.elgg-form-register [name="username"]').val())
+            
+            Jname = $('form.elgg-form-register [name="name"]');
+            userVal = $('form.elgg-form-register [name="username"]').val()
+            if( Jname.val() == '' ) then Jname.val(userVal);
 
-            if Jgenre.val() is 'offerente'
-                if not file.atLeastOne() then alert "Devi inserire almeno un'immagine"
+            # if Jgenre.val() is 'offerente'
+            #     if not file.atLeastOne() then alert "Devi inserire almeno un'immagine"
 
             pwd = $('form.elgg-form-register [name="password"]').val()
             pwd2 = $('form.elgg-form-register [name="password2"]').val()
@@ -153,6 +174,5 @@
                 ()->
                     $(this).val('')
             )
- 
 
 );

@@ -242,25 +242,27 @@ class ApiUser extends \Foowd\FApi{
 		 * @apiName commonOffers
 		 * @apiGroup User
 		 * 
-	 	 * @apiDescription Crea un nuovo utente. 
+	 	 * @apiDescription Trova le offerte comuni a un gruppo di utenti. 
 		 * 
-		 * @apiParam {String} 		type 		metodo da chiamare (commonOffers)
-		 * @apiParam {Integer}  	ExternalId 	gruppo di Id dei quali si vogliono trovare le offerte comuni e non
+		 * @apiParam {String} 		type 			metodo da chiamare (commonOffers)
+		 * @apiParam {Integer}  	ExternalId 		gruppo di Id (separati da virgola) dei quali si vogliono trovare le offerte comuni e non
+		 * @apiParam {String}    	prefersState 	Filtro preferenze per stato, o lista di stati separati da virgola. Puo' anche essere usato "editable" per sottintendere "newest, pending"
 		 * 
 	 	 * 
 		 * @apiParamExample {json} Request-Example:
 		 *  {
 		 *   "type":"create",
-		 *   "ExternalId":"54,63"
+		 *   "ExternalId":"54,63",
+		 *   "prefersState":"editable"
 		 *  }
 		 *
 		 *
 		 * 
 		 * @apiParam (Response) {Bool}				response 		false, in caso di errore
 	 	 * @apiParam (Response) {String/json}		[errors] 		json contenente i messaggi di errore
-	 	 * @apiParam (Response) {String/json}		body 			json contenente i parametri da ritornare in funzione della richiesta. Il parametro offers contiene le preferenze con aggiunto il parametro "friends" che e' l'array con gli id matchanti. I dati relativi agli Id (
-		 * @apiParam (Response) {array}				[body-offers]  	array aggiunto a ciascuna offerta e contenente gli id matchanti con l'elenco ExternalId 			
-		 *     
+	 	 * @apiParam (Response) {String/json}		body 			json contenente i parametri da ritornare in funzione della richiesta. Il parametro offers contiene la proprieta' "friends": array contenente le preferenze matchanti la lista di ExternalId
+		 * @apiParam (Response) {array}				[body-offers]  	array aggiunto a ciascuna offerta e contenente le preferenze degli id matchanti con l'elenco ExternalId      
+		 * 
 		 */	
 		public $needle_commonOffers = "ExternalId";
 		public function commonOffers($data){
@@ -270,6 +272,15 @@ class ApiUser extends \Foowd\FApi{
 			// apidId
 			$apiUsers = array_map( function($u){return $this->ExtToId($u); } , explode(',', $data->ExternalId) );
 			$elggUsers = explode(',', $data->ExternalId);
+
+			if(isset($data->prefersState)){
+				$s = $data->prefersState;
+				if($s === 'editable'){
+					$prefState = array('pending', 'newest');
+				}else{
+					$prefState = explode(',', $s );
+				}
+			}
 
 			$offers = array();
 
@@ -283,18 +294,31 @@ class ApiUser extends \Foowd\FApi{
 			// var_dump($o);
 			foreach($o as $of){
 				$oId = $of->getId();
-				
+				$friends = array();
+
 				if(array_key_exists($oId, $offers)) continue;
 
 				$ar = $of->toArray();
+				// il publisher deve essere ritornato come id di Elgg
+				$ar['Publisher'] = $this->IdToExt( $ar['Publisher'] );
 
 				// ora aggiungo un array contenente solo la lista degli utenti che matchano con le preferenze
 				// NB: la lista e' gia' con ExternalId (elggId)
+				$ar['friends'] = array();
 				foreach($of->getPrefers() as $p){
-					$ar['friends'][] = $this->IdToExt( $p->getUserId() );
+					// $friends[] = /*$this->IdToExt(*/ $p->getUserId() /*)*/;
+					$pid = $p->getId();
+					$puid = $p->getUserId();
+					if( ! in_array($puid, $apiUsers ) ) continue;
+					if(isset($prefState) && !in_array($p->getState(),$prefState)) continue;
+					$p = $p->toArray();
+					$p['UserId'] = $this->IdToExt($p['UserId']);
+					$ar['friends'][] = $p;
 				}
-				// ritorno solo quelli che matchano
-				$ar['friends'] = array_intersect($ar['friends'], $elggUsers);
+
+				// nel caso non vi siano preferenze, cosa che data la query iniziale non dovrebbe avvenire
+				if(count($ar) <=0 ) continue;
+
 				$offers[$oId] = $ar;
 			}
 

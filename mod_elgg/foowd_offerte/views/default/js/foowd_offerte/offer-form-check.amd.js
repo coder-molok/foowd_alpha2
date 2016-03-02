@@ -12,7 +12,7 @@
       return root.returnExports = factory();
     }
   })(this, function() {
-    var $, Div, IframeText, Input, InputFactory, Maxqt, Minqt, Price, Text, elgg, fac, loom;
+    var $, Div, Expiration, IframeText, Input, InputFactory, Maxqt, Minqt, Price, Text, __stringToDate, elgg, fac, loom;
     loom = this;
     $ = require('jquery');
     elgg = require('elgg');
@@ -44,13 +44,16 @@
             }
           });
         }
-        this.inpt.on("focusout mouseout keyup", (inptOn = function() {
+        this.inpt.on("keyup", (inptOn = function() {
           if (!first) {
-            if (!that.check()) {
-              return that.error();
-            } else {
-              return that.clean();
-            }
+            clearTimeout(that.timeout);
+            return that.timeout = setTimeout(function() {
+              if (!that.check()) {
+                return that.error();
+              } else {
+                return that.clean();
+              }
+            }, 1000);
           }
         }));
 
@@ -140,18 +143,23 @@
         var Max, Min, re;
         re = new RegExp(/^\d{1,5}(\.\d{0,3})?$/);
         Max = this.el.val().trim();
-        if (Max === '') {
-          return true;
-        }
         Min = $("[name*=Minqt]").val().trim();
         if (Min === '') {
           this.msg = 'Devi prima inserire la quantit&agrave; minima';
           this.el.val('');
           return false;
         }
+        if (Max === '') {
+          this.msg = 'Devi prima inserire la quantit&agrave; Massima ( 0 se non vuoi impostare un massimo)';
+          this.el.val('');
+          return false;
+        }
         if (!re.test(Max)) {
           this.msg = 'foowd:' + this.key.toLowerCase() + ':error';
           return false;
+        }
+        if (parseFloat(Max) === 0) {
+          return true;
         }
         if (parseFloat(Min) > parseFloat(Max)) {
           this.msg = 'foowd:' + this.key.toLowerCase() + ':error:larger';
@@ -192,7 +200,7 @@
 
       IframeText.prototype.check = function() {
         var v;
-        v = $('iframe[class*="cke_wys"]').contents().find('body').first().text().trim();
+        v = $('[name="Description"]').val().trim();
         if (v === '') {
           return false;
         } else {
@@ -204,6 +212,63 @@
       return IframeText;
 
     })(Input);
+    Expiration = (function(superClass) {
+      var printDate;
+
+      extend(Expiration, superClass);
+
+      function Expiration() {
+        return Expiration.__super__.constructor.apply(this, arguments);
+      }
+
+      Expiration.prototype.check = function() {
+        var exp, now;
+        if (this.el.val() === '') {
+          this.clean();
+          return true;
+        }
+        exp = __stringToDate(this.el.val(), 'yyyy-mm-dd hh:ii:ss');
+        now = new Date();
+        if (exp > now) {
+          this.clean();
+          return true;
+        } else {
+          return false;
+        }
+      };
+
+      printDate = function(m) {
+        var str;
+        console.log(m);
+        str = m.getUTCFullYear() + "/" + (m.getUTCMonth() + 1) + "/" + m.getUTCDate() + " " + m.getUTCHours() + ":" + m.getUTCMinutes() + ":" + m.getUTCSeconds();
+        return str;
+      };
+
+      return Expiration;
+
+    })(Input);
+    __stringToDate = function(_date, _format) {
+      var arg, dateApply, dateItems, formatedDate, i, key, len, lgth, num, start;
+      dateItems = ['yyyy', 'mm', 'dd', 'hh', 'ii', 'ss'];
+      dateApply = [];
+      for (i = 0, len = dateItems.length; i < len; i++) {
+        key = dateItems[i];
+        start = _format.indexOf(key);
+        if (start < 0) {
+          num = 0;
+        } else {
+          lgth = key.length;
+          num = _date.substr(start, lgth);
+          if (key === 'mm') {
+            num = num - 1;
+          }
+        }
+        dateApply.push(parseInt(num));
+      }
+      arg = dateApply.join(',');
+      formatedDate = eval('new Date(' + arg + ')');
+      return formatedDate;
+    };
 
     /*
     class Larger extends Input   
@@ -257,7 +322,8 @@
         'Quota': ['Minqt'],
         'Unit': ['Text'],
         'Tag': ['Div', '.search-choice', 'foowd:update:tag'],
-        'file': ['Div', '#sorgente']
+        'file': ['Div', '#sorgente'],
+        'Expiration': ['Expiration', '[name="Expiration"]', 'foowd:update:expiration']
       };
 
       function InputFactory() {
@@ -326,6 +392,14 @@
     fac = new InputFactory();
     $('form').unbind();
     return $('form').on('submit', function(e) {
+      if ($('.foowd-advise-pending').length > 0) {
+        e.preventDefault();
+        elgg.register_error('Il form e\' bloccato.<br/> Vedi intestazione per dettagli.');
+        loom.removeSystemErrorPopup();
+      }
+      if (typeof prepareInput !== "undefined" && prepareInput !== null) {
+        prepareInput(desc);
+      }
       if (!fac.checkAll()) {
         e.preventDefault();
         alert('Devi finire di compilare dei campi');

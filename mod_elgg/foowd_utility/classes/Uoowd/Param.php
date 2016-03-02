@@ -12,7 +12,7 @@ namespace Uoowd;
 			'dbg'		=> 0,												// per visualizzare messaggi di errore fronthand (scritte rosse). Definito anche nel pannello utente, come apiDom
 			'imgStore'	=> 'FoowdStorage',									// folder in cui salvare le immagini
 			'tags'		=> 'tags.json',										// dove salvare il json contenente i tags
-			'utilAMD'	=> 'mod/foowd_utility/js/utility.settings.amd.js',	// file js contenente i settings e che viene aggiornato ad ogni salvataggio
+			'utilAMD'	=> 'mod/foowd_utility/js/utility.settings.public.amd.js',	// file js contenente i settings e che viene aggiornato ad ogni salvataggio
 			'pageAMD' 	=> '/mod/foowd_utility/js/foowd.pages.amd.js',		// file js contenente l'elenco delle pagine di navigazione
 			'unitAMD' 	=> '/mod/foowd_offerte/js/foowd.unit.amd.js',		// file js contenente l'elenco delle unita' di misura
 		);
@@ -97,7 +97,8 @@ namespace Uoowd;
 			$bt =  debug_backtrace();
 			foreach($bt as $trace){
 				// \Fprint::r($trace['file']);
-				if(!preg_match('@foowd_.*@',$trace['file'])) break;
+				// if(!preg_match('@foowd_.*@',$trace['file'])) break;
+				if(!isset($trace['file']) || !preg_match('@foowd_.*@',$trace['file'])) break;
 				$check = $trace;
 			}
 			// \Fprint::r($bt);
@@ -135,6 +136,26 @@ namespace Uoowd;
 			return self::userStore($guid, $web).$dir.'/';
 		}
 
+		public static function offerUrl($id){
+			return elgg_get_site_url().'detail?productId='.$id;
+		}
+
+		public static function publisherUrl($id){
+			return elgg_get_site_url().'producer?producerId='.$id;	
+		}
+
+		/* ritorno path specifici. */
+		public static function userPath($option, $guid){
+			$user = get_entity($guid);
+
+			if(!$user) return 'No Entity associated.';
+			// pagina impostazioni
+			if($option == 'settings'){
+				return elgg_get_site_url().'settings/user/'.$user->username;
+			}
+
+		}
+
 
 		public static function tags(){
 			return elgg_get_plugins_path().'foowd_utility/views/default/plugins/foowd_utility/'.self::$par['tags'];
@@ -165,14 +186,60 @@ namespace Uoowd;
 			return $json;
 		}
 
+		/**
+		 * oggetto ottenuto dal plugin javascript foowd.pages.amd.js
+		 * @return object oggetto stdClass (lo stesso del plugin js)
+		 */
 		public static function page(){
 			$file = file(elgg_get_root_path().\Uoowd\Param::pageAMD());
 			return self::JSON_AMD($file);
 		}
 
+		/**
+		 * ritorna un oggetto come page, ma all'indirizzo IP sostituisco i dns
+		 * (e' un giro contorto per testare funzionalita' socials)
+		 * 
+		 * @return objet stdClass con path dns
+		 */
+		public static function pageDNS(){
+			$dns = 'vps-foowd-dev.accaso.eu';
+			// impostato come web redirect a 5.196.228.146/elgg-1.10.4  (no slash finale)
+			// $dns = 'web-foowd.ddns.net';
+			$site = elgg_get_site_url();
+			// sostituisco ip con $dns
+			$site = preg_replace('@(\d{1,3}\.){3,}\d{1,3}@',$dns,$site);
+			$pages = self::page(); 
+			foreach ($pages as $key => $value) {
+				if(is_string($value)){
+					$pages->{$key} = $site . $value;
+				} 
+			}
+			return $pages;
+		}
+
+		/**
+		 * ritorna un oggetto come page e IP 
+		 * 
+		 * @return objet stdClass con path http://IP
+		 */
+		public static function pageIP(){
+			$dns = 'vps-foowd-dev.accaso.eu';
+			$site = elgg_get_site_url();
+			$pages = self::page(); 
+			foreach ($pages as $key => $value) {
+				if(is_string($value)){
+					$pages->{$key} = $site . $value;
+				} 
+			}
+			return $pages;
+		}
+
 		public static function unit(){
-			$file = file(elgg_get_root_path().\Uoowd\Param::unitAMD());
-			return self::JSON_AMD($file);
+			// $file = file(elgg_get_root_path().\Uoowd\Param::unitAMD());
+			// return self::JSON_AMD($file);
+			$val = elgg_get_plugin_setting('offer-unit', \Uoowd\Param::uid() );
+			$val = (array) json_decode($val);
+			return $val;
 		}
 
 
@@ -193,6 +260,66 @@ namespace Uoowd;
 				}
 			}
 		}
+
+
+		/**
+		 * scrivo in formato json piu leggibile
+		 * @param  [type] $json [description]
+		 * @return [type]       [description]
+		 */
+		public static function prettyJson($json) {
+		 
+		    $result      = '<pre>';
+		    $pos         = 0;
+		    $strLen      = strlen($json);
+		    $indentStr   = '  ';
+		    $newLine     = "\n";
+		    $prevChar    = '';
+		    $outOfQuotes = true;
+
+		    for ($i=0; $i<=$strLen; $i++) {
+		 
+		        // Grab the next character in the string.
+		        $char = substr($json, $i, 1);
+		 
+		        // Are we inside a quoted string?
+		        if ($char == '"' && $prevChar != '\\') {
+		            $outOfQuotes = !$outOfQuotes;
+		 
+		        // If this character is the end of an element, 
+		        // output a new line and indent the next line.
+		        } else if(($char == '}' || $char == ']') && $outOfQuotes) {
+		            $result .= $newLine;
+		            $pos --;
+		            for ($j=0; $j<$pos; $j++) {
+		                $result .= $indentStr;
+		            }
+		        }
+		 
+		        // Add the character to the result string.
+		        $result .= $char;
+		 
+		        // If the last character was the beginning of an element, 
+		        // output a new line and indent the next line.
+		        if (($char == ',' || $char == '{' || $char == '[') && $outOfQuotes) {
+		            $result .= $newLine;
+		            if ($char == '{' || $char == '[') {
+		                $pos ++;
+		            }
+		 
+		            for ($j = 0; $j < $pos; $j++) {
+		                $result .= $indentStr;
+		            }
+		        }
+		 
+		        $prevChar = $char;
+		    }
+		 
+		    return $result."</pre>";
+		}
+
+
+
 
 	}
 

@@ -6,7 +6,7 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define([], factory);
+        define(['jquery', 'jquery-foowd'], factory());
     } else if (typeof exports === 'object') {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
@@ -37,6 +37,7 @@
 /////////////////////////// inizio di tutte le costruzioni ///////////////////////
 
 "use strict";
+var $= require('jquery');
 // var image
 // var image-container
 // var w
@@ -45,22 +46,25 @@
 
 // se l'immagine e' gia' esistente, allora provvedo subito ad inizializzare la funzione
 $(window).on('load', function(){
-
-    var img = document.getElementById('image').getElementsByTagName('img')[0];
-    if(img){
-
+    // ritardo la visualizzazione perche' la descrizione del prodotto via elgg sballa i posizionameni quando viene a caricarsi
+    var $ig = $('#image-container').css('display','none');
+    function loadedImageEnd(){
         // imposto la larghezza a 400
         var w = 400;
-        $(img).width(w);
-        img.id = 'sorgente';
-        
-        $img = img;
-        $img.height *= w/$img.width;
-        $img.width = w;
-        start();
-    }else{
-        // alert('nada');
+        var el = this;
+        $ig.fadeIn(function(){
+            $(el).width(w).attr('id', 'sorgente');
+            $img = el;
+            $img.height *= w/$img.width;
+            $img.width = w;
+            start();
+        });
     }
+    setTimeout(function(){   
+            $('#image img').foowd('onLoad',{ callback: loadedImageEnd });
+        // });
+    }, 2000);
+
 });
 
 
@@ -260,11 +264,11 @@ function start(){
     var JratioWrap = $('<div/>',{'html':strg, 'id':'ratio-wrap'}).css({'position':'absolute'}).insertBefore(div)
 
 
-    var mystyle =   ' #ratio{max-width:100px;} #ratio [data-ratio]{ margin:15px ; padding: 5px; background-color:#FAE6EF; display: flex; justify-content: center; align-items: center;  }  #ratio [data-ratio]:hover{  background-color:silver;  } #ratio [data-ratio]:active{  background-color:steelblue;  } #ratio [data-ratio="2:3"]{width: 20px; height:30px;} #ratio [data-ratio="3:2"]{width: 30px; height:20px;}';
-    if (!$('style#foowd-crop-js').length) $('<style/>',{
-            "id":"foowd-crop-js",
-            "text": mystyle
-        }).appendTo("head");
+    // var mystyle =   ' #ratio{max-width:100px;} #ratio [data-ratio]{ margin:15px ; padding: 5px; background-color:#FAE6EF; display: flex; justify-content: center; align-items: center;  }  #ratio [data-ratio]:hover{  background-color:silver;  } #ratio [data-ratio]:active{  background-color:steelblue;  } #ratio [data-ratio="2:3"]{width: 20px; height:30px;} #ratio [data-ratio="3:2"]{width: 30px; height:20px;}';
+    // if (!$('style#foowd-crop-js').length) $('<style/>',{
+    //         "id":"foowd-crop-js",
+    //         "text": mystyle
+    //     }).appendTo("head");
     
     // allineo il box
     var divleft = div.position().left - JratioWrap.width() - 30;
@@ -410,10 +414,10 @@ function start(){
 /**
  * classe che rappresenta la finestra di zoom
  * 
- * @param  {[type]} size      small, medium, etc
- * @param  {[type]} div       il selettore jquery del box di crop
- * @param  {[type]} scale     classe che contiene i parametri delle scale
- * @return {[type]}           [description]
+ * @param  {string} size      small, medium, etc
+ * @param  {object} div       il selettore jquery del box di crop
+ * @param  {object} scale     classe che contiene i parametri delle scale
+ * @return {void}       nothing
  */
 var PrevWindow = function(size ,div, scale){
     // dimensioni immagine di crop
