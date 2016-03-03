@@ -393,12 +393,14 @@ class ApiPrefer extends \Foowd\FApi{
 			unset($ar['OfferId']);
 
 			$tmpOf = \OfferQuery::Create()->filterById($OfferId)->findOne();
+			$company = $tmpOf->getUser()->getCompany();
 			$offer = $tmpOf->toArray();
 			// ottengo i tags
 			foreach($tmpOf->getTags() as $tg) $offer['Tag'][] = $tg->getName();
 			$offer['Tag'] = (isset($offer['Tag'])) ? implode(',' , $offer['Tag']) : null ;
 			// riadatto il publisher per external
 			$offer['Publisher'] = self::IdToExt($offer['Publisher']);
+			$offer['Company'] = $company;
 			// $pf = \PreferQuery::Create()->filterByOfferId($OfferId)->filterByState('newest');
 			// if(isset($usersMatch)) $pf = $pf->filterByUserId($usersMatch);
 			// $pf = $pf->find();
