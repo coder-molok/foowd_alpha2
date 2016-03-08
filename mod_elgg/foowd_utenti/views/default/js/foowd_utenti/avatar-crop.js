@@ -6,7 +6,7 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define([], factory);
+        define(['jquery-foowd'], factory);
     } else if (typeof exports === 'object') {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
@@ -323,10 +323,14 @@ function start(){
     }
 
     console.log(oldCrop)
+    // $('.elgg-page').prepend(JSON.stringify(oldCrop))
     // instance of image area select: used to force aspect ratio in onSelectChange event
     $ias = div.imgAreaSelect({instance: true});    
     //$ias.setOptions({/* aspectRatio: '1:1',*/ handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 30, minHeight: 30});    
-    $ias.setOptions({aspectRatio: ratio, handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 30, minHeight: 30});    
+    setTimeout(function(){
+        div.css({opacity:1});
+        $ias.setOptions({aspectRatio: ratio, handles: true , onInit: preview, onSelectChange: preview ,  x1: oldCrop.x1 ,y1:oldCrop.y1, x2:oldCrop.x2, y2:oldCrop.y2, show: true, minWidth: 30, minHeight: 30});    
+    }, 500);
     
 }   
 
@@ -610,9 +614,9 @@ var $wSize = (function(){
 ///     che le variabili e gli oggetti globali come scale e $img vengano caricati PRIMA dell'esecuzione, essendo tutto procedurale
 
 // se l'immagine e' gia' esistente, allora provvedo subito ad inizializzare la funzione
-$(window).on('load', function(){ startIfExists(); });
-// oppure nel caso sia gia' caricato (prima di chiamare questo modulo) e l'immagine esista
-if(document.getElementById('image').getElementsByTagName('img').length >= 1 ) startIfExists();
+$('#image img').css({opacity: 0});
+$('#image img').foowd('onLoad',{callback:function(){ startIfExists(); }});
+
 
 
 /////////////////////////// fine di tutte le costruzioni ///////////////////////	

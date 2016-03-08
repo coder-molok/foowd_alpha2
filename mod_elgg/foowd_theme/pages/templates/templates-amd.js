@@ -7,6 +7,9 @@ templates['carouselItem'] = template({"compiler":[7,">= 4.0.0"],"main":function(
     + container.escapeExpression(((helper = (helper = helpers.slide || (depth0 != null ? depth0.slide : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"slide","hash":{},"data":data}) : helper)))
     + "\">\r\n	</div>\r\n</figure>";
 },"useData":true});
+templates['commonHtml'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "\r\n<!-- Pezzo che deve essere comune a tutte le pagine -->\r\n\r\n<div id=\"close-overlay\" class=\"overlay overlay-hugeinc\">\r\n  <div class=\"reverse foowd-navbar\">\r\n  </div>\r\n  <nav>\r\n    <ul>\r\n      <li><a target=\"_blank\" href=\"http://www.tiny.cc/guida_foowd_1\">Guida all'uso</a></li>\r\n      <li><a target=\"foowd_site\" href=\"http://www.foowd.it\">Sito web</a></li>\r\n      <li><a target=\"foowd_site\" href=\"http://www.foowd.it/about.html\">Su di noi</a></li>\r\n      <li><a target=\"foowd_site\" href=\"http://www.foowd.it/investors.html\">Investitori</a></li>\r\n      <li><a target=\"foowd_site\" href=\"https://www.smore.com/pcm5x\">Produttori</a></li>\r\n      <li><a target=\"foowd_site\" href=\"http://www.foowd.it/#contatti\">Contatti</a></li>\r\n    </ul>\r\n  </nav>\r\n</div>\r\n\r\n<!-- ############################################### -->\r\n\r\n<!-- Pezzo che deve essere presente se viene aggiuntao tolta un preferenza -->\r\n\r\n<div class=\"foowd-alert\" role=\"alert\" id=\"foowd-success\"></div>\r\n<div class=\"foowd-alert\" role=\"alert\" id=\"foowd-error\"></div>\r\n";
+},"useData":true});
 templates['navbar'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper;
 

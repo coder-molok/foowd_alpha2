@@ -33,6 +33,8 @@ $header = '';//elgg_view('page/elements/header', $vars);
 $content = elgg_view('page/elements/body', $vars);
 $footer = elgg_view('page/elements/foowdFooterBack', $vars);
 
+$guideUrl = \Uoowd\Param::page()->guide;
+
 $body = <<<__BODY
 <div class="elgg-page elgg-page-default">
 	<div class="elgg-page-messages">
@@ -67,23 +69,6 @@ $body .= <<<__BODY
 	</div>
 	</noscript>
 	<div class="elgg-page-body elgg-main foowd-theme-fadein">
-
-		<!-- inserito per compatibilita' tema -->
-		<div id="close-overlay" class="overlay overlay-hugeinc">
-		  <div class="reverse foowd-navbar">
-		  </div>
-		  <nav>
-		    <ul>
-		      <li><a target="foowd_site" href="http://www.foowd.it">Sito web</a></li>
-		      <li><a target="foowd_site" href="http://www.foowd.it/about.html">Su di noi</a></li>
-		      <li><a target="foowd_site" href="http://www.foowd.it/investors.html">Investitori</a></li>
-		      <li><a target="foowd_site" href="https://www.smore.com/pcm5x">Produttori</a></li>
-		      <li><a target="foowd_site" href="http://www.foowd.it/#contatti">Contatti</a></li>
-		    </ul>
-		  </nav>
-		</div>
-
-
 		<div class="elgg-inner">
 			$content
 		</div>
