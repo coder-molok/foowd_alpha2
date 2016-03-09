@@ -22,6 +22,17 @@ class API{
 		if(is_callable('curl_init')){
 			// inizializzo la chiamata
 			//$url="http://localhost/api_offerte/public_html/api/offers";
+			// per sicurezza uso l'urlencode nella query string
+			$url = preg_replace_callback('@\?(.+)$@', function($matches){
+				$url = ($matches[1]) ? $matches[1] : '';
+				$url = explode('&',$url);
+				foreach($url as $key => $val){
+					$url[$key] = preg_replace_callback('@=(.*)@',function($m){return '='. urlencode($m[1]);} , $val);
+				}
+				return '?'.implode('&', $url);
+			}
+			, $url);
+			
 			$url = elgg_get_plugin_setting('api', \Uoowd\Param::uid()  ) . $url;
 			$ch = curl_init($url);
 			\Uoowd\Logger::addDebug('Url API: ' . $url);

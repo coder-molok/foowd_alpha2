@@ -296,6 +296,13 @@ class ApiOffer extends \Foowd\FApi{
 			unset($data->offset);
 		}
 
+		if(isset($data->Expiration)){
+			if(preg_match('@{.+}@',$data->Expiration)){
+				$expiration = (array) json_decode($data->Expiration);
+			}
+			unset($data->Expiration);
+		}
+
 		if(isset($data->ExternalId)){
 			$data->ExternalId = trim($data->ExternalId, ',');
 			if(preg_match('@,@',$data->ExternalId)){
@@ -362,6 +369,10 @@ class ApiOffer extends \Foowd\FApi{
 			}
 
 			$obj = $obj->{'filterBy'.$key}($value);
+		}
+
+		if(isset($expiration)){
+			$obj = $obj->filterByExpiration($expiration)->_or()->filterByExpiration(NULL);
 		}
 
 		// oppure applico un filtro by tag, con condizione or... devo usare la tabella many-to-many

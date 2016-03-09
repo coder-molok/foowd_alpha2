@@ -222,6 +222,10 @@ define(function(require){
 			// gli dico di aggiungere anche gli amici
 			query.withFriends = true;
 
+			// visualizzo solo quelle non scadute:
+			var now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+			query.Expiration = JSON.stringify({min: now.toString()});
+
 			// recupero tutti i dati... da raffinare!
 			API.getProducts(query).then(function(data){
 				$("#wall-container").loadingOverlay('remove');

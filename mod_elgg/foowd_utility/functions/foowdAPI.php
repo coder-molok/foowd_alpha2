@@ -83,6 +83,7 @@ function foowd_offer_search(){
 	array_map(function($v){unset($_GET[$v]);}, $unset);
 
 	$appendUrl = implode('&',array_map_assoc(function($k,$v){return "$k=$v";},$_GET));
+	// \Uoowd\Logger::addError($appendUrl);
 	$r = \Uoowd\API::offerGet($appendUrl);
 	// \Uoowd\Logger::addError($r);
 	return $r;
