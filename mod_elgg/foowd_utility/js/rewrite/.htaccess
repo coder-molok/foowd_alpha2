@@ -6,4 +6,4 @@
 
 
 RewriteEngine on
-RewriteRule ^(.*)\.js$ $1.php
+RewriteRule ^(.*)\.js$ $1.php?type=amd [QSA]

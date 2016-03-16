@@ -2,6 +2,34 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 09/03/2016
+
+- inibita visualizzazione offerte scadute nel wall
+
+- implementata codifica url per la query string
+
+
+
+### 08/03/2016
+
+- risolto problema compatibilita' pagine php/amd introducendo una conversione dinamica via ".htaccess"
+
+- sistemato errore caricamento pagina modifica avatar
+
+
+
+### 05/03/2016
+
+- sistemate piccole issue
+
+
+
+### 03/03/2016
+
+- corretta ApiPrefer per aggiungere nome compagnia
+
+
+
 ### 01/03/2016
 
 - eliminata tipologia di indirizzo, nazione e localita' da form di registrazione/modifica utente

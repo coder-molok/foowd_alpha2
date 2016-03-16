@@ -13,7 +13,8 @@ namespace Uoowd;
 			'imgStore'	=> 'FoowdStorage',									// folder in cui salvare le immagini
 			'tags'		=> 'tags.json',										// dove salvare il json contenente i tags
 			'utilAMD'	=> 'mod/foowd_utility/js/utility.settings.public.amd.js',	// file js contenente i settings e che viene aggiornato ad ogni salvataggio
-			'pageAMD' 	=> '/mod/foowd_utility/js/foowd.pages.amd.js',		// file js contenente l'elenco delle pagine di navigazione
+			'pageAMD' 	=> '/mod/foowd_utility/js/rewrite/foowd.pages.amd.js',		// file js contenente l'elenco delle pagine di navigazione
+			'pagePHP' 	=> '/mod/foowd_utility/js/rewrite/foowd.pages.amd.php',		// file js contenente l'elenco delle pagine di 
 			'unitAMD' 	=> '/mod/foowd_offerte/js/foowd.unit.amd.js',		// file js contenente l'elenco delle unita' di misura
 		);
 	
@@ -167,32 +168,32 @@ namespace Uoowd;
 		 * @param  [type] $page [description]
 		 * @return [type]       [description]
 		 */
-		public static function JSON_AMD($file){
-			// var_dump($file);
-			$json = false;
-			foreach($file as $row => $line){
-				if($json && $row!=count($file)-1){
-					$line = preg_replace('@(//.*|/\*.*\*/)@','', $line); // tolgo i commenti: sia /*... */ che // ...
-					// $line = preg_replace('@@','', $line); // tolgo i commenti
-					$json .= $line;	
-				} 
-				if(preg_match('@^define\(@', $line)) $json = ' ';
-			}
-			// $json = preg_replace('@( |\n|\r|\t)@','',$json);
-			// var_dump($json);
-			$json = json_decode($json);
-			// var_dump($json);
+		// public static function JSON_AMD($file){
+		// 	// var_dump($file);
+		// 	$json = false;
+		// 	foreach($file as $row => $line){
+		// 		if($json && $row!=count($file)-1){
+		// 			$line = preg_replace('@(//.*|/\*.*\*/)@','', $line); // tolgo i commenti: sia /*... */ che // ...
+		// 			// $line = preg_replace('@@','', $line); // tolgo i commenti
+		// 			$json .= $line;	
+		// 		} 
+		// 		if(preg_match('@^define\(@', $line)) $json = ' ';
+		// 	}
+		// 	// $json = preg_replace('@( |\n|\r|\t)@','',$json);
+		// 	// var_dump($json);
+		// 	$json = json_decode($json);
+		// 	// var_dump($json);
 
-			return $json;
-		}
+		// 	return $json;
+		// }
 
 		/**
 		 * oggetto ottenuto dal plugin javascript foowd.pages.amd.js
 		 * @return object oggetto stdClass (lo stesso del plugin js)
 		 */
 		public static function page(){
-			$file = file(elgg_get_root_path().\Uoowd\Param::pageAMD());
-			return self::JSON_AMD($file);
+			return require(elgg_get_root_path().\Uoowd\Param::pagePHP());
+			// return self::JSON_AMD($file);
 		}
 
 		/**

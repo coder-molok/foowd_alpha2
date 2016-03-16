@@ -28,6 +28,9 @@ define(function(require){
 
 		function _init(search){
 			
+			// parti comuni a tutte le pagine, come ad esempio il menu
+			$(templates.commonHtml()).appendTo('.elgg-page');
+			
 			userId = utils.getUserId();
             search = utils.isValid(search) ? search : false;
             var context = {

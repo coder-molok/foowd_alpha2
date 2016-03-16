@@ -24,8 +24,12 @@ if(file_exists($dir)){
 		$path = $img;
 		$type = pathinfo($img, PATHINFO_EXTENSION);
 		$img = file_get_contents($img);
+		list($width, $height, $type, $attr) = getimagesize($path);
+		$hOw = $height/$width;
+		$w = 400;
+		$h = $w * $hOw;
 		$img = 'data:image/' . $type . ';base64,' . base64_encode($img);
-		$img = '<img src="'.$img.'" width="400px" />';
+		$img = "<img src=\"$img\" width=\"{$w}px\" height=\"{$h}px\"/>";
 		$style = '';
 	}
 }
