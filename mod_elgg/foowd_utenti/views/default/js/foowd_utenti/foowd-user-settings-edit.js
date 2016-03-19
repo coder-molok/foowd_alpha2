@@ -184,9 +184,18 @@
         }
       }
     });
+    ar.push({
+      cls: 'Price',
+      obj: {
+        inpt: 'form.elgg-form-usersettings-save [name="MinOrderPrice"]',
+        key: 'MinOrderPrice',
+        el: 'form.elgg-form-usersettings-save [name="MinOrderPrice"]',
+        msg: 'foowd:user:minorderprice:error'
+      }
+    });
     fct.pushFromArray(ar);
     needAr = ['email', 'Username'];
-    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner', 'City', 'Zipcode'];
+    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner', 'City', 'Zipcode', 'MinOrderPrice'];
     needArOfferente = needAr.concat(needArOfferente);
     noNeedAr = ['Site'];
     setNeed = function(bool) {

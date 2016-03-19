@@ -310,6 +310,7 @@ class ApiOffer extends \Foowd\FApi{
 			}else{
 				$toCheck = array($data->ExternalId);
 			}
+			$localId = [];
 			unset($data->ExternalId);
 
 			foreach($toCheck as $value){
@@ -319,6 +320,7 @@ class ApiOffer extends \Foowd\FApi{
 				if(is_object($UserId)){
 					// questo dato verra' riutilizzato nel loop delle offerte
 					$ExternalId[] = $value;
+					$localId[] = $UserId->getId();
 				}else{
 					$Json['response'] = false;
 					$Json['errors']['ExternalId'][] = "L'ExternalId ".$value."  non e' associato a nessun utente API";
@@ -419,6 +421,10 @@ class ApiOffer extends \Foowd\FApi{
 		
 		
 		$return = array();
+
+		// array che conterra' i dati dei gruppi di offerte
+		// (attualmente i gruppi sono solo TUTTE le offerte di ciascun produttore)
+		$groups = array( "PublisherId" => array() );
 	
 		// ciclo su ogni offerta
 		foreach ($offer as $single) {
@@ -431,6 +437,9 @@ class ApiOffer extends \Foowd\FApi{
 			// ricavo il nome dell'azienda
 			$usr = $single->getUser();
 			$ar['Company'] = $usr->getCompany();
+
+			// salvo l'id per il loop sul gruppo
+			if(!in_array($usr->getId(), $groups['PublisherId'])) $groups['PublisherId'][] = $usr->getId();
 
 			// cerco le quantita' totali associate alla singola offerta
 			$ext = new \stdClass();
@@ -494,6 +503,58 @@ class ApiOffer extends \Foowd\FApi{
 
 
 		}
+
+		// se ho uno o piu ExternalId vuol dire che l'utente e' loggato, e pertanto ha senso cercare i totali per produttore in base alle offerte
+		if(isset($ExternalId) && count($groups)>0 ){
+			$groups['byPublisher'] = array();
+			$groups['ExternalId'] = $localId;
+			$off = \OfferQuery::create()->filterByPublisher($groups['PublisherId'])
+				// se non voglio quelle scadute
+				// ->filterByExpiration(array("min"=>time()))->_or()->filterByExpiration(NULL)
+				->find();
+
+			foreach($off as $of){
+				// svolgo una query anziche' il semplice getPrefers() ritornerebbe troppi valori superflui.
+				$prefs = \PreferQuery::create()
+						->filterByOfferId($of->getId())
+						->filterByUserId($localId)
+						// solo i nuovi concorrono alla creazione di un nuovo ordine
+						->filterByState('newest')
+						->find();
+
+				// se ne ho almeno una, allora la aggiungo
+				if($prefs->count()>0){
+					$ar = array();
+					$ar['Price'] = $of->getPrice();
+					// $totalQt = 0;
+					$pr = $prefs->toArray();
+					foreach($pr as $key => $p){
+					 	// $totalQt += $p['Qt'];
+					 	$pr[$key]['UserId'] = self::IdToExt($p['UserId']);
+					}
+					$ar['prefers'] = $pr;
+					// $ar['totalQt'] = $totalQt;
+					// $ar['totalPrice'] = $totalQt * $ar['Price'];
+					$ext = self::IdToExt($of->getPublisher());
+					$groups['byPublisher'][$ext]['offers'][$of->getId()] = $ar;
+				}
+			}
+			
+			// ora raccolgo i constraint, in questo caso semplicemente il minPrice
+			foreach ($groups['byPublisher'] as $publisherId => $value) {
+				$totalByPublisher = 0 ;
+				$local = self::ExtToId($publisherId);
+				$g = \OfferGroupManyQuery::create()->filterByPublisherId($local)->filterByGroupOfferId(NULL)->findOne();
+				if($g) $groups['byPublisher'][$publisherId]['Constraint'] = (array) json_decode( $g->getGroupConstraint() );
+			}
+
+		}
+
+
+
+		$return['groups'] = $groups;
+
+
 
 		// if(count($return ) == 0) $Json['response'] =false;
 		if(!isset($Json['response'])){ $Json['response'] = true;}

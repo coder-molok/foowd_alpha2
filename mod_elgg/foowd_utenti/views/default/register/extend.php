@@ -85,6 +85,8 @@ $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars)
 	echo elgg_view('login/address');
 	elgg_require_js('foowd_utenti/user-register-address');
 
+	$fadd->createField('MinOrderPrice','foowd:user:minorderprice:need', 'input/text', array('maxlength'=>"11"));
+
 	?>
 
 <div class="legend">

@@ -180,18 +180,51 @@ define(function(require){
         /**
          * preparo un'offerta: svolgo dei conti relativi al totale delle preferenze nello switch utente/gruppo
          */
-        function offerPrepare(el, group){
+        function offerPrepare(obj){
+            var el = obj.el;
+            var groups = obj.groups;
+            var group = (obj.group) ? obj.group : false;
             // calcolo i totali per utente e per gruppo
             el.offer.totalQtUser = 0;
             el.offer.totalQtGroup = 0;
             el.offer.prefers = [];
+            
+            // loop relativo alle preferenze del singolo prodotto, ora rimpiazzato da quello su tutti i gruppi
             for(var i in el.prefers){
                 // sono interessato a conteggiare solo quelle in stato newest
                 if(el.prefers[i].State != "newest") continue;
-                el.offer.prefers.push(el.prefers[i].Id);
+                // el.offer.prefers.push(el.prefers[i].Id);
                 if(getUserId() == el.prefers[i].UserId) el.offer.totalQtUser += el.prefers[i].Qt;
                 el.offer.totalQtGroup += el.prefers[i].Qt;
             }
+
+            el.offer.totalPriceUser = 0;
+            el.offer.totalPriceGroup = 0;
+            try {
+                var pubId = el.offer.Publisher;
+                var ofPub = groups.byPublisher[pubId];
+                var pubConstraint = ofPub.Constraint;
+                var ofs = ofPub.offers;
+                // ciascun publisher ha piu offerte
+                for(var i in ofs ){
+                    var single = ofs[i];
+                    var price = single.Price;
+                    // ciascuna offerta ha piu preferenze
+                    for(var j in single.prefers){
+                        var p = single.prefers[j];
+                        if(p.State == "newest"){
+                            // lista per il purchase
+                            el.offer.prefers.push(p.Id);
+                            if(getUserId() == p.UserId) el.offer.totalPriceUser += p.Qt * price;
+                            el.offer.totalPriceGroup += p.Qt * price;        
+                        }
+                    }
+                }
+            }
+            catch (e) {
+               console.log(e);
+            }
+            
             el.offer.prefers = el.offer.prefers.join(',');
             el.offer.productDetailUri = elgg.get_site_url() + 'detail?productId=' + el.offer.Id;
             //aggiungo l'immmagine
@@ -200,8 +233,13 @@ define(function(require){
             el.offer = setLoggedFlag(el.offer, getUserId());
 
             // di default aggiungo anche il gruppo
-            el.offer = setLoggedGroup(el.offer, group);
+            el.offer = setLoggedGroup(el.offer, '');
+
             el.offer.totalQt = (group) ? el.offer.totalQtGroup : el.offer.totalQtUser ;
+            el.offer.actualProgress = (group) ? el.offer.totalPriceGroup : el.offer.totalPriceUser;
+            var pg = (pubConstraint) ? pubConstraint : 0;
+            el.offer.minProgress = (pg.minPrice) ? pubConstraint.minPrice : 0 ;
+            if(el.offer.minProgress == 0 ) el.offer.minProgress = Infinity;
 
             return el;
         }

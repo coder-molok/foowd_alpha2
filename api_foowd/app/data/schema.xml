@@ -48,6 +48,18 @@
             <parameter name="State" value="{column: state, validator: PropelFoowd, options: {type: enum, list:'newest,pending,solved'}}" />
         </behavior>
     </table>
+    <!-- La tabella e' predisposta per una relazione many to many, attualmente non ancora implementata -->
+    <table name="offer_group_many" phpName="OfferGroupMany">
+        <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="publisherid" phpName="PublisherId" type="INTEGER" required="false"/>
+        <!-- required false per fare in modo che il valore di default sia null, associato alla ricerca di TUTTE le offerte -->
+        <column name="groupofferid" phpName="GroupOfferId" type="INTEGER" required="false"/>
+        <!-- constraint e' una reserved word di mysql -->
+        <column name="groupconstraint" phpName="GroupConstraint" type="VARCHAR" required="true"/>
+        <foreign-key foreignTable="user">
+            <reference local="publisherid" foreign="id"/>
+        </foreign-key>
+    </table>
     <table name="purchase" phpName="Purchase">
         <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
         <column name="offerid" phpName="OfferId" type="INTEGER"/>

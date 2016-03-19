@@ -114,13 +114,15 @@
     # ar.push({cls:'Text', obj:{inpt:'form.elgg-form-register [name="Civic"]', key:'Civic', el:'form.elgg-form-register [name="Civic"]', msg: 'foowd:user:civic:error'} })
     ar.push({cls:'Integer', obj:{inpt:'form.elgg-form-register [name="Zipcode"]', key:'Zipcode', el:'form.elgg-form-register [name="Zipcode"]', msg: 'foowd:user:zipcode:error', sizeL: {min: 5, max: 6} } })
 
+    ar.push({cls:'Price', obj:{inpt:'form.elgg-form-register [name="MinOrderPrice"]', key:'MinOrderPrice', el:'form.elgg-form-register [name="MinOrderPrice"]', msg: 'foowd:user:minorderprice:error' } })
+
     fct.pushFromArray(ar)
     # di default nessuno di questi e' obbligatorio
 
     needAr = ['email', 'username','name']
     noNeedAr = ['Site']
     # se l'utente e' offerente 'AddressesType', 'Civic'
-    needOfferente = ['Phone', 'Owner', 'Piva', 'Address', 'Company', 'City', 'Zipcode']
+    needOfferente = ['Phone', 'Owner', 'Piva', 'Address', 'Company', 'City', 'Zipcode', 'MinOrderPrice']
     
     setNeed = (bool)->
         fct.each( ()->

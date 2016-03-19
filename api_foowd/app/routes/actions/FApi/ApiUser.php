@@ -64,13 +64,39 @@ class ApiUser extends \Foowd\FApi{
 		
 		// modifico prima del salvataggio
 		if(isset($data->Image)) $data->Image = base64_decode($data->Image);
-		
+		if(isset($data->GroupConstraint)){
+			$constraint = $data->GroupConstraint;
+			unset($data->GroupConstraint);
+		}
+
+
 		$user = new \User();
+
 		foreach($data as $field => $value) $user->{'set'.$field}($value);
-		
 		//var_dump($user->validate());
 
-		return $this->FSave($user);
+		$sv = $this->FSave($user);
+		if(!$sv['response']) return $sv; 
+
+		// hook alla tabella dei constraint
+		if(isset($constraint)){
+			unset($data->GroupConstraint);
+			$localId = self::ExtToId($data->ExternalId);
+			// $this->app->getLog()->error('user creato  '. $localId);
+			$j = [
+				'PublisherId' => $localId,
+				'GroupConstraint' => json_encode($constraint)
+			];
+
+			// creo la nuova corrispondenza
+			$g = new \OfferGroupMany();
+			foreach($j as $field => $value) $g->{'set'.$field}($value);
+			$g->save();
+		}
+
+
+		return ['response'=>true];
+
 	}
 
 
@@ -117,10 +143,43 @@ class ApiUser extends \Foowd\FApi{
 		if(!$user) return array('errors'=>'Utente non presente nel DB API', 'response' => false);
 		
 		$fields = $data;
+		$externalId = $fields->ExternalId;
 		unset($fields->ExternalId);
 		unset($fields->type);
 		if(isset($fields->Image)) $fields->Image = base64_decode($fields->Image);
+
+		// hook alla tabella dei constraint
+		if(isset($fields->GroupConstraint)){
+			$constraint = $fields->GroupConstraint;
+			unset($fields->GroupConstraint);
+			$localId = self::ExtToId($externalId);
+			$j = [
+				'PublisherId' => $localId,
+				'GroupConstraint' => json_encode($constraint)
+			];
+
+			$groups = \OfferGroupManyQuery::create()->filterByPublisherId($localId)->filterByGroupOfferId(NULL)->find();
+
+			// se non ce ne sono, vuol dire che e' il primo, e quindi lo salvo
+			$check = true;
+			if($groups->count() == 0){
+				$g = new \OfferGroupMany();
+			}elseif($groups->count() == 1){
+				$g = $groups[0];	
+			}else{
+				$check=false;
+				$j['ExternalId'] = $externalId;
+				$this->app->getLog()->error('Errore nel salvataggio: per ogni utente publisher dovrebbe esistere un solo parametro NULL per groupofferid, associato al concetto di "tutte le offerte"');
+				$this->app->getLog()->error($j);
+			}
+			
+			if($check){
+				foreach($j as $field => $value) $g->{'set'.$field}($value);
+				$g->save();
+			}
+		}
 		
+		// salvo i dati relativi alla tabella utenti
 		foreach($data as $field => $value) $user->{'set'.$field}($value);
 		
 		//var_dump($user->validate());
@@ -207,9 +266,13 @@ class ApiUser extends \Foowd\FApi{
 
 		if(!$user) return array('errors'=>'utente inesistente.', 'response' => false);
 
+		$localId = $user->getId();
+		$group = \OfferGroupManyQuery::create()->filterByPublisherId($localId)->filterByGroupOfferId(NULL)->findOne();
+
 		$user = $user->toArray();
-		// var_dump($user);
 		
+		if($group) $user['GroupConstraint'] = (array) json_decode($group->getGroupConstraint());
+
 		$return['body']	= $user;
 
 		// $default = array("Genre");

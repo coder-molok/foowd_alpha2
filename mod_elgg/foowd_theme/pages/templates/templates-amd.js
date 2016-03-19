@@ -99,13 +99,13 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "        <span class = \"detail-progress-bar\">\r\n            <span class = \"progress\" \r\n              data-unit = \"1\"\r\n              data-progress = \""
-    + alias4(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.actualProgress || (depth0 != null ? depth0.actualProgress : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"actualProgress","hash":{},"data":data}) : helper)))
     + "\" \r\n              data-total = \""
-    + alias4(((helper = (helper = helpers.Minqt || (depth0 != null ? depth0.Minqt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Minqt","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.minProgress || (depth0 != null ? depth0.minProgress : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"minProgress","hash":{},"data":data}) : helper)))
     + "\">\r\n            </span>    \r\n        </span>\r\n        <span class = \" detail-progress-bar preview-bar\">\r\n            <span class = \"progress\" \r\n              data-unit = \"1\"\r\n              data-progress = \""
-    + alias4(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.actualProgress || (depth0 != null ? depth0.actualProgress : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"actualProgress","hash":{},"data":data}) : helper)))
     + "\" \r\n              data-total = \""
-    + alias4(((helper = (helper = helpers.Minqt || (depth0 != null ? depth0.Minqt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Minqt","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.minProgress || (depth0 != null ? depth0.minProgress : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"minProgress","hash":{},"data":data}) : helper)))
     + "\">\r\n            </span>    \r\n        </span>\r\n";
 },"3":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
@@ -133,7 +133,7 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
     + "        <div class=\"price-detail\">\r\n            <ul class=\"number-block\" id=\"unit-price\">\r\n                <li>"
     + alias4(((helper = (helper = helpers.Price || (depth0 != null ? depth0.Price : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Price","hash":{},"data":data}) : helper)))
     + "<span class=\"apex\">€</span></li>\r\n                <li><span class =\"number-description\">cadauno</span></li>\r\n            </ul>\r\n        </div>\r\n        <div class=\"price-detail\">\r\n            <ul class=\"number-block\" id=\"min-order-price\">\r\n                <li>"
-    + alias4((helpers.math || (depth0 && depth0.math) || alias2).call(alias1,(depth0 != null ? depth0.Price : depth0),"*",(depth0 != null ? depth0.Minqt : depth0),{"name":"math","hash":{},"data":data}))
+    + alias4(((helper = (helper = helpers.minProgress || (depth0 != null ? depth0.minProgress : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"minProgress","hash":{},"data":data}) : helper)))
     + "<span class=\"apex\">€</span></li>\r\n                <li><span class =\"number-description\">ordine minimo</span></li>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n    <div class=\"detail-menu-section\" id =\"menu-close\">\r\n        <span class=\"foowd-icons foowd-icon-close\" id =\"close-detail\" onClick=\"utils.goTo('')\"></span>\r\n    </div>\r\n</div>\r\n<div id=\"product-menu\">\r\n    <div class=\"product-menu-section\" id=\"product-info\">\r\n        <div class=\"product-info-menu\" id = \"section1\">\r\n\r\n            <div class=\"menu-section\" id=\"product-name\">\r\n                "
     + alias4(((helper = (helper = helpers.Name || (depth0 != null ? depth0.Name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Name","hash":{},"data":data}) : helper)))
     + "\r\n            </div>\r\n            <div class=\"menu-section\" id=\"product-company\">\r\n                "
@@ -153,7 +153,7 @@ templates['productDetail'] = template({"1":function(container,depth0,helpers,par
     + "</span>\r\n                    </div>\r\n                </div>\r\n                <div class = \"commercial-menu-item\">\r\n                    <div class=\"item-container\">\r\n                        <span class=\"foowd-icons foowd-icon-cart item-icon\"></span>\r\n                        <span class = \"item-title\">Carrello</span>\r\n                        <span class = \"item-data\">\r\n                            "
     + alias4((helpers.math || (depth0 && depth0.math) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),"*",(depth0 != null ? depth0.Price : depth0),{"name":"math","hash":{},"data":data}))
     + "\r\n                            <span class = \"apex\">€</span>\r\n                        </span>\r\n                    </div>\r\n                </div>\r\n                \r\n"
-    + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias2).call(alias1,(depth0 != null ? depth0.totalQt : depth0),(depth0 != null ? depth0.Minqt : depth0),{"name":"canbuy","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.canbuy || (depth0 && depth0.canbuy) || alias2).call(alias1,(depth0 != null ? depth0.actualProgress : depth0),(depth0 != null ? depth0.minProgress : depth0),{"name":"canbuy","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class = \"product-menu-section\" id=\"product-picture\">\r\n       <img src=\""
     + alias4(((helper = (helper = helpers.picture || (depth0 != null ? depth0.picture : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"picture","hash":{},"data":data}) : helper)))
     + "\"/>\r\n    </div>\r\n</div>\r\n";
@@ -166,9 +166,9 @@ templates['productPost'] = template({"1":function(container,depth0,helpers,parti
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "                <span class=\"mini-progress-bar\">\r\n                    <span class=\"mini-progress\" data-unit=\"1\" data-progress=\""
-    + alias4(((helper = (helper = helpers.totalQt || (depth0 != null ? depth0.totalQt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"totalQt","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.actualProgress || (depth0 != null ? depth0.actualProgress : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"actualProgress","hash":{},"data":data}) : helper)))
     + "\" data-total=\""
-    + alias4(((helper = (helper = helpers.Minqt || (depth0 != null ? depth0.Minqt : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Minqt","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.minProgress || (depth0 != null ? depth0.minProgress : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"minProgress","hash":{},"data":data}) : helper)))
     + "\"></span>\r\n                </span>\r\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;

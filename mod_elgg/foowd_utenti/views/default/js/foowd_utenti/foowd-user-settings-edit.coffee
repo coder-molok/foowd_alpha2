@@ -147,12 +147,14 @@
     # ar.push({cls:'Text', obj:{inpt:'form.elgg-form-usersettings-save [name="Civic"]', key:'Civic', el:'form.elgg-form-usersettings-save [name="Civic"]', msg: 'foowd:user:civic:error'} })
     ar.push({cls:'Integer', obj:{inpt:'form.elgg-form-usersettings-save [name="Zipcode"]', key:'Zipcode', el:'form.elgg-form-usersettings-save [name="Zipcode"]', msg: 'foowd:user:zipcode:error', sizeL: {min: 5, max: 6} } })
 
+    ar.push({cls:'Price', obj:{inpt:'form.elgg-form-usersettings-save [name="MinOrderPrice"]', key:'MinOrderPrice', el:'form.elgg-form-usersettings-save [name="MinOrderPrice"]', msg: 'foowd:user:minorderprice:error' } })
+
     fct.pushFromArray(ar)
 
 
     needAr = ['email', 'Username']
     # username in minuscolo perche' intacco anche elgg! 'AddressesType', 'Civic'
-    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner', 'City', 'Zipcode'] #location
+    needArOfferente = ['Piva', 'Phone', 'Address', 'Company', 'Owner', 'City', 'Zipcode', 'MinOrderPrice'] #location
     needArOfferente = needAr.concat needArOfferente
     # di default nessuno di questi e' obbligatorio
     noNeedAr = ['Site']

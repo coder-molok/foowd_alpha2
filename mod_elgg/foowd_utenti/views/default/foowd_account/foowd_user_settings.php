@@ -39,6 +39,8 @@ $disable = ($vars['Genre'] == 'offerente' && !$vars['isAdmin']);
 	
 	echo elgg_view('login/address', $vars);
 	elgg_require_js('foowd_utenti/foowd-user-settings-address');
+
+	$fadd->createField('MinOrderPrice','foowd:user:minorderprice:need', 'input/text', array('maxlength'=>"11"));
 	
 	?>
 

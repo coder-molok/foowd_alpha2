@@ -234,7 +234,7 @@ define(function(require){
 				var rawProducts = data.body;
 				//utilizo il template sui dati che ho ottenuto
 				var app = [];
-					if(rawProducts.length > 0){
+					if(Object.keys(rawProducts).length > 0){
 						//utilizo il template sui dati che ho ottenuto
 						app = _applyProductContext(rawProducts);
 					}
@@ -258,13 +258,20 @@ define(function(require){
 			var userId = utils.getUserId();
 			var parsedIdx = [];
 			// memorizzo l'ultimo indice per eventualmente 
-			context.map(function(el) {
+			var groups = (typeof context.groups == 'undefined') ? null : context.groups ;
+			var isNumeric = /^[-+]?(\d+|\d+\.\d*|\d*\.\d+)$/;
+			for(var i in context){
+				var el = context[i];
+				if(!isNumeric.test(i)){
+					// console.log(el)
+					continue;	
+				} 
 				// se e' gia' nella cache, evito di  prepararlo, altrimenti svolgo sopra i conti
 				if(typeof __cache.offersPrepared[el.offer.Id] == 'undefined'){
 					// tengo conto degli indici per evitare di rieseguire delle search sugli stessi elementi quando chiamo il DB
 					__cache.idxCollection.push(el.offer.Id);
 					// conteggio per ciascuna offerta le sue quantita'
-					el = utils.offerPrepare(el);
+					el = utils.offerPrepare({el: el,groups: groups});
 					__cache.offersPrepared[el.offer.Id] = el;
 					// l'elemento non esisteva, pertanto devo rigenerare tutto
 					reload = true;
@@ -272,14 +279,17 @@ define(function(require){
 					el = __cache.offersPrepared[el.offer.Id];
 				}
 				// assegno l'opportuna quantita' in base al gruppo
+				// il prezzo sul singolo post
 				el.offer.totalQt = (group) ? el.offer.totalQtGroup : el.offer.totalQtUser ;
+				// la progressbar sul totale per utente
+				el.offer.actualProgress = (group) ? el.offer.totalPriceGroup : el.offer.totalPriceUser ;
 				// if(el.offer.Id == 29) console.log(el)
 				// result += templates.productPost(el.offer);
 				// ritorno gli oggetti jquery, perche' cosi' posso aggiornare tutto direttamente tramite mansonry
 				el.$self = $( templates.productPost(el.offer) );
 				parsedIdx.push(el.offer.Id);
 				result[el.offer.Id] = el;
-			});
+			};
 
 			return {"parsedProducts": result, "reload": reload, "parsedIdx": parsedIdx};
 		}
@@ -296,6 +306,7 @@ define(function(require){
 			$(progressBarClass).each(function(i) {
 			    var unit = $(this).data('unit');
 			    var progress = $(this).data('progress');
+			    $(this).attr('data-progress', progress); 
 			    var total = $(this).data('total');
 
 			    var barSize = $(this).width();
@@ -346,7 +357,8 @@ define(function(require){
 			$(document).find('[data-product-id]').each(function(){
 				var id = $(this).attr('data-product-id');
 				var tmp = __cache.offersPrepared[id].offer;
-				var qt = (group) ? tmp.totalQtGroup : tmp.totalQtUser;
+				// var qt = (group) ? tmp.totalQtGroup : tmp.totalQtUser;
+				var qt = (group) ? tmp.totalPriceGroup : tmp.totalPriceUser;
 				$(this).find(postProgressBarClass).data('progress', qt).css({'transition': 'background-position 1s ease-out'});//	transition: background-position 1s ease-out; 
 			});
 			$("#wall-container").loadingOverlay('remove');

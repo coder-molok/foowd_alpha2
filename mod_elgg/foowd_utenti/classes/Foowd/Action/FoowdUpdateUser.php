@@ -85,8 +85,15 @@ class FoowdUpdateUser{
 		$data['type'] = 'update';
 		$data['ExternalId'] = $ownerGuid;
 
+		// aggiungo il parametro per il vincolo su TUTTE le offerte
+		if(get_input('MinOrderPrice', false)){
+			// aggiungo due decimali per comodita'
+			$price = number_format((float)get_input('MinOrderPrice'), 2, '.', ''); 
+			$data['GroupConstraint'] = ['minPrice'=>$price];
+		}
+
+		// \Uoowd\Logger::addError($data);
 		$r = \Uoowd\API::Request('user', 'POST', $data);
-		// \Uoowd\Logger::addError($r);
 		if($r->response){
 			// aggiorno il campo dell'utente: l'unico che non avviene tramite interfaccia
 			$body = $r->body;

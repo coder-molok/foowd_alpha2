@@ -35,7 +35,7 @@ $fadd->createField('Zipcode','foowd:user:zipcode:need', 'input/text', array('max
 // $fadd->createField('Location','foowd:user:location:need', 'input/text', array('maxlength'=>"150"));
 
 // creo un hook per l'inserimento automatico nel caso sia nel form dei settings
-if( isset($vars['City']) && !preg_match('@_none@', $vars['City']) ) echo elgg_view('input/hidden', array('name' => 'cityValueHook', 'value' => $vars['City']));;
+if( isset($vars['City']) && !preg_match('@_none@', $vars['City']) ) echo elgg_view('input/hidden', array('name' => 'cityValueHook', 'value' => $vars['City']));
 
 
 /*

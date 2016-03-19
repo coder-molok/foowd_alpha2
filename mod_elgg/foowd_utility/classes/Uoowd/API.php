@@ -51,7 +51,7 @@ class API{
 		$ar = array();
 		foreach($params as $field => $value){
 			// elimino gli spazi inutili
-			$value = trim($value);
+			if(is_string($value)) $value = trim($value);
 			// se e' vuoto, evito di mandarlo
 			// if(empty($value)) continue;
 			// modifico automaticamente le virgole in punti, 
