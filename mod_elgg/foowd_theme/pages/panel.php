@@ -42,6 +42,36 @@ $title = ($user->isAdmin() ) ? 'AMMINISTRAZIONE' : 'Pannello Produttore' ;
 
 <div class="box">
 
+
+
+<div>
+<?php
+echo '<h3>Crea</h3>';
+echo '<p>per creare una nuova offerta basta cliccare qui sotto.</p>';
+echo elgg_view('output/url', array(
+		// associate to the action
+		'href' => \Uoowd\Param::page()->add,
+	    'text' => elgg_echo('Crea Nuova'),
+	    'class' => 'elgg-button',
+    ));
+?>
+</div>
+
+<div>
+<?php
+echo '<h3>Visualizza Tutte</h3>';
+echo '<p>cliccando potrai visualizzare una pagina con l\'elenco delle tue offerte, ed eventualmente modifcarle.</p>';
+echo elgg_view('output/url', array(
+		// associate to the action
+		'href' => \Uoowd\Param::page()->all,
+	    'text' => elgg_echo('Mie Offerte'),
+	    'class' => 'elgg-button',
+    ));
+?>
+
+</div>
+
+
 <div>
 <?php
 echo '<h3>Prenotazioni</h3>';
@@ -118,40 +148,6 @@ echo '<p class="pll">Salve '.$user->username.',<br/> scegli cosa fare:</p>';
 ?>
 <div class="box">
 
-<?php
-if($user->Genre !== "offerente") goto salto;
-?>
-
-<div>
-<?php
-echo '<h3>Crea</h3>';
-echo '<p>per creare una nuova offerta basta cliccare qui sotto.</p>';
-echo elgg_view('output/url', array(
-		// associate to the action
-		'href' => \Uoowd\Param::page()->add,
-	    'text' => elgg_echo('Crea Nuova'),
-	    'class' => 'elgg-button',
-    ));
-?>
-</div>
-
-<div>
-<?php
-echo '<h3>Visualizza Tutte</h3>';
-echo '<p>cliccando potrai visualizzare una pagina con l\'elenco delle tue offerte, ed eventualmente modifcarle.</p>';
-echo elgg_view('output/url', array(
-		// associate to the action
-		'href' => \Uoowd\Param::page()->all,
-	    'text' => elgg_echo('Mie Offerte'),
-	    'class' => 'elgg-button',
-    ));
-?>
-
-</div>
-
-<?php
-salto:
-?>
 
 
 

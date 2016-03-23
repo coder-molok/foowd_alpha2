@@ -26,8 +26,10 @@ $str = '';
 
 if($r->response && !empty($r->body)){
 	$afterTitle = ", <br/>ecco le offerte che hai pubblicato";
-	// var_dump($r->body);
-	foreach($r->body as $key ){
+	// \Fprint::r($r->body);
+	foreach($r->body as $k => $key ){
+		// nel caso sia la chiave che uso per i constraint
+		if(!is_numeric($k)) continue;
 		$key = $key->offer;
 		$str .= elgg_view('offers/allSingle',array('single' => (array)$key,'pid'=>$Pid ,'guid'=>elgg_get_logged_in_user_guid()) );
 	}

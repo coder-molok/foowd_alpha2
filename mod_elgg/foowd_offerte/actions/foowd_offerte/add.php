@@ -105,7 +105,10 @@ if ($f->status && $crop->status ) {
 		$f->addError(array_values($errors), $form);
 
 		// nel caso non stia usando il debug impostato nel plugin, stampo un messaggio normale
-		if(! $str = \Uoowd\Param::dbg()){ 
+		if(isset($r->singleOfferError)){
+			$str = $r->singleOfferError;
+		}
+		else if(! $str = \Uoowd\Param::dbg()){ 
 			$str = "Uno o piu campi sono errati";
 		}
 		register_error($str);

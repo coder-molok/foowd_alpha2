@@ -51,8 +51,8 @@ namespace Foowd\Action;
 		private $needle = array(
 			"Price",
 			"Tag",
-			"Minqt",
-			"Maxqt"
+			// "Minqt",
+			// "Maxqt"
 		);
 
 		/**

@@ -7,7 +7,7 @@
         <column name="publisher" phpName="Publisher" type="INTEGER" required="true"/>
         <!-- con size 10 vuol dire 10 numeri in totale, pertanto fino a 8 cifre per la parte intera + 2 cifre per la decimale -->
         <column name="price" phpName="Price" type="DECIMAL" size="10" scale="2" phpType="double" required="true"/>
-        <column name="minqt" phpName="Minqt" type="DECIMAL" size="8" scale="3" phpType="double" required="true"/>
+        <column name="minqt" phpName="Minqt" type="DECIMAL" size="8" scale="3" phpType="double" required="false"/>
         <column name="maxqt" phpName="Maxqt" type="DECIMAL" size="8" scale="3" phpType="double" required="false"/>
         <column name="quota" phpName="Quota" type="DECIMAL" size="8" scale="3" phpType="double" required="true"/>
         <column name="unit"  phpName="Unit"  type="VARCHAR" size="20" required="true" />

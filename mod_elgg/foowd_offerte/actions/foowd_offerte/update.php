@@ -96,6 +96,7 @@ $body = $r->body;
 
 // vecchia offerta
 $oldOffer = $body[0]->offer;
+// \Uoowd\Logger::addError($oldOffer);
 
 $diffs = $ofCron->findFieldDiffs((array) $oldOffer, (array) $data);
 $editableByDiff = $diffs['editableByDiff'];
@@ -182,6 +183,7 @@ if($r->response){
 		$str = 'Impossibile caricare l\'offerta';
 	}
 	register_error(elgg_echo($str));
+	\Uoowd\Logger::addError($r);
 	forward(REFERER);
 }
 /////////////////////////////////////////////////////// Fine Update ///////////////////////////////////

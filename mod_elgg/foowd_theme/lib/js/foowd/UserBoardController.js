@@ -14,6 +14,8 @@ define(function(require) {
 		var userDetailsContainer = "#account-menu";
 		//userId reference
    		var group = false;
+   		// oggetto per variabili globali
+   		var __ = {};
 
    		/* SS: parametro aggiunto ipotizzando che la board possa essere visualizzata anche da amici */
    		var userName = null;
@@ -45,9 +47,34 @@ define(function(require) {
 	   			group=false;
 	   			// impostati i deferred per garantire che _getUserInfo() si realizzi in cascata
 	   			// al fine di risolvere l'errore di conteggio delle preferenze
-	   			_getUserPreferences().then(function(){
-	   				_getUserInfo();		
-	   			});
+	   			// NB: da ripristinare una volta eliminato il vincolo singola offerta per produttore
+	   			// _getUserPreferences().then(function(){
+	   			// 	_getUserInfo();		
+	   			// });
+	   			
+	   			//---- parte speciale per i gruppi
+	   			var query = {};
+	   			// gli dico di aggiungere anche gli amici
+	   			query.withFriends = true;
+	   			__.offers = [];
+	   			API.getProducts(query).then(function(data){
+	   				// console.log(data)
+	   				for(var i in data.body){
+	   					if(i.match(/^[0-9]+$/)){
+	   						__.offers.push(data.body[i]['offer']['Id']);
+	   					}else{
+	   						__.groups = data.body[i];
+	   					}
+	   				}
+
+	   				// console.log(__.offers)
+	   				_getUserPreferences().then(function(){
+	   					_getUserInfo();		
+	   				});	
+
+	   			});   			
+	   			//----- fine parte per i gruppi
+
    		}
 
    		function _getUserPreferences(){
@@ -66,6 +93,14 @@ define(function(require) {
 			userId += '&state=newest';
 			return API.getUserPreferences(userId).then(function(data){
 				var rawData = data;
+				//-- extra per modalita' singolo 
+				var tmp = [];
+				$.each(rawData.body, function(idx, val){
+					var id = val['offer']['Id'];
+					if($.inArray(id, __.offers) > -1) tmp.push(val);
+				});
+				rawData.body = tmp;
+				//-- fine extra
 				// console.log(data)
 				var parsedProducts = _applyPreferencesContext(rawData.body);
 				_fillBoard(parsedProducts);
@@ -94,7 +129,7 @@ define(function(require) {
 			var userId = utils.getUserId();
 			var offers = [];
 			context.map(function(el) {
-				// controllo le anche l'utente ha espresso preferenza su quell'offerta, altrimenti la scarto
+				// controllo se anche l'utente ha espresso preferenza su quell'offerta, altrimenti la scarto
 				var userHas = false;
 				//aggiungo l'immagine al json di contesto
 				utils.addPicture(el.offer, 'small');
@@ -106,8 +141,26 @@ define(function(require) {
 					el.totalQt += p.Qt;
 					return p.Id;
 				}).join(',');
+				
+				//--- extra per moadlita' singolo
+				var pubId = el.offer.Publisher;
+				var byG = __.groups.byPublisher[pubId];
+				var ofr = byG.offers[el.offer.Id];
+				// var price = ofr.Price;
+				// var prefs = ofr.prefers;
+				// el.offer.prefers = [];
+				// implementazione utile per l'if
+				var minP = ( (byG || {} ).Constraint || {} ).minPrice;
+				// console.log(minP)
+				el.offer.totalProgress = (minP) ? minP : Infinity;
+				el.offer.actualProgress = el.totalQt * el.offer.Price;
+				//--- fine extra per moadlita' singolo
+				
+
 				el.offer.detailUri = utils.uriProductDetail(el.offer.Id);
+				// console.log(el)
 				if(userHas) offers[el.offer.Id] = el;
+
 			});
 			// metodo per tenere ordinale le offerte quando si switcha la modalita'
 			offers.map(function(el){

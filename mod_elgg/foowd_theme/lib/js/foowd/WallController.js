@@ -204,10 +204,11 @@ define(function(require){
 			
 			// ne cerco un tot per volta
 			var query = {};
-			query.offset = __offerOffset;
+			// rimossa per la modalita' singola offerta per produttore
+			// query.offset = __offerOffset;
 			// console.log(__cache.actualSearch)
 			// quelli gia' presenti evito di cercarli nuovamente
-			if(__cache.idxCollection.length > 0 ) query.excludeId = __cache.idxCollection;
+			// if(__cache.idxCollection.length > 0 ) query.excludeId = __cache.idxCollection;
 			if(typeof search != 'undefined' && search != ''){ 
 				query.search = search;
 			}else if(__cache.actualSearch != ''){
