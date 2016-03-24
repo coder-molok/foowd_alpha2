@@ -38,8 +38,14 @@ if(!elgg_is_sticky_form($form) ){
 	if($r->response){
 		// dico al sistema di scartare gli input di questo form
 		// elgg_clear_sticky_form('foowd_offerte/add');
-		$input = (array) $r->body[0]->offer;
+	
+		// trasformo ricorsivamente l'oggetto in array
+		$body = json_decode(json_encode($r), true);
+		$body = $body['body'][0]['offer'];
+		// \Fprint::r($body);
+		$input = $body;//->offer;
 		$input['Id'] = get_input('Id');
+		// \Fprint::r($input);
 
 		// quando arriva dalle API e' una stringa da trasformare in array.
 		// invece dopo il submit del form, e' un array
@@ -94,10 +100,10 @@ $vars['offerPrefers'] = $prefs;
 // mi serve perche' lo uso come default
 $value = elgg_get_plugin_setting('tags', \Uoowd\Param::uid());
 $value = json_decode($value);
-// \Fprint::r($vars['Tag']);
+// $value = json_decode(json_encode($value), true);
+// \Fprint::r($value);
 $checkBox = array();
 foreach($value as $category => $obj){
-	// var_dump($category);
 	$i = 0;
 	foreach($obj as $single){
 		if(in_array( $single, $vars['Tag'] )){

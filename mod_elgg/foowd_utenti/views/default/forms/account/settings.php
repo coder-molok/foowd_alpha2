@@ -29,13 +29,14 @@ unset($_SESSION['sticky_forms'][$form]);
 
 $guid = $owner->guid;
 
-$f = new \Foowd\Action\UserSave($form);
+$f = new \Foowd\Action\UserSave(/*$form*/);
 
 // prendo i valori del vecchio post e li carico nel form
 $data['type']='search';
 $data['ExternalId'] = $guid;
 
 $r = \Uoowd\API::Request('user','POST', $data);
+// \Fprint::r($r);
 
 // se sono qui la validazione lato elgg e' andata bene
 // ma ora controllo quella lato API remote
@@ -45,6 +46,7 @@ if($r->response){
 	// dico al sistema di scartare gli input di questo form
 	// elgg_clear_sticky_form('foowd_offerte/add');
 	$input = (array) $r->body;
+	$input['MinOrderPrice'] = (isset($input['GroupConstraint']->minPrice)) ? $input['GroupConstraint']->minPrice : 0;
 
 	// salvo nello sticky form tutti i dati ritornati dalla API
 	$f->manageSticky($input, $form);
@@ -70,7 +72,6 @@ if($owner->{$par}){
 		$vrs['emailToSet'] = $owner->{$s->emailToSetMetadata};
 	}
 }
-
 
 
 echo elgg_view('foowd_account/foowd_user_settings', $vrs);

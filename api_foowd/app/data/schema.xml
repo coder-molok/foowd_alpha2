@@ -7,7 +7,7 @@
         <column name="publisher" phpName="Publisher" type="INTEGER" required="true"/>
         <!-- con size 10 vuol dire 10 numeri in totale, pertanto fino a 8 cifre per la parte intera + 2 cifre per la decimale -->
         <column name="price" phpName="Price" type="DECIMAL" size="10" scale="2" phpType="double" required="true"/>
-        <column name="minqt" phpName="Minqt" type="DECIMAL" size="8" scale="3" phpType="double" required="true"/>
+        <column name="minqt" phpName="Minqt" type="DECIMAL" size="8" scale="3" phpType="double" required="false"/>
         <column name="maxqt" phpName="Maxqt" type="DECIMAL" size="8" scale="3" phpType="double" required="false"/>
         <column name="quota" phpName="Quota" type="DECIMAL" size="8" scale="3" phpType="double" required="true"/>
         <column name="unit"  phpName="Unit"  type="VARCHAR" size="20" required="true" />
@@ -47,6 +47,18 @@
             <parameter name="Qt" value="{column: qt, validator: NotBlank}" />
             <parameter name="State" value="{column: state, validator: PropelFoowd, options: {type: enum, list:'newest,pending,solved'}}" />
         </behavior>
+    </table>
+    <!-- La tabella e' predisposta per una relazione many to many, attualmente non ancora implementata -->
+    <table name="offer_group_many" phpName="OfferGroupMany">
+        <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="publisherid" phpName="PublisherId" type="INTEGER" required="false"/>
+        <!-- required false per fare in modo che il valore di default sia null, associato alla ricerca di TUTTE le offerte -->
+        <column name="groupofferid" phpName="GroupOfferId" type="INTEGER" required="false"/>
+        <!-- constraint e' una reserved word di mysql -->
+        <column name="groupconstraint" phpName="GroupConstraint" type="VARCHAR" required="true"/>
+        <foreign-key foreignTable="user">
+            <reference local="publisherid" foreign="id"/>
+        </foreign-key>
     </table>
     <table name="purchase" phpName="Purchase">
         <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>

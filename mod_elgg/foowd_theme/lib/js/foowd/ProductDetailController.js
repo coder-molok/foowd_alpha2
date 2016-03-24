@@ -51,7 +51,8 @@ define(function(require){
 		}
 
 		function _applyProductContext(context){
-			context = utils.offerPrepare(context, group);
+
+			context = utils.offerPrepare({el: context[0], groups: context.groups, group: group});
 			// context = utils.addPicture(context);
 			// context = utils.setLoggedFlag(context, utils.getUserId());
 			// context.offer = utils.setLoggedGroup(context.offer, group);
@@ -101,7 +102,7 @@ define(function(require){
 				//richiamo la API per i dettagli del prodotto
 				API.getProduct(queryObject.productId+userId+'&forCurrentUser=true', userId).then(function(data){
 					//parso in JSON il risultato
-					var rawProduct = data.body[0];
+					var rawProduct = data.body;
 					var parsedProduct = _applyProductContext(rawProduct);
 					_fillProductDetail(parsedProduct);
 					_applyColor();

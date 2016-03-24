@@ -3,8 +3,8 @@
        <span class = "preference-progress-bar">
             <span class = "progress" 
               data-unit = "1"
-              data-progress = "{{totalQt}}" 
-              data-total = "{{offer.Minqt}}">
+              data-progress = "{{offer.actualProgress}}" 
+              data-total = "{{offer.totalProgress}}">
             </span>    
         </span>
         <div class="user-preference">
@@ -37,7 +37,7 @@
             </div>
             <div class="user-preference-actions user-preference-section">
                 <ul class="action-icons menu-section" id = "preference-action">
-                {{#canbuy totalQt offer.Minqt}}
+                {{#canbuy offer.actualProgress offer.totalProgress}}
                     <li class="btn-buy" data-offer-id="{{offer.Id}}" data-offer-prefers="{{offer.prefers}}">
                         <i class="btn-buy-icon foowd-icons foowd-icon-cart"></i>
                     </li>

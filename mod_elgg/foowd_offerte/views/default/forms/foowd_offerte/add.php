@@ -1,4 +1,30 @@
 <?php
+
+//-- controllo vincolo singola offerta per produttore
+$appendUrl ="type=search&Publisher=".elgg_get_logged_in_user_guid();
+$r = \Uoowd\API::offerGet($appendUrl);
+
+if($r->response && !empty($r->body)){
+    // \Fprint::r($r->body);
+    $count = 0;
+    foreach($r->body as $k => $key ){
+        // nel caso sia la chiave che uso per i constraint
+        if(!is_numeric($k)) continue;
+        $count++;
+    }
+    if($count > 0){
+        $txt = "
+        <div class=\"foowd-advise-pending\" style=\"color:white;\">
+        Non puoi visualizzare il form \"Inserimento Nuova Offerta\" in quanto attualmente ogni produttore pu&ograve; inserire una sola offerta. <br/>A breve questo vincolo verr&agrave; eliminato.
+        </div>
+        ";
+        echo $txt;
+        return;
+    }
+}
+//-- fine controllo
+
+
 // /views/default/input/
 
 // $form = \Uoowd\Param::pid().'/add';
@@ -35,9 +61,9 @@ $fadd->createField('UnitExtra','foowd:unit:extra', 'input/text', array('maxlengt
 <?php
 $fadd->createField('Price','foowd:price:need', 'input/text', array('maxlength'=>"11"));
 // $fadd->createField('Price', 'Importo *', 'input/spinner', array("decimal"=>2, "integer"=>"8"));
-$fadd->createField('Minqt', 'foowd:minqt:need', 'input/text', array('maxlength'=>"9"));
+// $fadd->createField('Minqt', 'foowd:minqt:need', 'input/text', array('maxlength'=>"9"));
 // $fadd->createField('Minqt', 'Quantita\' minima *', 'input/spinner', array("decimal"=>3, "integer"=>5));
-$fadd->createField('Maxqt', 'foowd:maxqt', 'input/text', array('maxlength'=>"9"));
+// $fadd->createField('Maxqt', 'foowd:maxqt', 'input/text', array('maxlength'=>"9"));
 // $fadd->createField('Maxqt', 'Quantita\' massima', 'input/spinner', array("decimal"=>3, "integer"=>5));
 // $fadd->createField('Expiration', 'foowd:expiration', 'input/date', array('timestamp'=>true));
 // echo elgg_view('input/date', array('timestamp'=>true, 'name'=>'lol', 'value'=>'1255'));

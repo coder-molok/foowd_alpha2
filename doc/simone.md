@@ -2,6 +2,37 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 23/03/2016
+
+- rimozione "Minqt" e "Maxqt" dai forms e inibizione dei loro check sia lato Elgg che API DB
+
+- modificate API DB, template e controller per allineamento funzionalita' temporanea
+
+
+
+### 21/03/2016
+
+- risolta issue relativa al posizionamento voci nel pannello utente
+
+
+### 19/03/2016
+
+- modificati form registrazione/modifica utente per nuovo parametro "MinOrderPrice" e impostazione relativi check sui propri moduli
+
+- modificate API DB per inserimento "constraint" e risposta di Offer\search | Prefer\search per nuova impostazione check su TUTTI i prodotti dell'utente
+
+- adattato Wall e ProductDetail per nuova metodologia (pertanto rispettivi templates e controllers)
+
+
+### 18/03/2016
+
+- creata branch "ordine-multiprodotto"
+
+- creata tabella "offer_group_many" per gestione gruppi di offerte, e predispozione futura relazione molti a molti per opzione multi gruppi
+
+
+
+
 ### 09/03/2016
 
 - inibita visualizzazione offerte scadute nel wall

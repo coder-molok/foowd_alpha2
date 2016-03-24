@@ -13,8 +13,11 @@ class User {
 
 
 	public $form = null;
-
-	public static $needForOfferente = array(/*'Description',*/'Site','Piva', 'Phone','Address','Company','Owner', 'City', 'Zipcode', /*'AddressesType', 'Civic'*/);
+	/**
+	 * utile nel salvataggio utente: controllo che siano forniti i dati necessari
+	 * @var array
+	 */
+	public static $needForOfferente = array(/*'Description',*/'Site','Piva', 'Phone','Address','Company','Owner', 'City', 'Zipcode', 'MinOrderPrice'/*'AddressesType', 'Civic'*/);
 
 	public static $allUserFields = array('Name', 'Username', 'Email', 'Description', 'Genre' ,'Piva', 'Address','Company','Site','Phone', 'Owner', 'City', 'Zipcode'/*, 'AddressesType', 'Civic', 'Location'*/);
 
@@ -111,6 +114,7 @@ class User {
 		$data['type']= "create";
 		$data['ExternalId'] = $extId;
 		$data['Email'] = $user->email;
+
 		// se e' un offerente, lo metto in stato di valutazione ....
 		if($data['Genre']=='evaluating'){
 			$need = self::$needForOfferente;
@@ -125,7 +129,15 @@ class User {
 					$EmptyNeed[$field]=$field;
 				}
 			}
-			
+		}
+
+		// caso speciale
+		// aggiungo il parametro per il vincolo su TUTTE le offerte
+		if(get_input('MinOrderPrice', false)){
+			// aggiungo due decimali per comodita'
+			unset($data['MinOrderPrice']);
+			$price = number_format((float)get_input('MinOrderPrice'), 2, '.', ''); 
+			$data['GroupConstraint'] = ['minPrice'=>$price];
 		}
 		
 
@@ -198,7 +210,7 @@ class User {
 		// \Uoowd\Logger::addError("dopo offerente");
 		// recupero i dati che dovrei aver salvato nel db e verifico
 		$r = \Uoowd\API::Request('user', 'POST', $data);
-		// \Uoowd\Logger::addError($r);
+		// \Uoowd\Logger::addError(serialize($r));
 
 		if(!is_object($r)){
 		    if(! $str = \Uoowd\Param::dbg()){ 

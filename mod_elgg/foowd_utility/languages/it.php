@@ -92,6 +92,9 @@ return array(
 	'foowd:user:zipcode:error' => 'Cap obbligatorio',
 	'foowd:user:location:need' => 'Localit&agrave; *',
 
+	'foowd:user:minorderprice' => 'Ordine minimo (&euro;) per spedizione inclusa',
+	'foowd:user:minorderprice:need' => 'Ordine minimo (&euro;) per spedizione inclusa **',
+	'foowd:user:minorderprice:error' => 'L\'ordine minimo deve contenere al massimo due cifre decimali precedute da un punto',
 
 	'foowd:user:company' => 'Denominazione Societ&aacute;',
 	'foowd:user:company:optional' => 'Denominazione Societ&aacute; (opzionale)',

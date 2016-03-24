@@ -317,8 +317,6 @@
         'Name': ['Text'],
         'Description': ['IframeText'],
         'Price': ['Price'],
-        'Minqt': ['Minqt'],
-        'Maxqt': ['Maxqt'],
         'Quota': ['Minqt'],
         'Unit': ['Text'],
         'Tag': ['Div', '.search-choice', 'foowd:update:tag'],

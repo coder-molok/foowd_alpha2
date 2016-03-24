@@ -79,8 +79,17 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiUse MyResponseOffer
 	 *     
 	 */	
-	public $needle_create = "Name, Description, Price, Minqt, Maxqt, Publisher, Tag";
+	public $needle_create = "Name, Description, Price, Publisher, Tag";//Minqt, Maxqt, 
 	public function create($data){
+
+		//--- imposizione singola offerta per produttore
+		$pub = self::ExtToId($data->Publisher);
+		$of = \OfferQuery::create()->filterByPublisher($pub)->find();
+		if($of->count() > 0) return [
+				'response' => false,
+				'singleOfferError' => 'Attualmente puoi creare una sola offerta.' // vedi anche actions/add lato elgg
+			];
+		//--- fine blocco
 
 		$offer = new \Offer();
 		date_default_timezone_set('Europe/Rome');
@@ -127,7 +136,7 @@ class ApiOffer extends \Foowd\FApi{
 	 * @apiUse MyResponseOffer
 	 *     
 	 */
-	public $needle_update = "Name, Description, Price, Minqt, Maxqt, Publisher, Tag";
+	public $needle_update = "Name, Description, Price, Publisher, Tag"; //Minqt, Maxqt, 
 	protected function update($data){
 
 		$this->Ext2Id($data);
@@ -310,6 +319,7 @@ class ApiOffer extends \Foowd\FApi{
 			}else{
 				$toCheck = array($data->ExternalId);
 			}
+			$localId = [];
 			unset($data->ExternalId);
 
 			foreach($toCheck as $value){
@@ -319,6 +329,7 @@ class ApiOffer extends \Foowd\FApi{
 				if(is_object($UserId)){
 					// questo dato verra' riutilizzato nel loop delle offerte
 					$ExternalId[] = $value;
+					$localId[] = $UserId->getId();
 				}else{
 					$Json['response'] = false;
 					$Json['errors']['ExternalId'][] = "L'ExternalId ".$value."  non e' associato a nessun utente API";
@@ -415,10 +426,51 @@ class ApiOffer extends \Foowd\FApi{
 		}
 
 		$offer = $obj->find();
+
+
+		//-- ora lavoro sul risultato per il vincolo "singola offerta per ciascun produttore"
+		// 		a breve questo procedimento verra' rimosso
 		
+		// raggruppo per produttore e tengo quella con Id piu basso (ovvero rispecchio l'ordine cronologico)
+		$publs = [];
+		$tmpOffer = [];
+		$oneOfPerPublisher = [];
+		foreach($offer as $key => $s){
+			$tmpOffer[$key] = $s;
+			$pub = $s->getPublisher();
+			$id = $s->getId();
+			// se non era nell'array, allora lo salvo e continuo
+			if(!isset($publs[$pub])){
+				$publs[$pub] = [
+					'id' => $id,
+					'key' => $key
+				];
+				continue;
+			}
+			$oldId = $publs[$pub]['id'];
+			$removeK = max($oldId, $id);
+			// se devo rimuovere l'attuale la rimuovo e basta
+			if($removeK == $id){
+				unset($tmpOffer[$key]);
+			}else{
+				// rimuovo quello vecchio
+				unset($tmpOffer[$publs[$pub]['key']]);
+				// se rimuovo il vecchio, devo attualizzare i valori
+				$publs[$pub]['id'] = $id;
+				$publs[$pub]['key'] = $key;
+			}
+		}
+		$offer = $tmpOffer;
+		// le raccolgo in un array che utilizzero' per il loop sui groups
+		foreach($offer as $o) $oneOfPerPublisher[] = $o->getId();
+		//-- fine modalita' singolo
 		
 		
 		$return = array();
+
+		// array che conterra' i dati dei gruppi di offerte
+		// (attualmente i gruppi sono solo TUTTE le offerte di ciascun produttore)
+		$groups = array( "PublisherId" => array() );
 	
 		// ciclo su ogni offerta
 		foreach ($offer as $single) {
@@ -431,6 +483,9 @@ class ApiOffer extends \Foowd\FApi{
 			// ricavo il nome dell'azienda
 			$usr = $single->getUser();
 			$ar['Company'] = $usr->getCompany();
+
+			// salvo l'id per il loop sul gruppo
+			if(!in_array($usr->getId(), $groups['PublisherId'])) $groups['PublisherId'][] = $usr->getId();
 
 			// cerco le quantita' totali associate alla singola offerta
 			$ext = new \stdClass();
@@ -494,6 +549,62 @@ class ApiOffer extends \Foowd\FApi{
 
 
 		}
+
+		// se ho uno o piu ExternalId vuol dire che l'utente e' loggato, e pertanto ha senso cercare i totali per produttore in base alle offerte
+		if(isset($ExternalId) && count($groups)>0 ){
+			$groups['byPublisher'] = array();
+			$groups['ExternalId'] = $localId;
+			$off = \OfferQuery::create()->filterByPublisher($groups['PublisherId'])
+				//-- extra per modalita' singolo: solo le offerte, che dal primo vincolo sulla modalita' singolo risultano gia' una e una sola per Publisher
+				->filterById($oneOfPerPublisher)
+				// se non voglio quelle scadute
+				// ->filterByExpiration(array("min"=>time()))->_or()->filterByExpiration(NULL)
+				->find();
+
+			foreach($off as $of){
+				// svolgo una query anziche' il semplice getPrefers() ritornerebbe troppi valori superflui.
+				$prefs = \PreferQuery::create()
+						->filterByOfferId($of->getId())
+						->filterByUserId($localId)
+						// solo i nuovi concorrono alla creazione di un nuovo ordine
+						->filterByState('newest')
+						->find();
+
+				// se ne ho almeno una, allora la aggiungo
+				$ext = self::IdToExt($of->getPublisher());
+				$groups['byPublisher'][$ext] = [];
+
+				if($prefs->count()>0){
+					$ar = array();
+					$ar['Price'] = $of->getPrice();
+					// $totalQt = 0;
+					$pr = $prefs->toArray();
+					foreach($pr as $key => $p){
+					 	// $totalQt += $p['Qt'];
+					 	$pr[$key]['UserId'] = self::IdToExt($p['UserId']);
+					}
+					$ar['prefers'] = $pr;
+					// $ar['totalQt'] = $totalQt;
+					// $ar['totalPrice'] = $totalQt * $ar['Price'];
+					$groups['byPublisher'][$ext]['offers'][$of->getId()] = $ar;
+				}
+			}
+			
+			// ora raccolgo i constraint, in questo caso semplicemente il minPrice
+			foreach ($groups['byPublisher'] as $publisherId => $value) {
+				$totalByPublisher = 0 ;
+				$local = self::ExtToId($publisherId);
+				$g = \OfferGroupManyQuery::create()->filterByPublisherId($local)->filterByGroupOfferId(NULL)->findOne();
+				if($g) $groups['byPublisher'][$publisherId]['Constraint'] = (array) json_decode( $g->getGroupConstraint() );
+			}
+
+		}
+
+
+
+		$return['groups'] = $groups;
+
+
 
 		// if(count($return ) == 0) $Json['response'] =false;
 		if(!isset($Json['response'])){ $Json['response'] = true;}

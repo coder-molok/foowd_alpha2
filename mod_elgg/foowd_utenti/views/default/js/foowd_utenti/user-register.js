@@ -162,10 +162,19 @@
         }
       }
     });
+    ar.push({
+      cls: 'Price',
+      obj: {
+        inpt: 'form.elgg-form-register [name="MinOrderPrice"]',
+        key: 'MinOrderPrice',
+        el: 'form.elgg-form-register [name="MinOrderPrice"]',
+        msg: 'foowd:user:minorderprice:error'
+      }
+    });
     fct.pushFromArray(ar);
     needAr = ['email', 'username', 'name'];
     noNeedAr = ['Site'];
-    needOfferente = ['Phone', 'Owner', 'Piva', 'Address', 'Company', 'City', 'Zipcode'];
+    needOfferente = ['Phone', 'Owner', 'Piva', 'Address', 'Company', 'City', 'Zipcode', 'MinOrderPrice'];
     setNeed = function(bool) {
       return fct.each(function() {
         var ref, ref1;

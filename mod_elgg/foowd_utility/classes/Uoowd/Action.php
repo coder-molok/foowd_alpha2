@@ -175,6 +175,7 @@ abstract class Action {
 
 					// \Uoowd\Logger::addNotice($field." => ".$var);
 					if(!$this->checkError($field, $data[$field], $sticky_form)){
+						\Uoowd\Logger::addError($field." => ".$var);
 						$this->status = false; 
 					}
 				 }
@@ -188,7 +189,8 @@ abstract class Action {
 					$str = $key.'Error';
 					$err = 'Il campo e\' obbligatorio';
 					$this->manageSticky(array($str=>$err), $sticky_form);
-					\Uoowd\Logger::error($err);
+					\Uoowd\Logger::addError($str . ' : ' . $err);
+					$this->errors[] = $err;
 					$this->status = false; 
 				}
 			}
@@ -212,7 +214,12 @@ abstract class Action {
 				$_SESSION['sticky_forms'][$action][$er.'Error']=$this->errors[$er];
 				// \Uoowd\Logger::addNotice($_SESSION['sticky_forms'][$action]);
 				// \Uoowd\Logger::addNotice($er);
-				return $this->$method($val);
+				$ret = $this->$method($val);
+				if(!$ret){
+					// \Uoowd\Logger::addError($method.' e '.$val);
+					$this->addError([$method], $action);
+				}
+				return $ret;
 			}else{
 				return true; //perche' su di essa non devo fare controlli
 			}

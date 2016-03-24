@@ -38,6 +38,12 @@
 
 	<?php 
 	
+  /**
+   * Setting:
+   * Tabella elgg_private_settings , colonna "name" valore "tags"
+   * Plugin:
+   * Tabella elgg_objects_entity , colonna "title" valore "foowd_utility"
+   */
 
 	elgg_load_js("jquery");
   // elgg_unset_plugin_setting('tags', \Uoowd\Param::pid() );
