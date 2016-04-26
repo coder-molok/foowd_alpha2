@@ -18,7 +18,8 @@
     elgg = require('elgg');
     policy = require('foowdCookiePolicy');
     policy.init({
-      link: elgg.get_site_url() + 'cookie-policy'
+      link: elgg.get_site_url() + 'cookie-policy',
+      link2:elgg.get_site_url() + 'cond-uso'
     });
     $('.elgg-system-messages li.elgg-message').finish().fadeIn(0).delay(3000).fadeOut(4000);
     root.removeSystemErrorPopup = function() {
