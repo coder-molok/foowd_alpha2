@@ -13,13 +13,20 @@
       return root.returnExports = factory();
     }
   })(this, function() {
-    var $, elgg, page, policy;
+    var $, elgg, navbar, navbarBottom, page, policy;
     $ = require('jquery');
     elgg = require('elgg');
     page = require('page');
     policy = require('foowdCookiePolicy');
     policy.init({
-      link: elgg.get_site_url() + page.cookiePolicy
+      link: elgg.get_site_url() + page.cookiePolicy,
+      link2: elgg.get_site_url() + page.legalConditions
+    });
+    navbar = $('.foowd-navbar');
+    navbarBottom = navbar.offset().top + navbar.height();
+    $('.elgg-system-messages').css({
+      'top': navbarBottom + 'px',
+      'display': 'block'
     });
     $('.elgg-system-messages li.elgg-message').finish().fadeIn(0).delay(3000).fadeOut(4000);
     root.removeSystemErrorPopup = function() {

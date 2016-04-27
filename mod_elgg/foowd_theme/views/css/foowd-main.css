@@ -64,6 +64,7 @@ h3 {
 .elgg-system-messages {
   z-index: 10000;
   font-size: 12px;
+  display: none;
 }
 .elgg-system-messages li[class*="elgg-state-"] {
   padding: 20px;
@@ -273,9 +274,11 @@ textarea:focus {
   width: 500px;
   margin: auto;
 }
+.foowd-page-add .chosen-container,
+.foowd-page-single .chosen-container,
 .foowd-page-add .chosen-container-multi,
 .foowd-page-single .chosen-container-multi {
-  width: 150px;
+  width: 100%;
 }
 .foowd-page-add input[name="Quota"],
 .foowd-page-single input[name="Quota"] {

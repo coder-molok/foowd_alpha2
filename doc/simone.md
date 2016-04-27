@@ -8,6 +8,8 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 - - modificato API DB per registrazione data creazione utente
 - - aggiunta approvazione condizioni d'uso al codice Javascript e PHP del form registrazione 
 
+- risolta issue #234
+
 
 
 ### 23/03/2016
