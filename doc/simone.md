@@ -2,6 +2,14 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 27/04/2016
+
+- aggiunta Condizioni d'uso:
+- - modificato API DB per registrazione data creazione utente
+- - aggiunta approvazione condizioni d'uso al codice Javascript e PHP del form registrazione 
+
+
+
 ### 23/03/2016
 
 - rimozione "Minqt" e "Maxqt" dai forms e inibizione dei loro check sia lato Elgg che API DB

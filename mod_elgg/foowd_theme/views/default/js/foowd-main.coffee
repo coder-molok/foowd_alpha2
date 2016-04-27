@@ -4,7 +4,7 @@ root = this
 
 	if typeof define is 'function' and define.amd
 		# AMD. Register as an anonymous module.
-		define(['elgg','jquery', 'foowdCookiePolicy'], factory);
+		define(['elgg','jquery', 'foowdCookiePolicy', 'page'], factory);
 	else if typeof exports is 'object'
 		module.exports = factory();
 	else
@@ -19,9 +19,10 @@ root = this
 
 	$ = require('jquery')
 	elgg = require('elgg');
+	page = require('page');
 
 	policy = require('foowdCookiePolicy')
-	policy.init( {link:elgg.get_site_url()+'cookie-policy'}	)
+	policy.init( {link:elgg.get_site_url()+page.cookiePolicy}	)
 
 	# Personalizzo i popup di sistema. Css in foowd-main.styl
 	# Rimuovo blocco ogni animazione e tutti gli eventi sopra di lei	

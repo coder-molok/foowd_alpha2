@@ -6,19 +6,20 @@
 
   (function(root, factory) {
     if (typeof define === 'function' && define.amd) {
-      return define(['elgg', 'jquery', 'foowdCookiePolicy'], factory);
+      return define(['elgg', 'jquery', 'foowdCookiePolicy', 'page'], factory);
     } else if (typeof exports === 'object') {
       return module.exports = factory();
     } else {
       return root.returnExports = factory();
     }
   })(this, function() {
-    var $, elgg, policy;
+    var $, elgg, page, policy;
     $ = require('jquery');
     elgg = require('elgg');
+    page = require('page');
     policy = require('foowdCookiePolicy');
     policy.init({
-      link: elgg.get_site_url() + 'cookie-policy'
+      link: elgg.get_site_url() + page.cookiePolicy
     });
     $('.elgg-system-messages li.elgg-message').finish().fadeIn(0).delay(3000).fadeOut(4000);
     root.removeSystemErrorPopup = function() {

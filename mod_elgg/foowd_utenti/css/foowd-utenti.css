@@ -241,6 +241,26 @@
   left: -20px;
   top: 0px;
 }
+.elgg-form-register fieldset [id*="contract-"] {
+  background-color: #f7f4ee;
+  padding: 5px;
+}
+.elgg-form-register fieldset [id*="contract-"] input[type="checkbox"] {
+  vertical-align: top;
+}
+.elgg-form-register fieldset [id*="contract-"] .accept {
+  display: inline-block;
+  width: calc(100% - 20px);
+  text-align: justify;
+}
+.elgg-form-register fieldset [id*="contract-"] .accept a {
+  text-decoration: underline;
+  color: #85385a;
+}
+.elgg-form-register fieldset [id*="contract-"] .emph {
+  font-weight: bold;
+  text-decoration: underline;
+}
 .foowd-page-registration-error h3 {
   margin-bottom: 20px;
 }

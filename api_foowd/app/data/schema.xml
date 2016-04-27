@@ -114,6 +114,7 @@
         <column name="username" phpName="Username" type="VARCHAR" size="50" required="true" />
         <column name="genre" phpName="Genre" type="VARCHAR" size="10" required="true" />
         <column name="externalid" phpName="ExternalId" type="INTEGER" required="true"/>
+        <column name="created" phpName="Created" type="TIMESTAMP"  required="false"/>
         <column name="description" phpName="Description" type="VARCHAR" size="2000" required="false" />
         <column name="site" phpName="Site" type="VARCHAR" size="255" required="false" />
         <column name="piva" phpName="Piva" type="VARCHAR" size="11" required="false" />
@@ -125,7 +126,8 @@
         <!-- <column name="addresses_type" phpName="AddressesType" type="VARCHAR" size="15" required="false" /> -->
         <column name="address" phpName="Address" type="VARCHAR" size="150" required="false" />
         <!-- <column name="civic" phpName="Civic" type="VARCHAR" size="15" required="false" /> -->
-        <column name="zipcode" phpName="Zipcode" type="INTEGER" sqlType = "INT UNSIGNED" required="false" />
+        <!-- <column name="zipcode" phpName="Zipcode" type="INTEGER" sqlType = "INT UNSIGNED" required="false" /> -->
+        <column name="zipcode" phpName="Zipcode" type="VARCHAR" size="5" required="false" />
         <!-- <column name="location" phpName="Location" type="VARCHAR" size="255" required="false" /> -->
 
         <!-- VARBINARY indica il MEDIUMBLOB di mysql-->

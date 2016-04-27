@@ -20,3 +20,21 @@ sono presenti di defalut, ma in questo caso li voglio eliminare dal form pertant
 4 - rimuovere i parametri da `$needle_create` e `$needle_update` di `ApiOffer.php`
 
 5 - rimuovo la condizione `required` dallo `schema.xml` per questi campi
+
+
+<input type="radio" name="contract" value="accepted"/> ACCETTO 
+<input type="radio" name="contract" value="notaccepted" checked/> NON ACCETTO 
+
+
+            # controllo sulle condizioni contrattuali
+            # $('[name="contract"]').each(function(){console.log($(this).val() );});
+            contract = $('[name="contract"]:checked')
+            if contract.length == 1
+                if contract.val() is 'accepted'
+                    # alert('well')
+                else 
+                    alert('Per procedere e\' necessario accettare le condizioni.')
+                    return false
+            else
+                alert('Per procedere e\' necessario accettare le condizioni.')
+                return false
