@@ -72,6 +72,10 @@ class ApiUser extends \Foowd\FApi{
 
 		$user = new \User();
 
+		// se non specifico la data, devo crearla di default
+		date_default_timezone_set('Europe/Rome');
+		if(!isset($data->Created)) $user->setCreated(date('Y-m-d H:i:s'));
+
 		foreach($data as $field => $value) $user->{'set'.$field}($value);
 		//var_dump($user->validate());
 

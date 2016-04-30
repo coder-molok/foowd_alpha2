@@ -138,6 +138,26 @@
         # console.log fct
     setNeed(false)
 
+    # svolgo 2 compiti:
+    # - visualizzo/nascondo il blocco di condizioni d'utilizzo in base al genere di utente
+    # - ritorno lo stato del checked: true se sono accettate (checked), altrimenti false
+    genreConditions = ()->
+        genre = Jgenre.val()
+        $('[id*="contract-"]').each ()->
+
+            id = $(this).attr('id')
+            actualGenre = id.replace('contract-', '')
+            # se il genere scelto nel select combacia con quello attuale, allora lo mostro, altrimenti lo nascondo
+            if actualGenre is genre
+                $(this).show()
+            else
+                $(this).hide()
+        Jactual = $('#contract-' + genre).find('input')
+        # ritorno solo lo stato di quello coincidente col genere attualmente scelto dall'utente
+        return Jactual.get(0).checked
+    # lo eseguo per scegliere cosa visuallizzare e cosa no
+    genreConditions()
+
 
     # nascondo il campo "name" in quanto forviante
     # $('.mtm').css({'display':'none'})
@@ -151,8 +171,14 @@
             userVal = $('form.elgg-form-register [name="username"]').val()
             if( Jname.val() == '' ) then Jname.val(userVal);
 
+
             # if Jgenre.val() is 'offerente'
             #     if not file.atLeastOne() then alert "Devi inserire almeno un'immagine"
+            
+            if not genreConditions()
+                alert('Per procedere e\' necessario accettare le condizioni.')
+                return false
+        
 
             pwd = $('form.elgg-form-register [name="password"]').val()
             pwd2 = $('form.elgg-form-register [name="password2"]').val()
@@ -171,6 +197,9 @@
 
 
     Jgenre.on "change", ()->
+        # aggiorno le condizioni generali a seconda della tipologia scelta
+        genreConditions()
+
         if $(this).val() is 'offerente'
             Jhook.fadeIn('slow')
             setNeed(true)

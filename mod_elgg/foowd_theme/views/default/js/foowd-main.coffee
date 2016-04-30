@@ -4,7 +4,7 @@ root = this
 
 	if typeof define is 'function' and define.amd
 		# AMD. Register as an anonymous module.
-		define(['elgg','jquery', 'foowdCookiePolicy'], factory);
+		define(['elgg','jquery', 'foowdCookiePolicy', 'page'], factory);
 	else if typeof exports is 'object'
 		module.exports = factory();
 	else
@@ -19,9 +19,20 @@ root = this
 
 	$ = require('jquery')
 	elgg = require('elgg');
+	page = require('page');
 
 	policy = require('foowdCookiePolicy')
-	policy.init( {link:elgg.get_site_url()+'cookie-policy'}	)
+	policy.init( {
+		link: elgg.get_site_url()+page.cookiePolicy,
+		link2: elgg.get_site_url()+page.legalConditions
+		}	)
+
+
+	# sposto i messaggi di distema sotto la navbar
+	navbar = $('.foowd-navbar');
+	navbarBottom = navbar.offset().top + navbar.height();
+	# display impostato a none in foowd-main.styl
+	$('.elgg-system-messages').css({'top': navbarBottom + 'px', 'display': 'block'})
 
 	# Personalizzo i popup di sistema. Css in foowd-main.styl
 	# Rimuovo blocco ogni animazione e tutti gli eventi sopra di lei	

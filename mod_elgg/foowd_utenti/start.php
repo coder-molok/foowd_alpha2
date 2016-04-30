@@ -187,6 +187,11 @@ function foowd_utenti_handler($segments){
         return true;
     }
 
+    if($segments[0] === 'legal'){
+        require elgg_get_plugins_path() . 'foowd_utenti/pages/legal.php';
+        return true;
+    }
+
     if($segments[0] === 'evaluatingUsers'){
         require elgg_get_plugins_path() . 'foowd_utenti/pages/evaluatingUsers.php';
         return true;

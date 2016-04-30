@@ -7,7 +7,9 @@
 <table class="foowd-footer">
 <tr>
 	<td><a href="<?php echo elgg_get_site_url();?>">Home</a></td>
-	<td><a href="http://www.foowd.it/disclaimer.html" target="_blank">Privacy Policy</a></td>
+	<!-- <td><a href="http://www.foowd.it/disclaimer.html" target="_blank">Privacy Policy</a></td> -->
+  <td><a href="<?php echo \Uoowd\Param::page()->cookiePolicy; ?>" target="_blank">Privacy Policy</a></td>
+  <td><a href="<?php echo \Uoowd\Param::page()->legalConditions; ?>" target="_blank">Note Legali</a></td>
 </tr>
 </table>
 

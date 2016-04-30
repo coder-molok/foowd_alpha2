@@ -11,7 +11,7 @@
       return root.returnExports = factory();
     }
   })(this, function() {
-    var $, Jform, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, copy_from, copy_to, crop, el1, el2, elgg, fct, flds, form, i, len, needAr, needOfferente, noNeedAr, setNeed, va;
+    var $, Jform, Jgenre, Jhook, JmailLabel, ajaxCheck, ar, copy_from, copy_to, crop, el1, el2, elgg, fct, flds, form, genreConditions, i, len, needAr, needOfferente, noNeedAr, setNeed, va;
     elgg = require('elgg');
     $ = require('jquery');
     $('form, form *').unbind();
@@ -188,12 +188,33 @@
       });
     };
     setNeed(false);
+    genreConditions = function() {
+      var Jactual, genre;
+      genre = Jgenre.val();
+      $('[id*="contract-"]').each(function() {
+        var actualGenre, id;
+        id = $(this).attr('id');
+        actualGenre = id.replace('contract-', '');
+        if (actualGenre === genre) {
+          return $(this).show();
+        } else {
+          return $(this).hide();
+        }
+      });
+      Jactual = $('#contract-' + genre).find('input');
+      return Jactual.get(0).checked;
+    };
+    genreConditions();
     form.submit('form.elgg-form-register', function() {
       var Jname, pwd, pwd2, userVal;
       Jname = $('form.elgg-form-register [name="name"]');
       userVal = $('form.elgg-form-register [name="username"]').val();
       if (Jname.val() === '') {
         Jname.val(userVal);
+      }
+      if (!genreConditions()) {
+        alert('Per procedere e\' necessario accettare le condizioni.');
+        return false;
       }
       pwd = $('form.elgg-form-register [name="password"]').val();
       pwd2 = $('form.elgg-form-register [name="password2"]').val();
@@ -208,6 +229,7 @@
       return true;
     });
     return Jgenre.on("change", function() {
+      genreConditions();
       if ($(this).val() === 'offerente') {
         Jhook.fadeIn('slow');
         return setNeed(true);

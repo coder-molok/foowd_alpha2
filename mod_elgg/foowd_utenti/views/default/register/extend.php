@@ -47,8 +47,12 @@ $vars = array_merge($defaults, $vars);
 // $fadd = new \Foowd\Action\Register();
 $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars);
 
+// $fadd->createField('contract','condizioni', 'input/checkboxes', 
+// 	array('internalname' => 'features' , 'options' => array("Original" => "Original" , "Unoriginal" => "Unorginal") )
+// 	);
 
 ?>
+
 <div id="offer-hook">
 	<?php
 		// $fadd = new \Foowd\Action\FormAdd($vars);
@@ -94,7 +98,32 @@ $fadd->createField('Genre','Quale utente vuoi essere?', 'input/dropdown', $vars)
 ** : campo obbligatorio per la registrazione come <strong>offerente</strong>.
 </div>
 </div><!-- end #offer-hook -->
+
 <?php
+$link = '<a href="' . \Uoowd\Param::page()->legalConditions .'" target="blank">link</a>';
+?>
+<div>
+	<label for="contract">Condizioni generali </label><br>
+	
+	<div id="contract-standard">
+		<input type="checkbox" name="contract" value="standard"/>
+		<span class="accept">
+			Accetto le <b>Condizioni generali d'utilizzo</b> e le <b>Condizioni specifiche</b> disponibili al seguente <?php echo $link; ?>, in particolare accetto le condizioni delle sezioni <span class="emph"> Generale e Disposizioni relative ai CapiGruppo</span>
+		</span>
+	</div>
+	
+	<div id="contract-offerente">
+		<input type="checkbox" name="contract" value="offerente"/>
+		<span class="accept">
+			Accetto le <b>Condizioni generali d'utilizzo</b> e <b>le Condizioni specifiche</b> disponibili al seguente <?php echo $link; ?>, in particolare accetto le condizioni delle sezioni <span class="emph"> Generale e Disposizioni relative ai Professionisti</span>
+		</span>
+	</div>
+
+</div>
+
+
+<?php
+
 
 echo '';
 

@@ -136,14 +136,14 @@
            id:     'cookie-bar',
            style:  "display: block;",
            html:   '<h4>Informativa<a id="close-cookie-bar">x</a></h4>'+
-                   '<p>Questo sito o gli strumenti terzi da questo utilizzati si avvalgono di cookie necessari al funzionamento ed utili alle finalità illustrate nella privacy policy. Se vuoi saperne di più o negare il consenso a tutti o ad alcuni cookie, consulta la <a href="' + this.obj.link + '" id="cookie-policy-link">privacy policy</a>.<br/>\
+                   '<p>Questo sito o gli strumenti terzi da questo utilizzati si avvalgono di cookie necessari al funzionamento ed utili alle finalità illustrate nella privacy policy. Se vuoi saperne di più o negare il consenso a tutti o ad alcuni cookie, consulta la <a href="' + this.obj.link + '" id="cookie-policy-link">Privacy Policy</a>.<br/>\
                     Chiudendo questo banner, <!-- scorrendo questa pagina, --> cliccando su un link o proseguendo la navigazione in altra maniera, acconsenti all’uso dei cookie e in aggiunta acconsenti alle <a href="' + this.obj.link2 + '" id="cond-uso-link">Condizioni di uso</a> del sito.</p>'
        }).insertBefore('body');
 
        $('#cookie-bar').css({
             'display': 'none',
             'position': 'fixed',
-            'top': '0',
+            'bottom': '0',
             'left': '0',
             'width': '100%',
             'padding': '20px',
