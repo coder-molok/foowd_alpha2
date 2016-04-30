@@ -2,6 +2,11 @@
 elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alcuni dettagli sono visualizzabili in [foowd_main.md](foowd_main.md).
 
 
+### 29/04/2016
+
+- risolta issue #237
+
+
 ### 27/04/2016
 
 - aggiunta Condizioni d'uso:
