@@ -72,7 +72,7 @@
     <p class="policy-group">
       <strong class="policy-title">Titolare del trattamento dei dati connessi al sito</strong>
       <span>
-      Foowd <a href="mailto:info@foowd.eu?subject=Richiesta Informazioni">info@foowd.eu</a> 
+      Foowd <a href="mailto:info@foowd.it?subject=Richiesta Informazioni">info@foowd.it</a> 
       </span>
     </p>
 
