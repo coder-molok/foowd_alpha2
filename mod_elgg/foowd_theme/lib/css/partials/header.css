@@ -136,6 +136,11 @@
 .foowd-brand:last-child {
   margin-right: 0%;
 }
+@media (max-width: 900px) {
+  .foowd-brand {
+    width: 880px;
+  }
+}
 .foowd-brand .foowd-brand-pre-search {
   cursor: pointer;
 }
@@ -145,7 +150,13 @@
   background-color: transparent;
   outline: none;
   border: none;
-  max-width: 80%;
+  max-width: calc(80% - 35px);
+  height: 1em;
+}
+@media (max-width: 900px) {
+  .foowd-brand #searchText-loom {
+    max-width: calc(70%);
+  }
 }
 .foowd-brand .pointer-search {
   -webkit-animation: fadeOut 1s linear;

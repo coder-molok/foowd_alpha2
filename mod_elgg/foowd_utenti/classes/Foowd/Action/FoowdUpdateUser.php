@@ -78,7 +78,8 @@ class FoowdUpdateUser{
 
 
 		foreach($foowd as $val){
-			if(get_input($val)) $data[$val] = get_input($val);
+			// il sito puo essere nullo, ed inoltre lo posso settare a lunghezza nulla
+			if(get_input($val) || $val === 'Site') $data[$val] = get_input($val);
 		}
 		// \Uoowd\Logger::addError($data);
 

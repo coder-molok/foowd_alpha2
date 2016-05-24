@@ -47,7 +47,7 @@ abstract class FApi{
 		foreach($data as $key => $value){
 			if(is_null($value) || $value==''){
 				// echo  json_encode(array('errors'=>" '$key' e' un parametro vuoto.", 'response'=>false));
-			 	unset($data->{$key});
+			 	// unset($data->{$key});
 			 	// return;
 			}
 			// per quanto setto jquery ajax cache: false

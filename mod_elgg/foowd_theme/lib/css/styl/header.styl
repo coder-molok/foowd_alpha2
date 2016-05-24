@@ -44,6 +44,10 @@
   letter-spacing: -1.5pt;
   line-height : 24pt;
   font-size: 24pt;
+  
+  @media (max-width: bp)
+    // quando gli elementi vengono riallineati, devo riadattare la larghezza (per compatibilita' anche con NavbarSearch.js)
+    width bp - 20px
 
   .foowd-brand-pre-search
     cursor: pointer;
@@ -54,7 +58,14 @@
     background-color: transparent;
     outline:none;
     border: none;
-    max-width: 80%
+    max-width: calc(80% - 35px)
+    // fisso l'altezza per problemi di compatibilita' con la parte responsive
+    height 1em
+    
+    @media (max-width: bp)
+      // aggiusto per corretta visualizzazione
+      max-width: 70%
+    
       
   .pointer-search
     animation: fadeOut 1s linear;
