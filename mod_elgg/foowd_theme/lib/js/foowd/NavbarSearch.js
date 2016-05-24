@@ -408,7 +408,7 @@
         		_deltaX = 0;
         		$('#search-dots').html('');
         	}
-
+        	
         	$search.css({'left': _deltaX+'px'});
         	_prevLen = sc;
 

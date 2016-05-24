@@ -266,7 +266,7 @@
       }
 
       WebDomain.prototype.check = function() {
-        expression = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/gi;;
+        expression = /^.{0,255}$/gi;;
         var re, v;
         re = new RegExp(expression);
         v = this.el.val().trim();
