@@ -55,7 +55,7 @@ class FoowdCron{
 
 
 	/**
-	 * raccolgo tutte le funzioni da eseguire ogni quarto d'ora
+	 * raccolgo tutte le funzioni da eseguire ogni mezz'ora
 	 * @param  [type] $hook   [description]
 	 * @param  [type] $type   [description]
 	 * @param  [type] $return [description]
