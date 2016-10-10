@@ -3,6 +3,14 @@ elenco delle azioni principali associate ai commit svolti da Simone Scardoni.Alc
 
 
 
+### 02/06/2016
+
+- aggiunti task per compilazione moduli elgg
+
+- modificati script `foowdSync.sh` e `set_www_perm.sh` per automatizzazione aggiornamento generico
+
+
+
 ### 19/05/2016
 
 - rimosso controllo sul campo "Site"

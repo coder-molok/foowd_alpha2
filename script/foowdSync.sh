@@ -90,6 +90,13 @@ for D in $REPO"mod_elgg/"*; do
             ZIP="${ModPath}${DST}/views/css/jquery-ui-1.10.4.custom.zip"
             if [ -f "${ZIP}" ] ; then EXTRACMD="${EXTRACMD} ; sudo unzip -d `dirname $ZIP` $ZIP" ; fi
         fi
+        
+        # compilazione automatica 
+        if [ -f "${D}/foowdTask.sh" ] ; then
+            TASK="foowdTask.sh"
+            EXTRACMD="$EXTRACMD ; (cd $ModPath$DST; echo 'Task di compilazione...'; sudo chmod ug+x $TASK; ./$TASK updateAll )"              
+        fi
+        
         TMP="$TMPCMD $SRC $ModPath$DST $EXTRACMD"                        
         
         eval "$TMP"            

@@ -13,16 +13,26 @@ In modo da scaricare tutte le libreirie javascript utilizzate.
 
 # Librerie e Framework Utilizzati
 > **JQuery** - Per animazioni e logica della UX
+> 
 > **Handlebars** - Template AMD e Helpers
+> 
 > **Masonry** - Wall engine
+> 
 > **AnimOnScoll** - Personalizzazione del wall a comparsa
+> 
 > **OwlCarusel** - Carosello immagini
+
 
 # Strumenti per lo sviluppo utilizzati
 > **Handlebars compiler** - per precompilare i template handlebars
+> 
 > **Stylus** - pre-processore di stile
+> 
 > **Jeet** - plugin per Stylus per utilizzare un grid system
+> 
 > **Rupture** - plugin per stylus per un pagine responsive
+> 
+> **nib** - plugin per automazione dei vendor
 
 # Logica del tema
 La logica del tema si basa sul **require.js** imposto da Elgg. 
