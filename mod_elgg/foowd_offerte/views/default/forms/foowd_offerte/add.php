@@ -12,7 +12,7 @@ if($r->response && !empty($r->body)){
         if(!is_numeric($k)) continue;
         $count++;
     }
-    if($count > 0){
+    if($count > 999){
         $txt = "
         <div class=\"foowd-advise-pending\" style=\"color:white;\">
         Non puoi visualizzare il form \"Inserimento Nuova Offerta\" in quanto attualmente ogni produttore pu&ograve; inserire una sola offerta. <br/>A breve questo vincolo verr&agrave; eliminato.

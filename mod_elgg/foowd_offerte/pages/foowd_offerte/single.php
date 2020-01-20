@@ -124,10 +124,10 @@ $vars['Tag'] = $checkBox;
 $vars['TagAttributes'] = array('class' => 'foowd-Tag');
 
 // recupero le unita'
-$unit = \Uoowd\Param::unit();
+$units = \Uoowd\Param::unit();
 // $u['name']="Unit";
 if(!isset($vars['Unit'])) $u['options_values']=array(''=>'-- scegli un valore --');
-foreach($unit as $obj){
+foreach($units as $obj){
 	foreach ($obj as $unit => $symbol) {
 		$symbol = preg_replace("@\^([^ ]*)@", '<span class="foowd-pow">$1</span>', $symbol);
 		$u['options_values'][$unit]=sprintf('%s (%s)<br/>', ucwords(str_replace('_',' ',$unit)), $symbol);

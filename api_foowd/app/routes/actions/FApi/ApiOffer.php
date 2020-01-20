@@ -85,7 +85,7 @@ class ApiOffer extends \Foowd\FApi{
 		//--- imposizione singola offerta per produttore
 		$pub = self::ExtToId($data->Publisher);
 		$of = \OfferQuery::create()->filterByPublisher($pub)->find();
-		if($of->count() > 0) return [
+		if($of->count() > 99) return [
 				'response' => false,
 				'singleOfferError' => 'Attualmente puoi creare una sola offerta.' // vedi anche actions/add lato elgg
 			];
