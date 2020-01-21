@@ -58,7 +58,7 @@ define(function(require){
             // dopo averlo caricato, posso appendergli gli eventi
             navbarSearch.init();
             //carico l'overlay sul menu
-            _loadOverlay();
+            //nuovo Foowd// _loadOverlay();
             //metto acluni listener per gli eventi di aggiunta delle preferenze
 			//notifica positiva nel caso la preferenza è stata aggiunta correttamente
 			$(document).on('preferenceAdded', function(e){
